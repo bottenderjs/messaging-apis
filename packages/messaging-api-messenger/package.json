@@ -1,0 +1,21 @@
+{
+  "name": "messaging-api-messenger",
+  "description": "Messaging API client for Messenger",
+  "version": "0.1.0-0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis",
+    "messenger"
+  ],
+  "dependencies": {
+    "axios": "^0.16.1",
+    "invariant": "^2.2.2"
+  }
+}
