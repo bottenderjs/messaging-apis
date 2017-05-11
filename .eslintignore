@@ -3,6 +3,5 @@
 bin/
 docs/
 flow-typed/**
-packages/*/build/**
-packages/*/build-es5/**
+packages/*/lib/**
 types/**

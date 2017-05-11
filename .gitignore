@@ -5,3 +5,7 @@ yarn-error.log
 lerna-debug.log
 coverage
 jest-report
+
+/packages/*/lib/
+/packages/*/coverage/
+/packages/*/node_modules/
