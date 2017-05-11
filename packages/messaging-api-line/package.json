@@ -1,0 +1,20 @@
+{
+  "name": "messaging-api-line",
+  "description": "Messaging API client for LINE",
+  "version": "0.1.0-0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis",
+    "line"
+  ],
+  "dependencies": {
+    "axios": "^0.16.1"
+  }
+}
