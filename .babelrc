@@ -1,0 +1,15 @@
+{
+  "presets": [
+    ["env",  {
+      "targets": {
+        "node": 6
+      }
+    }],
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-flow-strip-types",
+    "transform-object-rest-spread"
+  ],
+  "retainLines": true
+}
