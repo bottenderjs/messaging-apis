@@ -1,9 +1,5 @@
 {
   "name": "messaging-apis",
-  "scripts": {
-    "lint": "eslint packages",
-    "lint:fix": "npm run lint -- --fix"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
@@ -11,6 +7,12 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^3.19.0",
+    "flow-bin": "^0.46.0",
     "lerna": "^2.0.0-rc.4"
+  },
+  "scripts": {
+    "lint": "eslint packages",
+    "lint:fix": "npm run lint -- --fix",
+    "typecheck": "flow check"
   }
 }
