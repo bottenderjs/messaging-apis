@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-line",
   "description": "Messaging API client for LINE",
-  "version": "0.1.0-1",
+  "version": "0.1.0-2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
