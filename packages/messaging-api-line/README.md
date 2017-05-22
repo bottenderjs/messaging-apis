@@ -37,14 +37,20 @@ client.pushText(id, text).then(() => {
 });
 ```
 
-## Allowed Methods
+## Supported Methods
+
+All methods return a Promise resolves an API response.
 
 ### Reply API
+
+[Official Docs](https://devdocs.line.me/en/#reply-message)
 
 - `reply`
 - `replyText`
 
 ### Push API
+
+[Official Docs](https://devdocs.line.me/en/#push-message)
 
 - `push`
 - `pushText`
@@ -54,6 +60,7 @@ client.pushText(id, text).then(() => {
 - `pushLocation`
 - `pushSticker`
 - `pushImagemap`
+  - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
 - `pushTemplate`
 - `pushButtonTemplate`
 - `pushConfirmTemplate`
@@ -61,8 +68,15 @@ client.pushText(id, text).then(() => {
 
 ### Others
 
+- `getUserProfile`
+  - [Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
 - `multicast`
+  - [Official Docs](https://devdocs.line.me/en/#multicast)
 - `leaveGroup`
+  - [Official Docs](https://devdocs.line.me/en/#leave)
 - `leaveRoom`
+  - [Official Docs](https://devdocs.line.me/en/#leave)
 - `isValidSignature`
+  - [Official Docs](https://devdocs.line.me/en/#webhooks)
 - `retrieveMessageContent`
+  - [Official Docs](https://devdocs.line.me/en/#content)
