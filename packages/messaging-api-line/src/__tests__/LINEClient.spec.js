@@ -49,6 +49,34 @@ describe('user profile', () => {
 });
 
 describe('reply message', () => {
+  describe('#replyRawBody', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const expected = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [{ type: 'text', text: 'Hello!' }],
+        })
+        .reply(200, expected, headers);
+
+      const res = await client.replyRawBody({
+        replyToken: REPLY_TOKEN,
+        messages: [
+          {
+            type: 'text',
+            text: 'Hello!',
+          },
+        ],
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.data).toBe(expected);
+    });
+  });
+
   describe('#reply', () => {
     it('should call reply api', async () => {
       const { client, mock } = createMock();
@@ -96,6 +124,34 @@ describe('reply message', () => {
 });
 
 describe('push message', () => {
+  describe('#pushRawBody', () => {
+    it('should call push api', async () => {
+      const { client, mock } = createMock();
+
+      const expected = {};
+
+      mock
+        .onPost('/message/push', {
+          to: RECIPIENT_ID,
+          messages: [{ type: 'text', text: 'Hello!' }],
+        })
+        .reply(200, expected, headers);
+
+      const res = await client.pushRawBody({
+        to: RECIPIENT_ID,
+        messages: [
+          {
+            type: 'text',
+            text: 'Hello!',
+          },
+        ],
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.data).toBe(expected);
+    });
+  });
+
   describe('#push', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();

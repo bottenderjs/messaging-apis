@@ -258,6 +258,7 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference
    */
+  // TODO: body flowtype
   sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
     this._http.post(`/me/messages?access_token=${this._accessToken}`, body);
 
