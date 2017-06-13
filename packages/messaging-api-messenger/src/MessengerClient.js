@@ -18,6 +18,7 @@ import type {
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
   AirlineFlightUpdateAttributes,
+  PersistentMenu,
   MessengerProfile,
   MessengerProfileResponse,
   MutationSuccessResponse,
@@ -119,10 +120,18 @@ export default class MessengerClient {
     this.getMessengerProfile(['persistent_menu']);
 
   setPersistentMenu = (
-    menuItems: Array<MenuItem>,
+    menuItems: Array<MenuItem> | PersistentMenu,
     { inputDisabled = false }: { inputDisabled: boolean } = {}
-  ): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
+  ): Promise<MutationSuccessResponse> => {
+    // menuItems is in type PersistentMenu
+    if (menuItems.some(item => item.locale === 'default')) {
+      return this.setMessengerProfile({
+        persistent_menu: menuItems,
+      });
+    }
+
+    // menuItems is in type Array<MenuItem>
+    return this.setMessengerProfile({
       persistent_menu: [
         {
           locale: 'default',
@@ -131,6 +140,7 @@ export default class MessengerClient {
         },
       ],
     });
+  };
 
   deletePersistentMenu = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['persistent_menu']);

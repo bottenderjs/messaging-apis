@@ -191,15 +191,17 @@ export type User = {
   gender: string,
 };
 
+export type PersistentMenu = Array<{
+  locale: string,
+  composer_input_disabled: boolean,
+  call_to_actions: Array<MenuItem>,
+}>;
+
 export type MessengerProfile = {
   get_started?: {
     payload: string,
   },
-  persistent_menu?: Array<{
-    locale: string,
-    composer_input_disabled: boolean,
-    call_to_actions: Array<TemplateButton>,
-  }>,
+  persistent_menu?: PersistentMenu,
   greeting?: Array<{
     locale: string,
     text: string,
