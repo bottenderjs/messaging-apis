@@ -335,6 +335,229 @@ describe('persistent menu', () => {
       expect(res.data).toBe(expected);
     });
 
+    it('should response success result if input is a full PersistentMenu, not Array<MenuItem>', async () => {
+      const { client, mock } = createMock();
+
+      const expected = {
+        result: 'success',
+      };
+
+      mock
+        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          persistent_menu: [
+            {
+              locale: 'default',
+              call_to_actions: [
+                {
+                  title: 'Play Again',
+                  type: 'postback',
+                  payload: '__RESTART__',
+                },
+                {
+                  title: 'Language Setting',
+                  type: 'nested',
+                  call_to_actions: [
+                    {
+                      title: '中文',
+                      type: 'postback',
+                      payload: '__CHINESE__',
+                    },
+                    {
+                      title: 'English',
+                      type: 'postback',
+                      payload: '__ENGLISH__',
+                    },
+                  ],
+                },
+                {
+                  title: 'Explore D',
+                  type: 'nested',
+                  call_to_actions: [
+                    {
+                      title: 'Explore',
+                      type: 'web_url',
+                      url: 'https://www.youtube.com/watch?v=v',
+                      webview_height_ratio: 'tall',
+                    },
+                    {
+                      title: 'W',
+                      type: 'web_url',
+                      url: 'https://www.facebook.com/w',
+                      webview_height_ratio: 'tall',
+                    },
+                    {
+                      title: 'Powered by YOCTOL',
+                      type: 'web_url',
+                      url: 'https://www.yoctol.com/',
+                      webview_height_ratio: 'tall',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              locale: 'zh_TW',
+              call_to_actions: [
+                {
+                  title: '重新開始',
+                  type: 'postback',
+                  payload: '__RESTART__',
+                },
+                {
+                  title: '語言設定',
+                  type: 'nested',
+                  call_to_actions: [
+                    {
+                      title: '中文',
+                      type: 'postback',
+                      payload: '__CHINESE__',
+                    },
+                    {
+                      title: 'English',
+                      type: 'postback',
+                      payload: '__ENGLISH__',
+                    },
+                  ],
+                },
+                {
+                  title: '探索敦化南路',
+                  type: 'nested',
+                  call_to_actions: [
+                    {
+                      title: '《敦化南路》預告片',
+                      type: 'web_url',
+                      url: 'https://www.youtube.com/watch?v=v',
+                      webview_height_ratio: 'tall',
+                    },
+                    {
+                      title: '華',
+                      type: 'web_url',
+                      url: 'https://www.facebook.com/w',
+                      webview_height_ratio: 'tall',
+                    },
+                    {
+                      title: 'Powered by YOCTOL',
+                      type: 'web_url',
+                      url: 'https://www.yoctol.com/',
+                      webview_height_ratio: 'tall',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, expected);
+
+      const items = [
+        {
+          locale: 'default',
+          call_to_actions: [
+            {
+              title: 'Play Again',
+              type: 'postback',
+              payload: '__RESTART__',
+            },
+            {
+              title: 'Language Setting',
+              type: 'nested',
+              call_to_actions: [
+                {
+                  title: '中文',
+                  type: 'postback',
+                  payload: '__CHINESE__',
+                },
+                {
+                  title: 'English',
+                  type: 'postback',
+                  payload: '__ENGLISH__',
+                },
+              ],
+            },
+            {
+              title: 'Explore D',
+              type: 'nested',
+              call_to_actions: [
+                {
+                  title: 'Explore',
+                  type: 'web_url',
+                  url: 'https://www.youtube.com/watch?v=v',
+                  webview_height_ratio: 'tall',
+                },
+                {
+                  title: 'W',
+                  type: 'web_url',
+                  url: 'https://www.facebook.com/w',
+                  webview_height_ratio: 'tall',
+                },
+                {
+                  title: 'Powered by YOCTOL',
+                  type: 'web_url',
+                  url: 'https://www.yoctol.com/',
+                  webview_height_ratio: 'tall',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          locale: 'zh_TW',
+          call_to_actions: [
+            {
+              title: '重新開始',
+              type: 'postback',
+              payload: '__RESTART__',
+            },
+            {
+              title: '語言設定',
+              type: 'nested',
+              call_to_actions: [
+                {
+                  title: '中文',
+                  type: 'postback',
+                  payload: '__CHINESE__',
+                },
+                {
+                  title: 'English',
+                  type: 'postback',
+                  payload: '__ENGLISH__',
+                },
+              ],
+            },
+            {
+              title: '探索敦化南路',
+              type: 'nested',
+              call_to_actions: [
+                {
+                  title: '《敦化南路》預告片',
+                  type: 'web_url',
+                  url: 'https://www.youtube.com/watch?v=v',
+                  webview_height_ratio: 'tall',
+                },
+                {
+                  title: '華',
+                  type: 'web_url',
+                  url: 'https://www.facebook.com/w',
+                  webview_height_ratio: 'tall',
+                },
+                {
+                  title: 'Powered by YOCTOL',
+                  type: 'web_url',
+                  url: 'https://www.yoctol.com/',
+                  webview_height_ratio: 'tall',
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const res = await client.setPersistentMenu(items);
+
+      expect(res.status).toBe(200);
+      expect(res.data).toBe(expected);
+    });
+
     it('should support disabled input', async () => {
       const { client, mock } = createMock();
 
