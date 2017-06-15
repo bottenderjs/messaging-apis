@@ -35,16 +35,18 @@ type Axios = {
 };
 
 export default class MessengerClient {
-  static factory = (accessToken: string): MessengerClient =>
-    new MessengerClient(accessToken);
+  static factory = (
+    accessToken: string,
+    version?: string = 'v2.9'
+  ): MessengerClient => new MessengerClient(accessToken, version);
 
   _accessToken: string;
   _http: Axios;
 
-  constructor(accessToken: string) {
+  constructor(accessToken: string, version?: string = 'v2.9') {
     this._accessToken = accessToken;
     this._http = axios.create({
-      baseURL: 'https://graph.facebook.com/v2.8/',
+      baseURL: `https://graph.facebook.com/${version}/`,
       headers: { 'Content-Type': 'application/json' },
     });
   }
