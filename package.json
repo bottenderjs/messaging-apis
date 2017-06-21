@@ -24,7 +24,7 @@
     "flow-bin": "^0.46.0",
     "husky": "^0.13.3",
     "jest": "^20.0.0",
-    "lerna": "^2.0.0-rc.4",
+    "lerna": "^2.0.0-rc.5",
     "lint-staged": "^3.4.1",
     "micromatch": "^2.3.11",
     "mkdir": "^0.0.2",
