@@ -11,6 +11,72 @@ const createMock = () => {
   return { client, mock };
 };
 
+describe('factory', () => {
+  let axios;
+  let _create;
+  beforeEach(() => {
+    axios = require('axios'); // eslint-disable-line global-require
+    _create = axios.create;
+  });
+
+  afterEach(() => {
+    axios.create = _create;
+  });
+
+  it('create axios with default graphAPI version', () => {
+    axios.create = jest.fn();
+    MessengerClient.factory(ACCESS_TOKEN);
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://graph.facebook.com/v2.9/',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  });
+
+  it('create axios with custom graphAPI version', () => {
+    axios.create = jest.fn();
+    MessengerClient.factory(ACCESS_TOKEN, 'v2.6');
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://graph.facebook.com/v2.6/',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  });
+});
+
+describe('constructor', () => {
+  let axios;
+  let _create;
+  beforeEach(() => {
+    axios = require('axios'); // eslint-disable-line global-require
+    _create = axios.create;
+  });
+
+  afterEach(() => {
+    axios.create = _create;
+  });
+
+  it('create axios with default graphAPI version', () => {
+    axios.create = jest.fn();
+    new MessengerClient(ACCESS_TOKEN); // eslint-disable-line no-new
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://graph.facebook.com/v2.9/',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  });
+
+  it('create axios with custom graphAPI version', () => {
+    axios.create = jest.fn();
+    new MessengerClient(ACCESS_TOKEN, 'v2.6'); // eslint-disable-line no-new
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://graph.facebook.com/v2.6/',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  });
+});
+
 describe('#getHTTPClient', () => {
   it('should return underlying http client', () => {
     const client = new MessengerClient(ACCESS_TOKEN);
