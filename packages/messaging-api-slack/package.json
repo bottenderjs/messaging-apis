@@ -1,0 +1,21 @@
+{
+  "name": "messaging-api-slack",
+  "description": "Messaging API client for Slack",
+  "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis",
+    "slack"
+  ],
+  "dependencies": {
+    "axios": "^0.16.1",
+    "invariant": "^2.2.2"
+  }
+}
