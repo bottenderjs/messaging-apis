@@ -69,7 +69,8 @@ export default class MessengerClient {
     fields: Array<string>
   ): Promise<MessengerProfileResponse> =>
     this._http.get(
-      `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this._accessToken}`
+      `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this
+        ._accessToken}`
     );
 
   setMessengerProfile = (
