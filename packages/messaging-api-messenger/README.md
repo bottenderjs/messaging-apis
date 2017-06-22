@@ -1,6 +1,6 @@
 # messaging-api-messenger
 
-> Messaging API client for Messenger
+> Messaging API client for Messenger using Graph API v2.8
 
 ## Installation
 
