@@ -42,8 +42,8 @@ describe('user profile', () => {
 
       const res = await client.getUserProfile(RECIPIENT_ID);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -69,8 +69,8 @@ describe('reply message', () => {
         },
       ]);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -89,8 +89,8 @@ describe('reply message', () => {
 
       const res = await client.replyText(REPLY_TOKEN, 'Hello!');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -116,8 +116,8 @@ describe('push message', () => {
         },
       ]);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -136,8 +136,8 @@ describe('push message', () => {
 
       const res = await client.pushText(RECIPIENT_ID, 'Hello!');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -156,8 +156,8 @@ describe('push message', () => {
 
       const res = await client.pushText(RECIPIENT_ID, 'Hello!');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -186,8 +186,8 @@ describe('push message', () => {
         'https://example.com/preview.jpg'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -216,8 +216,8 @@ describe('push message', () => {
         'https://example.com/preview.jpg'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -246,8 +246,8 @@ describe('push message', () => {
         240000
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -279,8 +279,8 @@ describe('push message', () => {
         longitude: 139.70372892916203,
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -305,8 +305,8 @@ describe('push message', () => {
 
       const res = await client.pushSticker(RECIPIENT_ID, '1', '1');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -387,8 +387,8 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -461,8 +461,8 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -534,8 +534,8 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -593,8 +593,8 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -615,7 +615,8 @@ describe('push message', () => {
                 type: 'carousel',
                 columns: [
                   {
-                    thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item1.jpg',
                     title: 'this is menu',
                     text: 'description',
                     actions: [
@@ -637,7 +638,8 @@ describe('push message', () => {
                     ],
                   },
                   {
-                    thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item2.jpg',
                     title: 'this is menu',
                     text: 'description',
                     actions: [
@@ -716,8 +718,8 @@ describe('push message', () => {
         ]
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -746,8 +748,8 @@ describe('multicast', () => {
         ]
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -765,8 +767,8 @@ describe('leave', () => {
 
       const res = await client.leaveGroup(GROUP_ID);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -782,8 +784,8 @@ describe('leave', () => {
 
       const res = await client.leaveRoom(ROOM_ID);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });

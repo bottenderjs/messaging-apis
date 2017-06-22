@@ -39,8 +39,8 @@ describe('user profile', () => {
 
       const res = await client.getUserProfile('1');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -86,8 +86,8 @@ describe('messenger profile', () => {
         'persistent_menu',
       ]);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -139,8 +139,8 @@ describe('messenger profile', () => {
         ],
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -163,8 +163,8 @@ describe('messenger profile', () => {
         'persistent_menu',
       ]);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -192,8 +192,8 @@ describe('get started button', () => {
 
       const res = await client.getGetStartedButton();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -215,8 +215,8 @@ describe('get started button', () => {
 
       const res = await client.setGetStartedButton('__ALOHA.AI_GET_STARTED__');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -236,8 +236,8 @@ describe('get started button', () => {
 
       const res = await client.deleteGetStartedButton();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -280,8 +280,8 @@ describe('persistent menu', () => {
 
       const res = await client.getPersistentMenu();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -331,8 +331,8 @@ describe('persistent menu', () => {
 
       const res = await client.setPersistentMenu(items);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
 
     it('should response success result if input is a full PersistentMenu, not Array<MenuItem>', async () => {
@@ -554,8 +554,8 @@ describe('persistent menu', () => {
 
       const res = await client.setPersistentMenu(items);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
 
     it('should support disabled input', async () => {
@@ -595,8 +595,8 @@ describe('persistent menu', () => {
         inputDisabled: true,
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -616,8 +616,8 @@ describe('persistent menu', () => {
 
       const res = await client.deletePersistentMenu();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -644,8 +644,8 @@ describe('greeting text', () => {
 
       const res = await client.getGreetingText();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -670,8 +670,8 @@ describe('greeting text', () => {
 
       const res = await client.setGreetingText('Hello!');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -691,8 +691,8 @@ describe('greeting text', () => {
 
       const res = await client.deleteGreetingText();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -718,8 +718,8 @@ describe('domain whitelist', () => {
 
       const res = await client.getDomainWhitelist();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -739,8 +739,8 @@ describe('domain whitelist', () => {
 
       const res = await client.setDomainWhitelist(['www.yoctol.com']);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -760,8 +760,8 @@ describe('domain whitelist', () => {
 
       const res = await client.deleteDomainWhitelist();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -774,7 +774,8 @@ describe('account linking url', () => {
       const expected = {
         data: [
           {
-            account_linking_url: 'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
+            account_linking_url:
+              'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
           },
         ],
       };
@@ -787,8 +788,8 @@ describe('account linking url', () => {
 
       const res = await client.getAccountLinkingURL();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -802,7 +803,8 @@ describe('account linking url', () => {
 
       mock
         .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          account_linking_url: 'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
+          account_linking_url:
+            'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
         })
         .reply(200, expected);
 
@@ -810,8 +812,8 @@ describe('account linking url', () => {
         'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -831,8 +833,8 @@ describe('account linking url', () => {
 
       const res = await client.deleteAccountLinkingURL();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -860,8 +862,8 @@ describe('payment settings', () => {
 
       const res = await client.getPaymentSettings();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -885,8 +887,8 @@ describe('payment settings', () => {
         'https://www.example.com'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -908,8 +910,8 @@ describe('payment settings', () => {
 
       const res = await client.setPaymentPublicKey('YOUR_PUBLIC_KEY');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -931,8 +933,8 @@ describe('payment settings', () => {
 
       const res = await client.setPaymentTestUsers(['12345678']);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -952,8 +954,8 @@ describe('payment settings', () => {
 
       const res = await client.deletePaymentSettings();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -982,8 +984,8 @@ describe('target audience', () => {
 
       const res = await client.getTargetAudience();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1013,8 +1015,8 @@ describe('target audience', () => {
         ['UK']
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1034,8 +1036,8 @@ describe('target audience', () => {
 
       const res = await client.deleteTargetAudience();
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -1070,8 +1072,8 @@ describe('sned api', () => {
         },
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1099,8 +1101,8 @@ describe('sned api', () => {
         text: 'Hello!',
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1136,8 +1138,8 @@ describe('sned api', () => {
         },
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1163,8 +1165,8 @@ describe('sned api', () => {
 
       const res = await client.sendText(RECIPIENT_ID, 'Hello!');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1191,8 +1193,8 @@ describe('sned api', () => {
 
       const res = await client.sendIssueResolutionText(RECIPIENT_ID, 'Hello!');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1226,8 +1228,8 @@ describe('sned api', () => {
         'https://example.com/audio.mp3'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1261,8 +1263,8 @@ describe('sned api', () => {
         'https://example.com/pic.png'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1296,8 +1298,8 @@ describe('sned api', () => {
         'https://example.com/video.mp4'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1331,8 +1333,8 @@ describe('sned api', () => {
         'https://example.com/word.docx'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1381,8 +1383,8 @@ describe('sned api', () => {
         ],
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1427,8 +1429,8 @@ describe('sned api', () => {
         },
       ]);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1487,8 +1489,8 @@ describe('sned api', () => {
         templateElements
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1516,8 +1518,8 @@ describe('sned api', () => {
         templateElements
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1545,8 +1547,8 @@ describe('sned api', () => {
         templateElements
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1574,8 +1576,8 @@ describe('sned api', () => {
         templateElements
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1601,11 +1603,13 @@ describe('sned api', () => {
                 elements: [
                   {
                     title: 'Classic T-Shirt Collection',
-                    image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+                    image_url:
+                      'https://peterssendreceiveapp.ngrok.io/img/collection.png',
                     subtitle: 'See all our colors',
                     default_action: {
                       type: 'web_url',
-                      url: 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+                      url:
+                        'https://peterssendreceiveapp.ngrok.io/shop_collection',
                       messenger_extensions: true,
                       webview_height_ratio: 'tall',
                       fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
@@ -1641,7 +1645,8 @@ describe('sned api', () => {
         [
           {
             title: 'Classic T-Shirt Collection',
-            image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+            image_url:
+              'https://peterssendreceiveapp.ngrok.io/img/collection.png',
             subtitle: 'See all our colors',
             default_action: {
               type: 'web_url',
@@ -1672,8 +1677,8 @@ describe('sned api', () => {
         'compact'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1700,7 +1705,8 @@ describe('sned api', () => {
                 order_number: '12345678902',
                 currency: 'USD',
                 payment_method: 'Visa 2345',
-                order_url: 'http://petersapparel.parseapp.com/order?order_id=123456',
+                order_url:
+                  'http://petersapparel.parseapp.com/order?order_id=123456',
                 timestamp: '1428444852',
                 elements: [
                   {
@@ -1709,7 +1715,8 @@ describe('sned api', () => {
                     quantity: 2,
                     price: 50,
                     currency: 'USD',
-                    image_url: 'http://petersapparel.parseapp.com/img/whiteshirt.png',
+                    image_url:
+                      'http://petersapparel.parseapp.com/img/whiteshirt.png',
                   },
                   {
                     title: 'Classic Gray T-Shirt',
@@ -1717,7 +1724,8 @@ describe('sned api', () => {
                     quantity: 1,
                     price: 25,
                     currency: 'USD',
-                    image_url: 'http://petersapparel.parseapp.com/img/grayshirt.png',
+                    image_url:
+                      'http://petersapparel.parseapp.com/img/grayshirt.png',
                   },
                 ],
                 address: {
@@ -1729,7 +1737,7 @@ describe('sned api', () => {
                   country: 'US',
                 },
                 summary: {
-                  subtotal: 75.00,
+                  subtotal: 75.0,
                   shipping_cost: 4.95,
                   total_tax: 6.19,
                   total_cost: 56.14,
@@ -1784,7 +1792,7 @@ describe('sned api', () => {
           country: 'US',
         },
         summary: {
-          subtotal: 75.00,
+          subtotal: 75.0,
           shipping_cost: 4.95,
           total_tax: 6.19,
           total_cost: 56.14,
@@ -1801,8 +1809,8 @@ describe('sned api', () => {
         ],
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -1862,9 +1870,11 @@ describe('sned api', () => {
                       },
                     ],
                     logo_image_url: 'https://www.example.com/en/logo.png',
-                    header_image_url: 'https://www.example.com/en/fb/header.png',
+                    header_image_url:
+                      'https://www.example.com/en/fb/header.png',
                     qr_code: 'M1SMITH/NICOLAS  CG4X7U nawouehgawgnapwi3jfa0wfh',
-                    above_bar_code_image_url: 'https://www.example.com/en/PLAT.png',
+                    above_bar_code_image_url:
+                      'https://www.example.com/en/PLAT.png',
                     flight_info: {
                       flight_number: 'KL0642',
                       departure_airport: {
@@ -1917,9 +1927,12 @@ describe('sned api', () => {
                       },
                     ],
                     logo_image_url: 'https://www.example.com/en/logo.png',
-                    header_image_url: 'https://www.example.com/en/fb/header.png',
-                    qr_code: 'M1JONES/FARBOUND  CG4X7U nawouehgawgnapwi3jfa0wfh',
-                    above_bar_code_image_url: 'https://www.example.com/en/PLAT.png',
+                    header_image_url:
+                      'https://www.example.com/en/fb/header.png',
+                    qr_code:
+                      'M1JONES/FARBOUND  CG4X7U nawouehgawgnapwi3jfa0wfh',
+                    above_bar_code_image_url:
+                      'https://www.example.com/en/PLAT.png',
                     flight_info: {
                       flight_number: 'KL0642',
                       departure_airport: {
@@ -2062,8 +2075,8 @@ describe('sned api', () => {
         ],
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2147,8 +2160,8 @@ describe('sned api', () => {
         checkin_url: 'https://www.airline.com/check-in',
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2420,8 +2433,8 @@ describe('sned api', () => {
         currency: 'USD',
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2501,8 +2514,8 @@ describe('sned api', () => {
         },
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2545,8 +2558,8 @@ describe('sned api', () => {
         ]
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2569,8 +2582,8 @@ describe('sned api', () => {
 
       const res = await client.sendSenderAction(RECIPIENT_ID, 'typing_on');
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2593,8 +2606,8 @@ describe('sned api', () => {
 
       const res = await client.turnTypingIndicatorsOn(RECIPIENT_ID);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2617,8 +2630,8 @@ describe('sned api', () => {
 
       const res = await client.turnTypingIndicatorsOff(RECIPIENT_ID);
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
@@ -2651,8 +2664,8 @@ describe('upload api', () => {
         'http://www.yoctol-rocks.com/image.jpg'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2682,8 +2695,8 @@ describe('upload api', () => {
         'http://www.yoctol-rocks.com/audio.mp3'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2713,8 +2726,8 @@ describe('upload api', () => {
         'http://www.yoctol-rocks.com/image.jpg'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2744,8 +2757,8 @@ describe('upload api', () => {
         'http://www.yoctol-rocks.com/video.mp4'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -2775,8 +2788,8 @@ describe('upload api', () => {
         'http://www.yoctol-rocks.com/file.pdf'
       );
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 });
