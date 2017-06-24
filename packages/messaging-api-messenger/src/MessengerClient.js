@@ -35,7 +35,7 @@ type Axios = {
 };
 
 export default class MessengerClient {
-  static factory = (
+  static connect = (
     accessToken: string,
     version?: string = 'v2.9'
   ): MessengerClient => new MessengerClient(accessToken, version);

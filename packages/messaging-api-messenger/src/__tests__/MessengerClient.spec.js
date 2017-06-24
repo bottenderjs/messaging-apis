@@ -11,7 +11,7 @@ const createMock = () => {
   return { client, mock };
 };
 
-describe('factory', () => {
+describe('connect', () => {
   let axios;
   let _create;
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('factory', () => {
 
   it('create axios with default graphAPI version', () => {
     axios.create = jest.fn();
-    MessengerClient.factory(ACCESS_TOKEN);
+    MessengerClient.connect(ACCESS_TOKEN);
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://graph.facebook.com/v2.9/',
@@ -35,7 +35,7 @@ describe('factory', () => {
 
   it('create axios with custom graphAPI version', () => {
     axios.create = jest.fn();
-    MessengerClient.factory(ACCESS_TOKEN, 'v2.6');
+    MessengerClient.connect(ACCESS_TOKEN, 'v2.6');
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://graph.facebook.com/v2.6/',

@@ -23,7 +23,7 @@ type Axios = {
 };
 
 export default class LINEClient {
-  static factory = (accessToken: string, channelSecret: string): LINEClient =>
+  static connect = (accessToken: string, channelSecret: string): LINEClient =>
     new LINEClient(accessToken, channelSecret);
 
   _channelSecret: string;

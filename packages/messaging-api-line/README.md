@@ -20,7 +20,7 @@ yarn add messaging-api-line
 import { LINEClient } from 'messaging-api-line';
 
 // get accessToken and channelSecret from LINE developers website
-const client = LINEClient.factory(accessToken, channelSecret);
+const client = LINEClient.connect(accessToken, channelSecret);
 ```
 
 ### API
