@@ -20,7 +20,7 @@ yarn add messaging-api-messenger
 import { MessengerClient } from 'messaging-api-line';
 
 // get accessToken from facebook developers website
-const client = MessengerClient.factory(accessToken);
+const client = MessengerClient.connect(accessToken);
 ```
 
 ### API

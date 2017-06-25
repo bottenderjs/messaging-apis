@@ -5,20 +5,73 @@ import LINEClient from '../LINEClient';
 const RECIPIENT_ID = '1QAZ2WSX';
 const REPLY_TOKEN = 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA';
 const ACCESS_TOKEN = '1234567890';
+const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
 const createMock = () => {
-  const client = new LINEClient(ACCESS_TOKEN);
+  const client = new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.getHTTPClient());
   return { client, mock };
 };
 
+describe('connect', () => {
+  let axios;
+  let _create;
+  beforeEach(() => {
+    axios = require('axios'); // eslint-disable-line global-require
+    _create = axios.create;
+  });
+
+  afterEach(() => {
+    axios.create = _create;
+  });
+
+  it('create axios with LINE API', () => {
+    axios.create = jest.fn();
+    LINEClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://api.line.me/v2/bot/',
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+});
+
+describe('constructor', () => {
+  let axios;
+  let _create;
+  beforeEach(() => {
+    axios = require('axios'); // eslint-disable-line global-require
+    _create = axios.create;
+  });
+
+  afterEach(() => {
+    axios.create = _create;
+  });
+
+  it('create axios with LINE API', () => {
+    axios.create = jest.fn();
+    new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://api.line.me/v2/bot/',
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+});
+
 describe('#getHTTPClient', () => {
   it('should return underlying http client', () => {
-    const client = new LINEClient(ACCESS_TOKEN);
+    const client = new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET);
     const http = client.getHTTPClient();
     expect(http.get).toBeDefined();
     expect(http.post).toBeDefined();
