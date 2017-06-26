@@ -124,7 +124,7 @@ export default class MessengerClient {
 
   setPersistentMenu = (
     menuItems: Array<MenuItem> | PersistentMenu,
-    { inputDisabled = false }: { inputDisabled: boolean } = {}
+    { composerInputDisabled = false }: { composerInputDisabled: boolean } = {}
   ): Promise<MutationSuccessResponse> => {
     // menuItems is in type PersistentMenu
     if (menuItems.some(item => item.locale === 'default')) {
@@ -138,7 +138,7 @@ export default class MessengerClient {
       persistent_menu: [
         {
           locale: 'default',
-          composer_input_disabled: inputDisabled,
+          composer_input_disabled: composerInputDisabled,
           call_to_actions: menuItems,
         },
       ],

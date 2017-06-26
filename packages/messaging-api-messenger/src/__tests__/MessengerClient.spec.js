@@ -658,7 +658,7 @@ describe('persistent menu', () => {
       ];
 
       const res = await client.setPersistentMenu(items, {
-        inputDisabled: true,
+        composerInputDisabled: true,
       });
 
       expect(res.status).toEqual(200);
