@@ -56,11 +56,17 @@ export default class LINEClient {
    *
    * https://devdocs.line.me/en/#reply-message
    */
+  replyRawBody = (body: {
+    replyToken: string,
+    messages: Array<Message>,
+  }): Promise<MutationSuccessResponse> =>
+    this._http.post('/message/reply', body);
+
   reply = (
     replyToken: string,
     messages: Array<Message>
   ): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/reply', { replyToken, messages });
+    this.replyRawBody({ replyToken, messages });
 
   replyText = (
     replyToken: string,
@@ -73,11 +79,16 @@ export default class LINEClient {
    *
    * https://devdocs.line.me/en/#push-message
    */
+  pushRawBody = (body: {
+    to: string,
+    messages: Array<Message>,
+  }): Promise<MutationSuccessResponse> =>
+    this._http.post('/message/push', body);
+
   push = (
     to: string,
     messages: Array<Message>
-  ): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/push', { to, messages });
+  ): Promise<MutationSuccessResponse> => this.pushRawBody({ to, messages });
 
   pushText = (to: string, text: string): Promise<MutationSuccessResponse> =>
     this.push(to, [{ type: 'text', text }]);
