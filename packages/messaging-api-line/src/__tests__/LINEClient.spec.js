@@ -125,8 +125,8 @@ describe('reply message', () => {
         ],
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
@@ -200,8 +200,8 @@ describe('push message', () => {
         ],
       });
 
-      expect(res.status).toBe(200);
-      expect(res.data).toBe(expected);
+      expect(res.status).toEqual(200);
+      expect(res.data).toEqual(expected);
     });
   });
 
