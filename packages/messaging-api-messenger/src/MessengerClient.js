@@ -60,7 +60,9 @@ export default class MessengerClient {
    * first_name, last_name, profile_pic, locale, timezone, gender
    */
   getUserProfile = (userId: string): Promise<User> =>
-    this._http.get(`/${userId}?access_token=${this._accessToken}`);
+    this._http
+      .get(`/${userId}?access_token=${this._accessToken}`)
+      .then(res => res.data);
 
   /**
    * Messenger Profile
@@ -70,30 +72,30 @@ export default class MessengerClient {
   getMessengerProfile = (
     fields: Array<string>
   ): Promise<MessengerProfileResponse> =>
-    this._http.get(
-      `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this
-        ._accessToken}`
-    );
+    this._http
+      .get(
+        `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this
+          ._accessToken}`
+      )
+      .then(res => res.data.data);
 
   setMessengerProfile = (
     profile: MessengerProfile
   ): Promise<MutationSuccessResponse> =>
-    this._http.post(
-      `/me/messenger_profile?access_token=${this._accessToken}`,
-      profile
-    );
+    this._http
+      .post(`/me/messenger_profile?access_token=${this._accessToken}`, profile)
+      .then(res => res.data);
 
   deleteMessengerProfile = (
     fields: Array<string>
   ): Promise<MutationSuccessResponse> =>
-    this._http.delete(
-      `/me/messenger_profile?access_token=${this._accessToken}`,
-      {
+    this._http
+      .delete(`/me/messenger_profile?access_token=${this._accessToken}`, {
         data: {
           fields,
         },
-      }
-    );
+      })
+      .then(res => res.data);
 
   /**
    * Get Started Button
@@ -101,7 +103,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button
    */
   getGetStartedButton = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['get_started']);
+    this.getMessengerProfile(['get_started']).then(res => res[0].get_started);
 
   setGetStartedButton = (payload: string): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
@@ -117,10 +119,11 @@ export default class MessengerClient {
    * Persistent Menu
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu
-   * TODO: support locale?
    */
   getPersistentMenu = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['persistent_menu']);
+    this.getMessengerProfile(['persistent_menu']).then(
+      res => res[0].persistent_menu
+    );
 
   setPersistentMenu = (
     menuItems: Array<MenuItem> | PersistentMenu,
@@ -155,7 +158,7 @@ export default class MessengerClient {
    * TODO: support locale?
    */
   getGreetingText = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['greeting']);
+    this.getMessengerProfile(['greeting']).then(res => res[0].greeting);
 
   setGreetingText = (text: string): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
@@ -176,7 +179,9 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
    */
   getDomainWhitelist = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['whitelisted_domains']);
+    this.getMessengerProfile(['whitelisted_domains']).then(
+      res => res[0].whitelisted_domains
+    );
 
   setDomainWhitelist = (
     domains: Array<string>
@@ -194,7 +199,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url
    */
   getAccountLinkingURL = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['account_linking_url']);
+    this.getMessengerProfile(['account_linking_url']).then(res => res[0]);
 
   setAccountLinkingURL = (url: string): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
@@ -210,7 +215,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings
    */
   getPaymentSettings = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['payment_settings']);
+    this.getMessengerProfile(['payment_settings']).then(res => res[0]);
 
   setPaymentPrivacyPolicyURL = (
     url: string
@@ -246,7 +251,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience
    */
   getTargetAudience = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['target_audience']);
+    this.getMessengerProfile(['target_audience']).then(res => res[0]);
 
   setTargetAudience = (
     type: string,
@@ -273,7 +278,9 @@ export default class MessengerClient {
    */
   // TODO: body flowtype
   sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
-    this._http.post(`/me/messages?access_token=${this._accessToken}`, body);
+    this._http
+      .post(`/me/messages?access_token=${this._accessToken}`, body)
+      .then(res => res.data);
 
   send = (
     recipientId: string,
@@ -548,12 +555,14 @@ export default class MessengerClient {
     recipientId: string,
     action: SenderAction
   ): Promise<SendSenderActionResponse> =>
-    this._http.post(`/me/messages?access_token=${this._accessToken}`, {
-      recipient: {
-        id: recipientId,
-      },
-      sender_action: action,
-    });
+    this._http
+      .post(`/me/messages?access_token=${this._accessToken}`, {
+        recipient: {
+          id: recipientId,
+        },
+        sender_action: action,
+      })
+      .then(res => res.data);
 
   turnTypingIndicatorsOn = (
     recipientId: string
@@ -571,9 +580,8 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload/v2.8
    */
   uploadAttachment = (type: string, url: string) =>
-    this._http.post(
-      `/me/message_attachments?access_token=${this._accessToken}`,
-      {
+    this._http
+      .post(`/me/message_attachments?access_token=${this._accessToken}`, {
         message: {
           attachment: {
             type,
@@ -583,8 +591,8 @@ export default class MessengerClient {
             },
           },
         },
-      }
-    );
+      })
+      .then(res => res.data);
 
   uploadAudio = (url: string) => this.uploadAttachment('audio', url);
   uploadImage = (url: string) => this.uploadAttachment('image', url);
