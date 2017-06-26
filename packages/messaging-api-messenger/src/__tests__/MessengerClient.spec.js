@@ -93,8 +93,8 @@ describe('user profile', () => {
     it('should response user profile', async () => {
       const { client, mock } = createMock();
       const reply = {
-        first_name: '薄餡',
-        last_name: '茱',
+        first_name: 'Kevin',
+        last_name: 'Durant',
         profile_pic: 'https://example.com/pic.png',
         locale: 'en_US',
         timezone: 8,
@@ -119,7 +119,7 @@ describe('messenger profile', () => {
         data: [
           {
             get_started: {
-              payload: '__ALOHA.AI_GET_STARTED__',
+              payload: 'GET_STARTED',
             },
           },
           {
@@ -130,8 +130,8 @@ describe('messenger profile', () => {
                 call_to_actions: [
                   {
                     type: 'postback',
-                    title: '重新開始對話',
-                    payload: '__ALOHA.AI_RESTARTED__',
+                    title: 'Restart Conversation',
+                    payload: 'RESTART',
                   },
                 ],
               },
@@ -154,7 +154,7 @@ describe('messenger profile', () => {
       expect(res).toEqual([
         {
           get_started: {
-            payload: '__ALOHA.AI_GET_STARTED__',
+            payload: 'GET_STARTED',
           },
         },
         {
@@ -165,8 +165,8 @@ describe('messenger profile', () => {
               call_to_actions: [
                 {
                   type: 'postback',
-                  title: '重新開始對話',
-                  payload: '__ALOHA.AI_RESTARTED__',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
                 },
               ],
             },
@@ -187,7 +187,7 @@ describe('messenger profile', () => {
       mock
         .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
           get_started: {
-            payload: '__ALOHA.AI_GET_STARTED__',
+            payload: 'GET_STARTED',
           },
           persistent_menu: [
             {
@@ -196,8 +196,8 @@ describe('messenger profile', () => {
               call_to_actions: [
                 {
                   type: 'postback',
-                  title: '重新開始對話',
-                  payload: '__ALOHA.AI_RESTARTED__',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
                 },
               ],
             },
@@ -207,7 +207,7 @@ describe('messenger profile', () => {
 
       const res = await client.setMessengerProfile({
         get_started: {
-          payload: '__ALOHA.AI_GET_STARTED__',
+          payload: 'GET_STARTED',
         },
         persistent_menu: [
           {
@@ -216,8 +216,8 @@ describe('messenger profile', () => {
             call_to_actions: [
               {
                 type: 'postback',
-                title: '重新開始對話',
-                payload: '__ALOHA.AI_RESTARTED__',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
               },
             ],
           },
@@ -261,7 +261,7 @@ describe('get started button', () => {
         data: [
           {
             get_started: {
-              payload: '__ALOHA.AI_GET_STARTED__',
+              payload: 'GET_STARTED',
             },
           },
         ],
@@ -276,7 +276,7 @@ describe('get started button', () => {
       const res = await client.getGetStartedButton();
 
       expect(res).toEqual({
-        payload: '__ALOHA.AI_GET_STARTED__',
+        payload: 'GET_STARTED',
       });
     });
   });
@@ -292,12 +292,12 @@ describe('get started button', () => {
       mock
         .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
           get_started: {
-            payload: '__ALOHA.AI_GET_STARTED__',
+            payload: 'GET_STARTED',
           },
         })
         .reply(200, reply);
 
-      const res = await client.setGetStartedButton('__ALOHA.AI_GET_STARTED__');
+      const res = await client.setGetStartedButton('GET_STARTED');
 
       expect(res).toEqual(reply);
     });
@@ -339,8 +339,8 @@ describe('persistent menu', () => {
                 call_to_actions: [
                   {
                     type: 'postback',
-                    title: '重新開始對話',
-                    payload: '__ALOHA.AI_RESTARTED__',
+                    title: 'Restart Conversation',
+                    payload: 'RESTART',
                   },
                   {
                     type: 'web_url',
@@ -369,8 +369,8 @@ describe('persistent menu', () => {
           call_to_actions: [
             {
               type: 'postback',
-              title: '重新開始對話',
-              payload: '__ALOHA.AI_RESTARTED__',
+              title: 'Restart Conversation',
+              payload: 'RESTART',
             },
             {
               type: 'web_url',
@@ -400,8 +400,8 @@ describe('persistent menu', () => {
               call_to_actions: [
                 {
                   type: 'postback',
-                  title: '重新開始對話',
-                  payload: '__ALOHA.AI_RESTARTED__',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
                 },
                 {
                   type: 'web_url',
@@ -417,8 +417,8 @@ describe('persistent menu', () => {
       const items = [
         {
           type: 'postback',
-          title: '重新開始對話',
-          payload: '__ALOHA.AI_RESTARTED__',
+          title: 'Restart Conversation',
+          payload: 'RESTART',
         },
         {
           type: 'web_url',
@@ -448,7 +448,7 @@ describe('persistent menu', () => {
                 {
                   title: 'Play Again',
                   type: 'postback',
-                  payload: '__RESTART__',
+                  payload: 'RESTART',
                 },
                 {
                   title: 'Language Setting',
@@ -457,12 +457,12 @@ describe('persistent menu', () => {
                     {
                       title: '中文',
                       type: 'postback',
-                      payload: '__CHINESE__',
+                      payload: 'CHINESE',
                     },
                     {
                       title: 'English',
                       type: 'postback',
-                      payload: '__ENGLISH__',
+                      payload: 'ENGLISH',
                     },
                   ],
                 },
@@ -498,7 +498,7 @@ describe('persistent menu', () => {
                 {
                   title: '重新開始',
                   type: 'postback',
-                  payload: '__RESTART__',
+                  payload: 'RESTART',
                 },
                 {
                   title: '語言設定',
@@ -507,12 +507,12 @@ describe('persistent menu', () => {
                     {
                       title: '中文',
                       type: 'postback',
-                      payload: '__CHINESE__',
+                      payload: 'CHINESE',
                     },
                     {
                       title: 'English',
                       type: 'postback',
-                      payload: '__ENGLISH__',
+                      payload: 'ENGLISH',
                     },
                   ],
                 },
@@ -553,7 +553,7 @@ describe('persistent menu', () => {
             {
               title: 'Play Again',
               type: 'postback',
-              payload: '__RESTART__',
+              payload: 'RESTART',
             },
             {
               title: 'Language Setting',
@@ -562,12 +562,12 @@ describe('persistent menu', () => {
                 {
                   title: '中文',
                   type: 'postback',
-                  payload: '__CHINESE__',
+                  payload: 'CHINESE',
                 },
                 {
                   title: 'English',
                   type: 'postback',
-                  payload: '__ENGLISH__',
+                  payload: 'ENGLISH',
                 },
               ],
             },
@@ -603,7 +603,7 @@ describe('persistent menu', () => {
             {
               title: '重新開始',
               type: 'postback',
-              payload: '__RESTART__',
+              payload: 'RESTART',
             },
             {
               title: '語言設定',
@@ -612,12 +612,12 @@ describe('persistent menu', () => {
                 {
                   title: '中文',
                   type: 'postback',
-                  payload: '__CHINESE__',
+                  payload: 'CHINESE',
                 },
                 {
                   title: 'English',
                   type: 'postback',
-                  payload: '__ENGLISH__',
+                  payload: 'ENGLISH',
                 },
               ],
             },
@@ -670,8 +670,8 @@ describe('persistent menu', () => {
               call_to_actions: [
                 {
                   type: 'postback',
-                  title: '重新開始對話',
-                  payload: '__ALOHA.AI_RESTARTED__',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
                 },
               ],
             },
@@ -682,8 +682,8 @@ describe('persistent menu', () => {
       const items = [
         {
           type: 'postback',
-          title: '重新開始對話',
-          payload: '__ALOHA.AI_RESTARTED__',
+          title: 'Restart Conversation',
+          payload: 'RESTART',
         },
       ];
 
