@@ -9,6 +9,7 @@ import type {
   SendOption,
   TemplateButton,
   MenuItem,
+  GreetingConfig,
   TemplateElement,
   QuickReply,
   SenderAction,
@@ -155,20 +156,28 @@ export default class MessengerClient {
    * Greeting Text
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text
-   * TODO: support locale?
    */
   getGreetingText = (): Promise<MessengerProfileResponse> =>
     this.getMessengerProfile(['greeting']).then(res => res[0].greeting);
 
-  setGreetingText = (text: string): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      greeting: [
-        {
-          locale: 'default',
-          text,
-        },
-      ],
+  setGreetingText = (
+    greeting: string | Array<GreetingConfig>
+  ): Promise<MutationSuccessResponse> => {
+    if (typeof greeting === 'string') {
+      return this.setMessengerProfile({
+        greeting: [
+          {
+            locale: 'default',
+            text: greeting,
+          },
+        ],
+      });
+    }
+
+    return this.setMessengerProfile({
+      greeting,
     });
+  };
 
   deleteGreetingText = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['greeting']);
