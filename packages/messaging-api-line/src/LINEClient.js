@@ -49,7 +49,7 @@ export default class LINEClient {
    * displayName, userId, pictureUrl, statusMessage
    */
   getUserProfile = (userId: string): Promise<User> =>
-    this._http.get(`/profile/${userId}`);
+    this._http.get(`/profile/${userId}`).then(res => res.data);
 
   /**
    * Reply Message
@@ -60,7 +60,7 @@ export default class LINEClient {
     replyToken: string,
     messages: Array<Message>,
   }): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/reply', body);
+    this._http.post('/message/reply', body).then(res => res.data);
 
   reply = (
     replyToken: string,
@@ -83,7 +83,7 @@ export default class LINEClient {
     to: string,
     messages: Array<Message>,
   }): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/push', body);
+    this._http.post('/message/push', body).then(res => res.data);
 
   push = (
     to: string,
@@ -269,7 +269,9 @@ export default class LINEClient {
     to: Array<string>,
     messages: Array<Message>
   ): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/multicast', { to, messages });
+    this._http
+      .post('/message/multicast', { to, messages })
+      .then(res => res.data);
 
   /**
    * Leave
@@ -277,10 +279,10 @@ export default class LINEClient {
    * https://devdocs.line.me/en/#leave
    */
   leaveGroup = (groupId: string): Promise<MutationSuccessResponse> =>
-    this._http.post(`/group/${groupId}/leave`);
+    this._http.post(`/group/${groupId}/leave`).then(res => res.data);
 
   leaveRoom = (roomId: string): Promise<MutationSuccessResponse> =>
-    this._http.post(`/room/${roomId}/leave`);
+    this._http.post(`/room/${roomId}/leave`).then(res => res.data);
 
   /**
    * Signature Validation
@@ -300,5 +302,5 @@ export default class LINEClient {
    * https://devdocs.line.me/en/#content
    */
   retrieveMessageContent = (messageId: string) =>
-    this._http.get(`message/${messageId}/content`);
+    this._http.get(`message/${messageId}/content`).then(res => res.data);
 }

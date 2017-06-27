@@ -84,19 +84,18 @@ describe('user profile', () => {
   describe('#getUserProfile', () => {
     it('should response user profile', async () => {
       const { client, mock } = createMock();
-      const expected = {
+      const reply = {
         displayName: 'LINE taro',
         userId: RECIPIENT_ID,
         pictureUrl: 'http://obs.line-apps.com/...',
         statusMessage: 'Hello, LINE!',
       };
 
-      mock.onGet(`/profile/${RECIPIENT_ID}`).reply(200, expected, headers);
+      mock.onGet(`/profile/${RECIPIENT_ID}`).reply(200, reply, headers);
 
       const res = await client.getUserProfile(RECIPIENT_ID);
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 });
@@ -106,14 +105,14 @@ describe('reply message', () => {
     it('should call reply api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/reply', {
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.replyRawBody({
         replyToken: REPLY_TOKEN,
@@ -125,8 +124,7 @@ describe('reply message', () => {
         ],
       });
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -134,14 +132,14 @@ describe('reply message', () => {
     it('should call reply api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/reply', {
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.reply(REPLY_TOKEN, [
         {
@@ -150,8 +148,7 @@ describe('reply message', () => {
         },
       ]);
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -159,19 +156,18 @@ describe('reply message', () => {
     it('should call reply api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/reply', {
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.replyText(REPLY_TOKEN, 'Hello!');
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 });
@@ -181,14 +177,14 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushRawBody({
         to: RECIPIENT_ID,
@@ -200,8 +196,7 @@ describe('push message', () => {
         ],
       });
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -209,14 +204,14 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.push(RECIPIENT_ID, [
         {
@@ -225,8 +220,7 @@ describe('push message', () => {
         },
       ]);
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -234,19 +228,18 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushText(RECIPIENT_ID, 'Hello!');
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -254,19 +247,18 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushText(RECIPIENT_ID, 'Hello!');
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -274,7 +266,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -287,7 +279,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushImage(
         RECIPIENT_ID,
@@ -295,8 +287,7 @@ describe('push message', () => {
         'https://example.com/preview.jpg'
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -304,7 +295,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -317,7 +308,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushVideo(
         RECIPIENT_ID,
@@ -325,8 +316,7 @@ describe('push message', () => {
         'https://example.com/preview.jpg'
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -334,7 +324,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -347,7 +337,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushAudio(
         RECIPIENT_ID,
@@ -355,8 +345,7 @@ describe('push message', () => {
         240000
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -364,7 +353,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -379,7 +368,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushLocation(RECIPIENT_ID, {
         title: 'my location',
@@ -388,8 +377,7 @@ describe('push message', () => {
         longitude: 139.70372892916203,
       });
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -397,7 +385,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -410,12 +398,11 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushSticker(RECIPIENT_ID, '1', '1');
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -423,7 +410,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -462,7 +449,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushImagemap(
         RECIPIENT_ID,
@@ -496,8 +483,7 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -505,7 +491,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -540,7 +526,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushTemplate(
         RECIPIENT_ID,
@@ -570,8 +556,7 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -579,7 +564,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -614,7 +599,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushButtonTemplate(
         RECIPIENT_ID,
@@ -643,8 +628,7 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -652,7 +636,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -680,7 +664,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushConfirmTemplate(
         RECIPIENT_ID,
@@ -702,8 +686,7 @@ describe('push message', () => {
         }
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -711,7 +694,7 @@ describe('push message', () => {
     it('should call push api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/push', {
@@ -774,7 +757,7 @@ describe('push message', () => {
             },
           ],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.pushCarouselTemplate(
         RECIPIENT_ID,
@@ -827,8 +810,7 @@ describe('push message', () => {
         ]
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 });
@@ -838,14 +820,14 @@ describe('multicast', () => {
     it('should call multicast api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       mock
         .onPost('/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
         })
-        .reply(200, expected, headers);
+        .reply(200, reply, headers);
 
       const res = await client.multicast(
         [RECIPIENT_ID],
@@ -857,8 +839,7 @@ describe('multicast', () => {
         ]
       );
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 });
@@ -868,16 +849,15 @@ describe('leave', () => {
     it('should call leave api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       const GROUP_ID = 'G123456';
 
-      mock.onPost(`/group/${GROUP_ID}/leave`).reply(200, expected, headers);
+      mock.onPost(`/group/${GROUP_ID}/leave`).reply(200, reply, headers);
 
       const res = await client.leaveGroup(GROUP_ID);
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 
@@ -885,16 +865,15 @@ describe('leave', () => {
     it('should call leave api', async () => {
       const { client, mock } = createMock();
 
-      const expected = {};
+      const reply = {};
 
       const ROOM_ID = 'R123456';
 
-      mock.onPost(`/room/${ROOM_ID}/leave`).reply(200, expected, headers);
+      mock.onPost(`/room/${ROOM_ID}/leave`).reply(200, reply, headers);
 
       const res = await client.leaveRoom(ROOM_ID);
 
-      expect(res.status).toEqual(200);
-      expect(res.data).toEqual(expected);
+      expect(res).toEqual(reply);
     });
   });
 });
