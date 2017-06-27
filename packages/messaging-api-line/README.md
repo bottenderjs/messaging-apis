@@ -23,7 +23,7 @@ import { LINEClient } from 'messaging-api-line';
 const client = LINEClient.connect(accessToken, channelSecret);
 ```
 
-### API
+### Call API
 
 ```js
 await client.pushText(id, text);
@@ -37,9 +37,9 @@ client.pushText(id, text).then(() => {
 });
 ```
 
-## Supported Methods
+## API Reference
 
-All methods return a Promise resolves an API response.
+All methods return a Promise.
 
 ### Reply API
 
