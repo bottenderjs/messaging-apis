@@ -197,6 +197,11 @@ export type PersistentMenu = Array<{
   call_to_actions: Array<MenuItem>,
 }>;
 
+export type GreetingConfig = {
+  locale: string,
+  text: string,
+};
+
 export type MessengerProfile = {
   get_started?: {
     payload: string,

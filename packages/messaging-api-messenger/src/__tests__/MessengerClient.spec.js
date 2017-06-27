@@ -770,6 +770,42 @@ describe('greeting text', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should response success result if input is multi-locale greeting texts', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      mock
+        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          greeting: [
+            {
+              locale: 'default',
+              text: 'Hello!',
+            },
+            {
+              locale: 'zh_TW',
+              text: '哈囉！',
+            },
+          ],
+        })
+        .reply(200, reply);
+
+      const res = await client.setGreetingText([
+        {
+          locale: 'default',
+          text: 'Hello!',
+        },
+        {
+          locale: 'zh_TW',
+          text: '哈囉！',
+        },
+      ]);
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#deleteGreetingText', () => {
