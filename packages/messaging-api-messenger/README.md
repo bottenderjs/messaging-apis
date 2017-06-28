@@ -26,7 +26,9 @@ const client = MessengerClient.connect(accessToken);
 ### Call API
 
 ```js
-await client.sendText(recipientId, text, options);
+async function() {
+  await client.sendText(recipientId, text, options);
+}
 ```
 
 or
