@@ -1,5 +1,9 @@
 # messaging-apis
 
+Messaging APIs is a [mono repo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md) which collects APIs needed for bot development.
+
+It helps you build your bots using similar API for multiple platforms, e.g. Messenger, LINE. Learn once and make writing cross-platform bots easier.
+
 ## Packages
 
 | Package | Version | Platform |
@@ -64,6 +68,11 @@ client.pushText(userId, 'Hello World')
 ```
 
 Check out [full API documentation](./packages/messaging-api-line/README.md) for more detail information.
+
+## Documentation
+
+- [Messenger](./packages/messaging-api-messenger/README.md)
+- [LINE](./packages/messaging-api-line/README.md)
 
 ## License
 

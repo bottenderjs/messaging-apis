@@ -23,7 +23,7 @@ import { MessengerClient } from 'messaging-api-line';
 const client = MessengerClient.connect(accessToken);
 ```
 
-### API
+### Call API
 
 ```js
 await client.sendText(recipientId, text, options);
@@ -37,55 +37,335 @@ client.sendText(recipientId, text, options).then(() => {
 });
 ```
 
-## Supported Methods
+## API Reference
 
-All methods return a Promise resolves an API response.
+All methods return a Promise.
 
 ### User
 
-- `getUserProfile`
+- `getUserProfile(userId)`
+
+```js
+client.getUserProfile('1')
+  .then(user => {
+    console.log(user);
+    // {
+    //   first_name: 'Johnathan',
+    //   last_name: 'Jackson',
+    //   profile_pic: 'https://example.com/pic.png',
+    //   locale: 'en_US',
+    //   timezone: 8,
+    //   gender: 'male',
+    // }
+  });
+```
 
 ### Send API
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)  
 [Content types](https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes)
 
-- `sendRawBody`
-- `send`
-- `sendAttachment`
-- `sendText`
-- `sendIssueResolutionText`
-- `sendAudio`
-- `sendImage`
-- `sendVideo`
-- `sendFile`
-- `sendTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates)
-- `sendButtonTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
-- `sendGenericTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
-- `sendShippingUpdateTemplate`
-- `sendReservationUpdateTemplate`
-- `sendIssueResolutionTemplate`
-- `sendListTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
+- `sendRawBody(body)`
+
+```js
+client.sendRawBody({
+  recipient: {
+    id: '1',
+  },
+  message: {
+    text: 'Hello!',
+  },
+});
+```
+
+- `send(userId)`
+
+```js
+client.send('1', {
+  text: 'Hello!',
+});
+```
+
+- `sendText(userId, text [, options])`
+
+```js
+client.sendText('1', 'Hello!');
+```
+
+- `sendIssueResolutionText(userId, text)`
+
+```js
+client.sendIssueResolutionText('1', 'Hello!');
+```
+
+- `sendAttachment(userId, attachment)`
+
+```js
+client.sendAttachment('1', {
+  type: 'image',
+  payload: {
+    url: 'https://example.com/pic.png',
+  },
+});
+```
+
+- `sendAudio(userId, url)`
+
+```js
+client.sendAudio('1', 'https://example.com/audio.mp3');
+```
+
+- `sendImage(userId, url)`
+
+```js
+client.sendImage('1', 'https://example.com/pic.png');
+```
+
+- `sendVideo(userId, url)`
+
+```js
+client.sendVideo('1', 'https://example.com/video.mp4');
+```
+
+- `sendFile(userId, url)`
+
+```js
+client.sendFile('1', 'https://example.com/word.docx');
+```
+
+- `sendTemplate(userId, template)`
+
+```js
+client.sendTemplate('1', {
+  template_type: 'button',
+  text: 'title',
+  buttons: [
+    {
+      type: 'postback',
+      title: 'Start Chatting',
+      payload: 'USER_DEFINED_PAYLOAD',
+    },
+  ],
+});
+```
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates)
+
+- `sendButtonTemplate(userId, title, buttons)`
+
+```js
+client.sendButtonTemplate('1', 'my_title', [
+  {
+    type: 'postback',
+    title: 'Start Chatting',
+    payload: 'USER_DEFINED_PAYLOAD',
+  },
+]
+```
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
+
+- `sendGenericTemplate(userId, elements)`
+
+```js
+client.sendGenericTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
+
+- `sendShippingUpdateTemplate(userId, elements)`
+
+```js
+client.sendShippingUpdateTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+- `sendReservationUpdateTemplate(userId, elements)`
+
+```js
+client.sendReservationUpdateTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+- `sendIssueResolutionTemplate(userId, elements)`
+
+```js
+client.sendIssueResolutionTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+- `sendListTemplate(userId, items, topElementStyle)`
+
+```js
+client.sendListTemplate('1', [
+    {
+      title: 'Classic T-Shirt Collection',
+      image_url:
+        'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+      subtitle: 'See all our colors',
+      default_action: {
+        type: 'web_url',
+        url: 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+        messenger_extensions: true,
+        webview_height_ratio: 'tall',
+        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+      },
+      buttons: [
+        {
+          title: 'View',
+          type: 'web_url',
+          url: 'https://peterssendreceiveapp.ngrok.io/collection',
+          messenger_extensions: true,
+          webview_height_ratio: 'tall',
+          fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+        },
+      ],
+    },
+  ],
+  [
+    {
+      type: 'postback',
+      title: 'Start Chatting',
+      payload: 'USER_DEFINED_PAYLOAD',
+    },
+  ],
+  'compact'
+);
+```
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
+
 - `sendReceiptTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+
 - `sendAirlineBoardingPassTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
+
 - `sendAirlineCheckinTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
+
 - `sendAirlineItineraryTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
+
 - `sendAirlineFlightUpdateTemplate`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
-- `sendQuickReplies`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
+
+- `sendQuickReplies(userId, message, items)`
+
+```js
+client.sendQuickReplies('1', { text: 'Pick a color:' }, [
+    {
+      content_type: 'text',
+      title: 'Red',
+      payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+    },
+  ]
+);
+```
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
+
 - `sendSenderAction`
-  - [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
-- `turnTypingIndicatorsOn`
-- `turnTypingIndicatorsOff`
+
+```js
+client.sendSenderAction('1', 'typing_on');
+```
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
+
+- `turnTypingIndicatorsOn(userId)`
+
+```js
+client.turnTypingIndicatorsOn('1');
+```
+
+- `turnTypingIndicatorsOff(userId)`
+
+```js
+client.turnTypingIndicatorsOff('1');
+```
 
 ### Upload API
 
@@ -99,9 +379,9 @@ All methods return a Promise resolves an API response.
 
 ### Messenger Platform
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
-
 #### Messenger Profile
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
 
 - `getMessengerProfile`
 - `setMessengerProfile`
