@@ -64,6 +64,229 @@ client.reply('1qwyg56uj', [
 client.reply('1qwyg56uj', 'Hello!');
 ```
 
+- `replyImage(token, imageUrl, previewImageUrl)`
+
+```js
+client.replyImage(
+  '1qwyg56uj',
+  'https://example.com/original.jpg',
+  'https://example.com/preview.jpg'
+);
+```
+
+- `replyVideo(token, vedioUrl, previewImageUrl)`
+
+```js
+client.replyVideo(
+  '1qwyg56uj',
+  'https://example.com/original.mp4',
+  'https://example.com/preview.jpg'
+);
+```
+
+- `replyAudio(token, audioUrl, duration)`
+
+```js
+client.replyAudio('1qwyg56uj', 'https://example.com/original.m4a', 240000);
+```
+
+- `replyLocation(token, location)`
+
+```js
+client.replyLocation('1qwyg56uj', {
+  title: 'my location',
+  address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
+  latitude: 35.65910807942215,
+  longitude: 139.70372892916203,
+});
+```
+
+- `replySticker(token, packageId, stickerId)`
+
+```js
+client.replySticker('1qwyg56uj', '1', '1');
+```
+
+- `replyImagemap(token, altText, imagemap)`
+
+```js
+client.replyImagemap(
+  '1qwyg56uj',
+  'this is an imagemap',
+  {
+    baseUrl: 'https://example.com/bot/images/rm001',
+    baseHeight: 1040,
+    baseWidth: 1040,
+    actions: [
+      {
+        type: 'uri',
+        linkUri: 'https://example.com/',
+        area: {
+          x: 0,
+          y: 0,
+          width: 520,
+          height: 1040,
+        },
+      },
+      {
+        type: 'message',
+        text: 'hello',
+        area: {
+          x: 520,
+          y: 0,
+          width: 520,
+          height: 1040,
+        },
+      },
+    ],
+  }
+);
+```
+
+[Official Docs](https://devdocs.line.me/en/#imagemap-message)
+
+- `replyTemplate(token, altText, template)`
+
+```js
+client.replyTemplate(
+  '1qwyg56uj',
+  'this is a template',
+  {
+    type: 'buttons',
+    thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+    title: 'Menu',
+    text: 'Please select',
+    actions: [
+      {
+        type: 'postback',
+        label: 'Buy',
+        data: 'action=buy&itemid=123',
+      },
+      {
+        type: 'postback',
+        label: 'Add to cart',
+        data: 'action=add&itemid=123',
+      },
+      {
+        type: 'uri',
+        label: 'View detail',
+        uri: 'http://example.com/page/123',
+      },
+    ],
+  }
+);
+```
+
+- `replyButtonTemplate(token, altText, buttonTemplate)`
+
+```js
+client.replyButtonTemplate(
+  '1qwyg56uj',
+  'this is a template',
+  {
+    thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+    title: 'Menu',
+    text: 'Please select',
+    actions: [
+      {
+        type: 'postback',
+        label: 'Buy',
+        data: 'action=buy&itemid=123',
+      },
+      {
+        type: 'postback',
+        label: 'Add to cart',
+        data: 'action=add&itemid=123',
+      },
+      {
+        type: 'uri',
+        label: 'View detail',
+        uri: 'http://example.com/page/123',
+      },
+    ],
+  }
+);
+```
+
+- `replyConfirmTemplate(token, altText, confirmTemplate)`
+
+```js
+client.replyConfirmTemplate(
+  '1qwyg56uj',
+  'this is a confirm template',
+  {
+    text: 'Are you sure?',
+    actions: [
+      {
+        type: 'message',
+        label: 'Yes',
+        text: 'yes',
+      },
+      {
+        type: 'message',
+        label: 'No',
+        text: 'no',
+      },
+    ],
+  }
+);
+```
+
+- `replyCarouselTemplate(token, altText, carouselItems)`
+
+```js
+client.replyCarouselTemplate(
+  '1qwyg56uj',
+  'this is a carousel template',
+  [
+    {
+      thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+      title: 'this is menu',
+      text: 'description',
+      actions: [
+        {
+          type: 'postback',
+          label: 'Buy',
+          data: 'action=buy&itemid=111',
+        },
+        {
+          type: 'postback',
+          label: 'Add to cart',
+          data: 'action=add&itemid=111',
+        },
+        {
+          type: 'uri',
+          label: 'View detail',
+          uri: 'http://example.com/page/111',
+        },
+      ],
+    },
+    {
+      thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+      title: 'this is menu',
+      text: 'description',
+      actions: [
+        {
+          type: 'postback',
+          label: 'Buy',
+          data: 'action=buy&itemid=222',
+        },
+        {
+          type: 'postback',
+          label: 'Add to cart',
+          data: 'action=add&itemid=222',
+        },
+        {
+          type: 'uri',
+          label: 'View detail',
+          uri: 'http://example.com/page/222',
+        },
+      ],
+    },
+  ]
+);
+```
+
 ### Push API
 
 [Official Docs](https://devdocs.line.me/en/#push-message)
@@ -308,15 +531,32 @@ client.pushCarouselTemplate(
 );
 ```
 
+### Multicast API
+
+[Official Docs](https://devdocs.line.me/en/#multicast)
+
+- `multicast(userIds, messages)`
+
+```js
+client.multicast(['1'], [
+  {
+    type: 'text',
+    text: 'Hello!',
+  },
+]);
+```
+
+- `multicastText(userIds, text)`
+
+```js
+client.multicastText(['1'], 'Hello!');
+```
+
 ### Others
 
 - `getUserProfile`
 
 [Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
-
-- `multicast`
-
-[Official Docs](https://devdocs.line.me/en/#multicast)
 
 - `leaveGroup`
 

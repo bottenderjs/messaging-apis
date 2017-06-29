@@ -1,4 +1,4 @@
-# messaging-apis
+# Messaging APIs
 
 Messaging APIs is a [mono repo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md) which collects APIs needed for bot development.
 

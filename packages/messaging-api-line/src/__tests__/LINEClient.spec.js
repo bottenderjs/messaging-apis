@@ -170,6 +170,558 @@ describe('reply message', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#replyImage', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: 'https://example.com/original.jpg',
+              previewImageUrl: 'https://example.com/preview.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyImage(
+        REPLY_TOKEN,
+        'https://example.com/original.jpg',
+        'https://example.com/preview.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyVideo', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'video',
+              originalContentUrl: 'https://example.com/original.mp4',
+              previewImageUrl: 'https://example.com/preview.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyVideo(
+        REPLY_TOKEN,
+        'https://example.com/original.mp4',
+        'https://example.com/preview.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyAudio', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'audio',
+              originalContentUrl: 'https://example.com/original.m4a',
+              duration: 240000,
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyAudio(
+        REPLY_TOKEN,
+        'https://example.com/original.m4a',
+        240000
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyLocation', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'location',
+              title: 'my location',
+              address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
+              latitude: 35.65910807942215,
+              longitude: 139.70372892916203,
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyLocation(REPLY_TOKEN, {
+        title: 'my location',
+        address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
+        latitude: 35.65910807942215,
+        longitude: 139.70372892916203,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replySticker', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'sticker',
+              packageId: '1',
+              stickerId: '1',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replySticker(REPLY_TOKEN, '1', '1');
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyImagemap', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'imagemap',
+              baseUrl: 'https://example.com/bot/images/rm001',
+              altText: 'this is an imagemap',
+              baseSize: {
+                height: 1040,
+                width: 1040,
+              },
+              actions: [
+                {
+                  type: 'uri',
+                  linkUri: 'https://example.com/',
+                  area: {
+                    x: 0,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+                {
+                  type: 'message',
+                  text: 'hello',
+                  area: {
+                    x: 520,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyImagemap(
+        REPLY_TOKEN,
+        'this is an imagemap',
+        {
+          baseUrl: 'https://example.com/bot/images/rm001',
+          baseHeight: 1040,
+          baseWidth: 1040,
+          actions: [
+            {
+              type: 'uri',
+              linkUri: 'https://example.com/',
+              area: {
+                x: 0,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+            {
+              type: 'message',
+              text: 'hello',
+              area: {
+                x: 520,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyTemplate', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a template',
+              template: {
+                type: 'buttons',
+                thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                title: 'Menu',
+                text: 'Please select',
+                actions: [
+                  {
+                    type: 'postback',
+                    label: 'Buy',
+                    data: 'action=buy&itemid=123',
+                  },
+                  {
+                    type: 'postback',
+                    label: 'Add to cart',
+                    data: 'action=add&itemid=123',
+                  },
+                  {
+                    type: 'uri',
+                    label: 'View detail',
+                    uri: 'http://example.com/page/123',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyTemplate(
+        REPLY_TOKEN,
+        'this is a template',
+        {
+          type: 'buttons',
+          thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          title: 'Menu',
+          text: 'Please select',
+          actions: [
+            {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=123',
+            },
+            {
+              type: 'postback',
+              label: 'Add to cart',
+              data: 'action=add&itemid=123',
+            },
+            {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/123',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyButtonTemplate', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a template',
+              template: {
+                type: 'buttons',
+                thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                title: 'Menu',
+                text: 'Please select',
+                actions: [
+                  {
+                    type: 'postback',
+                    label: 'Buy',
+                    data: 'action=buy&itemid=123',
+                  },
+                  {
+                    type: 'postback',
+                    label: 'Add to cart',
+                    data: 'action=add&itemid=123',
+                  },
+                  {
+                    type: 'uri',
+                    label: 'View detail',
+                    uri: 'http://example.com/page/123',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyButtonTemplate(
+        REPLY_TOKEN,
+        'this is a template',
+        {
+          thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          title: 'Menu',
+          text: 'Please select',
+          actions: [
+            {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=123',
+            },
+            {
+              type: 'postback',
+              label: 'Add to cart',
+              data: 'action=add&itemid=123',
+            },
+            {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/123',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyConfirmTemplate', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a confirm template',
+              template: {
+                type: 'confirm',
+                text: 'Are you sure?',
+                actions: [
+                  {
+                    type: 'message',
+                    label: 'Yes',
+                    text: 'yes',
+                  },
+                  {
+                    type: 'message',
+                    label: 'No',
+                    text: 'no',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyConfirmTemplate(
+        REPLY_TOKEN,
+        'this is a confirm template',
+        {
+          text: 'Are you sure?',
+          actions: [
+            {
+              type: 'message',
+              label: 'Yes',
+              text: 'yes',
+            },
+            {
+              type: 'message',
+              label: 'No',
+              text: 'no',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#replyCarouselTemplate', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a carousel template',
+              template: {
+                type: 'carousel',
+                columns: [
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item1.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=111',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=111',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/111',
+                      },
+                    ],
+                  },
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item2.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=222',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=222',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/222',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyCarouselTemplate(
+        REPLY_TOKEN,
+        'this is a carousel template',
+        [
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=111',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=111',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/111',
+              },
+            ],
+          },
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=222',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=222',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/222',
+              },
+            ],
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
 });
 
 describe('push message', () => {
@@ -219,25 +771,6 @@ describe('push message', () => {
           text: 'Hello!',
         },
       ]);
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#pushText', () => {
-    it('should call push api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {};
-
-      mock
-        .onPost('/message/push', {
-          to: RECIPIENT_ID,
-          messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
-
-      const res = await client.pushText(RECIPIENT_ID, 'Hello!');
 
       expect(res).toEqual(reply);
     });
@@ -816,6 +1349,33 @@ describe('push message', () => {
 });
 
 describe('multicast', () => {
+  describe('#multicastRawBody', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [{ type: 'text', text: 'Hello!' }],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastRawBody({
+        to: [RECIPIENT_ID],
+        messages: [
+          {
+            type: 'text',
+            text: 'Hello!',
+          },
+        ],
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#multicast', () => {
     it('should call multicast api', async () => {
       const { client, mock } = createMock();
@@ -835,6 +1395,577 @@ describe('multicast', () => {
           {
             type: 'text',
             text: 'Hello!',
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastText', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [{ type: 'text', text: 'Hello!' }],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastText([RECIPIENT_ID], 'Hello!');
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastImage', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: 'https://example.com/original.jpg',
+              previewImageUrl: 'https://example.com/preview.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastImage(
+        [RECIPIENT_ID],
+        'https://example.com/original.jpg',
+        'https://example.com/preview.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastVideo', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'video',
+              originalContentUrl: 'https://example.com/original.mp4',
+              previewImageUrl: 'https://example.com/preview.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastVideo(
+        [RECIPIENT_ID],
+        'https://example.com/original.mp4',
+        'https://example.com/preview.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastAudio', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'audio',
+              originalContentUrl: 'https://example.com/original.m4a',
+              duration: 240000,
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastAudio(
+        [RECIPIENT_ID],
+        'https://example.com/original.m4a',
+        240000
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastLocation', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'location',
+              title: 'my location',
+              address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
+              latitude: 35.65910807942215,
+              longitude: 139.70372892916203,
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastLocation([RECIPIENT_ID], {
+        title: 'my location',
+        address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
+        latitude: 35.65910807942215,
+        longitude: 139.70372892916203,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastSticker', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'sticker',
+              packageId: '1',
+              stickerId: '1',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastSticker([RECIPIENT_ID], '1', '1');
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastImagemap', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'imagemap',
+              baseUrl: 'https://example.com/bot/images/rm001',
+              altText: 'this is an imagemap',
+              baseSize: {
+                height: 1040,
+                width: 1040,
+              },
+              actions: [
+                {
+                  type: 'uri',
+                  linkUri: 'https://example.com/',
+                  area: {
+                    x: 0,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+                {
+                  type: 'message',
+                  text: 'hello',
+                  area: {
+                    x: 520,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastImagemap(
+        [RECIPIENT_ID],
+        'this is an imagemap',
+        {
+          baseUrl: 'https://example.com/bot/images/rm001',
+          baseHeight: 1040,
+          baseWidth: 1040,
+          actions: [
+            {
+              type: 'uri',
+              linkUri: 'https://example.com/',
+              area: {
+                x: 0,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+            {
+              type: 'message',
+              text: 'hello',
+              area: {
+                x: 520,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastTemplate', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a template',
+              template: {
+                type: 'buttons',
+                thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                title: 'Menu',
+                text: 'Please select',
+                actions: [
+                  {
+                    type: 'postback',
+                    label: 'Buy',
+                    data: 'action=buy&itemid=123',
+                  },
+                  {
+                    type: 'postback',
+                    label: 'Add to cart',
+                    data: 'action=add&itemid=123',
+                  },
+                  {
+                    type: 'uri',
+                    label: 'View detail',
+                    uri: 'http://example.com/page/123',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastTemplate(
+        [RECIPIENT_ID],
+        'this is a template',
+        {
+          type: 'buttons',
+          thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          title: 'Menu',
+          text: 'Please select',
+          actions: [
+            {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=123',
+            },
+            {
+              type: 'postback',
+              label: 'Add to cart',
+              data: 'action=add&itemid=123',
+            },
+            {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/123',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastButtonTemplate', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a template',
+              template: {
+                type: 'buttons',
+                thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                title: 'Menu',
+                text: 'Please select',
+                actions: [
+                  {
+                    type: 'postback',
+                    label: 'Buy',
+                    data: 'action=buy&itemid=123',
+                  },
+                  {
+                    type: 'postback',
+                    label: 'Add to cart',
+                    data: 'action=add&itemid=123',
+                  },
+                  {
+                    type: 'uri',
+                    label: 'View detail',
+                    uri: 'http://example.com/page/123',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastButtonTemplate(
+        [RECIPIENT_ID],
+        'this is a template',
+        {
+          thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          title: 'Menu',
+          text: 'Please select',
+          actions: [
+            {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=123',
+            },
+            {
+              type: 'postback',
+              label: 'Add to cart',
+              data: 'action=add&itemid=123',
+            },
+            {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/123',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastConfirmTemplate', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a confirm template',
+              template: {
+                type: 'confirm',
+                text: 'Are you sure?',
+                actions: [
+                  {
+                    type: 'message',
+                    label: 'Yes',
+                    text: 'yes',
+                  },
+                  {
+                    type: 'message',
+                    label: 'No',
+                    text: 'no',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastConfirmTemplate(
+        [RECIPIENT_ID],
+        'this is a confirm template',
+        {
+          text: 'Are you sure?',
+          actions: [
+            {
+              type: 'message',
+              label: 'Yes',
+              text: 'yes',
+            },
+            {
+              type: 'message',
+              label: 'No',
+              text: 'no',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastCarouselTemplate', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a carousel template',
+              template: {
+                type: 'carousel',
+                columns: [
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item1.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=111',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=111',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/111',
+                      },
+                    ],
+                  },
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item2.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=222',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=222',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/222',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastCarouselTemplate(
+        [RECIPIENT_ID],
+        'this is a carousel template',
+        [
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=111',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=111',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/111',
+              },
+            ],
+          },
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=222',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=222',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/222',
+              },
+            ],
           },
         ]
       );
