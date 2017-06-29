@@ -4,6 +4,10 @@ import crypto from 'crypto';
 import axios from 'axios';
 
 import type {
+  SendType,
+  ReplyToken,
+  UserId,
+  SendTarget,
   User,
   Message,
   Location,
@@ -48,8 +52,188 @@ export default class LINEClient {
    * https://devdocs.line.me/en/#bot-api-get-profile
    * displayName, userId, pictureUrl, statusMessage
    */
-  getUserProfile = (userId: string): Promise<User> =>
+  getUserProfile = (userId: UserId): Promise<User> =>
     this._http.get(`/profile/${userId}`).then(res => res.data);
+
+  _sendText = (type: SendType, target: SendTarget, text: string) =>
+    this[type](target, [{ type: 'text', text }]);
+
+  _sendImage = (
+    type: SendType,
+    target: SendTarget,
+    contentUrl: string,
+    previewUrl: ?string
+  ) =>
+    this[type](target, [
+      {
+        type: 'image',
+        originalContentUrl: contentUrl,
+        previewImageUrl: previewUrl || contentUrl,
+      },
+    ]);
+
+  _sendVideo = (
+    type: SendType,
+    target: SendTarget,
+    contentUrl: string,
+    previewUrl: string
+  ): Promise<MutationSuccessResponse> =>
+    this[type](target, [
+      {
+        type: 'video',
+        originalContentUrl: contentUrl,
+        previewImageUrl: previewUrl,
+      },
+    ]);
+
+  _sendAudio = (
+    type: SendType,
+    target: SendTarget,
+    contentUrl: string,
+    duration: number
+  ): Promise<MutationSuccessResponse> =>
+    this[type](target, [
+      {
+        type: 'audio',
+        originalContentUrl: contentUrl,
+        duration,
+      },
+    ]);
+
+  _sendLocation = (
+    type: SendType,
+    target: SendTarget,
+    { title, address, latitude, longitude }: Location
+  ): Promise<MutationSuccessResponse> =>
+    this[type](target, [
+      {
+        type: 'location',
+        title,
+        address,
+        latitude,
+        longitude,
+      },
+    ]);
+
+  _sendSticker = (
+    type: SendType,
+    target: SendTarget,
+    packageId: string,
+    stickerId: string
+  ): Promise<MutationSuccessResponse> =>
+    this[type](target, [
+      {
+        type: 'sticker',
+        packageId,
+        stickerId,
+      },
+    ]);
+
+  /**
+     * Imagemap Message
+     *
+     * https://devdocs.line.me/en/#imagemap-message
+     */
+  _sendImagemap = (
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    {
+      baseUrl,
+      baseHeight,
+      baseWidth,
+      actions,
+    }: {
+      baseUrl: string,
+      baseHeight: number,
+      baseWidth: number,
+      actions: Array<ImageMapAction>,
+    }
+  ): Promise<MutationSuccessResponse> =>
+    this[type](target, [
+      {
+        type: 'imagemap',
+        baseUrl,
+        altText,
+        baseSize: {
+          height: baseHeight,
+          width: baseWidth,
+        },
+        actions,
+      },
+    ]);
+
+  /**
+     * Template Messages
+     *
+     * https://devdocs.line.me/en/#template-messages
+     */
+  _sendTemplate = (
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    template: Template
+  ): Promise<MutationSuccessResponse> =>
+    this[type](target, [
+      {
+        type: 'template',
+        altText,
+        template,
+      },
+    ]);
+
+  _sendButtonTemplate = (
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    {
+      thumbnailImageUrl,
+      title,
+      text,
+      actions,
+    }: {
+      thumbnailImageUrl?: string,
+      title?: string,
+      text: string,
+      actions: Array<TemplateAction>,
+    }
+  ): Promise<MutationSuccessResponse> =>
+    this._sendTemplate(type, target, altText, {
+      type: 'buttons',
+      thumbnailImageUrl,
+      title,
+      text,
+      actions,
+    });
+
+  _sendConfirmTemplate = (
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    {
+      text,
+      actions,
+    }: {
+      text: string,
+      actions: Array<TemplateAction>,
+    }
+  ): Promise<MutationSuccessResponse> =>
+    this._sendTemplate(type, target, altText, {
+      type: 'confirm',
+      text,
+      actions,
+    });
+
+  _sendCarouselTemplate = (
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    columns: Array<ColumnObject>
+  ): Promise<MutationSuccessResponse> =>
+    this._sendTemplate(type, target, altText, {
+      type: 'carousel',
+      columns,
+    });
 
   /**
    * Reply Message
@@ -57,22 +241,82 @@ export default class LINEClient {
    * https://devdocs.line.me/en/#reply-message
    */
   replyRawBody = (body: {
-    replyToken: string,
+    replyToken: ReplyToken,
     messages: Array<Message>,
   }): Promise<MutationSuccessResponse> =>
     this._http.post('/message/reply', body).then(res => res.data);
 
   reply = (
-    replyToken: string,
+    replyToken: ReplyToken,
     messages: Array<Message>
   ): Promise<MutationSuccessResponse> =>
     this.replyRawBody({ replyToken, messages });
 
   replyText = (
-    replyToken: string,
-    text: string
+    replyToken: ReplyToken,
+    ...args
   ): Promise<MutationSuccessResponse> =>
-    this.reply(replyToken, [{ type: 'text', text }]);
+    this._sendText('reply', replyToken, ...args);
+
+  replyImage = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendImage('reply', replyToken, ...args);
+
+  replyVideo = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendVideo('reply', replyToken, ...args);
+
+  replyAudio = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendAudio('reply', replyToken, ...args);
+
+  replyLocation = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendLocation('reply', replyToken, ...args);
+
+  replySticker = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendSticker('reply', replyToken, ...args);
+
+  replyImagemap = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendImagemap('reply', replyToken, ...args);
+
+  replyTemplate = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendTemplate('reply', replyToken, ...args);
+
+  replyButtonTemplate = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendButtonTemplate('reply', replyToken, ...args);
+
+  replyConfirmTemplate = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendConfirmTemplate('reply', replyToken, ...args);
+
+  replyCarouselTemplate = (
+    replyToken: ReplyToken,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendCarouselTemplate('reply', replyToken, ...args);
 
   /**
    * Push Message
@@ -90,188 +334,130 @@ export default class LINEClient {
     messages: Array<Message>
   ): Promise<MutationSuccessResponse> => this.pushRawBody({ to, messages });
 
-  pushText = (to: string, text: string): Promise<MutationSuccessResponse> =>
-    this.push(to, [{ type: 'text', text }]);
+  pushText = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendText('push', to, ...args);
 
-  pushImage = (
-    to: string,
-    contentUrl: string,
-    previewUrl: ?string
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'image',
-        originalContentUrl: contentUrl,
-        previewImageUrl: previewUrl || contentUrl,
-      },
-    ]);
+  pushImage = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendImage('push', to, ...args);
 
-  pushVideo = (
-    to: string,
-    contentUrl: string,
-    previewUrl: string
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'video',
-        originalContentUrl: contentUrl,
-        previewImageUrl: previewUrl,
-      },
-    ]);
+  pushVideo = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendVideo('push', to, ...args);
 
-  pushAudio = (
-    to: string,
-    contentUrl: string,
-    duration: number
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'audio',
-        originalContentUrl: contentUrl,
-        duration,
-      },
-    ]);
+  pushAudio = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendAudio('push', to, ...args);
 
-  pushLocation = (
-    to: string,
-    { title, address, latitude, longitude }: Location
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'location',
-        title,
-        address,
-        latitude,
-        longitude,
-      },
-    ]);
+  pushLocation = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendLocation('push', to, ...args);
 
-  pushSticker = (
-    to: string,
-    packageId: string,
-    stickerId: string
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'sticker',
-        packageId,
-        stickerId,
-      },
-    ]);
+  pushSticker = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendSticker('push', to, ...args);
 
-  /**
-   * Imagemap Message
-   *
-   * https://devdocs.line.me/en/#imagemap-message
-   */
-  pushImagemap = (
-    to: string,
-    altText: string,
-    {
-      baseUrl,
-      baseHeight,
-      baseWidth,
-      actions,
-    }: {
-      baseUrl: string,
-      baseHeight: number,
-      baseWidth: number,
-      actions: Array<ImageMapAction>,
-    }
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'imagemap',
-        baseUrl,
-        altText,
-        baseSize: {
-          height: baseHeight,
-          width: baseWidth,
-        },
-        actions,
-      },
-    ]);
+  pushImagemap = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendImagemap('push', to, ...args);
 
-  /**
-   * Template Messages
-   *
-   * https://devdocs.line.me/en/#template-messages
-   */
-  pushTemplate = (
-    to: string,
-    altText: string,
-    template: Template
-  ): Promise<MutationSuccessResponse> =>
-    this.push(to, [
-      {
-        type: 'template',
-        altText,
-        template,
-      },
-    ]);
+  pushTemplate = (to: string, ...args): Promise<MutationSuccessResponse> =>
+    this._sendTemplate('push', to, ...args);
 
   pushButtonTemplate = (
     to: string,
-    altText: string,
-    {
-      thumbnailImageUrl,
-      title,
-      text,
-      actions,
-    }: {
-      thumbnailImageUrl?: string,
-      title?: string,
-      text: string,
-      actions: Array<TemplateAction>,
-    }
+    ...args
   ): Promise<MutationSuccessResponse> =>
-    this.pushTemplate(to, altText, {
-      type: 'buttons',
-      thumbnailImageUrl,
-      title,
-      text,
-      actions,
-    });
+    this._sendButtonTemplate('push', to, ...args);
 
   pushConfirmTemplate = (
     to: string,
-    altText: string,
-    {
-      text,
-      actions,
-    }: {
-      text: string,
-      actions: Array<TemplateAction>,
-    }
+    ...args
   ): Promise<MutationSuccessResponse> =>
-    this.pushTemplate(to, altText, {
-      type: 'confirm',
-      text,
-      actions,
-    });
+    this._sendConfirmTemplate('push', to, ...args);
 
   pushCarouselTemplate = (
     to: string,
-    altText: string,
-    columns: Array<ColumnObject>
+    ...args
   ): Promise<MutationSuccessResponse> =>
-    this.pushTemplate(to, altText, {
-      type: 'carousel',
-      columns,
-    });
+    this._sendCarouselTemplate('push', to, ...args);
 
   /**
    * Multicast
    *
    * https://devdocs.line.me/en/#multicast
    */
+  multicastRawBody = (body: {
+    to: Array<UserId>,
+    messages: Array<Message>,
+  }): Promise<MutationSuccessResponse> =>
+    this._http.post('/message/multicast', body).then(res => res.data);
+
   multicast = (
-    to: Array<string>,
+    to: Array<UserId>,
     messages: Array<Message>
   ): Promise<MutationSuccessResponse> =>
-    this._http
-      .post('/message/multicast', { to, messages })
-      .then(res => res.data);
+    this.multicastRawBody({ to, messages });
+
+  multicastText = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendText('multicast', to, ...args);
+
+  multicastImage = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendImage('multicast', to, ...args);
+
+  multicastVideo = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendVideo('multicast', to, ...args);
+
+  multicastAudio = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendAudio('multicast', to, ...args);
+
+  multicastLocation = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendLocation('multicast', to, ...args);
+
+  multicastSticker = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendSticker('multicast', to, ...args);
+
+  multicastImagemap = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendImagemap('multicast', to, ...args);
+
+  multicastTemplate = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendTemplate('multicast', to, ...args);
+
+  multicastButtonTemplate = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendButtonTemplate('multicast', to, ...args);
+
+  multicastConfirmTemplate = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendConfirmTemplate('multicast', to, ...args);
+
+  multicastCarouselTemplate = (
+    to: Array<UserId>,
+    ...args
+  ): Promise<MutationSuccessResponse> =>
+    this._sendCarouselTemplate('multicast', to, ...args);
 
   /**
    * Leave

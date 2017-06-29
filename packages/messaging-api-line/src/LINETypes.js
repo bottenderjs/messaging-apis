@@ -1,5 +1,12 @@
 /* @flow */
 
+export type SendType = 'reply' | 'push' | 'multicast';
+
+export type ReplyToken = string;
+export type UserId = string;
+
+export type SendTarget = ReplyToken | UserId | Array<UserId>;
+
 export type User = {
   displayName: string,
   userId: string,
