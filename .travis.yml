@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "stable"
+  - "7"
+  - "6"
+cache: yarn
+script:
+  - npm run lint
+  - npm run typecheck
+  - npm run testonly -- --coverage
