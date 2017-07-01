@@ -4,6 +4,9 @@ node_js:
   - "7"
   - "6"
 cache: yarn
+install:
+  - yarn
+  - npm run bootstrap
 script:
   - npm run lint
   - npm run typecheck
