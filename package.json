@@ -49,6 +49,7 @@
     "*.js": "eslint --fix"
   },
   "jest": {
+    "coverageDirectory": "./coverage/",
     "transformIgnorePatterns": [
       "/node_modules/"
     ],

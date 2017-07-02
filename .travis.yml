@@ -7,7 +7,8 @@ cache: yarn
 install:
   - yarn
   - npm run bootstrap
+  - yarn global add codecov
 script:
   - npm run lint
   - npm run typecheck
-  - npm run testonly -- --coverage
+  - npm run testonly -- --coverage && codecov
