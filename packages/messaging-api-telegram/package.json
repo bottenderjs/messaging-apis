@@ -1,0 +1,23 @@
+{
+  "name": "messaging-api-telegram",
+  "description": "Messaging API client for Telegram",
+  "version": "0.2.1",
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis",
+    "telegram"
+  ],
+  "dependencies": {
+    "axios": "^0.16.1"
+  }
+}
