@@ -2,6 +2,23 @@
 
 > Messaging API client for Messenger
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  * [User](#user)
+  * [Send API](#send-api)
+  * [Upload API](#upload-api)
+  * [Messenger Profile](#messenger-profile)
+  * [Get Started Button](#get-started-button)
+  * [Persistent Menu](#persistent-menu)
+  * [Greeting Text](#greeting-text)
+  * [Domain Whitelist](#domain-whitelist)
+  * [Account Linking URL](#account-linking-url)
+  * [Payment Settings](#payment-settings)
+  * [Target Audience](#target-audience)
+
 ## Installation
 
 ```sh
@@ -45,7 +62,7 @@ All methods return a Promise.
 
 ### User
 
-- `getUserProfile(userId)`
+#### getUserProfile(userId)
 
 ```js
 client.getUserProfile('1')
@@ -67,7 +84,7 @@ client.getUserProfile('1')
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)  
 [Content types](https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes)
 
-- `sendRawBody(body)`
+#### sendRawBody(body)
 
 ```js
 client.sendRawBody({
@@ -80,7 +97,7 @@ client.sendRawBody({
 });
 ```
 
-- `send(userId)`
+#### send(userId)
 
 ```js
 client.send('1', {
@@ -88,19 +105,19 @@ client.send('1', {
 });
 ```
 
-- `sendText(userId, text [, options])`
+#### sendText(userId, text [, options])
 
 ```js
 client.sendText('1', 'Hello!');
 ```
 
-- `sendIssueResolutionText(userId, text)`
+#### sendIssueResolutionText(userId, text)
 
 ```js
 client.sendIssueResolutionText('1', 'Hello!');
 ```
 
-- `sendAttachment(userId, attachment)`
+#### sendAttachment(userId, attachment)
 
 ```js
 client.sendAttachment('1', {
@@ -111,31 +128,31 @@ client.sendAttachment('1', {
 });
 ```
 
-- `sendAudio(userId, url)`
+#### sendAudio(userId, url)
 
 ```js
 client.sendAudio('1', 'https://example.com/audio.mp3');
 ```
 
-- `sendImage(userId, url)`
+#### sendImage(userId, url)
 
 ```js
 client.sendImage('1', 'https://example.com/pic.png');
 ```
 
-- `sendVideo(userId, url)`
+#### sendVideo(userId, url)
 
 ```js
 client.sendVideo('1', 'https://example.com/video.mp4');
 ```
 
-- `sendFile(userId, url)`
+#### sendFile(userId, url)
 
 ```js
 client.sendFile('1', 'https://example.com/word.docx');
 ```
 
-- `sendTemplate(userId, template)`
+#### sendTemplate(userId, template)
 
 ```js
 client.sendTemplate('1', {
@@ -153,7 +170,7 @@ client.sendTemplate('1', {
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates)
 
-- `sendButtonTemplate(userId, title, buttons)`
+#### sendButtonTemplate(userId, title, buttons)
 
 ```js
 client.sendButtonTemplate('1', 'my_title', [
@@ -167,7 +184,7 @@ client.sendButtonTemplate('1', 'my_title', [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
 
-- `sendGenericTemplate(userId, elements)`
+#### sendGenericTemplate(userId, elements)
 
 ```js
 client.sendGenericTemplate('1', [
@@ -195,7 +212,7 @@ client.sendGenericTemplate('1', [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
-- `sendShippingUpdateTemplate(userId, elements)`
+#### sendShippingUpdateTemplate(userId, elements)
 
 ```js
 client.sendShippingUpdateTemplate('1', [
@@ -221,7 +238,7 @@ client.sendShippingUpdateTemplate('1', [
 ]);
 ```
 
-- `sendReservationUpdateTemplate(userId, elements)`
+#### sendReservationUpdateTemplate(userId, elements)
 
 ```js
 client.sendReservationUpdateTemplate('1', [
@@ -247,7 +264,7 @@ client.sendReservationUpdateTemplate('1', [
 ]);
 ```
 
-- `sendIssueResolutionTemplate(userId, elements)`
+#### sendIssueResolutionTemplate(userId, elements)
 
 ```js
 client.sendIssueResolutionTemplate('1', [
@@ -273,7 +290,7 @@ client.sendIssueResolutionTemplate('1', [
 ]);
 ```
 
-- `sendListTemplate(userId, items, topElementStyle)`
+#### sendListTemplate(userId, items, topElementStyle)
 
 ```js
 client.sendListTemplate('1', [
@@ -314,19 +331,19 @@ client.sendListTemplate('1', [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
 
-- `sendReceiptTemplate`
+#### sendReceiptTemplate
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
 
-- `sendAirlineBoardingPassTemplate`
+#### sendAirlineBoardingPassTemplate
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
 
-- `sendAirlineCheckinTemplate`
+#### sendAirlineCheckinTemplate
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
 
-- `sendAirlineItineraryTemplate`
+#### sendAirlineItineraryTemplate
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
 
@@ -334,7 +351,7 @@ client.sendListTemplate('1', [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
-- `sendQuickReplies(userId, message, items)`
+#### sendQuickReplies(userId, message, items)
 
 ```js
 client.sendQuickReplies('1', { text: 'Pick a color:' }, [
@@ -349,7 +366,7 @@ client.sendQuickReplies('1', { text: 'Pick a color:' }, [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
 
-- `sendSenderAction`
+#### sendSenderAction
 
 ```js
 client.sendSenderAction('1', 'typing_on');
@@ -357,13 +374,13 @@ client.sendSenderAction('1', 'typing_on');
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
 
-- `turnTypingIndicatorsOn(userId)`
+#### turnTypingIndicatorsOn(userId)
 
 ```js
 client.turnTypingIndicatorsOn('1');
 ```
 
-- `turnTypingIndicatorsOff(userId)`
+#### turnTypingIndicatorsOff(userId)
 
 ```js
 client.turnTypingIndicatorsOff('1');
@@ -373,76 +390,74 @@ client.turnTypingIndicatorsOff('1');
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload/v2.8)
 
-- `uploadAttachment`
-- `uploadAudio`
-- `uploadImage`
-- `uploadVideo`
-- `uploadFile`
+#### uploadAttachment
+#### uploadAudio
+#### uploadImage
+#### uploadVideo
+#### uploadFile
 
-### Messenger Platform
-
-#### Messenger Profile
+### Messenger Profile
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
 
-- `getMessengerProfile`
-- `setMessengerProfile`
-- `deleteMessengerProfile`
+#### getMessengerProfile
+#### setMessengerProfile
+#### deleteMessengerProfile
 
-#### Get Started Button
+### Get Started Button
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
 
-- `getGetStartedButton`
-- `setGetStartedButton`
-- `deleteGetStartedButton`
+#### getGetStartedButton
+#### setGetStartedButton
+#### deleteGetStartedButton
 
-#### Persistent Menu
+### Persistent Menu
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu)
 
-- `getPersistentMenu`
-- `setPersistentMenu`
-- `deletePersistentMenu`
+#### getPersistentMenu
+#### setPersistentMenu
+#### deletePersistentMenu
 
-#### Greeting Text
+### Greeting Text
 
 [Officail docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text)
 
-- `getGreetingText`
-- `setGreetingText`
-- `deleteGreetingText`
+#### getGreetingText
+#### setGreetingText
+#### deleteGreetingText
 
-#### Domain Whitelist
+### Domain Whitelist
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
 
-- `getDomainWhitelist`
-- `setDomainWhitelist`
-- `deleteDomainWhitelist`
+#### getDomainWhitelist
+#### setDomainWhitelist
+#### deleteDomainWhitelist
 
-#### Account Linking URL
+### Account Linking URL
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
 
-- `getAccountLinkingURL`
-- `setAccountLinkingURL`
-- `deleteAccountLinkingURL`
+#### getAccountLinkingURL
+#### setAccountLinkingURL
+#### deleteAccountLinkingURL
 
-#### Payment Settings
+### Payment Settings
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
 
-- `getPaymentSettings`
-- `setPaymentPrivacyPolicyURL`
-- `setPaymentPublicKey`
-- `setPaymentTestUsers`
-- `deletePaymentSettings`
+#### getPaymentSettings
+#### setPaymentPrivacyPolicyURL
+#### setPaymentPublicKey
+#### setPaymentTestUsers
+#### deletePaymentSettings
 
-#### Target Audience
+### Target Audience
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
 
-- `getTargetAudience`
-- `setTargetAudience`
-- `deleteTargetAudience`
+#### getTargetAudience
+#### setTargetAudience
+#### deleteTargetAudience
