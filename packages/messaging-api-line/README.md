@@ -2,6 +2,16 @@
 
 > Messaging API client for LINE
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  * [Reply API](#reply-api)
+  * [Rush API](#push-api)
+  * [Multicast API](#multicast-api)
+  * [Others](#others)
+
 ## Installation
 
 ```sh
@@ -47,7 +57,7 @@ All methods return a Promise.
 
 [Official Docs](https://devdocs.line.me/en/#reply-message)
 
-- `reply(token, message)`
+#### reply(token, message)
 
 ```js
 client.reply('1qwyg56uj', [
@@ -58,13 +68,13 @@ client.reply('1qwyg56uj', [
 ]);
 ```
 
-- `replyText(token, text)`
+#### replyText(token, text)
 
 ```js
 client.reply('1qwyg56uj', 'Hello!');
 ```
 
-- `replyImage(token, imageUrl, previewImageUrl)`
+#### replyImage(token, imageUrl, previewImageUrl)
 
 ```js
 client.replyImage(
@@ -74,7 +84,7 @@ client.replyImage(
 );
 ```
 
-- `replyVideo(token, vedioUrl, previewImageUrl)`
+#### replyVideo(token, vedioUrl, previewImageUrl)
 
 ```js
 client.replyVideo(
@@ -84,13 +94,13 @@ client.replyVideo(
 );
 ```
 
-- `replyAudio(token, audioUrl, duration)`
+#### replyAudio(token, audioUrl, duration)
 
 ```js
 client.replyAudio('1qwyg56uj', 'https://example.com/original.m4a', 240000);
 ```
 
-- `replyLocation(token, location)`
+#### replyLocation(token, location)
 
 ```js
 client.replyLocation('1qwyg56uj', {
@@ -101,13 +111,13 @@ client.replyLocation('1qwyg56uj', {
 });
 ```
 
-- `replySticker(token, packageId, stickerId)`
+#### replySticker(token, packageId, stickerId)
 
 ```js
 client.replySticker('1qwyg56uj', '1', '1');
 ```
 
-- `replyImagemap(token, altText, imagemap)`
+#### replyImagemap(token, altText, imagemap)
 
 ```js
 client.replyImagemap(
@@ -145,7 +155,7 @@ client.replyImagemap(
 
 [Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
-- `replyTemplate(token, altText, template)`
+#### replyTemplate(token, altText, template)
 
 ```js
 client.replyTemplate(
@@ -177,7 +187,7 @@ client.replyTemplate(
 );
 ```
 
-- `replyButtonTemplate(token, altText, buttonTemplate)`
+#### replyButtonTemplate(token, altText, buttonTemplate)
 
 ```js
 client.replyButtonTemplate(
@@ -208,7 +218,7 @@ client.replyButtonTemplate(
 );
 ```
 
-- `replyConfirmTemplate(token, altText, confirmTemplate)`
+#### replyConfirmTemplate(token, altText, confirmTemplate)
 
 ```js
 client.replyConfirmTemplate(
@@ -232,7 +242,7 @@ client.replyConfirmTemplate(
 );
 ```
 
-- `replyCarouselTemplate(token, altText, carouselItems)`
+#### replyCarouselTemplate(token, altText, carouselItems)
 
 ```js
 client.replyCarouselTemplate(
@@ -291,7 +301,7 @@ client.replyCarouselTemplate(
 
 [Official Docs](https://devdocs.line.me/en/#push-message)
 
-- `push(userId, messages)`
+#### push(userId, messages)
 
 ```js
 client.push('1', [
@@ -302,13 +312,13 @@ client.push('1', [
 ]);
 ```
 
-- `pushText(userId, text)`
+#### pushText(userId, text)
 
 ```js
 client.pushText('1', 'Hello!');
 ```
 
-- `pushImage(userId, imageUrl, previewImageUrl)`
+#### pushImage(userId, imageUrl, previewImageUrl)
 
 ```js
 client.pushImage(
@@ -318,7 +328,7 @@ client.pushImage(
 );
 ```
 
-- `pushVideo(userId, vedioUrl, previewImageUrl)`
+#### pushVideo(userId, vedioUrl, previewImageUrl)
 
 ```js
 client.pushVideo(
@@ -328,13 +338,13 @@ client.pushVideo(
 );
 ```
 
-- `pushAudio(userId, audioUrl, duration)`
+#### pushAudio(userId, audioUrl, duration)
 
 ```js
 client.pushAudio('1', 'https://example.com/original.m4a', 240000);
 ```
 
-- `pushLocation(userId, location)`
+#### pushLocation(userId, location)
 
 ```js
 client.pushLocation('1', {
@@ -345,13 +355,13 @@ client.pushLocation('1', {
 });
 ```
 
-- `pushSticker(userId, packageId, stickerId)`
+#### pushSticker(userId, packageId, stickerId)
 
 ```js
 client.pushSticker('1', '1', '1');
 ```
 
-- `pushImagemap(userId, altText, imagemap)`
+#### pushImagemap(userId, altText, imagemap)
 
 ```js
 client.pushImagemap(
@@ -389,7 +399,7 @@ client.pushImagemap(
 
 [Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
-- `pushTemplate(userId, altText, template)`
+#### pushTemplate(userId, altText, template)
 
 ```js
 client.pushTemplate(
@@ -421,7 +431,7 @@ client.pushTemplate(
 );
 ```
 
-- `pushButtonTemplate(userId, altText, buttonTemplate)`
+#### pushButtonTemplate(userId, altText, buttonTemplate)
 
 ```js
 client.pushButtonTemplate(
@@ -452,7 +462,7 @@ client.pushButtonTemplate(
 );
 ```
 
-- `pushConfirmTemplate(userId, altText, confirmTemplate)`
+#### pushConfirmTemplate(userId, altText, confirmTemplate)
 
 ```js
 client.pushConfirmTemplate(
@@ -476,7 +486,7 @@ client.pushConfirmTemplate(
 );
 ```
 
-- `pushCarouselTemplate(userId, altText, carouselItems)`
+#### pushCarouselTemplate(userId, altText, carouselItems)
 
 ```js
 client.pushCarouselTemplate(
@@ -535,7 +545,7 @@ client.pushCarouselTemplate(
 
 [Official Docs](https://devdocs.line.me/en/#multicast)
 
-- `multicast(userIds, messages)`
+#### multicast(userIds, messages)
 
 ```js
 client.multicast(['1'], [
@@ -546,7 +556,7 @@ client.multicast(['1'], [
 ]);
 ```
 
-- `multicastText(userIds, text)`
+#### multicastText(userIds, text)
 
 ```js
 client.multicastText(['1'], 'Hello!');
@@ -554,22 +564,22 @@ client.multicastText(['1'], 'Hello!');
 
 ### Others
 
-- `getUserProfile`
+#### getUserProfile
 
 [Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
 
-- `leaveGroup`
+#### leaveGroup
 
 [Official Docs](https://devdocs.line.me/en/#leave)
 
-- `leaveRoom`
+#### leaveRoom
 
 [Official Docs](https://devdocs.line.me/en/#leave)
 
-- `isValidSignature`
+#### isValidSignature
 
 [Official Docs](https://devdocs.line.me/en/#webhooks)
 
-- `retrieveMessageContent`
+#### retrieveMessageContent
 
 [Official Docs](https://devdocs.line.me/en/#content)
