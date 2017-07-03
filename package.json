@@ -54,5 +54,6 @@
       "/node_modules/"
     ],
     "testEnvironment": "node"
-  }
+  },
+  "dependencies": {}
 }

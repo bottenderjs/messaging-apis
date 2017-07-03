@@ -13,6 +13,7 @@ It helps you build your bots using similar API for multiple platforms, e.g. Mess
 |---------|---------|-------------|
 | [`messaging-api-messenger`](/packages/messaging-api-messenger) | [![npm](https://img.shields.io/npm/v/messaging-api-messenger.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-messenger) | [Messenger](https://www.messenger.com/) |
 | [`messaging-api-line`](/packages/messaging-api-line) | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line) | [LINE](https://line.me/) |
+| [`messaging-api-slack`](/packages/messaging-api-slack) | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack) | [Slack](https://slack.com/) |
 
 ## Usage
 
@@ -76,6 +77,7 @@ Check out [full API documentation](./packages/messaging-api-line/README.md) for 
 
 - [Messenger](./packages/messaging-api-messenger/README.md)
 - [LINE](./packages/messaging-api-line/README.md)
+- [Slack](./packages/messaging-api-slack/README.md)
 
 ## License
 
