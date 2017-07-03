@@ -73,6 +73,35 @@ client.pushText(userId, 'Hello World')
 
 Check out [full API documentation](./packages/messaging-api-line/README.md) for more detail information.
 
+### Slack
+
+Install `messaging-api-slack` package from the registry:
+
+```sh
+npm i --save messaging-api-slack
+```
+or
+```sh
+yarn add messaging-api-slack
+```
+
+Then, create a SlackClient to call Slack APIs:
+
+```js
+import { SlackClient } from 'messaging-api-slack';
+
+// get webhook URL by adding a Incoming Webhook integration to your team.
+// https://my.slack.com/services/new/incoming-webhook/
+const client = SlackClient.connect('https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ');
+
+client.sendText('Hello World')
+  .then(() => {
+    console.log('sent');
+  });
+```
+
+Check out [full API documentation](./packages/messaging-api-slack/README.md) for more detail information.
+
 ## Documentation
 
 - [Messenger](./packages/messaging-api-messenger/README.md)
