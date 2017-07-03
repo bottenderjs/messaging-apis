@@ -198,6 +198,32 @@ describe('reply message', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should use contentUrl as fallback', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: 'https://example.com/original.jpg',
+              previewImageUrl: 'https://example.com/original.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyImage(
+        REPLY_TOKEN,
+        'https://example.com/original.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#replyVideo', () => {
@@ -818,6 +844,32 @@ describe('push message', () => {
         RECIPIENT_ID,
         'https://example.com/original.jpg',
         'https://example.com/preview.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should use contentUrl as fallback', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: 'https://example.com/original.jpg',
+              previewImageUrl: 'https://example.com/original.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushImage(
+        RECIPIENT_ID,
+        'https://example.com/original.jpg'
       );
 
       expect(res).toEqual(reply);
@@ -1449,6 +1501,32 @@ describe('multicast', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should use contentUrl as fallback', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: 'https://example.com/original.jpg',
+              previewImageUrl: 'https://example.com/original.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastImage(
+        [RECIPIENT_ID],
+        'https://example.com/original.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#multicastVideo', () => {
@@ -2003,6 +2081,24 @@ describe('leave', () => {
       mock.onPost(`/room/${ROOM_ID}/leave`).reply(200, reply, headers);
 
       const res = await client.leaveRoom(ROOM_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('content', () => {
+  describe('#retrieveMessageContent', () => {
+    it('should call retrieveMessageContent api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = Buffer.from('a content buffer');
+
+      const MESSAGE_ID = '1234567890';
+
+      mock.onGet(`message/${MESSAGE_ID}/content`).reply(200, reply);
+
+      const res = await client.retrieveMessageContent(MESSAGE_ID);
 
       expect(res).toEqual(reply);
     });

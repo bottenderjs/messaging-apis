@@ -534,7 +534,7 @@ export default class MessengerClient {
     );
 
     quickReplies.forEach(quickReply => {
-      if (quickReplies.content_type === 'text') {
+      if (quickReply.content_type === 'text') {
         // title has a 20 character limit, after that it gets truncated
         invariant(
           (quickReply.title: any).trim().length <= 20,
