@@ -1149,6 +1149,30 @@ describe('target audience', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should use default value', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      mock
+        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          target_audience: {
+            audience_type: 'custom',
+            countries: {
+              whitelist: [],
+              blacklist: [],
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.setTargetAudience('custom');
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#deleteTargetAudience', () => {
@@ -1790,6 +1814,103 @@ describe('send api', () => {
           },
         ],
         'compact'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should use topElementStyle default value', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'list',
+                elements: [
+                  {
+                    title: 'Classic T-Shirt Collection',
+                    image_url:
+                      'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+                    subtitle: 'See all our colors',
+                    default_action: {
+                      type: 'web_url',
+                      url:
+                        'https://peterssendreceiveapp.ngrok.io/shop_collection',
+                      messenger_extensions: true,
+                      webview_height_ratio: 'tall',
+                      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+                    },
+                    buttons: [
+                      {
+                        title: 'View',
+                        type: 'web_url',
+                        url: 'https://peterssendreceiveapp.ngrok.io/collection',
+                        messenger_extensions: true,
+                        webview_height_ratio: 'tall',
+                        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+                      },
+                    ],
+                  },
+                ],
+                buttons: [
+                  {
+                    type: 'postback',
+                    title: 'Start Chatting',
+                    payload: 'USER_DEFINED_PAYLOAD',
+                  },
+                ],
+                top_element_style: 'large',
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendListTemplate(
+        RECIPIENT_ID,
+        [
+          {
+            title: 'Classic T-Shirt Collection',
+            image_url:
+              'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+            subtitle: 'See all our colors',
+            default_action: {
+              type: 'web_url',
+              url: 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+              messenger_extensions: true,
+              webview_height_ratio: 'tall',
+              fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+            },
+            buttons: [
+              {
+                title: 'View',
+                type: 'web_url',
+                url: 'https://peterssendreceiveapp.ngrok.io/collection',
+                messenger_extensions: true,
+                webview_height_ratio: 'tall',
+                fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+              },
+            ],
+          },
+        ],
+        [
+          {
+            type: 'postback',
+            title: 'Start Chatting',
+            payload: 'USER_DEFINED_PAYLOAD',
+          },
+        ]
       );
 
       expect(res).toEqual(reply);
@@ -2668,6 +2789,93 @@ describe('send api', () => {
       );
 
       expect(res).toEqual(reply);
+    });
+
+    it('should accept location type', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            text: 'Pick a color:',
+            quick_replies: [
+              {
+                content_type: 'location',
+              },
+            ],
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendQuickReplies(
+        RECIPIENT_ID,
+        { text: 'Pick a color:' },
+        [
+          {
+            content_type: 'location',
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should throw if quickReplies length > 11', async () => {
+      const { client } = createMock();
+
+      const bigQuickReplies = new Array(12).fill({
+        content_type: 'text',
+        title: 'Red',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+      });
+
+      expect(() => {
+        client.sendQuickReplies(
+          RECIPIENT_ID,
+          { text: 'Pick a color:' },
+          bigQuickReplies
+        );
+      }).toThrow('quickReplies is an array and limited to 11');
+    });
+
+    it('should throw if title length > 20', async () => {
+      const { client } = createMock();
+
+      expect(() => {
+        client.sendQuickReplies(RECIPIENT_ID, { text: 'Pick a color:' }, [
+          {
+            content_type: 'text',
+            title: 'RedRedRedRedRedRedRedRed',
+            payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+          },
+        ]);
+      }).toThrow(
+        'title of quickReply has a 20 character limit, after that it gets truncated'
+      );
+    });
+
+    it('should throw if payload length > 1000', async () => {
+      const { client } = createMock();
+
+      const longString = new Array(1001).fill('x').join('');
+
+      expect(() => {
+        client.sendQuickReplies(RECIPIENT_ID, { text: 'Pick a color:' }, [
+          {
+            content_type: 'text',
+            title: 'Red',
+            payload: longString,
+          },
+        ]);
+      }).toThrow('payload of quickReply has a 1000 character limit');
     });
   });
 
