@@ -16,26 +16,7 @@ yarn add messaging-api-slack
 
 ### Initialize
 
-There are two options to use messaging-api-slack:
-
-1. [Web API](https://api.slack.com/methods/chat.postMessage)
-
-Using OAuth token to authenticate.
-
-```js
-import { SlackClient } from 'messaging-api-slack';
-
-// get accessToken from Slack OAuth or "Your Apps".
-// https://api.slack.com/apps
-const client = SlackClient.connect({
-  channel: '#general' // which the token has "chat:write:bot" access to
-  accessToken: 'this-is-a-token',
-});
-```
-
-2. [Incoming Webhooks](https://api.slack.com/incoming-webhooks)
-
-Using URL to authenticate
+Get your webhook url by adding a [Incoming Webhooks](https://api.slack.com/incoming-webhooks) integreation to your team or setup Incoming Webhooks function to your app.
 
 ```js
 import { SlackClient } from 'messaging-api-slack';
@@ -53,14 +34,66 @@ All methods return a Promise.
 
 [Official docs](https://api.slack.com/docs/messages) 
 
-- `sendRawBody(body)`
+#### `sendRawBody(body)`
 
 ```js
 client.sendRawBody({ text: 'Hello!' });
 ```
 
-- `sendText(text)`
+#### `sendText(text)`
 
 ```js
 client.sendText('Hello!');
+```
+
+#### `sendAttachments(attachments)`
+
+[Official docs](https://api.slack.com/docs/message-attachments)
+
+```js
+client.sendAttachments([
+  {
+    fallback: 'some text',
+    pretext: 'some pretext',
+    color: 'good',
+    fields: [
+      {
+        title: 'aaa',
+        value: 'bbb',
+        short: false,
+      },
+    ],
+  },
+  {
+    fallback: 'some other text',
+    pretext: 'some pther pretext',
+    color: '#FF0000',
+    fields: [
+      {
+        title: 'ccc',
+        value: 'ddd',
+        short: false,
+      },
+    ],
+  }
+]);
+```
+
+#### `sendAttachment(attachment)`
+
+[Official docs](https://api.slack.com/docs/message-attachments)
+
+```js
+client.sendAttachment({
+  fallback: 'some text',
+  pretext: 'some pretext',
+  color: 'good',
+  fields: [
+    {
+      title: 'aaa',
+      value: 'bbb',
+      short: false,
+    },
+  ],
+});
 ```

@@ -1172,7 +1172,7 @@ describe('target audience', () => {
   });
 });
 
-describe('sned api', () => {
+describe('send api', () => {
   describe('#sendRawBody', () => {
     it('should call messages api', async () => {
       const { client, mock } = createMock();
