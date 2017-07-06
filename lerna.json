@@ -1,7 +1,14 @@
 {
   "lerna": "2.0.0-rc.5",
+  "version": "0.2.1",
   "packages": [
     "packages/*"
   ],
-  "version": "independent"
+  "commands": {
+    "publish": {
+      "ignore": [
+        "__tests__/**"
+      ]
+    }
+  }
 }
