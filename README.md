@@ -111,6 +111,10 @@ Check out [full API documentation](./packages/messaging-api-slack/README.md) for
 - [LINE](./packages/messaging-api-line/README.md)
 - [Slack](./packages/messaging-api-slack/README.md)
 
+## Change Log
+
+Every release, along with the migration instructions, is documented on the [CHANGELOG.md](./CHANGELOG.md) file.
+
 ## License
 
 MIT © [Yoctol](https://github.com/Yoctol/messaging-apis)
