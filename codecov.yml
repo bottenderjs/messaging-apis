@@ -3,3 +3,5 @@ coverage:
     project:
       default:
         target: "95%"
+    patch:
+      enabled: false
