@@ -52,6 +52,11 @@ export type TemplateElement = {
   buttons: Array<TemplateButton>,
 };
 
+export type OpenGraphElement = {
+  url: string,
+  buttons?: Array<TemplateButton>,
+};
+
 export type Address = {
   street_1: string,
   street_2?: ?string,

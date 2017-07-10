@@ -1917,6 +1917,61 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendOpenGraphTemplate', () => {
+    it('should call messages api with open graph template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'open_graph',
+                elements: [
+                  {
+                    url:
+                      'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb',
+                    buttons: [
+                      {
+                        type: 'web_url',
+                        url: 'https://en.wikipedia.org/wiki/Rickrolling',
+                        title: 'View More',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendOpenGraphTemplate(RECIPIENT_ID, [
+        {
+          url: 'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb',
+          buttons: [
+            {
+              type: 'web_url',
+              url: 'https://en.wikipedia.org/wiki/Rickrolling',
+              title: 'View More',
+            },
+          ],
+        },
+      ]);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendReceiptTemplate', () => {
     it('should call messages api with receipt template', async () => {
       const { client, mock } = createMock();
