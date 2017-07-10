@@ -353,6 +353,6 @@ export default class LINEClient {
    */
   retrieveMessageContent = (messageId: string): Promise<Buffer> =>
     this._http
-      .get(`message/${messageId}/content`, { responseType: 'arraybuffer' })
+      .get(`/message/${messageId}/content`, { responseType: 'arraybuffer' })
       .then(res => Buffer.from(res.data));
 }
