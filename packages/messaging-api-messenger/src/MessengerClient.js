@@ -14,6 +14,7 @@ import type {
   QuickReply,
   SenderAction,
   User,
+  OpenGraphElement,
   ReceiptAttributes,
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
@@ -465,6 +466,16 @@ export default class MessengerClient {
       elements,
       buttons,
       top_element_style: topElementStyle,
+    });
+
+  // https://developers.facebook.com/docs/messenger-platform/open-graph-template
+  sendOpenGraphTemplate = (
+    recipientId: string,
+    elements: Array<OpenGraphElement>
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTemplate(recipientId, {
+      template_type: 'open_graph',
+      elements,
     });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template
