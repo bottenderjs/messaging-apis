@@ -8,7 +8,7 @@
 - [Usage](#usage)
 - [API Reference](#api-reference)
   * [Reply API](#reply-api)
-  * [Rush API](#push-api)
+  * [Push API](#push-api)
   * [Multicast API](#multicast-api)
   * [Others](#others)
 
