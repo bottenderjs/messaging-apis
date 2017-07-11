@@ -11,11 +11,11 @@
 ## Installation
 
 ```sh
-npm i --save messaging-api-slack
+npm i --save messaging-api-telegram
 ```
 or
 ```sh
-yarn add messaging-api-slack
+yarn add messaging-api-telegram
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ yarn add messaging-api-slack
 import { TelegramClient } from 'messaging-api-telegram';
 
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-const client = SlackClient.connect('12345678:AaBbCcDdwhatever');
+const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
 ```
 
 ## API Reference
