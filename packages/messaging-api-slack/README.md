@@ -2,6 +2,12 @@
 
 > Messaging API client for Slack
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+
 ## Installation
 
 ```sh
@@ -32,21 +38,21 @@ All methods return a Promise.
 
 ### Send API
 
-[Official docs](https://api.slack.com/docs/messages) 
+[Official docs](https://api.slack.com/docs/messages)
 
-#### `sendRawBody(body)`
+#### sendRawBody(body)
 
 ```js
 client.sendRawBody({ text: 'Hello!' });
 ```
 
-#### `sendText(text)`
+#### sendText(text)
 
 ```js
 client.sendText('Hello!');
 ```
 
-#### `sendAttachments(attachments)`
+#### sendAttachments(attachments)
 
 [Official docs](https://api.slack.com/docs/message-attachments)
 
@@ -79,7 +85,7 @@ client.sendAttachments([
 ]);
 ```
 
-#### `sendAttachment(attachment)`
+#### sendAttachment(attachment)
 
 [Official docs](https://api.slack.com/docs/message-attachments)
 
