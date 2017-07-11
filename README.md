@@ -36,7 +36,7 @@ yarn add messaging-api-messenger
 Then, create a `MessengerClient` to call Messenger APIs:
 
 ```js
-import { MessengerClient } from 'messaging-api-line';
+import { MessengerClient } from 'messaging-api-messenger';
 
 // get accessToken from facebook developers website
 const client = MessengerClient.connect(accessToken);
