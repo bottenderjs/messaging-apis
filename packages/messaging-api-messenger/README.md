@@ -34,7 +34,7 @@ yarn add messaging-api-messenger
 ### Initialize
 
 ```js
-import { MessengerClient } from 'messaging-api-line';
+import { MessengerClient } from 'messaging-api-messenger';
 
 // get accessToken from facebook developers website
 const client = MessengerClient.connect(accessToken);
