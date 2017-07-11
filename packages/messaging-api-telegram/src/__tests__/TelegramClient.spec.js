@@ -174,9 +174,19 @@ describe('send api', () => {
         },
       };
 
-      mock.onPost('/sendMessage').reply(200, reply);
+      mock
+        .onPost('/sendMessage', {
+          chat_id: 427770117,
+          text: 'hi',
+          disable_web_page_preview: true,
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
-      const res = await client.sendMessage(427770117, 'hi');
+      const res = await client.sendMessage(427770117, 'hi', {
+        disable_web_page_preview: true,
+        disable_notification: true,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -224,14 +234,26 @@ describe('send api', () => {
               height: 333,
             },
           ],
+          caption: 'gooooooodPhoto',
         },
       };
 
-      mock.onPost('/sendPhoto').reply(200, reply);
+      mock
+        .onPost('/sendPhoto', {
+          chat_id: 427770117,
+          photo: 'https://example.com/image.png',
+          caption: 'gooooooodPhoto',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
       const res = await client.sendPhoto(
         427770117,
-        'https://example.com/image.png'
+        'https://example.com/image.png',
+        {
+          caption: 'gooooooodPhoto',
+          disable_notification: true,
+        }
       );
 
       expect(res).toEqual(reply);
@@ -265,14 +287,26 @@ describe('send api', () => {
             file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
             file_size: 1739320,
           },
+          caption: 'gooooooodAudio',
         },
       };
 
-      mock.onPost('/sendAudio').reply(200, reply);
+      mock
+        .onPost('/sendAudio', {
+          chat_id: 427770117,
+          audio: 'https://example.com/audio.mp3',
+          caption: 'gooooooodAudio',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
       const res = await client.sendAudio(
         427770117,
-        'https://example.com/audio.mp3'
+        'https://example.com/audio.mp3',
+        {
+          caption: 'gooooooodAudio',
+          disable_notification: true,
+        }
       );
 
       expect(res).toEqual(reply);
@@ -310,14 +344,26 @@ describe('send api', () => {
             file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
             file_size: 21301,
           },
+          caption: 'gooooooodDocument',
         },
       };
 
-      mock.onPost('/sendDocument').reply(200, reply);
+      mock
+        .onPost('/sendDocument', {
+          chat_id: 427770117,
+          document: 'https://example.com/doc.gif',
+          caption: 'gooooooodDocument',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
       const res = await client.sendDocument(
         427770117,
-        'https://example.com/doc.gif'
+        'https://example.com/doc.gif',
+        {
+          caption: 'gooooooodDocument',
+          disable_notification: true,
+        }
       );
 
       expect(res).toEqual(reply);
@@ -359,11 +405,20 @@ describe('send api', () => {
         },
       };
 
-      mock.onPost('/sendSticker').reply(200, reply);
+      mock
+        .onPost('/sendSticker', {
+          chat_id: 427770117,
+          sticker: 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
       const res = await client.sendSticker(
         427770117,
-        'CAADAgADQAADyIsGAAE7MpzFPFQX5QI'
+        'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
+        {
+          disable_notification: true,
+        }
       );
 
       expect(res).toEqual(reply);
@@ -401,14 +456,26 @@ describe('send api', () => {
             file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
             file_size: 40582,
           },
+          caption: 'gooooooodVideo',
         },
       };
 
-      mock.onPost('/sendVideo').reply(200, reply);
+      mock
+        .onPost('/sendVideo', {
+          chat_id: 427770117,
+          video: 'https://example.com/video.mp4',
+          caption: 'gooooooodVideo',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
       const res = await client.sendVideo(
         427770117,
-        'https://example.com/video.mp4'
+        'https://example.com/video.mp4',
+        {
+          caption: 'gooooooodVideo',
+          disable_notification: true,
+        }
       );
 
       expect(res).toEqual(reply);
@@ -440,14 +507,26 @@ describe('send api', () => {
             file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
             file_size: 10870,
           },
+          caption: 'gooooooodVoice',
         },
       };
 
-      mock.onPost('/sendVoice').reply(200, reply);
+      mock
+        .onPost('/sendVoice', {
+          chat_id: 427770117,
+          voice: 'https://example.com/voice.ogg',
+          caption: 'gooooooodVoice',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
       const res = await client.sendVoice(
         427770117,
-        'https://example.com/voice.ogg'
+        'https://example.com/voice.ogg',
+        {
+          caption: 'gooooooodVoice',
+          disable_notification: true,
+        }
       );
 
       expect(res).toEqual(reply);
@@ -480,12 +559,25 @@ describe('send api', () => {
         },
       };
 
-      mock.onPost('/sendLocation').reply(200, reply);
+      mock
+        .onPost('/sendLocation', {
+          chat_id: 427770117,
+          latitude: 30,
+          longitude: 45,
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
-      const res = await client.sendLocation(427770117, {
-        latitude: 30,
-        longitude: 45,
-      });
+      const res = await client.sendLocation(
+        427770117,
+        {
+          latitude: 30,
+          longitude: 45,
+        },
+        {
+          disable_notification: true,
+        }
+      );
 
       expect(res).toEqual(reply);
     });
@@ -525,14 +617,29 @@ describe('send api', () => {
         },
       };
 
-      mock.onPost('/sendVenue').reply(200, reply);
+      mock
+        .onPost('/sendVenue', {
+          chat_id: 427770117,
+          latitude: 30,
+          longitude: 45,
+          title: 'a_title',
+          address: 'an_address',
+          disable_notification: true,
+        })
+        .reply(200, reply);
 
-      const res = await client.sendVenue(427770117, {
-        latitude: 30,
-        longitude: 45,
-        title: 'a_title',
-        address: 'an_address',
-      });
+      const res = await client.sendVenue(
+        427770117,
+        {
+          latitude: 30,
+          longitude: 45,
+          title: 'a_title',
+          address: 'an_address',
+        },
+        {
+          disable_notification: true,
+        }
+      );
 
       expect(res).toEqual(reply);
     });
@@ -564,12 +671,23 @@ describe('send api', () => {
         },
       };
 
-      mock.onPost('/sendContact').reply(200, reply);
+      mock
+        .onPost('/sendContact', {
+          chat_id: 427770117,
+          phone_number: '886123456789',
+          first_name: 'first',
+          last_name: 'last',
+        })
+        .reply(200, reply);
 
-      const res = await client.sendContact(427770117, {
-        phoneNumber: '886123456789',
-        firstName: 'first',
-      });
+      const res = await client.sendContact(
+        427770117,
+        {
+          phoneNumber: '886123456789',
+          firstName: 'first',
+        },
+        { last_name: 'last' }
+      );
 
       expect(res).toEqual(reply);
     });
