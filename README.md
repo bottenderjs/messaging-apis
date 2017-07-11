@@ -8,7 +8,7 @@ Messaging APIs is a [mono repo](https://github.com/babel/babel/blob/master/doc/d
 
 It helps you build your bots using similar API for multiple platforms, e.g. Messenger, LINE. Learn once and make writing cross-platform bots easier.
 
-![](https://user-images.githubusercontent.com/3382565/27859958-28434372-61ad-11e7-872c-d569319e2c2d.png)
+![](https://user-images.githubusercontent.com/2382594/28054681-7c61882a-6648-11e7-8148-ce969230900e.png)
 
 ## Packages
 
