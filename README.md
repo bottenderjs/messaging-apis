@@ -17,6 +17,7 @@ It helps you build your bots using similar API for multiple platforms, e.g. Mess
 | [`messaging-api-messenger`](/packages/messaging-api-messenger) | [![npm](https://img.shields.io/npm/v/messaging-api-messenger.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-messenger) | [Messenger](https://www.messenger.com/) |
 | [`messaging-api-line`](/packages/messaging-api-line) | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line) | [LINE](https://line.me/) |
 | [`messaging-api-slack`](/packages/messaging-api-slack) | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack) | [Slack](https://slack.com/) |
+| [`messaging-api-telegram`](/packages/messaging-api-telegram) | [![npm](https://img.shields.io/npm/v/messaging-api-telegram.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-telegram) | [Telegram](https://telegram.org/) |
 
 ## Usage
 
@@ -32,7 +33,7 @@ or
 yarn add messaging-api-messenger
 ```
 
-Then, create a MessengerClient to call Messenger APIs:
+Then, create a `MessengerClient` to call Messenger APIs:
 
 ```js
 import { MessengerClient } from 'messaging-api-line';
@@ -60,7 +61,7 @@ or
 yarn add messaging-api-line
 ```
 
-Then, create a LINEClient to call LINE APIs:
+Then, create a `LINEClient` to call LINE APIs:
 
 ```js
 import { LINEClient } from 'messaging-api-line';
@@ -88,7 +89,7 @@ or
 yarn add messaging-api-slack
 ```
 
-Then, create a SlackClient to call Slack APIs:
+Then, create a `SlackClient` to call Slack APIs:
 
 ```js
 import { SlackClient } from 'messaging-api-slack';
@@ -105,11 +106,40 @@ client.sendText('Hello World')
 
 Check out [full API documentation](./packages/messaging-api-slack/README.md) for more detail information.
 
+### Telegram
+
+Install `messaging-api-telegram` package from the registry:
+
+```sh
+npm i --save messaging-api-telegram
+```
+or
+```sh
+yarn add messaging-api-telegram
+```
+
+Then, create a `TelegramClient` to call Telegram APIs:
+
+```js
+import { TelegramClient } from 'messaging-api-telegram';
+
+// get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
+const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
+
+client.sendMessage(chatId, 'Hello World')
+  .then(() => {
+    console.log('sent');
+  });
+```
+
+Check out [full API documentation](./packages/messaging-api-telegram/README.md) for more detail information.
+
 ## Documentation
 
 - [Messenger](./packages/messaging-api-messenger/README.md)
 - [LINE](./packages/messaging-api-line/README.md)
 - [Slack](./packages/messaging-api-slack/README.md)
+- [Telegram](./packages/messaging-api-telegram/README.md)
 
 ## Change Log
 
