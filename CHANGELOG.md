@@ -1,3 +1,14 @@
+0.2.2 / 2017-07-11
+==================
+- [deps] Update `lerna` to `v2.0.0`.
+
+#### messaging-api-messenger
+- [new] Support send open graph template with `MessengerClient.sendOpenGraphTemplate`.
+
+#### messaging-api-telegram
+- [new] First release.
+
+
 0.2.1 / 2017-07-06
 ==================
 - [new] Add `engines` in `package.json` [#38](https://github.com/Yoctol/messaging-apis/pull/38).
