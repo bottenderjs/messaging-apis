@@ -534,7 +534,7 @@ describe('send api', () => {
   });
 
   describe('#sendLocation', () => {
-    it('should send sticker message to user', async () => {
+    it('should send location message to user', async () => {
       const { client, mock } = createMock();
       const reply = {
         ok: true,
@@ -584,7 +584,7 @@ describe('send api', () => {
   });
 
   describe('#sendVenue', () => {
-    it('should send sticker message to user', async () => {
+    it('should send venue message to user', async () => {
       const { client, mock } = createMock();
       const reply = {
         ok: true,
@@ -646,7 +646,7 @@ describe('send api', () => {
   });
 
   describe('#sendContact', () => {
-    it('should send sticker message to user', async () => {
+    it('should send contact message to user', async () => {
       const { client, mock } = createMock();
       const reply = {
         ok: true,

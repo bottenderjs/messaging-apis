@@ -97,7 +97,7 @@ client.sendRawBody({
 });
 ```
 
-#### send(userId)
+#### send(userId, message)
 
 ```js
 client.send('1', {
