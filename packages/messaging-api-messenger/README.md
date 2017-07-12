@@ -347,7 +347,7 @@ client.sendListTemplate('1', [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
 
-- `sendAirlineFlightUpdateTemplate`
+#### sendAirlineFlightUpdateTemplate
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
