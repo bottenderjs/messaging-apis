@@ -130,23 +130,231 @@ describe('webhooks', () => {
   });
 });
 
-describe('#getMe', () => {
-  it('should response bot profile', async () => {
-    const { client, mock } = createMock();
-    const reply = {
-      ok: true,
-      result: {
-        id: 313534466,
-        first_name: 'first',
-        username: 'a_bot',
-      },
-    };
+describe('get api', () => {
+  describe('#getMe', () => {
+    it('should response bot profile', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+      };
 
-    mock.onPost('/getMe').reply(200, reply);
+      mock.onPost('/getMe').reply(200, reply);
 
-    const res = await client.getMe();
+      const res = await client.getMe();
 
-    expect(res).toEqual(reply);
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getUserProfilePhotos', () => {
+    it('should response a list of profile pictures for the user', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          total_count: 3,
+          photos: [
+            [
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+                file_size: 14650,
+                width: 160,
+                height: 160,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+                file_size: 39019,
+                width: 320,
+                height: 320,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+                file_size: 132470,
+                width: 640,
+                height: 640,
+              },
+            ],
+            [
+              {
+                file_id:
+                  'AgABXQSPEUo4Gz8cZAeR-ouu7XBx93EeqRkABHahi76pN-aO0UoDO203',
+                file_size: 14220,
+                width: 160,
+                height: 160,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAT90',
+                file_size: 35122,
+                width: 320,
+                height: 320,
+              },
+              {
+                file_id:
+                  'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+                file_size: 106356,
+                width: 640,
+                height: 640,
+              },
+            ],
+          ],
+        },
+      };
+
+      mock
+        .onPost('/getUserProfilePhotos', {
+          user_id: 313534466,
+          limit: 2,
+        })
+        .reply(200, reply);
+
+      const res = await client.getUserProfilePhotos(313534466, {
+        limit: 2,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getFile', () => {
+    it('should response info about the file', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+          file_size: 106356,
+          file_path: 'photos/1068230105874016297.jpg',
+        },
+      };
+
+      mock
+        .onPost('/getFile', {
+          file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+        })
+        .reply(200, reply);
+
+      const res = await client.getFile(
+        'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getChat', () => {
+    it('should response information about the chat', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          id: 313534466,
+          first_name: 'first',
+          last_name: 'last',
+          username: 'username',
+          type: 'private',
+        },
+      };
+
+      mock
+        .onPost('/getChat', {
+          chat_id: 313534466,
+        })
+        .reply(200, reply);
+
+      const res = await client.getChat(313534466);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getChatAdministrators', () => {
+    it('should response a list of administrators in the chat.', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: [
+          {
+            user: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              languange_code: 'zh-TW',
+            },
+            status: 'creator',
+          },
+        ],
+      };
+
+      mock
+        .onPost('/getChatAdministrators', {
+          chat_id: -427770117,
+        })
+        .reply(200, reply);
+
+      const res = await client.getChatAdministrators(-427770117);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getChatMembersCount', () => {
+    it('should response the number of members in the chat.', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: '6',
+      };
+
+      mock
+        .onPost('/getChatMembersCount', {
+          chat_id: -427770117,
+        })
+        .reply(200, reply);
+
+      const res = await client.getChatMembersCount(-427770117);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getChatMember', () => {
+    it('should response information about a member of the chat.', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          user: {
+            id: 313534466,
+            first_name: 'first',
+            last_name: 'last',
+            username: 'username',
+            languange_code: 'zh-TW',
+          },
+          status: 'creator',
+        },
+      };
+
+      mock
+        .onPost('/getChatMember', {
+          chat_id: -427770117,
+          user_id: 313534466,
+        })
+        .reply(200, reply);
+
+      const res = await client.getChatMember(-427770117, 313534466);
+
+      expect(res).toEqual(reply);
+    });
   });
 });
 
@@ -688,6 +896,211 @@ describe('send api', () => {
         },
         { last_name: 'last' }
       );
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('updating api', () => {
+  describe('#editMessageText', () => {
+    it('should change message text', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          text: 'new_text',
+        },
+      };
+
+      mock
+        .onPost('/editMessageText', {
+          text: 'new_text',
+          message_id: 66,
+          disable_web_page_preview: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageText('new_text', {
+        message_id: 66,
+        disable_web_page_preview: true,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#editMessageCaption', () => {
+    it('should change message caption', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499403678,
+          audio: {
+            duration: 108,
+            mime_type: 'audio/mpeg',
+            title: 'Song_Title',
+            performer: 'Song_Performer',
+            file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+            file_size: 1739320,
+          },
+          caption: 'new_caption',
+        },
+      };
+
+      mock
+        .onPost('/editMessageCaption', {
+          caption: 'new_caption',
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageCaption('new_caption', {
+        message_id: 66,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#editMessageReplyMarkup', () => {
+    it('should change message reply_markup', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          text: 'hi',
+        },
+      };
+
+      mock
+        .onPost('/editMessageReplyMarkup', {
+          reply_markup: {
+            keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+          },
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageReplyMarkup(
+        {
+          keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
+          resize_keyboard: true,
+          one_time_keyboard: true,
+        },
+        { message_id: 66 }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteMessage', () => {
+    it('should delete message', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/deleteMessage', {
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.deleteMessage(427770117, 66);
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('other api', () => {
+  describe('#forwardMessage', () => {
+    it('should forward messages of any kind', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 1,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          forward_from: {
+            id: 357830311,
+            first_name: 'first_2',
+            last_name: 'last_2',
+            language_code: 'zh-TW',
+          },
+          forward_date: 1499849644,
+          text: 'hi',
+        },
+      };
+
+      mock
+        .onPost('/forwardMessage', {
+          chat_id: 427770117,
+          from_chat_id: 313534466,
+          message_id: 203,
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.forwardMessage(427770117, 313534466, 203, {
+        disable_notification: true,
+      });
 
       expect(res).toEqual(reply);
     });

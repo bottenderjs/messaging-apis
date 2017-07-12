@@ -56,6 +56,56 @@ export default class TelegramClient {
   getMe = () => this._request('/getMe');
 
   /**
+   * https://core.telegram.org/bots/api#getuserprofilephotos
+   */
+  getUserProfilePhotos = (userId: string, options?: Object) =>
+    this._request('/getUserProfilePhotos', {
+      user_id: userId,
+      ...options,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getfile
+   */
+  getFile = (fileId: string) =>
+    this._request('/getFile', {
+      file_id: fileId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchat
+   */
+  getChat = (chatId: string) =>
+    this._request('/getChat', {
+      chat_id: chatId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatAdministrators = (chatId: string) =>
+    this._request('/getChatAdministrators', {
+      chat_id: chatId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatMembersCount = (chatId: string) =>
+    this._request('/getChatMembersCount', {
+      chat_id: chatId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatMember = (chatId: string, userId: string) =>
+    this._request('/getChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+    });
+
+  /**
    * https://core.telegram.org/bots/api#sendmessage
    */
   sendMessage = (chatId: string, text: string, options?: Object) =>
@@ -193,5 +243,57 @@ export default class TelegramClient {
     this._request('/sendChatAction', {
       chat_id: chatId,
       action,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#editmessagetext
+    */
+  editMessageText = (text: string, options?: Object) =>
+    this._request('/editMessageText', {
+      text,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#editmessagecaption
+    */
+  editMessageCaption = (caption: string, options?: Object) =>
+    this._request('/editMessageCaption', {
+      caption,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#editmessagereplymarkup
+    */
+  editMessageReplyMarkup = (replyMarkup: Object, options?: Object) =>
+    this._request('/editMessageReplyMarkup', {
+      reply_markup: replyMarkup,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#deletemessage
+    */
+  deleteMessage = (chatId: string, messageId: string) =>
+    this._request('/deleteMessage', {
+      chat_id: chatId,
+      message_id: messageId,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#getchatmemberscount
+    */
+  forwardMessage = (
+    chatId: string,
+    fromChatId: string,
+    messageId: string,
+    options?: Object
+  ) =>
+    this._request('/forwardMessage', {
+      chat_id: chatId,
+      from_chat_id: fromChatId,
+      message_id: messageId,
+      ...options,
     });
 }

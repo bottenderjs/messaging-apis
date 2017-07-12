@@ -9,6 +9,8 @@
 - [API Reference](#api-reference)
   * [Webhook API](#webhook-api)
   * [Send API](#send-api)
+  * [Get API](#get-api)
+  * [Updating API](#updating-api)
   * [Others](#others)
 
 ## Installation
@@ -220,7 +222,7 @@ client.sendChatAction(427770117, 'typing');
 
 [Official docs](https://core.telegram.org/bots/api/#sendchataction)
 
-### Others
+### Get API
 
 #### getMe
 
@@ -240,3 +242,110 @@ client.getMe()
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getme)
+
+#### getUserProfilePhotos(userId, options)
+
+```js
+client.getUserProfilePhotos(
+  313534466,
+  { limit: 2 }
+);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
+
+#### getFile(fileId)
+
+```js
+client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getfile)
+
+#### getChat(chatId)
+
+```js
+client.getChat(427770117);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchat)
+
+#### getChatAdministrators(chatId)
+
+```js
+client.getChatAdministrators(427770117);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchatadministrators)
+
+#### getChatMembersCount(chatId)
+
+```js
+client.getChatMembersCount(427770117);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchatmemberscount)
+
+#### getChatMember(chatId, userId)
+
+```js
+client.getChatMember(427770117, 313534466);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchatmember)
+
+### updating API
+
+#### editMessageText(text, options)
+
+```js
+client.editMessageText('new_text', { message_id: 66 });
+```
+
+[Official docs](https://core.telegram.org/bots/api/#editmessagetext)
+
+#### editMessageCaption(caption, options)
+
+```js
+client.editMessageCaption('new_caption', { message_id: 66 });
+```
+
+[Official docs](https://core.telegram.org/bots/api/#editmessagecaption)
+
+#### editMessageReplyMarkup(replyMarkup, options)
+
+```js
+client.editMessageReplyMarkup(
+  {
+    keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
+    resize_keyboard: true,
+    one_time_keyboard: true,
+  },
+  { message_id: 66 }
+);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
+
+#### deleteMessage(chatId, messageId)
+
+```js
+client.deleteMessage(427770117, 66);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#deletemessage)
+
+### Others
+
+#### forwardMessage(chatId, fromChatId, messageId, options)
+
+```js
+client.forwardMessage(
+  427770117,
+  313534466,
+  203,
+  { disable_notification: true }
+);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#forwardmessage)
