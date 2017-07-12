@@ -58,7 +58,8 @@ client.deleteWebhook();
 
 ### Send API
 
-[Official docs](https://core.telegram.org/bots/api#available-methods)
+[Official docs](https://core.telegram.org/bots/api#available-methods)  
+[Content type](https://core.telegram.org/bots/api/#available-types)
 
 #### sendMessage(chatId, text, options)
 
@@ -68,6 +69,8 @@ client.sendMessage(427770117, 'hi', {
   disable_notification: true,
 });
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendmessage)
 
 #### sendPhoto(chatId, photo, options)
 
@@ -82,6 +85,8 @@ client.sendPhoto(
 );
 ```
 
+[Official docs](https://core.telegram.org/bots/api/#sendphoto)
+
 #### sendAudio(chatId, audio, options)
 
 ```js
@@ -94,6 +99,8 @@ client.sendAudio(
   }
 );
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendaudio)
 
 #### sendDocument(chatId, document, options)
 
@@ -108,6 +115,8 @@ client.sendDocument(
 );
 ```
 
+[Official docs](https://core.telegram.org/bots/api/#senddocument)
+
 #### sendSticker(chatId, sticker, options)
 
 ```js
@@ -119,6 +128,8 @@ client.sendSticker(
   }
 );
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendsticker)
 
 #### sendVideo(chatId, video, options)
 
@@ -133,6 +144,8 @@ client.sendVideo(
 );
 ```
 
+[Official docs](https://core.telegram.org/bots/api/#sendvideo)
+
 #### sendVoice(chatId, voice, options)
 
 ```js
@@ -145,6 +158,8 @@ client.sendVoice(
   }
 );
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendvoice)
 
 #### sendLocation(chatId, location, options)
 
@@ -160,6 +175,8 @@ client.sendLocation(
   }
 );
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendlocation)
 
 #### sendVenue(chatId, venue, options)
 
@@ -178,6 +195,8 @@ client.sendVenue(
 );
 ```
 
+[Official docs](https://core.telegram.org/bots/api/#sendvenue)
+
 #### sendContact(chatId, contact, options)
 
 ```js
@@ -191,11 +210,15 @@ client.sendContact(
 );
 ```
 
+[Official docs](https://core.telegram.org/bots/api/#sendcontact)
+
 #### sendChatAction(chatId, action)
 
 ```js
 client.sendChatAction(427770117, 'typing');
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendchataction)
 
 ### Others
 
@@ -215,3 +238,5 @@ client.getMe()
   // }
 });
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#getme)
