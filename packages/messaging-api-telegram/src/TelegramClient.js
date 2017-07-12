@@ -246,8 +246,44 @@ export default class TelegramClient {
     });
 
   /**
+    * https://core.telegram.org/bots/api#editmessagetext
+    */
+  editMessageText = (text: string, options?: Object) =>
+    this._request('/editMessageText', {
+      text,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#editmessagecaption
+    */
+  editMessageCaption = (caption: string, options?: Object) =>
+    this._request('/editMessageCaption', {
+      caption,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#editmessagereplymarkup
+    */
+  editMessageReplyMarkup = (replyMarkup: Object, options?: Object) =>
+    this._request('/editMessageReplyMarkup', {
+      reply_markup: replyMarkup,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#deletemessage
+    */
+  deleteMessage = (chatId: string, messageId: string) =>
+    this._request('/deleteMessage', {
+      chat_id: chatId,
+      message_id: messageId,
+    });
+
+  /**
     * https://core.telegram.org/bots/api#getchatmemberscount
-  */
+    */
   forwardMessage = (
     chatId: string,
     fromChatId: string,

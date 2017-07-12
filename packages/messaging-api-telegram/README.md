@@ -9,7 +9,8 @@
 - [API Reference](#api-reference)
   * [Webhook API](#webhook-api)
   * [Send API](#send-api)
-  * [GET API](#get-api)
+  * [Get API](#get-api)
+  * [Updating API](#updating-api)
   * [Others](#others)
 
 ## Installation
@@ -292,6 +293,47 @@ client.getChatMember(427770117, 313534466);
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getchatmember)
+
+### updating API
+
+#### editMessageText(text, options)
+
+```js
+client.editMessageText('new_text', { message_id: 66 });
+```
+
+[Official docs](https://core.telegram.org/bots/api/#editmessagetext)
+
+#### editMessageCaption(caption, options)
+
+```js
+client.editMessageCaption('new_caption', { message_id: 66 });
+```
+
+[Official docs](https://core.telegram.org/bots/api/#editmessagecaption)
+
+#### editMessageReplyMarkup(replyMarkup, options)
+
+```js
+client.editMessageReplyMarkup(
+  {
+    keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
+    resize_keyboard: true,
+    one_time_keyboard: true,
+  },
+  { message_id: 66 }
+);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
+
+#### deleteMessage(chatId, messageId)
+
+```js
+client.deleteMessage(427770117, 66);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#deletemessage)
 
 ### Others
 
