@@ -215,12 +215,10 @@ client.sendContact(
 #### sendChatAction(chatId, action)
 
 ```js
-client.sendChatAction(427770117, 'typing');
+client.sendChsatAction(427770117, 'typing');
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendchataction)
-
-### Others
+### Get API
 
 #### getMe
 

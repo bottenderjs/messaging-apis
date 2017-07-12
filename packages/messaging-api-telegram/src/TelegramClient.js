@@ -56,6 +56,56 @@ export default class TelegramClient {
   getMe = () => this._request('/getMe');
 
   /**
+   * https://core.telegram.org/bots/api#getuserprofilephotos
+   */
+  getUserProfilePhotos = (userId: string, options?: Object) =>
+    this._request('/getUserProfilePhotos', {
+      user_id: userId,
+      ...options,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getfile
+   */
+  getFile = (fileId: string) =>
+    this._request('/getFile', {
+      file_id: fileId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchat
+   */
+  getChat = (chatId: string) =>
+    this._request('/getChat', {
+      chat_id: chatId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatAdministrators = (chatId: string) =>
+    this._request('/getChatAdministrators', {
+      chat_id: chatId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatMembersCount = (chatId: string) =>
+    this._request('/getChatMembersCount', {
+      chat_id: chatId,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatMember = (chatId: string, userId: string) =>
+    this._request('/getChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+    });
+
+  /**
    * https://core.telegram.org/bots/api#sendmessage
    */
   sendMessage = (chatId: string, text: string, options?: Object) =>
