@@ -244,4 +244,20 @@ export default class TelegramClient {
       chat_id: chatId,
       action,
     });
+
+  /**
+    * https://core.telegram.org/bots/api#getchatmemberscount
+  */
+  forwardMessage = (
+    chatId: string,
+    fromChatId: string,
+    messageId: string,
+    options?: Object
+  ) =>
+    this._request('/forwardMessage', {
+      chat_id: chatId,
+      from_chat_id: fromChatId,
+      message_id: messageId,
+      ...options,
+    });
 }

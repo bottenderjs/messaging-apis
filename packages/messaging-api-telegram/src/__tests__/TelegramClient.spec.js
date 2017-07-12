@@ -901,3 +901,45 @@ describe('send api', () => {
     });
   });
 });
+
+describe('other api', () => {
+  describe('#forwardMessage', () => {
+    it('should forward messages of any kind', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 1,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          text: 'hi',
+        },
+      };
+
+      mock
+        .onPost('/forwardMessage', {
+          chat_id: 427770117,
+          from_chat_id: 313534466,
+          message_id: 203,
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.forwardMessage(427770117, 313534466, 203, {
+        disable_notification: true,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+});

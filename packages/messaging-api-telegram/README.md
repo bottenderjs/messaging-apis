@@ -9,6 +9,7 @@
 - [API Reference](#api-reference)
   * [Webhook API](#webhook-api)
   * [Send API](#send-api)
+  * [GET API](#get-api)
   * [Others](#others)
 
 ## Installation
@@ -215,8 +216,10 @@ client.sendContact(
 #### sendChatAction(chatId, action)
 
 ```js
-client.sendChsatAction(427770117, 'typing');
+client.sendChatAction(427770117, 'typing');
 ```
+
+[Official docs](https://core.telegram.org/bots/api/#sendchataction)
 
 ### Get API
 
@@ -238,3 +241,69 @@ client.getMe()
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getme)
+
+#### getUserProfilePhotos(userId, options)
+
+```js
+client.getUserProfilePhotos(
+  313534466,
+  { limit: 2 }
+);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
+
+#### getFile(fileId)
+
+```js
+client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getfile)
+
+#### getChat(chatId)
+
+```js
+client.getChat(427770117);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchat)
+
+#### getChatAdministrators(chatId)
+
+```js
+client.getChatAdministrators(427770117);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchatadministrators)
+
+#### getChatMembersCount(chatId)
+
+```js
+client.getChatMembersCount(427770117);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchatmemberscount)
+
+#### getChatMember(chatId, userId)
+
+```js
+client.getChatMember(427770117, 313534466);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#getchatmember)
+
+### Others
+
+#### forwardMessage(chatId, fromChatId, messageId, options)
+
+```js
+client.forwardMessage(
+  427770117,
+  313534466,
+  203,
+  { disable_notification: true }
+);
+```
+
+[Official docs](https://core.telegram.org/bots/api/#forwardmessage)
