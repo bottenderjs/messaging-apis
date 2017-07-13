@@ -1,3 +1,22 @@
+0.2.3 / 2017-07-13
+==================
+#### messaging-api-telegram
+- [new] Add optional parameters to telegram api [#47](https://github.com/Yoctol/messaging-apis/pull/47).
+- [new] Implement get methods
+  + `getUserProfilePhotos`
+  + `getFile`
+  + `getChat`
+  + `getChatAdministrators`
+  + `getChatMembersCount`
+  + `getChatMember`
+- [new] Implement updating methods
+  + `editMessageText`
+  + `editMessageCaption`
+  + `editMessageReplyMarkup`
+  + `deleteMessage`
+- [new] `forwardMessage` method
+
+
 0.2.2 / 2017-07-11
 ==================
 - [deps] Update `lerna` to `v2.0.0`.
