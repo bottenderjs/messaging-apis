@@ -42,35 +42,6 @@ export default class LINEClient {
         'Content-Type': 'application/json',
       },
     });
-
-    const sendTypes = ['reply', 'push', 'multicast'];
-
-    const messageTypes = [
-      'Text',
-      'Image',
-      'Video',
-      'Audio',
-      'Location',
-      'Sticker',
-      'Imagemap',
-      'Template',
-      'ButtonTemplate',
-      'ConfirmTemplate',
-      'CarouselTemplate',
-    ];
-
-    sendTypes.forEach(sendType => {
-      messageTypes.forEach(messageType => {
-        Object.defineProperty(this, `${sendType}${messageType}`, {
-          enumerable: false,
-          configurable: true,
-          writable: true,
-          value(target: SendTarget, ...args) {
-            return this[`_send${messageType}`](sendType, target, ...args);
-          },
-        });
-      });
-    });
   }
 
   getHTTPClient: () => Axios = () => this._http;
@@ -356,3 +327,32 @@ export default class LINEClient {
       .get(`/message/${messageId}/content`, { responseType: 'arraybuffer' })
       .then(res => Buffer.from(res.data));
 }
+
+const sendTypes = ['reply', 'push', 'multicast'];
+
+const messageTypes = [
+  'Text',
+  'Image',
+  'Video',
+  'Audio',
+  'Location',
+  'Sticker',
+  'Imagemap',
+  'Template',
+  'ButtonTemplate',
+  'ConfirmTemplate',
+  'CarouselTemplate',
+];
+
+sendTypes.forEach(sendType => {
+  messageTypes.forEach(messageType => {
+    Object.defineProperty(LINEClient.prototype, `${sendType}${messageType}`, {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value(target: SendTarget, ...args) {
+        return this[`_send${messageType}`](sendType, target, ...args);
+      },
+    });
+  });
+});
