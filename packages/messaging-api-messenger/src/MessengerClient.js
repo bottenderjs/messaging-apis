@@ -282,6 +282,38 @@ export default class MessengerClient {
     this.deleteMessengerProfile(['target_audience']);
 
   /**
+   * Chat Extension Home URL
+   *
+   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url
+   */
+  getChatExtensionHomeURL = (): Promise<MessengerProfileResponse> =>
+    this.getMessengerProfile(['home_url']).then(res => res[0]);
+
+  setChatExtensionHomeURL = (
+    url: string,
+    {
+      webview_height_ratio,
+      webview_share_button,
+      in_test,
+    }: {
+      webview_height_ratio: string,
+      webview_share_button?: string,
+      in_test: boolean,
+    }
+  ): Promise<MutationSuccessResponse> =>
+    this.setMessengerProfile({
+      home_url: {
+        url,
+        webview_height_ratio,
+        in_test,
+        webview_share_button,
+      },
+    });
+
+  deleteChatExtensionHomeURL = (): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['home_url']);
+
+  /**
    * Send API
    *
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference

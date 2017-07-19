@@ -461,3 +461,11 @@ client.turnTypingIndicatorsOff('1');
 #### getTargetAudience
 #### setTargetAudience
 #### deleteTargetAudience
+
+### Chat Extension Home URL
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
+
+#### getChatExtensionHomeURL
+#### setChatExtensionHomeURL
+#### deleteChatExtensionHomeURL

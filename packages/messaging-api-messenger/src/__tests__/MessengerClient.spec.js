@@ -1196,6 +1196,88 @@ describe('target audience', () => {
   });
 });
 
+describe('chat extension home URL', () => {
+  describe('#getChatExtensionHomeURL', () => {
+    it('should response data of target audience', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            url: 'http://petershats.com/send-a-hat',
+            webview_height_ratio: 'tall',
+            in_test: true,
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getChatExtensionHomeURL();
+
+      expect(res).toEqual({
+        url: 'http://petershats.com/send-a-hat',
+        webview_height_ratio: 'tall',
+        in_test: true,
+      });
+    });
+  });
+
+  describe('#setChatExtensionHomeURL', () => {
+    it('should response success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      mock
+        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          home_url: {
+            url: 'http://petershats.com/send-a-hat',
+            webview_height_ratio: 'tall',
+            in_test: true,
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.setChatExtensionHomeURL(
+        'http://petershats.com/send-a-hat',
+        {
+          webview_height_ratio: 'tall',
+          in_test: true,
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteChatExtensionHomeURL', () => {
+    it('should response success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      mock
+        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          fields: ['home_url'],
+        })
+        .reply(200, reply);
+
+      const res = await client.deleteChatExtensionHomeURL();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
 describe('send api', () => {
   describe('#sendRawBody', () => {
     it('should call messages api', async () => {
