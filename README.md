@@ -41,10 +41,9 @@ import { MessengerClient } from 'messaging-api-messenger';
 // get accessToken from facebook developers website
 const client = MessengerClient.connect(accessToken);
 
-client.sendText(userId, 'Hello World')
-  .then(() => {
-    console.log('sent');
-  });
+client.sendText(userId, 'Hello World').then(() => {
+  console.log('sent');
+});
 ```
 
 Check out [full API documentation](./packages/messaging-api-messenger/README.md) for more detail information.
@@ -69,10 +68,9 @@ import { LINEClient } from 'messaging-api-line';
 // get accessToken and channelSecret from LINE developers website
 const client = LINEClient.connect(accessToken, channelSecret);
 
-client.pushText(userId, 'Hello World')
-  .then(() => {
-    console.log('pushed');
-  });
+client.pushText(userId, 'Hello World').then(() => {
+  console.log('pushed');
+});
 ```
 
 Check out [full API documentation](./packages/messaging-api-line/README.md) for more detail information.
@@ -96,12 +94,13 @@ import { SlackClient } from 'messaging-api-slack';
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/
-const client = SlackClient.connect('https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ');
+const client = SlackClient.connect(
+  'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ'
+);
 
-client.sendText('Hello World')
-  .then(() => {
-    console.log('sent');
-  });
+client.sendText('Hello World').then(() => {
+  console.log('sent');
+});
 ```
 
 Check out [full API documentation](./packages/messaging-api-slack/README.md) for more detail information.
@@ -126,10 +125,9 @@ import { TelegramClient } from 'messaging-api-telegram';
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
 const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
 
-client.sendMessage(chatId, 'Hello World')
-  .then(() => {
-    console.log('sent');
-  });
+client.sendMessage(chatId, 'Hello World').then(() => {
+  console.log('sent');
+});
 ```
 
 Check out [full API documentation](./packages/messaging-api-telegram/README.md) for more detail information.

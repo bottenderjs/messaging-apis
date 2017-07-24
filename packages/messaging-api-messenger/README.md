@@ -43,7 +43,7 @@ const client = MessengerClient.connect(accessToken);
 ### Call API
 
 ```js
-async function() {
+async function fn() {
   await client.sendText(recipientId, text, options);
 }
 ```
@@ -65,18 +65,17 @@ All methods return a Promise.
 #### getUserProfile(userId)
 
 ```js
-client.getUserProfile('1')
-  .then(user => {
-    console.log(user);
-    // {
-    //   first_name: 'Johnathan',
-    //   last_name: 'Jackson',
-    //   profile_pic: 'https://example.com/pic.png',
-    //   locale: 'en_US',
-    //   timezone: 8,
-    //   gender: 'male',
-    // }
-  });
+client.getUserProfile('1').then(user => {
+  console.log(user);
+  // {
+  //   first_name: 'Johnathan',
+  //   last_name: 'Jackson',
+  //   profile_pic: 'https://example.com/pic.png',
+  //   locale: 'en_US',
+  //   timezone: 8,
+  //   gender: 'male',
+  // }
+});
 ```
 
 ### Send API
@@ -179,7 +178,7 @@ client.sendButtonTemplate('1', 'my_title', [
     title: 'Start Chatting',
     payload: 'USER_DEFINED_PAYLOAD',
   },
-]
+]);
 ```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
@@ -293,11 +292,12 @@ client.sendIssueResolutionTemplate('1', [
 #### sendListTemplate(userId, items, topElementStyle)
 
 ```js
-client.sendListTemplate('1', [
+client.sendListTemplate(
+  '1',
+  [
     {
       title: 'Classic T-Shirt Collection',
-      image_url:
-        'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+      image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
       subtitle: 'See all our colors',
       default_action: {
         type: 'web_url',
@@ -355,13 +355,12 @@ client.sendListTemplate('1', [
 
 ```js
 client.sendQuickReplies('1', { text: 'Pick a color:' }, [
-    {
-      content_type: 'text',
-      title: 'Red',
-      payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-    },
-  ]
-);
+  {
+    content_type: 'text',
+    title: 'Red',
+    payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+  },
+]);
 ```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
