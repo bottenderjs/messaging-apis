@@ -43,7 +43,7 @@ All methods return a Promise.
 #### getWebhookInfo
 
 ```js
-client.getWebhookInfo()
+client.getWebhookInfo();
 ```
 
 #### setWebhook(url)
@@ -77,14 +77,10 @@ client.sendMessage(427770117, 'hi', {
 #### sendPhoto(chatId, photo, options)
 
 ```js
-client.sendPhoto(
-  427770117,
-  'https://example.com/image.png',
-  {
-    caption: 'gooooooodPhoto',
-    disable_notification: true,
-  }
-);
+client.sendPhoto(427770117, 'https://example.com/image.png', {
+  caption: 'gooooooodPhoto',
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#sendphoto)
@@ -92,14 +88,10 @@ client.sendPhoto(
 #### sendAudio(chatId, audio, options)
 
 ```js
-client.sendAudio(
-  427770117,
-  'https://example.com/audio.mp3',
-  {
-    caption: 'gooooooodAudio',
-    disable_notification: true,
-  }
-);
+client.sendAudio(427770117, 'https://example.com/audio.mp3', {
+  caption: 'gooooooodAudio',
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#sendaudio)
@@ -107,14 +99,10 @@ client.sendAudio(
 #### sendDocument(chatId, document, options)
 
 ```js
-client.sendDocument(
-  427770117,
-  'https://example.com/doc.gif',
-  {
-    caption: 'gooooooodDocument',
-    disable_notification: true,
-  }
-);
+client.sendDocument(427770117, 'https://example.com/doc.gif', {
+  caption: 'gooooooodDocument',
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#senddocument)
@@ -122,13 +110,9 @@ client.sendDocument(
 #### sendSticker(chatId, sticker, options)
 
 ```js
-client.sendSticker(
-  427770117,
-  'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
-  {
-    disable_notification: true,
-  }
-);
+client.sendSticker(427770117, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#sendsticker)
@@ -136,14 +120,10 @@ client.sendSticker(
 #### sendVideo(chatId, video, options)
 
 ```js
-client.sendVideo(
-  427770117,
-  'https://example.com/video.mp4',
-  {
-    caption: 'gooooooodVideo',
-    disable_notification: true,
-  }
-);
+client.sendVideo(427770117, 'https://example.com/video.mp4', {
+  caption: 'gooooooodVideo',
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#sendvideo)
@@ -151,14 +131,10 @@ client.sendVideo(
 #### sendVoice(chatId, voice, options)
 
 ```js
-client.sendVoice(
-  427770117,
-  'https://example.com/voice.ogg',
-  {
-    caption: 'gooooooodVoice',
-    disable_notification: true,
-  }
-);
+client.sendVoice(427770117, 'https://example.com/voice.ogg', {
+  caption: 'gooooooodVoice',
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#sendvoice)
@@ -227,8 +203,7 @@ client.sendChatAction(427770117, 'typing');
 #### getMe
 
 ```js
-client.getMe()
-.then(result => {
+client.getMe().then(result => {
   console.log(result);
   // {
   //   ok: true,
@@ -246,10 +221,7 @@ client.getMe()
 #### getUserProfilePhotos(userId, options)
 
 ```js
-client.getUserProfilePhotos(
-  313534466,
-  { limit: 2 }
-);
+client.getUserProfilePhotos(313534466, { limit: 2 });
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
@@ -340,12 +312,9 @@ client.deleteMessage(427770117, 66);
 #### forwardMessage(chatId, fromChatId, messageId, options)
 
 ```js
-client.forwardMessage(
-  427770117,
-  313534466,
-  203,
-  { disable_notification: true }
-);
+client.forwardMessage(427770117, 313534466, 203, {
+  disable_notification: true,
+});
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#forwardmessage)
