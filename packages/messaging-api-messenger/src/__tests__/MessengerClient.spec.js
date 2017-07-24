@@ -1278,6 +1278,108 @@ describe('chat extension home URL', () => {
   });
 });
 
+describe('message tags', () => {
+  describe('#getMessageTags', () => {
+    it('should response data of message tags', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            tag: 'SHIPPING_UPDATE',
+            description:
+              'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+          {
+            tag: 'RESERVATION_UPDATE',
+            description:
+              'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+          {
+            tag: 'ISSUE_RESOLUTION',
+            description:
+              'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
+          },
+          {
+            tag: 'APPOINTMENT_UPDATE',
+            description:
+              'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+          {
+            tag: 'GAME_EVENT',
+            description:
+              'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+          {
+            tag: 'TRANSPORTATION_UPDATE',
+            description:
+              'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+          {
+            tag: 'FEATURE_FUNCTIONALITY_UPDATE',
+            description:
+              'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+          {
+            tag: 'TICKET_UPDATE',
+            description:
+              'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+          },
+        ],
+      };
+
+      mock
+        .onGet(`/page_message_tags?access_token=${ACCESS_TOKEN}`)
+        .reply(200, reply);
+
+      const res = await client.getMessageTags();
+
+      expect(res).toEqual([
+        {
+          tag: 'SHIPPING_UPDATE',
+          description:
+            'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+        {
+          tag: 'RESERVATION_UPDATE',
+          description:
+            'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+        {
+          tag: 'ISSUE_RESOLUTION',
+          description:
+            'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
+        },
+        {
+          tag: 'APPOINTMENT_UPDATE',
+          description:
+            'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+        {
+          tag: 'GAME_EVENT',
+          description:
+            'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+        {
+          tag: 'TRANSPORTATION_UPDATE',
+          description:
+            'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+        {
+          tag: 'FEATURE_FUNCTIONALITY_UPDATE',
+          description:
+            'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+        {
+          tag: 'TICKET_UPDATE',
+          description:
+            'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+        },
+      ]);
+    });
+  });
+});
+
 describe('send api', () => {
   describe('#sendRawBody', () => {
     it('should call messages api', async () => {
@@ -1712,6 +1814,35 @@ describe('send api', () => {
       const res = await client.sendGenericTemplate(
         RECIPIENT_ID,
         templateElements
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendTaggedTemplate', () => {
+    it('should call messages api with tagged generic template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: templateMessage,
+          tag: 'SHIPPING_UPDATE',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendTaggedTemplate(
+        RECIPIENT_ID,
+        templateElements,
+        'SHIPPING_UPDATE'
       );
 
       expect(res).toEqual(reply);

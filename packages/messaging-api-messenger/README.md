@@ -212,6 +212,34 @@ client.sendGenericTemplate('1', [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
+#### sendTaggedTemplate(userId, elements, tag)
+
+```js
+client.sendTaggedTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+], 'GAME_EVENT');
+```
+
+[Official docs for message tags](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
+
 #### sendShippingUpdateTemplate(userId, elements)
 
 ```js
@@ -469,3 +497,9 @@ client.turnTypingIndicatorsOff('1');
 #### getChatExtensionHomeURL
 #### setChatExtensionHomeURL
 #### deleteChatExtensionHomeURL
+
+### Message Tags
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
+
+#### getMessageTags
