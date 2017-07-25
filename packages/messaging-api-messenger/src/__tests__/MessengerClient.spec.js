@@ -1906,7 +1906,7 @@ describe('send api', () => {
   });
 
   describe('#sendIssueResolutionTemplate', () => {
-    it('should call messages api with issue reservation generic template', async () => {
+    it('should call messages api with issue resolution generic template', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1925,6 +1925,146 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendIssueResolutionTemplate(
+        RECIPIENT_ID,
+        templateElements
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendAppointmentUpdateTemplate', () => {
+    it('should call messages api with appointment update template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: templateMessage,
+          tag: 'APPOINTMENT_UPDATE',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendAppointmentUpdateTemplate(
+        RECIPIENT_ID,
+        templateElements
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendGameEventTemplate', () => {
+    it('should call messages api with game event generic template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: templateMessage,
+          tag: 'GAME_EVENT',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendGameEventTemplate(
+        RECIPIENT_ID,
+        templateElements
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendTransportationUpdateTemplate', () => {
+    it('should call messages api with transportation update generic template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: templateMessage,
+          tag: 'TRANSPORTATION_UPDATE',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendTransportationUpdateTemplate(
+        RECIPIENT_ID,
+        templateElements
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendFeatureFunctionalityUpdateTemplate', () => {
+    it('should call messages api with feature functionality update generic template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: templateMessage,
+          tag: 'FEATURE_FUNCTIONALITY_UPDATE',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendFeatureFunctionalityUpdateTemplate(
+        RECIPIENT_ID,
+        templateElements
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendTicketUpdateTemplate', () => {
+    it('should call messages api with ticket update generic template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: templateMessage,
+          tag: 'TICKET_UPDATE',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendTicketUpdateTemplate(
         RECIPIENT_ID,
         templateElements
       );

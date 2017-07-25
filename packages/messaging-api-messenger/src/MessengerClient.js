@@ -501,6 +501,51 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> =>
     this.sendTaggedTemplate(recipientId, elements, 'ISSUE_RESOLUTION', ratio);
 
+  sendAppointmentUpdateTemplate = (
+    recipientId: string,
+    elements: Array<TemplateElement>,
+    ratio: string = 'horizontal'
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTaggedTemplate(recipientId, elements, 'APPOINTMENT_UPDATE', ratio);
+
+  sendGameEventTemplate = (
+    recipientId: string,
+    elements: Array<TemplateElement>,
+    ratio: string = 'horizontal'
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTaggedTemplate(recipientId, elements, 'GAME_EVENT', ratio);
+
+  sendTransportationUpdateTemplate = (
+    recipientId: string,
+    elements: Array<TemplateElement>,
+    ratio: string = 'horizontal'
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTaggedTemplate(
+      recipientId,
+      elements,
+      'TRANSPORTATION_UPDATE',
+      ratio
+    );
+
+  sendFeatureFunctionalityUpdateTemplate = (
+    recipientId: string,
+    elements: Array<TemplateElement>,
+    ratio: string = 'horizontal'
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTaggedTemplate(
+      recipientId,
+      elements,
+      'FEATURE_FUNCTIONALITY_UPDATE',
+      ratio
+    );
+
+  sendTicketUpdateTemplate = (
+    recipientId: string,
+    elements: Array<TemplateElement>,
+    ratio: string = 'horizontal'
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTaggedTemplate(recipientId, elements, 'TICKET_UPDATE', ratio);
+
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
   sendListTemplate = (
     recipientId: string,
