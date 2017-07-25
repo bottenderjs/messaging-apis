@@ -248,3 +248,18 @@ export type SendMessageSucessResponse = {
 export type SendSenderActionResponse = {
   recipient_id: string,
 };
+
+export type MessageTag =
+  | 'SHIPPING_UPDATE'
+  | 'RESERVATION_UPDATE'
+  | 'ISSUE_RESOLUTION'
+  | 'APPOINTMENT_UPDATE'
+  | 'GAME_EVENT'
+  | 'TRANSPORTATION_UPDATE'
+  | 'FEATURE_FUNCTIONALITY_UPDATE'
+  | 'TICKET_UPDATE';
+
+export type MessageTagResponse = Array<{
+  tag: MessageTag,
+  description: string,
+}>;

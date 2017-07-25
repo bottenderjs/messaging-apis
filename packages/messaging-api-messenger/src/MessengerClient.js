@@ -26,6 +26,8 @@ import type {
   MutationSuccessResponse,
   SendMessageSucessResponse,
   SendSenderActionResponse,
+  MessageTag,
+  MessageTagResponse,
 } from './MessengerTypes';
 
 type Axios = {
@@ -314,6 +316,16 @@ export default class MessengerClient {
     this.deleteMessengerProfile(['home_url']);
 
   /**
+   * Message tags
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/
+   */
+  getMessageTags = (): Promise<MessageTagResponse> =>
+    this._http
+      .get(`/page_message_tags?access_token=${this._accessToken}`)
+      .then(res => res.data.data);
+
+  /**
    * Send API
    *
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference
@@ -459,32 +471,35 @@ export default class MessengerClient {
       options
     );
 
+  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/
+  sendTaggedTemplate = (
+    recipientId: string,
+    elements: Array<TemplateElement>,
+    tag: MessageTag,
+    ratio: string = 'horizontal'
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendGenericTemplate(recipientId, elements, ratio, { tag });
+
   sendShippingUpdateTemplate = (
     recipientId: string,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendGenericTemplate(recipientId, elements, ratio, {
-      tag: 'SHIPPING_UPDATE',
-    });
+    this.sendTaggedTemplate(recipientId, elements, 'SHIPPING_UPDATE', ratio);
 
   sendReservationUpdateTemplate = (
     recipientId: string,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendGenericTemplate(recipientId, elements, ratio, {
-      tag: 'RESERVATION_UPDATE',
-    });
+    this.sendTaggedTemplate(recipientId, elements, 'RESERVATION_UPDATE', ratio);
 
   sendIssueResolutionTemplate = (
     recipientId: string,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendGenericTemplate(recipientId, elements, ratio, {
-      tag: 'ISSUE_RESOLUTION',
-    });
+    this.sendTaggedTemplate(recipientId, elements, 'ISSUE_RESOLUTION', ratio);
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
   sendListTemplate = (
