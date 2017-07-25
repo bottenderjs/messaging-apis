@@ -317,6 +317,136 @@ client.sendIssueResolutionTemplate('1', [
 ]);
 ```
 
+#### sendAppointmentUpdateTemplate(userId, elements)
+
+```js
+client.sendAppointmentUpdateTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+#### sendGameEventTemplate(userId, elements)
+
+```js
+client.sendGameEventTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+#### sendTransportationUpdateTemplate(userId, elements)
+
+```js
+client.sendTransportationUpdateTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+#### sendFeatureFunctionalityUpdateTemplate(userId, elements)
+
+```js
+client.sendFeatureFunctionalityUpdateTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
+#### sendTicketUpdateTemplate(userId, elements)
+
+```js
+client.sendTicketUpdateTemplate('1', [
+  {
+    title: "Welcome to Peter's Hats",
+    image_url: 'https://petersfancybrownhats.com/company_image.png',
+    subtitle: "We've got the right hat for everyone.",
+    default_action: {
+      type: 'web_url',
+      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+      messenger_extensions: true,
+      webview_height_ratio: 'tall',
+      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+    },
+    buttons: [
+      {
+        type: 'postback',
+        title: 'Start Chatting',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+      },
+    ],
+  },
+]);
+```
+
 #### sendListTemplate(userId, items, topElementStyle)
 
 ```js
