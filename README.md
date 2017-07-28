@@ -36,7 +36,7 @@ yarn add messaging-api-messenger
 Then, create a `MessengerClient` to call Messenger APIs:
 
 ```js
-import { MessengerClient } from 'messaging-api-messenger';
+const { MessengerClient } = require('messaging-api-messenger');
 
 // get accessToken from facebook developers website
 const client = MessengerClient.connect(accessToken);
@@ -63,7 +63,7 @@ yarn add messaging-api-line
 Then, create a `LINEClient` to call LINE APIs:
 
 ```js
-import { LINEClient } from 'messaging-api-line';
+const { LINEClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
 const client = LINEClient.connect(accessToken, channelSecret);
@@ -90,7 +90,7 @@ yarn add messaging-api-slack
 Then, create a `SlackClient` to call Slack APIs:
 
 ```js
-import { SlackClient } from 'messaging-api-slack';
+const { SlackClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/
@@ -120,7 +120,7 @@ yarn add messaging-api-telegram
 Then, create a `TelegramClient` to call Telegram APIs:
 
 ```js
-import { TelegramClient } from 'messaging-api-telegram';
+const { TelegramClient } = require('messaging-api-telegram');
 
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
 const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');

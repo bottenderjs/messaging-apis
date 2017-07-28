@@ -27,7 +27,7 @@ yarn add messaging-api-line
 ### Initialize
 
 ```js
-import { LINEClient } from 'messaging-api-line';
+const { LINEClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
 const client = LINEClient.connect(accessToken, channelSecret);
