@@ -25,7 +25,7 @@ yarn add messaging-api-slack
 Get your webhook url by adding a [Incoming Webhooks](https://api.slack.com/incoming-webhooks) integreation to your team or setup Incoming Webhooks function to your app.
 
 ```js
-import { SlackClient } from 'messaging-api-slack';
+const { SlackClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/

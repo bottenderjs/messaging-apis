@@ -34,7 +34,7 @@ yarn add messaging-api-messenger
 ### Initialize
 
 ```js
-import { MessengerClient } from 'messaging-api-messenger';
+const { MessengerClient } = require('messaging-api-messenger');
 
 // get accessToken from facebook developers website
 const client = MessengerClient.connect(accessToken);
