@@ -44,14 +44,14 @@ const client = MessengerClient.connect(accessToken);
 
 ```js
 async function fn() {
-  await client.sendText(recipientId, text, options);
+  await client.sendText(USER_ID, text, options);
 }
 ```
 
 or
 
 ```js
-client.sendText(recipientId, text, options).then(() => {
+client.sendText(USER_ID, text, options).then(() => {
   // do something
 });
 ```
@@ -65,7 +65,7 @@ All methods return a Promise.
 #### getUserProfile(userId)
 
 ```js
-client.getUserProfile('1').then(user => {
+client.getUserProfile(USER_ID).then(user => {
   console.log(user);
   // {
   //   first_name: 'Johnathan',
@@ -88,7 +88,7 @@ client.getUserProfile('1').then(user => {
 ```js
 client.sendRawBody({
   recipient: {
-    id: '1',
+    id: USER_ID,
   },
   message: {
     text: 'Hello!',
@@ -99,7 +99,7 @@ client.sendRawBody({
 #### send(userId, message)
 
 ```js
-client.send('1', {
+client.send(USER_ID, {
   text: 'Hello!',
 });
 ```
@@ -107,19 +107,19 @@ client.send('1', {
 #### sendText(userId, text [, options])
 
 ```js
-client.sendText('1', 'Hello!');
+client.sendText(USER_ID, 'Hello!');
 ```
 
 #### sendIssueResolutionText(userId, text)
 
 ```js
-client.sendIssueResolutionText('1', 'Hello!');
+client.sendIssueResolutionText(USER_ID, 'Hello!');
 ```
 
 #### sendAttachment(userId, attachment)
 
 ```js
-client.sendAttachment('1', {
+client.sendAttachment(USER_ID, {
   type: 'image',
   payload: {
     url: 'https://example.com/pic.png',
@@ -130,31 +130,31 @@ client.sendAttachment('1', {
 #### sendAudio(userId, url)
 
 ```js
-client.sendAudio('1', 'https://example.com/audio.mp3');
+client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 ```
 
 #### sendImage(userId, url)
 
 ```js
-client.sendImage('1', 'https://example.com/pic.png');
+client.sendImage(USER_ID, 'https://example.com/pic.png');
 ```
 
 #### sendVideo(userId, url)
 
 ```js
-client.sendVideo('1', 'https://example.com/video.mp4');
+client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 ```
 
 #### sendFile(userId, url)
 
 ```js
-client.sendFile('1', 'https://example.com/word.docx');
+client.sendFile(USER_ID, 'https://example.com/word.docx');
 ```
 
 #### sendTemplate(userId, template)
 
 ```js
-client.sendTemplate('1', {
+client.sendTemplate(USER_ID, {
   template_type: 'button',
   text: 'title',
   buttons: [
@@ -172,7 +172,7 @@ client.sendTemplate('1', {
 #### sendButtonTemplate(userId, title, buttons)
 
 ```js
-client.sendButtonTemplate('1', 'my_title', [
+client.sendButtonTemplate(USER_ID, 'my_title', [
   {
     type: 'postback',
     title: 'Start Chatting',
@@ -186,7 +186,7 @@ client.sendButtonTemplate('1', 'my_title', [
 #### sendGenericTemplate(userId, elements)
 
 ```js
-client.sendGenericTemplate('1', [
+client.sendGenericTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -214,27 +214,31 @@ client.sendGenericTemplate('1', [
 #### sendTaggedTemplate(userId, elements, tag)
 
 ```js
-client.sendTaggedTemplate('1', [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+client.sendTaggedTemplate(
+  USER_ID,
+  [
+    {
+      title: "Welcome to Peter's Hats",
+      image_url: 'https://petersfancybrownhats.com/company_image.png',
+      subtitle: "We've got the right hat for everyone.",
+      default_action: {
+        type: 'web_url',
+        url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+        messenger_extensions: true,
+        webview_height_ratio: 'tall',
+        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
       },
-    ],
-  },
-], 'GAME_EVENT');
+      buttons: [
+        {
+          type: 'postback',
+          title: 'Start Chatting',
+          payload: 'DEVELOPER_DEFINED_PAYLOAD',
+        },
+      ],
+    },
+  ],
+  'GAME_EVENT'
+);
 ```
 
 [Official docs for message tags](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
@@ -242,7 +246,7 @@ client.sendTaggedTemplate('1', [
 #### sendShippingUpdateTemplate(userId, elements)
 
 ```js
-client.sendShippingUpdateTemplate('1', [
+client.sendShippingUpdateTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -268,7 +272,7 @@ client.sendShippingUpdateTemplate('1', [
 #### sendReservationUpdateTemplate(userId, elements)
 
 ```js
-client.sendReservationUpdateTemplate('1', [
+client.sendReservationUpdateTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -294,7 +298,7 @@ client.sendReservationUpdateTemplate('1', [
 #### sendIssueResolutionTemplate(userId, elements)
 
 ```js
-client.sendIssueResolutionTemplate('1', [
+client.sendIssueResolutionTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -320,7 +324,7 @@ client.sendIssueResolutionTemplate('1', [
 #### sendAppointmentUpdateTemplate(userId, elements)
 
 ```js
-client.sendAppointmentUpdateTemplate('1', [
+client.sendAppointmentUpdateTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -346,7 +350,7 @@ client.sendAppointmentUpdateTemplate('1', [
 #### sendGameEventTemplate(userId, elements)
 
 ```js
-client.sendGameEventTemplate('1', [
+client.sendGameEventTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -372,7 +376,7 @@ client.sendGameEventTemplate('1', [
 #### sendTransportationUpdateTemplate(userId, elements)
 
 ```js
-client.sendTransportationUpdateTemplate('1', [
+client.sendTransportationUpdateTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -398,7 +402,7 @@ client.sendTransportationUpdateTemplate('1', [
 #### sendFeatureFunctionalityUpdateTemplate(userId, elements)
 
 ```js
-client.sendFeatureFunctionalityUpdateTemplate('1', [
+client.sendFeatureFunctionalityUpdateTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -424,7 +428,7 @@ client.sendFeatureFunctionalityUpdateTemplate('1', [
 #### sendTicketUpdateTemplate(userId, elements)
 
 ```js
-client.sendTicketUpdateTemplate('1', [
+client.sendTicketUpdateTemplate(USER_ID, [
   {
     title: "Welcome to Peter's Hats",
     image_url: 'https://petersfancybrownhats.com/company_image.png',
@@ -451,7 +455,7 @@ client.sendTicketUpdateTemplate('1', [
 
 ```js
 client.sendListTemplate(
-  '1',
+  USER_ID,
   [
     {
       title: 'Classic T-Shirt Collection',
@@ -512,7 +516,7 @@ client.sendListTemplate(
 #### sendQuickReplies(userId, message, items)
 
 ```js
-client.sendQuickReplies('1', { text: 'Pick a color:' }, [
+client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
   {
     content_type: 'text',
     title: 'Red',
@@ -526,7 +530,7 @@ client.sendQuickReplies('1', { text: 'Pick a color:' }, [
 #### sendSenderAction
 
 ```js
-client.sendSenderAction('1', 'typing_on');
+client.sendSenderAction(USER_ID, 'typing_on');
 ```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
@@ -534,13 +538,13 @@ client.sendSenderAction('1', 'typing_on');
 #### turnTypingIndicatorsOn(userId)
 
 ```js
-client.turnTypingIndicatorsOn('1');
+client.turnTypingIndicatorsOn(USER_ID);
 ```
 
 #### turnTypingIndicatorsOff(userId)
 
 ```js
-client.turnTypingIndicatorsOff('1');
+client.turnTypingIndicatorsOff(USER_ID);
 ```
 
 ### Upload API

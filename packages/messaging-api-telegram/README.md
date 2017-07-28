@@ -66,7 +66,7 @@ client.deleteWebhook();
 #### sendMessage(chatId, text, options)
 
 ```js
-client.sendMessage(427770117, 'hi', {
+client.sendMessage(CHAT_ID, 'hi', {
   disable_web_page_preview: true,
   disable_notification: true,
 });
@@ -77,7 +77,7 @@ client.sendMessage(427770117, 'hi', {
 #### sendPhoto(chatId, photo, options)
 
 ```js
-client.sendPhoto(427770117, 'https://example.com/image.png', {
+client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
   caption: 'gooooooodPhoto',
   disable_notification: true,
 });
@@ -88,7 +88,7 @@ client.sendPhoto(427770117, 'https://example.com/image.png', {
 #### sendAudio(chatId, audio, options)
 
 ```js
-client.sendAudio(427770117, 'https://example.com/audio.mp3', {
+client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
   caption: 'gooooooodAudio',
   disable_notification: true,
 });
@@ -99,7 +99,7 @@ client.sendAudio(427770117, 'https://example.com/audio.mp3', {
 #### sendDocument(chatId, document, options)
 
 ```js
-client.sendDocument(427770117, 'https://example.com/doc.gif', {
+client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
   caption: 'gooooooodDocument',
   disable_notification: true,
 });
@@ -110,7 +110,7 @@ client.sendDocument(427770117, 'https://example.com/doc.gif', {
 #### sendSticker(chatId, sticker, options)
 
 ```js
-client.sendSticker(427770117, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
+client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
   disable_notification: true,
 });
 ```
@@ -120,7 +120,7 @@ client.sendSticker(427770117, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
 #### sendVideo(chatId, video, options)
 
 ```js
-client.sendVideo(427770117, 'https://example.com/video.mp4', {
+client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
   caption: 'gooooooodVideo',
   disable_notification: true,
 });
@@ -131,7 +131,7 @@ client.sendVideo(427770117, 'https://example.com/video.mp4', {
 #### sendVoice(chatId, voice, options)
 
 ```js
-client.sendVoice(427770117, 'https://example.com/voice.ogg', {
+client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
   caption: 'gooooooodVoice',
   disable_notification: true,
 });
@@ -143,7 +143,7 @@ client.sendVoice(427770117, 'https://example.com/voice.ogg', {
 
 ```js
 client.sendLocation(
-  427770117,
+  CHAT_ID,
   {
     latitude: 30,
     longitude: 45,
@@ -160,7 +160,7 @@ client.sendLocation(
 
 ```js
 client.sendVenue(
-  427770117,
+  CHAT_ID,
   {
     latitude: 30,
     longitude: 45,
@@ -179,7 +179,7 @@ client.sendVenue(
 
 ```js
 client.sendContact(
-  427770117,
+  CHAT_ID,
   {
     phoneNumber: '886123456789',
     firstName: 'first',
@@ -193,7 +193,7 @@ client.sendContact(
 #### sendChatAction(chatId, action)
 
 ```js
-client.sendChatAction(427770117, 'typing');
+client.sendChatAction(CHAT_ID, 'typing');
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#sendchataction)
@@ -221,7 +221,7 @@ client.getMe().then(result => {
 #### getUserProfilePhotos(userId, options)
 
 ```js
-client.getUserProfilePhotos(313534466, { limit: 2 });
+client.getUserProfilePhotos(USER_ID, { limit: 2 });
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
@@ -237,7 +237,7 @@ client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
 #### getChat(chatId)
 
 ```js
-client.getChat(427770117);
+client.getChat(CHAT_ID);
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getchat)
@@ -245,7 +245,7 @@ client.getChat(427770117);
 #### getChatAdministrators(chatId)
 
 ```js
-client.getChatAdministrators(427770117);
+client.getChatAdministrators(CHAT_ID);
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getchatadministrators)
@@ -253,7 +253,7 @@ client.getChatAdministrators(427770117);
 #### getChatMembersCount(chatId)
 
 ```js
-client.getChatMembersCount(427770117);
+client.getChatMembersCount(CHAT_ID);
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getchatmemberscount)
@@ -261,7 +261,7 @@ client.getChatMembersCount(427770117);
 #### getChatMember(chatId, userId)
 
 ```js
-client.getChatMember(427770117, 313534466);
+client.getChatMember(CHAT_ID, USER_ID);
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#getchatmember)
@@ -271,7 +271,7 @@ client.getChatMember(427770117, 313534466);
 #### editMessageText(text, options)
 
 ```js
-client.editMessageText('new_text', { message_id: 66 });
+client.editMessageText('new_text', { message_id: MESSAGE_ID });
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#editmessagetext)
@@ -279,7 +279,7 @@ client.editMessageText('new_text', { message_id: 66 });
 #### editMessageCaption(caption, options)
 
 ```js
-client.editMessageCaption('new_caption', { message_id: 66 });
+client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#editmessagecaption)
@@ -293,7 +293,7 @@ client.editMessageReplyMarkup(
     resize_keyboard: true,
     one_time_keyboard: true,
   },
-  { message_id: 66 }
+  { message_id: MESSAGE_ID }
 );
 ```
 
@@ -302,7 +302,7 @@ client.editMessageReplyMarkup(
 #### deleteMessage(chatId, messageId)
 
 ```js
-client.deleteMessage(427770117, 66);
+client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ```
 
 [Official docs](https://core.telegram.org/bots/api/#deletemessage)
@@ -312,7 +312,7 @@ client.deleteMessage(427770117, 66);
 #### forwardMessage(chatId, fromChatId, messageId, options)
 
 ```js
-client.forwardMessage(427770117, 313534466, 203, {
+client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
 });
 ```

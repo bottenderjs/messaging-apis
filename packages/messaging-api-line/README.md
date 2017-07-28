@@ -37,14 +37,14 @@ const client = LINEClient.connect(accessToken, channelSecret);
 
 ```js
 async function fn() {
-  await client.pushText(id, text);
+  await client.pushText(USER_ID, text);
 }
 ```
 
 or
 
 ```js
-client.pushText(id, text).then(() => {
+client.pushText(USER_ID, text).then(() => {
   // do something
 });
 ```
@@ -60,7 +60,7 @@ All methods return a Promise.
 #### reply(token, message)
 
 ```js
-client.reply('1qwyg56uj', [
+client.reply(REPLY_TOKEN, [
   {
     type: 'text',
     text: 'Hello!',
@@ -71,14 +71,14 @@ client.reply('1qwyg56uj', [
 #### replyText(token, text)
 
 ```js
-client.reply('1qwyg56uj', 'Hello!');
+client.reply(REPLY_TOKEN, 'Hello!');
 ```
 
 #### replyImage(token, imageUrl, previewImageUrl)
 
 ```js
 client.replyImage(
-  '1qwyg56uj',
+  REPLY_TOKEN,
   'https://example.com/original.jpg',
   'https://example.com/preview.jpg'
 );
@@ -88,7 +88,7 @@ client.replyImage(
 
 ```js
 client.replyVideo(
-  '1qwyg56uj',
+  REPLY_TOKEN,
   'https://example.com/original.mp4',
   'https://example.com/preview.jpg'
 );
@@ -97,13 +97,13 @@ client.replyVideo(
 #### replyAudio(token, audioUrl, duration)
 
 ```js
-client.replyAudio('1qwyg56uj', 'https://example.com/original.m4a', 240000);
+client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 ```
 
 #### replyLocation(token, location)
 
 ```js
-client.replyLocation('1qwyg56uj', {
+client.replyLocation(REPLY_TOKEN, {
   title: 'my location',
   address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
   latitude: 35.65910807942215,
@@ -114,13 +114,13 @@ client.replyLocation('1qwyg56uj', {
 #### replySticker(token, packageId, stickerId)
 
 ```js
-client.replySticker('1qwyg56uj', '1', '1');
+client.replySticker(REPLY_TOKEN, '1', '1');
 ```
 
 #### replyImagemap(token, altText, imagemap)
 
 ```js
-client.replyImagemap('1qwyg56uj', 'this is an imagemap', {
+client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
   baseHeight: 1040,
   baseWidth: 1040,
@@ -154,7 +154,7 @@ client.replyImagemap('1qwyg56uj', 'this is an imagemap', {
 #### replyTemplate(token, altText, template)
 
 ```js
-client.replyTemplate('1qwyg56uj', 'this is a template', {
+client.replyTemplate(REPLY_TOKEN, 'this is a template', {
   type: 'buttons',
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
@@ -182,7 +182,7 @@ client.replyTemplate('1qwyg56uj', 'this is a template', {
 #### replyButtonTemplate(token, altText, buttonTemplate)
 
 ```js
-client.replyButtonTemplate('1qwyg56uj', 'this is a template', {
+client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
   text: 'Please select',
@@ -209,7 +209,7 @@ client.replyButtonTemplate('1qwyg56uj', 'this is a template', {
 #### replyConfirmTemplate(token, altText, confirmTemplate)
 
 ```js
-client.replyConfirmTemplate('1qwyg56uj', 'this is a confirm template', {
+client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
   text: 'Are you sure?',
   actions: [
     {
@@ -229,7 +229,7 @@ client.replyConfirmTemplate('1qwyg56uj', 'this is a confirm template', {
 #### replyCarouselTemplate(token, altText, carouselItems)
 
 ```js
-client.replyCarouselTemplate('1qwyg56uj', 'this is a carousel template', [
+client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
   {
     thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
     title: 'this is menu',
@@ -284,7 +284,7 @@ client.replyCarouselTemplate('1qwyg56uj', 'this is a carousel template', [
 #### push(userId, messages)
 
 ```js
-client.push('1', [
+client.push(USER_ID, [
   {
     type: 'text',
     text: 'Hello!',
@@ -295,14 +295,14 @@ client.push('1', [
 #### pushText(userId, text)
 
 ```js
-client.pushText('1', 'Hello!');
+client.pushText(USER_ID, 'Hello!');
 ```
 
 #### pushImage(userId, imageUrl, previewImageUrl)
 
 ```js
 client.pushImage(
-  '1',
+  USER_ID,
   'https://example.com/original.jpg',
   'https://example.com/preview.jpg'
 );
@@ -312,7 +312,7 @@ client.pushImage(
 
 ```js
 client.pushVideo(
-  '1',
+  USER_ID,
   'https://example.com/original.mp4',
   'https://example.com/preview.jpg'
 );
@@ -321,13 +321,13 @@ client.pushVideo(
 #### pushAudio(userId, audioUrl, duration)
 
 ```js
-client.pushAudio('1', 'https://example.com/original.m4a', 240000);
+client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 ```
 
 #### pushLocation(userId, location)
 
 ```js
-client.pushLocation('1', {
+client.pushLocation(USER_ID, {
   title: 'my location',
   address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
   latitude: 35.65910807942215,
@@ -338,13 +338,13 @@ client.pushLocation('1', {
 #### pushSticker(userId, packageId, stickerId)
 
 ```js
-client.pushSticker('1', '1', '1');
+client.pushSticker(USER_ID, '1', '1');
 ```
 
 #### pushImagemap(userId, altText, imagemap)
 
 ```js
-client.pushImagemap('1', 'this is an imagemap', {
+client.pushImagemap(USER_ID, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
   baseHeight: 1040,
   baseWidth: 1040,
@@ -378,7 +378,7 @@ client.pushImagemap('1', 'this is an imagemap', {
 #### pushTemplate(userId, altText, template)
 
 ```js
-client.pushTemplate('1', 'this is a template', {
+client.pushTemplate(USER_ID, 'this is a template', {
   type: 'buttons',
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
@@ -406,7 +406,7 @@ client.pushTemplate('1', 'this is a template', {
 #### pushButtonTemplate(userId, altText, buttonTemplate)
 
 ```js
-client.pushButtonTemplate('1', 'this is a template', {
+client.pushButtonTemplate(USER_ID, 'this is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
   text: 'Please select',
@@ -433,7 +433,7 @@ client.pushButtonTemplate('1', 'this is a template', {
 #### pushConfirmTemplate(userId, altText, confirmTemplate)
 
 ```js
-client.pushConfirmTemplate('1', 'this is a confirm template', {
+client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
   text: 'Are you sure?',
   actions: [
     {
@@ -453,7 +453,7 @@ client.pushConfirmTemplate('1', 'this is a confirm template', {
 #### pushCarouselTemplate(userId, altText, carouselItems)
 
 ```js
-client.pushCarouselTemplate('1', 'this is a carousel template', [
+client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
   {
     thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
     title: 'this is menu',
@@ -509,7 +509,7 @@ client.pushCarouselTemplate('1', 'this is a carousel template', [
 
 ```js
 client.multicast(
-  ['1'],
+  [USER_ID],
   [
     {
       type: 'text',
@@ -522,7 +522,7 @@ client.multicast(
 #### multicastText(userIds, text)
 
 ```js
-client.multicastText(['1'], 'Hello!');
+client.multicastText([USER_ID], 'Hello!');
 ```
 
 ### Others
