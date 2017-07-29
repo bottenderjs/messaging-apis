@@ -85,6 +85,10 @@ client.getUserProfile(USER_ID).then(user => {
 
 #### sendRawBody(body)
 
+###### body
+
+Type: `Object`
+
 ```js
 client.sendRawBody({
   recipient: {
@@ -98,6 +102,16 @@ client.sendRawBody({
 
 #### send(userId, message)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### message
+
+Type: `Object`
+
 ```js
 client.send(USER_ID, {
   text: 'Hello!',
@@ -106,17 +120,51 @@ client.send(USER_ID, {
 
 #### sendText(userId, text [, options])
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### text
+
+Type: `String`
+
+###### options
+
+Type: `Object`
+
 ```js
 client.sendText(USER_ID, 'Hello!');
 ```
 
 #### sendIssueResolutionText(userId, text)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### text
+
+Type: `String`
+
 ```js
 client.sendIssueResolutionText(USER_ID, 'Hello!');
 ```
 
 #### sendAttachment(userId, attachment)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### attachment
+
+Type: `Object`
 
 ```js
 client.sendAttachment(USER_ID, {
@@ -129,11 +177,31 @@ client.sendAttachment(USER_ID, {
 
 #### sendAudio(userId, url)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### url
+
+Type: `String`
+
 ```js
 client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 ```
 
 #### sendImage(userId, url)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### url
+
+Type: `String`
 
 ```js
 client.sendImage(USER_ID, 'https://example.com/pic.png');
@@ -141,17 +209,47 @@ client.sendImage(USER_ID, 'https://example.com/pic.png');
 
 #### sendVideo(userId, url)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### url
+
+Type: `String`
+
 ```js
 client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 ```
 
 #### sendFile(userId, url)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### url
+
+Type: `String`
+
 ```js
 client.sendFile(USER_ID, 'https://example.com/word.docx');
 ```
 
 #### sendTemplate(userId, template)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### template
+
+Type: `Object`
 
 ```js
 client.sendTemplate(USER_ID, {
@@ -171,6 +269,21 @@ client.sendTemplate(USER_ID, {
 
 #### sendButtonTemplate(userId, title, buttons)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### title
+
+Type: `String`
+
+###### buttons
+
+Type: `Array<Object>`
+
+
 ```js
 client.sendButtonTemplate(USER_ID, 'my_title', [
   {
@@ -184,6 +297,16 @@ client.sendButtonTemplate(USER_ID, 'my_title', [
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
 
 #### sendGenericTemplate(userId, elements)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
 
 ```js
 client.sendGenericTemplate(USER_ID, [
@@ -212,6 +335,20 @@ client.sendGenericTemplate(USER_ID, [
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
 #### sendTaggedTemplate(userId, elements, tag)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
+
+###### tag
+
+Type: `String`
 
 ```js
 client.sendTaggedTemplate(
@@ -245,6 +382,16 @@ client.sendTaggedTemplate(
 
 #### sendShippingUpdateTemplate(userId, elements)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
+
 ```js
 client.sendShippingUpdateTemplate(USER_ID, [
   {
@@ -270,6 +417,16 @@ client.sendShippingUpdateTemplate(USER_ID, [
 ```
 
 #### sendReservationUpdateTemplate(userId, elements)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
 
 ```js
 client.sendReservationUpdateTemplate(USER_ID, [
@@ -297,6 +454,16 @@ client.sendReservationUpdateTemplate(USER_ID, [
 
 #### sendIssueResolutionTemplate(userId, elements)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
+
 ```js
 client.sendIssueResolutionTemplate(USER_ID, [
   {
@@ -322,6 +489,16 @@ client.sendIssueResolutionTemplate(USER_ID, [
 ```
 
 #### sendAppointmentUpdateTemplate(userId, elements)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
 
 ```js
 client.sendAppointmentUpdateTemplate(USER_ID, [
@@ -349,6 +526,16 @@ client.sendAppointmentUpdateTemplate(USER_ID, [
 
 #### sendGameEventTemplate(userId, elements)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
+
 ```js
 client.sendGameEventTemplate(USER_ID, [
   {
@@ -374,6 +561,16 @@ client.sendGameEventTemplate(USER_ID, [
 ```
 
 #### sendTransportationUpdateTemplate(userId, elements)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
 
 ```js
 client.sendTransportationUpdateTemplate(USER_ID, [
@@ -401,6 +598,16 @@ client.sendTransportationUpdateTemplate(USER_ID, [
 
 #### sendFeatureFunctionalityUpdateTemplate(userId, elements)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
+
 ```js
 client.sendFeatureFunctionalityUpdateTemplate(USER_ID, [
   {
@@ -427,6 +634,16 @@ client.sendFeatureFunctionalityUpdateTemplate(USER_ID, [
 
 #### sendTicketUpdateTemplate(userId, elements)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### elements
+
+Type: `Array<Object>`
+
 ```js
 client.sendTicketUpdateTemplate(USER_ID, [
   {
@@ -452,6 +669,20 @@ client.sendTicketUpdateTemplate(USER_ID, [
 ```
 
 #### sendListTemplate(userId, items, topElementStyle)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### items
+
+Type: `Array<Object>`
+
+###### topElementStyle
+
+Type: `String`
 
 ```js
 client.sendListTemplate(
@@ -527,7 +758,19 @@ client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
 
-#### sendSenderAction
+#### sendSenderAction(userId, action)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### action
+
+Type: `String`
+
+Name of the action.
 
 ```js
 client.sendSenderAction(USER_ID, 'typing_on');
@@ -537,11 +780,23 @@ client.sendSenderAction(USER_ID, 'typing_on');
 
 #### turnTypingIndicatorsOn(userId)
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
 ```js
 client.turnTypingIndicatorsOn(USER_ID);
 ```
 
 #### turnTypingIndicatorsOff(userId)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
 
 ```js
 client.turnTypingIndicatorsOff(USER_ID);
