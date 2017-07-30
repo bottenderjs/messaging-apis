@@ -668,7 +668,7 @@ client.sendTicketUpdateTemplate(USER_ID, [
 ]);
 ```
 
-#### sendListTemplate(userId, items, topElementStyle)
+#### sendListTemplate(userId, items, buttons, topElementStyle)
 
 ###### userId
 
@@ -677,6 +677,10 @@ Type: `String`
 Page-scoped user ID of the recipient.
 
 ###### items
+
+Type: `Array<Object>`
+
+###### buttons
 
 Type: `Array<Object>`
 
@@ -724,27 +728,469 @@ client.sendListTemplate(
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
 
-#### sendReceiptTemplate
+#### sendOpenGraphTemplate(userId, elements)
+
+###### elements
+
+Type: `Array<Object>`
+
+```js
+client.sendOpenGraphTemplate(USER_ID, [
+  {
+    url: 'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb',
+    buttons: [
+      {
+        type: 'web_url',
+        url: 'https://en.wikipedia.org/wiki/Rickrolling',
+        title: 'View More',
+      },
+    ],
+  },
+]);
+```
+
+#### sendReceiptTemplate(userId, receipt)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### receipt
+
+Type: `Object`
+
+```js
+client.sendReceiptTemplate(USER_ID, {
+  recipient_name: 'Stephane Crozatier',
+  order_number: '12345678902',
+  currency: 'USD',
+  payment_method: 'Visa 2345',
+  order_url: 'http://petersapparel.parseapp.com/order?order_id=123456',
+  timestamp: '1428444852',
+  elements: [
+    {
+      title: 'Classic White T-Shirt',
+      subtitle: '100% Soft and Luxurious Cotton',
+      quantity: 2,
+      price: 50,
+      currency: 'USD',
+      image_url: 'http://petersapparel.parseapp.com/img/whiteshirt.png',
+    },
+    {
+      title: 'Classic Gray T-Shirt',
+      subtitle: '100% Soft and Luxurious Cotton',
+      quantity: 1,
+      price: 25,
+      currency: 'USD',
+      image_url: 'http://petersapparel.parseapp.com/img/grayshirt.png',
+    },
+  ],
+  address: {
+    street_1: '1 Hacker Way',
+    street_2: '',
+    city: 'Menlo Park',
+    postal_code: '94025',
+    state: 'CA',
+    country: 'US',
+  },
+  summary: {
+    subtotal: 75.0,
+    shipping_cost: 4.95,
+    total_tax: 6.19,
+    total_cost: 56.14,
+  },
+  adjustments: [
+    {
+      name: 'New Customer Discount',
+      amount: 20,
+    },
+    {
+      name: '$10 Off Coupon',
+      amount: 10,
+    },
+  ],
+});
+```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
 
-#### sendAirlineBoardingPassTemplate
+#### sendAirlineBoardingPassTemplate(userId, attributes)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### attributes
+
+Type: `Object`
+
+```js
+client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
+  intro_message: 'You are checked in.',
+  locale: 'en_US',
+  boarding_pass: [
+    {
+      passenger_name: 'SMITH/NICOLAS',
+      pnr_number: 'CG4X7U',
+      travel_class: 'business',
+      seat: '74J',
+      auxiliary_fields: [
+        {
+          label: 'Terminal',
+          value: 'T1',
+        },
+        {
+          label: 'Departure',
+          value: '30OCT 19:05',
+        },
+      ],
+      secondary_fields: [
+        {
+          label: 'Boarding',
+          value: '18:30',
+        },
+        {
+          label: 'Gate',
+          value: 'D57',
+        },
+        {
+          label: 'Seat',
+          value: '74J',
+        },
+        {
+          label: 'Sec.Nr.',
+          value: '003',
+        },
+      ],
+      logo_image_url: 'https://www.example.com/en/logo.png',
+      header_image_url: 'https://www.example.com/en/fb/header.png',
+      qr_code: 'M1SMITH/NICOLAS  CG4X7U nawouehgawgnapwi3jfa0wfh',
+      above_bar_code_image_url: 'https://www.example.com/en/PLAT.png',
+      flight_info: {
+        flight_number: 'KL0642',
+        departure_airport: {
+          airport_code: 'JFK',
+          city: 'New York',
+          terminal: 'T1',
+          gate: 'D57',
+        },
+        arrival_airport: {
+          airport_code: 'AMS',
+          city: 'Amsterdam',
+        },
+        flight_schedule: {
+          departure_time: '2016-01-02T19:05',
+          arrival_time: '2016-01-05T17:30',
+        },
+      },
+    },
+    {
+      passenger_name: 'JONES/FARBOUND',
+      pnr_number: 'CG4X7U',
+      travel_class: 'business',
+      seat: '74K',
+      auxiliary_fields: [
+        {
+          label: 'Terminal',
+          value: 'T1',
+        },
+        {
+          label: 'Departure',
+          value: '30OCT 19:05',
+        },
+      ],
+      secondary_fields: [
+        {
+          label: 'Boarding',
+          value: '18:30',
+        },
+        {
+          label: 'Gate',
+          value: 'D57',
+        },
+        {
+          label: 'Seat',
+          value: '74K',
+        },
+        {
+          label: 'Sec.Nr.',
+          value: '004',
+        },
+      ],
+      logo_image_url: 'https://www.example.com/en/logo.png',
+      header_image_url: 'https://www.example.com/en/fb/header.png',
+      qr_code: 'M1JONES/FARBOUND  CG4X7U nawouehgawgnapwi3jfa0wfh',
+      above_bar_code_image_url: 'https://www.example.com/en/PLAT.png',
+      flight_info: {
+        flight_number: 'KL0642',
+        departure_airport: {
+          airport_code: 'JFK',
+          city: 'New York',
+          terminal: 'T1',
+          gate: 'D57',
+        },
+        arrival_airport: {
+          airport_code: 'AMS',
+          city: 'Amsterdam',
+        },
+        flight_schedule: {
+          departure_time: '2016-01-02T19:05',
+          arrival_time: '2016-01-05T17:30',
+        },
+      },
+    },
+  ],
+});
+```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
 
 #### sendAirlineCheckinTemplate
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### attributes
+
+Type: `Object`
+
+```js
+client.sendAirlineCheckinTemplate(USER_ID, {
+  intro_message: 'Check-in is available now.',
+  locale: 'en_US',
+  pnr_number: 'ABCDEF',
+  flight_info: [
+    {
+      flight_number: 'f001',
+      departure_airport: {
+        airport_code: 'SFO',
+        city: 'San Francisco',
+        terminal: 'T4',
+        gate: 'G8',
+      },
+      arrival_airport: {
+        airport_code: 'SEA',
+        city: 'Seattle',
+        terminal: 'T4',
+        gate: 'G8',
+      },
+      flight_schedule: {
+        boarding_time: '2016-01-05T15:05',
+        departure_time: '2016-01-05T15:45',
+        arrival_time: '2016-01-05T17:30',
+      },
+    },
+  ],
+  checkin_url: 'https://www.airline.com/check-in',
+});
+```
+
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
 
 #### sendAirlineItineraryTemplate
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### attributes
+
+Type: `Object`
+
+```js
+client.sendAirlineItineraryTemplate(USER_ID, {
+  intro_message: "Here's your flight itinerary.",
+  locale: 'en_US',
+  pnr_number: 'ABCDEF',
+  passenger_info: [
+    {
+      name: 'Farbound Smith Jr',
+      ticket_number: '0741234567890',
+      passenger_id: 'p001',
+    },
+    {
+      name: 'Nick Jones',
+      ticket_number: '0741234567891',
+      passenger_id: 'p002',
+    },
+  ],
+  flight_info: [
+    {
+      connection_id: 'c001',
+      segment_id: 's001',
+      flight_number: 'KL9123',
+      aircraft_type: 'Boeing 737',
+      departure_airport: {
+        airport_code: 'SFO',
+        city: 'San Francisco',
+        terminal: 'T4',
+        gate: 'G8',
+      },
+      arrival_airport: {
+        airport_code: 'SLC',
+        city: 'Salt Lake City',
+        terminal: 'T4',
+        gate: 'G8',
+      },
+      flight_schedule: {
+        departure_time: '2016-01-02T19:45',
+        arrival_time: '2016-01-02T21:20',
+      },
+      travel_class: 'business',
+    },
+    {
+      connection_id: 'c002',
+      segment_id: 's002',
+      flight_number: 'KL321',
+      aircraft_type: 'Boeing 747-200',
+      travel_class: 'business',
+      departure_airport: {
+        airport_code: 'SLC',
+        city: 'Salt Lake City',
+        terminal: 'T1',
+        gate: 'G33',
+      },
+      arrival_airport: {
+        airport_code: 'AMS',
+        city: 'Amsterdam',
+        terminal: 'T1',
+        gate: 'G33',
+      },
+      flight_schedule: {
+        departure_time: '2016-01-02T22:45',
+        arrival_time: '2016-01-03T17:20',
+      },
+    },
+  ],
+  passenger_segment_info: [
+    {
+      segment_id: 's001',
+      passenger_id: 'p001',
+      seat: '12A',
+      seat_type: 'Business',
+    },
+    {
+      segment_id: 's001',
+      passenger_id: 'p002',
+      seat: '12B',
+      seat_type: 'Business',
+    },
+    {
+      segment_id: 's002',
+      passenger_id: 'p001',
+      seat: '73A',
+      seat_type: 'World Business',
+      product_info: [
+        {
+          title: 'Lounge',
+          value: 'Complimentary lounge access',
+        },
+        {
+          title: 'Baggage',
+          value: '1 extra bag 50lbs',
+        },
+      ],
+    },
+    {
+      segment_id: 's002',
+      passenger_id: 'p002',
+      seat: '73B',
+      seat_type: 'World Business',
+      product_info: [
+        {
+          title: 'Lounge',
+          value: 'Complimentary lounge access',
+        },
+        {
+          title: 'Baggage',
+          value: '1 extra bag 50lbs',
+        },
+      ],
+    },
+  ],
+  price_info: [
+    {
+      title: 'Fuel surcharge',
+      amount: '1597',
+      currency: 'USD',
+    },
+  ],
+  base_price: '12206',
+  tax: '200',
+  total_price: '14003',
+  currency: 'USD',
+});
+```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
 
 #### sendAirlineFlightUpdateTemplate
 
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### attributes
+
+Type: `Object`
+
+```js
+client.sendAirlineFlightUpdateTemplate(USER_ID, {
+  intro_message: 'Your flight is delayed',
+  update_type: 'delay',
+  locale: 'en_US',
+  pnr_number: 'CF23G2',
+  update_flight_info: {
+    flight_number: 'KL123',
+    departure_airport: {
+      airport_code: 'SFO',
+      city: 'San Francisco',
+      terminal: 'T4',
+      gate: 'G8',
+    },
+    arrival_airport: {
+      airport_code: 'AMS',
+      city: 'Amsterdam',
+      terminal: 'T4',
+      gate: 'G8',
+    },
+    flight_schedule: {
+      boarding_time: '2015-12-26T10:30',
+      departure_time: '2015-12-26T11:30',
+      arrival_time: '2015-12-27T07:30',
+    },
+  },
+});
+```
+
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
 #### sendQuickReplies(userId, message, items)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### message
+
+Type: `Object`
+
+###### items
+
+Type: `Array<Object>`
 
 ```js
 client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
@@ -806,88 +1252,560 @@ client.turnTypingIndicatorsOff(USER_ID);
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload/v2.8)
 
-#### uploadAttachment
-#### uploadAudio
-#### uploadImage
-#### uploadVideo
-#### uploadFile
+#### uploadAttachment(type, url)
+
+###### type
+
+Type: `String`
+
+###### url
+
+Type: `String`
+
+URL address of the attachment.
+
+```js
+client.uploadAttachment('image', 'http://www.example.com/image.jpg');
+```
+
+#### uploadAudio(url)
+
+###### url
+
+Type: `String`
+
+URL address of the audio.
+
+```js
+client.uploadAudio('http://www.example.com/audio.mp3');
+```
+
+#### uploadImage(url)
+
+###### url
+
+Type: `String`
+
+URL address of the image.
+
+```js
+client.uploadImage('http://www.example.com/image.jpg');
+```
+
+#### uploadVideo(url)
+
+###### url
+
+Type: `String`
+
+URL address of the video.
+
+```js
+client.uploadVideo('http://www.example.com/video.mp4');
+```
+
+#### uploadFile(url)
+
+###### url
+
+Type: `String`
+
+URL address of the file.
+
+```js
+client.uploadFile('http://www.example.com/file.pdf');
+```
 
 ### Messenger Profile
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
 
-#### getMessengerProfile
-#### setMessengerProfile
-#### deleteMessengerProfile
+#### getMessengerProfile(fields)
+
+###### fields
+
+Type: `Array<String>`
+
+```js
+client.getMessengerProfile(['get_started', 'persistent_menu']).then(profile => {
+  console.log(profile);
+  // [
+  //   {
+  //     get_started: {
+  //       payload: 'GET_STARTED',
+  //     },
+  //   },
+  //   {
+  //     persistent_menu: [
+  //       {
+  //         locale: 'default',
+  //         composer_input_disabled: true,
+  //         call_to_actions: [
+  //           {
+  //             type: 'postback',
+  //             title: 'Restart Conversation',
+  //             payload: 'RESTART',
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  // ]
+});
+```
+
+#### setMessengerProfile(profile)
+
+###### profile
+
+Type: `Object`
+
+```js
+client.setMessengerProfile({
+  get_started: {
+    payload: 'GET_STARTED',
+  },
+  persistent_menu: [
+    {
+      locale: 'default',
+      composer_input_disabled: true,
+      call_to_actions: [
+        {
+          type: 'postback',
+          title: 'Restart Conversation',
+          payload: 'RESTART',
+        },
+      ],
+    },
+  ],
+});
+```
+
+#### deleteMessengerProfile(fields)
+
+###### fields
+
+Type: `Array<String>`
+
+```js
+client.deleteMessengerProfile(['get_started', 'persistent_menu']);
+```
 
 ### Get Started Button
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
 
 #### getGetStartedButton
-#### setGetStartedButton
+
+```js
+client.getGetStartedButton().then(getStarted => {
+  console.log(getStarted);
+  // {
+  //   payload: 'GET_STARTED',
+  // }
+});
+```
+
+#### setGetStartedButton(payload)
+
+###### payload
+
+Type: `String`
+
+```js
+client.setGetStartedButton('GET_STARTED');
+```
+
 #### deleteGetStartedButton
+
+```js
+client.deleteGetStartedButton();
+```
 
 ### Persistent Menu
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu)
 
 #### getPersistentMenu
-#### setPersistentMenu
+
+```js
+client.getPersistentMenu().then(menu => {
+  console.log(menu);
+  // [
+  //   {
+  //     locale: 'default',
+  //     composer_input_disabled: true,
+  //     call_to_actions: [
+  //       {
+  //         type: 'postback',
+  //         title: 'Restart Conversation',
+  //         payload: 'RESTART',
+  //       },
+  //       {
+  //         type: 'web_url',
+  //         title: 'Powered by ALOHA.AI, Yoctol',
+  //         url: 'https://www.yoctol.com/',
+  //       },
+  //     ],
+  //   },
+  // ]
+});
+```
+
+#### setPersistentMenu(menu)
+
+###### menu
+
+Type: `Array<Object>`
+
+```js
+client.setPersistentMenu([
+  {
+    locale: 'default',
+    call_to_actions: [
+      {
+        title: 'Play Again',
+        type: 'postback',
+        payload: 'RESTART',
+      },
+      {
+        title: 'Language Setting',
+        type: 'nested',
+        call_to_actions: [
+          {
+            title: '中文',
+            type: 'postback',
+            payload: 'CHINESE',
+          },
+          {
+            title: 'English',
+            type: 'postback',
+            payload: 'ENGLISH',
+          },
+        ],
+      },
+      {
+        title: 'Explore D',
+        type: 'nested',
+        call_to_actions: [
+          {
+            title: 'Explore',
+            type: 'web_url',
+            url: 'https://www.youtube.com/watch?v=v',
+            webview_height_ratio: 'tall',
+          },
+          {
+            title: 'W',
+            type: 'web_url',
+            url: 'https://www.facebook.com/w',
+            webview_height_ratio: 'tall',
+          },
+          {
+            title: 'Powered by YOCTOL',
+            type: 'web_url',
+            url: 'https://www.yoctol.com/',
+            webview_height_ratio: 'tall',
+          },
+        ],
+      },
+    ],
+  },
+]);
+```
+
 #### deletePersistentMenu
+
+```js
+client.deletePersistentMenu();
+```
 
 ### Greeting Text
 
 [Officail docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text)
 
 #### getGreetingText
-#### setGreetingText
+
+```js
+client.getGreetingText().then(greeting => {
+  console.log(greeting);
+  // [
+  //   {
+  //     locale: 'default',
+  //     text: 'Hello!',
+  //   },
+  // ]
+});
+```
+
+#### setGreetingText(greeting)
+
+###### greeting
+
+Type: `Array<Object>`
+
+```js
+client.setGreetingText([
+  {
+    locale: 'default',
+    text: 'Hello!',
+  },
+]);
+```
+
 #### deleteGreetingText
+
+```js
+client.deleteGreetingText();
+```
 
 ### Domain Whitelist
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
 
 #### getDomainWhitelist
-#### setDomainWhitelist
+
+```js
+client.getDomainWhitelist().then(domains => {
+  console.log(domains);
+  // ['http://www.example.com/']
+});
+```
+
+#### setDomainWhitelist(domains)
+
+###### domains
+
+Type: `Array<String>`
+
+```js
+client.setDomainWhitelist(['www.example.com']);
+```
+
 #### deleteDomainWhitelist
+
+```js
+client.deleteDomainWhitelist();
+```
 
 ### Account Linking URL
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
 
 #### getAccountLinkingURL
-#### setAccountLinkingURL
+
+```js
+client.getAccountLinkingURL().then(accountLinking => {
+  console.log(accountLinking);
+  // {
+  //   account_linking_url:
+  //     'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
+  // }
+});
+```
+
+#### setAccountLinkingURL(url)
+
+###### url
+
+Type: `String`
+
+```js
+client.setAccountLinkingURL(
+  'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
+);
+```
+
 #### deleteAccountLinkingURL
+
+```js
+client.deleteAccountLinkingURL();
+```
 
 ### Payment Settings
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
 
 #### getPaymentSettings
-#### setPaymentPrivacyPolicyURL
-#### setPaymentPublicKey
-#### setPaymentTestUsers
+
+```js
+client.getPaymentSettings().then(settings => {
+  console.log(settings);
+  // {
+  //   privacy_url: 'www.facebook.com',
+  //   public_key: 'YOUR_PUBLIC_KEY',
+  //   test_users: ['12345678'],
+  // }
+});
+```
+
+#### setPaymentPrivacyPolicyURL(url)
+
+###### url
+
+Type: `String`
+
+```js
+client.setPaymentPrivacyPolicyURL('https://www.example.com');
+```
+
+#### setPaymentPublicKey(key)
+
+###### key
+
+Type: `String`
+
+```js
+client.setPaymentPublicKey('YOUR_PUBLIC_KEY');
+```
+
+#### setPaymentTestUsers(users)
+
+###### users
+
+Type: `Array<String>`
+
+```js
+client.setPaymentTestUsers(['12345678']);
+```
+
 #### deletePaymentSettings
+
+```js
+client.deletePaymentSettings();
+```
 
 ### Target Audience
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
 
 #### getTargetAudience
-#### setTargetAudience
+
+```js
+client.getTargetAudience().then(targetAudience => {
+  console.log(targetAudience);
+  // {
+  //   audience_type: 'custom',
+  //   countries: {
+  //     whitelist: ['US', 'CA'],
+  //   },
+  // }
+});
+```
+
+#### setTargetAudience(type, whitelist, blacklist)
+
+###### type
+
+Type: `String`
+
+##### whitelist
+
+Type: `Array<String>`
+
+##### blacklist
+
+Type: `Array<String>`
+
+```js
+client.setTargetAudience('custom', ['US', 'CA'], ['UK']);
+```
+
 #### deleteTargetAudience
+
+```js
+client.deleteTargetAudience();
+```
 
 ### Chat Extension Home URL
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
 
 #### getChatExtensionHomeURL
-#### setChatExtensionHomeURL
+
+```js
+client.getChatExtensionHomeURL().then(chatExtension => {
+  console.log(chatExtension);
+  // {
+  //   url: 'http://petershats.com/send-a-hat',
+  //   webview_height_ratio: 'tall',
+  //   in_test: true,
+  // }
+});
+```
+
+#### setChatExtensionHomeURL(url, attributes)
+
+###### url
+
+Type: `String`
+
+##### attributes
+
+Type: `Object`
+
+```js
+client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
+  webview_height_ratio: 'tall',
+  in_test: true,
+});
+```
+
 #### deleteChatExtensionHomeURL
+
+```js
+client.deleteChatExtensionHomeURL();
+```
 
 ### Message Tags
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
 
 #### getMessageTags
+
+```js
+client.getMessageTags().then(tags => {
+  console.log(tags);
+  // [
+  //   {
+  //     tag: 'SHIPPING_UPDATE',
+  //     description:
+  //       'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'RESERVATION_UPDATE',
+  //     description:
+  //       'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'ISSUE_RESOLUTION',
+  //     description:
+  //       'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
+  //   },
+  //   {
+  //     tag: 'APPOINTMENT_UPDATE',
+  //     description:
+  //       'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'GAME_EVENT',
+  //     description:
+  //       'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'TRANSPORTATION_UPDATE',
+  //     description:
+  //       'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'FEATURE_FUNCTIONALITY_UPDATE',
+  //     description:
+  //       'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'TICKET_UPDATE',
+  //     description:
+  //       'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  // ]
+});
+```
