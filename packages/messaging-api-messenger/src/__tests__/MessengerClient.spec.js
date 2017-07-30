@@ -28,7 +28,7 @@ describe('connect', () => {
     MessengerClient.connect(ACCESS_TOKEN);
 
     expect(axios.create).toBeCalledWith({
-      baseURL: 'https://graph.facebook.com/v2.9/',
+      baseURL: 'https://graph.facebook.com/v2.10/',
       headers: { 'Content-Type': 'application/json' },
     });
   });
@@ -61,7 +61,7 @@ describe('constructor', () => {
     new MessengerClient(ACCESS_TOKEN); // eslint-disable-line no-new
 
     expect(axios.create).toBeCalledWith({
-      baseURL: 'https://graph.facebook.com/v2.9/',
+      baseURL: 'https://graph.facebook.com/v2.10/',
       headers: { 'Content-Type': 'application/json' },
     });
   });
