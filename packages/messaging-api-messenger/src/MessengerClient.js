@@ -41,13 +41,13 @@ type Axios = {
 export default class MessengerClient {
   static connect = (
     accessToken: string,
-    version?: string = 'v2.9'
+    version?: string = 'v2.10'
   ): MessengerClient => new MessengerClient(accessToken, version);
 
   _accessToken: string;
   _http: Axios;
 
-  constructor(accessToken: string, version?: string = 'v2.9') {
+  constructor(accessToken: string, version?: string = 'v2.10') {
     this._accessToken = accessToken;
     this._http = axios.create({
       baseURL: `https://graph.facebook.com/${version}/`,
