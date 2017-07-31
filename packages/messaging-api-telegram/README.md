@@ -48,6 +48,10 @@ client.getWebhookInfo();
 
 #### setWebhook(url)
 
+###### url
+
+Type: `String`
+
 ```js
 client.setWebhook('https://4a16faff.ngrok.io/');
 ```
@@ -65,6 +69,20 @@ client.deleteWebhook();
 
 #### sendMessage(chatId, text, options)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### text
+
+Type: `String`
+
+##### options
+
+Type: `Object`
+
 ```js
 client.sendMessage(CHAT_ID, 'hi', {
   disable_web_page_preview: true,
@@ -75,6 +93,22 @@ client.sendMessage(CHAT_ID, 'hi', {
 [Official docs](https://core.telegram.org/bots/api/#sendmessage)
 
 #### sendPhoto(chatId, photo, options)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### photo
+
+Type: `String`
+
+Pass a file id as String to send a photo that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a photo from the Internet.
+
+##### options
+
+Type: `Object`
 
 ```js
 client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
@@ -87,6 +121,22 @@ client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
 
 #### sendAudio(chatId, audio, options)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### audio
+
+Type: `String`
+
+Pass a file id as String to send an audio that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get an audio from the Internet.
+
+##### options
+
+Type: `Object`
+
 ```js
 client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
   caption: 'gooooooodAudio',
@@ -97,6 +147,22 @@ client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
 [Official docs](https://core.telegram.org/bots/api/#sendaudio)
 
 #### sendDocument(chatId, document, options)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### document
+
+Type: `String`
+
+Pass a file id as String to send a document that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a document from the Internet.
+
+##### options
+
+Type: `Object`
 
 ```js
 client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
@@ -109,6 +175,22 @@ client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
 
 #### sendSticker(chatId, sticker, options)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### sticker
+
+Type: `String`
+
+Pass a file id as String to send a sticker that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a sticker from the Internet.
+
+##### options
+
+Type: `Object`
+
 ```js
 client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
   disable_notification: true,
@@ -118,6 +200,22 @@ client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
 [Official docs](https://core.telegram.org/bots/api/#sendsticker)
 
 #### sendVideo(chatId, video, options)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### video
+
+Type: `String`
+
+Pass a file id as String to send a video that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a video from the Internet.
+
+##### options
+
+Type: `Object`
 
 ```js
 client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
@@ -130,6 +228,22 @@ client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
 
 #### sendVoice(chatId, voice, options)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### voice
+
+Type: `String`
+
+Pass a file id as String to send a voice that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a voice from the Internet.
+
+##### options
+
+Type: `Object`
+
 ```js
 client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
   caption: 'gooooooodVoice',
@@ -140,6 +254,32 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
 [Official docs](https://core.telegram.org/bots/api/#sendvoice)
 
 #### sendLocation(chatId, location, options)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### location
+
+Type: `Object`
+
+###### location.latitude
+
+Type: `Number`
+
+Latitude of location.
+
+###### location.longitude
+
+Type: `Number`
+
+Longitude of location.
+
+##### options
+
+Type: `Object`
 
 ```js
 client.sendLocation(
@@ -157,6 +297,44 @@ client.sendLocation(
 [Official docs](https://core.telegram.org/bots/api/#sendlocation)
 
 #### sendVenue(chatId, venue, options)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### venue
+
+Type: `Object`
+
+###### venue.latitude
+
+Type: `Number`
+
+Latitude of the venue.
+
+###### venue.longitude
+
+Type: `Number`
+
+Longitude of the venue.
+
+###### venue.title
+
+Type: `String`
+
+Name of the venue.
+
+###### venue.address
+
+Type: `String`
+
+Address of the venue.
+
+##### options
+
+Type: `Object`
 
 ```js
 client.sendVenue(
@@ -177,6 +355,20 @@ client.sendVenue(
 
 #### sendContact(chatId, contact, options)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### contact
+
+Type: `Object`
+
+###### options
+
+Type: `Object`
+
 ```js
 client.sendContact(
   CHAT_ID,
@@ -191,6 +383,16 @@ client.sendContact(
 [Official docs](https://core.telegram.org/bots/api/#sendcontact)
 
 #### sendChatAction(chatId, action)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
+
+###### action
+
+Type: `String`
 
 ```js
 client.sendChatAction(CHAT_ID, 'typing');
@@ -220,6 +422,16 @@ client.getMe().then(result => {
 
 #### getUserProfilePhotos(userId, options)
 
+###### userId
+
+Type: `String`
+
+Unique identifier of the target user.
+
+###### options
+
+Type: `Object`
+
 ```js
 client.getUserProfilePhotos(USER_ID, { limit: 2 });
 ```
@@ -227,6 +439,12 @@ client.getUserProfilePhotos(USER_ID, { limit: 2 });
 [Official docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
 
 #### getFile(fileId)
+
+###### fileId
+
+Type: `String`
+
+File identifier to get info about.
 
 ```js
 client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
@@ -236,6 +454,12 @@ client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
 
 #### getChat(chatId)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
 ```js
 client.getChat(CHAT_ID);
 ```
@@ -243,6 +467,12 @@ client.getChat(CHAT_ID);
 [Official docs](https://core.telegram.org/bots/api/#getchat)
 
 #### getChatAdministrators(chatId)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
 
 ```js
 client.getChatAdministrators(CHAT_ID);
@@ -252,6 +482,12 @@ client.getChatAdministrators(CHAT_ID);
 
 #### getChatMembersCount(chatId)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
 ```js
 client.getChatMembersCount(CHAT_ID);
 ```
@@ -259,6 +495,18 @@ client.getChatMembersCount(CHAT_ID);
 [Official docs](https://core.telegram.org/bots/api/#getchatmemberscount)
 
 #### getChatMember(chatId, userId)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### userId
+
+Type: `String`
+
+Unique identifier of the target user.
 
 ```js
 client.getChatMember(CHAT_ID, USER_ID);
@@ -270,6 +518,22 @@ client.getChatMember(CHAT_ID, USER_ID);
 
 #### editMessageText(text, options)
 
+###### text
+
+Type: `String`
+
+New text of the message.
+
+###### options
+
+Type: `Object`
+
+###### options.chat_id
+
+###### options.message_id
+
+###### options.inline_message_id
+
 ```js
 client.editMessageText('new_text', { message_id: MESSAGE_ID });
 ```
@@ -278,6 +542,22 @@ client.editMessageText('new_text', { message_id: MESSAGE_ID });
 
 #### editMessageCaption(caption, options)
 
+###### caption
+
+Type: `String`
+
+New caption of the message.
+
+###### options
+
+Type: `Object`
+
+###### options.chat_id
+
+###### options.message_id
+
+###### options.inline_message_id
+
 ```js
 client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 ```
@@ -285,6 +565,20 @@ client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 [Official docs](https://core.telegram.org/bots/api/#editmessagecaption)
 
 #### editMessageReplyMarkup(replyMarkup, options)
+
+###### replyMarkup
+
+Type: `Object`
+
+###### options
+
+Type: `Object`
+
+###### options.chat_id
+
+###### options.message_id
+
+###### options.inline_message_id
 
 ```js
 client.editMessageReplyMarkup(
@@ -301,6 +595,18 @@ client.editMessageReplyMarkup(
 
 #### deleteMessage(chatId, messageId)
 
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### messageId
+
+Type: `Number`
+
+Identifier of the message to delete.
+
 ```js
 client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ```
@@ -310,6 +616,28 @@ client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ### Others
 
 #### forwardMessage(chatId, fromChatId, messageId, options)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### fromChatId
+
+Type: `Number | String`
+
+Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`).
+
+###### messageId
+
+Type: `Number`
+
+Message identifier in the chat specified in from_chat_id.
+
+###### options
+
+Type: `Object`
 
 ```js
 client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
