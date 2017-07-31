@@ -2,6 +2,8 @@
 
 > Messaging API client for LINE
 
+<img src="http://is5.mzstatic.com/image/thumb/Purple117/v4/01/c2/4d/01c24d99-4aae-71ea-24e2-d0b68f8c53d2/source/1200x630bb.jpg" alt="LINE" width="150" />
+
 ## Table of Contents
 
 - [Installation](#installation)
