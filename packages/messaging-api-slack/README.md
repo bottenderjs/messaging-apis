@@ -44,11 +44,19 @@ All methods return a Promise.
 
 #### sendRawBody(body)
 
+###### body
+
+Type: `Object`
+
 ```js
 client.sendRawBody({ text: 'Hello!' });
 ```
 
 #### sendText(text)
+
+###### text
+
+Type: `String`
 
 ```js
 client.sendText('Hello!');
@@ -57,6 +65,10 @@ client.sendText('Hello!');
 #### sendAttachments(attachments)
 
 [Official docs](https://api.slack.com/docs/message-attachments)
+
+###### attachments
+
+Type: `Array<Object>`
 
 ```js
 client.sendAttachments([
@@ -90,6 +102,10 @@ client.sendAttachments([
 #### sendAttachment(attachment)
 
 [Official docs](https://api.slack.com/docs/message-attachments)
+
+###### attachment
+
+Type: `Object`
 
 ```js
 client.sendAttachment({
