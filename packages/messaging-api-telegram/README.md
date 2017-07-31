@@ -2,6 +2,8 @@
 
 > Messaging API client for Telegram
 
+<img src="https://telegram.org/img/t_logo.png" alt="Telegram" width="150" />
+
 ## Table of Contents
 
 - [Installation](#installation)

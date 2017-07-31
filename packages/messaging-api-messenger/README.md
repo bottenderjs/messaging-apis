@@ -2,6 +2,8 @@
 
 > Messaging API client for Messenger
 
+<img src="https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/R_1BAhxMP5I.png" alt="Messenger" width="150" />
+
 ## Table of Contents
 
 - [Installation](#installation)

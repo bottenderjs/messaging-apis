@@ -2,6 +2,8 @@
 
 > Messaging API client for Slack
 
+<img src="https://cdn-images-1.medium.com/max/1200/1*TiKyhAN2gx4PpbOsiBhYcw.png" alt="Slack" width="150" />
+
 ## Table of Contents
 
 - [Installation](#installation)
