@@ -48,22 +48,6 @@ const client = MessengerClient.connect(accessToken, 'v2.9');
 
 If it is not specified, version `v2.10` will be used as default.
 
-### Call API
-
-```js
-async function fn() {
-  await client.sendText(USER_ID, text, options);
-}
-```
-
-or
-
-```js
-client.sendText(USER_ID, text, options).then(() => {
-  // do something
-});
-```
-
 ## API Reference
 
 All methods return a Promise.
