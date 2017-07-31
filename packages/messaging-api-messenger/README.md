@@ -7,17 +7,23 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Reference](#api-reference)
-  * [User](#user)
   * [Send API](#send-api)
-  * [Upload API](#upload-api)
-  * [Messenger Profile](#messenger-profile)
-  * [Get Started Button](#get-started-button)
-  * [Persistent Menu](#persistent-menu)
-  * [Greeting Text](#greeting-text)
-  * [Domain Whitelist](#domain-whitelist)
-  * [Account Linking URL](#account-linking-url)
-  * [Payment Settings](#payment-settings)
-  * [Target Audience](#target-audience)
+    * [Content Types](#content-types)
+    * [Templates](#templates)
+    * [Quick Replies](#quick-replies)
+    * [Sender Actions](#sender-actions)
+    * [Attachment Upload API](#attachment-upload-api)
+    * [Tags](#tags)
+  * [User Profile API](#user-profile-api)
+  * [Messenger Profile API](#messenger-profile-api)
+    * [Persistent Menu](#persistent-menu)
+    * [Get Started Button](#get-started-button)
+    * [Greeting Text](#greeting-text)
+    * [Domain Whitelist](#domain-whitelist)
+    * [Account Linking URL](#account-linking-url)
+    * [Payment Settings](#payment-settings)
+    * [Target Audience](#target-audience)
+    * [Chat Extension Home URL](#chat-extension-home-url)
 
 ## Installation
 
@@ -48,43 +54,9 @@ const client = MessengerClient.connect(accessToken, 'v2.9');
 
 If it is not specified, version `v2.10` will be used as default.
 
-### Call API
-
-```js
-async function fn() {
-  await client.sendText(USER_ID, text, options);
-}
-```
-
-or
-
-```js
-client.sendText(USER_ID, text, options).then(() => {
-  // do something
-});
-```
-
 ## API Reference
 
 All methods return a Promise.
-
-### User
-
-#### getUserProfile(userId)
-
-```js
-client.getUserProfile(USER_ID).then(user => {
-  console.log(user);
-  // {
-  //   first_name: 'Johnathan',
-  //   last_name: 'Jackson',
-  //   profile_pic: 'https://example.com/pic.png',
-  //   locale: 'en_US',
-  //   timezone: 8,
-  //   gender: 'male',
-  // }
-});
-```
 
 ### Send API
 
@@ -125,6 +97,8 @@ client.send(USER_ID, {
   text: 'Hello!',
 });
 ```
+
+### Content Types
 
 #### sendText(userId, text [, options])
 
@@ -246,6 +220,8 @@ Type: `String`
 ```js
 client.sendFile(USER_ID, 'https://example.com/word.docx');
 ```
+
+### Templates
 
 #### sendTemplate(userId, template)
 
@@ -1184,6 +1160,8 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
+### Quick Replies
+
 #### sendQuickReplies(userId, message, items)
 
 ###### userId
@@ -1211,6 +1189,8 @@ client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
 ```
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
+
+### Sender Actions
 
 #### sendSenderAction(userId, action)
 
@@ -1256,7 +1236,7 @@ Page-scoped user ID of the recipient.
 client.turnTypingIndicatorsOff(USER_ID);
 ```
 
-### Upload API
+### Attachment Upload API
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload/v2.8)
 
@@ -1324,7 +1304,85 @@ URL address of the file.
 client.uploadFile('http://www.example.com/file.pdf');
 ```
 
-### Messenger Profile
+### Tags
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
+
+#### getMessageTags
+
+```js
+client.getMessageTags().then(tags => {
+  console.log(tags);
+  // [
+  //   {
+  //     tag: 'SHIPPING_UPDATE',
+  //     description:
+  //       'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'RESERVATION_UPDATE',
+  //     description:
+  //       'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'ISSUE_RESOLUTION',
+  //     description:
+  //       'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
+  //   },
+  //   {
+  //     tag: 'APPOINTMENT_UPDATE',
+  //     description:
+  //       'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'GAME_EVENT',
+  //     description:
+  //       'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'TRANSPORTATION_UPDATE',
+  //     description:
+  //       'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'FEATURE_FUNCTIONALITY_UPDATE',
+  //     description:
+  //       'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  //   {
+  //     tag: 'TICKET_UPDATE',
+  //     description:
+  //       'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+  //   },
+  // ]
+});
+```
+
+### User Profile API
+
+#### getUserProfile(userId)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+```js
+client.getUserProfile(USER_ID).then(user => {
+  console.log(user);
+  // {
+  //   first_name: 'Johnathan',
+  //   last_name: 'Jackson',
+  //   profile_pic: 'https://example.com/pic.png',
+  //   locale: 'en_US',
+  //   timezone: 8,
+  //   gender: 'male',
+  // }
+});
+```
+
+### Messenger Profile API
 
 [Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
 
@@ -1397,37 +1455,6 @@ Type: `Array<String>`
 
 ```js
 client.deleteMessengerProfile(['get_started', 'persistent_menu']);
-```
-
-### Get Started Button
-
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
-
-#### getGetStartedButton
-
-```js
-client.getGetStartedButton().then(getStarted => {
-  console.log(getStarted);
-  // {
-  //   payload: 'GET_STARTED',
-  // }
-});
-```
-
-#### setGetStartedButton(payload)
-
-###### payload
-
-Type: `String`
-
-```js
-client.setGetStartedButton('GET_STARTED');
-```
-
-#### deleteGetStartedButton
-
-```js
-client.deleteGetStartedButton();
 ```
 
 ### Persistent Menu
@@ -1525,6 +1552,37 @@ client.setPersistentMenu([
 
 ```js
 client.deletePersistentMenu();
+```
+
+### Get Started Button
+
+[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
+
+#### getGetStartedButton
+
+```js
+client.getGetStartedButton().then(getStarted => {
+  console.log(getStarted);
+  // {
+  //   payload: 'GET_STARTED',
+  // }
+});
+```
+
+#### setGetStartedButton(payload)
+
+###### payload
+
+Type: `String`
+
+```js
+client.setGetStartedButton('GET_STARTED');
+```
+
+#### deleteGetStartedButton
+
+```js
+client.deleteGetStartedButton();
 ```
 
 ### Greeting Text
@@ -1762,58 +1820,4 @@ client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
 
 ```js
 client.deleteChatExtensionHomeURL();
-```
-
-### Message Tags
-
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
-
-#### getMessageTags
-
-```js
-client.getMessageTags().then(tags => {
-  console.log(tags);
-  // [
-  //   {
-  //     tag: 'SHIPPING_UPDATE',
-  //     description:
-  //       'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  //   {
-  //     tag: 'RESERVATION_UPDATE',
-  //     description:
-  //       'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  //   {
-  //     tag: 'ISSUE_RESOLUTION',
-  //     description:
-  //       'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
-  //   },
-  //   {
-  //     tag: 'APPOINTMENT_UPDATE',
-  //     description:
-  //       'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  //   {
-  //     tag: 'GAME_EVENT',
-  //     description:
-  //       'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  //   {
-  //     tag: 'TRANSPORTATION_UPDATE',
-  //     description:
-  //       'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  //   {
-  //     tag: 'FEATURE_FUNCTIONALITY_UPDATE',
-  //     description:
-  //       'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  //   {
-  //     tag: 'TICKET_UPDATE',
-  //     description:
-  //       'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-  //   },
-  // ]
-});
 ```

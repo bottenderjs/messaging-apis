@@ -33,22 +33,6 @@ const { LINEClient } = require('messaging-api-line');
 const client = LINEClient.connect(accessToken, channelSecret);
 ```
 
-### Call API
-
-```js
-async function fn() {
-  await client.pushText(USER_ID, text);
-}
-```
-
-or
-
-```js
-client.pushText(USER_ID, text).then(() => {
-  // do something
-});
-```
-
 ## API Reference
 
 All methods return a Promise.
