@@ -334,6 +334,8 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 
 #### replyButtonTemplate(token, altText, buttonTemplate)
 
+![](https://devdocs.line.me/images/buttons.png)
+
 ###### token
 
 Type: `String`
@@ -395,6 +397,8 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 
 #### replyConfirmTemplate(token, altText, confirmTemplate)
 
+![](https://devdocs.line.me/images/confirm.png)
+
 ###### token
 
 Type: `String`
@@ -440,6 +444,8 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
 ```
 
 #### replyCarouselTemplate(token, altText, carouselItems)
+
+![](https://devdocs.line.me/images/carousel.png)
 
 ###### token
 
@@ -794,6 +800,8 @@ client.pushTemplate(USER_ID, 'this is a template', {
 
 #### pushButtonTemplate(userId, altText, buttonTemplate)
 
+![](https://devdocs.line.me/images/buttons.png)
+
 ###### userId
 
 Type: `String`
@@ -855,6 +863,8 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 
 #### pushConfirmTemplate(userId, altText, confirmTemplate)
 
+![](https://devdocs.line.me/images/confirm.png)
+
 ###### userId
 
 Type: `String`
@@ -900,6 +910,8 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
 ```
 
 #### pushCarouselTemplate(userId, altText, carouselItems)
+
+![](https://devdocs.line.me/images/carousel.png)
 
 ###### userId
 
@@ -1257,6 +1269,8 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 
 #### multicastButtonTemplate(userId, altText, buttonTemplate)
 
+![](https://devdocs.line.me/images/buttons.png)
+
 ###### userIds
 
 Type: `String`
@@ -1318,6 +1332,8 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 #### multicastConfirmTemplate(userId, altText, confirmTemplate)
 
+![](https://devdocs.line.me/images/confirm.png)
+
 ###### userIds
 
 Type: `String`
@@ -1363,6 +1379,8 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 ```
 
 #### multicastCarouselTemplate(userId, altText, carouselItems)
+
+![](https://devdocs.line.me/images/carousel.png)
 
 ###### userIds
 
