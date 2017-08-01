@@ -689,7 +689,7 @@ export default class MessengerClient {
   /**
    * Upload API
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload/v2.8
+   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload
    */
   uploadAttachment = (type: string, url: string) =>
     this._http
@@ -710,4 +710,17 @@ export default class MessengerClient {
   uploadImage = (url: string) => this.uploadAttachment('image', url);
   uploadVideo = (url: string) => this.uploadAttachment('video', url);
   uploadFile = (url: string) => this.uploadAttachment('file', url);
+
+  /**
+   * Messenger Code API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/messenger-code
+   */
+  generateMessengerCode = (options = {}) =>
+    this._http
+      .post(`/me/messenger_codes?access_token=${this._accessToken}`, {
+        type: 'standard',
+        ...options,
+      })
+      .then(res => res.data);
 }

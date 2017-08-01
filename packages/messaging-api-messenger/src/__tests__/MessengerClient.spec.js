@@ -3509,3 +3509,71 @@ describe('upload api', () => {
     });
   });
 });
+
+describe('Messenger Code API', () => {
+  describe('#generateMessengerCode', () => {
+    it('should call messages api to generate code', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        uri: 'YOUR_CODE_URL_HERE',
+      };
+
+      mock
+        .onPost(`/me/messenger_codes?access_token=${ACCESS_TOKEN}`, {
+          type: 'standard',
+        })
+        .reply(200, reply);
+
+      const res = await client.generateMessengerCode();
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to generate code using custom image_size', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        uri: 'YOUR_CODE_URL_HERE',
+      };
+
+      mock
+        .onPost(`/me/messenger_codes?access_token=${ACCESS_TOKEN}`, {
+          type: 'standard',
+          image_size: 1500,
+        })
+        .reply(200, reply);
+
+      const res = await client.generateMessengerCode({
+        image_size: 1500,
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to generate parametric code', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        uri: 'YOUR_CODE_URL_HERE',
+      };
+
+      mock
+        .onPost(`/me/messenger_codes?access_token=${ACCESS_TOKEN}`, {
+          type: 'standard',
+          data: {
+            ref: 'billboard-ad',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.generateMessengerCode({
+        data: {
+          ref: 'billboard-ad',
+        },
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+});

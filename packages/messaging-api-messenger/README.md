@@ -26,6 +26,7 @@
     * [Payment Settings](#payment-settings)
     * [Target Audience](#target-audience)
     * [Chat Extension Home URL](#chat-extension-home-url)
+  * [Messenger Code API](#messenger-code-api)
 
 ## Installation
 
@@ -1861,4 +1862,36 @@ client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
 
 ```js
 client.deleteChatExtensionHomeURL();
+```
+
+### Messenger Code API
+
+![](https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/16685647_261975084241469_2329165888516784128_n.png?oh=61941dc020355f5c8fe88035d33f1503&oe=59F612D6)
+
+#### generateMessengerCode(options)
+
+###### options
+
+Type: `Object`
+
+###### options.image_size
+
+Type: `Number`
+
+###### options.data
+
+Type: `Object`
+
+```js
+client.generateMessengerCode({
+  data: {
+    ref: 'billboard-ad',
+  },
+  image_size: 1000,
+}).then(code => {
+  console.log(code);
+  // {
+  //   "uri": "YOUR_CODE_URL_HERE"
+  // }
+});
 ```
