@@ -3577,3 +3577,85 @@ describe('Messenger Code API', () => {
     });
   });
 });
+
+describe('Handover Protocol API', () => {
+  describe('#passThreadControl', () => {
+    it('should call messages api to pass thread control', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          target_app_id: 123456789,
+          metadata: 'free formed text for another app',
+        })
+        .reply(200, reply);
+
+      const res = await client.passThreadControl(
+        RECIPIENT_ID,
+        123456789,
+        'free formed text for another app'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#takeThreadControl', () => {
+    it('should call messages api to take thread control', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/take_thread_control?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          metadata: 'free formed text for another app',
+        })
+        .reply(200, reply);
+
+      const res = await client.takeThreadControl(
+        RECIPIENT_ID,
+        'free formed text for another app'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getSecondaryReceivers', () => {
+    it('should call messages api to get Secondary receivers', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          { id: '12345678910', name: "David's Composer" },
+          { id: '23456789101', name: 'Messenger Rocks' },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/secondary_receivers?fields=id,name&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getSecondaryReceivers();
+
+      expect(res).toEqual([
+        { id: '12345678910', name: "David's Composer" },
+        { id: '23456789101', name: 'Messenger Rocks' },
+      ]);
+    });
+  });
+});
