@@ -62,10 +62,9 @@ If it is not specified, version `v2.10` will be used as default.
 
 All methods return a Promise.
 
-### Send API
+<a id="send-api" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)  
-[Content types](https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes)
+### Send API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)  
 
 #### sendRawBody(body)
 
@@ -102,7 +101,9 @@ client.send(USER_ID, {
 });
 ```
 
-### Content Types
+<a id="content-types" />
+
+### Content Types - [Content types](https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes)
 
 #### sendText(userId, text [, options])
 
@@ -233,7 +234,9 @@ Type: `String`
 client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
 ```
 
-### Templates
+<a id="templates" />
+
+### Templates - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates)
 
 #### sendTemplate(userId, template)
 
@@ -261,9 +264,7 @@ client.sendTemplate(USER_ID, {
 });
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates)
-
-#### sendButtonTemplate(userId, title, buttons)
+#### sendButtonTemplate(userId, title, buttons) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509162_1732711383655205_1306472501_n.png?oh=0e2409226bc50b23207bf37bf6e2edb6&oe=5A377CAC" alt="sendButtonTemplate" width="250" />
 
@@ -281,7 +282,6 @@ Type: `String`
 
 Type: `Array<Object>`
 
-
 ```js
 client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
   {
@@ -297,9 +297,7 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
 ]);
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
-
-#### sendGenericTemplate(userId, elements)
+#### sendGenericTemplate(userId, elements) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509251_1026555627430343_1803381600_n.png?oh=e9fadd445090a4743bfd20fda487be5f&oe=59EE4571" alt="sendGenericTemplate" width="250" />
 
@@ -337,8 +335,6 @@ client.sendGenericTemplate(USER_ID, [
 ]);
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
-
 #### sendTaggedTemplate(userId, elements, tag)
 
 ###### userId
@@ -351,7 +347,7 @@ Page-scoped user ID of the recipient.
 
 Type: `Array<Object>`
 
-###### tag
+###### tag - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
 
 Type: `String`
 
@@ -382,8 +378,6 @@ client.sendTaggedTemplate(
   'GAME_EVENT'
 );
 ```
-
-[Official docs for message tags](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
 
 #### sendShippingUpdateTemplate(userId, elements)
 
@@ -673,7 +667,7 @@ client.sendTicketUpdateTemplate(USER_ID, [
 ]);
 ```
 
-#### sendListTemplate(userId, items, buttons, topElementStyle)
+#### sendListTemplate(userId, items, buttons, topElementStyle) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14858155_1136082199802015_362293724211838976_n.png?oh=46900eb955ff8ea1040fc5353d9be2fa&oe=59F245DD" alt="sendListTemplate" width="500" />
 
@@ -733,9 +727,7 @@ client.sendListTemplate(
 );
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
-
-#### sendOpenGraphTemplate(userId, elements)
+#### sendOpenGraphTemplate(userId, elements) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/open-graph-template)
 
 ###### userId
 
@@ -762,7 +754,7 @@ client.sendOpenGraphTemplate(USER_ID, [
 ]);
 ```
 
-#### sendReceiptTemplate(userId, receipt)
+#### sendReceiptTemplate(userId, receipt)  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466939_915325738590743_1056699384_n.png?oh=bd6869385dee4c2cfaef1329fc660a01&oe=5A0331D4" alt="sendReceiptTemplate" width="250" />
 
@@ -829,9 +821,7 @@ client.sendReceiptTemplate(USER_ID, {
 });
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
-
-#### sendAirlineBoardingPassTemplate(userId, attributes)
+#### sendAirlineBoardingPassTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466921_1408414619175015_4955822_n.png?oh=3136f1ef03e482bda03f433b18745033&oe=5A316E63" alt="sendAirlineBoardingPassTemplate" width="600" />
 
@@ -964,9 +954,7 @@ client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
 });
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
-
-#### sendAirlineCheckinTemplate
+#### sendAirlineCheckinTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466944_1156144061116360_549622536_n.png?oh=1aa077176a59f346abf8d199e133d2d2&oe=59F2476C" alt="sendAirlineCheckinTemplate" width="250" />
 
@@ -1011,9 +999,7 @@ client.sendAirlineCheckinTemplate(USER_ID, {
 });
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
-
-#### sendAirlineItineraryTemplate
+#### sendAirlineItineraryTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466573_979516348832909_515976570_n.png?oh=1eb97bf63d3a9f5c333ba28184085950&oe=59FB8738" alt="sendAirlineItineraryTemplate" width="600" />
 
@@ -1152,9 +1138,7 @@ client.sendAirlineItineraryTemplate(USER_ID, {
 });
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
-
-#### sendAirlineFlightUpdateTemplate
+#### sendAirlineFlightUpdateTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13503467_502166346641834_1768260104_n.png?oh=141fe3238aa6f04d413705860eb52ede&oe=59F5C6BC" alt="sendAirlineFlightUpdateTemplate" width="250" />
 
@@ -1197,9 +1181,9 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 });
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
+<a id="quick-replies" />
 
-### Quick Replies
+### Quick Replies - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14175277_1582251242076612_248078259_n.png?oh=f87f9d3ea0f9902686f21a105e6fe9eb&oe=59F265D6" alt="Sender Actions" width="750" />
 
@@ -1229,9 +1213,9 @@ client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
 ]);
 ```
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
+<a id="sender-actions" />
 
-### Sender Actions
+### Sender Actions - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480169_570751053131489_689799179_n.png?oh=e0a04cc8a7bdc05b39f9fd4262a6be04&oe=59F7E61C" alt="Sender Actions" width="250" />
 
@@ -1252,8 +1236,6 @@ Name of the action.
 ```js
 client.sendSenderAction(USER_ID, 'typing_on');
 ```
-
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
 
 #### turnTypingIndicatorsOn(userId)
 
@@ -1279,9 +1261,9 @@ Page-scoped user ID of the recipient.
 client.turnTypingIndicatorsOff(USER_ID);
 ```
 
-### Attachment Upload API
+<a id="attachment-upload-api" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload/v2.8)
+### Attachment Upload API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload)
 
 #### uploadAttachment(type, url)
 
@@ -1346,10 +1328,9 @@ URL address of the file.
 ```js
 client.uploadFile('http://www.example.com/file.pdf');
 ```
+<a id="tags" />
 
-### Tags
-
-[Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
+### Tags - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
 
 #### getMessageTags
 
@@ -1401,7 +1382,9 @@ client.getMessageTags().then(tags => {
 });
 ```
 
-### User Profile API
+<a id="user-profile-api" />
+
+### User Profile API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/user-profile)
 
 #### getUserProfile(userId)
 
@@ -1425,9 +1408,9 @@ client.getUserProfile(USER_ID).then(user => {
 });
 ```
 
-### Messenger Profile API
+<a id="messenger-profile-api" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
+### Messenger Profile API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
 
 #### getMessengerProfile(fields)
 
@@ -1500,9 +1483,9 @@ Type: `Array<String>`
 client.deleteMessengerProfile(['get_started', 'persistent_menu']);
 ```
 
-### Persistent Menu
+<a id="persistent-menu" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu)
+### Persistent Menu - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu)
 
 ![](https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/16686128_804279846389859_443648268883197952_n.png?oh=adde03b0bc7dd524a58cf46016e0267d&oe=59FC90D6)
 
@@ -1599,9 +1582,9 @@ client.setPersistentMenu([
 client.deletePersistentMenu();
 ```
 
-### Get Started Button
+<a id="get-started-button" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
+### Get Started Button - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14302685_243106819419381_1314180151_n.png?oh=9487042d8c0067eb2fda1efa45d0e17b&oe=59F7185C" alt="Get Started Button" width="500" />
 
@@ -1632,9 +1615,9 @@ client.setGetStartedButton('GET_STARTED');
 client.deleteGetStartedButton();
 ```
 
-### Greeting Text
+<a id="greeting-text" />
 
-[Officail docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text)
+### Greeting Text - [Officail docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14287888_188235318253964_1078929636_n.png?oh=a1171ab50f04d3a244ed703eafd2dbef&oe=59F01AF5" alt="Greeting Text" width="250" />
 
@@ -1673,9 +1656,9 @@ client.setGreetingText([
 client.deleteGreetingText();
 ```
 
-### Domain Whitelist
+<a id="domain-whitelist" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
+### Domain Whitelist - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
 
 #### getDomainWhitelist
 
@@ -1702,9 +1685,9 @@ client.setDomainWhitelist(['www.example.com']);
 client.deleteDomainWhitelist();
 ```
 
-### Account Linking URL
+<a id="account-linking-url" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
+### Account Linking URL - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
 
 #### getAccountLinkingURL
 
@@ -1736,9 +1719,9 @@ client.setAccountLinkingURL(
 client.deleteAccountLinkingURL();
 ```
 
-### Payment Settings
+<a id="payment-settings" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
+### Payment Settings - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
 
 #### getPaymentSettings
 
@@ -1789,9 +1772,9 @@ client.setPaymentTestUsers(['12345678']);
 client.deletePaymentSettings();
 ```
 
-### Target Audience
+<a id="target-audience" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
+### Target Audience - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
 
 #### getTargetAudience
 
@@ -1831,9 +1814,9 @@ client.setTargetAudience('custom', ['US', 'CA'], ['UK']);
 client.deleteTargetAudience();
 ```
 
-### Chat Extension Home URL
+<a id="chat-extension-home-url" />
 
-[Official docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
+### Chat Extension Home URL - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
 
 #### getChatExtensionHomeURL
 
@@ -1871,7 +1854,9 @@ client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
 client.deleteChatExtensionHomeURL();
 ```
 
-### Messenger Code API
+<a id="messenger-code-api" />
+
+### Messenger Code API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-code)
 
 ![](https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/16685647_261975084241469_2329165888516784128_n.png?oh=61941dc020355f5c8fe88035d33f1503&oe=59F612D6)
 
@@ -1907,7 +1892,7 @@ client
 
 ### Handover Protocol API
 
-#### passThreadControl(userId, targetAppId, metadata)
+#### passThreadControl(userId, targetAppId, metadata) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/pass-thread-control)
 
 ###### userId
 
@@ -1927,7 +1912,7 @@ Type: `String`
 client.passThreadControl(USER_ID, APP_ID, 'free formed text for another app');
 ```
 
-#### takeThreadControl(userId, metadata)
+#### takeThreadControl(userId, metadata) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/take-thread-control)
 
 ###### userId
 
@@ -1943,7 +1928,7 @@ Type: `String`
 client.passThreadControl(USER_ID, 'free formed text for another app');
 ```
 
-#### getSecondaryReceivers
+#### getSecondaryReceivers  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/secondary-receivers)
 
 ```js
 client.getSecondaryReceivers().then(receivers => {

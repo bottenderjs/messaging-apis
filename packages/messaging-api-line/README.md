@@ -10,13 +10,13 @@
 - [Usage](#usage)
 - [API Reference](#api-reference)
   * [Reply API](#reply-api)
-    * [Imagemap Message](#reply-image-message)
+    * [Imagemap Message](#reply-imagemap-message)
     * [Template Messages](#reply-template-messages)
   * [Push API](#push-api)
-    * [Imagemap Message](#push-image-message)
+    * [Imagemap Message](#push-imagemap-message)
     * [Template Messages](#push-template-messages)
   * [Multicast API](#multicast-api)
-    * [Imagemap Message](#multicast-image-message)
+    * [Imagemap Message](#multicast-imagemap-message)
     * [Template Messages](#multicast-template-messages)
   * [Content API](#content-api)
   * [Profile API](#profile-api)
@@ -50,9 +50,9 @@ const client = LINEClient.connect(accessToken, channelSecret);
 
 All methods return a Promise.
 
-### Reply API
+<a id="reply-api" />
 
-[Official Docs](https://devdocs.line.me/en/#reply-message)
+### Reply API - [Official Docs](https://devdocs.line.me/en/#reply-message)
 
 #### reply(token, messages)
 
@@ -232,7 +232,7 @@ Type: `String`
 
 Alternative text.
 
-###### imagemap
+###### imagemap - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
 Type: `Object`
 
@@ -287,8 +287,6 @@ client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
   ],
 });
 ```
-
-[Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
 ### Reply Template Messages
 
@@ -516,9 +514,9 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 ]);
 ```
 
-### Push API
+<a id="push-api" />
 
-[Official Docs](https://devdocs.line.me/en/#push-message)
+### Push API - [Official Docs](https://devdocs.line.me/en/#push-message)
 
 #### push(userId, messages)
 
@@ -698,7 +696,7 @@ Type: `String`
 
 Alternative text.
 
-###### imagemap
+###### imagemap - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
 Type: `Object`
 
@@ -753,8 +751,6 @@ client.pushImagemap(USER_ID, 'this is an imagemap', {
   ],
 });
 ```
-
-[Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
 ### Push Template Messages
 
@@ -982,9 +978,9 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 ]);
 ```
 
-### Multicast API
+<a id="multicast-api" />
 
-[Official Docs](https://devdocs.line.me/en/#multicast)
+### Multicast API - [Official Docs](https://devdocs.line.me/en/#multicast)
 
 #### multicast(userIds, messages)
 
@@ -1167,7 +1163,7 @@ Type: `String`
 
 Alternative text.
 
-###### imagemap
+###### imagemap - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
 Type: `Object`
 
@@ -1222,8 +1218,6 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
   ],
 });
 ```
-
-[Official Docs](https://devdocs.line.me/en/#imagemap-message)
 
 ### Multicast Template Messages
 
@@ -1451,11 +1445,11 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 ]);
 ```
 
-### Content API
+<a id="content-api" />
+
+### Content API - [Official Docs](https://devdocs.line.me/en/#content)
 
 #### retrieveMessageContent(messageId)
-
-[Official Docs](https://devdocs.line.me/en/#content)
 
 ###### messageId
 
@@ -1465,11 +1459,11 @@ Type: `String`
 client.retrieveMessageContent(MESSAGE_ID);
 ```
 
-### Profile API
+<a id="profile-api" />
+
+### Profile API - [Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
 
 #### getUserProfile(userId)
-
-[Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
 
 ###### userId
 
@@ -1487,9 +1481,9 @@ client.getUserProfile(USER_ID).then(profile => {
 });
 ```
 
-### Group/Room Member Profile API
+<a id="grouproom-member-profile-api" />
 
-[Official Docs](https://devdocs.line.me/en/#get-group-room-member-profile)
+### Group/Room Member Profile API - [Official Docs](https://devdocs.line.me/en/#get-group-room-member-profile)
 
 #### getGroupMemberProfile(groupId, userId)
 
@@ -1533,9 +1527,9 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 });
 ```
 
-### Group/Room Member IDs API
+<a id="grouproom-member-ids-api" />
 
-[Official Docs](https://devdocs.line.me/en/#get-group-room-member-ids)
+### Group/Room Member IDs API - [Official Docs](https://devdocs.line.me/en/#get-group-room-member-ids)
 
 #### getGroupMemberIds(groupId, start)
 
@@ -1625,11 +1619,11 @@ client.getAllRoomMemberIds(ROOM_ID).then(ids => {
 });
 ```
 
-### Leave API
+<a id="leave-api" />
+
+### Leave API - [Official Docs](https://devdocs.line.me/en/#leave)
 
 #### leaveGroup(groupId)
-
-[Official Docs](https://devdocs.line.me/en/#leave)
 
 ###### groupId
 
@@ -1641,8 +1635,6 @@ client.leaveGroup(GROUP_ID);
 
 #### leaveRoom(roomId)
 
-[Official Docs](https://devdocs.line.me/en/#leave)
-
 ###### roomId
 
 Type: `String`
@@ -1653,6 +1645,4 @@ client.leaveRoom(ROOM_ID);
 
 ### Others
 
-#### isValidSignature
-
-[Official Docs](https://devdocs.line.me/en/#webhooks)
+#### isValidSignature - [Official Docs](https://devdocs.line.me/en/#webhooks)

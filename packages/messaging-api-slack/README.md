@@ -40,9 +40,7 @@ const client = SlackClient.connect(
 
 All methods return a Promise.
 
-### Send API
-
-[Official docs](https://api.slack.com/docs/messages)
+### Send API - [Official docs](https://api.slack.com/docs/messages)
 
 #### sendRawBody(body)
 
@@ -64,9 +62,7 @@ Type: `String`
 client.sendText('Hello!');
 ```
 
-#### sendAttachments(attachments)
-
-[Official docs](https://api.slack.com/docs/message-attachments)
+#### sendAttachments(attachments) - [Official docs](https://api.slack.com/docs/message-attachments)
 
 ###### attachments
 
@@ -101,9 +97,7 @@ client.sendAttachments([
 ]);
 ```
 
-#### sendAttachment(attachment)
-
-[Official docs](https://api.slack.com/docs/message-attachments)
+#### sendAttachment(attachment) - [Official docs](https://api.slack.com/docs/message-attachments)
 
 ###### attachment
 
