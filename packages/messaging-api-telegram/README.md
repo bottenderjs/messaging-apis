@@ -42,13 +42,13 @@ All methods return a Promise.
 
 ### Webhook API
 
-#### getWebhookInfo
+#### getWebhookInfo - [Official Docs](https://core.telegram.org/bots/api#getwebhookinfo)  
 
 ```js
 client.getWebhookInfo();
 ```
 
-#### setWebhook(url)
+#### setWebhook(url) - [Official Docs](https://core.telegram.org/bots/api#setwebhook)  
 
 ###### url
 
@@ -58,18 +58,17 @@ Type: `String`
 client.setWebhook('https://4a16faff.ngrok.io/');
 ```
 
-#### deleteWebhook
+#### deleteWebhook - [Official Docs](https://core.telegram.org/bots/api#deletewebhook)  
 
 ```js
 client.deleteWebhook();
 ```
 
-### Send API
+<a id="send-api" />
 
-[Official docs](https://core.telegram.org/bots/api#available-methods)  
-[Content type](https://core.telegram.org/bots/api/#available-types)
+### Send API - [Official Docs](https://core.telegram.org/bots/api#available-methods)  
 
-#### sendMessage(chatId, text, options)
+#### sendMessage(chatId, text, options) - [Official Docs](https://core.telegram.org/bots/api/#sendmessage)
 
 ###### chatId
 
@@ -92,9 +91,8 @@ client.sendMessage(CHAT_ID, 'hi', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendmessage)
+#### sendPhoto(chatId, photo, options) - [Official Docs](https://core.telegram.org/bots/api/#sendphoto)
 
-#### sendPhoto(chatId, photo, options)
 
 ###### chatId
 
@@ -119,9 +117,7 @@ client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendphoto)
-
-#### sendAudio(chatId, audio, options)
+#### sendAudio(chatId, audio, options) - [Official Docs](https://core.telegram.org/bots/api/#sendaudio)
 
 ###### chatId
 
@@ -146,9 +142,7 @@ client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendaudio)
-
-#### sendDocument(chatId, document, options)
+#### sendDocument(chatId, document, options) - [Official Docs](https://core.telegram.org/bots/api/#senddocument)
 
 ###### chatId
 
@@ -173,9 +167,7 @@ client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#senddocument)
-
-#### sendSticker(chatId, sticker, options)
+#### sendSticker(chatId, sticker, options) - [Official Docs](https://core.telegram.org/bots/api/#sendsticker)
 
 ###### chatId
 
@@ -199,9 +191,7 @@ client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendsticker)
-
-#### sendVideo(chatId, video, options)
+#### sendVideo(chatId, video, options) - [Official Docs](https://core.telegram.org/bots/api/#sendvideo)
 
 ###### chatId
 
@@ -226,9 +216,7 @@ client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendvideo)
-
-#### sendVoice(chatId, voice, options)
+#### sendVoice(chatId, voice, options) - [Official Docs](https://core.telegram.org/bots/api/#sendvoice)
 
 ###### chatId
 
@@ -253,9 +241,7 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendvoice)
-
-#### sendLocation(chatId, location, options)
+#### sendLocation(chatId, location, options) - [Official Docs](https://core.telegram.org/bots/api/#sendlocation)
 
 ###### chatId
 
@@ -296,9 +282,7 @@ client.sendLocation(
 );
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendlocation)
-
-#### sendVenue(chatId, venue, options)
+#### sendVenue(chatId, venue, options) - [Official Docs](https://core.telegram.org/bots/api/#sendvenue)
 
 ###### chatId
 
@@ -353,9 +337,7 @@ client.sendVenue(
 );
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendvenue)
-
-#### sendContact(chatId, contact, options)
+#### sendContact(chatId, contact, options) - [Official Docs](https://core.telegram.org/bots/api/#sendcontact)
 
 ###### chatId
 
@@ -382,9 +364,7 @@ client.sendContact(
 );
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendcontact)
-
-#### sendChatAction(chatId, action)
+#### sendChatAction(chatId, action) - [Official Docs](https://core.telegram.org/bots/api/#sendchataction)
 
 ###### chatId
 
@@ -400,11 +380,9 @@ Type: `String`
 client.sendChatAction(CHAT_ID, 'typing');
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#sendchataction)
-
 ### Get API
 
-#### getMe
+#### getMe - [Official Docs](https://core.telegram.org/bots/api/#getme)
 
 ```js
 client.getMe().then(result => {
@@ -420,9 +398,7 @@ client.getMe().then(result => {
 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getme)
-
-#### getUserProfilePhotos(userId, options)
+#### getUserProfilePhotos(userId, options) - [Official Docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
 
 ###### userId
 
@@ -438,9 +414,7 @@ Type: `Object`
 client.getUserProfilePhotos(USER_ID, { limit: 2 });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
-
-#### getFile(fileId)
+#### getFile(fileId) - [Official Docs](https://core.telegram.org/bots/api/#getfile)
 
 ###### fileId
 
@@ -452,9 +426,7 @@ File identifier to get info about.
 client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getfile)
-
-#### getChat(chatId)
+#### getChat(chatId) - [Official Docs](https://core.telegram.org/bots/api/#getchat)
 
 ###### chatId
 
@@ -466,9 +438,7 @@ Unique identifier for the target chat or username of the target supergroup or ch
 client.getChat(CHAT_ID);
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getchat)
-
-#### getChatAdministrators(chatId)
+#### getChatAdministrators(chatId) - [Official Docs](https://core.telegram.org/bots/api/#getchatadministrators)
 
 ###### chatId
 
@@ -480,9 +450,7 @@ Unique identifier for the target chat or username of the target supergroup or ch
 client.getChatAdministrators(CHAT_ID);
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getchatadministrators)
-
-#### getChatMembersCount(chatId)
+#### getChatMembersCount(chatId) - [Official Docs](https://core.telegram.org/bots/api/#getchatmemberscount)
 
 ###### chatId
 
@@ -494,9 +462,7 @@ Unique identifier for the target chat or username of the target supergroup or ch
 client.getChatMembersCount(CHAT_ID);
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getchatmemberscount)
-
-#### getChatMember(chatId, userId)
+#### getChatMember(chatId, userId) - [Official Docs](https://core.telegram.org/bots/api/#getchatmember)
 
 ###### chatId
 
@@ -514,11 +480,9 @@ Unique identifier of the target user.
 client.getChatMember(CHAT_ID, USER_ID);
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#getchatmember)
-
 ### updating API
 
-#### editMessageText(text, options)
+#### editMessageText(text, options) - [Official Docs](https://core.telegram.org/bots/api/#editmessagetext)
 
 ###### text
 
@@ -540,9 +504,7 @@ Type: `Object`
 client.editMessageText('new_text', { message_id: MESSAGE_ID });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#editmessagetext)
-
-#### editMessageCaption(caption, options)
+#### editMessageCaption(caption, options) - [Official Docs](https://core.telegram.org/bots/api/#editmessagecaption)
 
 ###### caption
 
@@ -564,9 +526,7 @@ Type: `Object`
 client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#editmessagecaption)
-
-#### editMessageReplyMarkup(replyMarkup, options)
+#### editMessageReplyMarkup(replyMarkup, options) - [Official Docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
 
 ###### replyMarkup
 
@@ -593,9 +553,7 @@ client.editMessageReplyMarkup(
 );
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
-
-#### deleteMessage(chatId, messageId)
+#### deleteMessage(chatId, messageId) - [Official Docs](https://core.telegram.org/bots/api/#deletemessage)
 
 ###### chatId
 
@@ -613,11 +571,9 @@ Identifier of the message to delete.
 client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ```
 
-[Official docs](https://core.telegram.org/bots/api/#deletemessage)
-
 ### Others
 
-#### forwardMessage(chatId, fromChatId, messageId, options)
+#### forwardMessage(chatId, fromChatId, messageId, options) - [Official Docs](https://core.telegram.org/bots/api/#forwardmessage)
 
 ###### chatId
 
@@ -646,5 +602,3 @@ client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
 });
 ```
-
-[Official docs](https://core.telegram.org/bots/api/#forwardmessage)
