@@ -20,6 +20,8 @@
     * [Template Messages](#multicast-template-messages)
   * [Content API](#content-api)
   * [Profile API](#profile-api)
+  * [Group/Room Member Profile API](#grouproom-member-profile-api)
+  * [Group/Room Member IDs API](#grouproom-member-ids-api)
   * [Leave API](#leave-api)
   * [Others](#others)
 
@@ -1482,6 +1484,144 @@ client.getUserProfile(USER_ID).then(profile => {
   //   pictureUrl: 'http://obs.line-apps.com/...',
   //   statusMessage: 'Hello, LINE!',
   // }
+});
+```
+
+### Group/Room Member Profile API
+
+[Official Docs](https://devdocs.line.me/en/#get-group-room-member-profile)
+
+#### getGroupMemberProfile(groupId, userId)
+
+###### groupId
+
+Type: `String`
+
+###### userId
+
+Type: `String`
+
+```js
+client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
+  console.log(member);
+  // {
+  //   "displayName":"LINE taro",
+  //   "userId":"Uxxxxxxxxxxxxxx...",
+  //   "pictureUrl":"http://obs.line-apps.com/..."
+  // }
+});
+```
+
+#### getRoomMemberProfile(roomId, userId)
+
+###### roomId
+
+Type: `String`
+
+###### userId
+
+Type: `String`
+
+```js
+client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
+  console.log(member);
+  // {
+  //   "displayName":"LINE taro",
+  //   "userId":"Uxxxxxxxxxxxxxx...",
+  //   "pictureUrl":"http://obs.line-apps.com/..."
+  // }
+});
+```
+
+### Group/Room Member IDs API
+
+[Official Docs](https://devdocs.line.me/en/#get-group-room-member-ids)
+
+#### getGroupMemberIds(groupId, start)
+
+###### groupId
+
+Type: `String`
+
+###### start
+
+Type: `String`
+
+```js
+client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
+  console.log(res);
+  // {
+  //   memberIds: [
+  //     'Uxxxxxxxxxxxxxx...',
+  //     'Uxxxxxxxxxxxxxx...',
+  //     'Uxxxxxxxxxxxxxx...'
+  //   ],
+  //   next: 'jxEWCEEP...'
+  // }
+});
+```
+
+#### getAllGroupMemberIds(groupId)
+
+###### groupId
+
+Type: `String`
+
+```js
+client.getAllGroupMemberIds(GROUP_ID).then(ids => {
+  console.log(ids);
+  // [
+  //   'Uxxxxxxxxxxxxxx..1',
+  //   'Uxxxxxxxxxxxxxx..2',
+  //   'Uxxxxxxxxxxxxxx..3',
+  //   'Uxxxxxxxxxxxxxx..4',
+  //   'Uxxxxxxxxxxxxxx..5',
+  //   'Uxxxxxxxxxxxxxx..6',
+  // ]
+});
+```
+
+#### getRoomMemberIds(roomId, start)
+
+###### roomId
+
+Type: `String`
+
+###### start
+
+Type: `String`
+
+```js
+client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
+  console.log(res);
+  // {
+  //   memberIds: [
+  //     'Uxxxxxxxxxxxxxx...',
+  //     'Uxxxxxxxxxxxxxx...',
+  //     'Uxxxxxxxxxxxxxx...'
+  //   ],
+  //   next: 'jxEWCEEP...'
+  // }
+});
+```
+
+#### getAllRoomMemberIds(roomId)
+
+###### roomId
+
+Type: `String`
+
+```js
+client.getAllRoomMemberIds(ROOM_ID).then(ids => {
+  console.log(ids);
+  // [
+  //   'Uxxxxxxxxxxxxxx..1',
+  //   'Uxxxxxxxxxxxxxx..2',
+  //   'Uxxxxxxxxxxxxxx..3',
+  //   'Uxxxxxxxxxxxxxx..4',
+  //   'Uxxxxxxxxxxxxxx..5',
+  //   'Uxxxxxxxxxxxxxx..6',
+  // ]
 });
 ```
 
