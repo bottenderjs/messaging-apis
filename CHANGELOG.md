@@ -1,6 +1,21 @@
+0.2.4 / 2017-08-02
+==================
+- [docs] A big improvement.
+- [docs] prettify code examples with prettier
+
+### messaging-api-messenger
+- [new] Chat Extension Home URL API
+- [new] Messenger Code API
+- [new] Handover Protocol APIs
+- [new] add 5 new tagged templates
+- [deps] upgrade default graph api version to `v2.10`
+
+### messaging-api-line
+- [new] LINE Group/Room Member API
+
 0.2.3 / 2017-07-13
 ==================
-#### messaging-api-telegram
+### messaging-api-telegram
 - [new] Add optional parameters to telegram api [#47](https://github.com/Yoctol/messaging-apis/pull/47).
 - [new] Implement get methods
   + `getUserProfilePhotos`
@@ -21,10 +36,10 @@
 ==================
 - [deps] Update `lerna` to `v2.0.0`.
 
-#### messaging-api-messenger
+### messaging-api-messenger
 - [new] Support send open graph template with `MessengerClient.sendOpenGraphTemplate`.
 
-#### messaging-api-telegram
+### messaging-api-telegram
 - [new] First release.
 
 
@@ -33,13 +48,13 @@
 - [new] Add `engines` in `package.json` [#38](https://github.com/Yoctol/messaging-apis/pull/38).
 - [new] Setup test coverage report using `codecov` .
 
-#### messaging-api-messenger
+### messaging-api-messenger
 - [fix] Fix wrong checking rules in `sendQuickReplies` methods.
 
-#### messaging-api-line
+### messaging-api-line
 - [fix] `retrieveMessageContent` should return `Promise<Buffer>`.
 
-#### messaging-api-slack
+### messaging-api-slack
 - [new] First release.
 
 
@@ -49,11 +64,11 @@
 - [breaking] APIs now return detail data and not just an `axios` response.
 - [breaking] rename `factory` to `connect`
 
-#### messaging-api-messenger
+### messaging-api-messenger
 - [new] support use specified graph api version
 - [new] support menu locale
 - [new] support greeting locale
 - [breaking] rename `inputDisabled` to `composerInputDisabled`
 
-#### messaging-api-line
+### messaging-api-line
 - [new] support more `reply` methods and `multicast` methods
