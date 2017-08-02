@@ -21,3 +21,26 @@ export type Attachment = {
 };
 
 export type SendMessageSucessResponse = 'ok';
+
+export type SlackOAuthAPIResponse = {
+  ok: boolean,
+};
+
+export type AvailableMethod =
+  | 'chat.postMessage'
+  | 'channels.info'
+  | 'channels.list'
+  | 'users.info'
+  | 'users.list';
+
+export type User = {
+  id: string,
+  name: string,
+  real_name: string,
+};
+
+export type Channel = {
+  id: string,
+  name: string,
+  members?: Array<User>,
+};

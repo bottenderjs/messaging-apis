@@ -12,8 +12,9 @@ type Axios = {
 
 type Url = string;
 
-export default class SlackClient {
-  static connect = (url: Url): SlackClient => new SlackClient(url);
+export default class SlackWebhookClient {
+  static connect = (url: Url): SlackWebhookClient =>
+    new SlackWebhookClient(url);
 
   _http: Axios;
 
