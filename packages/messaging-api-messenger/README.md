@@ -27,6 +27,7 @@
     * [Target Audience](#target-audience)
     * [Chat Extension Home URL](#chat-extension-home-url)
   * [Messenger Code API](#messenger-code-api)
+  * [Handover Protocol API](#handover-protocol-api)
 
 ## Installation
 
@@ -286,7 +287,7 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
   {
     type: 'web_url',
     url: 'https://petersapparel.parseapp.com',
-    title: 'Show Website'
+    title: 'Show Website',
   },
   {
     type: 'postback',
@@ -735,6 +736,12 @@ client.sendListTemplate(
 [Official docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
 
 #### sendOpenGraphTemplate(userId, elements)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
 
 ###### elements
 
@@ -1883,15 +1890,73 @@ Type: `Number`
 Type: `Object`
 
 ```js
-client.generateMessengerCode({
-  data: {
-    ref: 'billboard-ad',
-  },
-  image_size: 1000,
-}).then(code => {
-  console.log(code);
-  // {
-  //   "uri": "YOUR_CODE_URL_HERE"
-  // }
+client
+  .generateMessengerCode({
+    data: {
+      ref: 'billboard-ad',
+    },
+    image_size: 1000,
+  })
+  .then(code => {
+    console.log(code);
+    // {
+    //   "uri": "YOUR_CODE_URL_HERE"
+    // }
+  });
+```
+
+### Handover Protocol API
+
+#### passThreadControl(userId, targetAppId, metadata)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### targetAppId
+
+Type: `Number`
+
+###### metadata
+
+Type: `String`
+
+```js
+client.passThreadControl(USER_ID, APP_ID, 'free formed text for another app');
+```
+
+#### takeThreadControl(userId, metadata)
+
+###### userId
+
+Type: `String`
+
+Page-scoped user ID of the recipient.
+
+###### metadata
+
+Type: `String`
+
+```js
+client.passThreadControl(USER_ID, 'free formed text for another app');
+```
+
+#### getSecondaryReceivers
+
+```js
+client.getSecondaryReceivers().then(receivers => {
+  console.log(receivers);
+  // [
+  //   {
+  //     "id": "12345678910",
+  //     "name": "David's Composer"
+  //   },
+  //   {
+  //     "id": "23456789101",
+  //     "name": "Messenger Rocks"
+  //   }
+  // ]
 });
 ```

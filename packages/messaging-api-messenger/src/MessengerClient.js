@@ -723,4 +723,54 @@ export default class MessengerClient {
         ...options,
       })
       .then(res => res.data);
+
+  /**
+   * Handover Protocol API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/handover-protocol
+   */
+
+  /**
+   * Pass Thread Control
+   *
+   * https://developers.facebook.com/docs/messenger-platform/pass-thread-control
+   */
+  passThreadControl = (
+    recipientId: string,
+    targetAppId: number,
+    metadata?: string
+  ) =>
+    this._http
+      .post(`/me/pass_thread_control?access_token=${this._accessToken}`, {
+        recipient: { id: recipientId },
+        target_app_id: targetAppId,
+        metadata,
+      })
+      .then(res => res.data);
+
+  /**
+   * Take Thread Control
+   *
+   * https://developers.facebook.com/docs/messenger-platform/take-thread-control
+   */
+  takeThreadControl = (recipientId: string, metadata?: string) =>
+    this._http
+      .post(`/me/take_thread_control?access_token=${this._accessToken}`, {
+        recipient: { id: recipientId },
+        metadata,
+      })
+      .then(res => res.data);
+
+  /**
+   * Secondary Receivers List
+   *
+   * https://developers.facebook.com/docs/messenger-platform/secondary-receivers
+   */
+  getSecondaryReceivers = () =>
+    this._http
+      .get(
+        `/me/secondary_receivers?fields=id,name&access_token=${this
+          ._accessToken}`
+      )
+      .then(res => res.data.data);
 }
