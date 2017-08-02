@@ -46,15 +46,6 @@ export default class LINEClient {
 
   getHTTPClient: () => Axios = () => this._http;
 
-  /**
-   * Get User Profile
-   *
-   * https://devdocs.line.me/en/#bot-api-get-profile
-   * displayName, userId, pictureUrl, statusMessage
-   */
-  getUserProfile = (userId: UserId): Promise<User> =>
-    this._http.get(`/profile/${userId}`).then(res => res.data);
-
   _send = (type: SendType, target: SendTarget, ...args: Array<any>) => {
     if (type === 'push') {
       return this.push(((target: any): UserId), ...args);
@@ -295,6 +286,85 @@ export default class LINEClient {
     this.multicastRawBody({ to, messages });
 
   /**
+   * Content
+   *
+   * https://devdocs.line.me/en/#content
+   */
+  retrieveMessageContent = (messageId: string): Promise<Buffer> =>
+    this._http
+      .get(`/message/${messageId}/content`, { responseType: 'arraybuffer' })
+      .then(res => Buffer.from(res.data));
+
+  /**
+   * Get User Profile
+   *
+   * https://devdocs.line.me/en/#bot-api-get-profile
+   * displayName, userId, pictureUrl, statusMessage
+   */
+  getUserProfile = (userId: UserId): Promise<User> =>
+    this._http.get(`/profile/${userId}`).then(res => res.data);
+
+  /**
+   * Get Group/Room Member Profile
+   *
+   * https://devdocs.line.me/en/#get-group-room-member-profile
+   */
+  getGroupMemberProfile = (groupId: string, userId: UserId) =>
+    this._http.get(`/group/${groupId}/member/${userId}`).then(res => res.data);
+
+  getRoomMemberProfile = (roomId: string, userId: UserId) =>
+    this._http.get(`/room/${roomId}/member/${userId}`).then(res => res.data);
+
+  /**
+   * Get Group/Room Member IDs
+   *
+   * https://devdocs.line.me/en/#get-group-room-member-ids
+   */
+  getGroupMemberIds = (groupId: string, start?: string) =>
+    this._http
+      .get(`/group/${groupId}/member/ids${start ? `?start=${start}` : ''}`)
+      .then(res => res.data);
+
+  getAllGroupMemberIds = async (groupId: string) => {
+    let allMemberIds = [];
+    let continuationToken;
+
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const { memberIds, next } = await this.getGroupMemberIds(
+        groupId,
+        continuationToken
+      );
+      allMemberIds = allMemberIds.concat(memberIds);
+      continuationToken = next;
+    } while (continuationToken);
+
+    return allMemberIds;
+  };
+
+  getRoomMemberIds = (roomId: string, start?: string) =>
+    this._http
+      .get(`/room/${roomId}/member/ids${start ? `?start=${start}` : ''}`)
+      .then(res => res.data);
+
+  getAllRoomMemberIds = async (roomId: string) => {
+    let allMemberIds = [];
+    let continuationToken;
+
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const { memberIds, next } = await this.getRoomMemberIds(
+        roomId,
+        continuationToken
+      );
+      allMemberIds = allMemberIds.concat(memberIds);
+      continuationToken = next;
+    } while (continuationToken);
+
+    return allMemberIds;
+  };
+
+  /**
    * Leave
    *
    * https://devdocs.line.me/en/#leave
@@ -316,16 +386,6 @@ export default class LINEClient {
       .createHmac('sha256', this._channelSecret)
       .update(rawBody, 'utf8')
       .digest('base64');
-
-  /**
-   * Content
-   *
-   * https://devdocs.line.me/en/#content
-   */
-  retrieveMessageContent = (messageId: string): Promise<Buffer> =>
-    this._http
-      .get(`/message/${messageId}/content`, { responseType: 'arraybuffer' })
-      .then(res => Buffer.from(res.data));
 }
 
 const sendTypes = ['reply', 'push', 'multicast'];
