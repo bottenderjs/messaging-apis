@@ -100,3 +100,263 @@ describe('#postMessage', () => {
     expect(res).toEqual(reply);
   });
 });
+
+describe('#getUserList', () => {
+  it('should call users.list api', async () => {
+    const { client, mock } = createMock();
+
+    const members = [
+      {
+        id: 'U023BECGF',
+        team_id: 'T021F9ZE2',
+        name: 'bobby',
+        deleted: false,
+        color: '9f69e7',
+        real_name: 'Bobby Tables',
+        tz: 'America/Los_Angeles',
+        tz_label: 'Pacific Daylight Time',
+        tz_offset: -25200,
+        profile: {
+          avatar_hash: 'ge3b51ca72de',
+          current_status: ':mountain_railway: riding a train',
+          first_name: 'Bobby',
+          last_name: 'Tables',
+          real_name: 'Bobby Tables',
+          email: 'bobby@slack.com',
+          skype: 'my-skype-name',
+          phone: '+1 (123) 456 7890',
+          image_24: 'https://...',
+          image_32: 'https://...',
+          image_48: 'https://...',
+          image_72: 'https://...',
+          image_192: 'https://...',
+        },
+        is_admin: true,
+        is_owner: true,
+        updated: 1490054400,
+        has_2fa: false,
+      },
+      {
+        id: 'W07QCRPA4',
+        team_id: 'T0G9PQBBK',
+        name: 'glinda',
+        deleted: false,
+        color: '9f69e7',
+        real_name: 'Glinda Southgood',
+        tz: 'America/Los_Angeles',
+        tz_label: 'Pacific Daylight Time',
+        tz_offset: -25200,
+        profile: {
+          avatar_hash: '8fbdd10b41c6',
+          image_24: 'https://a.slack-edge.com...png',
+          image_32: 'https://a.slack-edge.com...png',
+          image_48: 'https://a.slack-edge.com...png',
+          image_72: 'https://a.slack-edge.com...png',
+          image_192: 'https://a.slack-edge.com...png',
+          image_512: 'https://a.slack-edge.com...png',
+          image_1024: 'https://a.slack-edge.com...png',
+          image_original: 'https://a.slack-edge.com...png',
+          first_name: 'Glinda',
+          last_name: 'Southgood',
+          title: 'Glinda the Good',
+          phone: '',
+          skype: '',
+          real_name: 'Glinda Southgood',
+          real_name_normalized: 'Glinda Southgood',
+          email: 'glenda@south.oz.coven',
+        },
+        is_admin: true,
+        is_owner: false,
+        is_primary_owner: false,
+        is_restricted: false,
+        is_ultra_restricted: false,
+        is_bot: false,
+        updated: 1480527098,
+        has_2fa: false,
+      },
+    ];
+
+    const reply = {
+      ok: true,
+      members,
+      cache_ts: 1498777272,
+      response_metadata: {
+        next_cursor: 'dXNlcjpVMEc5V0ZYTlo=',
+      },
+    };
+
+    mock
+      .onPost(
+        '/users.list',
+        querystring.stringify({
+          cursor: undefined,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.getUserList();
+
+    expect(res).toEqual(members);
+  });
+});
+
+describe('#getUserInfo', () => {
+  it('should call users.info with user id', async () => {
+    const { client, mock } = createMock();
+
+    const user = {
+      id: 'U023BECGF',
+      name: 'bobby',
+      deleted: false,
+      color: '9f69e7',
+      profile: {
+        avatar_hash: 'ge3b51ca72de',
+        current_status: ':mountain_railway: riding a train',
+        first_name: 'Bobby',
+        last_name: 'Tables',
+        real_name: 'Bobby Tables',
+        tz: 'America/Los_Angeles',
+        tz_label: 'Pacific Daylight Time',
+        tz_offset: -25200,
+        email: 'bobby@slack.com',
+        skype: 'my-skype-name',
+        phone: '+1 (123) 456 7890',
+        image_24: 'https://...',
+        image_32: 'https://...',
+        image_48: 'https://...',
+        image_72: 'https://...',
+        image_192: 'https://...',
+      },
+      is_admin: true,
+      is_owner: true,
+      updated: 1490054400,
+      has_2fa: true,
+    };
+
+    const reply = {
+      ok: true,
+      user,
+    };
+
+    mock
+      .onPost(
+        '/users.info',
+        querystring.stringify({
+          user: 'U023BECGF',
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.getUserInfo('U023BECGF');
+
+    expect(res).toEqual(user);
+  });
+});
+
+describe('#getChannelList', () => {
+  it('should call channels.list api', async () => {
+    const { client, mock } = createMock();
+
+    const channels = [
+      {
+        id: 'C024BE91L',
+        name: 'fun',
+        created: 1360782804,
+        creator: 'U024BE7LH',
+        is_archived: false,
+        is_member: false,
+        num_members: 6,
+        topic: {
+          value: 'Fun times',
+          creator: 'U024BE7LV',
+          last_set: 1369677212,
+        },
+        purpose: {
+          value: 'This channel is for fun',
+          creator: 'U024BE7LH',
+          last_set: 1360782804,
+        },
+      },
+    ];
+
+    const reply = {
+      ok: true,
+      channels,
+    };
+
+    mock
+      .onPost(
+        '/channels.list',
+        querystring.stringify({
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.getChannelList();
+
+    expect(res).toEqual(channels);
+  });
+});
+
+describe('#getChannelInfo', () => {
+  it('should call channels.info with channel id', async () => {
+    const { client, mock } = createMock();
+
+    const channel = {
+      id: 'C024BE91L',
+      name: 'fun',
+
+      created: 1360782804,
+      creator: 'U024BE7LH',
+
+      is_archived: false,
+      is_general: false,
+      is_member: true,
+      is_starred: true,
+
+      members: [],
+
+      topic: {},
+      purpose: {},
+
+      last_read: '1401383885.000061',
+      latest: {},
+      unread_count: 0,
+      unread_count_display: 0,
+    };
+
+    const reply = {
+      ok: true,
+      channel,
+    };
+
+    mock
+      .onPost(
+        '/channels.info',
+        querystring.stringify({
+          channel: 'C024BE91L',
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.getChannelInfo('C024BE91L');
+
+    expect(res).toEqual(channel);
+  });
+});
