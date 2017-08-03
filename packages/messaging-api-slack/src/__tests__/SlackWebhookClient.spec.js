@@ -1,11 +1,11 @@
 import MockAdapter from 'axios-mock-adapter';
 
-import SlackClient from '../SlackClient';
+import SlackWebhookClient from '../SlackWebhookClient';
 
 const URL = 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ';
 
 const createMock = () => {
-  const client = new SlackClient(URL);
+  const client = new SlackWebhookClient(URL);
   const mock = new MockAdapter(client.getHTTPClient());
   return { client, mock };
 };
@@ -22,9 +22,9 @@ describe('connect', () => {
     axios.create = _create;
   });
 
-  it('create axios with default graphAPI version', () => {
+  it('create axios with webhook url', () => {
     axios.create = jest.fn();
-    SlackClient.connect(URL);
+    SlackWebhookClient.connect(URL);
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ',
@@ -45,9 +45,9 @@ describe('constructor', () => {
     axios.create = _create;
   });
 
-  it('create axios with default graphAPI version', () => {
+  it('create axios with with webhook url', () => {
     axios.create = jest.fn();
-    new SlackClient(URL); // eslint-disable-line no-new
+    new SlackWebhookClient(URL); // eslint-disable-line no-new
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ',
@@ -58,7 +58,7 @@ describe('constructor', () => {
 
 describe('#getHTTPClient', () => {
   it('should return underlying http client', () => {
-    const client = new SlackClient(URL);
+    const client = new SlackWebhookClient(URL);
     const http = client.getHTTPClient();
     expect(http.get).toBeDefined();
     expect(http.post).toBeDefined();
