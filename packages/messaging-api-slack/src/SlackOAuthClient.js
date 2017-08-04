@@ -56,9 +56,10 @@ export default class SlackOAuthClient {
   // https://api.slack.com/methods/chat.postMessage
   postMessage = (
     channel: string,
-    text: string
+    text: string,
+    options?: {} = {}
   ): Promise<SlackOAuthAPIResponse> =>
-    this.callMethod('chat.postMessage', { channel, text });
+    this.callMethod('chat.postMessage', { channel, text, ...options });
 
   // https://api.slack.com/methods/users.list
   getUserList = (cursor?: string): Promise<Array<User>> =>

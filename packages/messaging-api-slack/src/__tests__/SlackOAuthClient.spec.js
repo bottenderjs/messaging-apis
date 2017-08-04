@@ -167,6 +167,36 @@ describe('#postMessage', () => {
 
     expect(res).toEqual(reply);
   });
+
+  it('should call chat.postMessage with channel and text and optional options', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postMessage(CHANNEL, 'hello', { as_user: true });
+
+    expect(res).toEqual(reply);
+  });
 });
 
 describe('#getUserList', () => {
