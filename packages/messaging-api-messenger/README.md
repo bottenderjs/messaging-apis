@@ -28,6 +28,7 @@
     * [Chat Extension Home URL](#chat-extension-home-url)
   * [Messenger Code API](#messenger-code-api)
   * [Handover Protocol API](#handover-protocol-api)
+  * [Built-in NLP API](#built-in-nlp-api)
 
 ## Installation
 
@@ -1944,4 +1945,40 @@ client.getSecondaryReceivers().then(receivers => {
   //   }
   // ]
 });
+```
+
+<a id="built-in-nlp-api" />
+
+### Built-in NLP API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/built-in-nlp)
+
+#### setNLPConfigs(config)
+
+###### config
+
+Type: `Object`
+
+###### config.nlp_enabled
+
+Type: `Boolean`
+
+###### config.custom_token
+
+Type: `String`
+
+```js
+client.setNLPConfigs({
+  nlp_enabled: true,
+});
+```
+
+#### enableNLP
+
+```js
+client.enableNLP();
+```
+
+#### disableNLP
+
+```js
+client.disableNLP();
 ```

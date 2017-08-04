@@ -1,3 +1,5 @@
+import querystring from 'querystring';
+
 import axios from 'axios';
 import invariant from 'invariant';
 
@@ -773,4 +775,27 @@ export default class MessengerClient {
           ._accessToken}`
       )
       .then(res => res.data.data);
+
+  /**
+   * Built-in NLP API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/built-in-nlp
+   */
+  setNLPConfigs = (config = {}) => {
+    const query = {
+      nlp_enabled: config.nlp_enabled ? 'true' : 'false',
+    };
+    if (config.custom_token) {
+      query.custom_token = config.custom_token;
+    }
+
+    return this._http
+      .post(`/me/nlp_configs?${querystring.stringify(query)}`, {
+        access_token: this._accessToken,
+      })
+      .then(res => res.data);
+  };
+
+  enableNLP = () => this.setNLPConfigs({ nlp_enabled: true });
+  disableNLP = () => this.setNLPConfigs({ nlp_enabled: false });
 }

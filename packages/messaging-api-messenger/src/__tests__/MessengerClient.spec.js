@@ -3659,3 +3659,68 @@ describe('Handover Protocol API', () => {
     });
   });
 });
+
+describe('Built-in NLP API', () => {
+  describe('#setNLPConfigs', () => {
+    it('should call api to set NLP configs', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`, {
+          access_token: ACCESS_TOKEN,
+        })
+        .reply(200, reply);
+
+      const res = await client.setNLPConfigs({
+        nlp_enabled: true,
+        custom_token: '1234567890',
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#enableNLP', () => {
+    it('should call api to enable NLP', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/nlp_configs?nlp_enabled=true`, {
+          access_token: ACCESS_TOKEN,
+        })
+        .reply(200, reply);
+
+      const res = await client.enableNLP();
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#disableNLP', () => {
+    it('should call api to disable NLP', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/nlp_configs?nlp_enabled=false`, {
+          access_token: ACCESS_TOKEN,
+        })
+        .reply(200, reply);
+
+      const res = await client.disableNLP();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
