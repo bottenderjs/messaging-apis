@@ -8,7 +8,7 @@ export type RecipientWithID = {
 
 export type RecipientWithPhoneNumber = {
   phone_number: string,
-  name?: string,
+  name?: Object,
 };
 
 export type Recipient = RecipientWithID | RecipientWithPhoneNumber;
