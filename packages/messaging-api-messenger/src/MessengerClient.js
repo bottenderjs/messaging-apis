@@ -777,6 +777,27 @@ export default class MessengerClient {
       .then(res => res.data.data);
 
   /**
+   * Page Messaging Insights API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/insights/page-messaging
+   */
+  getDailyUniqueActiveThreadCounts = () =>
+    this._http
+      .get(
+        `/me/insights/page_messages_active_threads_unique&access_token=${this
+          ._accessToken}`
+      )
+      .then(res => res.data.data);
+
+  getDailyUniqueConversationCounts = () =>
+    this._http
+      .get(
+        `/me/insights/page_messages_feedback_by_action_unique&access_token=${this
+          ._accessToken}`
+      )
+      .then(res => res.data.data);
+
+  /**
    * Built-in NLP API
    *
    * https://developers.facebook.com/docs/messenger-platform/built-in-nlp

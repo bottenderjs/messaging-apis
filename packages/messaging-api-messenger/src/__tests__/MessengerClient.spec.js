@@ -3660,6 +3660,158 @@ describe('Handover Protocol API', () => {
   });
 });
 
+describe('Page Messaging Insights API', () => {
+  describe('#getDailyUniqueActiveThreadCounts', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_active_threads_unique',
+            period: 'day',
+            values: [
+              {
+                value: 83111,
+                end_time: '2017-02-02T08:00:00+0000',
+              },
+              {
+                value: 85215,
+                end_time: '2017-02-03T08:00:00+0000',
+              },
+              {
+                value: 87175,
+                end_time: '2017-02-04T08:00:00+0000',
+              },
+            ],
+            title: 'Daily unique active threads count by thread fbid',
+            description:
+              'Daily: total unique active threads created between users and page.',
+            id: '1234567/insights/page_messages_active_threads_unique/day',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/page_messages_active_threads_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getDailyUniqueActiveThreadCounts();
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_active_threads_unique',
+          period: 'day',
+          values: [
+            {
+              value: 83111,
+              end_time: '2017-02-02T08:00:00+0000',
+            },
+            {
+              value: 85215,
+              end_time: '2017-02-03T08:00:00+0000',
+            },
+            {
+              value: 87175,
+              end_time: '2017-02-04T08:00:00+0000',
+            },
+          ],
+          title: 'Daily unique active threads count by thread fbid',
+          description:
+            'Daily: total unique active threads created between users and page.',
+          id: '1234567/insights/page_messages_active_threads_unique/day',
+        },
+      ]);
+    });
+  });
+
+  describe('#getDailyUniqueConversationCounts', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_feedback_by_action_unique',
+            period: 'day',
+            values: [
+              {
+                value: {
+                  TURN_ON: 40,
+                  TURN_OFF: 167,
+                  DELETE: 720,
+                  OTHER: 0,
+                  REPORT_SPAM: 0,
+                },
+                end_time: '2017-02-02T08:00:00+0000',
+              },
+              {
+                value: {
+                  TURN_ON: 38,
+                  DELETE: 654,
+                  TURN_OFF: 155,
+                  REPORT_SPAM: 1,
+                  OTHER: 0,
+                },
+                end_time: '2017-02-03T08:00:00+0000',
+              },
+            ],
+            title:
+              'Daily unique conversation count broken down by user feedback actions',
+            description:
+              'Daily: total unique active threads created between users and page.',
+            id: '1234567/insights/page_messages_active_threads_unique/day',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/page_messages_feedback_by_action_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getDailyUniqueConversationCounts();
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_feedback_by_action_unique',
+          period: 'day',
+          values: [
+            {
+              value: {
+                TURN_ON: 40,
+                TURN_OFF: 167,
+                DELETE: 720,
+                OTHER: 0,
+                REPORT_SPAM: 0,
+              },
+              end_time: '2017-02-02T08:00:00+0000',
+            },
+            {
+              value: {
+                TURN_ON: 38,
+                DELETE: 654,
+                TURN_OFF: 155,
+                REPORT_SPAM: 1,
+                OTHER: 0,
+              },
+              end_time: '2017-02-03T08:00:00+0000',
+            },
+          ],
+          title:
+            'Daily unique conversation count broken down by user feedback actions',
+          description:
+            'Daily: total unique active threads created between users and page.',
+          id: '1234567/insights/page_messages_active_threads_unique/day',
+        },
+      ]);
+    });
+  });
+});
+
 describe('Built-in NLP API', () => {
   describe('#setNLPConfigs', () => {
     it('should call api to set NLP configs', async () => {
