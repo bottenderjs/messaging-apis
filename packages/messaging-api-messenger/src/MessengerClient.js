@@ -4,6 +4,8 @@ import axios from 'axios';
 import invariant from 'invariant';
 
 import type {
+  UserID,
+  Recipient,
   AttachmentPayload,
   Attachment,
   TextOrAttachment,
@@ -339,17 +341,22 @@ export default class MessengerClient {
       .then(res => res.data);
 
   send = (
-    recipientId: string,
+    idOrRecipient: UserID | Recipient,
     message: Message,
     options?: SendOption
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendRawBody({
-      recipient: {
-        id: recipientId,
-      },
+  ): Promise<SendMessageSucessResponse> => {
+    const recipient =
+      typeof idOrRecipient === 'string'
+        ? {
+            id: idOrRecipient,
+          }
+        : idOrRecipient;
+    return this.sendRawBody({
+      recipient,
       message,
       ...options,
     });
+  };
 
   /**
    * Content Types
@@ -357,32 +364,32 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes
    */
   sendAttachment = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     attachment: Attachment,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.send(recipientId, { attachment }, options);
+    this.send(recipient, { attachment }, options);
 
   sendText = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     text: string,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.send(recipientId, { text }, options);
+    this.send(recipient, { text }, options);
 
   sendIssueResolutionText = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     text: string
   ): Promise<SendMessageSucessResponse> =>
-    this.sendText(recipientId, text, { tag: 'ISSUE_RESOLUTION' });
+    this.sendText(recipient, text, { tag: 'ISSUE_RESOLUTION' });
 
   // TODO: support formdata fileupload?
   // FIXME: prettier bug?
   sendAudio = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     url: string
   ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipientId, {
+    this.sendAttachment(recipient, {
       type: 'audio', // eslint-disable-line
       payload: {
         url,
@@ -391,10 +398,10 @@ export default class MessengerClient {
 
   // TODO: support formdata fileupload?
   sendImage = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     url: string
   ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipientId, {
+    this.sendAttachment(recipient, {
       type: 'image',
       payload: {
         url,
@@ -403,10 +410,10 @@ export default class MessengerClient {
 
   // TODO: support formdata fileupload?
   sendVideo = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     url: string
   ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipientId, {
+    this.sendAttachment(recipient, {
       type: 'video',
       payload: {
         url,
@@ -415,10 +422,10 @@ export default class MessengerClient {
 
   // TODO: support formdata fileupload?
   sendFile = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     url: string
   ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipientId, {
+    this.sendAttachment(recipient, {
       type: 'file',
       payload: {
         url,
@@ -431,12 +438,12 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates
    */
   sendTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     payload: AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
     this.sendAttachment(
-      recipientId,
+      recipient,
       {
         type: 'template',
         payload,
@@ -446,11 +453,11 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
   sendButtonTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     text: string,
     buttons: Array<TemplateButton>
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'button',
       text,
       buttons,
@@ -458,13 +465,13 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
   sendGenericTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal',
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
     this.sendTemplate(
-      recipientId,
+      recipient,
       {
         template_type: 'generic',
         elements,
@@ -475,87 +482,87 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/
   sendTaggedTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     tag: MessageTag,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendGenericTemplate(recipientId, elements, ratio, { tag });
+    this.sendGenericTemplate(recipient, elements, ratio, { tag });
 
   sendShippingUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipientId, elements, 'SHIPPING_UPDATE', ratio);
+    this.sendTaggedTemplate(recipient, elements, 'SHIPPING_UPDATE', ratio);
 
   sendReservationUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipientId, elements, 'RESERVATION_UPDATE', ratio);
+    this.sendTaggedTemplate(recipient, elements, 'RESERVATION_UPDATE', ratio);
 
   sendIssueResolutionTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipientId, elements, 'ISSUE_RESOLUTION', ratio);
+    this.sendTaggedTemplate(recipient, elements, 'ISSUE_RESOLUTION', ratio);
 
   sendAppointmentUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipientId, elements, 'APPOINTMENT_UPDATE', ratio);
+    this.sendTaggedTemplate(recipient, elements, 'APPOINTMENT_UPDATE', ratio);
 
   sendGameEventTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipientId, elements, 'GAME_EVENT', ratio);
+    this.sendTaggedTemplate(recipient, elements, 'GAME_EVENT', ratio);
 
   sendTransportationUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
     this.sendTaggedTemplate(
-      recipientId,
+      recipient,
       elements,
       'TRANSPORTATION_UPDATE',
       ratio
     );
 
   sendFeatureFunctionalityUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
     this.sendTaggedTemplate(
-      recipientId,
+      recipient,
       elements,
       'FEATURE_FUNCTIONALITY_UPDATE',
       ratio
     );
 
   sendTicketUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipientId, elements, 'TICKET_UPDATE', ratio);
+    this.sendTaggedTemplate(recipient, elements, 'TICKET_UPDATE', ratio);
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
   sendListTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     buttons: Array<TemplateButton>,
     topElementStyle: string = 'large'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'list',
       elements,
       buttons,
@@ -564,60 +571,60 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/open-graph-template
   sendOpenGraphTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     elements: Array<OpenGraphElement>
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'open_graph',
       elements,
     });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template
   sendReceiptTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     attrs: ReceiptAttributes
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'receipt',
       ...attrs,
     });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template
   sendAirlineBoardingPassTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     attrs: AirlineBoardingPassAttributes
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'airline_boardingpass',
       ...attrs,
     });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template
   sendAirlineCheckinTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     attrs: AirlineCheckinAttributes
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'airline_checkin',
       ...attrs,
     });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template
   sendAirlineItineraryTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     attrs: AirlineItineraryAttributes
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'airline_itinerary',
       ...attrs,
     });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template
   sendAirlineFlightUpdateTemplate = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     attrs: AirlineFlightUpdateAttributes
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipientId, {
+    this.sendTemplate(recipient, {
       template_type: 'airline_update',
       ...attrs,
     });
@@ -628,7 +635,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies
    */
   sendQuickReplies = (
-    recipientId: string,
+    recipient: UserID | Recipient,
     textOrAttachment: TextOrAttachment,
     quickReplies: Array<QuickReply>
   ): Promise<SendMessageSucessResponse> => {
@@ -654,7 +661,7 @@ export default class MessengerClient {
       }
     });
 
-    return this.send(recipientId, {
+    return this.send(recipient, {
       ...textOrAttachment,
       quick_replies: quickReplies,
     });
@@ -666,27 +673,30 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions
    */
   sendSenderAction = (
-    recipientId: string,
+    idOrRecipient: UserID | Recipient,
     action: SenderAction
-  ): Promise<SendSenderActionResponse> =>
-    this._http
-      .post(`/me/messages?access_token=${this._accessToken}`, {
-        recipient: {
-          id: recipientId,
-        },
-        sender_action: action,
-      })
-      .then(res => res.data);
+  ): Promise<SendSenderActionResponse> => {
+    const recipient =
+      typeof idOrRecipient === 'string'
+        ? {
+            id: idOrRecipient,
+          }
+        : idOrRecipient;
+    return this.sendRawBody({
+      recipient,
+      sender_action: action,
+    });
+  };
 
   turnTypingIndicatorsOn = (
-    recipientId: string
+    recipient: UserID | Recipient
   ): Promise<SendSenderActionResponse> =>
-    this.sendSenderAction(recipientId, 'typing_on');
+    this.sendSenderAction(recipient, 'typing_on');
 
   turnTypingIndicatorsOff = (
-    recipientId: string
+    recipient: UserID | Recipient
   ): Promise<SendSenderActionResponse> =>
-    this.sendSenderAction(recipientId, 'typing_off');
+    this.sendSenderAction(recipient, 'typing_off');
 
   /**
    * Upload API
