@@ -377,13 +377,12 @@ export default class MessengerClient {
     this.sendText(recipientId, text, { tag: 'ISSUE_RESOLUTION' });
 
   // TODO: support formdata fileupload?
-  // FIXME: prettier bug?
   sendAudio = (
     recipientId: string,
     url: string
   ): Promise<SendMessageSucessResponse> =>
     this.sendAttachment(recipientId, {
-      type: 'audio', // eslint-disable-line
+      type: 'audio',
       payload: {
         url,
       },
