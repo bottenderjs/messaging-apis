@@ -1,4 +1,5 @@
 /* @flow */
+import fs from 'fs';
 
 export type UserID = string;
 
@@ -276,3 +277,5 @@ export type MessageTagResponse = Array<{
   tag: MessageTag,
   description: string,
 }>;
+
+export type FileData = Buffer | fs.ReadStream;

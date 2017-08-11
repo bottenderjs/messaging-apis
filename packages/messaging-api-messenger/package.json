@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "axios": "^0.16.1",
+    "form-data": "^2.2.0",
     "invariant": "^2.2.2"
   }
 }

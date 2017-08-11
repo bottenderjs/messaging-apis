@@ -1,6 +1,7 @@
 import querystring from 'querystring';
 
 import axios from 'axios';
+import FormData from 'form-data';
 import invariant from 'invariant';
 
 import type {
@@ -32,6 +33,7 @@ import type {
   SendSenderActionResponse,
   MessageTag,
   MessageTagResponse,
+  FileData,
 } from './MessengerTypes';
 
 type Axios = {
@@ -358,6 +360,30 @@ export default class MessengerClient {
     });
   };
 
+  sendFormData = (
+    recipient: UserID | Recipient,
+    message: Message,
+    filedata: FileData
+  ) => {
+    const form = new FormData();
+    const recipientObject =
+      typeof recipient === 'string'
+        ? {
+            recipient: {
+              id: recipient,
+            },
+          }
+        : recipient;
+    form.append('recipient', JSON.stingify(recipientObject));
+    form.append('message', message);
+    form.append('filedata', filedata);
+    return this._http
+      .post(`/me/messages?access_token=${this._accessToken}`, form, {
+        headers: form.getHeaders(),
+      })
+      .then(res => res.data);
+  };
+
   /**
    * Content Types
    *
@@ -369,6 +395,13 @@ export default class MessengerClient {
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
     this.send(recipient, { attachment }, options);
+
+  sendAttachmentFormData = (
+    recipient: UserID | Recipient,
+    attachment: Attachment,
+    filedata: FileData
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendFormData(recipient, { attachment }, filedata);
 
   sendText = (
     recipient: UserID | Recipient,
@@ -383,53 +416,73 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> =>
     this.sendText(recipient, text, { tag: 'ISSUE_RESOLUTION' });
 
-  // TODO: support formdata fileupload?
   sendAudio = (
     recipient: UserID | Recipient,
-    url: string
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipient, {
+    audio: string | FileData
+  ): Promise<SendMessageSucessResponse> => {
+    const attachment = {
       type: 'audio',
-      payload: {
-        url,
-      },
-    });
+      payload: {},
+    };
 
-  // TODO: support formdata fileupload?
+    if (typeof audio === 'string') {
+      attachment.payload.url = audio;
+      return this.sendAttachment(recipient, attachment);
+    }
+
+    return this.sendAttachmentFormData(recipient, attachment, audio);
+  };
+
   sendImage = (
     recipient: UserID | Recipient,
-    url: string
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipient, {
+    image: string | FileData
+  ): Promise<SendMessageSucessResponse> => {
+    const attachment = {
       type: 'image',
-      payload: {
-        url,
-      },
-    });
+      payload: {},
+    };
 
-  // TODO: support formdata fileupload?
+    if (typeof image === 'string') {
+      attachment.payload.url = image;
+      return this.sendAttachment(recipient, attachment);
+    }
+
+    return this.sendAttachmentFormData(recipient, attachment, image);
+  };
+
   sendVideo = (
     recipient: UserID | Recipient,
-    url: string
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipient, {
+    video: string | FileData
+  ): Promise<SendMessageSucessResponse> => {
+    const attachment = {
       type: 'video',
-      payload: {
-        url,
-      },
-    });
+      payload: {},
+    };
 
-  // TODO: support formdata fileupload?
+    if (typeof video === 'string') {
+      attachment.payload.url = video;
+      return this.sendAttachment(recipient, attachment);
+    }
+
+    return this.sendAttachmentFormData(recipient, attachment, video);
+  };
+
   sendFile = (
     recipient: UserID | Recipient,
-    url: string
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(recipient, {
+    file: string | FileData
+  ): Promise<SendMessageSucessResponse> => {
+    const attachment = {
       type: 'file',
-      payload: {
-        url,
-      },
-    });
+      payload: {},
+    };
+
+    if (typeof file === 'string') {
+      attachment.payload.url = file;
+      return this.sendAttachment(recipient, attachment);
+    }
+
+    return this.sendAttachmentFormData(recipient, attachment, file);
+  };
 
   /**
    * Templates
