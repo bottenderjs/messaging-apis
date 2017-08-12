@@ -1,5 +1,18 @@
 /* @flow */
 
+export type UserID = string;
+
+export type RecipientWithID = {
+  id: UserID,
+};
+
+export type RecipientWithPhoneNumber = {
+  phone_number: string,
+  name?: Object,
+};
+
+export type Recipient = RecipientWithID | RecipientWithPhoneNumber;
+
 export type AttachmentPayload = {
   url?: string,
 };

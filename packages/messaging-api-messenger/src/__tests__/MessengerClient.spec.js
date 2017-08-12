@@ -1440,6 +1440,39 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('can call messages api using recipient with phone_number', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            phone_number: '+1(212)555-2368',
+            name: { first_name: 'John', last_name: 'Doe' },
+          },
+          message: {
+            text: 'Hello!',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.send(
+        {
+          phone_number: '+1(212)555-2368',
+          name: { first_name: 'John', last_name: 'Doe' },
+        },
+        {
+          text: 'Hello!',
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#sendAttachment', () => {

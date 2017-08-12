@@ -89,9 +89,9 @@ client.sendRawBody({
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### message
 
@@ -111,9 +111,9 @@ client.send(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### text
 
@@ -131,9 +131,9 @@ client.sendText(USER_ID, 'Hello!');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### text
 
@@ -147,9 +147,9 @@ client.sendIssueResolutionText(USER_ID, 'Hello!');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### attachment
 
@@ -170,9 +170,9 @@ client.sendAttachment(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### url
 
@@ -188,9 +188,9 @@ client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### url
 
@@ -206,9 +206,9 @@ client.sendImage(USER_ID, 'https://example.com/vr.jpg');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### url
 
@@ -224,9 +224,9 @@ client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### url
 
@@ -244,9 +244,9 @@ client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### template
 
@@ -272,9 +272,9 @@ client.sendTemplate(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### title
 
@@ -305,9 +305,9 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -341,9 +341,9 @@ client.sendGenericTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -385,9 +385,9 @@ client.sendTaggedTemplate(
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -421,9 +421,9 @@ client.sendShippingUpdateTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -457,9 +457,9 @@ client.sendReservationUpdateTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -493,9 +493,9 @@ client.sendIssueResolutionTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -529,9 +529,9 @@ client.sendAppointmentUpdateTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -565,9 +565,9 @@ client.sendGameEventTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -601,9 +601,9 @@ client.sendTransportationUpdateTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -637,9 +637,9 @@ client.sendFeatureFunctionalityUpdateTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -675,9 +675,9 @@ client.sendTicketUpdateTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### items
 
@@ -733,9 +733,9 @@ client.sendListTemplate(
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### elements
 
@@ -762,9 +762,9 @@ client.sendOpenGraphTemplate(USER_ID, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### receipt
 
@@ -829,9 +829,9 @@ client.sendReceiptTemplate(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### attributes
 
@@ -962,9 +962,9 @@ client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### attributes
 
@@ -1007,9 +1007,9 @@ client.sendAirlineCheckinTemplate(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### attributes
 
@@ -1146,9 +1146,9 @@ client.sendAirlineItineraryTemplate(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### attributes
 
@@ -1193,9 +1193,9 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### message
 
@@ -1225,9 +1225,9 @@ client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ###### action
 
@@ -1243,9 +1243,9 @@ client.sendSenderAction(USER_ID, 'typing_on');
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ```js
 client.turnTypingIndicatorsOn(USER_ID);
@@ -1255,9 +1255,9 @@ client.turnTypingIndicatorsOn(USER_ID);
 
 ###### userId
 
-Type: `String`
+Type: `String | Object`
 
-Page-scoped user ID of the recipient.
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ```js
 client.turnTypingIndicatorsOff(USER_ID);
@@ -1980,7 +1980,7 @@ client.getDailyUniqueActiveThreadCounts().then(counts => {
   //    "id": "1234567/insights/page_messages_active_threads_unique/day"
   //   }
   // ]
-})
+});
 ```
 
 #### getDailyUniqueConversationCounts
@@ -2019,7 +2019,7 @@ client.getDailyUniqueConversationCounts().then(counts => {
   //     "id": "1234567/insights/page_messages_active_threads_unique/day"
   //   }
   // ],
-})
+});
 ```
 
 <a id="built-in-nlp-api" />
