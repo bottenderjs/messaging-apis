@@ -1,3 +1,28 @@
+0.2.6 / 2017-08-14
+==================
+### messaging-api-messenger
+- [new] Support calling send API with recipient object:
+
+```js
+context.sendText(
+  {
+    phone_number: '+1(212)555-2368',
+    name: { first_name: 'John', last_name: 'Doe' },
+  },
+  'Hello World'
+);
+```
+
+- [new] Support send media (sendAudio、sendImage、sendVideo、sendFile) using `Buffer` or `ReadStream`:
+
+```js
+context.sendImage(buffer);
+context.sendFile(fs.createReadStream('LookGreatToMe.pdf'));
+```
+
+### messaging-api-slack
+- [docs] Added Slack OAuth API document
+
 0.2.5 / 2017-08-09
 ==================
 ### messaging-api-messenger
@@ -5,7 +30,7 @@
 - [new] Implement Bulit-in NLP API
 
 ### messaging-api-slack
-- [new] Slack OAuth Client 
+- [new] Slack OAuth Client
 
 0.2.4 / 2017-08-02
 ==================
