@@ -164,7 +164,7 @@ client.sendAttachment(USER_ID, {
 });
 ```
 
-#### sendAudio(userId, url)
+#### sendAudio(userId, audio)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13503473_1584526905179825_88080075_n.png?oh=085ef554f12d061090677b89f3275d64&oe=59EB29D3" alt="sendAudio" width="250" />
 
@@ -174,15 +174,25 @@ Type: `String | Object`
 
 Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
-###### url
+###### audio
 
-Type: `String`
+Type: `String | Buffer | ReadStream`
+
+Send audio using url string:
 
 ```js
 client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 ```
 
-#### sendImage(userId, url)
+or using `ReadStream` created from local file:
+
+```js
+const fs = require('fs');
+
+client.sendAudio(USER_ID, fs.createReadStream('audio.mp3'));
+```
+
+#### sendImage(userId, image)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466577_1753800631570799_2129488873_n.png?oh=5904aadb6aa82cd2287d777359bd3cd2&oe=59F32D6A" alt="sendImage" width="250" />
 
@@ -192,15 +202,25 @@ Type: `String | Object`
 
 Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
-###### url
+###### image
 
-Type: `String`
+Type: `String | Buffer | ReadStream`
+
+Send image using url string:
 
 ```js
 client.sendImage(USER_ID, 'https://example.com/vr.jpg');
 ```
 
-#### sendVideo(userId, url)
+or using `ReadStream` created from local file:
+
+```js
+const fs = require('fs');
+
+client.sendImage(USER_ID, fs.createReadStream('vr.jpg'));
+```
+
+#### sendVideo(userId, video)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509239_1608341092811398_289173120_n.png?oh=160ea165834203bae79c24c8e07137de&oe=5A350DB4" alt="sendVideo" width="250" />
 
@@ -210,15 +230,25 @@ Type: `String | Object`
 
 Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
-###### url
+###### video
 
-Type: `String`
+Type: `String | Buffer | ReadStream`
+
+Send video using url string:
 
 ```js
 client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 ```
 
-#### sendFile(userId, url)
+or using `ReadStream` created from local file:
+
+```js
+const fs = require('fs');
+
+client.sendVideo(USER_ID, fs.createReadStream('video.mp4'));
+```
+
+#### sendFile(userId, file)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480153_1115020735225077_1305291896_n.png?oh=a972010ea3edd1ea967885b06317efab&oe=59F63578" alt="sendVideo" width="250" />
 
@@ -228,12 +258,22 @@ Type: `String | Object`
 
 Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
-###### url
+###### file
 
-Type: `String`
+Type: `String | Buffer | ReadStream`
+
+Send file using url string:
 
 ```js
 client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
+```
+
+or using `ReadStream` created from local file:
+
+```js
+const fs = require('fs');
+
+client.sendFile(USER_ID, fs.createReadStream('receipt.pdf'));
 ```
 
 <a id="templates" />

@@ -55,9 +55,7 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": [
-      "/node_modules/"
-    ],
+    "transformIgnorePatterns": ["/node_modules/"],
     "testEnvironment": "node"
   },
   "dependencies": {}
