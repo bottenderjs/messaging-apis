@@ -1,4 +1,7 @@
+import fs from 'fs';
+
 import MockAdapter from 'axios-mock-adapter';
+import FormData from 'form-data';
 
 import MessengerClient from '../MessengerClient';
 
@@ -1565,7 +1568,7 @@ describe('send api', () => {
   });
 
   describe('#sendAudio', () => {
-    it('should call messages api with audio', async () => {
+    it('can call api with audio url', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1596,10 +1599,32 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('can call api with file stream', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock.onPost(`/me/messages?access_token=${ACCESS_TOKEN}`).reply(config => {
+        expect(config.data).toBeInstanceOf(FormData);
+
+        return [200, reply];
+      });
+
+      const res = await client.sendAudio(
+        RECIPIENT_ID,
+        fs.createReadStream('./')
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#sendImage', () => {
-    it('should call messages api with audio', async () => {
+    it('can call api with image url', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1630,10 +1655,32 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('can call api with file stream', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock.onPost(`/me/messages?access_token=${ACCESS_TOKEN}`).reply(config => {
+        expect(config.data).toBeInstanceOf(FormData);
+
+        return [200, reply];
+      });
+
+      const res = await client.sendImage(
+        RECIPIENT_ID,
+        fs.createReadStream('./')
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#sendVideo', () => {
-    it('should call messages api with video', async () => {
+    it('can call api with video url', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1664,10 +1711,32 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('can call api with file stream', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock.onPost(`/me/messages?access_token=${ACCESS_TOKEN}`).reply(config => {
+        expect(config.data).toBeInstanceOf(FormData);
+
+        return [200, reply];
+      });
+
+      const res = await client.sendVideo(
+        RECIPIENT_ID,
+        fs.createReadStream('./')
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#sendFile', () => {
-    it('should call messages api with file', async () => {
+    it('can call api with file url', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1694,6 +1763,28 @@ describe('send api', () => {
       const res = await client.sendFile(
         RECIPIENT_ID,
         'https://example.com/word.docx'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('can call api with file stream', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock.onPost(`/me/messages?access_token=${ACCESS_TOKEN}`).reply(config => {
+        expect(config.data).toBeInstanceOf(FormData);
+
+        return [200, reply];
+      });
+
+      const res = await client.sendFile(
+        RECIPIENT_ID,
+        fs.createReadStream('./')
       );
 
       expect(res).toEqual(reply);
