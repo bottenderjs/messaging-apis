@@ -369,13 +369,11 @@ export default class MessengerClient {
     const recipientObject =
       typeof recipient === 'string'
         ? {
-            recipient: {
-              id: recipient,
-            },
+            id: recipient,
           }
         : recipient;
-    form.append('recipient', JSON.stingify(recipientObject));
-    form.append('message', message);
+    form.append('recipient', JSON.stringify(recipientObject));
+    form.append('message', JSON.stringify(message));
     form.append('filedata', filedata);
     return this._http
       .post(`/me/messages?access_token=${this._accessToken}`, form, {
