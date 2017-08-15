@@ -4,7 +4,7 @@
 - [new] Support calling send API with recipient object:
 
 ```js
-context.sendText(
+client.sendText(
   {
     phone_number: '+1(212)555-2368',
     name: { first_name: 'John', last_name: 'Doe' },
@@ -16,8 +16,8 @@ context.sendText(
 - [new] Support send media (sendAudio、sendImage、sendVideo、sendFile) using `Buffer` or `ReadStream`:
 
 ```js
-context.sendImage(buffer);
-context.sendFile(fs.createReadStream('LookGreatToMe.pdf'));
+client.sendImage(USER_ID, buffer);
+client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 ```
 
 ### messaging-api-slack
