@@ -282,6 +282,114 @@ export default class TelegramClient {
     });
 
   /**
+    * https://core.telegram.org/bots/api#kickchatmember
+    */
+  kickChatMember = (chatId: string, userId: string, options?: Object) =>
+    this._request('/kickChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#unbanChatMember
+    */
+  unbanChatMember = (chatId: string, userId: string) =>
+    this._request('/unbanChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#restrictChatMember
+    */
+  restrictChatMember = (chatId: string, userId: string, options?: Object) =>
+    this._request('/restrictChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#promoteChatMember
+    */
+  promoteChatMember = (chatId: string, userId: string, options?: Object) =>
+    this._request('/promoteChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#exportChatInviteLink
+    */
+  exportChatInviteLink = (chatId: string) =>
+    this._request('/exportChatInviteLink', {
+      chat_id: chatId,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#setChatPhoto
+    */
+  setChatPhoto = (chatId: string, photo: string) =>
+    this._request('/setChatPhoto', {
+      chat_id: chatId,
+      photo,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#deleteChatPhoto
+    */
+  deleteChatPhoto = (chatId: string) =>
+    this._request('/deleteChatPhoto', {
+      chat_id: chatId,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#setChatTitle
+    */
+  setChatTitle = (chatId: string, title: string) =>
+    this._request('/setChatTitle', {
+      chat_id: chatId,
+      title,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#setChatDescription
+    */
+  setChatDescription = (chatId: string, description: string) =>
+    this._request('/setChatDescription', {
+      chat_id: chatId,
+      description,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#pinChatMessage
+    */
+  pinChatMessage = (chatId: string, messageId: number, options?: Object) =>
+    this._request('/pinChatMessage', {
+      chat_id: chatId,
+      messsage_id: messageId,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#unpinChatMessage
+    */
+  unpinChatMessage = (chatId: string) =>
+    this._request('/unpinChatMessage', {
+      chat_id: chatId,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#leaveChat
+    */
+  leaveChat = (chatId: string) =>
+    this._request('/leaveChat', {
+      chat_id: chatId,
+    });
+
+  /**
     * https://core.telegram.org/bots/api#getchatmemberscount
     */
   forwardMessage = (
