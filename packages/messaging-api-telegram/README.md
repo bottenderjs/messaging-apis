@@ -571,6 +571,222 @@ Identifier of the message to delete.
 client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ```
 
+### Group API
+
+#### kickChatMember(chatId, userId, options) - [Official Docs](https://core.telegram.org/bots/api/#kickchatmember)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### userId
+
+Type: `Number`
+
+Unique identifier of the target user.
+
+###### options
+
+Type: `Object`
+
+###### options.until_date
+
+Date when the user will be unbanned, unix time.
+
+```js
+client.kickChatMember(CHAT_ID, USER_ID, { until_date: UNIX_TIME });
+```
+
+#### unbanChatMember(chatId, userId) - [Official Docs](https://core.telegram.org/bots/api/#unbanChatMember)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### userId
+
+Type: `Number`
+
+Unique identifier of the target user.
+
+```js
+client.unbanChatMember(CHAT_ID, USER_ID);
+```
+
+#### restrictChatMember(chatId, userId, options) - [Official Docs](https://core.telegram.org/bots/api/#restrictChatMember)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### userId
+
+Type: `Number`
+
+Unique identifier of the target user.
+
+###### options
+
+Type: `Object`
+
+```js
+client.restrictChatMember(CHAT_ID, USER_ID, { can_send_messages: true });
+```
+
+#### promoteChatMember(chatId, userId, options) - [Official Docs](https://core.telegram.org/bots/api/#promoteChatMember)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### userId
+
+Type: `Number`
+
+Unique identifier of the target user.
+
+###### options
+
+Type: `Object`
+
+```js
+client.promoteChatMember(CHAT_ID, USER_ID, { can_change_info: true, can_invite_users: true });
+```
+
+#### exportChatInviteLink(chatId) - [Official Docs](https://core.telegram.org/bots/api/#exportChatInviteLink)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+```js
+client.exportChatInviteLink(CHAT_ID);
+```
+
+#### setChatPhoto(chatId, photo) - [Official Docs](https://core.telegram.org/bots/api/#setChatPhoto)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### photo
+
+Type: `String`
+
+Pass a file id as String to send a photo that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a photo from the Internet.
+
+```js
+client.setChatPhoto(CHAT_ID, 'https://example.com/image.png');
+```
+
+#### deleteChatPhoto(chatId) - [Official Docs](https://core.telegram.org/bots/api/#deleteChatPhoto)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+```js
+client.deleteChatPhoto(CHAT_ID);
+```
+
+#### setChatTitle(chatId, title) - [Official Docs](https://core.telegram.org/bots/api/#setChatTitle)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### title
+
+Type: `String`
+
+New chat title, 1-255 characters.
+
+```js
+client.setChatTitle(CHAT_ID, 'New Title');
+```
+
+#### setChatDescription(chatId, description) - [Official Docs](https://core.telegram.org/bots/api/#setChatDescription)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### description
+
+Type: `String`
+
+New chat description, 0-255 characters.
+
+```js
+client.setChatDescription(CHAT_ID, 'New Description');
+```
+
+#### pinChatMessage(chatId, messageId, options) - [Official Docs](https://core.telegram.org/bots/api/#pinChatMessage)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+###### messageId
+
+Type: `Number`
+
+Identifier of a message to pin
+
+###### options
+
+Type: `Object`
+
+###### options.disable_notification
+
+```js
+client.pinChatMessage(CHAT_ID, MESSAGE_ID, { disable_notification: true });
+```
+
+#### unpinChatMessage(chatId) - [Official Docs](https://core.telegram.org/bots/api/#unpinChatMessage)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+```js
+client.unpinChatMessage(CHAT_ID);
+```
+
+#### leaveChat(chatId) - [Official Docs](https://core.telegram.org/bots/api/#leaveChat)
+
+###### chatId
+
+Type: `Number | String`
+
+Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
+
+```js
+client.leaveChat(CHAT_ID);
+```
+
 ### Others
 
 #### forwardMessage(chatId, fromChatId, messageId, options) - [Official Docs](https://core.telegram.org/bots/api/#forwardmessage)
