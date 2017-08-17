@@ -658,7 +658,10 @@ Unique identifier of the target user.
 Type: `Object`
 
 ```js
-client.promoteChatMember(CHAT_ID, USER_ID, { can_change_info: true, can_invite_users: true });
+client.promoteChatMember(CHAT_ID, USER_ID, {
+  can_change_info: true,
+  can_invite_users: true,
+});
 ```
 
 #### exportChatInviteLink(chatId) - [Official Docs](https://core.telegram.org/bots/api/#exportChatInviteLink)
