@@ -1,3 +1,21 @@
+0.2.7 / 2017-08-17
+==================
+### messaging-api-telegram
+- [new] Implement supergroup or channel methods
+  + `kickChatMember`
+  + `unbanChatMember`
+  + `restrictChatMember`
+  + `promoteChatMember`
+  + `exportChatInviteLink`
+  + `setChatPhoto`
+  + `deleteChatPhoto`
+  + `setChatTitle`
+  + `setChatDescription`
+  + `pinChatMessage`
+  + `unpinChatMessage`
+  + `leaveChat`
+
+
 0.2.6 / 2017-08-14
 ==================
 ### messaging-api-messenger
