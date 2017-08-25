@@ -3434,6 +3434,29 @@ describe('send api', () => {
     });
   });
 
+  describe('#markSeen', () => {
+    it('should call messages api with mark_seen sender action', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          sender_action: 'mark_seen',
+        })
+        .reply(200, reply);
+
+      const res = await client.markSeen(RECIPIENT_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#turnTypingIndicatorsOn', () => {
     it('should call messages api with typing_on sender action', async () => {
       const { client, mock } = createMock();
