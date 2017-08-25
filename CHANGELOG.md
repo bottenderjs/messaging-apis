@@ -1,3 +1,12 @@
+0.2.8 / 2017-08-25
+==================
+### messaging-api-messenger
+- [new] Support `mark_seen` sender action:
+
+```js
+client.markSeen(USER_ID);
+```
+
 0.2.7 / 2017-08-17
 ==================
 ### messaging-api-telegram
