@@ -738,6 +738,11 @@ export default class MessengerClient {
     });
   };
 
+  markSeen = (
+    recipient: UserID | Recipient
+  ): Promise<SendSenderActionResponse> =>
+    this.sendSenderAction(recipient, 'mark_seen');
+
   turnTypingIndicatorsOn = (
     recipient: UserID | Recipient
   ): Promise<SendSenderActionResponse> =>
