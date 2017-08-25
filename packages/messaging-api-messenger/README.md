@@ -1279,7 +1279,23 @@ Name of the action.
 client.sendSenderAction(USER_ID, 'typing_on');
 ```
 
+#### markSeen(userId)
+
+Mark last message as read.
+
+###### userId
+
+Type: `String | Object`
+
+Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
+
+```js
+client.markSeen(USER_ID);
+```
+
 #### turnTypingIndicatorsOn(userId)
+
+Turn typing indicators on.
 
 ###### userId
 
@@ -1292,6 +1308,8 @@ client.turnTypingIndicatorsOn(USER_ID);
 ```
 
 #### turnTypingIndicatorsOff(userId)
+
+Turn typing indicators off.
 
 ###### userId
 
