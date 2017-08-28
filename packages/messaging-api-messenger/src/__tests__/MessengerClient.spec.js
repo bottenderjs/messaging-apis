@@ -2099,13 +2099,13 @@ describe('send api', () => {
             payload: 'USER_DEFINED_PAYLOAD',
           },
         ],
-        'compact'
+        { top_element_style: 'compact' }
       );
 
       expect(res).toEqual(reply);
     });
 
-    it('should use topElementStyle default value', async () => {
+    it('should use top_element_style default value', async () => {
       const { client, mock } = createMock();
 
       const reply = {

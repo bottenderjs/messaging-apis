@@ -361,6 +361,8 @@ Type: `String`
 Value: `horizontal | square`
 Default: `horizontal`
 
+Type: `Object`
+
 ###### options.tag
 
 Type: `String`
@@ -408,7 +410,7 @@ client.sendGenericTemplate(
 );
 ```
 
-#### sendListTemplate(userId, items, buttons, topElementStyle) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
+#### sendListTemplate(userId, items, buttons, options) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14858155_1136082199802015_362293724211838976_n.png?oh=46900eb955ff8ea1040fc5353d9be2fa&oe=59F245DD" alt="sendListTemplate" width="500" />
 
@@ -426,9 +428,15 @@ Type: `Array<Object>`
 
 Type: `Array<Object>`
 
-###### topElementStyle
+###### options
+
+Type: `Object`
+
+###### options.top_element_style
 
 Type: `String`
+Value: `large | compact`
+Default: `large`
 
 ```js
 client.sendListTemplate(
@@ -464,7 +472,7 @@ client.sendListTemplate(
       payload: 'USER_DEFINED_PAYLOAD',
     },
   ],
-  'compact'
+  { top_element_style: 'compact' }
 );
 ```
 
