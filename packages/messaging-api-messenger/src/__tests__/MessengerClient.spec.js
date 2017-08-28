@@ -1944,35 +1944,6 @@ describe('send api', () => {
     });
   });
 
-  describe('#sendTaggedTemplate', () => {
-    it('should call messages api with tagged generic template', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        recipient_id: RECIPIENT_ID,
-        message_id: 'mid.1489394984387:3dd22de509',
-      };
-
-      mock
-        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
-          recipient: {
-            id: RECIPIENT_ID,
-          },
-          message: templateMessage,
-          tag: 'SHIPPING_UPDATE',
-        })
-        .reply(200, reply);
-
-      const res = await client.sendTaggedTemplate(
-        RECIPIENT_ID,
-        templateElements,
-        'SHIPPING_UPDATE'
-      );
-
-      expect(res).toEqual(reply);
-    });
-  });
-
   describe('#sendShippingUpdateTemplate', () => {
     it('should call messages api with shipping update generic template', async () => {
       const { client, mock } = createMock();
