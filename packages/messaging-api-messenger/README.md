@@ -353,12 +353,13 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 
 Type: `Array<Object>`
 
-###### ratio
+###### options
+
+###### options.image_aspect_ratio
 
 Type: `String`
 Value: `horizontal | square`
-
-###### options
+Default: `horizontal`
 
 ###### options.tag
 
@@ -366,27 +367,31 @@ Type: `String`
 Value: `SHIPPING_UPDATE | RESERVATION_UPDATE | ISSUE_RESOLUTION APPOINTMENT_UPDATE | GAME_EVENT | TRANSPORTATION_UPDATE | FEATURE_FUNCTIONALITY_UPDATE | TICKET_UPDATE`
 
 ```js
-client.sendGenericTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
+client.sendGenericTemplate(
+  USER_ID,
+  [
+    {
+      title: "Welcome to Peter's Hats",
+      image_url: 'https://petersfancybrownhats.com/company_image.png',
+      subtitle: "We've got the right hat for everyone.",
+      default_action: {
+        type: 'web_url',
+        url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
+        messenger_extensions: true,
+        webview_height_ratio: 'tall',
+        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
       },
-    ],
-  },
-]);
+      buttons: [
+        {
+          type: 'postback',
+          title: 'Start Chatting',
+          payload: 'DEVELOPER_DEFINED_PAYLOAD',
+        },
+      ],
+    },
+  ],
+  { image_aspect_ratio: 'square' }
+);
 ```
 
 Adding a [tag](https://developers.facebook.com/docs/messenger-platform/message-tags) to a message allows you to send it outside the 24+1 window, for a limited number of use cases, per [Messenger Platform policy](https://developers.facebook.com/docs/messenger-platform/policy-overview).
@@ -399,7 +404,6 @@ client.sendGenericTemplate(
       // ...
     },
   ],
-  'square',
   { tag: 'ISSUE_RESOLUTION' }
 );
 ```

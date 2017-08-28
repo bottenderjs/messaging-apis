@@ -3,6 +3,7 @@ import querystring from 'querystring';
 import axios from 'axios';
 import FormData from 'form-data';
 import invariant from 'invariant';
+import omit from 'lodash.omit';
 
 import type {
   UserID,
@@ -516,17 +517,19 @@ export default class MessengerClient {
   sendGenericTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
-    ratio: string = 'horizontal',
-    options?: SendOption
+    options?: {
+      ...SendOption,
+      image_aspect_ratio?: 'horizontal' | 'square',
+    } = {}
   ): Promise<SendMessageSucessResponse> =>
     this.sendTemplate(
       recipient,
       {
         template_type: 'generic',
         elements,
-        image_aspect_ratio: ratio, // FIXME rename to image_aspect_ratio?
+        image_aspect_ratio: options.image_aspect_ratio || 'horizontal',
       },
-      options
+      omit(options, ['image_aspect_ratio'])
     );
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
