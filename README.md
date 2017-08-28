@@ -93,18 +93,32 @@ or
 yarn add messaging-api-slack
 ```
 
-Then, create a `SlackClient` to call Slack APIs:
+Then, create a `SlackOAuthClient` or `SlackWebhookClient` to call Slack APIs:
 
 ```js
-const { SlackClient } = require('messaging-api-slack');
+const { SlackOAuthClient } = require('messaging-api-slack');
+
+// get access token by setup OAuth & Permissions function to your app.
+// https://api.slack.com/docs/oauth
+const OAuthClient = SlackOAuthClient.connect(
+  'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx'
+);
+
+OAuthClient.sendText('Hello World').then(() => {
+  console.log('sent');
+});
+```
+
+```js
+const { SlackWebhookClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/
-const client = SlackClient.connect(
+const webhookClient = SlackWebhookClient.connect(
   'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ'
 );
 
-client.sendText('Hello World').then(() => {
+webhookClient.sendText('Hello World').then(() => {
   console.log('sent');
 });
 ```
