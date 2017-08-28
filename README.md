@@ -104,7 +104,7 @@ const OAuthClient = SlackOAuthClient.connect(
   'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx'
 );
 
-OAuthClient.sendText('Hello World').then(() => {
+OAuthClient.postMessage('#random', 'Hello World').then(() => {
   console.log('sent');
 });
 ```
