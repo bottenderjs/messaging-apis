@@ -31,7 +31,6 @@ import type {
   MutationSuccessResponse,
   SendMessageSucessResponse,
   SendSenderActionResponse,
-  MessageTag,
   MessageTagResponse,
   FileData,
 } from './MessengerTypes';
@@ -531,79 +530,75 @@ export default class MessengerClient {
     );
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/
-  sendTaggedTemplate = (
-    recipient: UserID | Recipient,
-    elements: Array<TemplateElement>,
-    tag: MessageTag,
-    ratio: string = 'horizontal'
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendGenericTemplate(recipient, elements, ratio, { tag });
-
   sendShippingUpdateTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipient, elements, 'SHIPPING_UPDATE', ratio);
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'SHIPPING_UPDATE',
+    });
 
   sendReservationUpdateTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipient, elements, 'RESERVATION_UPDATE', ratio);
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'RESERVATION_UPDATE',
+    });
 
   sendIssueResolutionTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipient, elements, 'ISSUE_RESOLUTION', ratio);
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'ISSUE_RESOLUTION',
+    });
 
   sendAppointmentUpdateTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipient, elements, 'APPOINTMENT_UPDATE', ratio);
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'APPOINTMENT_UPDATE',
+    });
 
   sendGameEventTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipient, elements, 'GAME_EVENT', ratio);
+    this.sendGenericTemplate(recipient, elements, ratio, { tag: 'GAME_EVENT' });
 
   sendTransportationUpdateTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(
-      recipient,
-      elements,
-      'TRANSPORTATION_UPDATE',
-      ratio
-    );
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'TRANSPORTATION_UPDATE',
+    });
 
   sendFeatureFunctionalityUpdateTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(
-      recipient,
-      elements,
-      'FEATURE_FUNCTIONALITY_UPDATE',
-      ratio
-    );
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'FEATURE_FUNCTIONALITY_UPDATE',
+    });
 
   sendTicketUpdateTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     ratio: string = 'horizontal'
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTaggedTemplate(recipient, elements, 'TICKET_UPDATE', ratio);
+    this.sendGenericTemplate(recipient, elements, ratio, {
+      tag: 'TICKET_UPDATE',
+    });
 
   // https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
   sendListTemplate = (

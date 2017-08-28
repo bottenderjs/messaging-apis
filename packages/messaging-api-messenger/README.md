@@ -377,50 +377,6 @@ client.sendGenericTemplate(USER_ID, [
 ]);
 ```
 
-#### sendTaggedTemplate(userId, elements, tag)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-###### tag - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
-
-Type: `String`
-
-```js
-client.sendTaggedTemplate(
-  USER_ID,
-  [
-    {
-      title: "Welcome to Peter's Hats",
-      image_url: 'https://petersfancybrownhats.com/company_image.png',
-      subtitle: "We've got the right hat for everyone.",
-      default_action: {
-        type: 'web_url',
-        url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-        messenger_extensions: true,
-        webview_height_ratio: 'tall',
-        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-      },
-      buttons: [
-        {
-          type: 'postback',
-          title: 'Start Chatting',
-          payload: 'DEVELOPER_DEFINED_PAYLOAD',
-        },
-      ],
-    },
-  ],
-  'GAME_EVENT'
-);
-```
-
 #### sendShippingUpdateTemplate(userId, elements)
 
 ###### userId
