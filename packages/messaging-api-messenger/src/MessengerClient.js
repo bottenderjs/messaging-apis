@@ -534,13 +534,13 @@ export default class MessengerClient {
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     buttons: Array<TemplateButton>,
-    topElementStyle: string = 'large'
+    options?: { top_element_style?: 'large' | 'compact' } = {}
   ): Promise<SendMessageSucessResponse> =>
     this.sendTemplate(recipient, {
       template_type: 'list',
       elements,
       buttons,
-      top_element_style: topElementStyle,
+      top_element_style: options.top_element_style || 'large',
     });
 
   // https://developers.facebook.com/docs/messenger-platform/open-graph-template
