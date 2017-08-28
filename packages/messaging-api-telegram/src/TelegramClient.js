@@ -226,13 +226,13 @@ export default class TelegramClient {
    */
   sendContact = (
     chatId: string,
-    { phoneNumber, firstName }: { phoneNumber: string, firstName: string },
+    { phone_number, first_name }: { phone_number: string, first_name: string },
     options?: Object
   ) =>
     this._request('/sendContact', {
       chat_id: chatId,
-      phone_number: phoneNumber,
-      first_name: firstName,
+      phone_number,
+      first_name,
       ...options,
     });
 

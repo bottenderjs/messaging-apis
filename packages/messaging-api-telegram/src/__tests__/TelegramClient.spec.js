@@ -891,8 +891,8 @@ describe('send api', () => {
       const res = await client.sendContact(
         427770117,
         {
-          phoneNumber: '886123456789',
-          firstName: 'first',
+          phone_number: '886123456789',
+          first_name: 'first',
         },
         { last_name: 'last' }
       );
