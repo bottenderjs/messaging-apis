@@ -1943,6 +1943,41 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
+    it('can use square generic template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'generic',
+                elements: templateElements,
+                image_aspect_ratio: 'square',
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendGenericTemplate(
+        RECIPIENT_ID,
+        templateElements,
+        { image_aspect_ratio: 'square' }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
     it('can use generic template with tag', async () => {
       const { client, mock } = createMock();
 
@@ -1964,7 +1999,6 @@ describe('send api', () => {
       const res = await client.sendGenericTemplate(
         RECIPIENT_ID,
         templateElements,
-        'horizontal',
         { tag: 'SHIPPING_UPDATE' }
       );
 
