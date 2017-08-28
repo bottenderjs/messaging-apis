@@ -1293,7 +1293,7 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 client.markSeen(USER_ID);
 ```
 
-#### turnTypingIndicatorsOn(userId)
+#### typingOn(userId)
 
 Turn typing indicators on.
 
@@ -1304,10 +1304,10 @@ Type: `String | Object`
 Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ```js
-client.turnTypingIndicatorsOn(USER_ID);
+client.typingOn(USER_ID);
 ```
 
-#### turnTypingIndicatorsOff(userId)
+#### typingOff(userId)
 
 Turn typing indicators off.
 
@@ -1318,7 +1318,7 @@ Type: `String | Object`
 Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
 
 ```js
-client.turnTypingIndicatorsOff(USER_ID);
+client.typingOff(USER_ID);
 ```
 
 <a id="attachment-upload-api" />

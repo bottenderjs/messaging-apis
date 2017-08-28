@@ -3457,7 +3457,7 @@ describe('send api', () => {
     });
   });
 
-  describe('#turnTypingIndicatorsOn', () => {
+  describe('#typingOn', () => {
     it('should call messages api with typing_on sender action', async () => {
       const { client, mock } = createMock();
 
@@ -3474,13 +3474,13 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.turnTypingIndicatorsOn(RECIPIENT_ID);
+      const res = await client.typingOn(RECIPIENT_ID);
 
       expect(res).toEqual(reply);
     });
   });
 
-  describe('#turnTypingIndicatorsOff', () => {
+  describe('#typingOff', () => {
     it('should call messages api with typing_off sender action', async () => {
       const { client, mock } = createMock();
 
@@ -3497,7 +3497,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.turnTypingIndicatorsOff(RECIPIENT_ID);
+      const res = await client.typingOff(RECIPIENT_ID);
 
       expect(res).toEqual(reply);
     });
