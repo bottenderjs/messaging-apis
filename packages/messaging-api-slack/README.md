@@ -91,12 +91,15 @@ client.postMessage('C8763', 'Hello!', { as_user: true });
 Type: `String`
 
 ```js
-client.getUserList(CURSOR).then(res => {
+client.getUserList(cursor).then(res => {
   console.log(res);
-  // [
-  //   { ... },
-  //   { ... },
-  // ]
+  // {
+  //   members: [
+  //     { ... },
+  //     { ... },
+  //   ],
+  //   next: 'abcdefg',
+  // }
 });
 ```
 

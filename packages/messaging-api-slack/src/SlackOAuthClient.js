@@ -63,7 +63,10 @@ export default class SlackOAuthClient {
 
   // https://api.slack.com/methods/users.list
   getUserList = (cursor?: string): Promise<Array<User>> =>
-    this.callMethod('users.list', { cursor }).then(data => data.members);
+    this.callMethod('users.list', { cursor }).then(data => ({
+      members: data.members,
+      next: data.response_metadata && data.response_metadata.next_cursor,
+    }));
 
   getAllUserList = async (): Promise<Array<User>> => {
     let allUsers = [];
@@ -72,11 +75,9 @@ export default class SlackOAuthClient {
     do {
       const {
         members: users,
-        response_metadata: { next_cursor: next } = {},
+        next,
         // eslint-disable-next-line no-await-in-loop
-      } = await this.callMethod('users.list', {
-        cursor: continuationCursor,
-      });
+      } = await this.getUserList(continuationCursor);
       allUsers = allUsers.concat(users);
       continuationCursor = next;
     } while (continuationCursor);
