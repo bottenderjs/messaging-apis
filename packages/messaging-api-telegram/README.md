@@ -357,8 +357,8 @@ Type: `Object`
 client.sendContact(
   CHAT_ID,
   {
-    phoneNumber: '886123456789',
-    firstName: 'first',
+    phone_number: '886123456789',
+    first_name: 'first',
   },
   { last_name: 'last' }
 );
