@@ -743,12 +743,12 @@ export default class MessengerClient {
   ): Promise<SendSenderActionResponse> =>
     this.sendSenderAction(recipient, 'mark_seen');
 
-  turnTypingIndicatorsOn = (
+  typingOn = (
     recipient: UserID | Recipient
   ): Promise<SendSenderActionResponse> =>
     this.sendSenderAction(recipient, 'typing_on');
 
-  turnTypingIndicatorsOff = (
+  typingOff = (
     recipient: UserID | Recipient
   ): Promise<SendSenderActionResponse> =>
     this.sendSenderAction(recipient, 'typing_off');
