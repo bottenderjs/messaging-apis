@@ -339,7 +339,7 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
 ]);
 ```
 
-#### sendGenericTemplate(userId, elements) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
+#### sendGenericTemplate(userId, elements, ratio, options) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509251_1026555627430343_1803381600_n.png?oh=e9fadd445090a4743bfd20fda487be5f&oe=59EE4571" alt="sendGenericTemplate" width="250" />
 
@@ -352,6 +352,18 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 ###### elements
 
 Type: `Array<Object>`
+
+###### ratio
+
+Type: `String`
+Value: `horizontal | square`
+
+###### options
+
+###### options.tag
+
+Type: `String`
+Value: `SHIPPING_UPDATE | RESERVATION_UPDATE | ISSUE_RESOLUTION APPOINTMENT_UPDATE | GAME_EVENT | TRANSPORTATION_UPDATE | FEATURE_FUNCTIONALITY_UPDATE | TICKET_UPDATE`
 
 ```js
 client.sendGenericTemplate(USER_ID, [
@@ -377,292 +389,19 @@ client.sendGenericTemplate(USER_ID, [
 ]);
 ```
 
-#### sendShippingUpdateTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
+Adding a [tag](https://developers.facebook.com/docs/messenger-platform/message-tags) to a message allows you to send it outside the 24+1 window, for a limited number of use cases, per [Messenger Platform policy](https://developers.facebook.com/docs/messenger-platform/policy-overview).
 
 ```js
-client.sendShippingUpdateTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+client.sendGenericTemplate(
+  USER_ID,
+  [
+    {
+      // ...
     },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendReservationUpdateTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendReservationUpdateTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendIssueResolutionTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendIssueResolutionTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendAppointmentUpdateTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendAppointmentUpdateTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendGameEventTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendGameEventTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendTransportationUpdateTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendTransportationUpdateTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendFeatureFunctionalityUpdateTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendFeatureFunctionalityUpdateTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
-```
-
-#### sendTicketUpdateTemplate(userId, elements)
-
-###### userId
-
-Type: `String | Object`
-
-Page-scoped user ID of the recipient or [recipient](https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient) object.
-
-###### elements
-
-Type: `Array<Object>`
-
-```js
-client.sendTicketUpdateTemplate(USER_ID, [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-]);
+  ],
+  'square',
+  { tag: 'ISSUE_RESOLUTION' }
+);
 ```
 
 #### sendListTemplate(userId, items, buttons, topElementStyle) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
