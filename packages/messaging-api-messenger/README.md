@@ -380,7 +380,7 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
 
 <br />
 
-#### sendGenericTemplate(userId, elements, ratio, options) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
+#### sendGenericTemplate(userId, elements, options) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
 Send generic message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
