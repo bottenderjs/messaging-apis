@@ -48,6 +48,8 @@ All methods return a Promise.
 
 ##### callMethod(method, body) - [Official docs](https://api.slack.com/methods)
 
+Calling any API methods which follow [slack calling conventions](https://api.slack.com/web#basics).
+
 ###### method
 
 Type: `String`
@@ -65,6 +67,8 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 ##### postMessage(channel, text, options?) - [Official docs](https://api.slack.com/methods/chat.postMessage)
 
+Sends a message to a channel.
+
 ###### channel
 
 Type: `String`
@@ -77,6 +81,10 @@ Type: `String`
 
 Type: `Object`
 
+###### options.as_user
+
+Type: `Boolean`
+
 ```js
 client.postMessage('C8763', 'Hello!');
 client.postMessage('C8763', 'Hello!', { as_user: true });
@@ -85,6 +93,8 @@ client.postMessage('C8763', 'Hello!', { as_user: true });
 #### Users API
 
 ##### getUserList(cursor?) - [Official docs](https://api.slack.com/methods/users.list)
+
+Lists all users in a Slack team.
 
 ###### cursor
 
@@ -105,6 +115,8 @@ client.getUserList(cursor).then(res => {
 
 ##### getAllUserList() - [Official docs](https://api.slack.com/methods/users.list)
 
+Recursively lists all users in a Slack team using cursor.
+
 ```js
 client.getAllUserList().then(res => {
   console.log(res);
@@ -116,6 +128,8 @@ client.getAllUserList().then(res => {
 ```
 
 ##### getUserInfo(userId) - [Official docs](https://api.slack.com/methods/users.info)
+
+Gets information about an user.
 
 ###### userId
 
@@ -136,6 +150,8 @@ client.getUserInfo(userId).then(res => {
 
 ##### getChannelList() - [Official docs](https://api.slack.com/methods/channels.list)
 
+Lists all channels in a Slack team.
+
 ```js
 client.getChannelList().then(res => {
   console.log(res);
@@ -147,6 +163,8 @@ client.getChannelList().then(res => {
 ```
 
 ##### getChannelInfo(channelId) - [Official docs](https://api.slack.com/methods/channels.info)
+
+Gets information about a channel.
 
 ###### channelId
 
