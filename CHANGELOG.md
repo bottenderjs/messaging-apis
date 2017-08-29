@@ -35,8 +35,8 @@ client.sendGenericTemplate(
   { tag: 'ISSUE_RESOLUTION' }
 );
 ```
-- [breaking] Renamed `topElementStyle` to `options.top_element_style` in `sendListTemplate` [6840ec7](https://github.com/Yoctol/messaging-apis/commit/6840ec7094be6c0f6c0a9d995b3756b86f4f5f17)
-- [breaking] Renamed `ratio` to `options.image_aspect_ratio` in `sendGenericTemplate` [701e717](https://github.com/Yoctol/messaging-apis/commit/701e717abe8b8f1de63d5c3f9c49e601fc9cacc0)
+- [breaking] Renamed `topElementStyle` to `options.top_element_style` in `sendListTemplate` [@6840ec7](https://github.com/Yoctol/messaging-apis/commit/6840ec7094be6c0f6c0a9d995b3756b86f4f5f17)
+- [breaking] Renamed `ratio` to `options.image_aspect_ratio` in `sendGenericTemplate` [@701e717](https://github.com/Yoctol/messaging-apis/commit/701e717abe8b8f1de63d5c3f9c49e601fc9cacc0)
 
 ### messaging-api-slack
 - [breaking] Removed `SlackClient` export, using `SlackOAuthClient` or `SlackWebhookClient` instead.
