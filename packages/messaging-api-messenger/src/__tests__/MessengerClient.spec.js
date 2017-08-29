@@ -1538,9 +1538,7 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
-  });
 
-  describe('#sendIssueResolutionText', () => {
     it('should call messages api with issue resolution text', async () => {
       const { client, mock } = createMock();
 
@@ -1561,7 +1559,9 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendIssueResolutionText(RECIPIENT_ID, 'Hello!');
+      const res = await client.sendText(RECIPIENT_ID, 'Hello!', {
+        tag: 'ISSUE_RESOLUTION',
+      });
 
       expect(res).toEqual(reply);
     });
