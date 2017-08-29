@@ -24,6 +24,8 @@ or
 yarn add messaging-api-slack
 ```
 
+<br />
+
 ## OAuth Client
 
 ### Usage
@@ -40,9 +42,13 @@ const client = SlackOAuthClient.connect(
 );
 ```
 
+<br />
+
 ### API Reference
 
 All methods return a Promise.
+
+<br />
 
 #### Call available methods
 
@@ -62,6 +68,8 @@ Type: `Object`
 ```js
 client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 ```
+
+<br />
 
 #### Chat API
 
@@ -90,6 +98,8 @@ client.postMessage('C8763', 'Hello!');
 client.postMessage('C8763', 'Hello!', { as_user: true });
 ```
 
+<br />
+
 #### Users API
 
 ##### getUserList(cursor?) - [Official docs](https://api.slack.com/methods/users.list)
@@ -113,6 +123,8 @@ client.getUserList(cursor).then(res => {
 });
 ```
 
+<br />
+
 ##### getAllUserList() - [Official docs](https://api.slack.com/methods/users.list)
 
 Recursively lists all users in a Slack team using cursor.
@@ -126,6 +138,8 @@ client.getAllUserList().then(res => {
   // ]
 });
 ```
+
+<br />
 
 ##### getUserInfo(userId) - [Official docs](https://api.slack.com/methods/users.info)
 
@@ -145,6 +159,8 @@ client.getUserInfo(userId).then(res => {
   // }
 });
 ```
+
+<br />
 
 #### Channels API
 
@@ -181,6 +197,8 @@ client.getChannelInfo(channelId).then(res => {
 });
 ```
 
+<br />
+
 ## Webhook Client
 
 ### Usage
@@ -197,9 +215,13 @@ const client = SlackWebhookClient.connect(
 );
 ```
 
+<br />
+
 ### API Reference
 
 All methods return a Promise.
+
+<br />
 
 #### Send API - [Official docs](https://api.slack.com/docs/messages)
 
@@ -213,6 +235,8 @@ Type: `Object`
 client.sendRawBody({ text: 'Hello!' });
 ```
 
+<br />
+
 ##### sendText(text)
 
 ###### text
@@ -222,6 +246,8 @@ Type: `String`
 ```js
 client.sendText('Hello!');
 ```
+
+<br />
 
 ##### sendAttachments(attachments) - [Official docs](https://api.slack.com/docs/message-attachments)
 
@@ -257,6 +283,8 @@ client.sendAttachments([
   },
 ]);
 ```
+
+<br />
 
 ##### sendAttachment(attachment) - [Official docs](https://api.slack.com/docs/message-attachments)
 

@@ -35,6 +35,8 @@ or
 yarn add messaging-api-line
 ```
 
+<br />
+
 ## Usage
 
 ### Initialize
@@ -46,9 +48,13 @@ const { LINEClient } = require('messaging-api-line');
 const client = LINEClient.connect(accessToken, channelSecret);
 ```
 
+<br />
+
 ## API Reference
 
 All methods return a Promise.
+
+<br />
 
 <a id="reply-api" />
 
@@ -79,6 +85,8 @@ client.reply(REPLY_TOKEN, [
 ]);
 ```
 
+<br />
+
 #### replyText(token, text)
 
 Responds text message using specified reply token.
@@ -96,6 +104,8 @@ Type: `String`
 ```js
 client.reply(REPLY_TOKEN, 'Hello!');
 ```
+
+<br />
 
 #### replyImage(token, imageUrl, previewImageUrl)
 
@@ -123,6 +133,8 @@ client.replyImage(
 );
 ```
 
+<br />
+
 #### replyVideo(token, videoUrl, previewImageUrl)
 
 Responds video message using specified reply token.
@@ -149,6 +161,8 @@ client.replyVideo(
 );
 ```
 
+<br />
+
 #### replyAudio(token, audioUrl, duration)
 
 Responds audio message using specified reply token.
@@ -170,6 +184,8 @@ Type: `Number`
 ```js
 client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 ```
+
+<br />
 
 #### replyLocation(token, location)
 
@@ -210,6 +226,8 @@ client.replyLocation(REPLY_TOKEN, {
 });
 ```
 
+<br />
+
 #### replySticker(token, packageId, stickerId)
 
 Responds sticker message using specified reply token.
@@ -231,6 +249,8 @@ Type: `String`
 ```js
 client.replySticker(REPLY_TOKEN, '1', '1');
 ```
+
+<br />
 
 ### Reply Imagemap Message
 
@@ -306,6 +326,8 @@ client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
 });
 ```
 
+<br />
+
 ### Reply Template Messages
 
 #### replyTemplate(token, altText, template)
@@ -353,6 +375,8 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
   ],
 });
 ```
+
+<br />
 
 #### replyButtonTemplate(token, altText, buttonTemplate)
 
@@ -419,6 +443,8 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 });
 ```
 
+<br />
+
 #### replyConfirmTemplate(token, altText, confirmTemplate)
 
 Responds confirm template message using specified reply token.
@@ -468,6 +494,8 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
   ],
 });
 ```
+
+<br />
 
 #### replyCarouselTemplate(token, altText, carouselItems)
 
@@ -540,6 +568,8 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 ]);
 ```
 
+<br />
+
 <a id="push-api" />
 
 ### Push API - [Official Docs](https://devdocs.line.me/en/#push-message)
@@ -569,6 +599,8 @@ client.push(USER_ID, [
 ]);
 ```
 
+<br />
+
 #### pushText(userId, text)
 
 Sends text message using ID of the receiver.
@@ -586,6 +618,8 @@ Type: `String`
 ```js
 client.pushText(USER_ID, 'Hello!');
 ```
+
+<br />
 
 #### pushImage(userId, imageUrl, previewImageUrl)
 
@@ -613,6 +647,8 @@ client.pushImage(
 );
 ```
 
+<br />
+
 #### pushVideo(userId, videoUrl, previewImageUrl)
 
 Sends video message using ID of the receiver.
@@ -639,6 +675,8 @@ client.pushVideo(
 );
 ```
 
+<br />
+
 #### pushAudio(userId, audioUrl, duration)
 
 Sends audio message using ID of the receiver.
@@ -660,6 +698,8 @@ Type: `Number`
 ```js
 client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 ```
+
+<br />
 
 #### pushLocation(userId, location)
 
@@ -700,6 +740,8 @@ client.pushLocation(USER_ID, {
 });
 ```
 
+<br />
+
 #### pushSticker(userId, packageId, stickerId)
 
 Sends sticker message using ID of the receiver.
@@ -721,6 +763,8 @@ Type: `String`
 ```js
 client.pushSticker(USER_ID, '1', '1');
 ```
+
+<br />
 
 ### Push Imagemap Message
 
@@ -796,6 +840,8 @@ client.pushImagemap(USER_ID, 'this is an imagemap', {
 });
 ```
 
+<br />
+
 ### Push Template Messages
 
 #### pushTemplate(userId, altText, template)
@@ -843,6 +889,8 @@ client.pushTemplate(USER_ID, 'this is a template', {
   ],
 });
 ```
+
+<br />
 
 #### pushButtonTemplate(userId, altText, buttonTemplate)
 
@@ -909,6 +957,8 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 });
 ```
 
+<br />
+
 #### pushConfirmTemplate(userId, altText, confirmTemplate)
 
 Sends confirm template message using ID of the receiver.
@@ -958,6 +1008,8 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
   ],
 });
 ```
+
+<br />
 
 #### pushCarouselTemplate(userId, altText, carouselItems)
 
@@ -1030,6 +1082,8 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 ]);
 ```
 
+<br />
+
 <a id="multicast-api" />
 
 ### Multicast API - [Official Docs](https://devdocs.line.me/en/#multicast)
@@ -1062,6 +1116,8 @@ client.multicast(
 );
 ```
 
+<br />
+
 #### multicastText(userIds, text)
 
 Sends text message to multiple users.
@@ -1079,6 +1135,8 @@ Type: `String`
 ```js
 client.multicastText([USER_ID], 'Hello!');
 ```
+
+<br />
 
 #### multicastImage(userId, imageUrl, previewImageUrl)
 
@@ -1106,6 +1164,8 @@ client.multicastImage(
 );
 ```
 
+<br />
+
 #### multicastVideo(userId, videoUrl, previewImageUrl)
 
 Sends video message to multiple users.
@@ -1132,6 +1192,8 @@ client.multicastVideo(
 );
 ```
 
+<br />
+
 #### multicastAudio(userId, audioUrl, duration)
 
 Sends audio message to multiple users.
@@ -1153,6 +1215,8 @@ Type: `Number`
 ```js
 client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 ```
+
+<br />
 
 #### multicastLocation(userId, location)
 
@@ -1193,6 +1257,8 @@ client.multicastLocation([USER_ID], {
 });
 ```
 
+<br />
+
 #### multicastSticker(userId, packageId, stickerId)
 
 Sends sticker message to multiple users.
@@ -1214,6 +1280,8 @@ Type: `String`
 ```js
 client.multicastSticker([USER_ID], '1', '1');
 ```
+
+<br />
 
 ### Multicast Imagemap Message
 
@@ -1289,6 +1357,8 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
 });
 ```
 
+<br />
+
 ### Multicast Template Messages
 
 #### multicastTemplate(userId, altText, template)
@@ -1336,6 +1406,8 @@ client.multicastTemplate([USER_ID], 'this is a template', {
   ],
 });
 ```
+
+<br />
 
 #### multicastButtonTemplate(userId, altText, buttonTemplate)
 
@@ -1402,6 +1474,8 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 });
 ```
 
+<br />
+
 #### multicastConfirmTemplate(userId, altText, confirmTemplate)
 
 Sends confirm template message to multiple users.
@@ -1451,6 +1525,8 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
   ],
 });
 ```
+
+<br />
 
 #### multicastCarouselTemplate(userId, altText, carouselItems)
 
@@ -1523,6 +1599,8 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 ]);
 ```
 
+<br />
+
 <a id="content-api" />
 
 ### Content API - [Official Docs](https://devdocs.line.me/en/#content)
@@ -1538,6 +1616,8 @@ Type: `String`
 ```js
 client.retrieveMessageContent(MESSAGE_ID);
 ```
+
+<br />
 
 <a id="profile-api" />
 
@@ -1562,6 +1642,8 @@ client.getUserProfile(USER_ID).then(profile => {
   // }
 });
 ```
+
+<br />
 
 <a id="grouproom-member-profile-api" />
 
@@ -1590,6 +1672,8 @@ client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
 });
 ```
 
+<br />
+
 #### getRoomMemberProfile(roomId, userId)
 
 Gets the user profile of a member of a room that the bot is in.
@@ -1612,6 +1696,8 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
   // }
 });
 ```
+
+<br />
 
 <a id="grouproom-member-ids-api" />
 
@@ -1643,6 +1729,8 @@ client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
 });
 ```
 
+<br />
+
 #### getAllGroupMemberIds(groupId)
 
 Recursively gets the user IDs of the members of a group that the bot is in using cursors.
@@ -1664,6 +1752,8 @@ client.getAllGroupMemberIds(GROUP_ID).then(ids => {
   // ]
 });
 ```
+
+<br />
 
 #### getRoomMemberIds(roomId, start)
 
@@ -1691,6 +1781,8 @@ client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
 });
 ```
 
+<br />
+
 #### getAllRoomMemberIds(roomId)
 
 Recursively gets the user IDs of the members of a room that the bot is in using cursors.
@@ -1713,6 +1805,8 @@ client.getAllRoomMemberIds(ROOM_ID).then(ids => {
 });
 ```
 
+<br />
+
 <a id="leave-api" />
 
 ### Leave API - [Official Docs](https://devdocs.line.me/en/#leave)
@@ -1729,6 +1823,8 @@ Type: `String`
 client.leaveGroup(GROUP_ID);
 ```
 
+<br />
+
 #### leaveRoom(roomId)
 
 Leave a room.
@@ -1740,6 +1836,8 @@ Type: `String`
 ```js
 client.leaveRoom(ROOM_ID);
 ```
+
+<br />
 
 ### Others
 
