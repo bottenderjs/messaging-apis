@@ -408,12 +408,6 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> =>
     this.send(recipient, { text }, options);
 
-  sendIssueResolutionText = (
-    recipient: UserID | Recipient,
-    text: string
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendText(recipient, text, { tag: 'ISSUE_RESOLUTION' });
-
   sendAudio = (
     recipient: UserID | Recipient,
     audio: string | FileData
