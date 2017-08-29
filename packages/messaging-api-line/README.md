@@ -54,7 +54,11 @@ All methods return a Promise.
 
 ### Reply API - [Official Docs](https://devdocs.line.me/en/#reply-message)
 
+Responds to events from users, groups, and rooms.
+
 #### reply(token, messages)
+
+Responds messages using specified reply token.
 
 ###### token
 
@@ -77,6 +81,8 @@ client.reply(REPLY_TOKEN, [
 
 #### replyText(token, text)
 
+Responds text message using specified reply token.
+
 ###### token
 
 Type: `String`
@@ -92,6 +98,8 @@ client.reply(REPLY_TOKEN, 'Hello!');
 ```
 
 #### replyImage(token, imageUrl, previewImageUrl)
+
+Responds image message using specified reply token.
 
 ###### token
 
@@ -117,6 +125,8 @@ client.replyImage(
 
 #### replyVideo(token, videoUrl, previewImageUrl)
 
+Responds video message using specified reply token.
+
 ###### token
 
 Type: `String`
@@ -141,6 +151,8 @@ client.replyVideo(
 
 #### replyAudio(token, audioUrl, duration)
 
+Responds audio message using specified reply token.
+
 ###### token
 
 Type: `String`
@@ -160,6 +172,8 @@ client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 ```
 
 #### replyLocation(token, location)
+
+Responds location message using specified reply token.
 
 ###### token
 
@@ -198,6 +212,8 @@ client.replyLocation(REPLY_TOKEN, {
 
 #### replySticker(token, packageId, stickerId)
 
+Responds sticker message using specified reply token.
+
 ###### token
 
 Type: `String`
@@ -219,6 +235,8 @@ client.replySticker(REPLY_TOKEN, '1', '1');
 ### Reply Imagemap Message
 
 #### replyImagemap(token, altText, imagemap)
+
+Responds imagemap message using specified reply token.
 
 ###### token
 
@@ -292,6 +310,8 @@ client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
 
 #### replyTemplate(token, altText, template)
 
+Responds template message using specified reply token.
+
 ###### token
 
 Type: `String`
@@ -335,6 +355,8 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 ```
 
 #### replyButtonTemplate(token, altText, buttonTemplate)
+
+Responds button template message using specified reply token.
 
 ![](https://devdocs.line.me/images/buttons.png)
 
@@ -399,6 +421,8 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 
 #### replyConfirmTemplate(token, altText, confirmTemplate)
 
+Responds confirm template message using specified reply token.
+
 ![](https://devdocs.line.me/images/confirm.png)
 
 ###### token
@@ -446,6 +470,8 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
 ```
 
 #### replyCarouselTemplate(token, altText, carouselItems)
+
+Responds carousel template message using specified reply token.
 
 ![](https://devdocs.line.me/images/carousel.png)
 
@@ -518,7 +544,11 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 ### Push API - [Official Docs](https://devdocs.line.me/en/#push-message)
 
+Sends messages to a user, group, or room at any time.
+
 #### push(userId, messages)
+
+Sends messages using ID of the receiver.
 
 ###### userId
 
@@ -541,6 +571,8 @@ client.push(USER_ID, [
 
 #### pushText(userId, text)
 
+Sends text message using ID of the receiver.
+
 ###### userId
 
 Type: `String`
@@ -556,6 +588,8 @@ client.pushText(USER_ID, 'Hello!');
 ```
 
 #### pushImage(userId, imageUrl, previewImageUrl)
+
+Sends image message using ID of the receiver.
 
 ###### userId
 
@@ -581,6 +615,8 @@ client.pushImage(
 
 #### pushVideo(userId, videoUrl, previewImageUrl)
 
+Sends video message using ID of the receiver.
+
 ###### userId
 
 Type: `String`
@@ -605,6 +641,8 @@ client.pushVideo(
 
 #### pushAudio(userId, audioUrl, duration)
 
+Sends audio message using ID of the receiver.
+
 ###### userId
 
 Type: `String`
@@ -624,6 +662,8 @@ client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 ```
 
 #### pushLocation(userId, location)
+
+Sends location message using ID of the receiver.
 
 ###### userId
 
@@ -662,6 +702,8 @@ client.pushLocation(USER_ID, {
 
 #### pushSticker(userId, packageId, stickerId)
 
+Sends sticker message using ID of the receiver.
+
 ###### userId
 
 Type: `String`
@@ -683,6 +725,8 @@ client.pushSticker(USER_ID, '1', '1');
 ### Push Imagemap Message
 
 #### pushImagemap(userId, altText, imagemap)
+
+Sends imagemap message using ID of the receiver.
 
 ###### userId
 
@@ -756,6 +800,8 @@ client.pushImagemap(USER_ID, 'this is an imagemap', {
 
 #### pushTemplate(userId, altText, template)
 
+Sends template message using ID of the receiver.
+
 ###### userId
 
 Type: `String`
@@ -799,6 +845,8 @@ client.pushTemplate(USER_ID, 'this is a template', {
 ```
 
 #### pushButtonTemplate(userId, altText, buttonTemplate)
+
+Sends button template message using ID of the receiver.
 
 ![](https://devdocs.line.me/images/buttons.png)
 
@@ -863,6 +911,8 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 
 #### pushConfirmTemplate(userId, altText, confirmTemplate)
 
+Sends confirm template message using ID of the receiver.
+
 ![](https://devdocs.line.me/images/confirm.png)
 
 ###### userId
@@ -910,6 +960,8 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
 ```
 
 #### pushCarouselTemplate(userId, altText, carouselItems)
+
+Sends carousel template message using ID of the receiver.
 
 ![](https://devdocs.line.me/images/carousel.png)
 
@@ -982,7 +1034,11 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 ### Multicast API - [Official Docs](https://devdocs.line.me/en/#multicast)
 
+Sends messages to multiple users at any time.
+
 #### multicast(userIds, messages)
+
+Sends messages to multiple users.
 
 ###### userIds
 
@@ -1008,6 +1064,8 @@ client.multicast(
 
 #### multicastText(userIds, text)
 
+Sends text message to multiple users.
+
 ###### userIds
 
 Type: `String`
@@ -1023,6 +1081,8 @@ client.multicastText([USER_ID], 'Hello!');
 ```
 
 #### multicastImage(userId, imageUrl, previewImageUrl)
+
+Sends image message to multiple users.
 
 ###### userIds
 
@@ -1048,6 +1108,8 @@ client.multicastImage(
 
 #### multicastVideo(userId, videoUrl, previewImageUrl)
 
+Sends video message to multiple users.
+
 ###### userIds
 
 Type: `String`
@@ -1072,6 +1134,8 @@ client.multicastVideo(
 
 #### multicastAudio(userId, audioUrl, duration)
 
+Sends audio message to multiple users.
+
 ###### userIds
 
 Type: `String`
@@ -1091,6 +1155,8 @@ client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 ```
 
 #### multicastLocation(userId, location)
+
+Sends location message to multiple users.
 
 ###### userIds
 
@@ -1129,6 +1195,8 @@ client.multicastLocation([USER_ID], {
 
 #### multicastSticker(userId, packageId, stickerId)
 
+Sends sticker message to multiple users.
+
 ###### userIds
 
 Type: `String`
@@ -1150,6 +1218,8 @@ client.multicastSticker([USER_ID], '1', '1');
 ### Multicast Imagemap Message
 
 #### multicastImagemap(userId, altText, imagemap)
+
+Sends imagemap message to multiple users.
 
 ###### userIds
 
@@ -1223,6 +1293,8 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
 
 #### multicastTemplate(userId, altText, template)
 
+Sends template message to multiple users.
+
 ###### userIds
 
 Type: `String`
@@ -1266,6 +1338,8 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 ```
 
 #### multicastButtonTemplate(userId, altText, buttonTemplate)
+
+Sends button template message to multiple users.
 
 ![](https://devdocs.line.me/images/buttons.png)
 
@@ -1330,6 +1404,8 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 #### multicastConfirmTemplate(userId, altText, confirmTemplate)
 
+Sends confirm template message to multiple users.
+
 ![](https://devdocs.line.me/images/confirm.png)
 
 ###### userIds
@@ -1377,6 +1453,8 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 ```
 
 #### multicastCarouselTemplate(userId, altText, carouselItems)
+
+Sends carousel template message to multiple users.
 
 ![](https://devdocs.line.me/images/carousel.png)
 
@@ -1451,6 +1529,8 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 
 #### retrieveMessageContent(messageId)
 
+Retrieves image, video, and audio data sent in specified message.
+
 ###### messageId
 
 Type: `String`
@@ -1464,6 +1544,8 @@ client.retrieveMessageContent(MESSAGE_ID);
 ### Profile API - [Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
 
 #### getUserProfile(userId)
+
+Gets user profile information.
 
 ###### userId
 
@@ -1487,6 +1569,8 @@ client.getUserProfile(USER_ID).then(profile => {
 
 #### getGroupMemberProfile(groupId, userId)
 
+Gets the user profile of a member of a group that the bot is in.
+
 ###### groupId
 
 Type: `String`
@@ -1507,6 +1591,8 @@ client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
 ```
 
 #### getRoomMemberProfile(roomId, userId)
+
+Gets the user profile of a member of a room that the bot is in.
 
 ###### roomId
 
@@ -1533,6 +1619,8 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 
 #### getGroupMemberIds(groupId, start)
 
+Gets the user IDs of the members of a group that the bot is in.
+
 ###### groupId
 
 Type: `String`
@@ -1557,6 +1645,8 @@ client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
 
 #### getAllGroupMemberIds(groupId)
 
+Recursively gets the user IDs of the members of a group that the bot is in using cursors.
+
 ###### groupId
 
 Type: `String`
@@ -1576,6 +1666,8 @@ client.getAllGroupMemberIds(GROUP_ID).then(ids => {
 ```
 
 #### getRoomMemberIds(roomId, start)
+
+Gets the user IDs of the members of a room that the bot is in.
 
 ###### roomId
 
@@ -1601,6 +1693,8 @@ client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
 
 #### getAllRoomMemberIds(roomId)
 
+Recursively gets the user IDs of the members of a room that the bot is in using cursors.
+
 ###### roomId
 
 Type: `String`
@@ -1625,6 +1719,8 @@ client.getAllRoomMemberIds(ROOM_ID).then(ids => {
 
 #### leaveGroup(groupId)
 
+Leave a group.
+
 ###### groupId
 
 Type: `String`
@@ -1634,6 +1730,8 @@ client.leaveGroup(GROUP_ID);
 ```
 
 #### leaveRoom(roomId)
+
+Leave a room.
 
 ###### roomId
 
