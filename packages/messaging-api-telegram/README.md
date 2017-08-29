@@ -25,6 +25,8 @@ or
 yarn add messaging-api-telegram
 ```
 
+<br />
+
 ## Usage
 
 ### Initialize
@@ -36,9 +38,13 @@ const { TelegramClient } = require('messaging-api-telegram');
 const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
 ```
 
+<br />
+
 ## API Reference
 
 All methods return a Promise.
+
+<br />
 
 ### Webhook API
 
@@ -49,6 +55,8 @@ Gets current webhook status.
 ```js
 client.getWebhookInfo();
 ```
+
+<br />
 
 #### setWebhook(url) - [Official Docs](https://core.telegram.org/bots/api#setwebhook)  
 
@@ -62,6 +70,8 @@ Type: `String`
 client.setWebhook('https://4a16faff.ngrok.io/');
 ```
 
+<br />
+
 #### deleteWebhook - [Official Docs](https://core.telegram.org/bots/api#deletewebhook)  
 
 Removes webhook integration.
@@ -69,6 +79,8 @@ Removes webhook integration.
 ```js
 client.deleteWebhook();
 ```
+
+<br />
 
 <a id="send-api" />
 
@@ -99,6 +111,8 @@ client.sendMessage(CHAT_ID, 'hi', {
 });
 ```
 
+<br />
+
 #### sendPhoto(chatId, photo, options) - [Official Docs](https://core.telegram.org/bots/api/#sendphoto)
 
 Sends photos.
@@ -125,6 +139,8 @@ client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
   disable_notification: true,
 });
 ```
+
+<br />
 
 #### sendAudio(chatId, audio, options) - [Official Docs](https://core.telegram.org/bots/api/#sendaudio)
 
@@ -153,6 +169,8 @@ client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
 });
 ```
 
+<br />
+
 #### sendDocument(chatId, document, options) - [Official Docs](https://core.telegram.org/bots/api/#senddocument)
 
 Sends general files.
@@ -180,6 +198,8 @@ client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
 });
 ```
 
+<br />
+
 #### sendSticker(chatId, sticker, options) - [Official Docs](https://core.telegram.org/bots/api/#sendsticker)
 
 Sends `.webp` stickers.
@@ -205,6 +225,8 @@ client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
   disable_notification: true,
 });
 ```
+
+<br />
 
 #### sendVideo(chatId, video, options) - [Official Docs](https://core.telegram.org/bots/api/#sendvideo)
 
@@ -233,6 +255,8 @@ client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
 });
 ```
 
+<br />
+
 #### sendVoice(chatId, voice, options) - [Official Docs](https://core.telegram.org/bots/api/#sendvoice)
 
 Sends audio files.
@@ -259,6 +283,8 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
   disable_notification: true,
 });
 ```
+
+<br />
 
 #### sendLocation(chatId, location, options) - [Official Docs](https://core.telegram.org/bots/api/#sendlocation)
 
@@ -302,6 +328,8 @@ client.sendLocation(
   }
 );
 ```
+
+<br />
 
 #### sendVenue(chatId, venue, options) - [Official Docs](https://core.telegram.org/bots/api/#sendvenue)
 
@@ -360,6 +388,8 @@ client.sendVenue(
 );
 ```
 
+<br />
+
 #### sendContact(chatId, contact, options) - [Official Docs](https://core.telegram.org/bots/api/#sendcontact)
 
 Sends phone contacts.
@@ -389,6 +419,8 @@ client.sendContact(
 );
 ```
 
+<br />
+
 #### sendChatAction(chatId, action) - [Official Docs](https://core.telegram.org/bots/api/#sendchataction)
 
 Tells the user that something is happening on the bot's side.
@@ -406,6 +438,8 @@ Type: `String`
 ```js
 client.sendChatAction(CHAT_ID, 'typing');
 ```
+
+<br />
 
 ### Get API
 
@@ -427,6 +461,8 @@ client.getMe().then(result => {
 });
 ```
 
+<br />
+
 #### getUserProfilePhotos(userId, options) - [Official Docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
 
 Gets a list of profile pictures for a user.
@@ -445,6 +481,8 @@ Type: `Object`
 client.getUserProfilePhotos(USER_ID, { limit: 2 });
 ```
 
+<br />
+
 #### getFile(fileId) - [Official Docs](https://core.telegram.org/bots/api/#getfile)
 
 Gets basic info about a file and prepare it for downloading.
@@ -458,6 +496,8 @@ File identifier to get info about.
 ```js
 client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
 ```
+
+<br />
 
 #### getChat(chatId) - [Official Docs](https://core.telegram.org/bots/api/#getchat)
 
@@ -473,6 +513,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 client.getChat(CHAT_ID);
 ```
 
+<br />
+
 #### getChatAdministrators(chatId) - [Official Docs](https://core.telegram.org/bots/api/#getchatadministrators)
 
 Gets a list of administrators in a chat.
@@ -487,6 +529,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 client.getChatAdministrators(CHAT_ID);
 ```
 
+<br />
+
 #### getChatMembersCount(chatId) - [Official Docs](https://core.telegram.org/bots/api/#getchatmemberscount)
 
 Gets the number of members in a chat.
@@ -500,6 +544,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 ```js
 client.getChatMembersCount(CHAT_ID);
 ```
+
+<br />
 
 #### getChatMember(chatId, userId) - [Official Docs](https://core.telegram.org/bots/api/#getchatmember)
 
@@ -520,6 +566,8 @@ Unique identifier of the target user.
 ```js
 client.getChatMember(CHAT_ID, USER_ID);
 ```
+
+<br />
 
 ### updating API
 
@@ -547,6 +595,8 @@ Type: `Object`
 client.editMessageText('new_text', { message_id: MESSAGE_ID });
 ```
 
+<br />
+
 #### editMessageCaption(caption, options) - [Official Docs](https://core.telegram.org/bots/api/#editmessagecaption)
 
 Edits captions of messages sent by the bot or via the bot (for inline bots).
@@ -570,6 +620,8 @@ Type: `Object`
 ```js
 client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 ```
+
+<br />
 
 #### editMessageReplyMarkup(replyMarkup, options) - [Official Docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
 
@@ -600,6 +652,8 @@ client.editMessageReplyMarkup(
 );
 ```
 
+<br />
+
 #### deleteMessage(chatId, messageId) - [Official Docs](https://core.telegram.org/bots/api/#deletemessage)
 
 Deletes a message, including service messages.
@@ -619,6 +673,8 @@ Identifier of the message to delete.
 ```js
 client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ```
+
+<br />
 
 ### Group API
 
@@ -650,6 +706,8 @@ Date when the user will be unbanned, unix time.
 client.kickChatMember(CHAT_ID, USER_ID, { until_date: UNIX_TIME });
 ```
 
+<br />
+
 #### unbanChatMember(chatId, userId) - [Official Docs](https://core.telegram.org/bots/api/#unbanChatMember)
 
 Unbans a previously kicked user in a supergroup or channel.
@@ -669,6 +727,8 @@ Unique identifier of the target user.
 ```js
 client.unbanChatMember(CHAT_ID, USER_ID);
 ```
+
+<br />
 
 #### restrictChatMember(chatId, userId, options) - [Official Docs](https://core.telegram.org/bots/api/#restrictChatMember)
 
@@ -693,6 +753,8 @@ Type: `Object`
 ```js
 client.restrictChatMember(CHAT_ID, USER_ID, { can_send_messages: true });
 ```
+
+<br />
 
 #### promoteChatMember(chatId, userId, options) - [Official Docs](https://core.telegram.org/bots/api/#promoteChatMember)
 
@@ -721,6 +783,8 @@ client.promoteChatMember(CHAT_ID, USER_ID, {
 });
 ```
 
+<br />
+
 #### exportChatInviteLink(chatId) - [Official Docs](https://core.telegram.org/bots/api/#exportChatInviteLink)
 
 Exports an invite link to a supergroup or a channel.
@@ -734,6 +798,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 ```js
 client.exportChatInviteLink(CHAT_ID);
 ```
+
+<br />
 
 #### setChatPhoto(chatId, photo) - [Official Docs](https://core.telegram.org/bots/api/#setChatPhoto)
 
@@ -755,6 +821,8 @@ Pass a file id as String to send a photo that exists on the Telegram servers (re
 client.setChatPhoto(CHAT_ID, 'https://example.com/image.png');
 ```
 
+<br />
+
 #### deleteChatPhoto(chatId) - [Official Docs](https://core.telegram.org/bots/api/#deleteChatPhoto)
 
 Deletes a chat photo.
@@ -768,6 +836,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 ```js
 client.deleteChatPhoto(CHAT_ID);
 ```
+
+<br />
 
 #### setChatTitle(chatId, title) - [Official Docs](https://core.telegram.org/bots/api/#setChatTitle)
 
@@ -789,6 +859,8 @@ New chat title, 1-255 characters.
 client.setChatTitle(CHAT_ID, 'New Title');
 ```
 
+<br />
+
 #### setChatDescription(chatId, description) - [Official Docs](https://core.telegram.org/bots/api/#setChatDescription)
 
 Changes the description of a supergroup or a channel.
@@ -808,6 +880,8 @@ New chat description, 0-255 characters.
 ```js
 client.setChatDescription(CHAT_ID, 'New Description');
 ```
+
+<br />
 
 #### pinChatMessage(chatId, messageId, options) - [Official Docs](https://core.telegram.org/bots/api/#pinChatMessage)
 
@@ -835,6 +909,8 @@ Type: `Object`
 client.pinChatMessage(CHAT_ID, MESSAGE_ID, { disable_notification: true });
 ```
 
+<br />
+
 #### unpinChatMessage(chatId) - [Official Docs](https://core.telegram.org/bots/api/#unpinChatMessage)
 
 Unpins a message in a supergroup chat.
@@ -849,6 +925,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 client.unpinChatMessage(CHAT_ID);
 ```
 
+<br />
+
 #### leaveChat(chatId) - [Official Docs](https://core.telegram.org/bots/api/#leaveChat)
 
 Leaves a group, supergroup or channel.
@@ -862,6 +940,8 @@ Unique identifier for the target chat or username of the target supergroup or ch
 ```js
 client.leaveChat(CHAT_ID);
 ```
+
+<br />
 
 ### Others
 
