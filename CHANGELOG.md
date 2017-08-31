@@ -1,3 +1,15 @@
+0.3.1 / 2017-08-31
+==================
+### messaging-api-messenger
+- [new] using `AttachmentPayload` to send cached attachment:
+
+```js
+client.sendImage(USER_ID, { attachmend_id: '55688' });
+client.sendAudio(USER_ID, { attachmend_id: '55688' });
+client.sendVideo(USER_ID, { attachmend_id: '55688' });
+client.sendFile(USER_ID, { attachmend_id: '55688' });
+```
+
 0.3.0 / 2017-08-29
 ==================
 - [docs] A big improvement.
