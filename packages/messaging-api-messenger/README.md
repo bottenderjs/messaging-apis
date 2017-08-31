@@ -195,12 +195,18 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 
 ###### audio
 
-Type: `String | Buffer | ReadStream`
+Type: `String | Buffer | ReadStream | AttachmentPayload`
 
 Send audio using url string:
 
 ```js
 client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
+```
+
+using `AttachmentPayload` to send cached attachment:
+
+```js
+client.sendAudio(USER_ID, { attachmend_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
@@ -227,12 +233,18 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 
 ###### image
 
-Type: `String | Buffer | ReadStream`
+Type: `String | Buffer | ReadStream | AttachmentPayload`
 
 Send image using url string:
 
 ```js
 client.sendImage(USER_ID, 'https://example.com/vr.jpg');
+```
+
+using `AttachmentPayload` to send cached attachment:
+
+```js
+client.sendImage(USER_ID, { attachmend_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
@@ -259,12 +271,18 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 
 ###### video
 
-Type: `String | Buffer | ReadStream`
+Type: `String | Buffer | ReadStream | AttachmentPayload`
 
 Send video using url string:
 
 ```js
 client.sendVideo(USER_ID, 'https://example.com/video.mp4');
+```
+
+using `AttachmentPayload` to send cached attachment:
+
+```js
+client.sendVideo(USER_ID, { attachmend_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
@@ -291,12 +309,18 @@ Page-scoped user ID of the recipient or [recipient](https://developers.facebook.
 
 ###### file
 
-Type: `String | Buffer | ReadStream`
+Type: `String | Buffer | ReadStream | AttachmentPayload`
 
 Send file using url string:
 
 ```js
 client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
+```
+
+using `AttachmentPayload` to send cached attachment:
+
+```js
+client.sendFile(USER_ID, { attachmend_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
