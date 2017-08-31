@@ -1600,6 +1600,37 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
+    it('can call api with audio attachment_id', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'audio',
+              payload: {
+                attachment_id: '55688',
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendAudio(RECIPIENT_ID, {
+        attachment_id: '55688',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
     it('can call api with file stream', async () => {
       const { client, mock } = createMock();
 
@@ -1652,6 +1683,37 @@ describe('send api', () => {
         RECIPIENT_ID,
         'https://example.com/pic.png'
       );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('can call api with image attachment_id', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'image',
+              payload: {
+                attachment_id: '55688',
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendImage(RECIPIENT_ID, {
+        attachment_id: '55688',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -1712,6 +1774,37 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
+    it('can call api with video attachment_id', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'video',
+              payload: {
+                attachment_id: '55688',
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVideo(RECIPIENT_ID, {
+        attachment_id: '55688',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
     it('can call api with file stream', async () => {
       const { client, mock } = createMock();
 
@@ -1764,6 +1857,37 @@ describe('send api', () => {
         RECIPIENT_ID,
         'https://example.com/word.docx'
       );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('can call api with file attachment_id', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'file',
+              payload: {
+                attachment_id: '55688',
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendFile(RECIPIENT_ID, {
+        attachment_id: '55688',
+      });
 
       expect(res).toEqual(reply);
     });

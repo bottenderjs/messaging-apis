@@ -21,6 +21,7 @@
     "axios": "^0.16.1",
     "form-data": "^2.2.0",
     "invariant": "^2.2.2",
+    "is-plain-object": "^2.0.4",
     "lodash.omit": "^4.5.0"
   }
 }
