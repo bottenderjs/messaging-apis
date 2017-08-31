@@ -4,6 +4,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 import invariant from 'invariant';
 import omit from 'lodash.omit';
+import isPlainObject from 'is-plain-object';
 
 import type {
   UserID,
@@ -410,7 +411,7 @@ export default class MessengerClient {
 
   sendAudio = (
     recipient: UserID | Recipient,
-    audio: string | FileData
+    audio: string | FileData | AttachmentPayload
   ): Promise<SendMessageSucessResponse> => {
     const attachment = {
       type: 'audio',
@@ -420,6 +421,9 @@ export default class MessengerClient {
     if (typeof audio === 'string') {
       attachment.payload.url = audio;
       return this.sendAttachment(recipient, attachment);
+    } else if (audio && isPlainObject(audio)) {
+      attachment.payload = audio;
+      return this.sendAttachment(recipient, attachment);
     }
 
     return this.sendAttachmentFormData(recipient, attachment, audio);
@@ -427,7 +431,7 @@ export default class MessengerClient {
 
   sendImage = (
     recipient: UserID | Recipient,
-    image: string | FileData
+    image: string | FileData | AttachmentPayload
   ): Promise<SendMessageSucessResponse> => {
     const attachment = {
       type: 'image',
@@ -437,6 +441,9 @@ export default class MessengerClient {
     if (typeof image === 'string') {
       attachment.payload.url = image;
       return this.sendAttachment(recipient, attachment);
+    } else if (image && isPlainObject(image)) {
+      attachment.payload = image;
+      return this.sendAttachment(recipient, attachment);
     }
 
     return this.sendAttachmentFormData(recipient, attachment, image);
@@ -444,7 +451,7 @@ export default class MessengerClient {
 
   sendVideo = (
     recipient: UserID | Recipient,
-    video: string | FileData
+    video: string | FileData | AttachmentPayload
   ): Promise<SendMessageSucessResponse> => {
     const attachment = {
       type: 'video',
@@ -454,6 +461,9 @@ export default class MessengerClient {
     if (typeof video === 'string') {
       attachment.payload.url = video;
       return this.sendAttachment(recipient, attachment);
+    } else if (video && isPlainObject(video)) {
+      attachment.payload = video;
+      return this.sendAttachment(recipient, attachment);
     }
 
     return this.sendAttachmentFormData(recipient, attachment, video);
@@ -461,7 +471,7 @@ export default class MessengerClient {
 
   sendFile = (
     recipient: UserID | Recipient,
-    file: string | FileData
+    file: string | FileData | AttachmentPayload
   ): Promise<SendMessageSucessResponse> => {
     const attachment = {
       type: 'file',
@@ -470,6 +480,9 @@ export default class MessengerClient {
 
     if (typeof file === 'string') {
       attachment.payload.url = file;
+      return this.sendAttachment(recipient, attachment);
+    } else if (file && isPlainObject(file)) {
+      attachment.payload = file;
       return this.sendAttachment(recipient, attachment);
     }
 

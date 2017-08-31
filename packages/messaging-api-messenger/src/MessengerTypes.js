@@ -16,6 +16,8 @@ export type Recipient = RecipientWithID | RecipientWithPhoneNumber;
 
 export type AttachmentPayload = {
   url?: string,
+  is_reusable?: boolean,
+  attachment_id?: string,
 };
 
 export type Attachment = {
