@@ -206,7 +206,7 @@ client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 using `AttachmentPayload` to send cached attachment:
 
 ```js
-client.sendAudio(USER_ID, { attachmend_id: '55688' });
+client.sendAudio(USER_ID, { attachment_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
@@ -244,7 +244,7 @@ client.sendImage(USER_ID, 'https://example.com/vr.jpg');
 using `AttachmentPayload` to send cached attachment:
 
 ```js
-client.sendImage(USER_ID, { attachmend_id: '55688' });
+client.sendImage(USER_ID, { attachment_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
@@ -282,7 +282,7 @@ client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 using `AttachmentPayload` to send cached attachment:
 
 ```js
-client.sendVideo(USER_ID, { attachmend_id: '55688' });
+client.sendVideo(USER_ID, { attachment_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:
@@ -320,7 +320,7 @@ client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
 using `AttachmentPayload` to send cached attachment:
 
 ```js
-client.sendFile(USER_ID, { attachmend_id: '55688' });
+client.sendFile(USER_ID, { attachment_id: '55688' });
 ```
 
 or using `ReadStream` created from local file:

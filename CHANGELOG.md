@@ -4,10 +4,10 @@
 - [new] using `AttachmentPayload` to send cached attachment:
 
 ```js
-client.sendImage(USER_ID, { attachmend_id: '55688' });
-client.sendAudio(USER_ID, { attachmend_id: '55688' });
-client.sendVideo(USER_ID, { attachmend_id: '55688' });
-client.sendFile(USER_ID, { attachmend_id: '55688' });
+client.sendImage(USER_ID, { attachment_id: '55688' });
+client.sendAudio(USER_ID, { attachment_id: '55688' });
+client.sendVideo(USER_ID, { attachment_id: '55688' });
+client.sendFile(USER_ID, { attachment_id: '55688' });
 ```
 
 0.3.0 / 2017-08-29
