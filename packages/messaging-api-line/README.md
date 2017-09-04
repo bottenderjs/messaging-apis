@@ -570,6 +570,63 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 <br />
 
+#### replyImageCarouselTemplate(token, altText, carouselItems)
+
+Responds image carousel template message using specified reply token.
+
+![](https://devdocs.line.me/images/image_carousel.png)
+
+###### token
+
+Type: `String`
+
+`replyToken` received via webhook.
+
+###### altText
+
+Type: `String`
+
+Alternative text.
+
+###### carouselItems
+
+Type: `Array<Object>`
+
+```js
+client.replyImageCarouselTemplate(
+  REPLY_TOKEN,
+  'this is an image carousel template',
+  [
+    {
+      imageUrl: 'https://example.com/bot/images/item1.jpg',
+      action: {
+        type: 'postback',
+        label: 'Buy',
+        data: 'action=buy&itemid=111',
+      },
+    },
+    {
+      imageUrl: 'https://example.com/bot/images/item2.jpg',
+      action: {
+        type: 'message',
+        label: 'Yes',
+        text: 'yes',
+      },
+    },
+    {
+      imageUrl: 'https://example.com/bot/images/item3.jpg',
+      action: {
+        type: 'uri',
+        label: 'View detail',
+        uri: 'http://example.com/page/222',
+      },
+    },
+  ]
+);
+```
+
+<br />
+
 <a id="push-api" />
 
 ### Push API - [Official Docs](https://devdocs.line.me/en/#push-message)
@@ -1084,6 +1141,63 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 <br />
 
+#### pushImageCarouselTemplate(userId, altText, carouselItems)
+
+Sends image carousel template message using ID of the receiver.
+
+![](https://devdocs.line.me/images/image_carousel.png)
+
+###### userId
+
+Type: `String`
+
+ID of the receiver.
+
+###### altText
+
+Type: `String`
+
+Alternative text.
+
+###### carouselItems
+
+Type: `Array<Object>`
+
+```js
+client.pushImageCarouselTemplate(
+  USER_ID,
+  'this is an image carousel template',
+  [
+    {
+      imageUrl: 'https://example.com/bot/images/item1.jpg',
+      action: {
+        type: 'postback',
+        label: 'Buy',
+        data: 'action=buy&itemid=111',
+      },
+    },
+    {
+      imageUrl: 'https://example.com/bot/images/item2.jpg',
+      action: {
+        type: 'message',
+        label: 'Yes',
+        text: 'yes',
+      },
+    },
+    {
+      imageUrl: 'https://example.com/bot/images/item3.jpg',
+      action: {
+        type: 'uri',
+        label: 'View detail',
+        uri: 'http://example.com/page/222',
+      },
+    },
+  ]
+);
+```
+
+<br />
+
 <a id="multicast-api" />
 
 ### Multicast API - [Official Docs](https://devdocs.line.me/en/#multicast)
@@ -1138,7 +1252,7 @@ client.multicastText([USER_ID], 'Hello!');
 
 <br />
 
-#### multicastImage(userId, imageUrl, previewImageUrl)
+#### multicastImage(userIds, imageUrl, previewImageUrl)
 
 Sends image message to multiple users.
 
@@ -1166,7 +1280,7 @@ client.multicastImage(
 
 <br />
 
-#### multicastVideo(userId, videoUrl, previewImageUrl)
+#### multicastVideo(userIds, videoUrl, previewImageUrl)
 
 Sends video message to multiple users.
 
@@ -1194,7 +1308,7 @@ client.multicastVideo(
 
 <br />
 
-#### multicastAudio(userId, audioUrl, duration)
+#### multicastAudio(userIds, audioUrl, duration)
 
 Sends audio message to multiple users.
 
@@ -1218,7 +1332,7 @@ client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 
 <br />
 
-#### multicastLocation(userId, location)
+#### multicastLocation(userIds, location)
 
 Sends location message to multiple users.
 
@@ -1259,7 +1373,7 @@ client.multicastLocation([USER_ID], {
 
 <br />
 
-#### multicastSticker(userId, packageId, stickerId)
+#### multicastSticker(userIds, packageId, stickerId)
 
 Sends sticker message to multiple users.
 
@@ -1285,7 +1399,7 @@ client.multicastSticker([USER_ID], '1', '1');
 
 ### Multicast Imagemap Message
 
-#### multicastImagemap(userId, altText, imagemap)
+#### multicastImagemap(userIds, altText, imagemap)
 
 Sends imagemap message to multiple users.
 
@@ -1361,7 +1475,7 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
 
 ### Multicast Template Messages
 
-#### multicastTemplate(userId, altText, template)
+#### multicastTemplate(userIds, altText, template)
 
 Sends template message to multiple users.
 
@@ -1409,7 +1523,7 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 
 <br />
 
-#### multicastButtonTemplate(userId, altText, buttonTemplate)
+#### multicastButtonTemplate(userIds, altText, buttonTemplate)
 
 Sends button template message to multiple users.
 
@@ -1476,7 +1590,7 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 <br />
 
-#### multicastConfirmTemplate(userId, altText, confirmTemplate)
+#### multicastConfirmTemplate(userIds, altText, confirmTemplate)
 
 Sends confirm template message to multiple users.
 
@@ -1528,7 +1642,7 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 
 <br />
 
-#### multicastCarouselTemplate(userId, altText, carouselItems)
+#### multicastCarouselTemplate(userIds, altText, carouselItems)
 
 Sends carousel template message to multiple users.
 
@@ -1597,6 +1711,63 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
     ],
   },
 ]);
+```
+
+<br />
+
+#### multicastImageCarouselTemplate(userIds, altText, carouselItems)
+
+Sends image carousel template message to multiple users.
+
+![](https://devdocs.line.me/images/image_carousel.png)
+
+###### userIds
+
+Type: `String`
+
+IDs of the receivers.
+
+###### altText
+
+Type: `String`
+
+Alternative text.
+
+###### carouselItems
+
+Type: `Array<Object>`
+
+```js
+client.multicastImageCarouselTemplate(
+  [USER_ID],
+  'this is an image carousel template',
+  [
+    {
+      imageUrl: 'https://example.com/bot/images/item1.jpg',
+      action: {
+        type: 'postback',
+        label: 'Buy',
+        data: 'action=buy&itemid=111',
+      },
+    },
+    {
+      imageUrl: 'https://example.com/bot/images/item2.jpg',
+      action: {
+        type: 'message',
+        label: 'Yes',
+        text: 'yes',
+      },
+    },
+    {
+      imageUrl: 'https://example.com/bot/images/item3.jpg',
+      action: {
+        type: 'uri',
+        label: 'View detail',
+        uri: 'http://example.com/page/222',
+      },
+    },
+  ]
+);
 ```
 
 <br />
