@@ -82,24 +82,38 @@ export type StickerMessage = {
 
 export type PostbackAction = {
   type: 'postback',
-  label: string,
+  label?: string,
   data: string,
   text?: string,
 };
 
 export type MessageAction = {
   type: 'message',
-  label: string,
+  label?: string,
   text: string,
 };
 
 export type URIAction = {
   type: 'uri',
-  label: string,
+  label?: string,
   uri: string,
 };
 
-export type TemplateAction = PostbackAction | MessageAction | URIAction;
+export type DatetimePickerAction = {
+  type: 'datetimepicker',
+  label?: string,
+  data: string,
+  mode: string,
+  initial?: string,
+  max?: string,
+  min?: string,
+};
+
+export type TemplateAction =
+  | PostbackAction
+  | MessageAction
+  | URIAction
+  | DatetimePickerAction;
 
 export type ButtonsTemplate = {
   type: 'buttons',
@@ -127,7 +141,21 @@ export type CarouselTemplate = {
   columns: Array<ColumnObject>,
 };
 
-export type Template = ButtonsTemplate | ConfirmTemplate | CarouselTemplate;
+export type ImageCarouselColumnObject = {
+  imageUrl: string,
+  action: TemplateAction,
+};
+
+export type ImageCarouselTemplate = {
+  type: 'image_carousel',
+  columns: Array<ImageCarouselColumnObject>,
+};
+
+export type Template =
+  | ButtonsTemplate
+  | ConfirmTemplate
+  | CarouselTemplate
+  | ImageCarouselTemplate;
 
 export type TemplateMessage = {
   type: 'template',
