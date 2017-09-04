@@ -82,6 +82,32 @@ describe('#getHTTPClient', () => {
   });
 });
 
+describe('Client instance', () => {
+  it('prototype should be defined', () => {
+    const client = new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    const sendTypes = ['reply', 'push', 'multicast'];
+    const messageTypes = [
+      'Text',
+      'Image',
+      'Video',
+      'Audio',
+      'Location',
+      'Sticker',
+      'Imagemap',
+      'Template',
+      'ButtonTemplate',
+      'ConfirmTemplate',
+      'CarouselTemplate',
+      'ImageCarouselTemplate',
+    ];
+    sendTypes.forEach(sendType => {
+      messageTypes.forEach(messageType => {
+        expect(client[`${sendType}${messageType}`]).toBeDefined();
+      });
+    });
+  });
+});
+
 describe('Reply Message', () => {
   describe('#replyRawBody', () => {
     it('should call reply api', async () => {

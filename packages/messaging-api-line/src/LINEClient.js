@@ -15,6 +15,7 @@ import type {
   TemplateAction,
   ImageMapAction,
   ColumnObject,
+  ImageCarouselColumnObject,
   MutationSuccessResponse,
 } from './LINETypes';
 
@@ -235,6 +236,17 @@ export default class LINEClient {
       columns,
     });
 
+  _sendImageCarouselTemplate = (
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    columns: Array<ImageCarouselColumnObject>
+  ): Promise<MutationSuccessResponse> =>
+    this._sendTemplate(type, target, altText, {
+      type: 'image_carousel',
+      columns,
+    });
+
   /**
    * Reply Message
    *
@@ -402,6 +414,7 @@ const messageTypes = [
   'ButtonTemplate',
   'ConfirmTemplate',
   'CarouselTemplate',
+  'ImageCarouselTemplate',
 ];
 
 sendTypes.forEach(sendType => {
