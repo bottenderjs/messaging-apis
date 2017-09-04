@@ -756,6 +756,88 @@ describe('Reply Message', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#replyImageCarouselTemplate', () => {
+    it('should call reply api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is an image carousel template',
+              template: {
+                type: 'image_carousel',
+                columns: [
+                  {
+                    imageUrl: 'https://example.com/bot/images/item1.jpg',
+                    action: {
+                      type: 'postback',
+                      label: 'Buy',
+                      data: 'action=buy&itemid=111',
+                    },
+                  },
+                  {
+                    imageUrl: 'https://example.com/bot/images/item2.jpg',
+                    action: {
+                      type: 'message',
+                      label: 'Yes',
+                      text: 'yes',
+                    },
+                  },
+                  {
+                    imageUrl: 'https://example.com/bot/images/item3.jpg',
+                    action: {
+                      type: 'uri',
+                      label: 'View detail',
+                      uri: 'http://example.com/page/222',
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyImageCarouselTemplate(
+        REPLY_TOKEN,
+        'this is an image carousel template',
+        [
+          {
+            imageUrl: 'https://example.com/bot/images/item1.jpg',
+            action: {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=111',
+            },
+          },
+          {
+            imageUrl: 'https://example.com/bot/images/item2.jpg',
+            action: {
+              type: 'message',
+              label: 'Yes',
+              text: 'yes',
+            },
+          },
+          {
+            imageUrl: 'https://example.com/bot/images/item3.jpg',
+            action: {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/222',
+            },
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
 });
 
 describe('Push Message', () => {
@@ -1399,6 +1481,88 @@ describe('Push Message', () => {
                 uri: 'http://example.com/page/222',
               },
             ],
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#pushImageCarouselTemplate', () => {
+    it('should call push api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is an image carousel template',
+              template: {
+                type: 'image_carousel',
+                columns: [
+                  {
+                    imageUrl: 'https://example.com/bot/images/item1.jpg',
+                    action: {
+                      type: 'postback',
+                      label: 'Buy',
+                      data: 'action=buy&itemid=111',
+                    },
+                  },
+                  {
+                    imageUrl: 'https://example.com/bot/images/item2.jpg',
+                    action: {
+                      type: 'message',
+                      label: 'Yes',
+                      text: 'yes',
+                    },
+                  },
+                  {
+                    imageUrl: 'https://example.com/bot/images/item3.jpg',
+                    action: {
+                      type: 'uri',
+                      label: 'View detail',
+                      uri: 'http://example.com/page/222',
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushImageCarouselTemplate(
+        RECIPIENT_ID,
+        'this is an image carousel template',
+        [
+          {
+            imageUrl: 'https://example.com/bot/images/item1.jpg',
+            action: {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=111',
+            },
+          },
+          {
+            imageUrl: 'https://example.com/bot/images/item2.jpg',
+            action: {
+              type: 'message',
+              label: 'Yes',
+              text: 'yes',
+            },
+          },
+          {
+            imageUrl: 'https://example.com/bot/images/item3.jpg',
+            action: {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/222',
+            },
           },
         ]
       );
@@ -2052,6 +2216,88 @@ describe('Multicast', () => {
                 uri: 'http://example.com/page/222',
               },
             ],
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#multicastImageCarouselTemplate', () => {
+    it('should call multicast api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is an image carousel template',
+              template: {
+                type: 'image_carousel',
+                columns: [
+                  {
+                    imageUrl: 'https://example.com/bot/images/item1.jpg',
+                    action: {
+                      type: 'postback',
+                      label: 'Buy',
+                      data: 'action=buy&itemid=111',
+                    },
+                  },
+                  {
+                    imageUrl: 'https://example.com/bot/images/item2.jpg',
+                    action: {
+                      type: 'message',
+                      label: 'Yes',
+                      text: 'yes',
+                    },
+                  },
+                  {
+                    imageUrl: 'https://example.com/bot/images/item3.jpg',
+                    action: {
+                      type: 'uri',
+                      label: 'View detail',
+                      uri: 'http://example.com/page/222',
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastImageCarouselTemplate(
+        [RECIPIENT_ID],
+        'this is an image carousel template',
+        [
+          {
+            imageUrl: 'https://example.com/bot/images/item1.jpg',
+            action: {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=111',
+            },
+          },
+          {
+            imageUrl: 'https://example.com/bot/images/item2.jpg',
+            action: {
+              type: 'message',
+              label: 'Yes',
+              text: 'yes',
+            },
+          },
+          {
+            imageUrl: 'https://example.com/bot/images/item3.jpg',
+            action: {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/222',
+            },
           },
         ]
       );
