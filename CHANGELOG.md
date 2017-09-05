@@ -1,3 +1,11 @@
+0.3.2 / 2017-09-05
+==================
+### messaging-api-line
+- [new] Support ImageCarouselTemplate methods
+  + replyImageCarouselTemplate
+  + pushImageCarouselTemplate
+  + multicaseImageCarouselTemplate
+
 0.3.1 / 2017-08-31
 ==================
 ### messaging-api-messenger
