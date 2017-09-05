@@ -52,7 +52,7 @@ All methods return a Promise.
 
 #### Call available methods
 
-##### callMethod(method, body) - [Official docs](https://api.slack.com/methods)
+## `callMethod(method, body)` - [Official docs](https://api.slack.com/methods)
 
 Calling any API methods which follow [slack calling conventions](https://api.slack.com/web#basics).
 
@@ -73,7 +73,7 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-##### postMessage(channel, text, options?) - [Official docs](https://api.slack.com/methods/chat.postMessage)
+## `postMessage(channel, text, options?)` - [Official docs](https://api.slack.com/methods/chat.postMessage)
 
 Sends a message to a channel.
 
@@ -102,7 +102,7 @@ client.postMessage('C8763', 'Hello!', { as_user: true });
 
 #### Users API
 
-##### getUserList(cursor?) - [Official docs](https://api.slack.com/methods/users.list)
+## `getUserList(cursor?)` - [Official docs](https://api.slack.com/methods/users.list)
 
 Lists all users in a Slack team.
 
@@ -125,7 +125,7 @@ client.getUserList(cursor).then(res => {
 
 <br />
 
-##### getAllUserList() - [Official docs](https://api.slack.com/methods/users.list)
+## `getAllUserList()` - [Official docs](https://api.slack.com/methods/users.list)
 
 Recursively lists all users in a Slack team using cursor.
 
@@ -141,7 +141,7 @@ client.getAllUserList().then(res => {
 
 <br />
 
-##### getUserInfo(userId) - [Official docs](https://api.slack.com/methods/users.info)
+## `getUserInfo(userId)` - [Official docs](https://api.slack.com/methods/users.info)
 
 Gets information about an user.
 
@@ -164,7 +164,7 @@ client.getUserInfo(userId).then(res => {
 
 #### Channels API
 
-##### getChannelList() - [Official docs](https://api.slack.com/methods/channels.list)
+## `getChannelList()` - [Official docs](https://api.slack.com/methods/channels.list)
 
 Lists all channels in a Slack team.
 
@@ -178,7 +178,7 @@ client.getChannelList().then(res => {
 });
 ```
 
-##### getChannelInfo(channelId) - [Official docs](https://api.slack.com/methods/channels.info)
+## `getChannelInfo(channelId)` - [Official docs](https://api.slack.com/methods/channels.info)
 
 Gets information about a channel.
 
@@ -225,7 +225,7 @@ All methods return a Promise.
 
 #### Send API - [Official docs](https://api.slack.com/docs/messages)
 
-##### sendRawBody(body)
+## `sendRawBody(body)`
 
 ###### body
 
@@ -237,7 +237,7 @@ client.sendRawBody({ text: 'Hello!' });
 
 <br />
 
-##### sendText(text)
+## `sendText(text)`
 
 ###### text
 
@@ -249,7 +249,7 @@ client.sendText('Hello!');
 
 <br />
 
-##### sendAttachments(attachments) - [Official docs](https://api.slack.com/docs/message-attachments)
+## `sendAttachments(attachments)` - [Official docs](https://api.slack.com/docs/message-attachments)
 
 ###### attachments
 
@@ -286,7 +286,7 @@ client.sendAttachments([
 
 <br />
 
-##### sendAttachment(attachment) - [Official docs](https://api.slack.com/docs/message-attachments)
+## `sendAttachment(attachment)` - [Official docs](https://api.slack.com/docs/message-attachments)
 
 ###### attachment
 

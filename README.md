@@ -21,7 +21,7 @@ It helps you build your bots using similar API for multiple platforms, e.g. Mess
 
 ## Usage
 
-### Messenger
+## Messenger
 
 <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/R_1BAhxMP5I.png" alt="Messenger" width="100" />
 
@@ -50,7 +50,7 @@ client.sendText(userId, 'Hello World').then(() => {
 
 Check out [full API documentation](./packages/messaging-api-messenger/README.md) for more detail information.
 
-### LINE
+## LINE
 
 <img src="http://is5.mzstatic.com/image/thumb/Purple117/v4/01/c2/4d/01c24d99-4aae-71ea-24e2-d0b68f8c53d2/source/1200x630bb.jpg" alt="LINE" width="100" />
 
@@ -79,7 +79,7 @@ client.pushText(userId, 'Hello World').then(() => {
 
 Check out [full API documentation](./packages/messaging-api-line/README.md) for more detail information.
 
-### Slack
+## Slack
 
 <img src="https://cdn-images-1.medium.com/max/1200/1*TiKyhAN2gx4PpbOsiBhYcw.png" alt="Slack" width="100" />
 
@@ -125,7 +125,7 @@ webhookClient.sendText('Hello World').then(() => {
 
 Check out [full API documentation](./packages/messaging-api-slack/README.md) for more detail information.
 
-### Telegram
+## Telegram
 
 <img src="https://telegram.org/img/t_logo.png" alt="Telegram" width="100" />
 
