@@ -74,7 +74,7 @@ All methods return a Promise.
 
 ### Send API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)  
 
-#### sendRawBody(body)
+## `sendRawBody(body)`
 
 Send request raw body using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -95,7 +95,7 @@ client.sendRawBody({
 
 <br />
 
-#### send(userId, message)
+## `send(userId, message)`
 
 Send messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -121,7 +121,7 @@ client.send(USER_ID, {
 
 ### Content Types - [Content types](https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes)
 
-#### sendText(userId, text [, options])
+## `sendText(userId, text [, options])`
 
 Send plain text messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -157,7 +157,7 @@ client.sendText(USER_ID, 'Hello!', { tag: 'ISSUE_RESOLUTION' });
 
 <br />
 
-#### sendAttachment(userId, attachment)
+## `sendAttachment(userId, attachment)`
 
 Send attachment messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -182,7 +182,7 @@ client.sendAttachment(USER_ID, {
 
 <br />
 
-#### sendAudio(userId, audio)
+## `sendAudio(userId, audio)`
 
 Send sounds to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -220,7 +220,7 @@ client.sendAudio(USER_ID, fs.createReadStream('audio.mp3'));
 
 <br />
 
-#### sendImage(userId, image)
+## `sendImage(userId, image)`
 
 Send images to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request). Supported formats are jpg, png and gif.
 
@@ -258,7 +258,7 @@ client.sendImage(USER_ID, fs.createReadStream('vr.jpg'));
 
 <br />
 
-#### sendVideo(userId, video)
+## `sendVideo(userId, video)`
 
 Send videos to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -296,7 +296,7 @@ client.sendVideo(USER_ID, fs.createReadStream('video.mp4'));
 
 <br />
 
-#### sendFile(userId, file)
+## `sendFile(userId, file)`
 
 Send files to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -338,7 +338,7 @@ client.sendFile(USER_ID, fs.createReadStream('receipt.pdf'));
 
 ### Templates - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates)
 
-#### sendTemplate(userId, template)
+## `sendTemplate(userId, template)`
 
 Send structured message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -368,7 +368,7 @@ client.sendTemplate(USER_ID, {
 
 <br />
 
-#### sendButtonTemplate(userId, title, buttons) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
+## `sendButtonTemplate(userId, title, buttons)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
 
 Send button message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -405,7 +405,7 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
 
 <br />
 
-#### sendGenericTemplate(userId, elements, options) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
+## `sendGenericTemplate(userId, elements, options)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
 
 Send generic message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -494,7 +494,7 @@ client.sendGenericTemplate(
 
 <br />
 
-#### sendListTemplate(userId, items, buttons, options) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
+## `sendListTemplate(userId, items, buttons, options)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
 
 Send list message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -566,7 +566,7 @@ client.sendListTemplate(
 
 <br />
 
-#### sendOpenGraphTemplate(userId, elements) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/open-graph-template)
+## `sendOpenGraphTemplate(userId, elements)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/open-graph-template)
 
 Send open graph message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -597,7 +597,7 @@ client.sendOpenGraphTemplate(USER_ID, [
 
 <br />
 
-#### sendReceiptTemplate(userId, receipt)  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+## `sendReceiptTemplate(userId, receipt)`  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
 
 Send receipt message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -668,7 +668,7 @@ client.sendReceiptTemplate(USER_ID, {
 
 <br />
 
-#### sendAirlineBoardingPassTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
+## `sendAirlineBoardingPassTemplate(userId, attributes)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template)
 
 Send airline boarding pass message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -805,7 +805,7 @@ client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
 
 <br />
 
-#### sendAirlineCheckinTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
+## `sendAirlineCheckinTemplate(userId, attributes)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
 
 Send airline checkin message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -854,7 +854,7 @@ client.sendAirlineCheckinTemplate(USER_ID, {
 
 <br />
 
-#### sendAirlineItineraryTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
+## `sendAirlineItineraryTemplate(userId, attributes)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template)
 
 Send airline itinerary message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -997,7 +997,7 @@ client.sendAirlineItineraryTemplate(USER_ID, {
 
 <br />
 
-#### sendAirlineFlightUpdateTemplate(userId, attributes) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
+## `sendAirlineFlightUpdateTemplate(userId, attributes)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
 Send airline flight update message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -1050,7 +1050,7 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14175277_1582251242076612_248078259_n.png?oh=f87f9d3ea0f9902686f21a105e6fe9eb&oe=59F265D6" alt="Sender Actions" width="750" />
 
-#### sendQuickReplies(userId, message, items)
+## `sendQuickReplies(userId, message, items)`
 
 Send messages with quick replies to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -1086,7 +1086,7 @@ client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480169_570751053131489_689799179_n.png?oh=e0a04cc8a7bdc05b39f9fd4262a6be04&oe=59F7E61C" alt="Sender Actions" width="250" />
 
-#### sendSenderAction(userId, action)
+## `sendSenderAction(userId, action)`
 
 Send sender actions to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request), to let users know you are processing their request.
 
@@ -1108,7 +1108,7 @@ client.sendSenderAction(USER_ID, 'typing_on');
 
 <br />
 
-#### markSeen(userId)
+## `markSeen(userId)`
 
 Mark last message as read for specified user.
 
@@ -1124,7 +1124,7 @@ client.markSeen(USER_ID);
 
 <br />
 
-#### typingOn(userId)
+## `typingOn(userId)`
 
 Turn typing indicators on for specified user.
 
@@ -1140,7 +1140,7 @@ client.typingOn(USER_ID);
 
 <br />
 
-#### typingOff(userId)
+## `typingOff(userId)`
 
 Turn typing indicators off for specified user.
 
@@ -1160,7 +1160,7 @@ client.typingOff(USER_ID);
 
 ### Attachment Upload API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload)
 
-#### uploadAttachment(type, url)
+## `uploadAttachment(type, url)`
 
 Upload specified type attachment using URL address.
 
@@ -1182,7 +1182,7 @@ client.uploadAttachment('image', 'http://www.example.com/image.jpg');
 
 <br />
 
-#### uploadAudio(url)
+## `uploadAudio(url)`
 
 Upload audio attachment using URL address.
 
@@ -1198,7 +1198,7 @@ client.uploadAudio('http://www.example.com/audio.mp3');
 
 <br />
 
-#### uploadImage(url)
+## `uploadImage(url)`
 
 Upload image attachment using URL address.
 
@@ -1214,7 +1214,7 @@ client.uploadImage('http://www.example.com/image.jpg');
 
 <br />
 
-#### uploadVideo(url)
+## `uploadVideo(url)`
 
 Upload video attachment using URL address.
 
@@ -1230,7 +1230,7 @@ client.uploadVideo('http://www.example.com/video.mp4');
 
 <br />
 
-#### uploadFile(url)
+## `uploadFile(url)`
 
 Upload file attachment using URL address.
 
@@ -1250,7 +1250,7 @@ client.uploadFile('http://www.example.com/file.pdf');
 
 ### Tags - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/)
 
-#### getMessageTags
+## `getMessageTags`
 
 Getting tags list via an API.
 
@@ -1308,7 +1308,7 @@ client.getMessageTags().then(tags => {
 
 ### User Profile API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/user-profile)
 
-#### getUserProfile(userId)
+## `getUserProfile(userId)`
 
 Retrieving a Person's Profile.
 
@@ -1338,7 +1338,7 @@ client.getUserProfile(USER_ID).then(user => {
 
 ### Messenger Profile API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile)
 
-#### getMessengerProfile(fields)
+## `getMessengerProfile(fields)`
 
 Retrieves the current value of one or more Messenger Profile properties by name.
 
@@ -1386,7 +1386,7 @@ client.getMessengerProfile(['get_started', 'persistent_menu']).then(profile => {
 
 <br />
 
-#### setMessengerProfile(profile)
+## `setMessengerProfile(profile)`
 
 Sets the values of one or more Messenger Profile properties. Only properties set in the request body will be overwritten.
 
@@ -1417,7 +1417,7 @@ client.setMessengerProfile({
 
 <br />
 
-#### deleteMessengerProfile(fields)
+## `deleteMessengerProfile(fields)`
 
 Deletes one or more Messenger Profile properties. Only properties specified in the fields array will be deleted.
 
@@ -1446,7 +1446,7 @@ client.deleteMessengerProfile(['get_started', 'persistent_menu']);
 
 ![](https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/16686128_804279846389859_443648268883197952_n.png?oh=adde03b0bc7dd524a58cf46016e0267d&oe=59FC90D6)
 
-#### getPersistentMenu
+## `getPersistentMenu`
 
 Retrieves the current value of persistent menu.
 
@@ -1476,7 +1476,7 @@ client.getPersistentMenu().then(menu => {
 
 <br />
 
-#### setPersistentMenu(menu)
+## `setPersistentMenu(menu)`
 
 Sets the values of persistent menu.
 
@@ -1543,7 +1543,7 @@ client.setPersistentMenu([
 
 <br />
 
-#### deletePersistentMenu
+## `deletePersistentMenu`
 
 Deletes persistent menu.
 
@@ -1557,7 +1557,7 @@ client.deletePersistentMenu();
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14302685_243106819419381_1314180151_n.png?oh=9487042d8c0067eb2fda1efa45d0e17b&oe=59F7185C" alt="Get Started Button" width="500" />
 
-#### getGetStartedButton
+## `getGetStartedButton`
 
 Retrieves the current value of get started button.
 
@@ -1572,7 +1572,7 @@ client.getGetStartedButton().then(getStarted => {
 
 <br />
 
-#### setGetStartedButton(payload)
+## `setGetStartedButton(payload)`
 
 Sets the values of get started button.
 
@@ -1586,7 +1586,7 @@ client.setGetStartedButton('GET_STARTED');
 
 <br />
 
-#### deleteGetStartedButton
+## `deleteGetStartedButton`
 
 Deletes get started button.
 
@@ -1600,7 +1600,7 @@ client.deleteGetStartedButton();
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14287888_188235318253964_1078929636_n.png?oh=a1171ab50f04d3a244ed703eafd2dbef&oe=59F01AF5" alt="Greeting Text" width="250" />
 
-#### getGreetingText
+## `getGreetingText`
 
 Retrieves the current value of greeting text.
 
@@ -1618,7 +1618,7 @@ client.getGreetingText().then(greeting => {
 
 <br />
 
-#### setGreetingText(greeting)
+## `setGreetingText(greeting)`
 
 Sets the values of greeting text.
 
@@ -1637,7 +1637,7 @@ client.setGreetingText([
 
 <br />
 s
-#### deleteGreetingText
+## `deleteGreetingText`
 
 Deletes greeting text.
 
@@ -1649,7 +1649,7 @@ client.deleteGreetingText();
 
 ### Domain Whitelist - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
 
-#### getDomainWhitelist
+## `getDomainWhitelist`
 
 Retrieves the current value of domain whitelist.
 
@@ -1662,7 +1662,7 @@ client.getDomainWhitelist().then(domains => {
 
 <br />
 
-#### setDomainWhitelist(domains)
+## `setDomainWhitelist(domains)`
 
 Sets the values of domain whitelist.
 
@@ -1676,7 +1676,7 @@ client.setDomainWhitelist(['www.example.com']);
 
 <br />
 
-#### deleteDomainWhitelist
+## `deleteDomainWhitelist`
 
 Deletes domain whitelist.
 
@@ -1688,7 +1688,7 @@ client.deleteDomainWhitelist();
 
 ### Account Linking URL - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
 
-#### getAccountLinkingURL
+## `getAccountLinkingURL`
 
 Retrieves the current value of account linking URL.
 
@@ -1704,7 +1704,7 @@ client.getAccountLinkingURL().then(accountLinking => {
 
 <br />
 
-#### setAccountLinkingURL(url)
+## `setAccountLinkingURL(url)`
 
 Sets the values of account linking URL.
 
@@ -1720,7 +1720,7 @@ client.setAccountLinkingURL(
 
 <br />
 
-#### deleteAccountLinkingURL
+## `deleteAccountLinkingURL`
 
 Deletes account linking URL.
 
@@ -1732,7 +1732,7 @@ client.deleteAccountLinkingURL();
 
 ### Payment Settings - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
 
-#### getPaymentSettings
+## `getPaymentSettings`
 
 Retrieves the current value of payment settings.
 
@@ -1749,7 +1749,7 @@ client.getPaymentSettings().then(settings => {
 
 <br />
 
-#### setPaymentPrivacyPolicyURL(url)
+## `setPaymentPrivacyPolicyURL(url)`
 
 Sets the values of payment privacy policy URL.
 
@@ -1763,7 +1763,7 @@ client.setPaymentPrivacyPolicyURL('https://www.example.com');
 
 <br />
 
-#### setPaymentPublicKey(key)
+## `setPaymentPublicKey(key)`
 
 Sets the values of payment public key.
 
@@ -1777,7 +1777,7 @@ client.setPaymentPublicKey('YOUR_PUBLIC_KEY');
 
 <br />
 
-#### setPaymentTestUsers(users)
+## `setPaymentTestUsers(users)`
 
 Sets the values of payment test users.
 
@@ -1791,7 +1791,7 @@ client.setPaymentTestUsers(['12345678']);
 
 <br />
 
-#### deletePaymentSettings
+## `deletePaymentSettings`
 
 Deletes payment settings.
 
@@ -1805,7 +1805,7 @@ client.deletePaymentSettings();
 
 ### Target Audience - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
 
-#### getTargetAudience
+## `getTargetAudience`
 
 Retrieves the current value of target audience.
 
@@ -1823,7 +1823,7 @@ client.getTargetAudience().then(targetAudience => {
 
 <br />
 
-#### setTargetAudience(type, whitelist, blacklist)
+## `setTargetAudience(type, whitelist, blacklist)`
 
 Sets the values of target audience.
 
@@ -1845,7 +1845,7 @@ client.setTargetAudience('custom', ['US', 'CA'], ['UK']);
 
 <br />
 
-#### deleteTargetAudience
+## `deleteTargetAudience`
 
 Deletes target audience.
 
@@ -1859,7 +1859,7 @@ client.deleteTargetAudience();
 
 ### Chat Extension Home URL - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
 
-#### getChatExtensionHomeURL
+## `getChatExtensionHomeURL`
 
 Retrieves the current value of chat extension home URL.
 
@@ -1876,7 +1876,7 @@ client.getChatExtensionHomeURL().then(chatExtension => {
 
 <br />
 
-#### setChatExtensionHomeURL(url, attributes)
+## `setChatExtensionHomeURL(url, attributes)`
 
 Sets the values of chat extension home URL.
 
@@ -1897,7 +1897,7 @@ client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
 
 <br />
 
-#### deleteChatExtensionHomeURL
+## `deleteChatExtensionHomeURL`
 
 Deletes chat extension home URL.
 
@@ -1913,7 +1913,7 @@ client.deleteChatExtensionHomeURL();
 
 ![](https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/16685647_261975084241469_2329165888516784128_n.png?oh=61941dc020355f5c8fe88035d33f1503&oe=59F612D6)
 
-#### generateMessengerCode(options)
+## `generateMessengerCode(options)`
 
 Generating a Messenger code.
 
@@ -1949,7 +1949,7 @@ client
 
 ### Handover Protocol API
 
-#### passThreadControl(userId, targetAppId, metadata) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/pass-thread-control)
+## `passThreadControl(userId, targetAppId, metadata)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/pass-thread-control)
 
 Passes thread control from your app to another app.
 
@@ -1973,7 +1973,7 @@ client.passThreadControl(USER_ID, APP_ID, 'free formed text for another app');
 
 <br />
 
-#### takeThreadControl(userId, metadata) - [Official Docs](https://developers.facebook.com/docs/messenger-platform/take-thread-control)
+## `takeThreadControl(userId, metadata)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/take-thread-control)
 
 Takes control of a specific thread from a Secondary Receiver app.
 
@@ -1993,7 +1993,7 @@ client.passThreadControl(USER_ID, 'free formed text for another app');
 
 <br />
 
-#### getSecondaryReceivers  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/secondary-receivers)
+## `getSecondaryReceivers` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/secondary-receivers)
 
 Retrieves the list of apps that are Secondary Receivers for a page.
 
@@ -2019,7 +2019,7 @@ client.getSecondaryReceivers().then(receivers => {
 
 ### Page Messaging Insights API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/insights/page-messaging)
 
-#### getDailyUniqueActiveThreadCounts
+## `getDailyUniqueActiveThreadCounts`
 
 Retrieves a count of the unique active threads your app participated in per day.
 
@@ -2054,7 +2054,7 @@ client.getDailyUniqueActiveThreadCounts().then(counts => {
 
 <br />
 
-#### getDailyUniqueConversationCounts
+## `getDailyUniqueConversationCounts`
 
 Retrieves a count of actions that were initiated by people your app was in an active thread with per day.
 
@@ -2101,7 +2101,7 @@ client.getDailyUniqueConversationCounts().then(counts => {
 
 ### Built-in NLP API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/built-in-nlp)
 
-#### setNLPConfigs(config)
+## `setNLPConfigs(config)`
 
 Set values of NLP configs.
 
@@ -2125,7 +2125,7 @@ client.setNLPConfigs({
 
 <br />
 
-#### enableNLP
+## `enableNLP`
 
 Enabling Built-in NLP.
 
@@ -2135,7 +2135,7 @@ client.enableNLP();
 
 <br />
 
-#### disableNLP
+## `disableNLP`
 
 Disabling Built-in NLP.
 
