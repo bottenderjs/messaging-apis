@@ -142,6 +142,7 @@ Type: `Object`
 ###### options.tag
 
 Type: `String`
+
 Value: `ISSUE_RESOLUTION`
 
 ```js
@@ -425,7 +426,9 @@ Type: `Array<Object>`
 ###### options.image_aspect_ratio
 
 Type: `String`
+
 Value: `horizontal | square`
+
 Default: `horizontal`
 
 Type: `Object`
@@ -433,7 +436,19 @@ Type: `Object`
 ###### options.tag
 
 Type: `String`
-Value: `SHIPPING_UPDATE | RESERVATION_UPDATE | ISSUE_RESOLUTION APPOINTMENT_UPDATE | GAME_EVENT | TRANSPORTATION_UPDATE | FEATURE_FUNCTIONALITY_UPDATE | TICKET_UPDATE`
+
+Value:
+- ACCOUNT_UPDATE
+- PAYMENT_UPDATE
+- PERSONAL_FINANCE_UPDATE
+- SHIPPING_UPDATE
+- RESERVATION_UPDATE
+- ISSUE_RESOLUTION
+- APPOINTMENT_UPDATE
+- GAME_EVENT
+- TRANSPORTATION_UPDATE
+- FEATURE_FUNCTIONALITY_UPDATE
+- TICKET_UPDATE
 
 ```js
 client.sendGenericTemplate(
@@ -506,7 +521,9 @@ Type: `Object`
 ###### options.top_element_style
 
 Type: `String`
+
 Value: `large | compact`
+
 Default: `large`
 
 ```js
@@ -1150,6 +1167,7 @@ Upload specified type attachment using URL address.
 ###### type
 
 Type: `String`
+
 Value: `image | video | audio | file`
 
 ###### url
@@ -1327,7 +1345,16 @@ Retrieves the current value of one or more Messenger Profile properties by name.
 ###### fields
 
 Type: `Array<String>`
-Value: `account_linking_url | persistent_menu | get_started | greeting | whitelisted_domains | payment_settings | target_audience | home_url`
+
+Value:
+- account_linking_url
+- persistent_menu
+- get_started
+- greeting
+- whitelisted_domains
+- payment_settings
+- target_audience
+- home_url
 
 ```js
 client.getMessengerProfile(['get_started', 'persistent_menu']).then(profile => {
@@ -1397,7 +1424,15 @@ Deletes one or more Messenger Profile properties. Only properties specified in t
 ###### fields
 
 Type: `Array<String>`
-Value: `account_linking_url | persistent_menu | get_started | greeting | whitelisted_domains | payment_settings | target_audience | home_url`
+
+- account_linking_url
+- persistent_menu
+- get_started
+- greeting
+- whitelisted_domains
+- payment_settings
+- target_audience
+- home_url
 
 ```js
 client.deleteMessengerProfile(['get_started', 'persistent_menu']);
