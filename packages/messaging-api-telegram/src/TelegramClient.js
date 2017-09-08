@@ -73,6 +73,16 @@ export default class TelegramClient {
     });
 
   /**
+   * Get link for file. This is extension method of getFile()
+   */
+  getFileLink = (fileId: string) =>
+    this.getFile(fileId).then(
+      response =>
+        `https://api.telegram.org/file/bot${this._token}/${response.result
+          .file_path}`
+    );
+
+  /**
    * https://core.telegram.org/bots/api#getchat
    */
   getChat = (chatId: string) =>

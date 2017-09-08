@@ -250,6 +250,35 @@ describe('get api', () => {
     });
   });
 
+  describe('#getFileLink', () => {
+    it('should response file link about the file', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+          file_size: 106356,
+          file_path: 'photos/1068230105874016297.jpg',
+        },
+      };
+
+      mock
+        .onPost('/getFile', {
+          file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+        })
+        .reply(200, reply);
+
+      const res = await client.getFileLink(
+        'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2'
+      );
+
+      expect(res).toEqual(
+        `https://api.telegram.org/file/bot${ACCESS_TOKEN}/${reply.result
+          .file_path}`
+      );
+    });
+  });
+
   describe('#getChat', () => {
     it('should response information about the chat', async () => {
       const { client, mock } = createMock();
