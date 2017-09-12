@@ -52,6 +52,7 @@ All methods return a Promise.
 
 Gets current webhook status.
 
+Example:
 ```js
 client.getWebhookInfo();
 ```
@@ -62,10 +63,11 @@ client.getWebhookInfo();
 
 Specifies a url and receive incoming updates via an outgoing webhook.
 
-###### url
+Param | Type     | Description
+----- | -------- | -----------
+url   | `String` | HTTPS url to send updates to.
 
-Type: `String`
-
+Example:
 ```js
 client.setWebhook('https://4a16faff.ngrok.io/');
 ```
@@ -76,6 +78,7 @@ client.setWebhook('https://4a16faff.ngrok.io/');
 
 Removes webhook integration.
 
+Example:
 ```js
 client.deleteWebhook();
 ```
@@ -90,20 +93,13 @@ client.deleteWebhook();
 
 Sends text messages.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+text    | `String`                          | Text of the message to be sent.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### text
-
-Type: `String`
-
-##### options
-
-Type: `Object`
-
+Exmaple:
 ```js
 client.sendMessage(CHAT_ID, 'hi', {
   disable_web_page_preview: true,
@@ -117,22 +113,13 @@ client.sendMessage(CHAT_ID, 'hi', {
 
 Sends photos.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+photo   | `String`                          | Pass a file id (recommended) or HTTP URL to send photo.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### photo
-
-Type: `String`
-
-Pass a file id as String to send a photo that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a photo from the Internet.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
   caption: 'gooooooodPhoto',
@@ -146,22 +133,13 @@ client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
 
 Sends audio files.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+audio   | `String`                          | Pass a file id (recommended) or HTTP URL to send audio.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### audio
-
-Type: `String`
-
-Pass a file id as String to send an audio that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get an audio from the Internet.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
   caption: 'gooooooodAudio',
@@ -175,22 +153,13 @@ client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
 
 Sends general files.
 
-###### chatId
+Param    |  Type                             | Description
+-------- | --------------------------------- | -----------
+chatId   | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+document | `String`                          | Pass a file id (recommended) or HTTP URL to send document.
+options  | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### document
-
-Type: `String`
-
-Pass a file id as String to send a document that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a document from the Internet.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
   caption: 'gooooooodDocument',
@@ -204,22 +173,13 @@ client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
 
 Sends `.webp` stickers.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+sticker | `String`                          | Pass a file id (recommended) or HTTP URL to send sticker.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### sticker
-
-Type: `String`
-
-Pass a file id as String to send a sticker that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a sticker from the Internet.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
   disable_notification: true,
@@ -232,22 +192,13 @@ client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
 
 Sends video files, Telegram clients support `mp4` videos (other formats may be sent as Document).
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+video   | `String`                          | Pass a file id (recommended) or HTTP URL to send video.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### video
-
-Type: `String`
-
-Pass a file id as String to send a video that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a video from the Internet.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
   caption: 'gooooooodVideo',
@@ -261,22 +212,13 @@ client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
 
 Sends audio files.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+voice   | `String`                          | Pass a file id (recommended) or HTTP URL to send voice.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### voice
-
-Type: `String`
-
-Pass a file id as String to send a voice that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a voice from the Internet.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
   caption: 'gooooooodVoice',
@@ -290,32 +232,15 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
 
 Sends point on the map.
 
-###### chatId
+Param    |  Type                             | Description
+-------- | --------------------------------- | -----------
+chatId   | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+location | `Object`                          | Object contains latitude and longitude.
+location.latitude | `Number`                 | Latitude of the location.
+location.longitude | `Number`                | Longitude of the location.
+options  | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### location
-
-Type: `Object`
-
-###### location.latitude
-
-Type: `Number`
-
-Latitude of location.
-
-###### location.longitude
-
-Type: `Number`
-
-Longitude of location.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendLocation(
   CHAT_ID,
@@ -335,44 +260,17 @@ client.sendLocation(
 
 Sends information about a venue.
 
-###### chatId
+Param    |  Type                             | Description
+-------- | --------------------------------- | -----------
+chatId   | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+venue    | `Object`                          | Object contains information of the venue.
+venue.latitude | `Number`                    | Latitude of the venue.
+venue.longitude | `Number`                   | Longitude of the venue.
+venue.title | `String`                       | Name of the venue.
+venue.address | `String`                     | Address of the venue.
+options  | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### venue
-
-Type: `Object`
-
-###### venue.latitude
-
-Type: `Number`
-
-Latitude of the venue.
-
-###### venue.longitude
-
-Type: `Number`
-
-Longitude of the venue.
-
-###### venue.title
-
-Type: `String`
-
-Name of the venue.
-
-###### venue.address
-
-Type: `String`
-
-Address of the venue.
-
-##### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendVenue(
   CHAT_ID,
@@ -394,20 +292,15 @@ client.sendVenue(
 
 Sends phone contacts.
 
-###### chatId
+Param    |  Type                             | Description
+-------- | --------------------------------- | -----------
+chatId   | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+contact  | `Object`                          | Object contains information of the contact.
+contact.phone_number | `String`              | Phone number of the contact.
+contact.first_name   | `String`              | First name of the contact.
+options  | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### contact
-
-Type: `Object`
-
-###### options
-
-Type: `Object`
-
+Example:
 ```js
 client.sendContact(
   CHAT_ID,
@@ -425,16 +318,12 @@ client.sendContact(
 
 Tells the user that something is happening on the bot's side.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+action  | `String`                          | Type of action to broadcast.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target channel (in the format `@channelusername`).
-
-###### action
-
-Type: `String`
-
+Example:
 ```js
 client.sendChatAction(CHAT_ID, 'typing');
 ```
@@ -447,6 +336,7 @@ client.sendChatAction(CHAT_ID, 'typing');
 
 Gets bot's information.
 
+Example:
 ```js
 client.getMe().then(result => {
   console.log(result);
@@ -467,16 +357,12 @@ client.getMe().then(result => {
 
 Gets a list of profile pictures for a user.
 
-###### userId
+Param    |  Type    | Description
+-------- | -------- | -----------
+chatId   | `String` | Unique identifier of the target user.
+options  | `Object` | Other optional parameters
 
-Type: `String`
-
-Unique identifier of the target user.
-
-###### options
-
-Type: `Object`
-
+Example:
 ```js
 client.getUserProfilePhotos(USER_ID, { limit: 2 });
 ```
@@ -487,14 +373,28 @@ client.getUserProfilePhotos(USER_ID, { limit: 2 });
 
 Gets basic info about a file and prepare it for downloading.
 
-###### fileId
+Param    |  Type    | Description
+-------- | -------- | -----------
+fileId   | `String` | File identifier to get info about.
 
-Type: `String`
-
-File identifier to get info about.
-
+Example:
 ```js
 client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
+```
+
+<br />
+
+## `getFileLink(fileId)`
+
+Gets link of the file.
+
+Param    |  Type    | Description
+-------- | -------- | -----------
+fileId   | `String` | File identifier to get info about.
+
+Example:
+```js
+client.getFileLink('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
 ```
 
 <br />
@@ -503,12 +403,11 @@ client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
 
 Gets up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.)
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.getChat(CHAT_ID);
 ```
@@ -519,12 +418,11 @@ client.getChat(CHAT_ID);
 
 Gets a list of administrators in a chat.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.getChatAdministrators(CHAT_ID);
 ```
@@ -535,12 +433,11 @@ client.getChatAdministrators(CHAT_ID);
 
 Gets the number of members in a chat.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.getChatMembersCount(CHAT_ID);
 ```
@@ -551,18 +448,12 @@ client.getChatMembersCount(CHAT_ID);
 
 Gets information about a member of a chat.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+userId  | `Number`                          | Unique identifier of the target user.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### userId
-
-Type: `String`
-
-Unique identifier of the target user.
-
+Example:
 ```js
 client.getChatMember(CHAT_ID, USER_ID);
 ```
@@ -575,22 +466,15 @@ client.getChatMember(CHAT_ID, USER_ID);
 
 Edits text and game messages sent by the bot or via the bot (for inline bots).
 
-###### text
+Param   |  Type                                     | Description
+------- | ----------------------------------------- | -----------
+text    | `String`                                  | New text of the message.
+options | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+options.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+options.message_id | `Number`                       | Identifier of the sent message.
+options.inline_message_id | `String`                | Identifier of the inline message.
 
-Type: `String`
-
-New text of the message.
-
-###### options
-
-Type: `Object`
-
-###### options.chat_id
-
-###### options.message_id
-
-###### options.inline_message_id
-
+Example:
 ```js
 client.editMessageText('new_text', { message_id: MESSAGE_ID });
 ```
@@ -601,22 +485,15 @@ client.editMessageText('new_text', { message_id: MESSAGE_ID });
 
 Edits captions of messages sent by the bot or via the bot (for inline bots).
 
-###### caption
+Param   |  Type                                     | Description
+------- | ----------------------------------------- | -----------
+caption | `String`                                  | New caption of the message.
+options | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+options.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+options.message_id | `Number`                       | Identifier of the sent message.
+options.inline_message_id | `String`                | Identifier of the inline message.
 
-Type: `String`
-
-New caption of the message.
-
-###### options
-
-Type: `Object`
-
-###### options.chat_id
-
-###### options.message_id
-
-###### options.inline_message_id
-
+Example:
 ```js
 client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 ```
@@ -627,20 +504,15 @@ client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 
 Edits only the reply markup of messages sent by the bot or via the bot (for inline bots).
 
-###### replyMarkup
+Param       |  Type                                     | Description
+----------- | ----------------------------------------- | -----------
+replyMarkup | `Object`                                  | New replyMarkup of the message.
+options     | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+options.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+options.message_id | `Number`                       | Identifier of the sent message.
+options.inline_message_id | `String`                | Identifier of the inline message.
 
-Type: `Object`
-
-###### options
-
-Type: `Object`
-
-###### options.chat_id
-
-###### options.message_id
-
-###### options.inline_message_id
-
+Example:
 ```js
 client.editMessageReplyMarkup(
   {
@@ -658,18 +530,12 @@ client.editMessageReplyMarkup(
 
 Deletes a message, including service messages.
 
-###### chatId
+Param     |  Type                             | Description
+--------- | --------------------------------- | -----------
+chatId    | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+messageId | `Number`                          | Identifier of the message to delete.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### messageId
-
-Type: `Number`
-
-Identifier of the message to delete.
-
+Example:
 ```js
 client.deleteMessage(CHAT_ID, MESSAGE_ID);
 ```
@@ -682,26 +548,13 @@ client.deleteMessage(CHAT_ID, MESSAGE_ID);
 
 Kicks a user from a group, a supergroup or a channel.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+userId  | `Number`                          | Unique identifier of the target user.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### userId
-
-Type: `Number`
-
-Unique identifier of the target user.
-
-###### options
-
-Type: `Object`
-
-###### options.until_date
-
-Date when the user will be unbanned, unix time.
-
+Example:
 ```js
 client.kickChatMember(CHAT_ID, USER_ID, { until_date: UNIX_TIME });
 ```
@@ -712,18 +565,12 @@ client.kickChatMember(CHAT_ID, USER_ID, { until_date: UNIX_TIME });
 
 Unbans a previously kicked user in a supergroup or channel.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+userId | `Number`                          | Unique identifier of the target user.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### userId
-
-Type: `Number`
-
-Unique identifier of the target user.
-
+Example:
 ```js
 client.unbanChatMember(CHAT_ID, USER_ID);
 ```
@@ -734,22 +581,13 @@ client.unbanChatMember(CHAT_ID, USER_ID);
 
 Restricts a user in a supergroup
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+userId  | `Number`                          | Unique identifier of the target user.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### userId
-
-Type: `Number`
-
-Unique identifier of the target user.
-
-###### options
-
-Type: `Object`
-
+Example:
 ```js
 client.restrictChatMember(CHAT_ID, USER_ID, { can_send_messages: true });
 ```
@@ -760,22 +598,13 @@ client.restrictChatMember(CHAT_ID, USER_ID, { can_send_messages: true });
 
 Promotes or demotes a user in a supergroup or a channel.
 
-###### chatId
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+userId  | `Number`                          | Unique identifier of the target user.
+options | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### userId
-
-Type: `Number`
-
-Unique identifier of the target user.
-
-###### options
-
-Type: `Object`
-
+Example:
 ```js
 client.promoteChatMember(CHAT_ID, USER_ID, {
   can_change_info: true,
@@ -789,12 +618,11 @@ client.promoteChatMember(CHAT_ID, USER_ID, {
 
 Exports an invite link to a supergroup or a channel.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.exportChatInviteLink(CHAT_ID);
 ```
@@ -805,18 +633,12 @@ client.exportChatInviteLink(CHAT_ID);
 
 Sets a new profile photo for the chat.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+photo  | `String`                          | Pass a file id (recommended) or HTTP URL to send photo.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### photo
-
-Type: `String`
-
-Pass a file id as String to send a photo that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a photo from the Internet.
-
+Example:
 ```js
 client.setChatPhoto(CHAT_ID, 'https://example.com/image.png');
 ```
@@ -827,12 +649,11 @@ client.setChatPhoto(CHAT_ID, 'https://example.com/image.png');
 
 Deletes a chat photo.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.deleteChatPhoto(CHAT_ID);
 ```
@@ -843,18 +664,12 @@ client.deleteChatPhoto(CHAT_ID);
 
 Changes the title of a chat.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+title  | `String`                          | New chat title, 1-255 characters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### title
-
-Type: `String`
-
-New chat title, 1-255 characters.
-
+Example:
 ```js
 client.setChatTitle(CHAT_ID, 'New Title');
 ```
@@ -865,18 +680,12 @@ client.setChatTitle(CHAT_ID, 'New Title');
 
 Changes the description of a supergroup or a channel.
 
-###### chatId
+Param       |  Type                             | Description
+----------- | --------------------------------- | -----------
+chatId      | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+description | `String`                          | New chat description, 0-255 characters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### description
-
-Type: `String`
-
-New chat description, 0-255 characters.
-
+Example:
 ```js
 client.setChatDescription(CHAT_ID, 'New Description');
 ```
@@ -887,24 +696,13 @@ client.setChatDescription(CHAT_ID, 'New Description');
 
 Pins a message in a supergroup.
 
-###### chatId
+Param     |  Type                             | Description
+--------- | --------------------------------- | -----------
+chatId    | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+messageId | `Number`                          | Identifier of a message to pin.
+options   | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### messageId
-
-Type: `Number`
-
-Identifier of a message to pin
-
-###### options
-
-Type: `Object`
-
-###### options.disable_notification
-
+Example:
 ```js
 client.pinChatMessage(CHAT_ID, MESSAGE_ID, { disable_notification: true });
 ```
@@ -915,12 +713,11 @@ client.pinChatMessage(CHAT_ID, MESSAGE_ID, { disable_notification: true });
 
 Unpins a message in a supergroup chat.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.unpinChatMessage(CHAT_ID);
 ```
@@ -931,12 +728,11 @@ client.unpinChatMessage(CHAT_ID);
 
 Leaves a group, supergroup or channel.
 
-###### chatId
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
+Example:
 ```js
 client.leaveChat(CHAT_ID);
 ```
@@ -949,28 +745,14 @@ client.leaveChat(CHAT_ID);
 
 Forwards messages of any kind.
 
-###### chatId
+Param      |  Type                             | Description
+---------- | --------------------------------- | -----------
+chatId     | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target supergroup or channel.
+fromChatId | <code>Number &#124; String</code> | Unique identifier for the chat where the original message was sent.
+messageId  | `Number`                          | Message identifier in the chat specified in from_chat_id.
+options    | `Object`                          | Other optional parameters.
 
-Type: `Number | String`
-
-Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`).
-
-###### fromChatId
-
-Type: `Number | String`
-
-Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`).
-
-###### messageId
-
-Type: `Number`
-
-Message identifier in the chat specified in from_chat_id.
-
-###### options
-
-Type: `Object`
-
+Example:
 ```js
 client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
