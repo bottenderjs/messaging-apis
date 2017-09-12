@@ -281,3 +281,10 @@ export type MessageTagResponse = Array<{
 }>;
 
 export type FileData = Buffer | fs.ReadStream;
+
+export type BatchItem = {
+  method: string,
+  relative_url: string,
+  name?: string,
+  body?: string,
+};
