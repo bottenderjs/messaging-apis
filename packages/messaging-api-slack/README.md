@@ -56,15 +56,12 @@ All methods return a Promise.
 
 Calling any API methods which follow [slack calling conventions](https://api.slack.com/web#basics).
 
-###### method
+Param  | Type     | Description
+------ | -------- | -----------
+method | `String` | One of <code>`chat.postMessage` &#124; `channels.info` &#124; `channels.list` &#124; `users.info` &#124; `users.list`</code>
+body   | `Object` | Body that the method needs.
 
-Type: `String`
-Value: One of `chat.postMessage | 'channels.info' | 'channels.list' | 'users.info' | 'users.list`
-
-###### body
-
-Type: `Object`
-
+Example:
 ```js
 client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 ```
@@ -77,22 +74,13 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 Sends a message to a channel.
 
-###### channel
+Param   | Type     | Description
+------- | -------- | -----------
+channel | `String` | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
+text    | `String` | Text of the message to be sent.
+options | `Object` | Other optional parameters.
 
-Type: `String`
-
-###### text
-
-Type: `String`
-
-###### options
-
-Type: `Object`
-
-###### options.as_user
-
-Type: `Boolean`
-
+Example:
 ```js
 client.postMessage('C8763', 'Hello!');
 client.postMessage('C8763', 'Hello!', { as_user: true });
@@ -106,10 +94,11 @@ client.postMessage('C8763', 'Hello!', { as_user: true });
 
 Lists all users in a Slack team.
 
-###### cursor
+Param  | Type     | Description
+------ | -------- | -----------
+cursor | `String` | Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`.
 
-Type: `String`
-
+Example:
 ```js
 client.getUserList(cursor).then(res => {
   console.log(res);
@@ -129,6 +118,7 @@ client.getUserList(cursor).then(res => {
 
 Recursively lists all users in a Slack team using cursor.
 
+Example:
 ```js
 client.getAllUserList().then(res => {
   console.log(res);
@@ -145,10 +135,11 @@ client.getAllUserList().then(res => {
 
 Gets information about an user.
 
-###### userId
+Param  | Type     | Description
+------ | -------- | -----------
+userId | `String` | User to get info on.
 
-Type: `String`
-
+Example:
 ```js
 client.getUserInfo(userId).then(res => {
   console.log(res);
@@ -168,6 +159,7 @@ client.getUserInfo(userId).then(res => {
 
 Lists all channels in a Slack team.
 
+Example:
 ```js
 client.getChannelList().then(res => {
   console.log(res);
@@ -182,10 +174,11 @@ client.getChannelList().then(res => {
 
 Gets information about a channel.
 
-###### channelId
+Param     | Type     | Description
+--------- | -------- | -----------
+channelId | `String` | Channel to get info on.
 
-Type: `String`
-
+Example:
 ```js
 client.getChannelInfo(channelId).then(res => {
   console.log(res);
@@ -227,10 +220,11 @@ All methods return a Promise.
 
 ## `sendRawBody(body)`
 
-###### body
+Param | Type     | Description
+----- | -------- | -----------
+body  | `Object` | Raw data to be sent.
 
-Type: `Object`
-
+Example:
 ```js
 client.sendRawBody({ text: 'Hello!' });
 ```
@@ -239,10 +233,11 @@ client.sendRawBody({ text: 'Hello!' });
 
 ## `sendText(text)`
 
-###### text
+Param | Type     | Description
+----- | -------- | -----------
+text  | `String` | Text of the message to be sent.
 
-Type: `String`
-
+Example:
 ```js
 client.sendText('Hello!');
 ```
@@ -251,10 +246,13 @@ client.sendText('Hello!');
 
 ## `sendAttachments(attachments)` - [Official docs](https://api.slack.com/docs/message-attachments)
 
-###### attachments
+Send multiple attachments which let you add more context to a message.
 
-Type: `Array<Object>`
+Param       | Type            | Description
+----------- | --------------- | -----------
+attachments | `Array<Object>` | Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment.
 
+Example:
 ```js
 client.sendAttachments([
   {
@@ -288,10 +286,13 @@ client.sendAttachments([
 
 ## `sendAttachment(attachment)` - [Official docs](https://api.slack.com/docs/message-attachments)
 
-###### attachment
+Send only one attachment.
 
-Type: `Object`
+Param       | Type     | Description
+----------- | -------- | -----------
+attachments | `Object` | Message is an attachment. The object contains the parameters to customize the appearance of a message attachment.
 
+Example:
 ```js
 client.sendAttachment({
   fallback: 'some text',
