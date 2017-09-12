@@ -194,7 +194,7 @@ client.getChannelInfo(channelId).then(res => {
 
 ## Webhook Client
 
-### Usage
+## Usage
 
 Get your webhook url by adding a [Incoming Webhooks](https://api.slack.com/incoming-webhooks) integreation to your team or setup Incoming Webhooks function to your app.
 
@@ -210,13 +210,13 @@ const client = SlackWebhookClient.connect(
 
 <br />
 
-### API Reference
+## API Reference
 
 All methods return a Promise.
 
 <br />
 
-#### Send API - [Official docs](https://api.slack.com/docs/messages)
+### Send API - [Official docs](https://api.slack.com/docs/messages)
 
 ## `sendRawBody(body)`
 

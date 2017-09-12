@@ -66,16 +66,12 @@ Responds to events from users, groups, and rooms.
 
 Responds messages using specified reply token.
 
-###### token
+Param    | Type            | Description
+-------  | --------------- | -----------
+token    | `String`        | `replyToken` received via webhook.
+messages | `Array<Object>` | Array of objects which contains the contents of the message to be sent.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### messages
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.reply(REPLY_TOKEN, [
   {
@@ -91,16 +87,12 @@ client.reply(REPLY_TOKEN, [
 
 Responds text message using specified reply token.
 
-###### token
+Param | Type     | Description
+----- | -------- | -----------
+token | `String` | `replyToken` received via webhook.
+text  | `String` | Text of the message to be sent.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### text
-
-Type: `String`
-
+Example:
 ```js
 client.reply(REPLY_TOKEN, 'Hello!');
 ```
@@ -111,20 +103,13 @@ client.reply(REPLY_TOKEN, 'Hello!');
 
 Responds image message using specified reply token.
 
-###### token
+Param           | Type     | Description
+--------------- | -------- | -----------
+token           | `String` | `replyToken` received via webhook.
+imageUrl        | `String` | Image URL.
+previewImageUrl | `String` | Preview image URL.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### imageUrl
-
-Type: `String`
-
-###### previewImageUrl
-
-Type: `String`
-
+Example:
 ```js
 client.replyImage(
   REPLY_TOKEN,
@@ -139,20 +124,13 @@ client.replyImage(
 
 Responds video message using specified reply token.
 
-###### token
+Param           | Type     | Description
+--------------- | -------- | -----------
+token           | `String` | `replyToken` received via webhook.
+videoUrl        | `String` | URL of video file.
+previewImageUrl | `String` | URL of preview image.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### videoUrl
-
-Type: `String`
-
-###### previewImageUrl
-
-Type: `String`
-
+Example:
 ```js
 client.replyVideo(
   REPLY_TOKEN,
@@ -167,20 +145,13 @@ client.replyVideo(
 
 Responds audio message using specified reply token.
 
-###### token
+Param    | Type     | Description
+-------- | -------- | -----------
+token    | `String` | `replyToken` received via webhook.
+audioUrl | `String` | URL of audio file.
+duration | `Number` | Length of audio file.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### audioUrl
-
-Type: `String`
-
-###### duration
-
-Type: `Number`
-
+Example:
 ```js
 client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 ```
@@ -191,32 +162,16 @@ client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 
 Responds location message using specified reply token.
 
-###### token
+Param              | Type     | Description
+------------------ | -------- | -----------
+token              | `String` | `replyToken` received via webhook.
+location           | `Object` | Object contains location's parameters.
+location.title     | `String` | Title of the location.
+location.address   | `String` | Address of the location.
+location.latitude  | `Number` | Latitude of the location.
+location.longitude | `Number` | Longitude of the location.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### location
-
-Type: `Object`
-
-###### location.title
-
-Type: `String`
-
-###### location.address
-
-Type: `String`
-
-###### location.latitude
-
-Type: `Number`
-
-###### location.longitude
-
-Type: `Number`
-
+Example:
 ```js
 client.replyLocation(REPLY_TOKEN, {
   title: 'my location',
@@ -232,20 +187,13 @@ client.replyLocation(REPLY_TOKEN, {
 
 Responds sticker message using specified reply token.
 
-###### token
+Param     | Type     | Description
+--------- | -------- | -----------
+token     | `String` | `replyToken` received via webhook.
+packageId | `String` | Package ID.
+stickerId | `String` | Sticker ID.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### packageId
-
-Type: `String`
-
-###### stickerId
-
-Type: `String`
-
+Example:
 ```js
 client.replySticker(REPLY_TOKEN, '1', '1');
 ```
@@ -258,44 +206,17 @@ client.replySticker(REPLY_TOKEN, '1', '1');
 
 Responds imagemap message using specified reply token.
 
-###### token
+Param               | Type            | Description
+------------------- | --------------- | -----------
+token               | `String`        | `replyToken` received via webhook.
+altText             | `String`        | Alternative text.
+imagemap            | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl    | `String`        | Base URL of image.
+imagemap.baseWidth  | `Number`        | Width of base image.
+imagemap.baseHeight | `Number`        | Height of base image.
+imagemap.actions    | `Array<Object>` | Action when tapped.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### imagemap - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
-
-Type: `Object`
-
-###### imagemap.baseUrl
-
-Type: `String`
-
-###### imagemap.baseWidth
-
-Type: `Number`
-
-Width of base image (set to 1040px）.
-
-###### imagemap.baseHeight
-
-Type: `Number`
-
-Height of base image（set to the height that corresponds to a width of 1040px）.
-
-###### imagemap.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
@@ -334,22 +255,13 @@ client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
 
 Responds template message using specified reply token.
 
-###### token
+Param    | Type     | Description
+-------- | -------- | -----------
+token    | `String` | `replyToken` received via webhook.
+altText  | `String` | Alternative text.
+template | `Object` | Object with the contents of the template.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### template
-
-Type: `Object`
-
+Example:
 ```js
 client.replyTemplate(REPLY_TOKEN, 'this is a template', {
   type: 'buttons',
@@ -384,40 +296,17 @@ Responds button template message using specified reply token.
 
 ![](https://devdocs.line.me/images/buttons.png)
 
-###### token
+Param                  | Type               | Description
+---------------------- | ------------------ | -----------
+token                  | `String`           | `replyToken` received via webhook.
+altText                | `String`           | Alternative text.
+buttonTemplate         | `Object`           | Object contains buttonTemplate's parameters.
+buttonTemplate.thumbnailImageUrl | `String` | Image URL of buttonTemplate.
+buttonTemplate.title   | `String`           | Title of buttonTemplate.
+buttonTemplate.text    | `String`           | Message text of buttonTemplate.
+buttonTemplate.actions | `Array<Object>`    | Action when tapped.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### buttonTemplate
-
-Type: `Object`
-
-###### buttonTemplate.thumbnailImageUrl
-
-Type: `String`
-
-###### buttonTemplate.title
-
-Type: `String`
-
-###### buttonTemplate.text
-
-Type: `String`
-
-###### buttonTemplate.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
@@ -451,32 +340,15 @@ Responds confirm template message using specified reply token.
 
 ![](https://devdocs.line.me/images/confirm.png)
 
-###### token
+Param                   | Type               | Description
+----------------------- | ------------------ | -----------
+token                   | `String`           | `replyToken` received via webhook.
+altText                 | `String`           | Alternative text.
+confirmTemplate         | `Object`           | Object contains confirmTemplate's parameters.
+confirmTemplate.text    | `String`           | Message text of confirmTemplate.
+confirmTemplate.actions | `Array<Object>`    | Action when tapped.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### confirmTemplate
-
-Type: `Object`
-
-###### confirmTemplate.text
-
-Type: `String`
-
-###### confirmTemplate.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
   text: 'Are you sure?',
@@ -503,22 +375,13 @@ Responds carousel template message using specified reply token.
 
 ![](https://devdocs.line.me/images/carousel.png)
 
-###### token
+Param         | Type            | Description
+------------- | --------------- | -----------
+token         | `String`        | `replyToken` received via webhook.
+altText       | `String`        | Alternative text.
+carouselItems | `Array<Object>` | Array of columns which contains object for carousel.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### carouselItems
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
   {
@@ -576,22 +439,13 @@ Responds image carousel template message using specified reply token.
 
 ![](https://devdocs.line.me/images/image_carousel.png)
 
-###### token
+Param         | Type            | Description
+------------- | --------------- | -----------
+token         | `String`        | `replyToken` received via webhook.
+altText       | `String`        | Alternative text.
+carouselItems | `Array<Object>` | Array of columns which contains object for image carousel.
 
-Type: `String`
-
-`replyToken` received via webhook.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### carouselItems
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.replyImageCarouselTemplate(
   REPLY_TOKEN,
@@ -637,16 +491,12 @@ Sends messages to a user, group, or room at any time.
 
 Sends messages using ID of the receiver.
 
-###### userId
+Param    | Type            | Description
+-------- | --------------- | -----------
+userId   | `String`        | ID of the receiver.
+messages | `Array<Object>` | Array of objects which contains the contents of the message to be sent.
 
-Type: `String`
-
-ID of the receiver.
-
-###### messages
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.push(USER_ID, [
   {
@@ -662,16 +512,12 @@ client.push(USER_ID, [
 
 Sends text message using ID of the receiver.
 
-###### userId
+Param  | Type     | Description
+------ | -------- | -----------
+userId | `String` | ID of the receiver.
+text   | `String` | Text of the message to be sent.
 
-Type: `String`
-
-ID of the receiver.
-
-###### text
-
-Type: `String`
-
+Example:
 ```js
 client.pushText(USER_ID, 'Hello!');
 ```
@@ -682,20 +528,13 @@ client.pushText(USER_ID, 'Hello!');
 
 Sends image message using ID of the receiver.
 
-###### userId
+Param           | Type     | Description
+--------------- | -------- | -----------
+userId          | `String` | ID of the receiver.
+imageUrl        | `String` | Image URL.
+previewImageUrl | `String` | Preview image URL.
 
-Type: `String`
-
-ID of the receiver.
-
-###### imageUrl
-
-Type: `String`
-
-###### previewImageUrl
-
-Type: `String`
-
+Example:
 ```js
 client.pushImage(
   USER_ID,
@@ -710,20 +549,13 @@ client.pushImage(
 
 Sends video message using ID of the receiver.
 
-###### userId
+Param           | Type     | Description
+--------------- | -------- | -----------
+userId          | `String` | ID of the receiver.
+videoUrl        | `String` | URL of video file.
+previewImageUrl | `String` | URL of preview image.
 
-Type: `String`
-
-ID of the receiver.
-
-###### videoUrl
-
-Type: `String`
-
-###### previewImageUrl
-
-Type: `String`
-
+Example:
 ```js
 client.pushVideo(
   USER_ID,
@@ -738,20 +570,13 @@ client.pushVideo(
 
 Sends audio message using ID of the receiver.
 
-###### userId
+Param    | Type     | Description
+-------- | -------- | -----------
+userId   | `String` | ID of the receiver.
+audioUrl | `String` | URL of audio file.
+duration | `Number` | Length of audio file.
 
-Type: `String`
-
-ID of the receiver.
-
-###### audioUrl
-
-Type: `String`
-
-###### duration
-
-Type: `Number`
-
+Example:
 ```js
 client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 ```
@@ -762,32 +587,16 @@ client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 
 Sends location message using ID of the receiver.
 
-###### userId
+Param              | Type     | Description
+------------------ | -------- | -----------
+userId             | `String` | ID of the receiver.
+location           | `Object` | Object contains location's parameters.
+location.title     | `String` | Title of the location.
+location.address   | `String` | Address of the location.
+location.latitude  | `Number` | Latitude of the location.
+location.longitude | `Number` | Longitude of the location.
 
-Type: `String`
-
-ID of the receiver.
-
-###### location
-
-Type: `Object`
-
-###### location.title
-
-Type: `String`
-
-###### location.address
-
-Type: `String`
-
-###### location.latitude
-
-Type: `Number`
-
-###### location.longitude
-
-Type: `Number`
-
+Example:
 ```js
 client.pushLocation(USER_ID, {
   title: 'my location',
@@ -803,20 +612,13 @@ client.pushLocation(USER_ID, {
 
 Sends sticker message using ID of the receiver.
 
-###### userId
+Param     | Type     | Description
+--------- | -------- | -----------
+userId    | `String` | ID of the receiver.
+packageId | `String` | Package ID.
+stickerId | `String` | Sticker ID.
 
-Type: `String`
-
-ID of the receiver.
-
-###### packageId
-
-Type: `String`
-
-###### stickerId
-
-Type: `String`
-
+Example:
 ```js
 client.pushSticker(USER_ID, '1', '1');
 ```
@@ -829,44 +631,17 @@ client.pushSticker(USER_ID, '1', '1');
 
 Sends imagemap message using ID of the receiver.
 
-###### userId
+Param               | Type            | Description
+------------------- | --------------- | -----------
+userId              | `String`        | ID of the receiver.
+altText             | `String`        | Alternative text.
+imagemap            | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl    | `String`        | Base URL of image.
+imagemap.baseWidth  | `Number`        | Width of base image.
+imagemap.baseHeight | `Number`        | Height of base image.
+imagemap.actions    | `Array<Object>` | Action when tapped.
 
-Type: `String`
-
-ID of the receiver.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### imagemap - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
-
-Type: `Object`
-
-###### imagemap.baseUrl
-
-Type: `String`
-
-###### imagemap.baseWidth
-
-Type: `Number`
-
-Width of base image (set to 1040px）.
-
-###### imagemap.baseHeight
-
-Type: `Number`
-
-Height of base image（set to the height that corresponds to a width of 1040px）.
-
-###### imagemap.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.pushImagemap(USER_ID, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
@@ -905,22 +680,13 @@ client.pushImagemap(USER_ID, 'this is an imagemap', {
 
 Sends template message using ID of the receiver.
 
-###### userId
+Param    | Type     | Description
+-------- | -------- | -----------
+userId   | `String` | ID of the receiver.
+altText  | `String` | Alternative text.
+template | `Object` | Object with the contents of the template.
 
-Type: `String`
-
-ID of the receiver.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### template
-
-Type: `Object`
-
+Example:
 ```js
 client.pushTemplate(USER_ID, 'this is a template', {
   type: 'buttons',
@@ -955,40 +721,17 @@ Sends button template message using ID of the receiver.
 
 ![](https://devdocs.line.me/images/buttons.png)
 
-###### userId
+Param                  | Type               | Description
+---------------------- | ------------------ | -----------
+userId                 | `String`           | ID of the receiver.
+altText                | `String`           | Alternative text.
+buttonTemplate         | `Object`           | Object contains buttonTemplate's parameters.
+buttonTemplate.thumbnailImageUrl | `String` | Image URL of buttonTemplate.
+buttonTemplate.title   | `String`           | Title of buttonTemplate.
+buttonTemplate.text    | `String`           | Message text of buttonTemplate.
+buttonTemplate.actions | `Array<Object>`    | Action when tapped.
 
-Type: `String`
-
-ID of the receiver.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### buttonTemplate
-
-Type: `Object`
-
-###### buttonTemplate.thumbnailImageUrl
-
-Type: `String`
-
-###### buttonTemplate.title
-
-Type: `String`
-
-###### buttonTemplate.text
-
-Type: `String`
-
-###### buttonTemplate.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.pushButtonTemplate(USER_ID, 'this is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
@@ -1022,32 +765,15 @@ Sends confirm template message using ID of the receiver.
 
 ![](https://devdocs.line.me/images/confirm.png)
 
-###### userId
+Param                   | Type               | Description
+----------------------- | ------------------ | -----------
+userId                  | `String`           | ID of the receiver.
+altText                 | `String`           | Alternative text.
+confirmTemplate         | `Object`           | Object contains confirmTemplate's parameters.
+confirmTemplate.text    | `String`           | Message text of confirmTemplate.
+confirmTemplate.actions | `Array<Object>`    | Action when tapped.
 
-Type: `String`
-
-ID of the receiver.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### confirmTemplate
-
-Type: `Object`
-
-###### confirmTemplate.text
-
-Type: `String`
-
-###### confirmTemplate.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
   text: 'Are you sure?',
@@ -1074,22 +800,13 @@ Sends carousel template message using ID of the receiver.
 
 ![](https://devdocs.line.me/images/carousel.png)
 
-###### userId
+Param         | Type            | Description
+------------- | --------------- | -----------
+userId        | `String`        | ID of the receiver.
+altText       | `String`        | Alternative text.
+carouselItems | `Array<Object>` | Array of columns which contains object for carousel.
 
-Type: `String`
-
-ID of the receiver.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### carouselItems
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
   {
@@ -1147,22 +864,13 @@ Sends image carousel template message using ID of the receiver.
 
 ![](https://devdocs.line.me/images/image_carousel.png)
 
-###### userId
+Param         | Type            | Description
+------------- | --------------- | -----------
+userId        | `String`        | ID of the receiver.
+altText       | `String`        | Alternative text.
+carouselItems | `Array<Object>` | Array of columns which contains object for image carousel.
 
-Type: `String`
-
-ID of the receiver.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### carouselItems
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.pushImageCarouselTemplate(
   USER_ID,
@@ -1208,16 +916,12 @@ Sends messages to multiple users at any time.
 
 Sends messages to multiple users.
 
-###### userIds
+Param    | Type            | Description
+-------  | --------------- | -----------
+userIds  | `Array<String>` | IDs of the receivers.
+messages | `Array<Object>` | Array of objects which contains the contents of the message to be sent.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### messages
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.multicast(
   [USER_ID],
@@ -1236,16 +940,12 @@ client.multicast(
 
 Sends text message to multiple users.
 
-###### userIds
+Param   | Type            | Description
+------- | --------------- | -----------
+userIds | `Array<String>` | IDs of the receivers.
+text    | `String`        | Text of the message to be sent.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### text
-
-Type: `String`
-
+Example:
 ```js
 client.multicastText([USER_ID], 'Hello!');
 ```
@@ -1256,20 +956,13 @@ client.multicastText([USER_ID], 'Hello!');
 
 Sends image message to multiple users.
 
-###### userIds
+Param           | Type            | Description
+--------------- | --------------- | -----------
+userIds         | `Array<String>` | IDs of the receivers.
+imageUrl        | `String`        | Image URL.
+previewImageUrl | `String`        | Preview image URL.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### imageUrl
-
-Type: `String`
-
-###### previewImageUrl
-
-Type: `String`
-
+Example:
 ```js
 client.multicastImage(
   [USER_ID],
@@ -1284,20 +977,13 @@ client.multicastImage(
 
 Sends video message to multiple users.
 
-###### userIds
+Param           | Type            | Description
+--------------- | --------------- | -----------
+userIds         | `Array<String>` | IDs of the receivers.
+videoUrl        | `String`        | URL of video file.
+previewImageUrl | `String`        | URL of preview image.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### videoUrl
-
-Type: `String`
-
-###### previewImageUrl
-
-Type: `String`
-
+Example:
 ```js
 client.multicastVideo(
   [USER_ID],
@@ -1312,20 +998,13 @@ client.multicastVideo(
 
 Sends audio message to multiple users.
 
-###### userIds
+Param    | Type            | Description
+-------- | --------------- | -----------
+userIds  | `Array<String>` | IDs of the receivers.
+audioUrl | `String`        | URL of audio file.
+duration | `Number`        | Length of audio file.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### audioUrl
-
-Type: `String`
-
-###### duration
-
-Type: `Number`
-
+Example:
 ```js
 client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 ```
@@ -1336,32 +1015,16 @@ client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 
 Sends location message to multiple users.
 
-###### userIds
+Param              | Type            | Description
+------------------ | --------------- | -----------
+userIds            | `Array<String>` | IDs of the receivers.
+location           | `Object`        | Object contains location's parameters.
+location.title     | `String`        | Title of the location.
+location.address   | `String`        | Address of the location.
+location.latitude  | `Number`        | Latitude of the location.
+location.longitude | `Number`        | Longitude of the location.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### location
-
-Type: `Object`
-
-###### location.title
-
-Type: `String`
-
-###### location.address
-
-Type: `String`
-
-###### location.latitude
-
-Type: `Number`
-
-###### location.longitude
-
-Type: `Number`
-
+Example:
 ```js
 client.multicastLocation([USER_ID], {
   title: 'my location',
@@ -1377,20 +1040,13 @@ client.multicastLocation([USER_ID], {
 
 Sends sticker message to multiple users.
 
-###### userIds
+Param     | Type            | Description
+--------- | --------------- | -----------
+userIds   | `Array<String>` | IDs of the receivers.
+packageId | `String`        | Package ID.
+stickerId | `String`        | Sticker ID.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### packageId
-
-Type: `String`
-
-###### stickerId
-
-Type: `String`
-
+Example:
 ```js
 client.multicastSticker([USER_ID], '1', '1');
 ```
@@ -1403,44 +1059,17 @@ client.multicastSticker([USER_ID], '1', '1');
 
 Sends imagemap message to multiple users.
 
-###### userIds
+Param               | Type            | Description
+------------------- | --------------- | -----------
+userIds             | `Array<String>` | IDs of the receivers.
+altText             | `String`        | Alternative text.
+imagemap            | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl    | `String`        | Base URL of image.
+imagemap.baseWidth  | `Number`        | Width of base image.
+imagemap.baseHeight | `Number`        | Height of base image.
+imagemap.actions    | `Array<Object>` | Action when tapped.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### imagemap - [Official Docs](https://devdocs.line.me/en/#imagemap-message)
-
-Type: `Object`
-
-###### imagemap.baseUrl
-
-Type: `String`
-
-###### imagemap.baseWidth
-
-Type: `Number`
-
-Width of base image (set to 1040px）.
-
-###### imagemap.baseHeight
-
-Type: `Number`
-
-Height of base image（set to the height that corresponds to a width of 1040px）.
-
-###### imagemap.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.multicastImagemap([USER_ID], 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
@@ -1479,22 +1108,13 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
 
 Sends template message to multiple users.
 
-###### userIds
+Param    | Type            | Description
+-------- | --------------- | -----------
+userIds  | `Array<String>` | IDs of the receivers.
+altText  | `String`        | Alternative text.
+template | `Object`        | Object with the contents of the template.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### template
-
-Type: `Object`
-
+Example:
 ```js
 client.multicastTemplate([USER_ID], 'this is a template', {
   type: 'buttons',
@@ -1529,40 +1149,17 @@ Sends button template message to multiple users.
 
 ![](https://devdocs.line.me/images/buttons.png)
 
-###### userIds
+Param                  | Type               | Description
+---------------------- | ------------------ | -----------
+userIds                | `Array<String>`    | IDs of the receivers.
+altText                | `String`           | Alternative text.
+buttonTemplate         | `Object`           | Object contains buttonTemplate's parameters.
+buttonTemplate.thumbnailImageUrl | `String` | Image URL of buttonTemplate.
+buttonTemplate.title   | `String`           | Title of buttonTemplate.
+buttonTemplate.text    | `String`           | Message text of buttonTemplate.
+buttonTemplate.actions | `Array<Object>`    | Action when tapped.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### buttonTemplate
-
-Type: `Object`
-
-###### buttonTemplate.thumbnailImageUrl
-
-Type: `String`
-
-###### buttonTemplate.title
-
-Type: `String`
-
-###### buttonTemplate.text
-
-Type: `String`
-
-###### buttonTemplate.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.multicastButtonTemplate([USER_ID], 'this is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
@@ -1596,32 +1193,15 @@ Sends confirm template message to multiple users.
 
 ![](https://devdocs.line.me/images/confirm.png)
 
-###### userIds
+Param                   | Type            | Description
+----------------------- | --------------- | -----------
+userIds                 | `Array<String>` | IDs of the receivers.
+altText                 | `String`        | Alternative text.
+confirmTemplate         | `Object`        | Object contains confirmTemplate's parameters.
+confirmTemplate.text    | `String`        | Message text of confirmTemplate.
+confirmTemplate.actions | `Array<Object>` | Action when tapped.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### confirmTemplate
-
-Type: `Object`
-
-###### confirmTemplate.text
-
-Type: `String`
-
-###### confirmTemplate.actions
-
-Type: `Array<Object>`
-
-Action when tapped.
-
+Example:
 ```js
 client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
   text: 'Are you sure?',
@@ -1648,22 +1228,13 @@ Sends carousel template message to multiple users.
 
 ![](https://devdocs.line.me/images/carousel.png)
 
-###### userIds
+Param         | Type            | Description
+------------- | --------------- | -----------
+userIds       | `Array<String>` | IDs of the receivers.
+altText       | `String`        | Alternative text.
+carouselItems | `Array<Object>` | Array of columns which contains object for carousel.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### carouselItems
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
   {
@@ -1721,22 +1292,13 @@ Sends image carousel template message to multiple users.
 
 ![](https://devdocs.line.me/images/image_carousel.png)
 
-###### userIds
+Param         | Type            | Description
+------------- | --------------- | -----------
+userIds       | `Array<String>` | IDs of the receivers.
+altText       | `String`        | Alternative text.
+carouselItems | `Array<Object>` | Array of columns which contains object for image carousel.
 
-Type: `String`
-
-IDs of the receivers.
-
-###### altText
-
-Type: `String`
-
-Alternative text.
-
-###### carouselItems
-
-Type: `Array<Object>`
-
+Example:
 ```js
 client.multicastImageCarouselTemplate(
   [USER_ID],
@@ -1780,10 +1342,11 @@ client.multicastImageCarouselTemplate(
 
 Retrieves image, video, and audio data sent in specified message.
 
-###### messageId
+Param     | Type     | Description
+--------- | -------- | -----------
+messageId | `String` | Message ID.
 
-Type: `String`
-
+Example:
 ```js
 client.retrieveMessageContent(MESSAGE_ID);
 ```
@@ -1798,10 +1361,11 @@ client.retrieveMessageContent(MESSAGE_ID);
 
 Gets user profile information.
 
-###### userId
+Param  | Type     | Description
+------ | -------- | -----------
+userId | `String` | ID of the user.
 
-Type: `String`
-
+Example:
 ```js
 client.getUserProfile(USER_ID).then(profile => {
   console.log(profile);
@@ -1824,14 +1388,12 @@ client.getUserProfile(USER_ID).then(profile => {
 
 Gets the user profile of a member of a group that the bot is in.
 
-###### groupId
+Param   | Type     | Description
+------- | -------- | -----------
+groupId | `String` | ID of the group.
+userId  | `String` | ID of the user.
 
-Type: `String`
-
-###### userId
-
-Type: `String`
-
+Example:
 ```js
 client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
   console.log(member);
@@ -1849,14 +1411,12 @@ client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
 
 Gets the user profile of a member of a room that the bot is in.
 
-###### roomId
+Param  | Type     | Description
+------ | -------- | -----------
+roomId | `String` | ID of the group.
+userId | `String` | ID of the user.
 
-Type: `String`
-
-###### userId
-
-Type: `String`
-
+Example:
 ```js
 client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
   console.log(member);
@@ -1876,16 +1436,14 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 
 ## `getGroupMemberIds(groupId, start)`
 
-Gets the user IDs of the members of a group that the bot is in.
+Gets the ID of the users of the members of a group that the bot is in.
 
-###### groupId
+Param   | Type     | Description
+------- | -------- | -----------
+groupId | `String` | ID of the group.
+userId  | `String` | ID of the user.
 
-Type: `String`
-
-###### start
-
-Type: `String`
-
+Example:
 ```js
 client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
   console.log(res);
@@ -1904,12 +1462,13 @@ client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
 
 ## `getAllGroupMemberIds(groupId)`
 
-Recursively gets the user IDs of the members of a group that the bot is in using cursors.
+Recursively gets the ID of the users of the members of a group that the bot is in using cursors.
 
-###### groupId
+Param   | Type     | Description
+------- | -------- | -----------
+groupId | `String` | ID of the group.
 
-Type: `String`
-
+Example:
 ```js
 client.getAllGroupMemberIds(GROUP_ID).then(ids => {
   console.log(ids);
@@ -1928,16 +1487,14 @@ client.getAllGroupMemberIds(GROUP_ID).then(ids => {
 
 ## `getRoomMemberIds(roomId, start)`
 
-Gets the user IDs of the members of a room that the bot is in.
+Gets the ID of the users of the members of a room that the bot is in.
 
-###### roomId
+Param  | Type     | Description
+------ | -------- | -----------
+roomId | `String` | ID of the room.
+start  | `String` | `continuationToken`.
 
-Type: `String`
-
-###### start
-
-Type: `String`
-
+Example:
 ```js
 client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
   console.log(res);
@@ -1956,12 +1513,13 @@ client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
 
 ## `getAllRoomMemberIds(roomId)`
 
-Recursively gets the user IDs of the members of a room that the bot is in using cursors.
+Recursively gets the ID of the users of the members of a room that the bot is in using cursors.
 
-###### roomId
+Param  | Type     | Description
+------ | -------- | -----------
+roomId | `String` | ID of the room.
 
-Type: `String`
-
+Example:
 ```js
 client.getAllRoomMemberIds(ROOM_ID).then(ids => {
   console.log(ids);
@@ -1986,10 +1544,11 @@ client.getAllRoomMemberIds(ROOM_ID).then(ids => {
 
 Leave a group.
 
-###### groupId
+Param   | Type     | Description
+------- | -------- | -----------
+groupId | `String` | ID of the group.
 
-Type: `String`
-
+Example:
 ```js
 client.leaveGroup(GROUP_ID);
 ```
@@ -2000,10 +1559,11 @@ client.leaveGroup(GROUP_ID);
 
 Leave a room.
 
-###### roomId
+Param  | Type     | Description
+------ | -------- | -----------
+roomId | `String` | ID of the room.
 
-Type: `String`
-
+Example:
 ```js
 client.leaveRoom(ROOM_ID);
 ```
