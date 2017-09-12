@@ -705,13 +705,13 @@ export default class MessengerClient {
       if (item.body) {
         return {
           ...item,
-          body: Object.entries(item.body)
-            .map(
-              ([key, val]) =>
-                `${encodeURIComponent(key)}=${encodeURIComponent(
-                  typeof val === 'object' ? JSON.stringify(val) : val
-                )}`
-            )
+          body: Object.keys(item.body)
+            .map(key => {
+              const val = item.body[key];
+              return `${encodeURIComponent(key)}=${encodeURIComponent(
+                typeof val === 'object' ? JSON.stringify(val) : val
+              )}`;
+            })
             .join('&'),
         };
       }
