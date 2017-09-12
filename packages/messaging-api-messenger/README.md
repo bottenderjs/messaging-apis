@@ -16,6 +16,7 @@
     * [Sender Actions](#sender-actions)
     * [Attachment Upload API](#attachment-upload-api)
     * [Tags](#tags)
+    * [Message Batching](#message-batching)
   * [User Profile API](#user-profile-api)
   * [Messenger Profile API](#messenger-profile-api)
     * [Persistent Menu](#persistent-menu)
@@ -1300,6 +1301,34 @@ client.getMessageTags().then(tags => {
   //   },
   // ]
 });
+```
+
+<br />
+
+<a id="message-batching" />
+
+### Message Batching - [Official Docs](https://developers.facebook.com/docs/graph-api/making-multiple-requests)
+
+## `sendBatch(requests)`
+
+Sends multiple requests in one batch.
+
+###### requests
+
+Type: `Array<Object>`
+
+Subrequests in the batch.
+
+```js
+const { Messenger } = require('messaging-api-messenger');
+
+client.sendBatch([
+  Messenger.createText(USER_ID, '1'),
+  Messenger.createText(USER_ID, '2'),
+  Messenger.createText(USER_ID, '3'),
+  Messenger.createText(USER_ID, '4'),
+  Messenger.createText(USER_ID, '5'),
+]);
 ```
 
 <br />
