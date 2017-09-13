@@ -89,7 +89,7 @@ client.deleteWebhook();
 
 ### Send API - [Official Docs](https://core.telegram.org/bots/api#available-methods)  
 
-## `sendMessage(chatId, text, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendmessage)
+## `sendMessage(chatId, text [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendmessage)
 
 Sends text messages.
 
@@ -109,7 +109,7 @@ client.sendMessage(CHAT_ID, 'hi', {
 
 <br />
 
-## `sendPhoto(chatId, photo, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendphoto)
+## `sendPhoto(chatId, photo [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendphoto)
 
 Sends photos.
 
@@ -129,7 +129,7 @@ client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
 
 <br />
 
-## `sendAudio(chatId, audio, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendaudio)
+## `sendAudio(chatId, audio [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendaudio)
 
 Sends audio files.
 
@@ -149,7 +149,7 @@ client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
 
 <br />
 
-## `sendDocument(chatId, document, options)` - [Official Docs](https://core.telegram.org/bots/api/#senddocument)
+## `sendDocument(chatId, document [, options])` - [Official Docs](https://core.telegram.org/bots/api/#senddocument)
 
 Sends general files.
 
@@ -169,7 +169,7 @@ client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
 
 <br />
 
-## `sendSticker(chatId, sticker, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendsticker)
+## `sendSticker(chatId, sticker [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendsticker)
 
 Sends `.webp` stickers.
 
@@ -188,7 +188,7 @@ client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
 
 <br />
 
-## `sendVideo(chatId, video, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendvideo)
+## `sendVideo(chatId, video [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendvideo)
 
 Sends video files, Telegram clients support `mp4` videos (other formats may be sent as Document).
 
@@ -208,7 +208,7 @@ client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
 
 <br />
 
-## `sendVoice(chatId, voice, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendvoice)
+## `sendVoice(chatId, voice [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendvoice)
 
 Sends audio files.
 
@@ -228,7 +228,7 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
 
 <br />
 
-## `sendLocation(chatId, location, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendlocation)
+## `sendLocation(chatId, location [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendlocation)
 
 Sends point on the map.
 
@@ -256,7 +256,7 @@ client.sendLocation(
 
 <br />
 
-## `sendVenue(chatId, venue, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendvenue)
+## `sendVenue(chatId, venue [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendvenue)
 
 Sends information about a venue.
 
@@ -288,7 +288,7 @@ client.sendVenue(
 
 <br />
 
-## `sendContact(chatId, contact, options)` - [Official Docs](https://core.telegram.org/bots/api/#sendcontact)
+## `sendContact(chatId, contact [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendcontact)
 
 Sends phone contacts.
 
@@ -353,7 +353,7 @@ client.getMe().then(result => {
 
 <br />
 
-## `getUserProfilePhotos(userId, options)` - [Official Docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
+## `getUserProfilePhotos(userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#getuserprofilephotos)
 
 Gets a list of profile pictures for a user.
 
@@ -462,7 +462,7 @@ client.getChatMember(CHAT_ID, USER_ID);
 
 ### updating API
 
-## `editMessageText(text, options)` - [Official Docs](https://core.telegram.org/bots/api/#editmessagetext)
+## `editMessageText(text [, options])` - [Official Docs](https://core.telegram.org/bots/api/#editmessagetext)
 
 Edits text and game messages sent by the bot or via the bot (for inline bots).
 
@@ -481,7 +481,7 @@ client.editMessageText('new_text', { message_id: MESSAGE_ID });
 
 <br />
 
-## `editMessageCaption(caption, options)` - [Official Docs](https://core.telegram.org/bots/api/#editmessagecaption)
+## `editMessageCaption(caption [, options])` - [Official Docs](https://core.telegram.org/bots/api/#editmessagecaption)
 
 Edits captions of messages sent by the bot or via the bot (for inline bots).
 
@@ -500,14 +500,14 @@ client.editMessageCaption('new_caption', { message_id: MESSAGE_ID });
 
 <br />
 
-## `editMessageReplyMarkup(replyMarkup, options)` - [Official Docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
+## `editMessageReplyMarkup(replyMarkup [, options])` - [Official Docs](https://core.telegram.org/bots/api/#editmessagereplymarkup)
 
 Edits only the reply markup of messages sent by the bot or via the bot (for inline bots).
 
-Param       |  Type                                     | Description
------------ | ----------------------------------------- | -----------
-replyMarkup | `Object`                                  | New replyMarkup of the message.
-options     | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+Param       |  Type                                 | Description
+----------- | ------------------------------------- | -----------
+replyMarkup | `Object`                              | New replyMarkup of the message.
+options     | `Object`                              | One of chat_id, message_id or inline_message_id is required.
 options.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
 options.message_id | `Number`                       | Identifier of the sent message.
 options.inline_message_id | `String`                | Identifier of the inline message.
@@ -544,7 +544,7 @@ client.deleteMessage(CHAT_ID, MESSAGE_ID);
 
 ### Group API
 
-## `kickChatMember(chatId, userId, options)` - [Official Docs](https://core.telegram.org/bots/api/#kickchatmember)
+## `kickChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#kickchatmember)
 
 Kicks a user from a group, a supergroup or a channel.
 
@@ -577,7 +577,7 @@ client.unbanChatMember(CHAT_ID, USER_ID);
 
 <br />
 
-## `restrictChatMember(chatId, userId, options)` - [Official Docs](https://core.telegram.org/bots/api/#restrictChatMember)
+## `restrictChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#restrictChatMember)
 
 Restricts a user in a supergroup
 
@@ -594,7 +594,7 @@ client.restrictChatMember(CHAT_ID, USER_ID, { can_send_messages: true });
 
 <br />
 
-## `promoteChatMember(chatId, userId, options)` - [Official Docs](https://core.telegram.org/bots/api/#promoteChatMember)
+## `promoteChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#promoteChatMember)
 
 Promotes or demotes a user in a supergroup or a channel.
 
@@ -692,7 +692,7 @@ client.setChatDescription(CHAT_ID, 'New Description');
 
 <br />
 
-## `pinChatMessage(chatId, messageId, options)` - [Official Docs](https://core.telegram.org/bots/api/#pinChatMessage)
+## `pinChatMessage(chatId, messageId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#pinChatMessage)
 
 Pins a message in a supergroup.
 
@@ -741,7 +741,7 @@ client.leaveChat(CHAT_ID);
 
 ### Others
 
-## `forwardMessage(chatId, fromChatId, messageId, options)` - [Official Docs](https://core.telegram.org/bots/api/#forwardmessage)
+## `forwardMessage(chatId, fromChatId, messageId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#forwardmessage)
 
 Forwards messages of any kind.
 

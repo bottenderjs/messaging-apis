@@ -70,7 +70,7 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-## `postMessage(channel, text, options?)` - [Official docs](https://api.slack.com/methods/chat.postMessage)
+## `postMessage(channel, text [, options])` - [Official docs](https://api.slack.com/methods/chat.postMessage)
 
 Sends a message to a channel.
 
