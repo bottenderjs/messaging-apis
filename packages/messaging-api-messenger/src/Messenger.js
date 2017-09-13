@@ -3,39 +3,47 @@ import type {
   Recipient,
   SendOption,
   Message,
-  SendMessageSucessResponse,
+  BatchItem,
 } from './MessengerTypes';
 
-export default class Messenger {
-  static createRequest = (
-    body: Object
-  ): Promise<SendMessageSucessResponse> => ({
+function createRequest(body: Object): BatchItem {
+  return {
     method: 'POST',
     relative_url: 'me/messages',
     body,
-  });
-
-  static createMessage = (
-    idOrRecipient: UserID | Recipient,
-    message: Message,
-    options?: SendOption
-  ): Promise<SendMessageSucessResponse> => {
-    const recipient =
-      typeof idOrRecipient === 'string'
-        ? {
-            id: idOrRecipient,
-          }
-        : idOrRecipient;
-    return Messenger.createRequest({
-      recipient,
-      message,
-      ...options,
-    });
   };
-
-  static createText = (
-    recipient: UserID | Recipient,
-    text: string,
-    options?: SendOption
-  ) => Messenger.createMessage(recipient, { text }, options);
 }
+
+function createMessage(
+  idOrRecipient: UserID | Recipient,
+  message: Message,
+  options?: SendOption
+): BatchItem {
+  const recipient =
+    typeof idOrRecipient === 'string'
+      ? {
+          id: idOrRecipient,
+        }
+      : idOrRecipient;
+  return createRequest({
+    recipient,
+    message,
+    ...options,
+  });
+}
+
+function createText(
+  recipient: UserID | Recipient,
+  text: string,
+  options?: SendOption
+): BatchItem {
+  return createMessage(recipient, { text }, options);
+}
+
+const Messenger = {
+  createRequest,
+  createMessage,
+  createText,
+};
+
+export default Messenger;
