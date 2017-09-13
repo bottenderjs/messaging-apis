@@ -1,3 +1,5 @@
+/* @flow */
+
 import querystring from 'querystring';
 
 import axios from 'axios';
@@ -24,6 +26,8 @@ export default class SlackOAuthClient {
     new SlackOAuthClient(token);
 
   _http: Axios;
+
+  _token: Token;
 
   constructor(token: Token) {
     // Web API

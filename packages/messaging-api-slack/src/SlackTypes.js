@@ -1,3 +1,5 @@
+/* @flow */
+
 export type Attachment = {
   fallback: string,
   pretext?: string,
@@ -23,6 +25,7 @@ export type Attachment = {
 export type SendMessageSucessResponse = 'ok';
 
 export type SlackOAuthAPIResponse = {
+  [key: string]: any,
   ok: boolean,
 };
 
