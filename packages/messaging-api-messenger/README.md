@@ -415,6 +415,19 @@ client.sendGenericTemplate(
 );
 ```
 
+Available tags:
+- `ACCOUNT_UPDATE`
+- `PAYMENT_UPDATE`
+- `PERSONAL_FINANCE_UPDATE`
+- `SHIPPING_UPDATE`
+- `RESERVATION_UPDATE`
+- `ISSUE_RESOLUTION`
+- `APPOINTMENT_UPDATE`
+- `GAME_EVENT`
+- `TRANSPORTATION_UPDATE`
+- `FEATURE_FUNCTIONALITY_UPDATE`
+- `TICKET_UPDA`
+
 <br />
 
 ## `sendListTemplate(userId, items, buttons, options)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
