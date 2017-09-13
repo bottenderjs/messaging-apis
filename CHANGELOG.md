@@ -1,3 +1,22 @@
+0.3.4 / 2017-09-13
+==================
+- [docs] Show method arguments in tables.
+
+### messaging-api-messenger
+- [new] Support message batching via `sendBatch`:
+
+```js
+const { Messenger } = require('messaging-api-messenger');
+
+client.sendBatch([
+  Messenger.createText(USER_ID, '1'),
+  Messenger.createText(USER_ID, '2'),
+  Messenger.createText(USER_ID, '3'),
+  Messenger.createText(USER_ID, '4'),
+  Messenger.createText(USER_ID, '5'),
+]);
+```
+
 0.3.3 / 2017-09-07
 ==================
 - publish docs changes to npm.
