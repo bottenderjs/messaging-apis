@@ -81,6 +81,21 @@ client.reply(REPLY_TOKEN, [
 ]);
 ```
 
+`replyToken` can only be used once, but you can send up to 5 messages using the same token.
+
+```js
+const { LINE } = require('messaging-api-line');
+
+client.reply(REPLY_TOKEN, [
+  LINE.createText('Hello'),
+  LINE.createImage(
+    'https://example.com/original.jpg',
+    'https://example.com/preview.jpg'
+  ),
+  LINE.createText('End'),
+]);
+```
+
 <br />
 
 ## `replyText(token, text)`
