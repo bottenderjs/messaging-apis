@@ -3,6 +3,7 @@ import fs from 'fs';
 import MockAdapter from 'axios-mock-adapter';
 import FormData from 'form-data';
 
+import Messenger from '../Messenger';
 import MessengerClient from '../MessengerClient';
 
 const RECIPIENT_ID = '1QAZ2WSX';
@@ -14,18 +15,18 @@ const createMock = () => {
   return { client, mock };
 };
 
+let axios;
+let _create;
+beforeEach(() => {
+  axios = require('axios'); // eslint-disable-line global-require
+  _create = axios.create;
+});
+
+afterEach(() => {
+  axios.create = _create;
+});
+
 describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios'); // eslint-disable-line global-require
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
   it('create axios with default graphAPI version', () => {
     axios.create = jest.fn();
     MessengerClient.connect(ACCESS_TOKEN);
@@ -48,17 +49,6 @@ describe('connect', () => {
 });
 
 describe('constructor', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios'); // eslint-disable-line global-require
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
   it('create axios with default graphAPI version', () => {
     axios.create = jest.fn();
     new MessengerClient(ACCESS_TOKEN); // eslint-disable-line no-new
@@ -3341,6 +3331,52 @@ describe('send api', () => {
           },
         ]);
       }).toThrow('payload of quickReply has a 1000 character limit');
+    });
+  });
+
+  describe('#sendBatch', () => {
+    it('call messages api with batch requests', async () => {
+      const { client } = createMock();
+
+      const mock = new MockAdapter(axios);
+
+      const reply = [
+        {
+          recipient_id: RECIPIENT_ID,
+          message_id: 'mid.1489394984387:3dd22de509',
+        },
+      ];
+
+      const batch = [Messenger.createText(RECIPIENT_ID, 'Hello')];
+
+      mock
+        .onPost(`https://graph.facebook.com/`, {
+          access_token: ACCESS_TOKEN,
+          batch: [
+            {
+              method: 'POST',
+              relative_url: 'me/messages',
+              body: `recipient=%7B%22id%22%3A%22${RECIPIENT_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
+            },
+          ],
+        })
+        .reply(200, reply);
+
+      const res = await client.sendBatch(batch);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should throw if item length > 50', async () => {
+      const { client } = createMock();
+
+      const bigBatch = new Array(51).fill(
+        Messenger.createText(RECIPIENT_ID, 'Hello')
+      );
+
+      expect(() => {
+        client.sendBatch(bigBatch);
+      }).toThrow();
     });
   });
 

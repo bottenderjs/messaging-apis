@@ -35,6 +35,7 @@ import type {
   SendSenderActionResponse,
   MessageTagResponse,
   FileData,
+  BatchItem,
 } from './MessengerTypes';
 
 type Axios = {
@@ -686,6 +687,43 @@ export default class MessengerClient {
     recipient: UserID | Recipient
   ): Promise<SendSenderActionResponse> =>
     this.sendSenderAction(recipient, 'typing_off');
+
+  /**
+   * Send Batch Request
+   *
+   * https://developers.facebook.com/docs/graph-api/making-multiple-requests
+   */
+  sendBatch = (
+    batch: Array<BatchItem>
+  ): Promise<Array<SendMessageSucessResponse>> => {
+    invariant(
+      batch.length <= 50,
+      'limit the number of requests which can be in a batch to 50'
+    );
+
+    const bodyEncodedbatch = batch.map(item => {
+      if (item.body) {
+        return {
+          ...item,
+          body: Object.keys(item.body)
+            .map(key => {
+              const val = item.body[key];
+              return `${encodeURIComponent(key)}=${encodeURIComponent(
+                typeof val === 'object' ? JSON.stringify(val) : val
+              )}`;
+            })
+            .join('&'),
+        };
+      }
+      return item;
+    });
+    return axios
+      .post('https://graph.facebook.com/', {
+        access_token: this._accessToken,
+        batch: bodyEncodedbatch,
+      })
+      .then(res => res.data);
+  };
 
   /**
    * Upload API
