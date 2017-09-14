@@ -1,18 +1,11 @@
 {
-  "lerna": "2.0.0",
+  "lerna": "2.1.2",
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "version": "0.3.4",
-  "packages": [
-    "packages/*"
-  ],
   "commands": {
-    "bootstrap": {
-      "hoist": true
-    },
     "publish": {
-      "ignore": [
-        "__tests__/**"
-      ]
+      "ignore": ["__tests__/**"]
     }
   }
 }
