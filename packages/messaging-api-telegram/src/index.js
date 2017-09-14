@@ -1,3 +1,5 @@
+/* @flow */
+
 import TelegramClient from './TelegramClient';
 
 module.exports = {

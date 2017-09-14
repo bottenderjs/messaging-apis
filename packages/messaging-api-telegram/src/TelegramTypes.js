@@ -1,3 +1,5 @@
+/* @flow */
+
 export type ChatAction =
   | 'typing'
   | 'upload_photo'
