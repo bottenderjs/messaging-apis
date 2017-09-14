@@ -3,6 +3,7 @@ import crypto from 'crypto';
 
 import axios from 'axios';
 
+import LINE from './LINE';
 import type {
   SendType,
   ReplyToken,
@@ -57,21 +58,14 @@ export default class LINEClient {
   };
 
   _sendText = (type: SendType, target: SendTarget, text: string) =>
-    this._send(type, target, [{ type: 'text', text }]);
+    this._send(type, target, [LINE.createText(text)]);
 
   _sendImage = (
     type: SendType,
     target: SendTarget,
     contentUrl: string,
     previewUrl: ?string
-  ) =>
-    this._send(type, target, [
-      {
-        type: 'image',
-        originalContentUrl: contentUrl,
-        previewImageUrl: previewUrl || contentUrl,
-      },
-    ]);
+  ) => this._send(type, target, [LINE.createImage(contentUrl, previewUrl)]);
 
   _sendVideo = (
     type: SendType,
@@ -79,13 +73,7 @@ export default class LINEClient {
     contentUrl: string,
     previewUrl: string
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
-      {
-        type: 'video',
-        originalContentUrl: contentUrl,
-        previewImageUrl: previewUrl,
-      },
-    ]);
+    this._send(type, target, [LINE.createVideo(contentUrl, previewUrl)]);
 
   _sendAudio = (
     type: SendType,
@@ -93,13 +81,7 @@ export default class LINEClient {
     contentUrl: string,
     duration: number
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
-      {
-        type: 'audio',
-        originalContentUrl: contentUrl,
-        duration,
-      },
-    ]);
+    this._send(type, target, [LINE.createAudio(contentUrl, duration)]);
 
   _sendLocation = (
     type: SendType,
@@ -107,13 +89,12 @@ export default class LINEClient {
     { title, address, latitude, longitude }: Location
   ): Promise<MutationSuccessResponse> =>
     this._send(type, target, [
-      {
-        type: 'location',
+      LINE.createLocation({
         title,
         address,
         latitude,
         longitude,
-      },
+      }),
     ]);
 
   _sendSticker = (
@@ -122,13 +103,7 @@ export default class LINEClient {
     packageId: string,
     stickerId: string
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
-      {
-        type: 'sticker',
-        packageId,
-        stickerId,
-      },
-    ]);
+    this._send(type, target, [LINE.createSticker(packageId, stickerId)]);
 
   /**
      * Imagemap Message
@@ -175,13 +150,7 @@ export default class LINEClient {
     altText: string,
     template: Template
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
-      {
-        type: 'template',
-        altText,
-        template,
-      },
-    ]);
+    this._send(type, target, [LINE.createTemplate(altText, template)]);
 
   _sendButtonTemplate = (
     type: SendType,
@@ -199,13 +168,14 @@ export default class LINEClient {
       actions: Array<TemplateAction>,
     }
   ): Promise<MutationSuccessResponse> =>
-    this._sendTemplate(type, target, altText, {
-      type: 'buttons',
-      thumbnailImageUrl,
-      title,
-      text,
-      actions,
-    });
+    this._send(type, target, [
+      LINE.createButtonTemplate(altText, {
+        thumbnailImageUrl,
+        title,
+        text,
+        actions,
+      }),
+    ]);
 
   _sendConfirmTemplate = (
     type: SendType,
@@ -219,11 +189,12 @@ export default class LINEClient {
       actions: Array<TemplateAction>,
     }
   ): Promise<MutationSuccessResponse> =>
-    this._sendTemplate(type, target, altText, {
-      type: 'confirm',
-      text,
-      actions,
-    });
+    this._send(type, target, [
+      LINE.createConfirmTemplate(altText, {
+        text,
+        actions,
+      }),
+    ]);
 
   _sendCarouselTemplate = (
     type: SendType,
@@ -231,10 +202,7 @@ export default class LINEClient {
     altText: string,
     columns: Array<ColumnObject>
   ): Promise<MutationSuccessResponse> =>
-    this._sendTemplate(type, target, altText, {
-      type: 'carousel',
-      columns,
-    });
+    this._send(type, target, [LINE.createCarouselTemplate(altText, columns)]);
 
   _sendImageCarouselTemplate = (
     type: SendType,
@@ -242,10 +210,9 @@ export default class LINEClient {
     altText: string,
     columns: Array<ImageCarouselColumnObject>
   ): Promise<MutationSuccessResponse> =>
-    this._sendTemplate(type, target, altText, {
-      type: 'image_carousel',
-      columns,
-    });
+    this._send(type, target, [
+      LINE.createImageCarouselTemplate(altText, columns),
+    ]);
 
   /**
    * Reply Message
