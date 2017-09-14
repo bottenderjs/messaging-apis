@@ -1,5 +1,6 @@
 {
   "name": "messaging-apis",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
@@ -41,13 +42,16 @@
     "clean": "rimraf ./packages/*/build",
     "lint": "eslint packages",
     "lint:fix": "yarn run lint:fix:md && yarn run lint -- --fix",
-    "lint:fix:md": "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
+    "lint:fix:md":
+      "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
     "lint:staged": "lint-staged",
     "precommit": "lint-staged",
-    "publish": "yarn run clean --silent && yarn run build --silent && lerna publish --silent",
+    "publish":
+      "yarn run clean --silent && yarn run build --silent && lerna publish --silent",
     "testonly": "jest",
     "testonly:watch": "jest --watch",
-    "test": "yarn run typecheck --silent && yarn run lint --silent && yarn run testonly --silent",
+    "test":
+      "yarn run typecheck --silent && yarn run lint --silent && yarn run testonly --silent",
     "typecheck": "flow check"
   },
   "lint-staged": {
@@ -58,5 +62,5 @@
     "transformIgnorePatterns": ["/node_modules/"],
     "testEnvironment": "node"
   },
-  "dependencies": {}
+  "workspaces": ["packages/*"]
 }
