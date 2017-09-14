@@ -1,3 +1,39 @@
+0.3.5 / 2017-09-15
+==================
+### messaging-api-messenger
+- [docs] Fix a typo.
+
+### messaging-api-line
+- [new] Support message factories:
+  + LINE.createText
+  + LINE.createImage
+  + LINE.createVideo
+  + createAudio
+  + createLocation
+  + createSticker
+  + createImagemap
+  + createTemplate
+  + createButtonTemplate
+  + createConfirmTemplate
+  + createCarouselTemplate
+  + createImageCarouselTemplate
+
+For example:
+
+```js
+const { LINE } = require('messaging-api-line');
+
+client.reply(REPLY_TOKEN, [
+  LINE.createText('Hello'),
+  LINE.createImage(
+    'https://example.com/original.jpg',
+    'https://example.com/preview.jpg'
+  ),
+  LINE.createText('End'),
+]);
+```
+
+
 0.3.4 / 2017-09-13
 ==================
 - [docs] Show method arguments in tables.
