@@ -2,6 +2,7 @@
 **/node_modules/**
 bin/
 docs/
+examples/
 flow-typed/**
 packages/*/lib/**
 types/**
