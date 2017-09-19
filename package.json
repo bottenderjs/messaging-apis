@@ -11,8 +11,6 @@
   },
   "devDependencies": {
     "@dschau/prettier-markdown": "^1.1.2",
-    "axios": "^0.16.2",
-    "axios-mock-adapter": "^1.9.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.0",
     "babel-jest": "^21.0.2",
@@ -42,16 +40,13 @@
     "clean": "rimraf ./packages/*/lib",
     "lint": "eslint packages",
     "lint:fix": "yarn run lint:fix:md && yarn run lint -- --fix",
-    "lint:fix:md":
-      "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
+    "lint:fix:md": "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
     "lint:staged": "lint-staged",
     "precommit": "lint-staged",
-    "publish":
-      "yarn run clean --silent && yarn run build --silent && lerna publish --silent",
+    "publish": "yarn run clean --silent && yarn run build --silent && lerna publish --silent",
     "testonly": "jest",
     "testonly:watch": "jest --watch",
-    "test":
-      "yarn run typecheck --silent && yarn run lint --silent && yarn run testonly --silent",
+    "test": "yarn run typecheck --silent && yarn run lint --silent && yarn run testonly --silent",
     "typecheck": "flow check"
   },
   "lint-staged": {
@@ -59,8 +54,12 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": ["/node_modules/"],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
     "testEnvironment": "node"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }
