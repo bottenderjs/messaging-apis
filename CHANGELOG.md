@@ -1,3 +1,8 @@
+0.4.1 / 2017-09-19
+==================
+### messaging-api-line
+- [fix] Wrong case in filename.
+
 0.4.0 / 2017-09-19
 ==================
 ### messaging-api-messenger

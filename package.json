@@ -39,7 +39,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "node ./scripts/build.js",
-    "clean": "rimraf ./packages/*/build",
+    "clean": "rimraf ./packages/*/lib",
     "lint": "eslint packages",
     "lint:fix": "yarn run lint:fix:md && yarn run lint -- --fix",
     "lint:fix:md":
