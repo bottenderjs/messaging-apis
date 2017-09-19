@@ -97,7 +97,7 @@ client.sendRawBody({
 
 <br />
 
-## `send(userId, message)`
+## `sendMessage(userId, message)`
 
 Send messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
@@ -110,7 +110,7 @@ message | `Object`                          | [message](https://developers.faceb
 
 Example:
 ```js
-client.send(USER_ID, {
+client.sendMessage(USER_ID, {
   text: 'Hello!',
 });
 ```
