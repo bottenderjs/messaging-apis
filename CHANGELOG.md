@@ -1,3 +1,17 @@
+0.4.0 / 2017-09-19
+==================
+### messaging-api-messenger
+- [breaking] Renamed `send` to `sendMessage`
+
+### messaging-api-line
+- [breaking] Renamed all of `LINE` to PascalCase `Line` (follow convention from other modules), e.g. `LineClient.connect`, `Line.createText`.
+
+Example:
+
+```js
+const { Line, LineClient } = require('messaging-api-line');
+```
+
 0.3.5 / 2017-09-15
 ==================
 ### messaging-api-messenger
