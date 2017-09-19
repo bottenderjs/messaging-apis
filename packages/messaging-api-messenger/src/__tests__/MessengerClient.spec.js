@@ -1407,7 +1407,7 @@ describe('send api', () => {
     });
   });
 
-  describe('#send', () => {
+  describe('#sendMessage', () => {
     it('should call messages api', async () => {
       const { client, mock } = createMock();
 
@@ -1427,7 +1427,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.send(RECIPIENT_ID, {
+      const res = await client.sendMessage(RECIPIENT_ID, {
         text: 'Hello!',
       });
 
@@ -1454,7 +1454,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.send(
+      const res = await client.sendMessage(
         {
           phone_number: '+1(212)555-2368',
           name: { first_name: 'John', last_name: 'Doe' },

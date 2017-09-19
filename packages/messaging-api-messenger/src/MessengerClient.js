@@ -344,7 +344,7 @@ export default class MessengerClient {
       .post(`/me/messages?access_token=${this._accessToken}`, body)
       .then(res => res.data);
 
-  send = (
+  sendMessage = (
     idOrRecipient: UserID | Recipient,
     message: Message,
     options?: SendOption
@@ -362,7 +362,7 @@ export default class MessengerClient {
     });
   };
 
-  sendFormData = (
+  sendMessageFormData = (
     recipient: UserID | Recipient,
     message: Message,
     filedata: FileData
@@ -394,21 +394,21 @@ export default class MessengerClient {
     attachment: Attachment,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.send(recipient, { attachment }, options);
+    this.sendMessage(recipient, { attachment }, options);
 
   sendAttachmentFormData = (
     recipient: UserID | Recipient,
     attachment: Attachment,
     filedata: FileData
   ): Promise<SendMessageSucessResponse> =>
-    this.sendFormData(recipient, { attachment }, filedata);
+    this.sendMessageFormData(recipient, { attachment }, filedata);
 
   sendText = (
     recipient: UserID | Recipient,
     text: string,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.send(recipient, { text }, options);
+    this.sendMessage(recipient, { text }, options);
 
   sendAudio = (
     recipient: UserID | Recipient,
@@ -646,7 +646,7 @@ export default class MessengerClient {
       }
     });
 
-    return this.send(recipient, {
+    return this.sendMessage(recipient, {
       ...textOrAttachment,
       quick_replies: quickReplies,
     });
