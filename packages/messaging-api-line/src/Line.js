@@ -7,7 +7,7 @@ import type {
   TemplateAction,
   ColumnObject,
   ImageCarouselColumnObject,
-} from './LINETypes';
+} from './LineTypes';
 
 function createText(text: string) {
   return {
@@ -149,7 +149,7 @@ function createImageCarouselTemplate(
   });
 }
 
-const LINE = {
+const Line = {
   createText,
   createImage,
   createVideo,
@@ -164,4 +164,4 @@ const LINE = {
   createImageCarouselTemplate,
 };
 
-export default LINE;
+export default Line;

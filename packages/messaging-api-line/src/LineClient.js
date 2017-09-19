@@ -4,7 +4,7 @@ import crypto from 'crypto';
 
 import axios from 'axios';
 
-import LINE from './LINE';
+import Line from './Line';
 import type {
   SendType,
   ReplyToken,
@@ -19,7 +19,7 @@ import type {
   ColumnObject,
   ImageCarouselColumnObject,
   MutationSuccessResponse,
-} from './LINETypes';
+} from './LineTypes';
 
 type Axios = {
   get: Function,
@@ -29,9 +29,9 @@ type Axios = {
   delete: Function,
 };
 
-export default class LINEClient {
-  static connect = (accessToken: string, channelSecret: string): LINEClient =>
-    new LINEClient(accessToken, channelSecret);
+export default class LineClient {
+  static connect = (accessToken: string, channelSecret: string): LineClient =>
+    new LineClient(accessToken, channelSecret);
 
   _channelSecret: string;
   _http: Axios;
@@ -59,14 +59,14 @@ export default class LINEClient {
   };
 
   _sendText = (type: SendType, target: SendTarget, text: string) =>
-    this._send(type, target, [LINE.createText(text)]);
+    this._send(type, target, [Line.createText(text)]);
 
   _sendImage = (
     type: SendType,
     target: SendTarget,
     contentUrl: string,
     previewUrl: ?string
-  ) => this._send(type, target, [LINE.createImage(contentUrl, previewUrl)]);
+  ) => this._send(type, target, [Line.createImage(contentUrl, previewUrl)]);
 
   _sendVideo = (
     type: SendType,
@@ -74,7 +74,7 @@ export default class LINEClient {
     contentUrl: string,
     previewUrl: string
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [LINE.createVideo(contentUrl, previewUrl)]);
+    this._send(type, target, [Line.createVideo(contentUrl, previewUrl)]);
 
   _sendAudio = (
     type: SendType,
@@ -82,7 +82,7 @@ export default class LINEClient {
     contentUrl: string,
     duration: number
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [LINE.createAudio(contentUrl, duration)]);
+    this._send(type, target, [Line.createAudio(contentUrl, duration)]);
 
   _sendLocation = (
     type: SendType,
@@ -90,7 +90,7 @@ export default class LINEClient {
     { title, address, latitude, longitude }: Location
   ): Promise<MutationSuccessResponse> =>
     this._send(type, target, [
-      LINE.createLocation({
+      Line.createLocation({
         title,
         address,
         latitude,
@@ -104,7 +104,7 @@ export default class LINEClient {
     packageId: string,
     stickerId: string
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [LINE.createSticker(packageId, stickerId)]);
+    this._send(type, target, [Line.createSticker(packageId, stickerId)]);
 
   /**
      * Imagemap Message
@@ -151,7 +151,7 @@ export default class LINEClient {
     altText: string,
     template: Template
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [LINE.createTemplate(altText, template)]);
+    this._send(type, target, [Line.createTemplate(altText, template)]);
 
   _sendButtonTemplate = (
     type: SendType,
@@ -170,7 +170,7 @@ export default class LINEClient {
     }
   ): Promise<MutationSuccessResponse> =>
     this._send(type, target, [
-      LINE.createButtonTemplate(altText, {
+      Line.createButtonTemplate(altText, {
         thumbnailImageUrl,
         title,
         text,
@@ -191,7 +191,7 @@ export default class LINEClient {
     }
   ): Promise<MutationSuccessResponse> =>
     this._send(type, target, [
-      LINE.createConfirmTemplate(altText, {
+      Line.createConfirmTemplate(altText, {
         text,
         actions,
       }),
@@ -203,7 +203,7 @@ export default class LINEClient {
     altText: string,
     columns: Array<ColumnObject>
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [LINE.createCarouselTemplate(altText, columns)]);
+    this._send(type, target, [Line.createCarouselTemplate(altText, columns)]);
 
   _sendImageCarouselTemplate = (
     type: SendType,
@@ -212,7 +212,7 @@ export default class LINEClient {
     columns: Array<ImageCarouselColumnObject>
   ): Promise<MutationSuccessResponse> =>
     this._send(type, target, [
-      LINE.createImageCarouselTemplate(altText, columns),
+      Line.createImageCarouselTemplate(altText, columns),
     ]);
 
   /**
@@ -387,7 +387,7 @@ const messageTypes = [
 
 sendTypes.forEach(sendType => {
   messageTypes.forEach(messageType => {
-    Object.defineProperty(LINEClient.prototype, `${sendType}${messageType}`, {
+    Object.defineProperty(LineClient.prototype, `${sendType}${messageType}`, {
       enumerable: false,
       configurable: true,
       writable: true,

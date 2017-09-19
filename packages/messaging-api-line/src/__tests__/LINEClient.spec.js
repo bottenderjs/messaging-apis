@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 
-import LINEClient from '../LINEClient';
+import LineClient from '../LineClient';
 
 const RECIPIENT_ID = '1QAZ2WSX';
 const GROUP_ID = 'G1QAZ2WSX';
@@ -14,7 +14,7 @@ const headers = {
 };
 
 const createMock = () => {
-  const client = new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET);
+  const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.getHTTPClient());
   return { client, mock };
 };
@@ -31,9 +31,9 @@ describe('connect', () => {
     axios.create = _create;
   });
 
-  it('create axios with LINE API', () => {
+  it('create axios with Line API', () => {
     axios.create = jest.fn();
-    LINEClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
+    LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://api.line.me/v2/bot/',
@@ -57,9 +57,9 @@ describe('constructor', () => {
     axios.create = _create;
   });
 
-  it('create axios with LINE API', () => {
+  it('create axios with Line API', () => {
     axios.create = jest.fn();
-    new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
+    new LineClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://api.line.me/v2/bot/',
@@ -73,7 +73,7 @@ describe('constructor', () => {
 
 describe('#getHTTPClient', () => {
   it('should return underlying http client', () => {
-    const client = new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
     const http = client.getHTTPClient();
     expect(http.get).toBeDefined();
     expect(http.post).toBeDefined();
@@ -84,7 +84,7 @@ describe('#getHTTPClient', () => {
 
 describe('Client instance', () => {
   it('prototype should be defined', () => {
-    const client = new LINEClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
     const sendTypes = ['reply', 'push', 'multicast'];
     const messageTypes = [
       'Text',
