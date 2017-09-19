@@ -42,10 +42,10 @@ yarn add messaging-api-line
 ### Initialize
 
 ```js
-const { LINEClient } = require('messaging-api-line');
+const { LineClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
-const client = LINEClient.connect(accessToken, channelSecret);
+const client = LineClient.connect(accessToken, channelSecret);
 ```
 
 <br />
@@ -84,15 +84,15 @@ client.reply(REPLY_TOKEN, [
 `replyToken` can only be used once, but you can send up to 5 messages using the same token.
 
 ```js
-const { LINE } = require('messaging-api-line');
+const { Line } = require('messaging-api-line');
 
 client.reply(REPLY_TOKEN, [
-  LINE.createText('Hello'),
-  LINE.createImage(
+  Line.createText('Hello'),
+  Line.createImage(
     'https://example.com/original.jpg',
     'https://example.com/preview.jpg'
   ),
-  LINE.createText('End'),
+  Line.createText('End'),
 ]);
 ```
 

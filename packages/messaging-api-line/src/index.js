@@ -1,9 +1,9 @@
 /* @flow */
 
-import LINE from './LINE';
-import LINEClient from './LINEClient';
+import Line from './Line';
+import LineClient from './LineClient';
 
 module.exports = {
-  LINE,
-  LINEClient,
+  Line,
+  LineClient,
 };
