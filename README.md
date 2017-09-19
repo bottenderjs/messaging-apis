@@ -64,13 +64,13 @@ or
 yarn add messaging-api-line
 ```
 
-Then, create a `LINEClient` to call LINE APIs:
+Then, create a `LineClient` to call LINE APIs:
 
 ```js
-const { LINEClient } = require('messaging-api-line');
+const { LineClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
-const client = LINEClient.connect(accessToken, channelSecret);
+const client = LineClient.connect(accessToken, channelSecret);
 
 client.pushText(userId, 'Hello World').then(() => {
   console.log('pushed');
