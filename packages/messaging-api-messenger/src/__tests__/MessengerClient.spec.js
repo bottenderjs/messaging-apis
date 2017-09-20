@@ -70,6 +70,13 @@ describe('constructor', () => {
   });
 });
 
+describe('#version', () => {
+  it('should return version of graph api', () => {
+    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('v2.10');
+    expect(new MessengerClient(ACCESS_TOKEN, 'v2.6').version).toEqual('v2.6');
+  });
+});
+
 describe('#getHTTPClient', () => {
   it('should return underlying http client', () => {
     const client = new MessengerClient(ACCESS_TOKEN);

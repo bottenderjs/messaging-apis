@@ -53,14 +53,20 @@ export default class MessengerClient {
   ): MessengerClient => new MessengerClient(accessToken, version);
 
   _accessToken: string;
+  _version: string;
   _http: Axios;
 
   constructor(accessToken: string, version?: string = 'v2.10') {
     this._accessToken = accessToken;
+    this._version = version;
     this._http = axios.create({
       baseURL: `https://graph.facebook.com/${version}/`,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  get version(): string {
+    return this._version;
   }
 
   getHTTPClient: () => Axios = () => this._http;
