@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-import type { Attachment, SendMessageSucessResponse } from './SlackTypes';
+import type { SlackAttachment, SendMessageSucessResponse } from './SlackTypes';
 
 type Axios = {
   get: Function,
@@ -12,15 +12,15 @@ type Axios = {
   delete: Function,
 };
 
-type Url = string;
+type URL = string;
 
 export default class SlackWebhookClient {
-  static connect = (url: Url): SlackWebhookClient =>
+  static connect = (url: URL): SlackWebhookClient =>
     new SlackWebhookClient(url);
 
   _http: Axios;
 
-  constructor(url: Url) {
+  constructor(url: URL) {
     // incoming webhooks
     // https://api.slack.com/incoming-webhooks
     this._http = axios.create({
@@ -44,10 +44,10 @@ export default class SlackWebhookClient {
    */
 
   sendAttachments = (
-    attachments: Array<Attachment>
+    attachments: Array<SlackAttachment>
   ): Promise<SendMessageSucessResponse> => this.sendRawBody({ attachments });
 
   sendAttachment = (
-    attachment: Attachment
+    attachment: SlackAttachment
   ): Promise<SendMessageSucessResponse> => this.sendAttachments([attachment]);
 }
