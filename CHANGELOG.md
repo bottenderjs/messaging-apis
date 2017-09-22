@@ -1,3 +1,16 @@
+0.4.2 / 2017-09-22
+==================
+### messaging-api-messenger
+- [new] Export version of Graph API:
+
+```js
+const { MessengerClient } = require('messaging-api-messenger');
+
+const client = MessengerClient.connect(accessToken);
+
+client.version // "v2.10"
+```
+
 0.4.1 / 2017-09-19
 ==================
 ### messaging-api-line
