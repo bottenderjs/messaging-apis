@@ -133,7 +133,7 @@ describe('#callMethod', () => {
         text: 'hello',
       });
     } catch (e) {
-      expect(e).toEqual(new Error('something wrong'));
+      expect(e).toEqual(new Error('Slack API error: something wrong'));
     }
   });
 });
