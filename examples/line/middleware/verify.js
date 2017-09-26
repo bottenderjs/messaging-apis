@@ -1,5 +1,5 @@
-const { raw } = require('body-parser')
-const validateSignature = require('../validate/signature')
+const { raw } = require('body-parser');
+const validateSignature = require('../validate/signature');
 
 const isString = str => (typeof str) === 'string';
 
@@ -17,7 +17,7 @@ const verifyMiddleware = (config) =>
         req.body = JSON.parse(bodybuffer);
         next();
       } else {
-        throw new Error('Signature Failed.')
+        throw new Error('Signature Failed.');
       }
     }
 
@@ -28,4 +28,4 @@ const verifyMiddleware = (config) =>
     raw({ type: "*/*" })(req, res, () => validate(req.body));
   }
 
-module.exports = verifyMiddleware
+module.exports = verifyMiddleware;

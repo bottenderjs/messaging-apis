@@ -2,7 +2,7 @@
  * ref: https://github.com/line/line-bot-sdk-nodejs/blob/master/lib/validate-signature.ts
  */
 
-const { createHmac, timingSafeEqual } = require('crypto')
+const { createHmac, timingSafeEqual } = require('crypto');
 
 function s2b(str, encoding) {
   if (Buffer.from) {
@@ -29,7 +29,7 @@ function safeCompare(a, b) {
   } else {
     let result = 0;
     for (let i = 0; i < a.length; i++) {
-      result |= a[i] ^ b[i]; 
+      result |= a[i] ^ b[i];
     }
     return result === 0;
   }
@@ -42,4 +42,4 @@ function validateSignature(body, channelSecret, signature) {
   );
 }
 
-module.exports = validateSignature
+module.exports = validateSignature;
