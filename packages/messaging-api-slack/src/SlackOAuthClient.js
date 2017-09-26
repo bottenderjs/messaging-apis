@@ -51,7 +51,11 @@ export default class SlackOAuthClient {
     body.token = this._token; // eslint-disable-line no-param-reassign
     return this._http.post(method, querystring.stringify(body)).then(res => {
       if (!res.data.ok) {
-        throw new Error(res.data.error);
+        const error = (new Error(`Slack API error: ${res.data.error}`): Object);
+        error.config = res.config;
+        error.headers = res.headers;
+        error.data = res.data;
+        throw error;
       }
       return res.data;
     });
