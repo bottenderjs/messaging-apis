@@ -22,7 +22,7 @@ server.get('/', (req, res) => {
 server.post('/', (req, res) => {
   const event = req.body.entry[0].messaging[0];
   const userId = event.sender.id;
-  const text = event.message.text;
+  const { text } = event.message;
   client.sendText(userId, text);
   res.sendStatus(200);
 });
