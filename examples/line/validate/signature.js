@@ -9,13 +9,13 @@ function s2b(str, encoding) {
     try {
       return Buffer.from(str, encoding);
     } catch (err) {
-      if (err.name === "TypeError") {
-        return new Buffer(str, encoding);
+      if (err.name === 'TypeError') {
+        return Buffer.from(str, encoding);
       }
       throw err;
     }
   } else {
-    return new Buffer(str, encoding);
+    return Buffer.from(str, encoding);
   }
 }
 
@@ -26,19 +26,20 @@ function safeCompare(a, b) {
 
   if (timingSafeEqual) {
     return timingSafeEqual(a, b);
-  } else {
-    let result = 0;
-    for (let i = 0; i < a.length; i++) {
-      result |= a[i] ^ b[i];
-    }
-    return result === 0;
   }
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a[i] ^ b[i]; /* eslint no-bitwise: 0 */
+  }
+  return result === 0;
 }
 
 function validateSignature(body, channelSecret, signature) {
   return safeCompare(
-    createHmac("SHA256", channelSecret).update(body).digest(),
-    s2b(signature, "base64"),
+    createHmac('SHA256', channelSecret)
+      .update(body)
+      .digest(),
+    s2b(signature, 'base64')
   );
 }
 
