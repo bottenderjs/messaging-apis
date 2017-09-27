@@ -200,7 +200,7 @@ export default class TelegramClient {
    */
   sendLocation = (
     chatId: string,
-    { latitude, longitude }: { latitude: number, longitude: number },
+    { latitude, longitude }: {| latitude: number, longitude: number |},
     options?: Object
   ) =>
     this._request('/sendLocation', {
@@ -220,7 +220,12 @@ export default class TelegramClient {
       longitude,
       title,
       address,
-    }: { latitude: number, longitude: number, title: string, address: string },
+    }: {|
+      latitude: number,
+      longitude: number,
+      title: string,
+      address: string,
+    |},
     options?: Object
   ) =>
     this._request('/sendVenue', {
@@ -237,7 +242,10 @@ export default class TelegramClient {
    */
   sendContact = (
     chatId: string,
-    { phone_number, first_name }: { phone_number: string, first_name: string },
+    {
+      phone_number,
+      first_name,
+    }: {| phone_number: string, first_name: string |},
     options?: Object
   ) =>
     this._request('/sendContact', {
@@ -413,6 +421,56 @@ export default class TelegramClient {
       chat_id: chatId,
       from_chat_id: fromChatId,
       message_id: messageId,
+      ...options,
+    });
+
+  /**
+      * https://core.telegram.org/bots/api#sendinvoice
+      */
+  sendInvoice = (
+    chatId: string,
+    product: {|
+      title: string,
+      description: string,
+      payload: string,
+      provider_token: string,
+      start_parameter: string,
+      currency: string,
+      prices: Array<Object>,
+    |},
+    options?: Object
+  ) =>
+    this._request('/sendInvoice', {
+      chat_id: chatId,
+      ...product,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#answershippingquery
+    */
+  answerShippingQuery = (
+    shippingQueryId: string,
+    ok: boolean,
+    options?: Object
+  ) =>
+    this._request('/answerShippingQuery', {
+      shipping_query_id: shippingQueryId,
+      ok,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#answerprecheckoutquery
+    */
+  answerPreCheckoutQuery = (
+    preCheckoutQueryId: string,
+    ok: boolean,
+    options?: Object
+  ) =>
+    this._request('/answerPreCheckoutQuery', {
+      pre_checkout_query_id: preCheckoutQueryId,
+      ok,
       ...options,
     });
 }
