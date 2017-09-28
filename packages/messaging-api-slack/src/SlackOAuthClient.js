@@ -6,9 +6,9 @@ import axios from 'axios';
 
 import type {
   SlackOAuthAPIResponse,
-  AvailableMethod,
-  User,
-  Channel,
+  SlackAvailableMethod,
+  SlackUser,
+  SlackChannel,
 } from './SlackTypes';
 
 type Axios = {
@@ -20,6 +20,24 @@ type Axios = {
 };
 
 type Token = string;
+
+type PostMessageOptions = {
+  as_user?: boolean,
+  attachments?: string,
+  icon_emoji?: string,
+  icon_url?: string,
+  link_names?: boolean,
+  parse?: 'none' | 'full',
+  reply_broadcast?: boolean,
+  thread_ts?: string,
+  unfurl_links?: boolean,
+  unfurl_media?: boolean,
+  username?: string,
+};
+
+type GetInfoOptions = {
+  include_locale?: boolean,
+};
 
 export default class SlackOAuthClient {
   static connect = (token: Token): SlackOAuthClient =>
@@ -45,7 +63,7 @@ export default class SlackOAuthClient {
   getHTTPClient: () => Axios = () => this._http;
 
   callMethod = (
-    method: AvailableMethod,
+    method: SlackAvailableMethod,
     body: Object = {}
   ): Promise<SlackOAuthAPIResponse> => {
     body.token = this._token; // eslint-disable-line no-param-reassign
@@ -61,24 +79,68 @@ export default class SlackOAuthClient {
     });
   };
 
-  // https://api.slack.com/methods/chat.postMessage
+  /**
+   * Gets information about a channel.
+   *
+   * https://api.slack.com/methods/channels.info
+   */
+  getChannelInfo = (
+    channelId: string,
+    options: GetInfoOptions = {}
+  ): Promise<SlackChannel> =>
+    this.callMethod('channels.info', { channel: channelId, ...options }).then(
+      data => data.channel
+    );
+
+  /**
+   * Lists all channels in a Slack team.
+   *
+   * https://api.slack.com/methods/channels.list
+   * FIXME: [breaking] support cursor, exclude_archived, exclude_members, limit
+   */
+  getChannelList = (): Promise<Array<SlackChannel>> =>
+    this.callMethod('channels.list').then(data => data.channels);
+
+  /**
+   * Sends a message to a channel.
+   *
+   * https://api.slack.com/methods/chat.postMessage
+   */
   postMessage = (
     channel: string,
     text: string,
-    options?: {} = {}
+    options?: PostMessageOptions = {}
   ): Promise<SlackOAuthAPIResponse> =>
     this.callMethod('chat.postMessage', { channel, text, ...options });
 
-  // https://api.slack.com/methods/users.list
+  /**
+   * Gets information about a user.
+   *
+   * https://api.slack.com/methods/users.info
+   */
+  getUserInfo = (
+    userId: string,
+    options: GetInfoOptions = {}
+  ): Promise<SlackUser> =>
+    this.callMethod('users.info', { user: userId, ...options }).then(
+      data => data.user
+    );
+
+  /**
+   * Lists all users in a Slack team.
+   *
+   * https://api.slack.com/methods/users.list
+   * FIXME: [breaking] support include_locale, limit, presence
+   */
   getUserList = (
     cursor?: string
-  ): Promise<{ members: Array<User>, next: ?string }> =>
+  ): Promise<{ members: Array<SlackUser>, next: ?string }> =>
     this.callMethod('users.list', { cursor }).then(data => ({
       members: data.members,
       next: data.response_metadata && data.response_metadata.next_cursor,
     }));
 
-  getAllUserList = async (): Promise<Array<User>> => {
+  getAllUserList = async (): Promise<Array<SlackUser>> => {
     let allUsers = [];
     let continuationCursor;
 
@@ -94,18 +156,4 @@ export default class SlackOAuthClient {
 
     return allUsers;
   };
-
-  // https://api.slack.com/methods/users.info
-  getUserInfo = (userId: string): Promise<User> =>
-    this.callMethod('users.info', { user: userId }).then(data => data.user);
-
-  // https://api.slack.com/methods/channels.list
-  getChannelList = (): Promise<Array<Channel>> =>
-    this.callMethod('channels.list').then(data => data.channels);
-
-  // https://api.slack.com/methods/channels.info
-  getChannelInfo = (channelId: string): Promise<Channel> =>
-    this.callMethod('channels.info', { channel: channelId }).then(
-      data => data.channel
-    );
 }

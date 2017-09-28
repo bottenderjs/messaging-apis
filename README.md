@@ -100,11 +100,11 @@ const { SlackOAuthClient } = require('messaging-api-slack');
 
 // get access token by setup OAuth & Permissions function to your app.
 // https://api.slack.com/docs/oauth
-const OAuthClient = SlackOAuthClient.connect(
+const client = SlackOAuthClient.connect(
   'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx'
 );
 
-OAuthClient.postMessage('#random', 'Hello World').then(() => {
+client.postMessage('#random', 'Hello World').then(() => {
   console.log('sent');
 });
 ```
@@ -114,11 +114,11 @@ const { SlackWebhookClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/
-const webhookClient = SlackWebhookClient.connect(
+const client = SlackWebhookClient.connect(
   'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ'
 );
 
-webhookClient.sendText('Hello World').then(() => {
+client.sendText('Hello World').then(() => {
   console.log('sent');
 });
 ```
