@@ -1,3 +1,14 @@
+0.4.3 / 2017-09-28
+==================
+### messaging-api-line
+- [new] Added a [LINE Bot example](https://github.com/Yoctol/messaging-apis/tree/master/examples/line). Thanks @madeinfree!
+
+### messaging-api-telegram
+- [new] Gets [Payments API](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#payments-api) support! 🎉
+  + `sendInvoice`
+  + `answerShippingQuery`
+  + `answerPreCheckoutQuery`
+
 0.4.2 / 2017-09-22
 ==================
 ### messaging-api-messenger
