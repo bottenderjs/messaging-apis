@@ -1,4 +1,4 @@
-import { LineClient } from '../index';
+import { LineClient } from '../';
 
 it('should export api correctly', () => {
   expect(LineClient).toBeDefined();

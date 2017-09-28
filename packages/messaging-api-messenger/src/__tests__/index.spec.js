@@ -1,4 +1,4 @@
-import { Messenger, MessengerClient } from '../index';
+import { Messenger, MessengerClient } from '../';
 
 it('should export api correctly', () => {
   expect(Messenger).toBeDefined();
