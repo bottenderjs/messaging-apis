@@ -102,6 +102,12 @@ client.reply(REPLY_TOKEN, [
 
 Responds text message using specified reply token.
 
+![](https://developers.line.me/media/messaging-api/messages/text.png)
+
+You can include LINE original emoji in text messages using character codes. For a list of LINE emoji that can be sent in LINE chats, see the [emoji list](https://developers.line.me/media/messaging-api/emoji-list.pdf).
+
+![](https://developers.line.me/media/messaging-api/messages/emoji.png)
+
 Param | Type     | Description
 ----- | -------- | -----------
 token | `String` | `replyToken` received via webhook.
@@ -117,6 +123,9 @@ client.reply(REPLY_TOKEN, 'Hello!');
 ## `replyImage(token, imageUrl, previewImageUrl)`
 
 Responds image message using specified reply token.
+
+![](https://developers.line.me/media/messaging-api/messages/image.png)
+![](https://developers.line.me/media/messaging-api/messages/image-full.png)
 
 Param           | Type     | Description
 --------------- | -------- | -----------
@@ -139,6 +148,8 @@ client.replyImage(
 
 Responds video message using specified reply token.
 
+![](https://developers.line.me/media/messaging-api/messages/video.png)
+
 Param           | Type     | Description
 --------------- | -------- | -----------
 token           | `String` | `replyToken` received via webhook.
@@ -160,6 +171,8 @@ client.replyVideo(
 
 Responds audio message using specified reply token.
 
+![](https://developers.line.me/media/messaging-api/messages/audio.png)
+
 Param    | Type     | Description
 -------- | -------- | -----------
 token    | `String` | `replyToken` received via webhook.
@@ -176,6 +189,8 @@ client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 ## `replyLocation(token, location)`
 
 Responds location message using specified reply token.
+
+![](https://developers.line.me/media/messaging-api/messages/location.png)
 
 Param              | Type     | Description
 ------------------ | -------- | -----------
@@ -200,7 +215,10 @@ client.replyLocation(REPLY_TOKEN, {
 
 ## `replySticker(token, packageId, stickerId)`
 
-Responds sticker message using specified reply token.
+Responds sticker message using specified reply token.  
+For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
+
+![](https://developers.line.me/media/messaging-api/messages/sticker.png)
 
 Param     | Type     | Description
 --------- | -------- | -----------
@@ -220,6 +238,8 @@ client.replySticker(REPLY_TOKEN, '1', '1');
 ## `replyImagemap(token, altText, imagemap)`
 
 Responds imagemap message using specified reply token.
+
+![](https://developers.line.me/media/messaging-api/messages/imagemap.png)
 
 Param               | Type            | Description
 ------------------- | --------------- | -----------
@@ -309,7 +329,7 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 
 Responds button template message using specified reply token.
 
-![](https://devdocs.line.me/images/buttons.png)
+![](https://developers.line.me/media/messaging-api/messages/buttons.png)
 
 Param                  | Type               | Description
 ---------------------- | ------------------ | -----------
@@ -353,7 +373,7 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 
 Responds confirm template message using specified reply token.
 
-![](https://devdocs.line.me/images/confirm.png)
+![](https://developers.line.me/media/messaging-api/messages/confirm.png)
 
 Param                   | Type               | Description
 ----------------------- | ------------------ | -----------
@@ -388,7 +408,7 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
 
 Responds carousel template message using specified reply token.
 
-![](https://devdocs.line.me/images/carousel.png)
+![](https://developers.line.me/media/messaging-api/messages/carousel.png)
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -452,7 +472,7 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 Responds image carousel template message using specified reply token.
 
-![](https://devdocs.line.me/images/image_carousel.png)
+![](https://developers.line.me/media/messaging-api/messages/image_carousel.png)
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -527,6 +547,12 @@ client.push(USER_ID, [
 
 Sends text message using ID of the receiver.
 
+![](https://developers.line.me/media/messaging-api/messages/text.png)
+
+You can include LINE original emoji in text messages using character codes. For a list of LINE emoji that can be sent in LINE chats, see the [emoji list](https://developers.line.me/media/messaging-api/emoji-list.pdf).
+
+![](https://developers.line.me/media/messaging-api/messages/emoji.png)
+
 Param  | Type     | Description
 ------ | -------- | -----------
 userId | `String` | ID of the receiver.
@@ -542,6 +568,9 @@ client.pushText(USER_ID, 'Hello!');
 ## `pushImage(userId, imageUrl, previewImageUrl)`
 
 Sends image message using ID of the receiver.
+
+![](https://developers.line.me/media/messaging-api/messages/image.png)
+![](https://developers.line.me/media/messaging-api/messages/image-full.png)
 
 Param           | Type     | Description
 --------------- | -------- | -----------
@@ -564,6 +593,8 @@ client.pushImage(
 
 Sends video message using ID of the receiver.
 
+![](https://developers.line.me/media/messaging-api/messages/video.png)
+
 Param           | Type     | Description
 --------------- | -------- | -----------
 userId          | `String` | ID of the receiver.
@@ -585,6 +616,8 @@ client.pushVideo(
 
 Sends audio message using ID of the receiver.
 
+![](https://developers.line.me/media/messaging-api/messages/audio.png)
+
 Param    | Type     | Description
 -------- | -------- | -----------
 userId   | `String` | ID of the receiver.
@@ -601,6 +634,8 @@ client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 ## `pushLocation(userId, location)`
 
 Sends location message using ID of the receiver.
+
+![](https://developers.line.me/media/messaging-api/messages/location.png)
 
 Param              | Type     | Description
 ------------------ | -------- | -----------
@@ -625,7 +660,11 @@ client.pushLocation(USER_ID, {
 
 ## `pushSticker(userId, packageId, stickerId)`
 
-Sends sticker message using ID of the receiver.
+Sends sticker message using ID of the receiver.  
+For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
+
+![](https://developers.line.me/media/messaging-api/messages/sticker.png)
+
 
 Param     | Type     | Description
 --------- | -------- | -----------
@@ -645,6 +684,8 @@ client.pushSticker(USER_ID, '1', '1');
 ## `pushImagemap(userId, altText, imagemap)`
 
 Sends imagemap message using ID of the receiver.
+
+![](https://developers.line.me/media/messaging-api/messages/imagemap.png)
 
 Param               | Type            | Description
 ------------------- | --------------- | -----------
@@ -734,7 +775,7 @@ client.pushTemplate(USER_ID, 'this is a template', {
 
 Sends button template message using ID of the receiver.
 
-![](https://devdocs.line.me/images/buttons.png)
+![](https://developers.line.me/media/messaging-api/messages/buttons.png)
 
 Param                  | Type               | Description
 ---------------------- | ------------------ | -----------
@@ -778,7 +819,7 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 
 Sends confirm template message using ID of the receiver.
 
-![](https://devdocs.line.me/images/confirm.png)
+![](https://developers.line.me/media/messaging-api/messages/confirm.png)
 
 Param                   | Type               | Description
 ----------------------- | ------------------ | -----------
@@ -813,7 +854,7 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
 
 Sends carousel template message using ID of the receiver.
 
-![](https://devdocs.line.me/images/carousel.png)
+![](https://developers.line.me/media/messaging-api/messages/carousel.png)
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -877,7 +918,7 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 Sends image carousel template message using ID of the receiver.
 
-![](https://devdocs.line.me/images/image_carousel.png)
+![](https://developers.line.me/media/messaging-api/messages/image_carousel.png)
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -955,6 +996,12 @@ client.multicast(
 
 Sends text message to multiple users.
 
+![](https://developers.line.me/media/messaging-api/messages/text.png)
+
+You can include LINE original emoji in text messages using character codes. For a list of LINE emoji that can be sent in LINE chats, see the [emoji list](https://developers.line.me/media/messaging-api/emoji-list.pdf).
+
+![](https://developers.line.me/media/messaging-api/messages/emoji.png)
+
 Param   | Type            | Description
 ------- | --------------- | -----------
 userIds | `Array<String>` | IDs of the receivers.
@@ -970,6 +1017,9 @@ client.multicastText([USER_ID], 'Hello!');
 ## `multicastImage(userIds, imageUrl, previewImageUrl)`
 
 Sends image message to multiple users.
+
+![](https://developers.line.me/media/messaging-api/messages/image.png)
+![](https://developers.line.me/media/messaging-api/messages/image-full.png)
 
 Param           | Type            | Description
 --------------- | --------------- | -----------
@@ -992,6 +1042,8 @@ client.multicastImage(
 
 Sends video message to multiple users.
 
+![](https://developers.line.me/media/messaging-api/messages/video.png)
+
 Param           | Type            | Description
 --------------- | --------------- | -----------
 userIds         | `Array<String>` | IDs of the receivers.
@@ -1013,6 +1065,8 @@ client.multicastVideo(
 
 Sends audio message to multiple users.
 
+![](https://developers.line.me/media/messaging-api/messages/audio.png)
+
 Param    | Type            | Description
 -------- | --------------- | -----------
 userIds  | `Array<String>` | IDs of the receivers.
@@ -1029,6 +1083,8 @@ client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 ## `multicastLocation(userIds, location)`
 
 Sends location message to multiple users.
+
+![](https://developers.line.me/media/messaging-api/messages/location.png)
 
 Param              | Type            | Description
 ------------------ | --------------- | -----------
@@ -1053,7 +1109,11 @@ client.multicastLocation([USER_ID], {
 
 ## `multicastSticker(userIds, packageId, stickerId)`
 
-Sends sticker message to multiple users.
+Sends sticker message to multiple users.  
+For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
+
+![](https://developers.line.me/media/messaging-api/messages/sticker.png)
+
 
 Param     | Type            | Description
 --------- | --------------- | -----------
@@ -1073,6 +1133,8 @@ client.multicastSticker([USER_ID], '1', '1');
 ## `multicastImagemap(userIds, altText, imagemap)`
 
 Sends imagemap message to multiple users.
+
+![](https://developers.line.me/media/messaging-api/messages/imagemap.png)
 
 Param               | Type            | Description
 ------------------- | --------------- | -----------
@@ -1162,7 +1224,7 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 
 Sends button template message to multiple users.
 
-![](https://devdocs.line.me/images/buttons.png)
+![](https://developers.line.me/media/messaging-api/messages/buttons.png)
 
 Param                  | Type               | Description
 ---------------------- | ------------------ | -----------
@@ -1206,7 +1268,7 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 Sends confirm template message to multiple users.
 
-![](https://devdocs.line.me/images/confirm.png)
+![](https://developers.line.me/media/messaging-api/messages/confirm.png)
 
 Param                   | Type            | Description
 ----------------------- | --------------- | -----------
@@ -1241,7 +1303,7 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 
 Sends carousel template message to multiple users.
 
-![](https://devdocs.line.me/images/carousel.png)
+![](https://developers.line.me/media/messaging-api/messages/carousel.png)
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -1305,7 +1367,7 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 
 Sends image carousel template message to multiple users.
 
-![](https://devdocs.line.me/images/image_carousel.png)
+![](https://developers.line.me/media/messaging-api/messages/image_carousel.png)
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
