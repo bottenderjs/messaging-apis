@@ -829,9 +829,9 @@ describe('greeting text', () => {
   });
 });
 
-describe('domain whitelist', () => {
-  describe('#getDomainWhitelist', () => {
-    it('should response data of domain whitelist', async () => {
+describe('domain whitelisting', () => {
+  describe('#getDomainWhitelisting', () => {
+    it('should response data of domain whitelisting', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -848,13 +848,13 @@ describe('domain whitelist', () => {
         )
         .reply(200, reply);
 
-      const res = await client.getDomainWhitelist();
+      const res = await client.getDomainWhitelisting();
 
       expect(res).toEqual(['http://www.yoctol.com/']);
     });
   });
 
-  describe('#setDomainWhitelist', () => {
+  describe('#setDomainWhitelisting', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -868,13 +868,13 @@ describe('domain whitelist', () => {
         })
         .reply(200, reply);
 
-      const res = await client.setDomainWhitelist(['www.yoctol.com']);
+      const res = await client.setDomainWhitelisting(['www.yoctol.com']);
 
       expect(res).toEqual(reply);
     });
   });
 
-  describe('#deleteDomainWhitelist', () => {
+  describe('#deleteDomainWhitelisting', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -888,7 +888,7 @@ describe('domain whitelist', () => {
         })
         .reply(200, reply);
 
-      const res = await client.deleteDomainWhitelist();
+      const res = await client.deleteDomainWhitelisting();
 
       expect(res).toEqual(reply);
     });
