@@ -895,6 +895,72 @@ describe('domain whitelist', () => {
   });
 });
 
+describe('whitelisted domains', () => {
+  describe('#getWhitelistedDomains', () => {
+    it('should response data of whitelisted domains', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            whitelisted_domains: ['http://www.yoctol.com/'],
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getWhitelistedDomains();
+
+      expect(res).toEqual(['http://www.yoctol.com/']);
+    });
+  });
+
+  describe('#setWhitelistedDomains', () => {
+    it('should response success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      mock
+        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          whitelisted_domains: ['www.yoctol.com'],
+        })
+        .reply(200, reply);
+
+      const res = await client.setWhitelistedDomains(['www.yoctol.com']);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteWhitelistedDomains', () => {
+    it('should response success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      mock
+        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
+          fields: ['whitelisted_domains'],
+        })
+        .reply(200, reply);
+
+      const res = await client.deleteWhitelistedDomains();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
 describe('account linking url', () => {
   describe('#getAccountLinkingURL', () => {
     it('should response data of account linking url', async () => {
