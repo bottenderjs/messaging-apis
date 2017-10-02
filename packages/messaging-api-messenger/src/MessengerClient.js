@@ -200,23 +200,23 @@ export default class MessengerClient {
     this.deleteMessengerProfile(['greeting']);
 
   /**
-   * Domain Whitelist
+   * Domain Whitelisting
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
    */
-  getDomainWhitelist = (): Promise<MessengerProfileResponse> =>
+  getDomainWhitelisting = (): Promise<MessengerProfileResponse> =>
     this.getMessengerProfile(['whitelisted_domains']).then(
       res => res[0].whitelisted_domains
     );
 
-  setDomainWhitelist = (
+  setDomainWhitelisting = (
     domains: Array<string>
   ): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
       whitelisted_domains: domains,
     });
 
-  deleteDomainWhitelist = (): Promise<MutationSuccessResponse> =>
+  deleteDomainWhitelisting = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['whitelisted_domains']);
 
   /**
