@@ -210,9 +210,7 @@ export default class MessengerClient {
       false,
       '`getDomainWhitelist` is deprecated. use `getWhitelistedDomains` instead.'
     );
-    return this.getMessengerProfile(['whitelisted_domains']).then(
-      res => res[0].whitelisted_domains
-    );
+    return this.getWhitelistedDomains();
   };
 
   setDomainWhitelist = (
@@ -222,9 +220,7 @@ export default class MessengerClient {
       false,
       '`setDomainWhitelist` is deprecated. use `setWhitelistedDomains` instead.'
     );
-    return this.setMessengerProfile({
-      whitelisted_domains: domains,
-    });
+    return this.setWhitelistedDomains(domains);
   };
 
   deleteDomainWhitelist = (): Promise<MutationSuccessResponse> => {
@@ -232,7 +228,7 @@ export default class MessengerClient {
       false,
       '`deleteDomainWhitelist` is deprecated. use `deleteWhitelistedDomains` instead.'
     );
-    return this.deleteMessengerProfile(['whitelisted_domains']);
+    return this.deleteWhitelistedDomains();
   };
 
   /**
