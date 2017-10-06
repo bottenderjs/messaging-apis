@@ -1460,7 +1460,7 @@ client.getUserProfile(USER_ID).then(profile => {
 
 ## `getGroupMemberProfile(groupId, userId)`
 
-Gets the user profile of a member of a group that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.
+Gets the user profile of a member of a group that the bot is in. This includes the user IDs of users who has not added the bot as a friend or has blocked the bot.
 
 Param   | Type     | Description
 ------- | -------- | -----------
@@ -1483,7 +1483,7 @@ client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
 
 ## `getRoomMemberProfile(roomId, userId)`
 
-Gets the user profile of a member of a room that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.
+Gets the user profile of a member of a room that the bot is in. This includes the user IDs of users who has not added the bot as a friend or has blocked the bot.
 
 Param  | Type     | Description
 ------ | -------- | -----------
