@@ -471,7 +471,7 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 Responds image carousel template message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image_carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-carousel.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -916,7 +916,7 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 Sends image carousel template message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image_carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-carousel.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -1364,7 +1364,7 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 
 Sends image carousel template message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image_carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-carousel.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -1460,7 +1460,7 @@ client.getUserProfile(USER_ID).then(profile => {
 
 ## `getGroupMemberProfile(groupId, userId)`
 
-Gets the user profile of a member of a group that the bot is in.
+Gets the user profile of a member of a group that the bot is in. This includes the user IDs of users who has not added the bot as a friend or has blocked the bot.
 
 Param   | Type     | Description
 ------- | -------- | -----------
@@ -1483,7 +1483,7 @@ client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
 
 ## `getRoomMemberProfile(roomId, userId)`
 
-Gets the user profile of a member of a room that the bot is in.
+Gets the user profile of a member of a room that the bot is in. This includes the user IDs of users who has not added the bot as a friend or has blocked the bot.
 
 Param  | Type     | Description
 ------ | -------- | -----------
@@ -1510,7 +1510,8 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 
 ## `getGroupMemberIds(groupId, start)`
 
-Gets the ID of the users of the members of a group that the bot is in.
+Gets the ID of the users of the members of a group that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
+This feature is only available for LINE@ Approved accounts or official accounts. 
 
 Param   | Type     | Description
 ------- | -------- | -----------
@@ -1536,7 +1537,8 @@ client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
 
 ## `getAllGroupMemberIds(groupId)`
 
-Recursively gets the ID of the users of the members of a group that the bot is in using cursors.
+Recursively gets the ID of the users of the members of a group that the bot is in using cursors.  
+This feature is only available for LINE@ Approved accounts or official accounts. 
 
 Param   | Type     | Description
 ------- | -------- | -----------
@@ -1561,7 +1563,8 @@ client.getAllGroupMemberIds(GROUP_ID).then(ids => {
 
 ## `getRoomMemberIds(roomId, start)`
 
-Gets the ID of the users of the members of a room that the bot is in.
+Gets the ID of the users of the members of a room that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
+This feature is only available for LINE@ Approved accounts or official accounts. 
 
 Param  | Type     | Description
 ------ | -------- | -----------
@@ -1587,7 +1590,8 @@ client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
 
 ## `getAllRoomMemberIds(roomId)`
 
-Recursively gets the ID of the users of the members of a room that the bot is in using cursors.
+Recursively gets the ID of the users of the members of a room that the bot is in using cursors.  
+This feature is only available for LINE@ Approved accounts or official accounts. 
 
 Param  | Type     | Description
 ------ | -------- | -----------
