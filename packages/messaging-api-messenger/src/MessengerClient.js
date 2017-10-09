@@ -5,6 +5,7 @@ import FormData from 'form-data';
 import invariant from 'invariant';
 import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
+import warning from 'warning';
 
 import type {
   UserID,
@@ -204,19 +205,50 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
    */
-  getDomainWhitelist = (): Promise<MessengerProfileResponse> =>
+  getDomainWhitelist = (): Promise<MessengerProfileResponse> => {
+    warning(
+      false,
+      '`getDomainWhitelist` is deprecated. use `getWhitelistedDomains` instead.'
+    );
+    return this.getWhitelistedDomains();
+  };
+
+  setDomainWhitelist = (
+    domains: Array<string>
+  ): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`setDomainWhitelist` is deprecated. use `setWhitelistedDomains` instead.'
+    );
+    return this.setWhitelistedDomains(domains);
+  };
+
+  deleteDomainWhitelist = (): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`deleteDomainWhitelist` is deprecated. use `deleteWhitelistedDomains` instead.'
+    );
+    return this.deleteWhitelistedDomains();
+  };
+
+  /**
+   * Whitelisted Domains
+   *
+   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
+   */
+  getWhitelistedDomains = (): Promise<MessengerProfileResponse> =>
     this.getMessengerProfile(['whitelisted_domains']).then(
       res => res[0].whitelisted_domains
     );
 
-  setDomainWhitelist = (
+  setWhitelistedDomains = (
     domains: Array<string>
   ): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
       whitelisted_domains: domains,
     });
 
-  deleteDomainWhitelist = (): Promise<MutationSuccessResponse> =>
+  deleteWhitelistedDomains = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['whitelisted_domains']);
 
   /**

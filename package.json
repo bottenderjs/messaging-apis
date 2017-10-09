@@ -40,13 +40,14 @@
     "clean": "rimraf ./packages/*/lib",
     "lint": "eslint packages examples",
     "lint:fix": "yarn run lint:fix:md && yarn run lint -- --fix",
-    "lint:fix:md": "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
+    "lint:fix:md":
+      "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
     "lint:staged": "lint-staged",
     "precommit": "lint-staged",
-    "publish": "yarn run clean --silent && yarn run build --silent && lerna publish --silent",
+    "publish": "yarn run clean && yarn run build && lerna publish",
     "testonly": "jest",
     "testonly:watch": "jest --watch",
-    "test": "yarn run typecheck --silent && yarn run lint --silent && yarn run testonly --silent",
+    "test": "yarn run typecheck && yarn run lint && yarn run testonly",
     "typecheck": "flow check"
   },
   "lint-staged": {
@@ -54,12 +55,8 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": [
-      "/node_modules/"
-    ],
+    "transformIgnorePatterns": ["/node_modules/"],
     "testEnvironment": "node"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": ["packages/*"]
 }

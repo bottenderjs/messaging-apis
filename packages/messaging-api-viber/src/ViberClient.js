@@ -8,6 +8,9 @@ import type {
   ViberLocation,
   ViberRichMedia,
   ViberSender,
+  ViberPicture,
+  ViberVideo,
+  ViberFile,
 } from './ViberTypes';
 
 type Axios = {
@@ -81,12 +84,14 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#send-message
    */
   sendMessage = (receiver: string, { type, ...options }: Object) =>
-    this._http.post('/send_message', {
-      receiver,
-      type,
-      sender: this._sender,
-      ...options,
-    });
+    this._http
+      .post('/send_message', {
+        receiver,
+        type,
+        sender: this._sender,
+        ...options,
+      })
+      .then(res => res.data);
 
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#text-message
@@ -101,22 +106,33 @@ export default class ViberClient {
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#picture-message
    */
-  sendPicture = (receiver: string, { text, media, ...options }: Object = {}) =>
+  sendPicture = (
+    receiver: string,
+    { text, media, thumbnail }: ViberPicture,
+    options: Object = {}
+  ) =>
     this.sendMessage(receiver, {
       type: 'picture',
       text,
       media,
+      thumbnail,
       ...options,
     });
 
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#video-message
    */
-  sendVideo = (receiver: string, { media, size, ...options }: Object = {}) =>
+  sendVideo = (
+    receiver: string,
+    { media, size, thumbnail, duration }: ViberVideo,
+    options: Object = {}
+  ) =>
     this.sendMessage(receiver, {
       type: 'video',
       media,
       size,
+      thumbnail,
+      duration,
       ...options,
     });
 
@@ -125,7 +141,7 @@ export default class ViberClient {
    */
   sendFile = (
     receiver: string,
-    { media, size, file_name },
+    { media, size, file_name }: ViberFile,
     options: Object = {}
   ) =>
     this.sendMessage(receiver, {

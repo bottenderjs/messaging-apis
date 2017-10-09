@@ -33,6 +33,25 @@ export type ViberButton = {
   Image?: string,
 };
 
+export type ViberPicture = {
+  text: string,
+  media: string,
+  thumbnail?: string,
+};
+
+export type ViberVideo = {
+  media: string,
+  size: number,
+  thumbnail?: string,
+  duration?: number,
+};
+
+export type ViberFile = {
+  media: string,
+  size: number,
+  file_name: string,
+};
+
 export type ViberRichMedia = {
   Type: 'rich_media',
   ButtonsGroupColumns: number,

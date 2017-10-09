@@ -84,7 +84,7 @@ Example:
 client.sendText(USER_ID, 'Hello');
 ```
 
-## `sendPicture(receiver, picture)`
+## `sendPicture(receiver, picture [, options])`
 
 Example:
 ```js
@@ -95,7 +95,7 @@ client.sendPicture(USER_ID, {
 });
 ```
 
-## `sendVideo(receiver, video)`
+## `sendVideo(receiver, video [, options])`
 
 Example:
 ```js
@@ -107,7 +107,7 @@ client.sendVideo(USER_ID, {
 });
 ```
 
-## `sendFile(receiver, file)`
+## `sendFile(receiver, file [, options])`
 
 Example:
 ```js

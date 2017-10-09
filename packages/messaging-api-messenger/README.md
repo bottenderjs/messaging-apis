@@ -22,7 +22,7 @@
     * [Persistent Menu](#persistent-menu)
     * [Get Started Button](#get-started-button)
     * [Greeting Text](#greeting-text)
-    * [Domain Whitelist](#domain-whitelist)
+    * [Whitelisted Domains](#domain-whitelist)
     * [Account Linking URL](#account-linking-url)
     * [Payment Settings](#payment-settings)
     * [Target Audience](#target-audience)
@@ -1537,15 +1537,15 @@ client.deleteGreetingText();
 
 <a id="domain-whitelist" />
 
-### Domain Whitelist - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
+### Whitelisted Domains - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
 
-## `getDomainWhitelist`
+## `getWhitelistedDomains`
 
-Retrieves the current value of domain whitelist.
+Retrieves the current value of whitelisted domains.
 
 Example:
 ```js
-client.getDomainWhitelist().then(domains => {
+client.getWhitelistedDomains().then(domains => {
   console.log(domains);
   // ['http://www.example.com/']
 });
@@ -1553,9 +1553,9 @@ client.getDomainWhitelist().then(domains => {
 
 <br />
 
-## `setDomainWhitelist(domains)`
+## `setWhitelistedDomains(domains)`
 
-Sets the values of domain whitelist.
+Sets the values of whitelisted domains.
 
 Param   | Type            | Description
 ------- | --------------- | -----------
@@ -1563,18 +1563,18 @@ domains | `Array<String>` | Array of [whitelisted_domain](https://developers.fac
 
 Example:
 ```js
-client.setDomainWhitelist(['www.example.com']);
+client.setWhitelistedDomains(['www.example.com']);
 ```
 
 <br />
 
-## `deleteDomainWhitelist`
+## `deleteWhitelistedDomains`
 
-Deletes domain whitelist.
+Deletes whitelisted domains.
 
 Example:
 ```js
-client.deleteDomainWhitelist();
+client.deleteWhitelistedDomains();
 ```
 
 <a id="account-linking-url" />
