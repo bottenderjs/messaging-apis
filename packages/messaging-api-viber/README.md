@@ -9,6 +9,12 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Reference](#api-reference)
+  * [Webhook API](#webhook-api)
+  * [Send API](#send-api)
+  * [Keyboards](#keyboards)
+  * [Get Account Info](#get-account-info)
+  * [Get User Details](#get-user-details)
+  * [Get Online](#get-online)
 
 
 ## Installation
@@ -42,6 +48,7 @@ All methods return a Promise.
 
 <br />
 
+### Webhook API
 
 ## `setWebhook(url [, eventTypes])`
 
@@ -60,12 +67,18 @@ client.setWebhook('https://4a16faff.ngrok.io/', [
 ]);
 ```
 
+<br />
+
 ## `removeWebhook`
 
 Example:
 ```js
 client.removeWebhook();
 ```
+
+<br />
+
+### Send API
 
 ## `sendMessage(receiver, message)`
 
@@ -77,12 +90,16 @@ client.sendMessage(USER_ID, {
 });
 ```
 
+<br />
+
 ## `sendText(receiver, text [, options])`
 
 Example:
 ```js
 client.sendText(USER_ID, 'Hello');
 ```
+
+<br />
 
 ## `sendPicture(receiver, picture [, options])`
 
@@ -94,6 +111,8 @@ client.sendPicture(USER_ID, {
   thumbnail: 'http://www.images.com/thumb.jpg',
 });
 ```
+
+<br />
 
 ## `sendVideo(receiver, video [, options])`
 
@@ -107,6 +126,8 @@ client.sendVideo(USER_ID, {
 });
 ```
 
+<br />
+
 ## `sendFile(receiver, file [, options])`
 
 Example:
@@ -118,6 +139,8 @@ client.sendFile(USER_ID, {
 });
 ```
 
+<br />
+
 ## `sendContact(receiver, contact [, options])`
 
 Example:
@@ -127,6 +150,8 @@ client.sendContact(USER_ID, {
   phone_number: '+972511123123',
 });
 ```
+
+<br />
 
 ## `sendLocation(receiver, location [, options])`
 
@@ -138,6 +163,8 @@ client.sendLocation(USER_ID, {
 });
 ```
 
+<br />
+
 ## `sendURL(receiver, url [, options])`
 
 Example:
@@ -145,12 +172,16 @@ Example:
 client.sendURL(USER_ID, 'http://developers.viber.com');
 ```
 
+<br />
+
 ## `sendSticker(receiver, stickerId [, options])`
 
 Example:
 ```js
 client.sendSticker(USER_ID, 46105);
 ```
+
+<br />
 
 ## `sendCarouselContent(receiver, richMedia [, options])`
 
@@ -242,4 +273,126 @@ client.sendCarouselContent(USER_ID, {
     },
   ],
 });
+```
+
+<br />
+
+### Keyboards
+
+The Viber API allows sending a custom keyboard using the send_message API, to supply the user with a set of predefined replies or actions. Keyboards can be attached to any message type and be sent and displayed together. To attach a keyboard to a message simply add the keyboard’s parameters to the options:
+
+```js
+client.sendText(USER_ID, 'Hello', {
+  keyboard: {
+    Type: 'keyboard',
+    DefaultHeight: true,
+    Buttons: [
+      {
+        ActionType: 'reply',
+        ActionBody: 'reply to me',
+        Text: 'Key text',
+        TextSize: 'regular',
+      },
+    ],
+  },
+});
+```
+
+<br />
+
+### Get Account Info
+
+## `getAccountInfo()`
+
+Example:
+```js
+client.getAccountInfo().then(info => {
+  console.log(info);
+  // {
+  //   status: 0,
+  //   status_message: 'ok',
+  //   id: 'pa:75346594275468546724',
+  //   name: 'account name',
+  //   uri: 'accountUri',
+  //   icon: 'http://example.com',
+  //   background: 'http://example.com',
+  //   category: 'category',
+  //   subcategory: 'sub category',
+  //   location: {
+  //     lon: 0.1,
+  //     lat: 0.2,
+  //   },
+  //   country: 'UK',
+  //   webhook: 'https://my.site.com',
+  //   event_types: ['delivered', 'seen'],
+  //   subscribers_count: 35,
+  //   members: [
+  //     {
+  //       id: '01234567890A=',
+  //       name: 'my name',
+  //       avatar: 'http://example.com',
+  //       role: 'admin',
+  //     },
+  //   ],
+  // }
+});
+```
+
+<br />
+
+### Get User Details
+
+## `getUserDetails(id)`
+
+Example:
+```js
+client.getUserDetails('01234567890A=').then(user => {
+  console.log(user);
+  // {
+  //   id: '01234567890A=',
+  //   name: 'John McClane',
+  //   avatar: 'http://avatar.example.com',
+  //   country: 'UK',
+  //   language: 'en',
+  //   primary_device_os: 'android 7.1',
+  //   api_version: 1,
+  //   viber_version: '6.5.0',
+  //   mcc: 1,
+  //   mnc: 1,
+  //   device_type: 'iPhone9,4',
+  // };
+});
+```
+
+<br />
+
+### Get Online
+
+## `getOnlineStatus(ids)`
+
+Example:
+```js
+client
+  .getOnlineStatus(['01234567890=', '01234567891=', '01234567893='])
+  .then(status => {
+    console.log(status);
+    // [
+    //   {
+    //     id: '01234567890=',
+    //     online_status: 0,
+    //     online_status_message: 'online',
+    //   },
+    //   {
+    //     id: '01234567891=',
+    //     online_status: 1,
+    //     online_status_message: 'offline',
+    //     last_online: 1457764197627,
+    //   },
+    //   {
+    //     id: '01234567893=',
+    //     online_status: 3,
+    //     online_status_message: 'tryLater',
+    //   },
+    // ];
+  });
 ```
