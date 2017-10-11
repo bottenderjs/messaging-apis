@@ -214,4 +214,28 @@ export default class ViberClient {
       rich_media: richMedia,
       ...options,
     });
+
+  /**
+   * Get Account Info
+   *
+   * https://developers.viber.com/docs/api/rest-bot-api/#get-account-info
+   */
+  getAccountInfo = () =>
+    this._http.post('/get_account_info', {}).then(res => res.data);
+
+  /**
+   * Get User Details
+   *
+   * https://developers.viber.com/docs/api/rest-bot-api/#get-user-details
+   */
+  getUserDetails = (id: string) =>
+    this._http.post('/get_user_details', { id }).then(res => res.data.user);
+
+  /**
+   * Get Online
+   *
+   * https://developers.viber.com/docs/api/rest-bot-api/#get-online
+   */
+  getOnlineStatus = (ids: Array<string>) =>
+    this._http.post('/get_online', { ids }).then(res => res.data.users);
 }

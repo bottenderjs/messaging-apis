@@ -1,3 +1,8 @@
+export type ViberHTTPResponse = {
+  status: number,
+  status_message: string,
+};
+
 export type ViberEventType =
   | 'delivered'
   | 'seen'

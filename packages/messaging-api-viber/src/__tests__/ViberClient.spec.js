@@ -552,3 +552,175 @@ describe('send message', () => {
     });
   });
 });
+
+describe('keyboards', () => {
+  it('should work with message api', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      status: 0,
+      status_message: 'ok',
+      message_token: 5098034272017990000,
+    };
+
+    const keyboard = {
+      Type: 'keyboard',
+      DefaultHeight: true,
+      Buttons: [
+        {
+          ActionType: 'reply',
+          ActionBody: 'reply to me',
+          Text: 'Key text',
+          TextSize: 'regular',
+        },
+      ],
+    };
+
+    mock
+      .onPost(`/send_message`, {
+        receiver: RECEIVER,
+        sender: {
+          name: 'John McClane',
+          avatar: 'http://avatar.example.com',
+        },
+        type: 'text',
+        text: 'Hello',
+        keyboard,
+      })
+      .reply(200, reply);
+
+    const res = await client.sendText(RECEIVER, 'Hello', {
+      keyboard,
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('get account info', () => {
+  describe('#getAccountInfo', () => {
+    it('should call viber api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        status: 0,
+        status_message: 'ok',
+        id: 'pa:75346594275468546724',
+        name: 'account name',
+        uri: 'accountUri',
+        icon: 'http://example.com',
+        background: 'http://example.com',
+        category: 'category',
+        subcategory: 'sub category',
+        location: {
+          lon: 0.1,
+          lat: 0.2,
+        },
+        country: 'UK',
+        webhook: 'https://my.site.com',
+        event_types: ['delivered', 'seen'],
+        subscribers_count: 35,
+        members: [
+          {
+            id: '01234567890A=',
+            name: 'my name',
+            avatar: 'http://example.com',
+            role: 'admin',
+          },
+        ],
+      };
+
+      mock.onPost(`/get_account_info`, {}).reply(200, reply);
+
+      const res = await client.getAccountInfo();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('get user details', () => {
+  describe('#getUserDetails', () => {
+    it('should call viber api', async () => {
+      const { client, mock } = createMock();
+
+      const user = {
+        id: '01234567890A=',
+        name: 'John McClane',
+        avatar: 'http://avatar.example.com',
+        country: 'UK',
+        language: 'en',
+        primary_device_os: 'android 7.1',
+        api_version: 1,
+        viber_version: '6.5.0',
+        mcc: 1,
+        mnc: 1,
+        device_type: 'iPhone9,4',
+      };
+
+      const reply = {
+        status: 0,
+        status_message: 'ok',
+        message_token: 4912661846655238145,
+        user,
+      };
+
+      mock
+        .onPost(`/get_user_details`, {
+          id: '01234567890A=',
+        })
+        .reply(200, reply);
+
+      const res = await client.getUserDetails('01234567890A=');
+
+      expect(res).toEqual(user);
+    });
+  });
+});
+
+describe('get online', () => {
+  describe('#getOnlineStatus', () => {
+    it('should call viber api', async () => {
+      const { client, mock } = createMock();
+
+      const users = [
+        {
+          id: '01234567890=',
+          online_status: 0,
+          online_status_message: 'online',
+        },
+        {
+          id: '01234567891=',
+          online_status: 1,
+          online_status_message: 'offline',
+          last_online: 1457764197627,
+        },
+        {
+          id: '01234567893=',
+          online_status: 3,
+          online_status_message: 'tryLater',
+        },
+      ];
+
+      const reply = {
+        status: 0,
+        status_message: 'ok',
+        users,
+      };
+
+      mock
+        .onPost(`/get_online`, {
+          ids: ['01234567890=', '01234567891=', '01234567893='],
+        })
+        .reply(200, reply);
+
+      const res = await client.getOnlineStatus([
+        '01234567890=',
+        '01234567891=',
+        '01234567893=',
+      ]);
+
+      expect(res).toEqual(users);
+    });
+  });
+});
