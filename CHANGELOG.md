@@ -1,3 +1,13 @@
+0.4.4 / 2017-10-11
+==================
+### messaging-api-messenger
+- [renamed] `getDomainWhitelist` -> `getWhitelistedDomains`
+- [renamed] `setDomainWhitelist` -> `setWhitelistedDomains`
+- [renamed] `deleteDomainWhitelist` -> `deleteWhitelistedDomains`
+
+### messaging-api-viber
+- [new] First release of [Viber](https://www.viber.com/) API Support!
+
 0.4.3 / 2017-09-28
 ==================
 ### messaging-api-line
