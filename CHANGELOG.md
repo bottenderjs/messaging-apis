@@ -19,7 +19,7 @@ const { MessengerClient } = require('messaging-api-messenger');
 
 const client = MessengerClient.connect(accessToken);
 
-client.version // "v2.10"
+client.version; // "v2.10"
 ```
 
 0.4.1 / 2017-09-19

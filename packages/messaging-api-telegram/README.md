@@ -770,8 +770,8 @@ client.sendInvoice(CHAT_ID, {
   currency: 'USD',
   prices: [
     { label: 'product', amount: 11000 },
-    { label: 'tax', amount: 11000 }
-  ]
+    { label: 'tax', amount: 11000 },
+  ],
 });
 ```
 
