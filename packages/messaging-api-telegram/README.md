@@ -572,6 +572,22 @@ client.editMessageLiveLocation(
 
 <br />
 
+## `stopMessageLiveLocation(options)` - [Official Docs](https://core.telegram.org/bots/api/#stopmessagelivelocation)
+
+Stop updating a live location message sent by the bot or via the bot (for inline bots) before *live_period* expires.
+
+Param      |  Type                                     | Description
+---------- | ----------------------------------------- | -----------
+identifier | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+identifier.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+identifier.message_id | `Number`                       | Identifier of the sent message.
+identifier.inline_message_id | `String`                | Identifier of the inline message.
+
+Example:
+```js
+client.stopMessageLiveLocation({ message_id: MESSAGE_ID });
+```
+
 ### Group API
 
 ## `kickChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#kickchatmember)
@@ -722,6 +738,37 @@ client.setChatDescription(CHAT_ID, 'New Description');
 
 <br />
 
+## `setChatStickerSet(chatId, stickerSetName)` - [Official Docs](https://core.telegram.org/bots/api/#setchatstickerset)
+
+Set a new group sticker set for a supergroup.
+
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+stickerSetName | `String`                  | Name of the sticker set to be set as the group sticker set.
+
+Example:
+```js
+client.setChatStickerSet(CHAT_ID, 'Sticker Set Name');
+```
+
+<br />
+
+## `deleteChatStickerSet(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#deletechatstickerset)
+
+Delete a group sticker set from a supergroup.
+
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+
+Example:
+```js
+client.deleteChatStickerSet(CHAT_ID);
+```
+
+<br />
+
 ## `pinChatMessage(chatId, messageId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#pinChatMessage)
 
 Pins a message in a supergroup.
@@ -858,22 +905,4 @@ Example:
 client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
 });
-```
-
-<br />
-
-## `stopMessageLiveLocation(options)` - [Official Docs](https://core.telegram.org/bots/api/#stopmessagelivelocation)
-
-Stop updating a live location message sent by the bot or via the bot (for inline bots) before *live_period* expires.
-
-Param      |  Type                                     | Description
----------- | ----------------------------------------- | -----------
-identifier | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
-identifier.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
-identifier.message_id | `Number`                       | Identifier of the sent message.
-identifier.inline_message_id | `String`                | Identifier of the inline message.
-
-Example:
-```js
-client.stopMessageLiveLocation({ message_id: MESSAGE_ID });
 ```

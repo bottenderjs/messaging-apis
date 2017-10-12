@@ -1330,6 +1330,45 @@ describe('group api', () => {
     });
   });
 
+  describe('#setChatStickerSet', () => {
+    it('should set a new group sticker set', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/setChatStickerSet', {
+          chat_id: 427770117,
+          sticker_set_name: 'Sticker Set Name',
+        })
+        .reply(200, reply);
+
+      const res = await client.setChatStickerSet(427770117, 'Sticker Set Name');
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteChatStickerSet', () => {
+    it('should set a new group sticker set', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/deleteChatStickerSet', {
+          chat_id: 427770117,
+        })
+        .reply(200, reply);
+
+      const res = await client.deleteChatStickerSet(427770117);
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#pinChatMessage', () => {
     it('should pin a message in chat', async () => {
       const { client, mock } = createMock();

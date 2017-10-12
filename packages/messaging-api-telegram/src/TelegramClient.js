@@ -404,6 +404,23 @@ export default class TelegramClient {
     });
 
   /**
+    * https://core.telegram.org/bots/api#setchatstickerset
+    */
+  setChatStickerSet = (chatId: string, stickerSetName: string) =>
+    this._request('/setChatStickerSet', {
+      chat_id: chatId,
+      sticker_set_name: stickerSetName,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#deletechatstickerset
+    */
+  deleteChatStickerSet = (chatId: string) =>
+    this._request('/deleteChatStickerSet', {
+      chat_id: chatId,
+    });
+
+  /**
     * https://core.telegram.org/bots/api#pinChatMessage
     */
   pinChatMessage = (chatId: string, messageId: number, options?: Object) =>
