@@ -1,3 +1,11 @@
+0.4.5 / 2017-10-12
+==================
+### messaging-api-viber
+- [new] implement getAccountInfo, getUserDetails, getOnlineStatus:
+  + [`getAccountInfo`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getaccountinfo)
+  + [`getUserDetails(id)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getuserdetailsid)
+  + [`getOnlineStatus(ids)`])(https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getonlinestatusids)
+
 0.4.4 / 2017-10-11
 ==================
 ### messaging-api-messenger
