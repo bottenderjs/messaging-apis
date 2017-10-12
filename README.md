@@ -8,7 +8,7 @@ Messaging APIs is a [mono repo](https://github.com/babel/babel/blob/master/doc/d
 
 It helps you build your bots using similar API for multiple platforms, e.g. Messenger, LINE. Learn once and make writing cross-platform bots easier.
 
-![](https://user-images.githubusercontent.com/2382594/28054681-7c61882a-6648-11e7-8148-ce969230900e.png)
+![](https://user-images.githubusercontent.com/3382565/31454776-35977ca2-ae7c-11e7-9cda-0cd4b0239cc8.png)
 
 ## Packages
 
@@ -18,6 +18,7 @@ It helps you build your bots using similar API for multiple platforms, e.g. Mess
 | [`messaging-api-line`](/packages/messaging-api-line) | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line) | [LINE](https://line.me/) |
 | [`messaging-api-slack`](/packages/messaging-api-slack) | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack) | [Slack](https://slack.com/) |
 | [`messaging-api-telegram`](/packages/messaging-api-telegram) | [![npm](https://img.shields.io/npm/v/messaging-api-telegram.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-telegram) | [Telegram](https://telegram.org/) |
+| [`messaging-api-viber`](/packages/messaging-api-viber) | [![npm](https://img.shields.io/npm/v/messaging-api-viber.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-viber) | [Viber](https://www.viber.com/) |
 
 ## Usage
 
@@ -154,12 +155,42 @@ client.sendMessage(chatId, 'Hello World').then(() => {
 
 Check out [full API documentation](./packages/messaging-api-telegram/README.md) for more detail information.
 
+## Viber
+
+<img src="https://www.viber.com/app/uploads/Icon_1024.png" alt="Viber" width="100" />
+
+Install `messaging-api-viber` package from the registry:
+
+```sh
+npm i --save messaging-api-viber
+```
+or
+```sh
+yarn add messaging-api-viber
+```
+
+Then, create a `ViberClient` to call Viber APIs:
+
+```js
+const { ViberClient } = require('messaging-api-viber');
+
+// get authToken from the "edit info" screen of your Public Account.
+const client = ViberClient.connect(authToken);
+
+client.sendText(userId, 'Hello World').then(() => {
+  console.log('sent');
+});
+```
+
+Check out [full API documentation](./packages/messaging-api-viber/README.md) for more detail information.
+
 ## Documentation
 
 - [Messenger](./packages/messaging-api-messenger/README.md)
 - [LINE](./packages/messaging-api-line/README.md)
 - [Slack](./packages/messaging-api-slack/README.md)
 - [Telegram](./packages/messaging-api-telegram/README.md)
+- [Viber](./packages/messaging-api-viber/README.md)
 
 ## Change Log
 
