@@ -543,6 +543,35 @@ client.deleteMessage(CHAT_ID, MESSAGE_ID);
 
 <br />
 
+## `editMessageLiveLocation(location [, options])` - [Official Docs](https://core.telegram.org/bots/api/#editmessagelivelocation)
+
+Edit live location messages sent by the bot or via the bot (for inline bots).
+
+Param   |  Type                                     | Description
+------- | ----------------------------------------- | -----------
+location | `Object`                                 | Object contains new latitude and longitude.
+location.latitude | `Number`                        | Latitude of new location.
+location.longitude | `Number`                       | Longitude of new location.
+options | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+options.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+options.message_id | `Number`                       | Identifier of the sent message.
+options.inline_message_id | `String`                | Identifier of the inline message.
+
+Example:
+```js
+client.editMessageLiveLocation(
+  {
+    latitude: 30,
+    longitude: 45,
+  },
+  {
+    message_id: MESSAGE_ID,
+  }
+);
+```
+
+<br />
+
 ### Group API
 
 ## `kickChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#kickchatmember)
@@ -829,4 +858,22 @@ Example:
 client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
 });
+```
+
+<br />
+
+## `stopMessageLiveLocation(options)` - [Official Docs](https://core.telegram.org/bots/api/#stopmessagelivelocation)
+
+Stop updating a live location message sent by the bot or via the bot (for inline bots) before *live_period* expires.
+
+Param      |  Type                                     | Description
+---------- | ----------------------------------------- | -----------
+identifier | `Object`                                  | One of chat_id, message_id or inline_message_id is required.
+identifier.chat_id | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+identifier.message_id | `Number`                       | Identifier of the sent message.
+identifier.inline_message_id | `String`                | Identifier of the inline message.
+
+Example:
+```js
+client.stopMessageLiveLocation({ message_id: MESSAGE_ID });
 ```

@@ -211,6 +211,27 @@ export default class TelegramClient {
     });
 
   /**
+   * https://core.telegram.org/bots/api#editmessagelivelocation
+   */
+  editMessageLiveLocation = (
+    { latitude, longitude }: {| latitude: number, longitude: number |},
+    options?: Object
+  ) =>
+    this._request('/editMessageLiveLocation', {
+      latitude,
+      longitude,
+      ...options,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#stopmessagelivelocation
+   */
+  stopMessageLiveLocation = (identifier: Object) =>
+    this._request('/stopMessageLiveLocation', {
+      ...identifier,
+    });
+
+  /**
    * https://core.telegram.org/bots/api#sendvenue
    */
   sendVenue = (
