@@ -94,6 +94,8 @@ client.sendMessage(USER_ID, {
 
 ## `sendText(receiver, text [, options])`
 
+<img src="https://user-images.githubusercontent.com/3382565/31481925-61e46008-aeeb-11e7-842f-79fee8066c6a.jpg" width="300" />
+
 Example:
 ```js
 client.sendText(USER_ID, 'Hello');
@@ -102,6 +104,8 @@ client.sendText(USER_ID, 'Hello');
 <br />
 
 ## `sendPicture(receiver, picture [, options])`
+
+<img src="https://user-images.githubusercontent.com/3382565/31481916-5ec6cdac-aeeb-11e7-878b-6c8c4211a760.jpg" width="300" />
 
 Example:
 ```js
@@ -115,6 +119,8 @@ client.sendPicture(USER_ID, {
 <br />
 
 ## `sendVideo(receiver, video [, options])`
+
+<img src="https://user-images.githubusercontent.com/3382565/31481918-5fa12074-aeeb-11e7-8287-830197d93b5b.jpg" width="300" />
 
 Example:
 ```js
@@ -130,6 +136,8 @@ client.sendVideo(USER_ID, {
 
 ## `sendFile(receiver, file [, options])`
 
+<img src="https://user-images.githubusercontent.com/3382565/31481919-600f437e-aeeb-11e7-9f13-7269a055cb86.jpg" width="300" />
+
 Example:
 ```js
 client.sendFile(USER_ID, {
@@ -143,6 +151,8 @@ client.sendFile(USER_ID, {
 
 ## `sendContact(receiver, contact [, options])`
 
+<img src="https://user-images.githubusercontent.com/3382565/31481924-615ce8b2-aeeb-11e7-8425-2d3bfa115fc1.jpg" width="300" />
+
 Example:
 ```js
 client.sendContact(USER_ID, {
@@ -154,6 +164,8 @@ client.sendContact(USER_ID, {
 <br />
 
 ## `sendLocation(receiver, location [, options])`
+
+<img src="https://user-images.githubusercontent.com/3382565/31481923-61199a9e-aeeb-11e7-8a25-e3813eceb25b.jpg" width="300" />
 
 Example:
 ```js
@@ -167,6 +179,8 @@ client.sendLocation(USER_ID, {
 
 ## `sendURL(receiver, url [, options])`
 
+<img src="https://user-images.githubusercontent.com/3382565/31481921-6069f346-aeeb-11e7-97bf-83a17da0bc7a.jpg" width="300" />
+
 Example:
 ```js
 client.sendURL(USER_ID, 'http://developers.viber.com');
@@ -176,6 +190,8 @@ client.sendURL(USER_ID, 'http://developers.viber.com');
 
 ## `sendSticker(receiver, stickerId [, options])`
 
+<img src="https://user-images.githubusercontent.com/3382565/31481922-60c2c444-aeeb-11e7-8fc9-bce2e5d06c42.jpg" width="300" />
+
 Example:
 ```js
 client.sendSticker(USER_ID, 46105);
@@ -184,6 +200,8 @@ client.sendSticker(USER_ID, 46105);
 <br />
 
 ## `sendCarouselContent(receiver, richMedia [, options])`
+
+<img src="https://user-images.githubusercontent.com/3382565/31481917-5f1b43b4-aeeb-11e7-8557-e25951d69b53.jpg" width="300" />
 
 Example:
 ```js
@@ -284,19 +302,33 @@ The Viber API allows sending a custom keyboard using the send_message API, to su
 ```js
 client.sendText(USER_ID, 'Hello', {
   keyboard: {
-    Type: 'keyboard',
     DefaultHeight: true,
+    BgColor: '#FFFFFF',
     Buttons: [
       {
-        ActionType: 'reply',
-        ActionBody: 'reply to me',
+        Columns: 6,
+        Rows: 1,
+        BgColor: '#2db9b9',
+        BgMediaType: 'gif',
+        BgMedia: 'http://www.url.by/test.gif',
+        BgLoop: true,
+        ActionType: 'open-url',
+        ActionBody: 'www.tut.by',
+        Image: 'www.tut.by/img.jpg',
         Text: 'Key text',
+        TextVAlign: 'middle',
+        TextHAlign: 'center',
+        TextOpacity: 60,
         TextSize: 'regular',
       },
     ],
   },
 });
 ```
+
+Which in turn will look like this:
+
+<img src="https://developers.viber.com/docs/img/example_keyboard.png" width="300" />
 
 <br />
 
