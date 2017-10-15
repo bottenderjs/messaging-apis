@@ -289,3 +289,8 @@ export type BatchItem = {
   name?: string,
   body?: Object,
 };
+
+export type MessengerNLPConfig = {
+  nlp_enabled?: boolean,
+  custom_token?: string,
+};

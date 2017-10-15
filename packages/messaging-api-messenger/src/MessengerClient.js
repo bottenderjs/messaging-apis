@@ -37,6 +37,7 @@ import type {
   MessageTagResponse,
   FileData,
   BatchItem,
+  MessengerNLPConfig,
 } from './MessengerTypes';
 
 type Axios = {
@@ -793,7 +794,7 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-code
    */
-  generateMessengerCode = (options = {}) =>
+  generateMessengerCode = (options: Object = {}) =>
     this._http
       .post(`/me/messenger_codes?access_token=${this._accessToken}`, {
         type: 'standard',
@@ -877,7 +878,7 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/built-in-nlp
    */
-  setNLPConfigs = (config = {}) => {
+  setNLPConfigs = (config: MessengerNLPConfig = {}) => {
     const query = {
       nlp_enabled: config.nlp_enabled ? 'true' : 'false',
     };
