@@ -46,6 +46,16 @@ export default class ViberClient {
 
   getHTTPClient: () => Axios = () => this._http;
 
+  _callAPI = async (...args: Array<any>) => {
+    const { data } = await this._http.post(...args);
+
+    if (data.status !== 0) {
+      throw new Error(data.status_message);
+    }
+
+    return data;
+  };
+
   /**
    * Webhooks
    *
@@ -64,13 +74,7 @@ export default class ViberClient {
     if (eventTypes) {
       body.event_types = eventTypes;
     }
-    const { data } = await this._http.post('/set_webhook', body);
-
-    if (data.status !== 0) {
-      throw new Error(data.status_message);
-    }
-
-    return data;
+    return this._callAPI('/set_webhook', body);
   };
 
   /**
@@ -83,15 +87,13 @@ export default class ViberClient {
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#send-message
    */
-  sendMessage = (receiver: string, { type, ...options }: Object) =>
-    this._http
-      .post('/send_message', {
-        receiver,
-        type,
-        sender: this._sender,
-        ...options,
-      })
-      .then(res => res.data);
+  sendMessage = async (receiver: string, { type, ...options }: Object) =>
+    this._callAPI('/send_message', {
+      receiver,
+      type,
+      sender: this._sender,
+      ...options,
+    });
 
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#text-message
@@ -220,22 +222,25 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-account-info
    */
-  getAccountInfo = () =>
-    this._http.post('/get_account_info', {}).then(res => res.data);
+  getAccountInfo = async () => this._callAPI('/get_account_info', {});
 
   /**
    * Get User Details
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-user-details
    */
-  getUserDetails = (id: string) =>
-    this._http.post('/get_user_details', { id }).then(res => res.data.user);
+  getUserDetails = async (id: string) => {
+    const data = await this._callAPI('/get_user_details', { id });
+    return data.user;
+  };
 
   /**
    * Get Online
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-online
    */
-  getOnlineStatus = (ids: Array<string>) =>
-    this._http.post('/get_online', { ids }).then(res => res.data.users);
+  getOnlineStatus = async (ids: Array<string>) => {
+    const data = await this._callAPI('/get_online', { ids });
+    return data.users;
+  };
 }
