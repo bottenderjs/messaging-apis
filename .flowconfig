@@ -4,6 +4,8 @@
 [libs]
 
 [options]
+unsafe.enable_getters_and_setters=true
+
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
 suppress_type=$FixMe
@@ -15,4 +17,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.54.1
+^0.57.2

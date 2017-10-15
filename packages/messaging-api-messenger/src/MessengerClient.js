@@ -1,3 +1,5 @@
+/* @flow */
+
 import querystring from 'querystring';
 
 import axios from 'axios';
@@ -150,9 +152,9 @@ export default class MessengerClient {
     { composerInputDisabled = false }: { composerInputDisabled: boolean } = {}
   ): Promise<MutationSuccessResponse> => {
     // menuItems is in type PersistentMenu
-    if (menuItems.some(item => item.locale === 'default')) {
+    if (menuItems.some((item: Object) => item.locale === 'default')) {
       return this.setMessengerProfile({
-        persistent_menu: menuItems,
+        persistent_menu: ((menuItems: any): PersistentMenu),
       });
     }
 
@@ -162,7 +164,7 @@ export default class MessengerClient {
         {
           locale: 'default',
           composer_input_disabled: composerInputDisabled,
-          call_to_actions: menuItems,
+          call_to_actions: ((menuItems: any): Array<MenuItem>),
         },
       ],
     });
@@ -466,6 +468,7 @@ export default class MessengerClient {
       return this.sendAttachment(recipient, attachment);
     }
 
+    // $FlowFixMe
     return this.sendAttachmentFormData(recipient, attachment, audio);
   };
 
@@ -486,6 +489,7 @@ export default class MessengerClient {
       return this.sendAttachment(recipient, attachment);
     }
 
+    // $FlowFixMe
     return this.sendAttachmentFormData(recipient, attachment, image);
   };
 
@@ -506,6 +510,7 @@ export default class MessengerClient {
       return this.sendAttachment(recipient, attachment);
     }
 
+    // $FlowFixMe
     return this.sendAttachmentFormData(recipient, attachment, video);
   };
 
@@ -526,6 +531,7 @@ export default class MessengerClient {
       return this.sendAttachment(recipient, attachment);
     }
 
+    // $FlowFixMe
     return this.sendAttachmentFormData(recipient, attachment, file);
   };
 
@@ -746,6 +752,7 @@ export default class MessengerClient {
           ...item,
           body: Object.keys(item.body)
             .map(key => {
+              // $FlowFixMe item.body should not possible as undefined.
               const val = item.body[key];
               return `${encodeURIComponent(key)}=${encodeURIComponent(
                 typeof val === 'object' ? JSON.stringify(val) : val
@@ -879,7 +886,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/built-in-nlp
    */
   setNLPConfigs = (config: MessengerNLPConfig = {}) => {
-    const query = {
+    const query: Object = {
       nlp_enabled: config.nlp_enabled ? 'true' : 'false',
     };
     if (config.custom_token) {
