@@ -1,4 +1,5 @@
 /* @flow */
+
 import fs from 'fs';
 
 export type UserID = string;
@@ -286,5 +287,5 @@ export type BatchItem = {
   method: string,
   relative_url: string,
   name?: string,
-  body?: string,
+  body?: Object,
 };

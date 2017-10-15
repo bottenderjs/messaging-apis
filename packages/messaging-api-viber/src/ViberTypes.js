@@ -1,3 +1,5 @@
+/* @flow */
+
 export type ViberHTTPResponse = {
   status: number,
   status_message: string,

@@ -1,3 +1,5 @@
+/* @flow */
+
 import Messenger from './Messenger';
 import MessengerClient from './MessengerClient';
 
