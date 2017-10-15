@@ -1085,6 +1085,52 @@ describe('updating api', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#editMessageLiveLocation', () => {
+    it('should edit live location message', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          location: {
+            latitude: 11,
+            longitude: 22,
+          },
+        },
+      };
+
+      mock
+        .onPost('/editMessageLiveLocation', {
+          latitude: 11,
+          longitude: 22,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageLiveLocation(
+        {
+          latitude: 11,
+          longitude: 22,
+        },
+        { message_id: 66 }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
 });
 
 describe('group api', () => {
@@ -1280,6 +1326,45 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.setChatDescription(427770117, 'New Description');
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#setChatStickerSet', () => {
+    it('should set a new group sticker set', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/setChatStickerSet', {
+          chat_id: 427770117,
+          sticker_set_name: 'Sticker Set Name',
+        })
+        .reply(200, reply);
+
+      const res = await client.setChatStickerSet(427770117, 'Sticker Set Name');
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteChatStickerSet', () => {
+    it('should set a new group sticker set', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/deleteChatStickerSet', {
+          chat_id: 427770117,
+        })
+        .reply(200, reply);
+
+      const res = await client.deleteChatStickerSet(427770117);
       expect(res).toEqual(reply);
     });
   });
@@ -1493,6 +1578,42 @@ describe('other api', () => {
       const res = await client.forwardMessage(427770117, 313534466, 203, {
         disable_notification: true,
       });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#stopMessageLiveLocation', () => {
+    it('should stop updating a live location message', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          location: {
+            latitude: 30.000005,
+            longitude: 45,
+          },
+        },
+      };
+
+      mock
+        .onPost('/stopMessageLiveLocation', { message_id: 66 })
+        .reply(200, reply);
+
+      const res = await client.stopMessageLiveLocation({ message_id: 66 });
 
       expect(res).toEqual(reply);
     });

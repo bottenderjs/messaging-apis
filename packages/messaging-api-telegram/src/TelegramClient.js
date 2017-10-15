@@ -211,6 +211,27 @@ export default class TelegramClient {
     });
 
   /**
+   * https://core.telegram.org/bots/api#editmessagelivelocation
+   */
+  editMessageLiveLocation = (
+    { latitude, longitude }: {| latitude: number, longitude: number |},
+    options?: Object
+  ) =>
+    this._request('/editMessageLiveLocation', {
+      latitude,
+      longitude,
+      ...options,
+    });
+
+  /**
+   * https://core.telegram.org/bots/api#stopmessagelivelocation
+   */
+  stopMessageLiveLocation = (identifier: Object) =>
+    this._request('/stopMessageLiveLocation', {
+      ...identifier,
+    });
+
+  /**
    * https://core.telegram.org/bots/api#sendvenue
    */
   sendVenue = (
@@ -380,6 +401,23 @@ export default class TelegramClient {
     this._request('/setChatDescription', {
       chat_id: chatId,
       description,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#setchatstickerset
+    */
+  setChatStickerSet = (chatId: string, stickerSetName: string) =>
+    this._request('/setChatStickerSet', {
+      chat_id: chatId,
+      sticker_set_name: stickerSetName,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#deletechatstickerset
+    */
+  deleteChatStickerSet = (chatId: string) =>
+    this._request('/deleteChatStickerSet', {
+      chat_id: chatId,
     });
 
   /**
