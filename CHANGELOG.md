@@ -1,3 +1,14 @@
+0.4.6 / 2017-10-15
+==================
+### messaging-api-telegram
+- [new] Support methods introduced in Telegram 3.4
+  + [editMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#editmessagelivelocationlocation--options---official-docs)
+  + [stopMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#stopmessagelivelocationoptions---official-docs)
+  + [setChatStickerSet](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#setchatstickersetchatid-stickersetname---official-docs)
+  + [deleteChatStickerSet](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#deletechatstickersetchatid---official-docs)
+
+See more details in [Telegram October 11, 2017 changelog](https://core.telegram.org/bots/api#october-11-2017).
+
 0.4.5 / 2017-10-12
 ==================
 ### messaging-api-viber
