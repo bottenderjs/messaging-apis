@@ -1,3 +1,8 @@
+0.4.7 / 2017-10-16
+==================
+### messaging-api-viber
+- [fix] Always throw error when status != 0 in api response body.
+
 0.4.6 / 2017-10-15
 ==================
 ### messaging-api-telegram
