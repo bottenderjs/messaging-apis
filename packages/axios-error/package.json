@@ -1,0 +1,23 @@
+{
+  "name": "axios-error",
+  "description": "An axios error wrapper that aim to provide clear error message to the user",
+  "version": "0.4.7",
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "axios",
+    "http",
+    "error"
+  ],
+  "devDependencies": {
+    "axios": "^0.16.2",
+    "axios-mock-adapter": "^1.9.0"
+  }
+}
