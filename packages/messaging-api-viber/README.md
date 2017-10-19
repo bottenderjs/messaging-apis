@@ -2,7 +2,7 @@
 
 > Messaging API client for Viber
 
-<img src="https://www.viber.com/app/uploads/Icon_1024.png" alt="Viber" width="150" />
+<img src="https://user-images.githubusercontent.com/3382565/31753411-0be75dfc-b456-11e7-9eea-b976d21fcc53.png" alt="Viber" width="150" />
 
 ## Table of Contents
 
