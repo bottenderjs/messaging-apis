@@ -1,4 +1,4 @@
-function intent(str) {
+function indent(str) {
   return str
     .split('\n')
     .map(s => (s ? `  ${s}` : ''))
@@ -26,14 +26,14 @@ module.exports = class AxiosError extends Error {
       } catch (_) {} // eslint-disable-line
       requestData = `
 Request Data -
-${intent(json(data))}
+${indent(json(data))}
 `;
     }
     let responseData = '';
     if (this.response.data) {
       responseData = `
 Response Data -
-${intent(json(this.response.data))}`;
+${indent(json(this.response.data))}`;
     }
     return `
 ${this.stack}
