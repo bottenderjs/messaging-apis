@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
+import warning from 'warning';
 
 import type { ChatAction } from './TelegramTypes';
 
@@ -23,11 +24,11 @@ export default class TelegramClient {
   static connect = (token: string): TelegramClient => new TelegramClient(token);
 
   _token: string;
-  _http: Axios;
+  _axios: Axios;
 
   constructor(token: string) {
     this._token = token;
-    this._http = axios.create({
+    this._axios = axios.create({
       baseURL: `https://api.telegram.org/bot${token}/`,
       headers: {
         'Content-Type': 'application/json',
@@ -35,10 +36,20 @@ export default class TelegramClient {
     });
   }
 
-  getHTTPClient: () => Axios = () => this._http;
+  get axios(): Axios {
+    return this._axios;
+  }
+
+  getHTTPClient: () => Axios = () => {
+    warning(
+      false,
+      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
+    );
+    return this._axios;
+  };
 
   _request = (url: string, data?: Object) =>
-    this._http.post(url, data).then(res => res.data, handleError);
+    this._axios.post(url, data).then(res => res.data, handleError);
 
   /**
    * https://core.telegram.org/bots/api#getwebhookinfo
