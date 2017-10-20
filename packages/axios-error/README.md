@@ -23,5 +23,5 @@ const AxiosError = require('axios-error');
 new AxiosError(message, errorThrowByAxios);
 
 // Or construct it from axios config, axios request and axios response
-new AxiosError(message, { config, request, response })
+new AxiosError(message, { config, request, response });
 ```

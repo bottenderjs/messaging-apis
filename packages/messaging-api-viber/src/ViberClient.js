@@ -1,6 +1,7 @@
 /* @flow */
 
 import axios from 'axios';
+import AxiosError from 'axios-error';
 
 import type {
   ViberEventType,
@@ -47,10 +48,16 @@ export default class ViberClient {
   getHTTPClient: () => Axios = () => this._http;
 
   _callAPI = async (...args: Array<any>) => {
-    const { data } = await this._http.post(...args);
+    const response = await this._http.post(...args);
+
+    const { data, config, request } = response;
 
     if (data.status !== 0) {
-      throw new Error(data.status_message);
+      throw new AxiosError(data.status_message, {
+        config,
+        request,
+        response,
+      });
     }
 
     return data;
