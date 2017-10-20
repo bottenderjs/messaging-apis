@@ -2572,3 +2572,53 @@ describe('Leave', () => {
     });
   });
 });
+
+describe('Error', () => {
+  it('should format correctly when no details', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      message: 'The request body has 2 error(s)',
+    };
+
+    mock.onAny().reply(400, reply);
+
+    let error;
+    try {
+      await client.replyText(REPLY_TOKEN, 'Hello!');
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error.message).toEqual('LINE API - The request body has 2 error(s)');
+  });
+
+  it('should format correctly when details exist', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      message: 'The request body has 2 error(s)',
+      details: [
+        { message: 'May not be empty', property: 'messages[0].text' },
+        {
+          message:
+            'Must be one of the following values: [text, image, video, audio, location, sticker, template, imagemap]',
+          property: 'messages[1].type',
+        },
+      ],
+    };
+
+    mock.onAny().reply(400, reply);
+
+    let error;
+    try {
+      await client.replyText(REPLY_TOKEN, 'Hello!');
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error.message).toEqual(`LINE API - The request body has 2 error(s)
+- messages[0].text: May not be empty
+- messages[1].type: Must be one of the following values: [text, image, video, audio, location, sticker, template, imagemap]`);
+  });
+});

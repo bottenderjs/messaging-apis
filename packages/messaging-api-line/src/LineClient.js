@@ -3,6 +3,7 @@
 import crypto from 'crypto';
 
 import axios from 'axios';
+import AxiosError from 'axios-error';
 
 import Line from './Line';
 import type {
@@ -28,6 +29,17 @@ type Axios = {
   path: Function,
   delete: Function,
 };
+
+function handleError(err) {
+  const { message, details } = err.response.data;
+  let msg = `LINE API - ${message}`;
+  if (details && details.length > 0) {
+    details.forEach(detail => {
+      msg += `\n- ${detail.property}: ${detail.message}`;
+    });
+  }
+  throw new AxiosError(msg, err);
+}
 
 export default class LineClient {
   static connect = (accessToken: string, channelSecret: string): LineClient =>
@@ -224,7 +236,7 @@ export default class LineClient {
     replyToken: ReplyToken,
     messages: Array<Message>,
   }): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/reply', body).then(res => res.data);
+    this._http.post('/message/reply', body).then(res => res.data, handleError);
 
   reply = (
     replyToken: ReplyToken,
@@ -241,7 +253,7 @@ export default class LineClient {
     to: string,
     messages: Array<Message>,
   }): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/push', body).then(res => res.data);
+    this._http.post('/message/push', body).then(res => res.data, handleError);
 
   push = (
     to: string,
@@ -257,7 +269,9 @@ export default class LineClient {
     to: Array<UserId>,
     messages: Array<Message>,
   }): Promise<MutationSuccessResponse> =>
-    this._http.post('/message/multicast', body).then(res => res.data);
+    this._http
+      .post('/message/multicast', body)
+      .then(res => res.data, handleError);
 
   multicast = (
     to: Array<UserId>,
@@ -273,7 +287,7 @@ export default class LineClient {
   retrieveMessageContent = (messageId: string): Promise<Buffer> =>
     this._http
       .get(`/message/${messageId}/content`, { responseType: 'arraybuffer' })
-      .then(res => Buffer.from(res.data));
+      .then(res => Buffer.from(res.data), handleError);
 
   /**
    * Get User Profile
@@ -282,7 +296,7 @@ export default class LineClient {
    * displayName, userId, pictureUrl, statusMessage
    */
   getUserProfile = (userId: UserId): Promise<User> =>
-    this._http.get(`/profile/${userId}`).then(res => res.data);
+    this._http.get(`/profile/${userId}`).then(res => res.data, handleError);
 
   /**
    * Get Group/Room Member Profile
@@ -290,10 +304,14 @@ export default class LineClient {
    * https://devdocs.line.me/en/#get-group-room-member-profile
    */
   getGroupMemberProfile = (groupId: string, userId: UserId) =>
-    this._http.get(`/group/${groupId}/member/${userId}`).then(res => res.data);
+    this._http
+      .get(`/group/${groupId}/member/${userId}`)
+      .then(res => res.data, handleError);
 
   getRoomMemberProfile = (roomId: string, userId: UserId) =>
-    this._http.get(`/room/${roomId}/member/${userId}`).then(res => res.data);
+    this._http
+      .get(`/room/${roomId}/member/${userId}`)
+      .then(res => res.data, handleError);
 
   /**
    * Get Group/Room Member IDs
@@ -303,7 +321,7 @@ export default class LineClient {
   getGroupMemberIds = (groupId: string, start?: string) =>
     this._http
       .get(`/group/${groupId}/member/ids${start ? `?start=${start}` : ''}`)
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   getAllGroupMemberIds = async (groupId: string) => {
     let allMemberIds = [];
@@ -325,7 +343,7 @@ export default class LineClient {
   getRoomMemberIds = (roomId: string, start?: string) =>
     this._http
       .get(`/room/${roomId}/member/ids${start ? `?start=${start}` : ''}`)
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   getAllRoomMemberIds = async (roomId: string) => {
     let allMemberIds = [];
@@ -350,10 +368,12 @@ export default class LineClient {
    * https://devdocs.line.me/en/#leave
    */
   leaveGroup = (groupId: string): Promise<MutationSuccessResponse> =>
-    this._http.post(`/group/${groupId}/leave`).then(res => res.data);
+    this._http
+      .post(`/group/${groupId}/leave`)
+      .then(res => res.data, handleError);
 
   leaveRoom = (roomId: string): Promise<MutationSuccessResponse> =>
-    this._http.post(`/room/${roomId}/leave`).then(res => res.data);
+    this._http.post(`/room/${roomId}/leave`).then(res => res.data, handleError);
 
   /**
    * Signature Validation
