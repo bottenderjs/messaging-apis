@@ -3,6 +3,7 @@
 import querystring from 'querystring';
 
 import axios from 'axios';
+import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import invariant from 'invariant';
 import omit from 'lodash.omit';
@@ -50,6 +51,12 @@ type Axios = {
   delete: Function,
 };
 
+function handleError(err) {
+  const { error } = err.response.data;
+  const message = `Messenger API - ${error.code} ${error.type} ${error.message}`;
+  throw new AxiosError(message, err);
+}
+
 export default class MessengerClient {
   static connect = (
     accessToken: string,
@@ -84,7 +91,7 @@ export default class MessengerClient {
   getUserProfile = (userId: string): Promise<User> =>
     this._http
       .get(`/${userId}?access_token=${this._accessToken}`)
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   /**
    * Messenger Profile
@@ -99,14 +106,14 @@ export default class MessengerClient {
         `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this
           ._accessToken}`
       )
-      .then(res => res.data.data);
+      .then(res => res.data.data, handleError);
 
   setMessengerProfile = (
     profile: MessengerProfile
   ): Promise<MutationSuccessResponse> =>
     this._http
       .post(`/me/messenger_profile?access_token=${this._accessToken}`, profile)
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   deleteMessengerProfile = (
     fields: Array<string>
@@ -117,7 +124,7 @@ export default class MessengerClient {
           fields,
         },
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   /**
    * Get Started Button
@@ -372,7 +379,7 @@ export default class MessengerClient {
   getMessageTags = (): Promise<MessageTagResponse> =>
     this._http
       .get(`/page_message_tags?access_token=${this._accessToken}`)
-      .then(res => res.data.data);
+      .then(res => res.data.data, handleError);
 
   /**
    * Send API
@@ -383,7 +390,7 @@ export default class MessengerClient {
   sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
     this._http
       .post(`/me/messages?access_token=${this._accessToken}`, body)
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   sendMessage = (
     idOrRecipient: UserID | Recipient,
@@ -422,7 +429,7 @@ export default class MessengerClient {
       .post(`/me/messages?access_token=${this._accessToken}`, form, {
         headers: form.getHeaders(),
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
   };
 
   /**
@@ -789,7 +796,7 @@ export default class MessengerClient {
           },
         },
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   uploadAudio = (url: string) => this.uploadAttachment('audio', url);
   uploadImage = (url: string) => this.uploadAttachment('image', url);
@@ -807,7 +814,7 @@ export default class MessengerClient {
         type: 'standard',
         ...options,
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   /**
    * Handover Protocol API
@@ -831,7 +838,7 @@ export default class MessengerClient {
         target_app_id: targetAppId,
         metadata,
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   /**
    * Take Thread Control
@@ -844,7 +851,7 @@ export default class MessengerClient {
         recipient: { id: recipientId },
         metadata,
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
 
   /**
    * Secondary Receivers List
@@ -857,7 +864,7 @@ export default class MessengerClient {
         `/me/secondary_receivers?fields=id,name&access_token=${this
           ._accessToken}`
       )
-      .then(res => res.data.data);
+      .then(res => res.data.data, handleError);
 
   /**
    * Page Messaging Insights API
@@ -870,7 +877,7 @@ export default class MessengerClient {
         `/me/insights/page_messages_active_threads_unique&access_token=${this
           ._accessToken}`
       )
-      .then(res => res.data.data);
+      .then(res => res.data.data, handleError);
 
   getDailyUniqueConversationCounts = () =>
     this._http
@@ -878,7 +885,7 @@ export default class MessengerClient {
         `/me/insights/page_messages_feedback_by_action_unique&access_token=${this
           ._accessToken}`
       )
-      .then(res => res.data.data);
+      .then(res => res.data.data, handleError);
 
   /**
    * Built-in NLP API
@@ -897,7 +904,7 @@ export default class MessengerClient {
       .post(`/me/nlp_configs?${querystring.stringify(query)}`, {
         access_token: this._accessToken,
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
   };
 
   enableNLP = () => this.setNLPConfigs({ nlp_enabled: true });
