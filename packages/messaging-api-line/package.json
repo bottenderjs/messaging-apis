@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "axios": "^0.16.2",
-    "axios-error": "^0.4.7",
+    "axios-error": "0.4.7",
     "warning": "^3.0.0"
   },
   "devDependencies": {
