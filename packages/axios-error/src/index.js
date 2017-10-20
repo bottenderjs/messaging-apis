@@ -33,10 +33,11 @@ ${intent(json(data))}
     if (this.response.data) {
       responseData = `
 Response Data -
-${intent(json(this.response.data))}
-`;
+${intent(json(this.response.data))}`;
     }
     return `
+${this.stack}
+
 Error Message -
   ${this.message}
 
@@ -46,8 +47,6 @@ ${requestData}
 Response -
   ${this.response.status} ${this.response.statusText}
 ${responseData}
-Stack Trace -
-${intent(this.stack)}
 `;
   }
 };

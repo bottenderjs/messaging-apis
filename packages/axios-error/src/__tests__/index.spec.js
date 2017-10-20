@@ -29,34 +29,6 @@ it('should work', async () => {
     // overwrite stack to test it
     error.stack = stack;
 
-    expect(error.inspect()).toEqual(`
-Error Message -
-  boom....
-
-Request -
-  POST /
-
-Request Data -
-  {
-    "x": 1
-  }
-
-Response -
-  400 Bad Request
-
-Response Data -
-  {
-    "error_status": "boom...."
-  }
-
-Stack Trace -
-  Error: boom....
-    at Object.<anonymous> (/Users/xxx/messaging-apis/packages/axios-error/src/__tests__/index.spec.js:16:19)
-    at Generator.throw (<anonymous>)
-    at step (/Users/xxx/messaging-apis/packages/axios-error/src/__tests__/index.spec.js:4:336)
-    at /Users/xxx/messaging-apis/packages/axios-error/src/__tests__/index.spec.js:4:535
-    at <anonymous>
-
-`);
+    expect(error.inspect()).toMatchSnapshot();
   }
 });

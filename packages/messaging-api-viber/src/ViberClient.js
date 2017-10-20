@@ -53,7 +53,7 @@ export default class ViberClient {
     const { data, config, request } = response;
 
     if (data.status !== 0) {
-      throw new AxiosError(data.status_message, {
+      throw new AxiosError(`Viber API - ${data.status_message}`, {
         config,
         request,
         response,
