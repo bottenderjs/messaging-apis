@@ -72,8 +72,13 @@ describe('constructor', () => {
 
 describe('#version', () => {
   it('should return version of graph api', () => {
-    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('v2.10');
-    expect(new MessengerClient(ACCESS_TOKEN, 'v2.6').version).toEqual('v2.6');
+    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('2.10');
+    expect(new MessengerClient(ACCESS_TOKEN, 'v2.6').version).toEqual('2.6');
+    expect(new MessengerClient(ACCESS_TOKEN, '2.6').version).toEqual('2.6');
+    expect(() => {
+      // eslint-disable-next-line no-new
+      new MessengerClient(ACCESS_TOKEN, 2.6);
+    }).toThrow('Type of `version` must be string.');
   });
 });
 
