@@ -1,3 +1,58 @@
+0.5.0 / 2017-10-20
+==================
+- [new] A big improvement on error message.
+
+For example, when you catch the error and log it out:
+
+```js
+client.sendText().catch(console.error);
+```
+
+You can get some useful information to help you resolve the issue.
+
+```
+Error: Messenger API - 2500 OAuthException An active access token must be used to query information about the current user.
+    at handleError (/Users/chentsulin/Projects/yoctol/ttt/node_modules/messaging-api-messenger/lib/MessengerClient.js:64:9)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+
+Error Message -
+  Messenger API - 2500 OAuthException An active access token must be used to query information about the current user.
+
+Request -
+  POST https://graph.facebook.com/v2.10/me/messages?access_token=
+
+Request Data -
+  {
+    "recipient": {
+      "id": ""
+    },
+    "message": {
+      "text": ""
+    }
+  }
+
+Response -
+  400 Bad Request
+
+Response Data -
+  {
+    "error": {
+      "message": "An active access token must be used to query information about the current user.",
+      "type": "OAuthException",
+      "code": 2500,
+      "fbtrace_id": "GOnNuiN/ewZ"
+    }
+  }
+```
+
+The error messages are powered by [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package.
+
+- [deprecated] `client.getHTTPClient()` method is deprecated. use `client.axios` getter instead.
+
+### messaging-api-messenger
+- [breaking] `client.version` now return version number string (`2.10`) instead of the v-prefix version (`v2.10`).
+
 0.4.7 / 2017-10-16
 ==================
 ### messaging-api-viber
