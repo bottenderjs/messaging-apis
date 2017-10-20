@@ -16,5 +16,7 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(3[0-3]\\|[1-2][0-9]\\|
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
+module.name_mapper='^axios-error$' -> '<PROJECT_ROOT>/packages/axios-error/src/index.js'
+
 [version]
 ^0.57.2

@@ -3,6 +3,7 @@
 import querystring from 'querystring';
 
 import axios from 'axios';
+import AxiosError from 'axios-error';
 
 import type {
   SlackOAuthAPIResponse,
@@ -62,21 +63,24 @@ export default class SlackOAuthClient {
 
   getHTTPClient: () => Axios = () => this._http;
 
-  callMethod = (
+  callMethod = async (
     method: SlackAvailableMethod,
     body: Object = {}
   ): Promise<SlackOAuthAPIResponse> => {
     body.token = this._token; // eslint-disable-line no-param-reassign
-    return this._http.post(method, querystring.stringify(body)).then(res => {
-      if (!res.data.ok) {
-        const error = (new Error(`Slack API error: ${res.data.error}`): Object);
-        error.config = res.config;
-        error.headers = res.headers;
-        error.data = res.data;
-        throw error;
-      }
-      return res.data;
-    });
+    const response = await this._http.post(method, querystring.stringify(body));
+
+    const { data, config, request } = response;
+
+    if (!data.ok) {
+      throw new AxiosError(`Slack API - ${data.error}`, {
+        config,
+        request,
+        response,
+      });
+    }
+
+    return data;
   };
 
   /**
