@@ -1,6 +1,7 @@
 # Messaging APIs
 
 [![Build Status](https://travis-ci.org/Yoctol/messaging-apis.svg?branch=master)](https://travis-ci.org/Yoctol/messaging-apis)
+[![Build status](https://ci.appveyor.com/api/projects/status/d8br1kcybpikdm8m/branch/master?svg=true)](https://ci.appveyor.com/project/tw0517tw/messaging-apis/branch/master)
 [![coverage](https://codecov.io/gh/Yoctol/messaging-apis/branch/master/graph/badge.svg)](https://codecov.io/gh/Yoctol/messaging-apis)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
