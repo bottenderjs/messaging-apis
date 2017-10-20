@@ -132,8 +132,8 @@ describe('#callMethod', () => {
         channel: CHANNEL,
         text: 'hello',
       });
-    } catch (e) {
-      expect(e).toEqual(new Error('Slack API error: something wrong'));
+    } catch (err) {
+      expect(err.message).toEqual('Slack API - something wrong');
     }
   });
 });
