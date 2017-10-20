@@ -80,6 +80,16 @@ describe('#getHTTPClient', () => {
   });
 });
 
+describe('#axios', () => {
+  it('should return underlying http client', () => {
+    const client = new ViberClient(AUTH_TOKEN);
+    expect(client.axios.get).toBeDefined();
+    expect(client.axios.post).toBeDefined();
+    expect(client.axios.put).toBeDefined();
+    expect(client.axios.delete).toBeDefined();
+  });
+});
+
 describe('webhooks', () => {
   describe('#setWebhook', () => {
     it('should response event_types was set', async () => {

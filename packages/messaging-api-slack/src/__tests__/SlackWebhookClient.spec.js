@@ -67,6 +67,16 @@ describe('#getHTTPClient', () => {
   });
 });
 
+describe('#axios', () => {
+  it('should return underlying http client', () => {
+    const client = new SlackWebhookClient(URL);
+    expect(client.axios.get).toBeDefined();
+    expect(client.axios.post).toBeDefined();
+    expect(client.axios.put).toBeDefined();
+    expect(client.axios.delete).toBeDefined();
+  });
+});
+
 describe('sendRawBody', () => {
   it('should call messages api', async () => {
     const { client, mock } = createMock();

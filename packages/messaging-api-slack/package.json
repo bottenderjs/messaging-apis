@@ -20,7 +20,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "axios-error": "^0.4.7",
-    "invariant": "^2.2.2"
+    "invariant": "^2.2.2",
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0"

@@ -72,13 +72,13 @@ export default class MessengerClient {
 
   _accessToken: string;
   _version: string;
-  _http: Axios;
+  _axios: Axios;
 
   constructor(accessToken: string, version?: string = '2.10') {
     this._accessToken = accessToken;
     invariant(typeof version === 'string', 'Type of `version` must be string.');
     this._version = extractVersion(version);
-    this._http = axios.create({
+    this._axios = axios.create({
       baseURL: `https://graph.facebook.com/v${this._version}/`,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -88,7 +88,17 @@ export default class MessengerClient {
     return this._version;
   }
 
-  getHTTPClient: () => Axios = () => this._http;
+  get axios(): Axios {
+    return this._axios;
+  }
+
+  getHTTPClient: () => Axios = () => {
+    warning(
+      false,
+      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
+    );
+    return this._axios;
+  };
 
   /**
    * Get User Profile
@@ -97,7 +107,7 @@ export default class MessengerClient {
    * first_name, last_name, profile_pic, locale, timezone, gender
    */
   getUserProfile = (userId: string): Promise<User> =>
-    this._http
+    this._axios
       .get(`/${userId}?access_token=${this._accessToken}`)
       .then(res => res.data, handleError);
 
@@ -109,7 +119,7 @@ export default class MessengerClient {
   getMessengerProfile = (
     fields: Array<string>
   ): Promise<MessengerProfileResponse> =>
-    this._http
+    this._axios
       .get(
         `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this
           ._accessToken}`
@@ -119,14 +129,14 @@ export default class MessengerClient {
   setMessengerProfile = (
     profile: MessengerProfile
   ): Promise<MutationSuccessResponse> =>
-    this._http
+    this._axios
       .post(`/me/messenger_profile?access_token=${this._accessToken}`, profile)
       .then(res => res.data, handleError);
 
   deleteMessengerProfile = (
     fields: Array<string>
   ): Promise<MutationSuccessResponse> =>
-    this._http
+    this._axios
       .delete(`/me/messenger_profile?access_token=${this._accessToken}`, {
         data: {
           fields,
@@ -385,7 +395,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/
    */
   getMessageTags = (): Promise<MessageTagResponse> =>
-    this._http
+    this._axios
       .get(`/page_message_tags?access_token=${this._accessToken}`)
       .then(res => res.data.data, handleError);
 
@@ -396,7 +406,7 @@ export default class MessengerClient {
    */
   // TODO: body flowtype
   sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
-    this._http
+    this._axios
       .post(`/me/messages?access_token=${this._accessToken}`, body)
       .then(res => res.data, handleError);
 
@@ -433,7 +443,7 @@ export default class MessengerClient {
     form.append('recipient', JSON.stringify(recipientObject));
     form.append('message', JSON.stringify(message));
     form.append('filedata', filedata);
-    return this._http
+    return this._axios
       .post(`/me/messages?access_token=${this._accessToken}`, form, {
         headers: form.getHeaders(),
       })
@@ -792,7 +802,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload
    */
   uploadAttachment = (type: string, url: string) =>
-    this._http
+    this._axios
       .post(`/me/message_attachments?access_token=${this._accessToken}`, {
         message: {
           attachment: {
@@ -817,7 +827,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/messenger-code
    */
   generateMessengerCode = (options: Object = {}) =>
-    this._http
+    this._axios
       .post(`/me/messenger_codes?access_token=${this._accessToken}`, {
         type: 'standard',
         ...options,
@@ -840,7 +850,7 @@ export default class MessengerClient {
     targetAppId: number,
     metadata?: string
   ) =>
-    this._http
+    this._axios
       .post(`/me/pass_thread_control?access_token=${this._accessToken}`, {
         recipient: { id: recipientId },
         target_app_id: targetAppId,
@@ -854,7 +864,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/take-thread-control
    */
   takeThreadControl = (recipientId: string, metadata?: string) =>
-    this._http
+    this._axios
       .post(`/me/take_thread_control?access_token=${this._accessToken}`, {
         recipient: { id: recipientId },
         metadata,
@@ -867,7 +877,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/secondary-receivers
    */
   getSecondaryReceivers = () =>
-    this._http
+    this._axios
       .get(
         `/me/secondary_receivers?fields=id,name&access_token=${this
           ._accessToken}`
@@ -880,7 +890,7 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/insights/page-messaging
    */
   getDailyUniqueActiveThreadCounts = () =>
-    this._http
+    this._axios
       .get(
         `/me/insights/page_messages_active_threads_unique&access_token=${this
           ._accessToken}`
@@ -888,7 +898,7 @@ export default class MessengerClient {
       .then(res => res.data.data, handleError);
 
   getDailyUniqueConversationCounts = () =>
-    this._http
+    this._axios
       .get(
         `/me/insights/page_messages_feedback_by_action_unique&access_token=${this
           ._accessToken}`
@@ -908,7 +918,7 @@ export default class MessengerClient {
       query.custom_token = config.custom_token;
     }
 
-    return this._http
+    return this._axios
       .post(`/me/nlp_configs?${querystring.stringify(query)}`, {
         access_token: this._accessToken,
       })

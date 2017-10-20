@@ -1,6 +1,7 @@
 /* @flow */
 
 import axios from 'axios';
+import warning from 'warning';
 
 import type { SlackAttachment, SendMessageSucessResponse } from './SlackTypes';
 
@@ -18,21 +19,31 @@ export default class SlackWebhookClient {
   static connect = (url: URL): SlackWebhookClient =>
     new SlackWebhookClient(url);
 
-  _http: Axios;
+  _axios: Axios;
 
   constructor(url: URL) {
     // incoming webhooks
     // https://api.slack.com/incoming-webhooks
-    this._http = axios.create({
+    this._axios = axios.create({
       baseURL: url,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  getHTTPClient: () => Axios = () => this._http;
+  get axios(): Axios {
+    return this._axios;
+  }
+
+  getHTTPClient: () => Axios = () => {
+    warning(
+      false,
+      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
+    );
+    return this._axios;
+  };
 
   sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
-    this._http.post('', body).then(res => res.data);
+    this._axios.post('', body).then(res => res.data);
 
   sendText = (text: string): Promise<SendMessageSucessResponse> =>
     this.sendRawBody({ text });

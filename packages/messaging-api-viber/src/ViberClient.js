@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
+import warning from 'warning';
 
 import type {
   ViberEventType,
@@ -31,12 +32,12 @@ export default class ViberClient {
 
   _token: string;
   _sender: ViberSender;
-  _http: Axios;
+  _axios: Axios;
 
   constructor(token: string, sender: ViberSender) {
     this._token = token;
     this._sender = sender;
-    this._http = axios.create({
+    this._axios = axios.create({
       baseURL: `https://chatapi.viber.com/pa/`,
       headers: {
         'Content-Type': 'application/json',
@@ -45,10 +46,20 @@ export default class ViberClient {
     });
   }
 
-  getHTTPClient: () => Axios = () => this._http;
+  get axios(): Axios {
+    return this._axios;
+  }
+
+  getHTTPClient: () => Axios = () => {
+    warning(
+      false,
+      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
+    );
+    return this._axios;
+  };
 
   _callAPI = async (...args: Array<any>) => {
-    const response = await this._http.post(...args);
+    const response = await this._axios.post(...args);
 
     const { data, config, request } = response;
 

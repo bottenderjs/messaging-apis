@@ -93,6 +93,16 @@ describe('#getHTTPClient', () => {
   });
 });
 
+describe('#axios', () => {
+  it('should return underlying http client', () => {
+    const client = new MessengerClient(ACCESS_TOKEN);
+    expect(client.axios.get).toBeDefined();
+    expect(client.axios.post).toBeDefined();
+    expect(client.axios.put).toBeDefined();
+    expect(client.axios.delete).toBeDefined();
+  });
+});
+
 describe('user profile', () => {
   describe('#getUserProfile', () => {
     it('should response user profile', async () => {

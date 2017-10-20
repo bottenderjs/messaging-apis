@@ -4,6 +4,7 @@ import querystring from 'querystring';
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
+import warning from 'warning';
 
 import type {
   SlackOAuthAPIResponse,
@@ -44,14 +45,14 @@ export default class SlackOAuthClient {
   static connect = (token: Token): SlackOAuthClient =>
     new SlackOAuthClient(token);
 
-  _http: Axios;
+  _axios: Axios;
 
   _token: Token;
 
   constructor(token: Token) {
     // Web API
     // https://api.slack.com/web
-    this._http = axios.create({
+    this._axios = axios.create({
       baseURL: 'https://slack.com/api/',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -61,14 +62,27 @@ export default class SlackOAuthClient {
     this._token = token;
   }
 
-  getHTTPClient: () => Axios = () => this._http;
+  get axios(): Axios {
+    return this._axios;
+  }
+
+  getHTTPClient: () => Axios = () => {
+    warning(
+      false,
+      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
+    );
+    return this._axios;
+  };
 
   callMethod = async (
     method: SlackAvailableMethod,
     body: Object = {}
   ): Promise<SlackOAuthAPIResponse> => {
     body.token = this._token; // eslint-disable-line no-param-reassign
-    const response = await this._http.post(method, querystring.stringify(body));
+    const response = await this._axios.post(
+      method,
+      querystring.stringify(body)
+    );
 
     const { data, config, request } = response;
 
