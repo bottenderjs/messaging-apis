@@ -58,10 +58,10 @@ const client = MessengerClient.connect(accessToken);
 You can specify version of Facebook Graph API using second argument:
 
 ```js
-const client = MessengerClient.connect(accessToken, 'v2.9');
+const client = MessengerClient.connect(accessToken, '2.9');
 ```
 
-If it is not specified, version `v2.10` will be used as default.
+If it is not specified, version `2.10` will be used as default.
 
 <br />
 

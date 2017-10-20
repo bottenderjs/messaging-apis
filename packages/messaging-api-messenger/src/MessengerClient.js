@@ -51,6 +51,13 @@ type Axios = {
   delete: Function,
 };
 
+function extractVersion(version) {
+  if (version.startsWith('v')) {
+    return version.slice(1);
+  }
+  return version;
+}
+
 function handleError(err) {
   const { error } = err.response.data;
   const message = `Messenger API - ${error.code} ${error.type} ${error.message}`;
@@ -67,11 +74,12 @@ export default class MessengerClient {
   _version: string;
   _http: Axios;
 
-  constructor(accessToken: string, version?: string = 'v2.10') {
+  constructor(accessToken: string, version?: string = '2.10') {
     this._accessToken = accessToken;
-    this._version = version;
+    invariant(typeof version === 'string', 'Type of `version` must be string.');
+    this._version = extractVersion(version);
     this._http = axios.create({
-      baseURL: `https://graph.facebook.com/${version}/`,
+      baseURL: `https://graph.facebook.com/v${this._version}/`,
       headers: { 'Content-Type': 'application/json' },
     });
   }
