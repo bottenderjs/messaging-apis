@@ -1,6 +1,7 @@
 /* @flow */
 
 import axios from 'axios';
+import AxiosError from 'axios-error';
 
 import type { ChatAction } from './TelegramTypes';
 
@@ -11,6 +12,12 @@ type Axios = {
   path: Function,
   delete: Function,
 };
+
+function handleError(err) {
+  const { error_code, description } = err.response.data;
+  const msg = `Telegram API - ${error_code} ${description || ''}`; // eslint-disable-line camelcase
+  throw new AxiosError(msg, err);
+}
 
 export default class TelegramClient {
   static connect = (token: string): TelegramClient => new TelegramClient(token);
@@ -31,7 +38,7 @@ export default class TelegramClient {
   getHTTPClient: () => Axios = () => this._http;
 
   _request = (url: string, data?: Object) =>
-    this._http.post(url, data).then(res => res.data);
+    this._http.post(url, data).then(res => res.data, handleError);
 
   /**
    * https://core.telegram.org/bots/api#getwebhookinfo
