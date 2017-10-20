@@ -53,8 +53,8 @@ type Axios = {
 
 function handleError(err) {
   const { error } = err.response.data;
-  const message = `Messenger API - ${error.code} ${error.type} ${error.message}`;
-  throw new AxiosError(message, err);
+  const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
+  throw new AxiosError(msg, err);
 }
 
 export default class MessengerClient {

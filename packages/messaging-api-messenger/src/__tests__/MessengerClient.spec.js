@@ -3999,3 +3999,32 @@ describe('Built-in NLP API', () => {
     });
   });
 });
+
+describe('Error', () => {
+  it('should format correctly', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      error: {
+        message: 'Invalid OAuth access token.',
+        type: 'OAuthException',
+        code: 190,
+        error_subcode: 1234567,
+        fbtrace_id: 'BLBz/WZt8dN',
+      },
+    };
+
+    mock.onAny().reply(400, reply);
+
+    let error;
+    try {
+      await client.sendText(RECIPIENT_ID, 'Hello!');
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error.message).toEqual(
+      'Messenger API - 190 OAuthException Invalid OAuth access token.'
+    );
+  });
+});
