@@ -1525,7 +1525,7 @@ client.setGreetingText([
 ```
 
 <br />
-s
+
 ## `deleteGreetingText`
 
 Deletes greeting text.

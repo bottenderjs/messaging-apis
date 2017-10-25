@@ -149,18 +149,42 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button
    */
-  getGetStartedButton = (): Promise<MessengerProfileResponse> =>
+  getGetStarted = (): Promise<MessengerProfileResponse> =>
     this.getMessengerProfile(['get_started']).then(res => res[0].get_started);
 
-  setGetStartedButton = (payload: string): Promise<MutationSuccessResponse> =>
+  getGetStartedButton = (): Promise<MessengerProfileResponse> => {
+    warning(
+      false,
+      '`getGetStartedButton` is deprecated, use `getGetStarted` instead'
+    );
+    return this.getGetStarted();
+  };
+
+  setGetStarted = (payload: string): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
       get_started: {
         payload,
       },
     });
 
-  deleteGetStartedButton = (): Promise<MutationSuccessResponse> =>
+  setGetStartedButton = (payload: string): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`setGetStartedButton` is deprecated, use `setGetStarted` instead'
+    );
+    return this.setGetStarted(payload);
+  };
+
+  deleteGetStarted = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['get_started']);
+
+  deleteGetStartedButton = (): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`deleteGetStartedButton` is deprecated, use `deleteGetStarted` instead'
+    );
+    return this.deleteGetStarted();
+  };
 
   /**
    * Persistent Menu
@@ -203,10 +227,18 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text
    */
-  getGreetingText = (): Promise<MessengerProfileResponse> =>
+  getGreeting = (): Promise<MessengerProfileResponse> =>
     this.getMessengerProfile(['greeting']).then(res => res[0].greeting);
 
-  setGreetingText = (
+  getGreetingText = (): Promise<MessengerProfileResponse> => {
+    warning(
+      false,
+      '`getGreetingText` is deprecated, use `getGreeting` instead'
+    );
+    return this.getGreeting();
+  };
+
+  setGreeting = (
     greeting: string | Array<GreetingConfig>
   ): Promise<MutationSuccessResponse> => {
     if (typeof greeting === 'string') {
@@ -225,8 +257,26 @@ export default class MessengerClient {
     });
   };
 
-  deleteGreetingText = (): Promise<MutationSuccessResponse> =>
+  setGreetingText = (
+    greeting: string | Array<GreetingConfig>
+  ): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`setGreetingText` is deprecated, use `setGreeting` instead'
+    );
+    return this.setGreeting(greeting);
+  };
+
+  deleteGreeting = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['greeting']);
+
+  deleteGreetingText = (): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`deleteGreetingText` is deprecated, use `deleteGreeting` instead'
+    );
+    return this.deleteGreeting();
+  };
 
   /**
    * Domain Whitelist
@@ -362,10 +412,18 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url
    */
-  getChatExtensionHomeURL = (): Promise<MessengerProfileResponse> =>
+  getHomeURL = (): Promise<MessengerProfileResponse> =>
     this.getMessengerProfile(['home_url']).then(res => res[0]);
 
-  setChatExtensionHomeURL = (
+  getChatExtensionHomeURL = (): Promise<MessengerProfileResponse> => {
+    warning(
+      false,
+      '`getChatExtensionHomeURL` is deprecated. use `getHomeURL` instead.'
+    );
+    return this.getHomeURL();
+  };
+
+  setHomeURL = (
     url: string,
     {
       webview_height_ratio,
@@ -386,8 +444,39 @@ export default class MessengerClient {
       },
     });
 
-  deleteChatExtensionHomeURL = (): Promise<MutationSuccessResponse> =>
+  setChatExtensionHomeURL = (
+    url: string,
+    {
+      webview_height_ratio,
+      webview_share_button,
+      in_test,
+    }: {
+      webview_height_ratio: string,
+      webview_share_button?: string,
+      in_test: boolean,
+    }
+  ): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`setChatExtensionHomeURL` is deprecated. use `setHomeURL` instead.'
+    );
+    return this.setHomeURL(url, {
+      webview_height_ratio,
+      webview_share_button,
+      in_test,
+    });
+  };
+
+  deleteHomeURL = (): Promise<MutationSuccessResponse> =>
     this.deleteMessengerProfile(['home_url']);
+
+  deleteChatExtensionHomeURL = (): Promise<MutationSuccessResponse> => {
+    warning(
+      false,
+      '`deleteChatExtensionHomeURL` is deprecated. use `deleteHomeURL` instead.'
+    );
+    return this.deleteHomeURL();
+  };
 
   /**
    * Message tags
