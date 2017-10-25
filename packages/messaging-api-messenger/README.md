@@ -1441,13 +1441,13 @@ client.deletePersistentMenu();
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14302685_243106819419381_1314180151_n.png?oh=9487042d8c0067eb2fda1efa45d0e17b&oe=59F7185C" alt="Get Started Button" width="500" />
 
-## `getGetStartedButton`
+## `getGetStarted`
 
 Retrieves the current value of get started button.
 
 Example:
 ```js
-client.getGetStartedButton().then(getStarted => {
+client.getGetStarted().then(getStarted => {
   console.log(getStarted);
   // {
   //   payload: 'GET_STARTED',
@@ -1457,7 +1457,7 @@ client.getGetStartedButton().then(getStarted => {
 
 <br />
 
-## `setGetStartedButton(payload)`
+## `setGetStarted(payload)`
 
 Sets the values of get started button.
 
@@ -1467,18 +1467,18 @@ payload | `String` | Payload sent back to your webhook in a `messaging_postbacks
 
 Example:
 ```js
-client.setGetStartedButton('GET_STARTED');
+client.setGetStarted('GET_STARTED');
 ```
 
 <br />
 
-## `deleteGetStartedButton`
+## `deleteGetStarted`
 
 Deletes get started button.
 
 Example:
 ```js
-client.deleteGetStartedButton();
+client.deleteGetStarted();
 ```
 
 <a id="greeting-text" />
@@ -1487,13 +1487,13 @@ client.deleteGetStartedButton();
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14287888_188235318253964_1078929636_n.png?oh=a1171ab50f04d3a244ed703eafd2dbef&oe=59F01AF5" alt="Greeting Text" width="250" />
 
-## `getGreetingText`
+## `getGreeting`
 
 Retrieves the current value of greeting text.
 
 Example:
 ```js
-client.getGreetingText().then(greeting => {
+client.getGreeting().then(greeting => {
   console.log(greeting);
   // [
   //   {
@@ -1506,7 +1506,7 @@ client.getGreetingText().then(greeting => {
 
 <br />
 
-## `setGreetingText(greeting)`
+## `setGreeting(greeting)`
 
 Sets the values of greeting text.
 
@@ -1516,7 +1516,7 @@ greeting | `Array<Object>` | Array of [greeting](https://developers.facebook.com
 
 Example:
 ```js
-client.setGreetingText([
+client.setGreeting([
   {
     locale: 'default',
     text: 'Hello!',
@@ -1526,13 +1526,13 @@ client.setGreetingText([
 
 <br />
 
-## `deleteGreetingText`
+## `deleteGreeting`
 
 Deletes greeting text.
 
 Example:
 ```js
-client.deleteGreetingText();
+client.deleteGreeting();
 ```
 
 <a id="domain-whitelist" />
@@ -1757,13 +1757,13 @@ client.deleteTargetAudience();
 
 ### Chat Extension Home URL - [Official Docs](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
 
-## `getChatExtensionHomeURL`
+## `getHomeURL`
 
 Retrieves the current value of chat extension home URL.
 
 Example:
 ```js
-client.getChatExtensionHomeURL().then(chatExtension => {
+client.getHomeURL().then(chatExtension => {
   console.log(chatExtension);
   // {
   //   url: 'http://petershats.com/send-a-hat',
@@ -1775,7 +1775,7 @@ client.getChatExtensionHomeURL().then(chatExtension => {
 
 <br />
 
-## `setChatExtensionHomeURL(url, attributes)`
+## `setHomeURL(url, attributes)`
 
 Sets the values of chat extension home URL.
 
@@ -1786,7 +1786,7 @@ attributes | `Object` | Other [properties](https://developers.facebook.com/docs/
 
 Exmaple:
 ```js
-client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
+client.setHomeURL('http://petershats.com/send-a-hat', {
   webview_height_ratio: 'tall',
   in_test: true,
 });
@@ -1794,13 +1794,13 @@ client.setChatExtensionHomeURL('http://petershats.com/send-a-hat', {
 
 <br />
 
-## `deleteChatExtensionHomeURL`
+## `deleteHomeURL`
 
 Deletes chat extension home URL.
 
 Example:
 ```js
-client.deleteChatExtensionHomeURL();
+client.deleteHomeURL();
 ```
 
 <br />
