@@ -1,3 +1,19 @@
+0.5.1 / 2017-10-25
+==================
+### messaging-api-messenger
+- [renamed] Following profile methods has been renamed to match api key:
+  + `getGetStartedButton` -> `getGetStarted`
+  + `setGetStartedButton` -> `setGetStarted`
+  + `deleteGetStartedButton` -> `deleteGetStarted`
+  + `getGreetingText` -> `getGreeting`
+  + `setGreetingText` -> `setGreeting`
+  + `deleteGreetingText` -> `deleteGreeting`
+  + `getChatExtensionHomeURL` -> `getHomeURL`
+  + `setChatExtensionHomeURL` -> `setHomeURL`
+  + `deleteChatExtensionHomeURL` -> `deleteHomeURL`
+
+The deprecated methods will be removed after `v0.6.0`.
+
 0.5.0 / 2017-10-20
 ==================
 - [new] A big improvement on error message.
