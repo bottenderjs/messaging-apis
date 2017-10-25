@@ -5,7 +5,9 @@ environment:
 install:
   - ps: Install-Product node $env:nodejs_version x64
   - node --version
-  - choco install yarn
+# https://www.appveyor.com/updates/2017/10/22/
+# already yarn v1.2.1
+# - choco install yarn
   - yarn --version
   - yarn install
 
