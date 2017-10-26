@@ -18,7 +18,7 @@
     "slack"
   ],
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.17.0",
     "axios-error": "^0.5.0",
     "invariant": "^2.2.2",
     "warning": "^3.0.0"

@@ -17,7 +17,7 @@
     "error"
   ],
   "devDependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.17.0",
     "axios-mock-adapter": "^1.9.0"
   }
 }
