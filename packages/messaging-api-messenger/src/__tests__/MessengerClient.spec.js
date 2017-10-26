@@ -1363,7 +1363,7 @@ describe('chat extension home URL', () => {
       });
     });
 
-    it('should response null when data is an emoty array', async () => {
+    it('should response null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
