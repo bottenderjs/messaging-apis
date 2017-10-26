@@ -1,3 +1,8 @@
+0.5.3 / 2017-10-26
+==================
+### messaging-api-messenger
+- [fix] return null when no any messenger profile setting exists [#176](https://github.com/Yoctol/messaging-apis/issues/176)
+
 0.5.2 / 2017-10-26
 ==================
 - [deps] Upgrade `axios` to `v0.17.0`.
