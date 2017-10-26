@@ -294,6 +294,24 @@ describe('get started button', () => {
         payload: 'GET_STARTED',
       });
     });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getGetStartedButton();
+
+      expect(res).toEqual(null);
+    });
   });
 
   describe('#setGetStartedButton', () => {
@@ -395,6 +413,24 @@ describe('persistent menu', () => {
           ],
         },
       ]);
+    });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getPersistentMenu();
+
+      expect(res).toEqual(null);
     });
   });
 
@@ -760,6 +796,20 @@ describe('greeting text', () => {
         },
       ]);
     });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock.onGet().reply(200, reply);
+
+      const res = await client.getGreetingText();
+
+      expect(res).toEqual(null);
+    });
   });
 
   describe('#setGreetingText', () => {
@@ -867,6 +917,24 @@ describe('whitelisted domains', () => {
 
       expect(res).toEqual(['http://www.yoctol.com/']);
     });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getWhitelistedDomains();
+
+      expect(res).toEqual(null);
+    });
   });
 
   describe('#setWhitelistedDomains', () => {
@@ -936,6 +1004,24 @@ describe('account linking url', () => {
         account_linking_url:
           'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
       });
+    });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getAccountLinkingURL();
+
+      expect(res).toEqual(null);
     });
   });
 
@@ -1011,6 +1097,24 @@ describe('payment settings', () => {
         public_key: 'YOUR_PUBLIC_KEY',
         test_users: ['12345678'],
       });
+    });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=payment_settings&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getPaymentSettings();
+
+      expect(res).toEqual(null);
     });
   });
 
@@ -1134,6 +1238,24 @@ describe('target audience', () => {
         },
       });
     });
+
+    it('should response null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=target_audience&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getTargetAudience();
+
+      expect(res).toEqual(null);
+    });
   });
 
   describe('#setTargetAudience', () => {
@@ -1239,6 +1361,24 @@ describe('chat extension home URL', () => {
         webview_height_ratio: 'tall',
         in_test: true,
       });
+    });
+
+    it('should response null when data is an emoty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      mock
+        .onGet(
+          `/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getChatExtensionHomeURL();
+
+      expect(res).toEqual(null);
     });
   });
 

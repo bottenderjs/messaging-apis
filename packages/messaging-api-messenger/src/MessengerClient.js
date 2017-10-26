@@ -149,10 +149,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button
    */
-  getGetStarted = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['get_started']).then(res => res[0].get_started);
+  getGetStarted = (): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['get_started']).then(
+      res => (res[0] ? res[0].get_started : null)
+    );
 
-  getGetStartedButton = (): Promise<MessengerProfileResponse> => {
+  getGetStartedButton = (): Promise<MessengerProfileResponse | null> => {
     warning(
       false,
       '`getGetStartedButton` is deprecated, use `getGetStarted` instead'
@@ -191,9 +193,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu
    */
-  getPersistentMenu = (): Promise<MessengerProfileResponse> =>
+  getPersistentMenu = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['persistent_menu']).then(
-      res => res[0].persistent_menu
+      res => (res[0] ? res[0].persistent_menu : null)
     );
 
   setPersistentMenu = (
@@ -227,10 +229,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text
    */
-  getGreeting = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['greeting']).then(res => res[0].greeting);
+  getGreeting = (): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['greeting']).then(
+      res => (res[0] ? res[0].greeting : null)
+    );
 
-  getGreetingText = (): Promise<MessengerProfileResponse> => {
+  getGreetingText = (): Promise<MessengerProfileResponse | null> => {
     warning(
       false,
       '`getGreetingText` is deprecated, use `getGreeting` instead'
@@ -283,7 +287,7 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
    */
-  getDomainWhitelist = (): Promise<MessengerProfileResponse> => {
+  getDomainWhitelist = (): Promise<MessengerProfileResponse | null> => {
     warning(
       false,
       '`getDomainWhitelist` is deprecated. use `getWhitelistedDomains` instead.'
@@ -314,9 +318,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
    */
-  getWhitelistedDomains = (): Promise<MessengerProfileResponse> =>
+  getWhitelistedDomains = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['whitelisted_domains']).then(
-      res => res[0].whitelisted_domains
+      res => (res[0] ? res[0].whitelisted_domains : null)
     );
 
   setWhitelistedDomains = (
@@ -334,8 +338,10 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url
    */
-  getAccountLinkingURL = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['account_linking_url']).then(res => res[0]);
+  getAccountLinkingURL = (): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['account_linking_url']).then(
+      res => (res[0] ? res[0] : null)
+    );
 
   setAccountLinkingURL = (url: string): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
@@ -350,8 +356,10 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings
    */
-  getPaymentSettings = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['payment_settings']).then(res => res[0]);
+  getPaymentSettings = (): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['payment_settings']).then(
+      res => (res[0] ? res[0] : null)
+    );
 
   setPaymentPrivacyPolicyURL = (
     url: string
@@ -386,8 +394,10 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience
    */
-  getTargetAudience = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['target_audience']).then(res => res[0]);
+  getTargetAudience = (): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['target_audience']).then(
+      res => (res[0] ? res[0] : null)
+    );
 
   setTargetAudience = (
     type: string,
@@ -412,10 +422,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url
    */
-  getHomeURL = (): Promise<MessengerProfileResponse> =>
-    this.getMessengerProfile(['home_url']).then(res => res[0]);
+  getHomeURL = (): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['home_url']).then(
+      res => (res[0] ? res[0] : null)
+    );
 
-  getChatExtensionHomeURL = (): Promise<MessengerProfileResponse> => {
+  getChatExtensionHomeURL = (): Promise<MessengerProfileResponse | null> => {
     warning(
       false,
       '`getChatExtensionHomeURL` is deprecated. use `getHomeURL` instead.'
