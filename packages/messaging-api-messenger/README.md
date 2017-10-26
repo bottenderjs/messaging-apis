@@ -1241,7 +1241,7 @@ Retrieves the current value of one or more Messenger Profile properties by name.
 
 Param  | Type            | Description
 ------ | --------------- | -----------
-fields | `Array<String>` | Value must be among `account_linking_url | persistent_menu | get_started | greeting | whitelisted_domains | payment_settings | target_audience | home_url`.
+fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`.
 
 Example:
 ```js
@@ -1312,7 +1312,7 @@ Deletes one or more Messenger Profile properties. Only properties specified in t
 
 Param  | Type            | Description
 ------ | --------------- | -----------
-fields | `Array<String>` | Value must be among `account_linking_url | persistent_menu | get_started | greeting | whitelisted_domains | payment_settings | target_audience | home_url`.
+fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`.
 
 Example:
 ```js
