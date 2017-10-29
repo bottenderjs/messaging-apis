@@ -101,8 +101,6 @@ client.sendRawBody({
 
 Send messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-###### userId
-
 Param   | Type                              | Description
 ------- | --------------------------------- | -----------
 userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
