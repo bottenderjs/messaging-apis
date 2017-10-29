@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.17.0",
     "axios-error": "^0.5.2",
+    "image-type": "^3.0.0",
     "warning": "^3.0.0"
   },
   "devDependencies": {

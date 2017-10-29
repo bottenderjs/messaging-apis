@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import axios from 'axios';
 import AxiosError from 'axios-error';
 import warning from 'warning';
+import imageType from 'image-type';
 
 import Line from './Line';
 import type {
@@ -20,6 +21,7 @@ import type {
   ImageMapAction,
   ColumnObject,
   ImageCarouselColumnObject,
+  RichMenu,
   MutationSuccessResponse,
 } from './LineTypes';
 
@@ -386,6 +388,61 @@ export default class LineClient {
   leaveRoom = (roomId: string): Promise<MutationSuccessResponse> =>
     this._axios
       .post(`/room/${roomId}/leave`)
+      .then(res => res.data, handleError);
+
+  /**
+   * Rich Menu
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#rich-menu
+   */
+  getRichMenuList = () =>
+    this._axios.get(`/richmenu/list`).then(res => res.data, handleError);
+
+  getRichMenu = (richMenuId: string) =>
+    this._axios
+      .get(`/richmenu/${richMenuId}`)
+      .then(res => res.data, handleError);
+
+  createRichMenu = (richMenu: RichMenu) =>
+    this._axios.post(`/richmenu`, richMenu).then(res => res.data, handleError);
+
+  deleteRichMenu = (richMenuId: string) =>
+    this._axios
+      .delete(`/richmenu/${richMenuId}`)
+      .then(res => res.data, handleError);
+
+  getLinkedRichMenu = (userId: string) =>
+    this._axios
+      .get(`/user/${userId}/richmenu`)
+      .then(res => res.data, handleError);
+
+  linkRichMenu = (userId: string, richMenuId: string) =>
+    this._axios
+      .post(`/user/${userId}/richmenu/${richMenuId}`)
+      .then(res => res.data, handleError);
+
+  unlinkRichMenu = (userId: string) =>
+    this._axios
+      .delete(`/user/${userId}/richmenu`)
+      .then(res => res.data, handleError);
+
+  /**
+   * - Images must have one of the following resolutions: 2500x1686, 2500x843.
+   * - You cannot replace an image attached to a rich menu.
+   *   To update your rich menu image, create a new rich menu object and upload another image.
+   */
+  uploadRichMenuImage = (richMenuId: string, image: Buffer) =>
+    this._axios
+      .post(`/richmenu/${richMenuId}/content`, image, {
+        headers: {
+          'Content-Type': imageType(image).mime,
+        },
+      })
+      .then(res => res.data, handleError);
+
+  downloadRichMenuImage = (richMenuId: string) =>
+    this._axios
+      .get(`/richmenu/${richMenuId}/content`, { responseType: 'arraybuffer' })
       .then(res => res.data, handleError);
 
   /**
