@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import axios from 'axios';
 import AxiosError from 'axios-error';
 import warning from 'warning';
+import invariant from 'invariant';
 import imageType from 'image-type';
 
 import Line from './Line';
@@ -396,7 +397,9 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#rich-menu
    */
   getRichMenuList = () =>
-    this._axios.get(`/richmenu/list`).then(res => res.data, handleError);
+    this._axios
+      .get('/richmenu/list')
+      .then(res => res.data.richmenus, handleError);
 
   getRichMenu = (richMenuId: string) =>
     this._axios
@@ -404,7 +407,7 @@ export default class LineClient {
       .then(res => res.data, handleError);
 
   createRichMenu = (richMenu: RichMenu) =>
-    this._axios.post(`/richmenu`, richMenu).then(res => res.data, handleError);
+    this._axios.post('/richmenu', richMenu).then(res => res.data, handleError);
 
   deleteRichMenu = (richMenuId: string) =>
     this._axios
@@ -431,19 +434,25 @@ export default class LineClient {
    * - You cannot replace an image attached to a rich menu.
    *   To update your rich menu image, create a new rich menu object and upload another image.
    */
-  uploadRichMenuImage = (richMenuId: string, image: Buffer) =>
-    this._axios
+  uploadRichMenuImage = (richMenuId: string, image: Buffer) => {
+    const type = imageType(image);
+    invariant(
+      type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
+      'Image must be `image/jpeg` or `image/png`'
+    );
+    return this._axios
       .post(`/richmenu/${richMenuId}/content`, image, {
         headers: {
-          'Content-Type': imageType(image).mime,
+          'Content-Type': type.mime,
         },
       })
       .then(res => res.data, handleError);
+  };
 
   downloadRichMenuImage = (richMenuId: string) =>
     this._axios
       .get(`/richmenu/${richMenuId}/content`, { responseType: 'arraybuffer' })
-      .then(res => res.data, handleError);
+      .then(res => Buffer.from(res.data), handleError);
 
   /**
    * Signature Validation
