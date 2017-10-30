@@ -23,6 +23,7 @@
   * [Group/Room Member Profile API](#grouproom-member-profile-api)
   * [Group/Room Member IDs API](#grouproom-member-ids-api)
   * [Leave API](#leave-api)
+  * [Rich Menu API](#rich-menu-api)
   * [Others](#others)
 
 ## Installation
@@ -1511,7 +1512,7 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 ## `getGroupMemberIds(groupId, start)`
 
 Gets the ID of the users of the members of a group that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
-This feature is only available for LINE@ Approved accounts or official accounts. 
+This feature is only available for LINE@ Approved accounts or official accounts.
 
 Param   | Type     | Description
 ------- | -------- | -----------
@@ -1538,7 +1539,7 @@ client.getGroupMemberIds(GROUP_ID, CURSOR).then(res => {
 ## `getAllGroupMemberIds(groupId)`
 
 Recursively gets the ID of the users of the members of a group that the bot is in using cursors.  
-This feature is only available for LINE@ Approved accounts or official accounts. 
+This feature is only available for LINE@ Approved accounts or official accounts.
 
 Param   | Type     | Description
 ------- | -------- | -----------
@@ -1564,7 +1565,7 @@ client.getAllGroupMemberIds(GROUP_ID).then(ids => {
 ## `getRoomMemberIds(roomId, start)`
 
 Gets the ID of the users of the members of a room that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
-This feature is only available for LINE@ Approved accounts or official accounts. 
+This feature is only available for LINE@ Approved accounts or official accounts.
 
 Param  | Type     | Description
 ------ | -------- | -----------
@@ -1591,7 +1592,7 @@ client.getRoomMemberIds(ROOM_ID, CURSOR).then(res => {
 ## `getAllRoomMemberIds(roomId)`
 
 Recursively gets the ID of the users of the members of a room that the bot is in using cursors.  
-This feature is only available for LINE@ Approved accounts or official accounts. 
+This feature is only available for LINE@ Approved accounts or official accounts.
 
 Param  | Type     | Description
 ------ | -------- | -----------
@@ -1644,6 +1645,173 @@ roomId | `String` | ID of the room.
 Example:
 ```js
 client.leaveRoom(ROOM_ID);
+```
+
+<br />
+
+<a id="rich-menu-api" />
+
+### Rich Menu API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#rich-menu)
+
+## `getRichMenuList`
+
+Gets a list of all uploaded rich menus.
+
+Example:
+```js
+client.getRichMenuList();
+```
+
+<br />
+
+## `getRichMenu(richMenuId)`
+
+Gets a rich menu via a rich menu ID.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+richMenuId | `String` | ID of an uploaded rich menu.
+
+Example:
+```js
+client.getRichMenu(RICH_MENU_ID);
+```
+
+<br />
+
+## `createRichMenu(richMenu)`
+
+Creates a rich menu.
+
+Param      | Type       | Description
+---------- | ---------- | -----------
+richMenu   | `RichMenu` | A [rich menu object](https://developers.line.me/en/docs/messaging-api/reference/#rich-menu-object).
+
+Example:
+```js
+client.createRichMenu({
+  size: {
+    width: 2500,
+    height: 1686,
+  },
+  selected: false,
+  name: 'Nice richmenu',
+  chatBarText: 'Tap here',
+  areas: [
+    {
+      bounds: {
+        x: 0,
+        y: 0,
+        width: 2500,
+        height: 1686,
+      },
+      action: {
+        type: 'postback',
+        data: 'action=buy&itemid=123',
+      },
+    },
+  ],
+});
+```
+
+<br />
+
+## `deleteRichMenu(richMenuId)`
+
+Deletes a rich menu.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+richMenuId | `String` | ID of an uploaded rich menu.
+
+Example:
+```js
+client.deleteRichMenu(RICH_MENU_ID);
+```
+
+<br />
+
+## `getLinkedRichMenu(userId)`
+
+Gets the ID of the rich menu linked to a user.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+userId     | `String` | ID of the user.
+
+Example:
+```js
+client.getLinkedRichMenu(USER_ID)
+  .then(richMenu => {
+    console.log(richMenu);
+    // {
+    //   richMenuId: "{richMenuId}"
+    // }
+  });
+```
+
+<br />
+
+## `linkRichMenu(userId, richMenuId)`
+
+Links a rich menu to a user.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+userId     | `String` | ID of the user.
+richMenuId | `String` | ID of an uploaded rich menu.
+
+Example:
+```js
+client.linkRichMenu(USER_ID, RICH_MENU_ID);
+```
+
+<br />
+
+## `unlinkRichMenu(userId)`
+
+Unlinks a rich menu from a user.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+userId     | `String` | ID of the user.
+
+Example:
+```js
+client.unlinkRichMenu(USER_ID);
+```
+
+<br />
+
+## `downloadRichMenuImage(richMenuId)`
+
+Downloads an image associated with a rich menu.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+richMenuId | `String` | ID of an uploaded rich menu.
+
+Example:
+```js
+client.downloadRichMenuImage(RICH_MENU_ID);
+```
+
+<br />
+
+## `uploadRichMenuImage(richMenuId, buffer)`
+
+Uploads and attaches an image to a rich menu.
+
+Param      | Type     | Description
+---------- | -------- | -----------
+richMenuId | `String` | ID of an uploaded rich menu.
+buffer     | `Buffer` | Image buffer which must be jpeg or png format.
+
+Example:
+```js
+const fs = require('fs');
+
+client.uploadRichMenuImage(RICH_MENU_ID, fs.readFileSync('image.png'));
 ```
 
 <br />

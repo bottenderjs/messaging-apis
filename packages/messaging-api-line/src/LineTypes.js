@@ -173,4 +173,28 @@ export type Message =
   | StickerMessage
   | TemplateMessage;
 
+type Area = {
+  bounds: {
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  },
+  action: {
+    type: string,
+    data: string,
+  },
+};
+
+export type RichMenu = {
+  size: {
+    width: 2500,
+    height: 1686 | 843,
+  },
+  selected: boolean,
+  name: string,
+  chatBarText: string,
+  areas: Array<Area>,
+};
+
 export type MutationSuccessResponse = {};
