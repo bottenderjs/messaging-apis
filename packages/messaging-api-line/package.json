@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-line",
   "description": "Messaging API client for LINE",
-  "version": "0.5.4-0",
+  "version": "0.5.4",
   "engines": {
     "node": ">=6"
   },
@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "axios": "^0.17.0",
-    "axios-error": "^0.5.2",
+    "axios-error": "^0.5.4",
     "image-type": "^3.0.0",
     "warning": "^3.0.0"
   },
