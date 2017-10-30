@@ -1423,7 +1423,10 @@ messageId | `String` | Message ID.
 
 Example:
 ```js
-client.retrieveMessageContent(MESSAGE_ID);
+client.retrieveMessageContent(MESSAGE_ID).then(buffer => {
+  console.log(buffer);
+  // <Buffer 61 61 73 64 ...>
+});
 ```
 
 <br />
@@ -1659,7 +1662,33 @@ Gets a list of all uploaded rich menus.
 
 Example:
 ```js
-client.getRichMenuList();
+client.getRichMenuList().then(richMenus => {
+  console.log(richMenus);
+  // [
+  //   {
+  //     richMenuId: '{richMenuId}',
+  //     size: {
+  //       width: 2500,
+  //       height: 1686,
+  //     },
+  //     selected: false,
+  //     areas: [
+  //       {
+  //         bounds: {
+  //           x: 0,
+  //           y: 0,
+  //           width: 2500,
+  //           height: 1686,
+  //         },
+  //         action: {
+  //           type: 'postback',
+  //           data: 'action=buy&itemid=123',
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ]
+});
 ```
 
 <br />
@@ -1674,7 +1703,31 @@ richMenuId | `String` | ID of an uploaded rich menu.
 
 Example:
 ```js
-client.getRichMenu(RICH_MENU_ID);
+client.getRichMenu(RICH_MENU_ID).then(richMenu => {
+  console.log(richMenu);
+  // {
+  //   richMenuId: '{richMenuId}',
+  //   size: {
+  //     width: 2500,
+  //     height: 1686,
+  //   },
+  //   selected: false,
+  //   areas: [
+  //     {
+  //       bounds: {
+  //         x: 0,
+  //         y: 0,
+  //         width: 2500,
+  //         height: 1686,
+  //       },
+  //       action: {
+  //         type: 'postback',
+  //         data: 'action=buy&itemid=123',
+  //       },
+  //     },
+  //   ],
+  // }
+});
 ```
 
 <br />
@@ -1689,29 +1742,36 @@ richMenu   | `RichMenu` | A [rich menu object](https://developers.line.me/en/doc
 
 Example:
 ```js
-client.createRichMenu({
-  size: {
-    width: 2500,
-    height: 1686,
-  },
-  selected: false,
-  name: 'Nice richmenu',
-  chatBarText: 'Tap here',
-  areas: [
-    {
-      bounds: {
-        x: 0,
-        y: 0,
-        width: 2500,
-        height: 1686,
-      },
-      action: {
-        type: 'postback',
-        data: 'action=buy&itemid=123',
-      },
+client
+  .createRichMenu({
+    size: {
+      width: 2500,
+      height: 1686,
     },
-  ],
-});
+    selected: false,
+    name: 'Nice richmenu',
+    chatBarText: 'Tap here',
+    areas: [
+      {
+        bounds: {
+          x: 0,
+          y: 0,
+          width: 2500,
+          height: 1686,
+        },
+        action: {
+          type: 'postback',
+          data: 'action=buy&itemid=123',
+        },
+      },
+    ],
+  })
+  .then(richMenu => {
+    console.log(richMenu);
+    // {
+    //   richMenuId: "{richMenuId}"
+    // }
+  });
 ```
 
 <br />
@@ -1741,13 +1801,12 @@ userId     | `String` | ID of the user.
 
 Example:
 ```js
-client.getLinkedRichMenu(USER_ID)
-  .then(richMenu => {
-    console.log(richMenu);
-    // {
-    //   richMenuId: "{richMenuId}"
-    // }
-  });
+client.getLinkedRichMenu(USER_ID).then(richMenu => {
+  console.log(richMenu);
+  // {
+  //   richMenuId: "{richMenuId}"
+  // }
+});
 ```
 
 <br />
@@ -1793,7 +1852,10 @@ richMenuId | `String` | ID of an uploaded rich menu.
 
 Example:
 ```js
-client.downloadRichMenuImage(RICH_MENU_ID);
+client.downloadRichMenuImage(RICH_MENU_ID).then(imageBuffer => {
+  console.log(imageBuffer);
+  // <Buffer 61 61 73 64 ...>
+});
 ```
 
 <br />
