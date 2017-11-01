@@ -1,3 +1,20 @@
+0.5.5 / 2017-11-01
+==================
+### messaging-api-messenger
+- [new] Added [`passThreadControlToPageInbox`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#handover-protocol-api) method:
+
+```js
+client.passThreadControlToPageInbox(USER_ID);
+```
+
+is equivalent to
+
+```js
+client.passThreadControl(USER_ID, 263902037430900);
+```
+
+See more details in [Messenger docs](https://developers.facebook.com/docs/messenger-platform/handover-protocol/pass-thread-control#page_inbox).
+
 0.5.4 / 2017-10-30
 ==================
 ### messaging-api-line
