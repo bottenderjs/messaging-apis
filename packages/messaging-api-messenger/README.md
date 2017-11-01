@@ -1857,6 +1857,22 @@ client.passThreadControl(USER_ID, APP_ID, 'free formed text for another app');
 
 <br />
 
+## `passThreadControlToPageInbox(userId, metadata)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/handover-protocol/pass-thread-control#page_inbox)
+
+Passes thread control from your app to "Page Inbox" app.
+
+Param       | Type     | Description
+----------- | ---------| -----------
+userId      | `String` | The PSID of the message recipient.
+metadata    | `String` | Metadata passed to the receiving app in the `pass_thread_control` webhook event.
+
+Example:
+```js
+client.passThreadControlToPageInbox(USER_ID, 'free formed text for another app');
+```
+
+<br />
+
 ## `takeThreadControl(userId, metadata)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/take-thread-control)
 
 Takes control of a specific thread from a Secondary Receiver app.

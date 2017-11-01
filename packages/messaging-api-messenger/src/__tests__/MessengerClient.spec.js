@@ -3885,6 +3885,33 @@ describe('Handover Protocol API', () => {
     });
   });
 
+  describe('#passThreadControlToPageInbox', () => {
+    it('should call messages api to pass thread control to page inbox', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          target_app_id: 263902037430900,
+          metadata: 'free formed text for another app',
+        })
+        .reply(200, reply);
+
+      const res = await client.passThreadControlToPageInbox(
+        RECIPIENT_ID,
+        'free formed text for another app'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#takeThreadControl', () => {
     it('should call messages api to take thread control', async () => {
       const { client, mock } = createMock();
