@@ -959,6 +959,9 @@ export default class MessengerClient {
       })
       .then(res => res.data, handleError);
 
+  passThreadControlToPageInbox = (recipientId: string, metadata?: string) =>
+    this.passThreadControl(recipientId, 263902037430900, metadata);
+
   /**
    * Take Thread Control
    *
