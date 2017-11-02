@@ -9,6 +9,8 @@ Messaging APIs is a [mono repo](https://github.com/babel/babel/blob/master/doc/d
 
 It helps you build your bots using similar API for multiple platforms, e.g. Messenger, LINE. Learn once and make writing cross-platform bots easier.
 
+If you are looking for a framework to build your bots, [Bottender](https://github.com/Yoctol/bottender) may suit for your needs. It is built on top of [Messaging APIs](https://github.com/Yoctol/messaging-apis) and provides some powerful features for bot building.
+
 ![](https://user-images.githubusercontent.com/3382565/31454776-35977ca2-ae7c-11e7-9cda-0cd4b0239cc8.png)
 
 ## Packages
