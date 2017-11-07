@@ -58,7 +58,7 @@ Calling any API methods which follow [slack calling conventions](https://api.sla
 
 Param  | Type     | Description
 ------ | -------- | -----------
-method | `String` | One of <code>`chat.postMessage` &#124; `channels.info` &#124; `channels.list` &#124; `users.info` &#124; `users.list`</code>
+method | `String` | One of [API Methods](https://api.slack.com/methods)
 body   | `Object` | Body that the method needs.
 
 Example:
@@ -170,6 +170,8 @@ client.getChannelList().then(res => {
 });
 ```
 
+<br />
+
 ## `getChannelInfo(channelId)` - [Official docs](https://api.slack.com/methods/channels.info)
 
 Gets information about a channel.
@@ -187,6 +189,133 @@ client.getChannelInfo(channelId).then(res => {
   //   name: 'fun',
   //   ...
   // }
+});
+```
+
+<br />
+
+#### Conversasions API
+
+## `getConversationInfo(channelId)` - [Official docs](https://api.slack.com/methods/conversations.info)
+
+Retrieve information about a conversation.
+
+Param     | Type     | Description
+--------- | -------- | -----------
+channelId | `String` | Channel to get info on.
+
+Example:
+```js
+client.getConversationInfo(channelId).then(res => {
+  console.log(res);
+  // {
+  //   id: 'C8763',
+  //   name: 'fun',
+  //   ...
+  // }
+});
+```
+
+<br />
+
+## `getConversationMembers(channelId, options)` - [Official docs](https://api.slack.com/methods/conversations.members)
+
+Retrieve members of a conversation.
+
+Param     | Type     | Description
+--------- | -------- | -----------
+channelId | `String` | Channel to get info on.
+options   | `Object` | Optional arguments.
+
+Example:
+```js
+client.getConversationMembers(channelId, { cursor: 'xxx' })
+client.getConversationMembers(channelId).then(res => {
+  console.log(res);
+  // {
+  //   members: ['U061F7AUR', 'U0C0NS9HN'],
+  //   next: 'cursor',
+  // }
+});
+```
+
+<br />
+
+## `getAllConversationMembers(channelId)` - [Official docs](https://api.slack.com/methods/conversations.members)
+
+Recursively retrieve members of a conversation using cursor.
+
+Param     | Type     | Description
+--------- | -------- | -----------
+channelId | `String` | Channel to get info on.
+
+Example:
+```js
+client.getAllConversationMembers(channelId).then(res => {
+  console.log(res);
+  // ['U061F7AUR', 'U0C0NS9HN', ...]
+});
+```
+
+<br />
+
+## `getConversationList(options)` - [Official docs](https://api.slack.com/methods/conversations.list)
+
+Lists all channels in a Slack team.
+
+Param     | Type     | Description
+--------- | -------- | -----------
+options   | `Object` | Optional arguments.
+
+Example:
+```js
+client.getConversationList({ cursor: 'xxx' })
+client.getConversationList().then(res => {
+  console.log(res);
+  // {
+  //   channels: [
+  //     {
+  //       id: 'C012AB3CD',
+  //       name: 'general',
+  //       ...
+  //     },
+  //     {
+  //       id: 'C012AB3C5',
+  //       name: 'random',
+  //       ...
+  //     },
+  //   ],
+  //   next: 'cursor',
+  // }
+});
+```
+
+<br />
+
+## `getAllConversationList(options)` - [Official docs](https://api.slack.com/methods/conversations.list)
+
+Recursively lists all channels in a Slack team using cursor.
+
+Param     | Type     | Description
+--------- | -------- | -----------
+options   | `Object` | Optional arguments.
+
+Example:
+```js
+client.getAllConversationList().then(res => {
+  console.log(res);
+  // [
+  //   {
+  //     id: 'C012AB3CD',
+  //     name: 'general',
+  //     ...
+  //   },
+  //   {
+  //     id: 'C012AB3C5',
+  //     name: 'random',
+  //     ...
+  //   },
+  // ],
 });
 ```
 
