@@ -41,6 +41,17 @@ type GetInfoOptions = {
   include_locale?: boolean,
 };
 
+type WithCursorOptions = {
+  cursor?: string,
+};
+
+type ConversationListOptions = {
+  cursor?: string,
+  exclude_archived?: boolean,
+  limit?: number,
+  types?: string,
+};
+
 export default class SlackOAuthClient {
   static connect = (token: Token): SlackOAuthClient =>
     new SlackOAuthClient(token);
@@ -98,7 +109,7 @@ export default class SlackOAuthClient {
   };
 
   /**
-   * Gets information about a channel.
+   * Gets information about a public channel.
    *
    * https://api.slack.com/methods/channels.info
    */
@@ -111,13 +122,106 @@ export default class SlackOAuthClient {
     );
 
   /**
-   * Lists all channels in a Slack team.
+   * Lists all public channels in a Slack team.
    *
    * https://api.slack.com/methods/channels.list
    * FIXME: [breaking] support cursor, exclude_archived, exclude_members, limit
    */
   getChannelList = (): Promise<Array<SlackChannel>> =>
     this.callMethod('channels.list').then(data => data.channels);
+
+  /**
+   * Retrieve information about a conversation.
+   *
+   * https://api.slack.com/methods/conversations.info
+   */
+  getConversationInfo = (
+    channelId: string,
+    options: GetInfoOptions = {}
+  ): Promise<SlackChannel> =>
+    this.callMethod('conversations.info', {
+      channel: channelId,
+      ...options,
+    }).then(data => data.channel);
+
+  /**
+   * Retrieve members of a conversation.
+   *
+   * https://api.slack.com/methods/conversations.members
+   */
+  getConversationMembers = (
+    channelId: string,
+    options: WithCursorOptions = {}
+  ): Promise<{
+    members: Array<string>,
+    next: ?string,
+  }> =>
+    this.callMethod('conversations.members', {
+      channel: channelId,
+      ...options,
+    }).then(data => ({
+      members: data.members,
+      next: data.response_metadata && data.response_metadata.next_cursor,
+    }));
+
+  getAllConversationMembers = async (
+    channelId: string
+  ): Promise<Array<string>> => {
+    let allMembers = [];
+    let continuationCursor;
+
+    do {
+      const {
+        members,
+        next,
+        // eslint-disable-next-line no-await-in-loop
+      } = await this.getConversationMembers(channelId, {
+        cursor: continuationCursor,
+      });
+      allMembers = allMembers.concat(members);
+      continuationCursor = next;
+    } while (continuationCursor);
+
+    return allMembers;
+  };
+
+  /**
+   * Lists all channels in a Slack team.
+   *
+   * https://api.slack.com/methods/conversations.list
+   */
+  getConversationList = (
+    options: ConversationListOptions = {}
+  ): Promise<{
+    channels: Array<SlackChannel>,
+    next: ?string,
+  }> =>
+    this.callMethod('conversations.list', options).then(data => ({
+      channels: data.channels,
+      next: data.response_metadata && data.response_metadata.next_cursor,
+    }));
+
+  getAllConversationList = async (
+    options: ConversationListOptions = {}
+  ): Promise<Array<SlackChannel>> => {
+    let allChannels = [];
+    let continuationCursor;
+
+    do {
+      const {
+        channels,
+        next,
+        // eslint-disable-next-line no-await-in-loop
+      } = await this.getConversationList({
+        ...options,
+        cursor: continuationCursor,
+      });
+      allChannels = allChannels.concat(channels);
+      continuationCursor = next;
+    } while (continuationCursor);
+
+    return allChannels;
+  };
 
   /**
    * Sends a message to a channel.
