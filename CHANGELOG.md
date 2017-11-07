@@ -1,3 +1,13 @@
+0.5.6 / 2017-11-07
+==================
+### messaging-api-slack
+- [new] Support Slack conversations APIs [#185](https://github.com/Yoctol/messaging-apis/pull/185/files)
+  + getConversationInfo
+  + getConversationMembers
+  + getAllConversationMembers
+  + getConversationList
+  + getAllConversationList
+
 0.5.5 / 2017-11-01
 ==================
 ### messaging-api-messenger
