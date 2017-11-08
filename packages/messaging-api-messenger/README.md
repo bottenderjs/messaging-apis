@@ -414,6 +414,8 @@ client.sendGenericTemplate(
 ```
 
 Available tags:
+- `PAIRING_UPDATE`
+- `APPLICATION_UPDATE`
 - `ACCOUNT_UPDATE`
 - `PAYMENT_UPDATE`
 - `PERSONAL_FINANCE_UPDATE`
