@@ -530,6 +530,34 @@ client.sendOpenGraphTemplate(USER_ID, [
 
 <br />
 
+## `sendMediaTemplate(userId, elements)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/template/media)
+
+Send media message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
+
+Param    | Type                              | Description
+-------- | --------------------------------- | -----------
+userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
+elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/reference/template/media#payload). Only one element is allowed.
+
+Example:
+```js
+client.sendMediaTemplate(USER_ID, [
+  {
+    media_type: 'image',
+    attachment_id: '1854626884821032',
+    buttons: [
+      {
+        type: 'web_url',
+        url: 'https://en.wikipedia.org/wiki/Rickrolling',
+        title: 'View Website',
+      },
+    ],
+  },
+]);
+```
+
+<br />
+
 ## `sendReceiptTemplate(userId, receipt)`  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
 
 Send receipt message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
