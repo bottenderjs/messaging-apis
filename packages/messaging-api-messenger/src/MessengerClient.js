@@ -26,6 +26,7 @@ import type {
   SenderAction,
   User,
   OpenGraphElement,
+  MediaElement,
   ReceiptAttributes,
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
@@ -114,7 +115,7 @@ export default class MessengerClient {
   /**
    * Messenger Profile
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api
    */
   getMessengerProfile = (
     fields: Array<string>
@@ -147,7 +148,7 @@ export default class MessengerClient {
   /**
    * Get Started Button
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/get-started-button
    */
   getGetStarted = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['get_started']).then(
@@ -191,7 +192,7 @@ export default class MessengerClient {
   /**
    * Persistent Menu
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/persistent-menu
    */
   getPersistentMenu = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['persistent_menu']).then(
@@ -227,7 +228,7 @@ export default class MessengerClient {
   /**
    * Greeting Text
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/greeting
    */
   getGreeting = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['greeting']).then(
@@ -285,7 +286,7 @@ export default class MessengerClient {
   /**
    * Domain Whitelist
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/domain-whitelisting
    */
   getDomainWhitelist = (): Promise<MessengerProfileResponse | null> => {
     warning(
@@ -316,7 +317,7 @@ export default class MessengerClient {
   /**
    * Whitelisted Domains
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/domain-whitelisting
    */
   getWhitelistedDomains = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['whitelisted_domains']).then(
@@ -336,7 +337,7 @@ export default class MessengerClient {
   /**
    * Account Linking URL
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/account-linking-url
    */
   getAccountLinkingURL = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['account_linking_url']).then(
@@ -354,7 +355,7 @@ export default class MessengerClient {
   /**
    * Payment Settings
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/payment-settings
    */
   getPaymentSettings = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['payment_settings']).then(
@@ -392,7 +393,7 @@ export default class MessengerClient {
   /**
    * Target Audience
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/target-audience
    */
   getTargetAudience = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['target_audience']).then(
@@ -420,7 +421,7 @@ export default class MessengerClient {
   /**
    * Chat Extension Home URL
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/home-url
    */
   getHomeURL = (): Promise<MessengerProfileResponse | null> =>
     this.getMessengerProfile(['home_url']).then(
@@ -493,7 +494,7 @@ export default class MessengerClient {
   /**
    * Message tags
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/tags/
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
    */
   getMessageTags = (): Promise<MessageTagResponse> =>
     this._axios
@@ -503,7 +504,7 @@ export default class MessengerClient {
   /**
    * Send API
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference
+   * https://developers.facebook.com/docs/messenger-platform/reference/send-api
    */
   // TODO: body flowtype
   sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
@@ -569,7 +570,7 @@ export default class MessengerClient {
   /**
    * Content Types
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes
+   * https://developers.facebook.com/docs/messenger-platform/send-messages#content_types
    */
   sendAttachment = (
     recipient: UserID | Recipient,
@@ -682,9 +683,9 @@ export default class MessengerClient {
   };
 
   /**
-   * Templates
+   * Message Templates
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/templates
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/templates
    */
   sendTemplate = (
     recipient: UserID | Recipient,
@@ -700,7 +701,7 @@ export default class MessengerClient {
       options
     );
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/button
   sendButtonTemplate = (
     recipient: UserID | Recipient,
     text: string,
@@ -712,7 +713,7 @@ export default class MessengerClient {
       buttons,
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic
   sendGenericTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
@@ -731,7 +732,7 @@ export default class MessengerClient {
       omit(options, ['image_aspect_ratio'])
     );
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/list
   sendListTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
@@ -745,7 +746,7 @@ export default class MessengerClient {
       top_element_style: options.top_element_style || 'large',
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/open-graph-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/open-graph
   sendOpenGraphTemplate = (
     recipient: UserID | Recipient,
     elements: Array<OpenGraphElement>
@@ -755,7 +756,7 @@ export default class MessengerClient {
       elements,
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt
   sendReceiptTemplate = (
     recipient: UserID | Recipient,
     attrs: ReceiptAttributes
@@ -765,7 +766,17 @@ export default class MessengerClient {
       ...attrs,
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-boardingpass-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/media
+  sendMediaTemplate = (
+    recipient: UserID | Recipient,
+    elements: Array<MediaElement>
+  ): Promise<SendMessageSucessResponse> =>
+    this.sendTemplate(recipient, {
+      template_type: 'media',
+      elements,
+    });
+
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#boarding_pass
   sendAirlineBoardingPassTemplate = (
     recipient: UserID | Recipient,
     attrs: AirlineBoardingPassAttributes
@@ -775,7 +786,7 @@ export default class MessengerClient {
       ...attrs,
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#check_in
   sendAirlineCheckinTemplate = (
     recipient: UserID | Recipient,
     attrs: AirlineCheckinAttributes
@@ -785,7 +796,7 @@ export default class MessengerClient {
       ...attrs,
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#itinerary
   sendAirlineItineraryTemplate = (
     recipient: UserID | Recipient,
     attrs: AirlineItineraryAttributes
@@ -795,7 +806,7 @@ export default class MessengerClient {
       ...attrs,
     });
 
-  // https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#update
   sendAirlineFlightUpdateTemplate = (
     recipient: UserID | Recipient,
     attrs: AirlineFlightUpdateAttributes
@@ -808,7 +819,7 @@ export default class MessengerClient {
   /**
    * Quick Replies
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies
    */
   sendQuickReplies = (
     recipient: UserID | Recipient,
@@ -846,7 +857,7 @@ export default class MessengerClient {
   /**
    * Typing
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions
    */
   sendSenderAction = (
     idOrRecipient: UserID | Recipient,
@@ -920,7 +931,7 @@ export default class MessengerClient {
   /**
    * Upload API
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload
+   * https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api
    */
   uploadAttachment = (type: string, url: string) =>
     this._axios
@@ -945,7 +956,7 @@ export default class MessengerClient {
   /**
    * Messenger Code API
    *
-   * https://developers.facebook.com/docs/messenger-platform/messenger-code
+   * https://developers.facebook.com/docs/messenger-platform/discovery/messenger-codes
    */
   generateMessengerCode = (options: Object = {}) =>
     this._axios
@@ -964,7 +975,7 @@ export default class MessengerClient {
   /**
    * Pass Thread Control
    *
-   * https://developers.facebook.com/docs/messenger-platform/pass-thread-control
+   * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/pass-thread-control
    */
   passThreadControl = (
     recipientId: string,
@@ -985,7 +996,7 @@ export default class MessengerClient {
   /**
    * Take Thread Control
    *
-   * https://developers.facebook.com/docs/messenger-platform/take-thread-control
+   * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/take-thread-control
    */
   takeThreadControl = (recipientId: string, metadata?: string) =>
     this._axios
@@ -998,7 +1009,7 @@ export default class MessengerClient {
   /**
    * Secondary Receivers List
    *
-   * https://developers.facebook.com/docs/messenger-platform/secondary-receivers
+   * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
    */
   getSecondaryReceivers = () =>
     this._axios
@@ -1011,7 +1022,7 @@ export default class MessengerClient {
   /**
    * Page Messaging Insights API
    *
-   * https://developers.facebook.com/docs/messenger-platform/insights/page-messaging
+   * https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api
    */
   getDailyUniqueActiveThreadCounts = () =>
     this._axios

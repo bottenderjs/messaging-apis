@@ -2624,6 +2624,63 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendMediaTemplate', () => {
+    it('should call messages api with media template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.$cAAJsujCd2ORj_1qmrFdzhVa-4cvO',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'media',
+                elements: [
+                  {
+                    media_type: 'image',
+                    attachment_id: '1854626884821032',
+                    buttons: [
+                      {
+                        type: 'web_url',
+                        url: '<WEB_URL>',
+                        title: 'View Website',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMediaTemplate(RECIPIENT_ID, [
+        {
+          media_type: 'image',
+          attachment_id: '1854626884821032',
+          buttons: [
+            {
+              type: 'web_url',
+              url: '<WEB_URL>',
+              title: 'View Website',
+            },
+          ],
+        },
+      ]);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendReceiptTemplate', () => {
     it('should call messages api with receipt template', async () => {
       const { client, mock } = createMock();
