@@ -60,6 +60,18 @@ export type MessageTag =
   | 'FEATURE_FUNCTIONALITY_UPDATE'
   | 'TICKET_UPDATE';
 
+export type InsightMetric =
+  | 'page_messages_active_threads_unique'
+  | 'page_messages_blocked_conversations_unique'
+  | 'page_messages_reported_conversations_unique'
+  | 'page_messages_reported_conversations_by_report_type_unique'
+  | 'page_messages_feedback_by_action_unique';
+
+export type InsightOptions = {
+  since?: number,
+  until?: number,
+};
+
 export type SendOption = {
   messaging_type?: MessagingType,
   tag?: MessageTag,

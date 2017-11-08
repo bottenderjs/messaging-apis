@@ -4120,6 +4120,71 @@ describe('Handover Protocol API', () => {
 });
 
 describe('Page Messaging Insights API', () => {
+  describe('#getInsights', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_active_threads_unique',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/?metric=page_messages_active_threads_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getInsights([
+        'page_messages_active_threads_unique',
+      ]);
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_active_threads_unique',
+        },
+      ]);
+    });
+
+    it('support multiple metrics', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_active_threads_unique',
+          },
+          {
+            name: 'page_messages_blocked_conversations_unique',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/?metric=page_messages_active_threads_unique%2Cpage_messages_blocked_conversations_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getInsights([
+        'page_messages_active_threads_unique',
+        'page_messages_blocked_conversations_unique',
+      ]);
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_active_threads_unique',
+        },
+        {
+          name: 'page_messages_blocked_conversations_unique',
+        },
+      ]);
+    });
+  });
+
   describe('#getDailyUniqueActiveThreadCounts', () => {
     it('should call api get Insight data', async () => {
       const { client, mock } = createMock();
@@ -4146,14 +4211,15 @@ describe('Page Messaging Insights API', () => {
             title: 'Daily unique active threads count by thread fbid',
             description:
               'Daily: total unique active threads created between users and page.',
-            id: '1234567/insights/page_messages_active_threads_unique/day',
+            id:
+              '1234567/insights/?metric=page_messages_active_threads_unique/day',
           },
         ],
       };
 
       mock
         .onGet(
-          `/me/insights/page_messages_active_threads_unique&access_token=${ACCESS_TOKEN}`
+          `/me/insights/?metric=page_messages_active_threads_unique&access_token=${ACCESS_TOKEN}`
         )
         .reply(200, reply);
 
@@ -4180,7 +4246,212 @@ describe('Page Messaging Insights API', () => {
           title: 'Daily unique active threads count by thread fbid',
           description:
             'Daily: total unique active threads created between users and page.',
-          id: '1234567/insights/page_messages_active_threads_unique/day',
+          id:
+            '1234567/insights/?metric=page_messages_active_threads_unique/day',
+        },
+      ]);
+    });
+  });
+
+  describe('#getBlockedConversations', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_blocked_conversations_unique',
+            period: 'day',
+            values: [
+              {
+                value: 83111,
+                end_time: '2017-02-02T08:00:00+0000',
+              },
+              {
+                value: 85215,
+                end_time: '2017-02-03T08:00:00+0000',
+              },
+              {
+                value: 87175,
+                end_time: '2017-02-04T08:00:00+0000',
+              },
+            ],
+            title: 'Daily unique active threads count by thread fbid',
+            description:
+              'Daily: total unique active threads created between users and page.',
+            id:
+              '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/?metric=page_messages_blocked_conversations_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getBlockedConversations();
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_blocked_conversations_unique',
+          period: 'day',
+          values: [
+            {
+              value: 83111,
+              end_time: '2017-02-02T08:00:00+0000',
+            },
+            {
+              value: 85215,
+              end_time: '2017-02-03T08:00:00+0000',
+            },
+            {
+              value: 87175,
+              end_time: '2017-02-04T08:00:00+0000',
+            },
+          ],
+          title: 'Daily unique active threads count by thread fbid',
+          description:
+            'Daily: total unique active threads created between users and page.',
+          id:
+            '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+        },
+      ]);
+    });
+  });
+
+  describe('#getReportedConversations', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_reported_conversations_unique',
+            period: 'day',
+            values: [
+              {
+                value: 83111,
+                end_time: '2017-02-02T08:00:00+0000',
+              },
+              {
+                value: 85215,
+                end_time: '2017-02-03T08:00:00+0000',
+              },
+              {
+                value: 87175,
+                end_time: '2017-02-04T08:00:00+0000',
+              },
+            ],
+            title: 'Daily unique active threads count by thread fbid',
+            description:
+              'Daily: total unique active threads created between users and page.',
+            id:
+              '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/?metric=page_messages_reported_conversations_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getReportedConversations();
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_reported_conversations_unique',
+          period: 'day',
+          values: [
+            {
+              value: 83111,
+              end_time: '2017-02-02T08:00:00+0000',
+            },
+            {
+              value: 85215,
+              end_time: '2017-02-03T08:00:00+0000',
+            },
+            {
+              value: 87175,
+              end_time: '2017-02-04T08:00:00+0000',
+            },
+          ],
+          title: 'Daily unique active threads count by thread fbid',
+          description:
+            'Daily: total unique active threads created between users and page.',
+          id:
+            '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
+        },
+      ]);
+    });
+  });
+
+  describe('#getReportedConversationsByReportType', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'page_messages_blocked_conversations_unique',
+            period: 'day',
+            values: [
+              {
+                value: 83111,
+                end_time: '2017-02-02T08:00:00+0000',
+              },
+              {
+                value: 85215,
+                end_time: '2017-02-03T08:00:00+0000',
+              },
+              {
+                value: 87175,
+                end_time: '2017-02-04T08:00:00+0000',
+              },
+            ],
+            title: 'Daily unique active threads count by thread fbid',
+            description:
+              'Daily: total unique active threads created between users and page.',
+            id:
+              '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+          },
+        ],
+      };
+
+      mock
+        .onGet(
+          `/me/insights/?metric=page_messages_blocked_conversations_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getReportedConversationsByReportType();
+
+      expect(res).toEqual([
+        {
+          name: 'page_messages_blocked_conversations_unique',
+          period: 'day',
+          values: [
+            {
+              value: 83111,
+              end_time: '2017-02-02T08:00:00+0000',
+            },
+            {
+              value: 85215,
+              end_time: '2017-02-03T08:00:00+0000',
+            },
+            {
+              value: 87175,
+              end_time: '2017-02-04T08:00:00+0000',
+            },
+          ],
+          title: 'Daily unique active threads count by thread fbid',
+          description:
+            'Daily: total unique active threads created between users and page.',
+          id:
+            '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
         },
       ]);
     });
@@ -4221,14 +4492,15 @@ describe('Page Messaging Insights API', () => {
               'Daily unique conversation count broken down by user feedback actions',
             description:
               'Daily: total unique active threads created between users and page.',
-            id: '1234567/insights/page_messages_active_threads_unique/day',
+            id:
+              '1234567/insights/?metric=page_messages_active_threads_unique/day',
           },
         ],
       };
 
       mock
         .onGet(
-          `/me/insights/page_messages_feedback_by_action_unique&access_token=${ACCESS_TOKEN}`
+          `/me/insights/?metric=page_messages_feedback_by_action_unique&access_token=${ACCESS_TOKEN}`
         )
         .reply(200, reply);
 
@@ -4264,7 +4536,8 @@ describe('Page Messaging Insights API', () => {
             'Daily unique conversation count broken down by user feedback actions',
           description:
             'Daily: total unique active threads created between users and page.',
-          id: '1234567/insights/page_messages_active_threads_unique/day',
+          id:
+            '1234567/insights/?metric=page_messages_active_threads_unique/day',
         },
       ]);
     });

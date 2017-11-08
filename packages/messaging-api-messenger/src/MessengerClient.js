@@ -42,6 +42,8 @@ import type {
   FileData,
   BatchItem,
   MessengerNLPConfig,
+  InsightMetric,
+  InsightOptions,
 } from './MessengerTypes';
 
 type Axios = {
@@ -1024,21 +1026,39 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api
    */
-  getDailyUniqueActiveThreadCounts = () =>
+  getInsights = (
+    metrics: Array<InsightMetric>,
+    options?: InsightOptions = {}
+  ) =>
     this._axios
       .get(
-        `/me/insights/page_messages_active_threads_unique&access_token=${this
-          ._accessToken}`
+        `/me/insights/?${querystring.stringify({
+          metric: metrics.join(','),
+          access_token: this._accessToken,
+          ...options,
+        })}`
       )
       .then(res => res.data.data, handleError);
 
-  getDailyUniqueConversationCounts = () =>
-    this._axios
-      .get(
-        `/me/insights/page_messages_feedback_by_action_unique&access_token=${this
-          ._accessToken}`
-      )
-      .then(res => res.data.data, handleError);
+  getDailyUniqueActiveThreadCounts = () =>
+    this.getInsights(['page_messages_active_threads_unique']);
+
+  getBlockedConversations = () =>
+    this.getInsights(['page_messages_blocked_conversations_unique']);
+
+  getReportedConversations = () =>
+    this.getInsights(['page_messages_reported_conversations_unique']);
+
+  getReportedConversationsByReportType = () =>
+    this.getInsights(['page_messages_blocked_conversations_unique']);
+
+  getDailyUniqueConversationCounts = () => {
+    warning(
+      false,
+      'page_messages_feedback_by_action_unique is deprecated as of November 7, 2017.\nThis metric will be removed in Graph API v2.12.'
+    );
+    return this.getInsights(['page_messages_feedback_by_action_unique']);
+  };
 
   /**
    * Built-in NLP API
