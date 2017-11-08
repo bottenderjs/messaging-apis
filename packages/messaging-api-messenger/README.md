@@ -17,6 +17,7 @@
     * [Attachment Upload API](#attachment-upload-api)
     * [Tags](#tags)
     * [Message Batching](#message-batching)
+  * [Broadcast API](#broadcast-api)
   * [User Profile API](#user-profile-api)
   * [Messenger Profile API](#messenger-profile-api)
     * [Persistent Menu](#persistent-menu)
@@ -1245,6 +1246,83 @@ client.sendBatch([
   Messenger.createText(USER_ID, '4'),
   Messenger.createText(USER_ID, '5'),
 ]);
+```
+
+<br />
+
+<a id="broadcast-api" />
+
+### Broadcast API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages)
+
+To use the broadcast API, your Messenger bot must have the following permissions:
+
+- `pages_messaging`
+- `pages_messaging_subscriptions`
+
+## `createMessageCreative(messages)`
+
+Param    | Type            | Description
+-------- | --------------- | -----------
+messages | `Array<Object>` | The messages to send.
+
+Example
+```js
+client.createMessageCreative([
+  {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[
+           {
+            "title":"Welcome to Our Marketplace!",
+            "image_url":"https://www.facebook.com/jaspers.png",
+            "subtitle":"Fresh fruits and vegetables. Yum.",
+            "buttons":[
+              {
+                "type":"web_url",
+                "url":"https://www.jaspersmarket.com",
+                "title":"View Website"
+              }              
+            ]      
+          }
+        ]
+      }       
+    }
+  }
+]).then(result => {
+  console.log(result);
+  // {
+  //   message_creative_id: 938461089,
+  // }
+})
+```
+
+The following message templates are not supported:
+
+- Airline boarding pass template
+- Airline check-in template
+- Airline itinerary template
+- Airline flight update template
+- Receipt template
+- Open graph template
+
+<br />
+
+## `sendBroadcast(messageCreativeId)`
+
+Param             | Type     | Description
+----------------- | -------- | -----------
+messageCreativeId | `Number` | The `message_creative_id` of the message creative to send in the broadcast.
+
+Example
+```js
+client.sendBroadcast(938461089).then(result => {
+  console.log(result);
+  // {
+  //   broadcast_id: 827,  
+  // }
+});
 ```
 
 <br />
