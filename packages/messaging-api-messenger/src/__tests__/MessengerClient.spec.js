@@ -1547,6 +1547,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1557,6 +1558,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendRawBody({
+        messaging_type: 'UPDATE',
         recipient: {
           id: RECIPIENT_ID,
         },
@@ -1570,7 +1572,7 @@ describe('send api', () => {
   });
 
   describe('#sendMessage', () => {
-    it('should call messages api', async () => {
+    it('should call messages api with default UPDATE type', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1580,6 +1582,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1596,6 +1599,73 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
+    it('should call messages api with MESSAGE_TAG type when tag exists', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'MESSAGE_TAG',
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+          tag: 'ISSUE_RESOLUTION',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        RECIPIENT_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          tag: 'ISSUE_RESOLUTION',
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api with RESPONSE type when it provided as messaging_type', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'RESPONSE',
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        RECIPIENT_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          messaging_type: 'RESPONSE',
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
     it('can call messages api using recipient with phone_number', async () => {
       const { client, mock } = createMock();
 
@@ -1606,6 +1676,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             phone_number: '+1(212)555-2368',
             name: { first_name: 'John', last_name: 'Doe' },
@@ -1641,6 +1712,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1677,6 +1749,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1701,6 +1774,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'MESSAGE_TAG',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1730,6 +1804,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1762,6 +1837,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1817,6 +1893,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1849,6 +1926,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1904,6 +1982,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1936,6 +2015,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -1991,6 +2071,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2023,6 +2104,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2078,6 +2160,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2127,6 +2210,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2204,6 +2288,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2229,6 +2314,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2264,6 +2350,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'MESSAGE_TAG',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2293,6 +2380,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2391,6 +2479,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2490,6 +2579,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2545,6 +2635,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2676,6 +2767,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -2941,6 +3033,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -3025,6 +3118,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -3297,6 +3391,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -3377,6 +3472,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
@@ -3418,6 +3514,7 @@ describe('send api', () => {
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
           recipient: {
             id: RECIPIENT_ID,
           },
