@@ -267,6 +267,11 @@ export type SendSenderActionResponse = {
 };
 
 export type MessageTag =
+  | 'PAIRING_UPDATE'
+  | 'APPLICATION_UPDATE'
+  | 'ACCOUNT_UPDATE'
+  | 'PAYMENT_UPDATE'
+  | 'PERSONAL_FINANCE_UPDATE'
   | 'SHIPPING_UPDATE'
   | 'RESERVATION_UPDATE'
   | 'ISSUE_RESOLUTION'
