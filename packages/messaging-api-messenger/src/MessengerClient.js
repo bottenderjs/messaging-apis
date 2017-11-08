@@ -1034,20 +1034,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/built-in-nlp
    */
-  setNLPConfigs = (config: MessengerNLPConfig = {}) => {
-    const query: Object = {
-      nlp_enabled: config.nlp_enabled ? 'true' : 'false',
-    };
-    if (config.custom_token) {
-      query.custom_token = config.custom_token;
-    }
-
-    return this._axios
-      .post(`/me/nlp_configs?${querystring.stringify(query)}`, {
+  setNLPConfigs = (config: MessengerNLPConfig = {}) =>
+    this._axios
+      .post(`/me/nlp_configs?${querystring.stringify(config)}`, {
         access_token: this._accessToken,
       })
       .then(res => res.data, handleError);
-  };
 
   enableNLP = () => this.setNLPConfigs({ nlp_enabled: true });
   disableNLP = () => this.setNLPConfigs({ nlp_enabled: false });

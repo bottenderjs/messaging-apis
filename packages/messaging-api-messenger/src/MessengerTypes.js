@@ -300,7 +300,26 @@ export type BatchItem = {
   body?: Object,
 };
 
+export type Model =
+  | 'zh'
+  | 'zh-Hans'
+  | 'zh-Hant'
+  | 'nl'
+  | 'en'
+  | 'fr'
+  | 'de'
+  | 'it'
+  | 'pl'
+  | 'pt'
+  | 'ro'
+  | 'es'
+  | 'vi'
+  | 'custom';
+
 export type MessengerNLPConfig = {
   nlp_enabled?: boolean,
+  model?: Model,
   custom_token?: string,
+  verbose?: boolean,
+  n_best?: number,
 };
