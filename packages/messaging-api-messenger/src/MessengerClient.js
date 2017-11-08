@@ -929,6 +929,24 @@ export default class MessengerClient {
   };
 
   /**
+   * Broadcast API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/broadcast-api
+   */
+
+  /**
+  * Create Message Creative
+  *
+  * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages
+  */
+  createMessageCreative = (messages: Array<Object> = []) =>
+    this._axios
+      .post(`/me/message_creatives?access_token=${this._accessToken}`, {
+        messages,
+      })
+      .then(res => res.data, handleError);
+
+  /**
    * Upload API
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api

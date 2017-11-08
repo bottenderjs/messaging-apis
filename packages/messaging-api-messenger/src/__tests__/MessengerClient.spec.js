@@ -3789,6 +3789,86 @@ describe('send api', () => {
   });
 });
 
+describe('broadcast api', () => {
+  describe('#createMessageCreative', () => {
+    it('should call messages api to create message creative', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        message_creative_id: 938461089,
+      };
+
+      mock
+        .onPost(`/me/message_creatives?access_token=${ACCESS_TOKEN}`, {
+          messages: [
+            {
+              dynamic_text: {
+                text: 'Hi, {first_name}! Here is a generic template:',
+                fallback_text: 'Hi! Here is a generic template:',
+              },
+            },
+            {
+              attachment: {
+                type: 'template',
+                payload: {
+                  template_type: 'generic',
+                  elements: [
+                    {
+                      title: 'Welcome to Our Marketplace!',
+                      image_url: 'https://www.facebook.com/jaspers.png',
+                      subtitle: 'Fresh fruits and vegetables. Yum.',
+                      buttons: [
+                        {
+                          type: 'web_url',
+                          url: 'https://www.jaspersmarket.com',
+                          title: 'View Website',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        })
+        .reply(200, reply);
+
+      const res = await client.createMessageCreative([
+        {
+          dynamic_text: {
+            text: 'Hi, {first_name}! Here is a generic template:',
+            fallback_text: 'Hi! Here is a generic template:',
+          },
+        },
+        {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements: [
+                {
+                  title: 'Welcome to Our Marketplace!',
+                  image_url: 'https://www.facebook.com/jaspers.png',
+                  subtitle: 'Fresh fruits and vegetables. Yum.',
+                  buttons: [
+                    {
+                      type: 'web_url',
+                      url: 'https://www.jaspersmarket.com',
+                      title: 'View Website',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      ]);
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
 describe('upload api', () => {
   describe('#uploadAttachment', () => {
     it('should call messages api to upload attachment', async () => {
