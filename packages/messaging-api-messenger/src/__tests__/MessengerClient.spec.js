@@ -11,7 +11,7 @@ const ACCESS_TOKEN = '1234567890';
 
 const createMock = () => {
   const client = new MessengerClient(ACCESS_TOKEN);
-  const mock = new MockAdapter(client.getHTTPClient());
+  const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 
