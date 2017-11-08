@@ -43,6 +43,7 @@ import type {
   BatchItem,
   MessengerNLPConfig,
   InsightMetric,
+  InsightOptions,
 } from './MessengerTypes';
 
 type Axios = {
@@ -1025,11 +1026,17 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api
    */
-  getInsights = (metrics: Array<InsightMetric>) =>
+  getInsights = (
+    metrics: Array<InsightMetric>,
+    options?: InsightOptions = {}
+  ) =>
     this._axios
       .get(
-        `/me/insights/?metric=${metrics.join(',')}&access_token=${this
-          ._accessToken}`
+        `/me/insights/?${querystring.stringify({
+          metric: metrics.join(','),
+          access_token: this._accessToken,
+          ...options,
+        })}`
       )
       .then(res => res.data.data, handleError);
 

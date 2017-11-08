@@ -4165,7 +4165,7 @@ describe('Page Messaging Insights API', () => {
 
       mock
         .onGet(
-          `/me/insights/?metric=page_messages_active_threads_unique,page_messages_blocked_conversations_unique&access_token=${ACCESS_TOKEN}`
+          `/me/insights/?metric=page_messages_active_threads_unique%2Cpage_messages_blocked_conversations_unique&access_token=${ACCESS_TOKEN}`
         )
         .reply(200, reply);
 

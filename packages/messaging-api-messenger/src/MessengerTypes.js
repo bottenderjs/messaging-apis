@@ -67,6 +67,11 @@ export type InsightMetric =
   | 'page_messages_reported_conversations_by_report_type_unique'
   | 'page_messages_feedback_by_action_unique';
 
+export type InsightOptions = {
+  since?: number,
+  until?: number,
+};
+
 export type SendOption = {
   messaging_type?: MessagingType,
   tag?: MessageTag,

@@ -1965,13 +1965,16 @@ client.getSecondaryReceivers().then(receivers => {
 
 ### Page Messaging Insights API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/insights/page-messaging)
 
-## `getInsights()`
+## `getInsights(metrics, options)`
 
 Retrieves the insights of your Facebook Page.
 
-Param       | Type     | Description
------------ | ---------| -----------
-metrics     | `Array`  | [The metrics](https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api/#metrics) you want to check.
+Param          | Type     | Description
+-------------- | ---------| -----------
+metrics        | `Array`  | [The metrics](https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api/#metrics) you want to check.
+options        | `Object` | Optional arguments.
+options.since  | `number` | Optional. UNIX timestamp of the start time to get the metric for.
+options.until  | `number` | Optional. UNIX timestamp of the end time to get the metric for.
 
 
 Example:
