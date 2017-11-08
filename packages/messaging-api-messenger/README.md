@@ -105,6 +105,8 @@ Param   | Type                              | Description
 ------- | --------------------------------- | -----------
 userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
 message | `Object`                          | [message](https://developers.facebook.com/docs/messenger-platform/reference/send-api#message) object.
+options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
+
 
 Example:
 ```js
@@ -112,6 +114,23 @@ client.sendMessage(USER_ID, {
   text: 'Hello!',
 });
 ```
+
+You can specifiy [messaging type]([messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types)) using options. If `messaging_type` and `tag` is not provided, `UPDATE` will be used as default messaging type.
+
+Example:
+```js
+client.sendMessage(USER_ID, {
+  text: 'Hello!',
+}, {
+  messaging_type: 'RESPONSE',
+});
+```
+
+Available messaging types:
+- `UPDATE` as default
+- `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
+- `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
+- `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
 
 <br />
 

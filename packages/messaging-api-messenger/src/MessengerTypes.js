@@ -39,10 +39,30 @@ export type Message = {
   attachment?: ?Attachment,
 };
 
-export type Tag = 'SHIPPING_UPDATE' | 'RESERVATION_UPDATE' | 'ISSUE_RESOLUTION';
+export type MessagingType =
+  | 'RESPONSE'
+  | 'UPDATE'
+  | 'MESSAGE_TAG'
+  | 'NON_PROMOTIONAL_SUBSCRIPTION';
+
+export type MessageTag =
+  | 'PAIRING_UPDATE'
+  | 'APPLICATION_UPDATE'
+  | 'ACCOUNT_UPDATE'
+  | 'PAYMENT_UPDATE'
+  | 'PERSONAL_FINANCE_UPDATE'
+  | 'SHIPPING_UPDATE'
+  | 'RESERVATION_UPDATE'
+  | 'ISSUE_RESOLUTION'
+  | 'APPOINTMENT_UPDATE'
+  | 'GAME_EVENT'
+  | 'TRANSPORTATION_UPDATE'
+  | 'FEATURE_FUNCTIONALITY_UPDATE'
+  | 'TICKET_UPDATE';
 
 export type SendOption = {
-  tag: Tag,
+  messaging_type?: MessagingType,
+  tag?: MessageTag,
 };
 
 export type TemplateButton = {
@@ -265,21 +285,6 @@ export type SendMessageSucessResponse = {
 export type SendSenderActionResponse = {
   recipient_id: string,
 };
-
-export type MessageTag =
-  | 'PAIRING_UPDATE'
-  | 'APPLICATION_UPDATE'
-  | 'ACCOUNT_UPDATE'
-  | 'PAYMENT_UPDATE'
-  | 'PERSONAL_FINANCE_UPDATE'
-  | 'SHIPPING_UPDATE'
-  | 'RESERVATION_UPDATE'
-  | 'ISSUE_RESOLUTION'
-  | 'APPOINTMENT_UPDATE'
-  | 'GAME_EVENT'
-  | 'TRANSPORTATION_UPDATE'
-  | 'FEATURE_FUNCTIONALITY_UPDATE'
-  | 'TICKET_UPDATE';
 
 export type MessageTagResponse = Array<{
   tag: MessageTag,
