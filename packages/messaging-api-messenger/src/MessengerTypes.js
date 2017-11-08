@@ -94,6 +94,13 @@ export type OpenGraphElement = {
   buttons?: Array<TemplateButton>,
 };
 
+export type MediaElement = {
+  media_type: 'image' | 'video',
+  attachment_id?: string,
+  url?: string,
+  buttons?: Array<TemplateButton>,
+};
+
 export type Address = {
   street_1: string,
   street_2?: ?string,

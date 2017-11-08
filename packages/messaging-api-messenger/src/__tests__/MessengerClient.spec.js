@@ -11,7 +11,7 @@ const ACCESS_TOKEN = '1234567890';
 
 const createMock = () => {
   const client = new MessengerClient(ACCESS_TOKEN);
-  const mock = new MockAdapter(client.getHTTPClient());
+  const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 
@@ -2615,6 +2615,63 @@ describe('send api', () => {
               type: 'web_url',
               url: 'https://en.wikipedia.org/wiki/Rickrolling',
               title: 'View More',
+            },
+          ],
+        },
+      ]);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendMediaTemplate', () => {
+    it('should call messages api with media template', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: RECIPIENT_ID,
+        message_id: 'mid.$cAAJsujCd2ORj_1qmrFdzhVa-4cvO',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+          message: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'media',
+                elements: [
+                  {
+                    media_type: 'image',
+                    attachment_id: '1854626884821032',
+                    buttons: [
+                      {
+                        type: 'web_url',
+                        url: '<WEB_URL>',
+                        title: 'View Website',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMediaTemplate(RECIPIENT_ID, [
+        {
+          media_type: 'image',
+          attachment_id: '1854626884821032',
+          buttons: [
+            {
+              type: 'web_url',
+              url: '<WEB_URL>',
+              title: 'View Website',
             },
           ],
         },

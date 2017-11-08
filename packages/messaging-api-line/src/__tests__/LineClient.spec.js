@@ -18,7 +18,7 @@ const headers = {
 
 const createMock = () => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
-  const mock = new MockAdapter(client.getHTTPClient());
+  const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 

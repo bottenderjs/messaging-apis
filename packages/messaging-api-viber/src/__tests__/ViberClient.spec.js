@@ -13,7 +13,7 @@ const SENDER = {
 
 const createMock = () => {
   const client = new ViberClient(AUTH_TOKEN, SENDER);
-  const mock = new MockAdapter(client.getHTTPClient());
+  const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 
