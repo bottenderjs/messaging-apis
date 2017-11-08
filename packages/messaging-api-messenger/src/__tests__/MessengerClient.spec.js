@@ -3867,6 +3867,48 @@ describe('broadcast api', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#sendBroadcastMessage', () => {
+    it('should call messages api to send broadcast message', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        broadcast_id: 837,
+      };
+
+      mock
+        .onPost(`/me/broadcast_messages?access_token=${ACCESS_TOKEN}`, {
+          message_creative_id: 938461089,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendBroadcastMessage(938461089);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('can send with custom label', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        broadcast_id: 837,
+      };
+
+      mock
+        .onPost(`/me/broadcast_messages?access_token=${ACCESS_TOKEN}`, {
+          message_creative_id: 938461089,
+          custom_label_id: 5678,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendBroadcastMessage(938461089, {
+        custom_label_id: 5678,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendSponsoredMessage', () => {
     it('should call marketing api to send sponsored message', async () => {
       const { client, mock } = createMock();

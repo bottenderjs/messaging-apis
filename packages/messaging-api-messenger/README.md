@@ -62,7 +62,7 @@ You can specify version of Facebook Graph API using second argument:
 const client = MessengerClient.connect(accessToken, '2.9');
 ```
 
-If it is not specified, version `2.10` will be used as default.
+If it is not specified, version `2.11` will be used as default.
 
 <br />
 
@@ -1309,6 +1309,32 @@ The following message templates are not supported:
 
 <br />
 
+## `sendBroadcastMessage(messageCreativeId, options)`
+
+Param                     | Type     | Description
+------------------------- | -------- | -----------
+messageCreativeId         | `Number` | The `message_creative_id` of the message creative to send in the broadcast.
+options                   | `Object` | Other optional parameters.
+options.custom_label_id   | `Number` | The id of custom label.
+
+Example
+```js
+client.sendBroadcastMessage(938461089).then(result => {
+  console.log(result);
+  // {
+  //   broadcast_id: 827,  
+  // }
+});
+```
+
+To send a broadcast message to the set of PSIDs associated with a label, pass label id as `custom_label_id` option:
+
+```js
+client.sendBroadcastMessage(938461089, { custom_label_id: LABEL_ID });
+```
+
+<br />
+
 ## `sendSponsoredMessage(adAcountId, args)`
 
 Param                    | Type          | Description
@@ -1334,24 +1360,6 @@ client.sendSponsoredMessage('18910417349234', {
   //   "success": <RESPONSE_STATUS>
   // }
 })
-```
-
-<br />
-
-## `sendBroadcast(messageCreativeId)`
-
-Param             | Type     | Description
------------------ | -------- | -----------
-messageCreativeId | `Number` | The `message_creative_id` of the message creative to send in the broadcast.
-
-Example
-```js
-client.sendBroadcast(938461089).then(result => {
-  console.log(result);
-  // {
-  //   broadcast_id: 827,  
-  // }
-});
 ```
 
 <br />

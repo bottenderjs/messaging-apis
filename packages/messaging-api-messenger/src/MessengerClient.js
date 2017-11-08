@@ -935,10 +935,10 @@ export default class MessengerClient {
    */
 
   /**
-  * Create Message Creative
-  *
-  * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#creative
-  */
+   * Create Message Creative
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#creative
+   */
   createMessageCreative = (messages: Array<Object> = []) =>
     this._axios
       .post(`/me/message_creatives?access_token=${this._accessToken}`, {
@@ -947,10 +947,23 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
 
   /**
-  * Send Sponsored Message
-  *
-  * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#message
-  */
+   * Send Broadcast Message
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages
+   */
+  sendBroadcastMessage = (messageCreativeId: number, options?: Object = {}) =>
+    this._axios
+      .post(`/me/broadcast_messages?access_token=${this._accessToken}`, {
+        message_creative_id: messageCreativeId,
+        ...options,
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Send Sponsored Message
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#message
+   */
   sendSponsoredMessage = (adAcountId: string, args: Object) =>
     this._axios
       .post(
