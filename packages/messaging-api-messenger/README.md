@@ -1965,6 +1965,40 @@ client.getSecondaryReceivers().then(receivers => {
 
 ### Page Messaging Insights API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/insights/page-messaging)
 
+## `getInsights()`
+
+Retrieves the insights of your Facebook Page.
+
+Param       | Type     | Description
+----------- | ---------| -----------
+metrics     | `Array`  | [The metrics](https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api/#metrics) you want to check.
+
+
+Example:
+```js
+client.getInsights(['page_messages_active_threads_unique']).then(counts => {
+  console.log(counts);
+  // [
+  //   {
+  //     "name": "<METRIC>",
+  //     "period": "day",
+  //     "values": [
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       },
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       }
+  //     ]
+  //   }
+  // ]
+});
+```
+
+<br />
+
 ## `getDailyUniqueActiveThreadCounts`
 
 Retrieves a count of the unique active threads your app participated in per day.
@@ -2001,7 +2035,99 @@ client.getDailyUniqueActiveThreadCounts().then(counts => {
 
 <br />
 
+## `getBlockedConversations`
+
+Retrieves the number of conversations with the Page that have been blocked.
+
+Example:
+```js
+client.getBlockedConversations().then(counts => {
+  console.log(counts);
+  // [
+  //   {
+  //     "name": "<METRIC>",
+  //     "period": "day",
+  //     "values": [
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       },
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       }
+  //    ]
+  //   }
+  // ]
+});
+```
+
+<br />
+
+## `getReportedConversations`
+
+Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
+
+Example:
+```js
+client.getReportedConversations().then(counts => {
+  console.log(counts);
+  // [
+  //   {
+  //     "name": "<METRIC>",
+  //     "period": "day",
+  //     "values": [
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       },
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       }
+  //     ]
+  //   }
+  // ]
+});
+```
+
+<br />
+
+## `getReportedConversationsByReportType`
+
+Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
+
+Example:
+```js
+client.getReportedConversationsByReportType().then(counts => {
+  console.log(counts);
+  // [
+  //   {
+  //     "name": "<METRIC>",
+  //     "period": "day",
+  //     "values": [
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       },
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       }
+  //     ]
+  //   }
+  // ]
+});
+```
+
+<br />
+
 ## `getDailyUniqueConversationCounts`
+
+**Deprecated**
+
+> `getDailyUniqueConversationCounts` is deprecated as of November 7, 2017.
+> This metric will be removed in Graph API v2.12.
 
 Retrieves a count of actions that were initiated by people your app was in an active thread with per day.
 
