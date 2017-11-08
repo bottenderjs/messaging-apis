@@ -1309,6 +1309,35 @@ The following message templates are not supported:
 
 <br />
 
+## `sendSponsoredMessage(adAcountId, args)`
+
+Param                    | Type          | Description
+------------------------ | ------------- | -----------
+args                     | `Object`      | The Object to pass into request body.
+args.message_creative_id | `Number`      | The ID of the Message Creative you want to send.
+args.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.
+args.bid_amount          | `Number`      | Maximum amount to bid for each message.
+args.targeting           | `JSON String` | Option field for ads targeting
+
+Example
+```js
+client.sendSponsoredMessage('18910417349234', {
+  message_creative_id: 938461089,
+  daily_budget: 100,
+  bid_amount: 400,
+  targeting: "{'geo_locations': {'countries':['US']}}",
+}).then(result => {
+  console.log(result);
+  // {
+  //   "ad_group_id": <AD_GROUP_ID>
+  //   "broadcast_id": <BROADCAST_ID>
+  //   "success": <RESPONSE_STATUS>
+  // }
+})
+```
+
+<br />
+
 ## `sendBroadcast(messageCreativeId)`
 
 Param             | Type     | Description

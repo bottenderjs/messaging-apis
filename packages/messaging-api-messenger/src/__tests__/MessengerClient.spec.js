@@ -32,14 +32,14 @@ describe('connect', () => {
     MessengerClient.connect(ACCESS_TOKEN);
 
     expect(axios.create).toBeCalledWith({
-      baseURL: 'https://graph.facebook.com/v2.10/',
+      baseURL: 'https://graph.facebook.com/v2.11/',
       headers: { 'Content-Type': 'application/json' },
     });
   });
 
   it('create axios with custom graphAPI version', () => {
     axios.create = jest.fn();
-    MessengerClient.connect(ACCESS_TOKEN, 'v2.6');
+    MessengerClient.connect(ACCESS_TOKEN, '2.6');
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://graph.facebook.com/v2.6/',
@@ -54,14 +54,14 @@ describe('constructor', () => {
     new MessengerClient(ACCESS_TOKEN); // eslint-disable-line no-new
 
     expect(axios.create).toBeCalledWith({
-      baseURL: 'https://graph.facebook.com/v2.10/',
+      baseURL: 'https://graph.facebook.com/v2.11/',
       headers: { 'Content-Type': 'application/json' },
     });
   });
 
   it('create axios with custom graphAPI version', () => {
     axios.create = jest.fn();
-    new MessengerClient(ACCESS_TOKEN, 'v2.6'); // eslint-disable-line no-new
+    new MessengerClient(ACCESS_TOKEN, '2.6'); // eslint-disable-line no-new
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://graph.facebook.com/v2.6/',
@@ -72,7 +72,7 @@ describe('constructor', () => {
 
 describe('#version', () => {
   it('should return version of graph api', () => {
-    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('2.10');
+    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('2.11');
     expect(new MessengerClient(ACCESS_TOKEN, 'v2.6').version).toEqual('2.6');
     expect(new MessengerClient(ACCESS_TOKEN, '2.6').version).toEqual('2.6');
     expect(() => {
@@ -3863,6 +3863,40 @@ describe('broadcast api', () => {
           },
         },
       ]);
+
+      expect(res).toEqual(reply);
+    });
+  });
+  describe('#sendSponsoredMessage', () => {
+    it('should call marketing api to send sponsored message', async () => {
+      const { client, mock } = createMock();
+
+      const AD_ACCOUNT_ID = '18910417349234';
+
+      const reply = {
+        ad_group_id: '6088387928148',
+        broadcast_id: '754911018029273',
+        success: true,
+      };
+
+      mock
+        .onPost(
+          `/act_${AD_ACCOUNT_ID}/sponsored_message_ads?access_token=${ACCESS_TOKEN}`,
+          {
+            message_creative_id: 938461089,
+            daily_budget: 100,
+            bid_amount: 400,
+            targeting: "{'geo_locations': {'countries':['US']}}",
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.sendSponsoredMessage(AD_ACCOUNT_ID, {
+        message_creative_id: 938461089,
+        daily_budget: 100,
+        bid_amount: 400,
+        targeting: "{'geo_locations': {'countries':['US']}}",
+      });
 
       expect(res).toEqual(reply);
     });
