@@ -3924,6 +3924,45 @@ describe('broadcast api', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#startReachEstimation', () => {
+    it('should call messages api to start a reach estimation', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        reach_estimation_id: '6088387928148',
+      };
+
+      mock
+        .onPost(`/broadcast_reach_estimations?access_token=${ACCESS_TOKEN}`, {
+          custom_label_id: 938461089,
+        })
+        .reply(200, reply);
+
+      const res = await client.startReachEstimation(938461089);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#retrieveReachEstimate', () => {
+    it('should call messages api to retrieve the reach estimate', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        reach_estimation: '<REACH_ESTIMATE>',
+        id: '<REACH_ESTIMATION_ID>',
+      };
+
+      mock
+        .onPost(`/73450120243?access_token=${ACCESS_TOKEN}`)
+        .reply(200, reply);
+
+      const res = await client.retrieveReachEstimate(73450120243);
+
+      expect(res).toEqual(reply);
+    });
+  });
 });
 
 describe('label api', () => {

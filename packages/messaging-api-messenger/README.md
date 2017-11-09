@@ -19,6 +19,7 @@
     * [Message Batching](#message-batching)
   * [Broadcast API](#broadcast-api)
     * [Targeting Broadcast Messages](#targeting-broadcast-messages)
+    * [Estimating Broadcast Size](#estimating-broadcast-size)
   * [User Profile API](#user-profile-api)
   * [Messenger Profile API](#messenger-profile-api)
     * [Persistent Menu](#persistent-menu)
@@ -1533,6 +1534,53 @@ labelId | `String` | ID of the custom label.
 Example:
 ```js
 client.deleteLabel(LABEL_ID);
+```
+
+<br />
+
+<br />
+
+<a id="estimating-broadcast-size" />
+
+### Estimating Broadcast Size - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/estimate-reach)
+
+## `startReachEstimation(customLabelId)`
+
+Param            | Type          | Description
+---------------- | ------------- | -----------
+customLabelId    | `Number`      | The custom label ID.
+
+Example
+```js
+client
+  .startReachEstimation(938461089)
+  .then(result => {
+    console.log(result);
+    // {
+    //   "reach_estimation_id": <REACH_ESTIMATION_ID>
+    // }
+  });
+```
+
+<br />
+
+## `retrieveReachEstimate(reachEstimationId)`
+
+Param                       | Type          | Description
+--------------------------- | ------------- | -----------
+reachEstimationId           | `Number`      | The reach estimate ID from *startReachEstimation*.
+
+Example
+```js
+client
+  .retrieveReachEstimate(73450120243)
+  .then(result => {
+    console.log(result);
+    // {
+    //   "reach_estimation": "<REACH_ESTIMATE>"
+    //   "id": "<REACH_ESTIMATION_ID>"
+    // }
+  });
 ```
 
 <br />
