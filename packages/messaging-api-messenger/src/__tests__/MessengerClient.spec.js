@@ -6,7 +6,7 @@ import FormData from 'form-data';
 import Messenger from '../Messenger';
 import MessengerClient from '../MessengerClient';
 
-const RECIPIENT_ID = '1QAZ2WSX';
+const USER_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
 
 const createMock = () => {
@@ -1541,7 +1541,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1549,7 +1549,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Hello!',
@@ -1560,7 +1560,7 @@ describe('send api', () => {
       const res = await client.sendRawBody({
         messaging_type: 'UPDATE',
         recipient: {
-          id: RECIPIENT_ID,
+          id: USER_ID,
         },
         message: {
           text: 'Hello!',
@@ -1576,7 +1576,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1584,7 +1584,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Hello!',
@@ -1592,7 +1592,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendMessage(RECIPIENT_ID, {
+      const res = await client.sendMessage(USER_ID, {
         text: 'Hello!',
       });
 
@@ -1603,7 +1603,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1611,7 +1611,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'MESSAGE_TAG',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Hello!',
@@ -1621,7 +1621,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendMessage(
-        RECIPIENT_ID,
+        USER_ID,
         {
           text: 'Hello!',
         },
@@ -1637,7 +1637,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1645,7 +1645,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'RESPONSE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Hello!',
@@ -1654,7 +1654,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendMessage(
-        RECIPIENT_ID,
+        USER_ID,
         {
           text: 'Hello!',
         },
@@ -1670,7 +1670,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1706,7 +1706,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1714,7 +1714,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -1727,7 +1727,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendAttachment(RECIPIENT_ID, {
+      const res = await client.sendAttachment(USER_ID, {
         type: 'image',
         payload: {
           url: 'https://example.com/pic.png',
@@ -1743,7 +1743,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1751,7 +1751,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Hello!',
@@ -1759,7 +1759,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendText(RECIPIENT_ID, 'Hello!');
+      const res = await client.sendText(USER_ID, 'Hello!');
 
       expect(res).toEqual(reply);
     });
@@ -1768,7 +1768,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1776,7 +1776,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'MESSAGE_TAG',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Hello!',
@@ -1785,7 +1785,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendText(RECIPIENT_ID, 'Hello!', {
+      const res = await client.sendText(USER_ID, 'Hello!', {
         tag: 'ISSUE_RESOLUTION',
       });
 
@@ -1798,7 +1798,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1806,7 +1806,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -1820,7 +1820,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendAudio(
-        RECIPIENT_ID,
+        USER_ID,
         'https://example.com/audio.mp3'
       );
 
@@ -1831,7 +1831,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1839,7 +1839,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -1852,7 +1852,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendAudio(RECIPIENT_ID, {
+      const res = await client.sendAudio(USER_ID, {
         attachment_id: '55688',
       });
 
@@ -1863,7 +1863,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1873,10 +1873,7 @@ describe('send api', () => {
         return [200, reply];
       });
 
-      const res = await client.sendAudio(
-        RECIPIENT_ID,
-        fs.createReadStream('./')
-      );
+      const res = await client.sendAudio(USER_ID, fs.createReadStream('./'));
 
       expect(res).toEqual(reply);
     });
@@ -1887,7 +1884,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1895,7 +1892,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -1909,7 +1906,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendImage(
-        RECIPIENT_ID,
+        USER_ID,
         'https://example.com/pic.png'
       );
 
@@ -1920,7 +1917,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1928,7 +1925,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -1941,7 +1938,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendImage(RECIPIENT_ID, {
+      const res = await client.sendImage(USER_ID, {
         attachment_id: '55688',
       });
 
@@ -1952,7 +1949,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1962,10 +1959,7 @@ describe('send api', () => {
         return [200, reply];
       });
 
-      const res = await client.sendImage(
-        RECIPIENT_ID,
-        fs.createReadStream('./')
-      );
+      const res = await client.sendImage(USER_ID, fs.createReadStream('./'));
 
       expect(res).toEqual(reply);
     });
@@ -1976,7 +1970,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -1984,7 +1978,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -1998,7 +1992,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendVideo(
-        RECIPIENT_ID,
+        USER_ID,
         'https://example.com/video.mp4'
       );
 
@@ -2009,7 +2003,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2017,7 +2011,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2030,7 +2024,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendVideo(RECIPIENT_ID, {
+      const res = await client.sendVideo(USER_ID, {
         attachment_id: '55688',
       });
 
@@ -2041,7 +2035,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2051,10 +2045,7 @@ describe('send api', () => {
         return [200, reply];
       });
 
-      const res = await client.sendVideo(
-        RECIPIENT_ID,
-        fs.createReadStream('./')
-      );
+      const res = await client.sendVideo(USER_ID, fs.createReadStream('./'));
 
       expect(res).toEqual(reply);
     });
@@ -2065,7 +2056,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2073,7 +2064,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2087,7 +2078,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendFile(
-        RECIPIENT_ID,
+        USER_ID,
         'https://example.com/word.docx'
       );
 
@@ -2098,7 +2089,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2106,7 +2097,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2119,7 +2110,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendFile(RECIPIENT_ID, {
+      const res = await client.sendFile(USER_ID, {
         attachment_id: '55688',
       });
 
@@ -2130,7 +2121,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2140,10 +2131,7 @@ describe('send api', () => {
         return [200, reply];
       });
 
-      const res = await client.sendFile(
-        RECIPIENT_ID,
-        fs.createReadStream('./')
-      );
+      const res = await client.sendFile(USER_ID, fs.createReadStream('./'));
 
       expect(res).toEqual(reply);
     });
@@ -2154,7 +2142,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2162,7 +2150,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2183,7 +2171,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendTemplate(RECIPIENT_ID, {
+      const res = await client.sendTemplate(USER_ID, {
         template_type: 'button',
         text: 'title',
         buttons: [
@@ -2204,7 +2192,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2212,7 +2200,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2233,7 +2221,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendButtonTemplate(RECIPIENT_ID, 'title', [
+      const res = await client.sendButtonTemplate(USER_ID, 'title', [
         {
           type: 'postback',
           title: 'Start Chatting',
@@ -2282,7 +2270,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2290,16 +2278,13 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: templateMessage,
         })
         .reply(200, reply);
 
-      const res = await client.sendGenericTemplate(
-        RECIPIENT_ID,
-        templateElements
-      );
+      const res = await client.sendGenericTemplate(USER_ID, templateElements);
 
       expect(res).toEqual(reply);
     });
@@ -2308,7 +2293,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2316,7 +2301,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2331,11 +2316,9 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendGenericTemplate(
-        RECIPIENT_ID,
-        templateElements,
-        { image_aspect_ratio: 'square' }
-      );
+      const res = await client.sendGenericTemplate(USER_ID, templateElements, {
+        image_aspect_ratio: 'square',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -2344,7 +2327,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2352,18 +2335,16 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'MESSAGE_TAG',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: templateMessage,
           tag: 'SHIPPING_UPDATE',
         })
         .reply(200, reply);
 
-      const res = await client.sendGenericTemplate(
-        RECIPIENT_ID,
-        templateElements,
-        { tag: 'SHIPPING_UPDATE' }
-      );
+      const res = await client.sendGenericTemplate(USER_ID, templateElements, {
+        tag: 'SHIPPING_UPDATE',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -2374,7 +2355,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2382,7 +2363,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2430,7 +2411,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendListTemplate(
-        RECIPIENT_ID,
+        USER_ID,
         [
           {
             title: 'Classic T-Shirt Collection',
@@ -2473,7 +2454,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2481,7 +2462,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2529,7 +2510,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendListTemplate(
-        RECIPIENT_ID,
+        USER_ID,
         [
           {
             title: 'Classic T-Shirt Collection',
@@ -2573,7 +2554,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2581,7 +2562,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2607,7 +2588,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendOpenGraphTemplate(RECIPIENT_ID, [
+      const res = await client.sendOpenGraphTemplate(USER_ID, [
         {
           url: 'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb',
           buttons: [
@@ -2629,7 +2610,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.$cAAJsujCd2ORj_1qmrFdzhVa-4cvO',
       };
 
@@ -2637,7 +2618,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2663,7 +2644,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendMediaTemplate(RECIPIENT_ID, [
+      const res = await client.sendMediaTemplate(USER_ID, [
         {
           media_type: 'image',
           attachment_id: '1854626884821032',
@@ -2686,7 +2667,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2694,7 +2675,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2758,7 +2739,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendReceiptTemplate(RECIPIENT_ID, {
+      const res = await client.sendReceiptTemplate(USER_ID, {
         recipient_name: 'Stephane Crozatier',
         order_number: '12345678902',
         currency: 'USD',
@@ -2818,7 +2799,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -2826,7 +2807,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -2958,7 +2939,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
+      const res = await client.sendAirlineBoardingPassTemplate(USER_ID, {
         intro_message: 'You are checked in.',
         locale: 'en_US',
         boarding_pass: [
@@ -3084,7 +3065,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -3092,7 +3073,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -3131,7 +3112,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendAirlineCheckinTemplate(RECIPIENT_ID, {
+      const res = await client.sendAirlineCheckinTemplate(USER_ID, {
         intro_message: 'Check-in is available now.',
         locale: 'en_US',
         pnr_number: 'ABCDEF',
@@ -3169,7 +3150,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -3177,7 +3158,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -3310,7 +3291,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendAirlineItineraryTemplate(RECIPIENT_ID, {
+      const res = await client.sendAirlineItineraryTemplate(USER_ID, {
         intro_message: "Here's your flight itinerary.",
         locale: 'en_US',
         pnr_number: 'ABCDEF',
@@ -3442,7 +3423,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -3450,7 +3431,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             attachment: {
@@ -3487,7 +3468,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendAirlineFlightUpdateTemplate(RECIPIENT_ID, {
+      const res = await client.sendAirlineFlightUpdateTemplate(USER_ID, {
         intro_message: 'Your flight is delayed',
         update_type: 'delay',
         locale: 'en_US',
@@ -3523,7 +3504,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -3531,7 +3512,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Pick a color:',
@@ -3547,7 +3528,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendQuickReplies(
-        RECIPIENT_ID,
+        USER_ID,
         { text: 'Pick a color:' },
         [
           {
@@ -3565,7 +3546,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
         message_id: 'mid.1489394984387:3dd22de509',
       };
 
@@ -3573,7 +3554,7 @@ describe('send api', () => {
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           messaging_type: 'UPDATE',
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           message: {
             text: 'Pick a color:',
@@ -3587,7 +3568,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendQuickReplies(
-        RECIPIENT_ID,
+        USER_ID,
         { text: 'Pick a color:' },
         [
           {
@@ -3610,7 +3591,7 @@ describe('send api', () => {
 
       expect(() => {
         client.sendQuickReplies(
-          RECIPIENT_ID,
+          USER_ID,
           { text: 'Pick a color:' },
           bigQuickReplies
         );
@@ -3621,7 +3602,7 @@ describe('send api', () => {
       const { client } = createMock();
 
       expect(() => {
-        client.sendQuickReplies(RECIPIENT_ID, { text: 'Pick a color:' }, [
+        client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
           {
             content_type: 'text',
             title: 'RedRedRedRedRedRedRedRed',
@@ -3639,7 +3620,7 @@ describe('send api', () => {
       const longString = new Array(1001).fill('x').join('');
 
       expect(() => {
-        client.sendQuickReplies(RECIPIENT_ID, { text: 'Pick a color:' }, [
+        client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
           {
             content_type: 'text',
             title: 'Red',
@@ -3658,12 +3639,12 @@ describe('send api', () => {
 
       const reply = [
         {
-          recipient_id: RECIPIENT_ID,
+          recipient_id: USER_ID,
           message_id: 'mid.1489394984387:3dd22de509',
         },
       ];
 
-      const batch = [Messenger.createText(RECIPIENT_ID, 'Hello')];
+      const batch = [Messenger.createText(USER_ID, 'Hello')];
 
       mock
         .onPost(`https://graph.facebook.com/`, {
@@ -3672,7 +3653,7 @@ describe('send api', () => {
             {
               method: 'POST',
               relative_url: 'me/messages',
-              body: `recipient=%7B%22id%22%3A%22${RECIPIENT_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
+              body: `recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
             },
           ],
         })
@@ -3687,7 +3668,7 @@ describe('send api', () => {
       const { client } = createMock();
 
       const bigBatch = new Array(51).fill(
-        Messenger.createText(RECIPIENT_ID, 'Hello')
+        Messenger.createText(USER_ID, 'Hello')
       );
 
       expect(() => {
@@ -3701,19 +3682,19 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
       };
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           sender_action: 'typing_on',
         })
         .reply(200, reply);
 
-      const res = await client.sendSenderAction(RECIPIENT_ID, 'typing_on');
+      const res = await client.sendSenderAction(USER_ID, 'typing_on');
 
       expect(res).toEqual(reply);
     });
@@ -3724,19 +3705,19 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
       };
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           sender_action: 'mark_seen',
         })
         .reply(200, reply);
 
-      const res = await client.markSeen(RECIPIENT_ID);
+      const res = await client.markSeen(USER_ID);
 
       expect(res).toEqual(reply);
     });
@@ -3747,19 +3728,19 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
       };
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           sender_action: 'typing_on',
         })
         .reply(200, reply);
 
-      const res = await client.typingOn(RECIPIENT_ID);
+      const res = await client.typingOn(USER_ID);
 
       expect(res).toEqual(reply);
     });
@@ -3770,19 +3751,19 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        recipient_id: RECIPIENT_ID,
+        recipient_id: USER_ID,
       };
 
       mock
         .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           sender_action: 'typing_off',
         })
         .reply(200, reply);
 
-      const res = await client.typingOff(RECIPIENT_ID);
+      const res = await client.typingOff(USER_ID);
 
       expect(res).toEqual(reply);
     });
@@ -3978,6 +3959,175 @@ describe('broadcast api', () => {
         .reply(200, reply);
 
       const res = await client.retrieveReachEstimate(73450120243);
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('label api', () => {
+  describe('#createLabel', () => {
+    it('should call messages api to create label', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        id: 1712444532121303,
+      };
+
+      mock
+        .onPost(`/me/custom_labels?access_token=${ACCESS_TOKEN}`, {
+          name: 'awesome',
+        })
+        .reply(200, reply);
+
+      const res = await client.createLabel('awesome');
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#associateLabel', () => {
+    it('should call messages api to associate label', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/1712444532121303/label?access_token=${ACCESS_TOKEN}`, {
+          user: USER_ID,
+        })
+        .reply(200, reply);
+
+      const res = await client.associateLabel(USER_ID, 1712444532121303);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#dissociateLabel', () => {
+    it('should call messages api to dissociate label', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onDelete(`/1712444532121303/label?access_token=${ACCESS_TOKEN}`, {
+          user: USER_ID,
+        })
+        .reply(200, reply);
+
+      const res = await client.dissociateLabel(USER_ID, 1712444532121303);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getAssociatedLabels', () => {
+    it('should call messages api to get associated label', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'myLabel',
+            id: '1001200005003',
+          },
+          {
+            name: 'myOtherLabel',
+            id: '1001200005002',
+          },
+        ],
+        paging: {
+          cursors: {
+            before:
+              'QVFIUmx1WTBpMGpJWXprYzVYaVhabW55dVpycko4U2xURGE5ODNtNFZAPal94a1hTUnNVMUtoMVVoTzlzSDktUkMtQkUzWEFLSXlMS3ZALYUw3TURLelZAPOGVR',
+            after:
+              'QVFIUmItNkpTbjVzakxFWGRydzdaVUFNNnNPaUl0SmwzVHN5ZAWZAEQ3lZANDAzTXFIM0NHbHdYSkQ5OG1GaEozdjkzRmxpUFhxTDl4ZAlBibnE4LWt1eGlTa3Bn',
+          },
+        },
+      };
+
+      mock
+        .onGet(`/${USER_ID}/custom_labels?access_token=${ACCESS_TOKEN}`)
+        .reply(200, reply);
+
+      const res = await client.getAssociatedLabels(USER_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getLabelDetails', () => {
+    it('should call messages api to get label details', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        name: 'myLabel',
+        id: '1001200005002',
+      };
+
+      mock
+        .onGet(`/1712444532121303?fields=name&access_token=${ACCESS_TOKEN}`)
+        .reply(200, reply);
+
+      const res = await client.getLabelDetails(1712444532121303);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getLabelList', () => {
+    it('should call messages api to get label list', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'myLabel',
+            id: '1001200005003',
+          },
+          {
+            name: 'myOtherLabel',
+            id: '1001200005002',
+          },
+        ],
+        paging: {
+          cursors: {
+            before:
+              'QVFIUmx1WTBpMGpJWXprYzVYaVhabW55dVpycko4U2xURGE5ODNtNFZAPal94a1hTUnNVMUtoMVVoTzlzSDktUkMtQkUzWEFLSXlMS3ZALYUw3TURLelZAPOGVR',
+            after:
+              'QVFIUmItNkpTbjVzakxFWGRydzdaVUFNNnNPaUl0SmwzVHN5ZAWZAEQ3lZANDAzTXFIM0NHbHdYSkQ5OG1GaEozdjkzRmxpUFhxTDl4ZAlBibnE4LWt1eGlTa3Bn',
+          },
+        },
+      };
+
+      mock
+        .onGet(`/me/custom_labels?fields=name&access_token=${ACCESS_TOKEN}`)
+        .reply(200, reply);
+
+      const res = await client.getLabelList();
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteLabel', () => {
+    it('should call messages api to get label list', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onDelete(`/${1712444532121303}?access_token=${ACCESS_TOKEN}`)
+        .reply(200, reply);
+
+      const res = await client.deleteLabel(1712444532121303);
 
       expect(res).toEqual(reply);
     });
@@ -4217,7 +4367,7 @@ describe('Handover Protocol API', () => {
       mock
         .onPost(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           target_app_id: 123456789,
           metadata: 'free formed text for another app',
@@ -4225,7 +4375,7 @@ describe('Handover Protocol API', () => {
         .reply(200, reply);
 
       const res = await client.passThreadControl(
-        RECIPIENT_ID,
+        USER_ID,
         123456789,
         'free formed text for another app'
       );
@@ -4245,7 +4395,7 @@ describe('Handover Protocol API', () => {
       mock
         .onPost(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           target_app_id: 263902037430900,
           metadata: 'free formed text for another app',
@@ -4253,7 +4403,7 @@ describe('Handover Protocol API', () => {
         .reply(200, reply);
 
       const res = await client.passThreadControlToPageInbox(
-        RECIPIENT_ID,
+        USER_ID,
         'free formed text for another app'
       );
 
@@ -4272,14 +4422,14 @@ describe('Handover Protocol API', () => {
       mock
         .onPost(`/me/take_thread_control?access_token=${ACCESS_TOKEN}`, {
           recipient: {
-            id: RECIPIENT_ID,
+            id: USER_ID,
           },
           metadata: 'free formed text for another app',
         })
         .reply(200, reply);
 
       const res = await client.takeThreadControl(
-        RECIPIENT_ID,
+        USER_ID,
         'free formed text for another app'
       );
 
@@ -4822,7 +4972,7 @@ describe('Error', () => {
 
     let error;
     try {
-      await client.sendText(RECIPIENT_ID, 'Hello!');
+      await client.sendText(USER_ID, 'Hello!');
     } catch (err) {
       error = err;
     }

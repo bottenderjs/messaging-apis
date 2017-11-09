@@ -951,7 +951,7 @@ export default class MessengerClient {
   /**
    * Send Broadcast Message
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages#sending
    */
   sendBroadcastMessage = (messageCreativeId: number, options?: Object = {}) =>
     this._axios
@@ -973,6 +973,94 @@ export default class MessengerClient {
           ._accessToken}`,
         message
       )
+      .then(res => res.data, handleError);
+
+  /**
+   * Label API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts
+   */
+
+  /**
+   * Create Label
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#create_label
+   */
+  createLabel = (name: string) =>
+    this._axios
+      .post(`/me/custom_labels?access_token=${this._accessToken}`, {
+        name,
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Associating a Label to a PSID
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#associate_label
+   */
+  associateLabel = (userId: UserID, labelId: number) =>
+    this._axios
+      .post(`/${labelId}/label?access_token=${this._accessToken}`, {
+        user: userId,
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Removing a Label From a PSID
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#associate_label
+   */
+  dissociateLabel = (userId: UserID, labelId: number) =>
+    this._axios
+      .delete(`/${labelId}/label?access_token=${this._accessToken}`, {
+        data: { user: userId },
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Retrieving Labels Associated with a PSID
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_all_labels
+   */
+  getAssociatedLabels = (userId: UserID) =>
+    this._axios
+      .get(`/${userId}/custom_labels?access_token=${this._accessToken}`)
+      .then(res => res.data, handleError);
+
+  /**
+   * Retrieving Label Details
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_label_details
+   */
+  getLabelDetails = (labelId: number, options?: Object = {}) => {
+    const fields = options.fields ? options.fields.join(',') : 'name';
+    return this._axios
+      .get(`/${labelId}?fields=${fields}&access_token=${this._accessToken}`)
+      .then(res => res.data, handleError);
+  };
+
+  /**
+   * Retrieving a List of All Labels
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_all_labels
+   */
+  getLabelList = (options?: Object = {}) => {
+    const fields = options.fields ? options.fields.join(',') : 'name';
+    return this._axios
+      .get(
+        `/me/custom_labels?fields=${fields}&access_token=${this._accessToken}`
+      )
+      .then(res => res.data, handleError);
+  };
+
+  /**
+   * Deleting a Label
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#delete_label
+   */
+  deleteLabel = (labelId: number) =>
+    this._axios
+      .delete(`/${labelId}?access_token=${this._accessToken}`)
       .then(res => res.data, handleError);
 
   /**
