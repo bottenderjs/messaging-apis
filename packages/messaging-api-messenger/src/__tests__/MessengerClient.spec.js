@@ -3963,6 +3963,41 @@ describe('broadcast api', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#getBroadcastMessagesSent', () => {
+    it('should call insights api to retrieve the message sent insight', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'messages_sent',
+            period: 'lifetime',
+            values: [
+              {
+                value: 1000,
+                end_time: '1970-01-02T00:00:00+0000',
+              },
+            ],
+            title: 'Lifetime number of messages sent from the page broadcast',
+            description:
+              'Lifetime: The total number of messages sent from a Page to people.',
+            id: '1301333349933076/insights/messages_sent',
+          },
+        ],
+      };
+
+      mock
+        .onPost(
+          `/73450120243/insights/messages_sent?access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getBroadcastMessagesSent(73450120243);
+
+      expect(res).toEqual(reply.data);
+    });
+  });
 });
 
 describe('label api', () => {
