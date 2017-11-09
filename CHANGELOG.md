@@ -138,7 +138,7 @@ You can manage your users with associated labels using following methods:
 And send broadcast messages to only associated users:
 
 ```js
-client.sendBroadcastMessage(message_creative_id, (custom_label_id: LABEL_ID));
+client.sendBroadcastMessage(message_creative_id, { custom_label_id: LABEL_ID });
 ```
 
 ### Estimating Broadcast Size - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#estimating-broadcast-size)
