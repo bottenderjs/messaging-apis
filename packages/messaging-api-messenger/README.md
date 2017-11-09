@@ -2558,8 +2558,11 @@ Set values of NLP configs.
 Param               | Type      | Description
 ------------------- | --------- | -----------
 config              | `Object`  | Configuration of NLP.
-config.nlp_enabled  | `Boolean` | Either enable NLP or disable NLP for that Page.
-config.custom_token | `String`  | Access token from Wit.
+config.nlp_enabled  | `Boolean` | Optional. Either enable NLP or disable NLP for that Page.
+config.model        | `String`  | Optional. Specifies the NLP model to use. Either a [language](https://developers.facebook.com/docs/messenger-platform/built-in-nlp#overview), or `custom`.
+config.custom_token | `String`  | Optional. Access token from Wit.
+config.verbose      | `Boolean` | Optional. Specifies whether verbose mode if enabled, which returns extra information like the position of the detected entity in the query.
+config.n_best       | `Number`  | Optional. The number of entities to return, in descending order of confidence. Minimum 1. Maximum 8. Defaults to 1.
 
 Example:
 ```js
