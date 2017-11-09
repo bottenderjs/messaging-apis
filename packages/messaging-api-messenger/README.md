@@ -34,6 +34,7 @@
   * [Handover Protocol API](#handover-protocol-api)
   * [Page Messaging Insights API](#page-messaging-insights-api)
   * [Built-in NLP API](#built-in-nlp-api)
+  * [Event Logging API](#event-logging-api)
 
 ## Installation
 
@@ -1552,14 +1553,12 @@ customLabelId    | `Number`      | The custom label ID.
 
 Example
 ```js
-client
-  .startReachEstimation(938461089)
-  .then(result => {
-    console.log(result);
-    // {
-    //   "reach_estimation_id": <REACH_ESTIMATION_ID>
-    // }
-  });
+client.startReachEstimation(938461089).then(result => {
+  console.log(result);
+  // {
+  //   "reach_estimation_id": <REACH_ESTIMATION_ID>
+  // }
+});
 ```
 
 <br />
@@ -1572,15 +1571,13 @@ reachEstimationId           | `Number`      | The reach estimate ID from *startR
 
 Example
 ```js
-client
-  .retrieveReachEstimate(73450120243)
-  .then(result => {
-    console.log(result);
-    // {
-    //   "reach_estimation": "<REACH_ESTIMATE>"
-    //   "id": "<REACH_ESTIMATION_ID>"
-    // }
-  });
+client.retrieveReachEstimate(73450120243).then(result => {
+  console.log(result);
+  // {
+  //   "reach_estimation": "<REACH_ESTIMATE>"
+  //   "id": "<REACH_ESTIMATION_ID>"
+  // }
+});
 ```
 
 <br />
@@ -2554,6 +2551,32 @@ Disabling Built-in NLP.
 Example:
 ```js
 client.disableNLP();
+```
+
+<br />
+
+<a id="event-logging-api" />
+
+### Event Logging API - [Official Docs](https://developers.facebook.com/docs/app-events/bots-for-messenger#logging-custom-events)
+
+## `logCustomEvents(pageId, userId, events)`
+
+Log custom events by using the [Application Activities Graph API](https://developers.facebook.com/docs/graph-api/reference/application/activities/) endpoint.
+
+Example:
+```js
+client.logCustomEvents({
+  appId: APP_ID,
+  pageId: PAGE_ID,
+  userId: USER_ID,
+  events: [
+    {
+      _eventName: 'fb_mobile_purchase',
+      _valueToSum: 55.22,
+      _fb_currency: 'USD',
+    },
+  ]
+});
 ```
 
 [send-api-reference#recipient]: https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient
