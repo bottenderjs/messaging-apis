@@ -19,7 +19,7 @@ function createRequest(body: Object): BatchItem {
 function createMessage(
   idOrRecipient: UserID | Recipient,
   message: Message,
-  options?: SendOption
+  options?: SendOption = {}
 ): BatchItem {
   const recipient =
     typeof idOrRecipient === 'string'
@@ -27,7 +27,14 @@ function createMessage(
           id: idOrRecipient,
         }
       : idOrRecipient;
+  let messageType = 'UPDATE';
+  if (options.messaging_type) {
+    messageType = options.messaging_type;
+  } else if (options.tag) {
+    messageType = 'MESSAGE_TAG';
+  }
   return createRequest({
+    messaging_type: messageType,
     recipient,
     message,
     ...options,

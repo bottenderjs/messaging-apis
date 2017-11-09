@@ -3653,7 +3653,7 @@ describe('send api', () => {
             {
               method: 'POST',
               relative_url: 'me/messages',
-              body: `recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
+              body: `messaging_type=UPDATE&recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
             },
           ],
         })
