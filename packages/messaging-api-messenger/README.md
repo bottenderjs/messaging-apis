@@ -120,11 +120,15 @@ You can specifiy [messaging type]([messaging types](https://developers.facebook.
 
 Example:
 ```js
-client.sendMessage(USER_ID, {
-  text: 'Hello!',
-}, {
-  messaging_type: 'RESPONSE',
-});
+client.sendMessage(
+  USER_ID,
+  {
+    text: 'Hello!',
+  },
+  {
+    messaging_type: 'RESPONSE',
+  }
+);
 ```
 
 Available messaging types:
@@ -1267,35 +1271,37 @@ messages | `Array<Object>` | The messages to send.
 
 Example
 ```js
-client.createMessageCreative([
-  {
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"generic",
-        "elements":[
-           {
-            "title":"Welcome to Our Marketplace!",
-            "image_url":"https://www.facebook.com/jaspers.png",
-            "subtitle":"Fresh fruits and vegetables. Yum.",
-            "buttons":[
-              {
-                "type":"web_url",
-                "url":"https://www.jaspersmarket.com",
-                "title":"View Website"
-              }              
-            ]      
-          }
-        ]
-      }       
-    }
-  }
-]).then(result => {
-  console.log(result);
-  // {
-  //   message_creative_id: 938461089,
-  // }
-})
+client
+  .createMessageCreative([
+    {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'generic',
+          elements: [
+            {
+              title: 'Welcome to Our Marketplace!',
+              image_url: 'https://www.facebook.com/jaspers.png',
+              subtitle: 'Fresh fruits and vegetables. Yum.',
+              buttons: [
+                {
+                  type: 'web_url',
+                  url: 'https://www.jaspersmarket.com',
+                  title: 'View Website',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  ])
+  .then(result => {
+    console.log(result);
+    // {
+    //   message_creative_id: 938461089,
+    // }
+  });
 ```
 
 The following message templates are not supported:
@@ -1322,7 +1328,7 @@ Example
 client.sendBroadcastMessage(938461089).then(result => {
   console.log(result);
   // {
-  //   broadcast_id: 827,  
+  //   broadcast_id: 827,
   // }
 });
 ```
@@ -1337,9 +1343,9 @@ client.sendBroadcastMessage(938461089, { custom_label_id: LABEL_ID });
 
 ## `sendSponsoredMessage(adAccountId, args)`
 
-Param                    | Type          | Description
------------------------- | ------------- | -----------
-adAccountId               | `String`      | The Ad account ID. [See more](https://developers.facebook.com/docs/marketing-api/guides/messenger-sponsored)
+Param                       | Type          | Description
+--------------------------- | ------------- | -----------
+adAccountId                 | `String`      | The Ad account ID. [See more](https://developers.facebook.com/docs/marketing-api/guides/messenger-sponsored)
 message                     | `Object`      | The Object to pass into request body.
 message.message_creative_id | `Number`      | The ID of the Message Creative you want to send.
 message.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.
@@ -1348,19 +1354,21 @@ message.targeting           | `JSON String` | Option field for ads targeting
 
 Example
 ```js
-client.sendSponsoredMessage('18910417349234', {
-  message_creative_id: 938461089,
-  daily_budget: 100,
-  bid_amount: 400,
-  targeting: "{'geo_locations': {'countries':['US']}}",
-}).then(result => {
-  console.log(result);
-  // {
-  //   "ad_group_id": <AD_GROUP_ID>
-  //   "broadcast_id": <BROADCAST_ID>
-  //   "success": <RESPONSE_STATUS>
-  // }
-})
+client
+  .sendSponsoredMessage('18910417349234', {
+    message_creative_id: 938461089,
+    daily_budget: 100,
+    bid_amount: 400,
+    targeting: "{'geo_locations': {'countries':['US']}}",
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   "ad_group_id": <AD_GROUP_ID>
+    //   "broadcast_id": <BROADCAST_ID>
+    //   "success": <RESPONSE_STATUS>
+    // }
+  });
 ```
 
 <br />
@@ -2033,7 +2041,10 @@ metadata    | `String` | Metadata passed to the receiving app in the `pass_threa
 
 Example:
 ```js
-client.passThreadControlToPageInbox(USER_ID, 'free formed text for another app');
+client.passThreadControlToPageInbox(
+  USER_ID,
+  'free formed text for another app'
+);
 ```
 
 <br />

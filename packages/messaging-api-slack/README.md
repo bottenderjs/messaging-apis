@@ -229,7 +229,7 @@ options   | `Object` | Optional arguments.
 
 Example:
 ```js
-client.getConversationMembers(channelId, { cursor: 'xxx' })
+client.getConversationMembers(channelId, { cursor: 'xxx' });
 client.getConversationMembers(channelId).then(res => {
   console.log(res);
   // {
@@ -269,7 +269,7 @@ options   | `Object` | Optional arguments.
 
 Example:
 ```js
-client.getConversationList({ cursor: 'xxx' })
+client.getConversationList({ cursor: 'xxx' });
 client.getConversationList().then(res => {
   console.log(res);
   // {

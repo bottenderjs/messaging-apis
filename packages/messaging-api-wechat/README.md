@@ -174,7 +174,7 @@ client.sendMiniProgramPage(USER_ID, {
   title: 'title',
   appid: 'appid',
   pagepath: 'pagepath',
-  thumb_media_id: 'thumb_media_id'
+  thumb_media_id: 'thumb_media_id',
 });
 ```
 
