@@ -120,7 +120,7 @@ client.sendMessage(USER_ID, {
 });
 ```
 
-You can specifiy [messaging type]([messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types)) using options. If `messaging_type` and `tag` is not provided, `UPDATE` will be used as default messaging type.
+You can specifiy [messaging type](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) using options. If `messaging_type` and `tag` is not provided, `UPDATE` will be used as default messaging type.
 
 Example:
 ```js
