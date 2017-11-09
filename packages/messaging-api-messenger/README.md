@@ -2575,7 +2575,7 @@ client.logCustomEvents({
       _valueToSum: 55.22,
       _fb_currency: 'USD',
     },
-  ]
+  ],
 });
 ```
 

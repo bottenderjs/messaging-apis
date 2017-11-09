@@ -1,3 +1,216 @@
+0.5.7 / 2017-11-09
+==================
+A large update to support [Messenger Platform 2.2](https://messenger.fb.com/blog/2-2-release/). 🎉
+
+## Messaging Types
+
+Messenger Team has created a `messaging_type` property which is required in all requests to the send API. You can send it with `messaging_type` option:
+
+```js
+client.sendText(USER_ID, 'Awesome!', { messaging_type: 'RESPONSE' });
+```
+
+Available messaging types:
+- `UPDATE` as default
+- `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
+- `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
+- `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
+
+<br />
+
+## New Message Tags
+
+Two additional tags, `PAIRING_UPDATE` and `APPLICATION_UPDATE`, has been supported by passing as option:
+
+```js
+client.sendGenericTemplate(
+  USER_ID,
+  [
+    {
+      //...
+    },
+  ],
+  { tag: 'PAIRING_UPDATE' }
+);
+client.sendGenericTemplate(
+  USER_ID,
+  [
+    {
+      //...
+    },
+  ],
+  { tag: 'APPLICATION_UPDATE' }
+);
+```
+
+<br />
+
+## New Media Template - [docs](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-messenger/README.md#sendmediatemplateuserid-elements---official-docs)
+
+In order to make image and video sharing more interactive, you can attach a CTA button to your media:
+
+```js
+client.sendMediaTemplate(USER_ID, [
+  {
+    media_type: 'image',
+    attachment_id: '1854626884821032',
+    buttons: [
+      {
+        type: 'web_url',
+        url: 'https://en.wikipedia.org/wiki/Rickrolling',
+        title: 'View Website',
+      },
+    ],
+  },
+]);
+```
+
+<br />
+
+## Broadcast - [docs](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-messenger/README.md#broadcast-api)
+
+### Create Message by createMessageCreative
+
+To use the broadcast API, you must create messages using `createMessageCreative`:
+
+```js
+client
+  .createMessageCreative([
+    {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'generic',
+          elements: [
+            {
+              title: 'Welcome to Our Marketplace!',
+              image_url: 'https://www.facebook.com/jaspers.png',
+              subtitle: 'Fresh fruits and vegetables. Yum.',
+              buttons: [
+                {
+                  type: 'web_url',
+                  url: 'https://www.jaspersmarket.com',
+                  title: 'View Website',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  ])
+  .then(({ message_creative_id }) => {
+    // ...
+  });
+```
+
+### Sending Broadcast or Sponsored Messages
+
+After you got a `message_creative_id`, you can send it as broadcast messages:
+
+```js
+client.sendBroadcastMessage(message_creative_id);
+```
+
+Or sponsored messages:
+
+```js
+client.sendSponsoredMessage(message_creative_id, {
+  message_creative_id: 938461089,
+  daily_budget: 100,
+  bid_amount: 400,
+  targeting: "{'geo_locations': {'countries':['US']}}",
+});
+```
+
+### Targeting Broadcast Messages - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#targeting-broadcast-messages---official-docs)
+
+You can manage your users with associated labels using following methods:
+
+- [`createLabel(name)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#createlabelname)
+- [`associateLabel(userId, labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#associatelabeluserid-labelid)
+- [`dissociateLabel(userId, labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#dissociatelabeluserid-labelid)
+- [`getAssociatedLabels(userId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getassociatedlabelsuserid)
+- [`getLabelDetails(labelId, options)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getlabeldetailslabelid-options)
+- [`getLabelList()`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getlabellist)
+- [`deleteLabel(labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#deletelabellabelid)
+
+And send broadcast messages to only associated users:
+
+```js
+client.sendBroadcastMessage(message_creative_id, (custom_label_id: LABEL_ID));
+```
+
+### Estimating Broadcast Size - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#estimating-broadcast-size)
+
+To get the approximate number of people a broadcast message will be sent, you can use Estimating API:
+
+- startReachEstimation(customLabelId)
+- getReachEstimate(reachEstimationId)
+
+> Note: Due to the fact that reach estimation is a resource intensive process, it is executed in two steps.
+
+<br />
+
+## More Configuration for Bulit-in NLP - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#built-in-nlp-api)
+
+We have more parameters are supported now:
+
+```js
+client.setNLPConfigs({
+  nlp_enabled: true,
+  model: 'custom',
+  custom_token: 'your_token',
+  verbose: true,
+  n_best: 8,
+});
+```
+
+<br />
+
+## New Insights APIs
+
+There are a bunch of insights APIs introduced in this version:
+
+- [`getInsights(metrics, options)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getinsightsmetrics-options)
+- [`getBlockedConversations`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getblockedconversations)
+- [`getReportedConversations`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getreportedconversations)
+- [`getReportedConversationsByReportType`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getreportedconversationsbyreporttype)
+- [`getBroadcastMessagesSent`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getbroadcastmessagessentbroadcastid)
+
+> Note: `getDailyUniqueConversationCounts` is deprecated.
+
+<br />
+
+## Custom Event Logging - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#event-logging-api)
+
+Log custom events by using the [Application Activities Graph API](https://developers.facebook.com/docs/graph-api/reference/application/activities/) endpoint.
+
+```js
+client.logCustomEvents({
+  appId: APP_ID,
+  pageId: PAGE_ID,
+  userId: USER_ID,
+  events: [
+    {
+      _eventName: 'fb_mobile_purchase',
+      _valueToSum: 55.22,
+      _fb_currency: 'USD',
+    },
+  ],
+});
+```
+
+<br />
+
+## Related Issue & PR
+
+Support messenger platform 2.2 - [#186](https://github.com/Yoctol/messaging-apis/issues/186)
+
+
+See more details in [Messenger official release post](https://messenger.fb.com/blog/2-2-release/) and [changelog](https://developers.facebook.com/docs/messenger-platform/changelog#november-7--2017
+).
+
 0.5.6 / 2017-11-07
 ==================
 ### messaging-api-slack
