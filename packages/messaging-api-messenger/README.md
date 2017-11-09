@@ -17,6 +17,7 @@
     * [Attachment Upload API](#attachment-upload-api)
     * [Tags](#tags)
     * [Message Batching](#message-batching)
+  * [Broadcast API](#broadcast-api)
   * [User Profile API](#user-profile-api)
   * [Messenger Profile API](#messenger-profile-api)
     * [Persistent Menu](#persistent-menu)
@@ -61,7 +62,7 @@ You can specify version of Facebook Graph API using second argument:
 const client = MessengerClient.connect(accessToken, '2.9');
 ```
 
-If it is not specified, version `2.10` will be used as default.
+If it is not specified, version `2.11` will be used as default.
 
 <br />
 
@@ -1245,6 +1246,121 @@ client.sendBatch([
   Messenger.createText(USER_ID, '4'),
   Messenger.createText(USER_ID, '5'),
 ]);
+```
+
+<br />
+
+<a id="broadcast-api" />
+
+### Broadcast API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages)
+
+To use the broadcast API, your Messenger bot must have the following permissions:
+
+- `pages_messaging`
+- `pages_messaging_subscriptions`
+
+## `createMessageCreative(messages)`
+
+Param    | Type            | Description
+-------- | --------------- | -----------
+messages | `Array<Object>` | The messages to send.
+
+Example
+```js
+client.createMessageCreative([
+  {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[
+           {
+            "title":"Welcome to Our Marketplace!",
+            "image_url":"https://www.facebook.com/jaspers.png",
+            "subtitle":"Fresh fruits and vegetables. Yum.",
+            "buttons":[
+              {
+                "type":"web_url",
+                "url":"https://www.jaspersmarket.com",
+                "title":"View Website"
+              }              
+            ]      
+          }
+        ]
+      }       
+    }
+  }
+]).then(result => {
+  console.log(result);
+  // {
+  //   message_creative_id: 938461089,
+  // }
+})
+```
+
+The following message templates are not supported:
+
+- Airline boarding pass template
+- Airline check-in template
+- Airline itinerary template
+- Airline flight update template
+- Receipt template
+- Open graph template
+
+<br />
+
+## `sendBroadcastMessage(messageCreativeId, options)`
+
+Param                     | Type     | Description
+------------------------- | -------- | -----------
+messageCreativeId         | `Number` | The `message_creative_id` of the message creative to send in the broadcast.
+options                   | `Object` | Other optional parameters.
+options.custom_label_id   | `Number` | The id of custom label.
+
+Example
+```js
+client.sendBroadcastMessage(938461089).then(result => {
+  console.log(result);
+  // {
+  //   broadcast_id: 827,  
+  // }
+});
+```
+
+To send a broadcast message to the set of PSIDs associated with a label, pass label id as `custom_label_id` option:
+
+```js
+client.sendBroadcastMessage(938461089, { custom_label_id: LABEL_ID });
+```
+
+<br />
+
+## `sendSponsoredMessage(adAccountId, args)`
+
+Param                    | Type          | Description
+------------------------ | ------------- | -----------
+adAccountId               | `String`      | The Ad account ID. [See more](https://developers.facebook.com/docs/marketing-api/guides/messenger-sponsored)
+message                     | `Object`      | The Object to pass into request body.
+message.message_creative_id | `Number`      | The ID of the Message Creative you want to send.
+message.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.
+message.bid_amount          | `Number`      | Maximum amount to bid for each message.
+message.targeting           | `JSON String` | Option field for ads targeting
+
+Example
+```js
+client.sendSponsoredMessage('18910417349234', {
+  message_creative_id: 938461089,
+  daily_budget: 100,
+  bid_amount: 400,
+  targeting: "{'geo_locations': {'countries':['US']}}",
+}).then(result => {
+  console.log(result);
+  // {
+  //   "ad_group_id": <AD_GROUP_ID>
+  //   "broadcast_id": <BROADCAST_ID>
+  //   "success": <RESPONSE_STATUS>
+  // }
+})
 ```
 
 <br />

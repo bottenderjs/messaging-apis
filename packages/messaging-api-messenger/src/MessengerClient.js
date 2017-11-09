@@ -70,14 +70,14 @@ function handleError(err) {
 export default class MessengerClient {
   static connect = (
     accessToken: string,
-    version?: string = 'v2.10'
+    version?: string = '2.11'
   ): MessengerClient => new MessengerClient(accessToken, version);
 
   _accessToken: string;
   _version: string;
   _axios: Axios;
 
-  constructor(accessToken: string, version?: string = '2.10') {
+  constructor(accessToken: string, version?: string = '2.11') {
     this._accessToken = accessToken;
     invariant(typeof version === 'string', 'Type of `version` must be string.');
     this._version = extractVersion(version);
@@ -929,6 +929,51 @@ export default class MessengerClient {
       })
       .then(res => res.data);
   };
+
+  /**
+   * Broadcast API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/broadcast-api
+   */
+
+  /**
+   * Create Message Creative
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#creative
+   */
+  createMessageCreative = (messages: Array<Object> = []) =>
+    this._axios
+      .post(`/me/message_creatives?access_token=${this._accessToken}`, {
+        messages,
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Send Broadcast Message
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages
+   */
+  sendBroadcastMessage = (messageCreativeId: number, options?: Object = {}) =>
+    this._axios
+      .post(`/me/broadcast_messages?access_token=${this._accessToken}`, {
+        message_creative_id: messageCreativeId,
+        ...options,
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Send Sponsored Message
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#message
+   */
+  sendSponsoredMessage = (adAccountId: string, message: Object) =>
+    this._axios
+      .post(
+        `/act_${adAccountId}/sponsored_message_ads?access_token=${this
+          ._accessToken}`,
+        message
+      )
+      .then(res => res.data, handleError);
 
   /**
    * Upload API
