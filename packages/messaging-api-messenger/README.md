@@ -20,6 +20,7 @@
   * [Broadcast API](#broadcast-api)
     * [Targeting Broadcast Messages](#targeting-broadcast-messages)
     * [Estimating Broadcast Size](#estimating-broadcast-size)
+    * [Broadcast Metrics](#broadcast-metrics)
   * [User Profile API](#user-profile-api)
   * [Messenger Profile API](#messenger-profile-api)
     * [Persistent Menu](#persistent-menu)
@@ -1580,6 +1581,42 @@ client
     //   "reach_estimation": "<REACH_ESTIMATE>"
     //   "id": "<REACH_ESTIMATION_ID>"
     // }
+  });
+```
+
+<br />
+
+<a id="broadcast-metrics" />
+
+### Broadcast Metrics - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/#metrics)
+
+## `getBroadcastMessagesSent(broadcastId)`
+
+Param          | Type          | Description
+-------------- | ------------- | -----------
+broadcastId    | `Number`      | The broadcast ID.
+
+Example
+```js
+client
+  .getBroadcastMessagesSent(73450120243)
+  .then(result => {
+    console.log(result);
+  // [
+  //   {
+  //     "name": "messages_sent",
+  //     "period": "lifetime",
+  //     "values": [
+  //       {
+  //         "value": 1000,
+  //         "end_time": "1970-01-02T00:00:00+0000"
+  //       }
+  //     ],
+  //     "title": "Lifetime number of messages sent from the page broadcast",
+  //     "description": "Lifetime: The total number of messages sent from a Page to people.",
+  //     "id": "1301333349933076/insights/messages_sent"
+  //   }
+  // ]
   });
 ```
 

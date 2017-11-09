@@ -1086,6 +1086,20 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
 
   /**
+   * Broadcast Metrics
+   *
+   * Once a broadcast has been delivered, you can find out the total number of people it reached.
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/#metrics
+   */
+  getBroadcastMessagesSent = (broadcastId: number) =>
+    this._axios
+      .post(
+        `/${broadcastId}/insights/messages_sent?access_token=${this
+          ._accessToken}`
+      )
+      .then(res => res.data.data, handleError);
+
+  /**
    * Upload API
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api
