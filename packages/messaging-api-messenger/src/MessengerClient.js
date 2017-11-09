@@ -976,6 +976,28 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
 
   /**
+   * Starting a Reach Estimation
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/estimate-reach#start
+   */
+  startReachEstimation = (customLabelId: number) =>
+    this._axios
+      .post(`/broadcast_reach_estimations?access_token=${this._accessToken}`, {
+        custom_label_id: customLabelId,
+      })
+      .then(res => res.data, handleError);
+
+  /**
+   * Retrieving a Reach Estimate
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/estimate-reach#get
+   */
+  retrieveReachEstimate = (reachEstimationId: number) =>
+    this._axios
+      .post(`/${reachEstimationId}?access_token=${this._accessToken}`)
+      .then(res => res.data, handleError);
+
+  /**
    * Upload API
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api
