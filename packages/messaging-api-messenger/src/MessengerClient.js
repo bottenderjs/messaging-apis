@@ -964,12 +964,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#message
    */
-  sendSponsoredMessage = (adAcountId: string, args: Object) =>
+  sendSponsoredMessage = (adAccountId: string, message: Object) =>
     this._axios
       .post(
-        `/act_${adAcountId}/sponsored_message_ads?access_token=${this
+        `/act_${adAccountId}/sponsored_message_ads?access_token=${this
           ._accessToken}`,
-        args
+        message
       )
       .then(res => res.data, handleError);
 

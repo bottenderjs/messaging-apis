@@ -1335,15 +1335,16 @@ client.sendBroadcastMessage(938461089, { custom_label_id: LABEL_ID });
 
 <br />
 
-## `sendSponsoredMessage(adAcountId, args)`
+## `sendSponsoredMessage(adAccountId, args)`
 
 Param                    | Type          | Description
 ------------------------ | ------------- | -----------
-args                     | `Object`      | The Object to pass into request body.
-args.message_creative_id | `Number`      | The ID of the Message Creative you want to send.
-args.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.
-args.bid_amount          | `Number`      | Maximum amount to bid for each message.
-args.targeting           | `JSON String` | Option field for ads targeting
+adAccountId               | `String`      | The Ad account ID. [See more](https://developers.facebook.com/docs/marketing-api/guides/messenger-sponsored)
+message                     | `Object`      | The Object to pass into request body.
+message.message_creative_id | `Number`      | The ID of the Message Creative you want to send.
+message.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.
+message.bid_amount          | `Number`      | Maximum amount to bid for each message.
+message.targeting           | `JSON String` | Option field for ads targeting
 
 Example
 ```js
