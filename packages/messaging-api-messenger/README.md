@@ -2559,9 +2559,17 @@ client.disableNLP();
 
 ### Event Logging API - [Official Docs](https://developers.facebook.com/docs/app-events/bots-for-messenger#logging-custom-events)
 
-## `logCustomEvents(pageId, userId, events)`
+## `logCustomEvents(activity)`
 
 Log custom events by using the [Application Activities Graph API](https://developers.facebook.com/docs/graph-api/reference/application/activities/) endpoint.
+
+Param           | Type            | Description
+--------------- | --------------- | -----------
+activity        | `Object`        |
+activity.appId  | `Number`        | ID of the app.
+activity.pageId | `String`        | ID of the page.
+activity.userId | `String`        | Page-scoped user ID of the recipient.
+activity.events | `Array<Object>` | Custom events.
 
 Example:
 ```js
