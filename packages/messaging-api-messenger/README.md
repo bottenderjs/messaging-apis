@@ -1564,7 +1564,7 @@ client
 
 <br />
 
-## `retrieveReachEstimate(reachEstimationId)`
+## `getReachEstimate(reachEstimationId)`
 
 Param                       | Type          | Description
 --------------------------- | ------------- | -----------
@@ -1573,7 +1573,7 @@ reachEstimationId           | `Number`      | The reach estimate ID from *startR
 Example
 ```js
 client
-  .retrieveReachEstimate(73450120243)
+  .getReachEstimate(73450120243)
   .then(result => {
     console.log(result);
     // {

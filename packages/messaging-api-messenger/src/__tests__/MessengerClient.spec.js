@@ -3945,7 +3945,7 @@ describe('broadcast api', () => {
     });
   });
 
-  describe('#retrieveReachEstimate', () => {
+  describe('#getReachEstimate', () => {
     it('should call messages api to retrieve the reach estimate', async () => {
       const { client, mock } = createMock();
 
@@ -3958,7 +3958,7 @@ describe('broadcast api', () => {
         .onPost(`/73450120243?access_token=${ACCESS_TOKEN}`)
         .reply(200, reply);
 
-      const res = await client.retrieveReachEstimate(73450120243);
+      const res = await client.getReachEstimate(73450120243);
 
       expect(res).toEqual(reply);
     });
