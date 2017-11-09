@@ -1229,4 +1229,32 @@ export default class MessengerClient {
 
   enableNLP = () => this.setNLPConfigs({ nlp_enabled: true });
   disableNLP = () => this.setNLPConfigs({ nlp_enabled: false });
+
+  /**
+   * Logging Custom Events
+   *
+   * https://developers.facebook.com/docs/app-events/bots-for-messenger#logging-custom-events
+   */
+  logCustomEvents = ({
+    appId,
+    pageId,
+    userId,
+    events,
+  }: {
+    appId: number,
+    pageId: number,
+    userId: UserID,
+    events: Array<Object>,
+  }) =>
+    this._axios
+      .post(`/${appId}/activities?access_token=${this._accessToken}`, {
+        event: 'CUSTOM_APP_EVENTS',
+        custom_events: JSON.stringify(events),
+        advertiser_tracking_enabled: 0,
+        application_tracking_enabled: 0,
+        extinfo: JSON.stringify(['mb1']),
+        page_id: pageId,
+        page_scoped_user_id: userId,
+      })
+      .then(res => res.data, handleError);
 }

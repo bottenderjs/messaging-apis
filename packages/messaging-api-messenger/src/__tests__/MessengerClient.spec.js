@@ -3653,7 +3653,7 @@ describe('send api', () => {
             {
               method: 'POST',
               relative_url: 'me/messages',
-              body: `recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
+              body: `messaging_type=UPDATE&recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
             },
           ],
         })
@@ -4948,6 +4948,46 @@ describe('Built-in NLP API', () => {
         .reply(200, reply);
 
       const res = await client.disableNLP();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('Event Logging API', () => {
+  describe('#logCustomEvents', () => {
+    it('should call api to log events', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/12345/activities?access_token=${ACCESS_TOKEN}`, {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events:
+            '[{"_eventName":"fb_mobile_purchase","_valueToSum":55.22,"_fb_currency":"USD"}]',
+          advertiser_tracking_enabled: 0,
+          application_tracking_enabled: 0,
+          extinfo: '["mb1"]',
+          page_id: 67890,
+          page_scoped_user_id: USER_ID,
+        })
+        .reply(200, reply);
+
+      const res = await client.logCustomEvents({
+        appId: 12345,
+        pageId: 67890,
+        userId: USER_ID,
+        events: [
+          {
+            _eventName: 'fb_mobile_purchase',
+            _valueToSum: 55.22,
+            _fb_currency: 'USD',
+          },
+        ],
+      });
 
       expect(res).toEqual(reply);
     });

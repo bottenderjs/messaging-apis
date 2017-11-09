@@ -6,6 +6,7 @@ describe('createRequest', () => {
   it('should create send text request', () => {
     expect(
       Messenger.createRequest({
+        messaging_type: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -17,6 +18,7 @@ describe('createRequest', () => {
       method: 'POST',
       relative_url: 'me/messages',
       body: {
+        messaging_type: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -34,6 +36,29 @@ describe('createMessage', () => {
       method: 'POST',
       relative_url: 'me/messages',
       body: {
+        messaging_type: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+      },
+    });
+  });
+
+  it('should create send text with RESPONSE type', () => {
+    expect(
+      Messenger.createMessage(
+        RECIPIENT_ID,
+        { text: 'Hello' },
+        { messaging_type: 'RESPONSE' }
+      )
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        messaging_type: 'RESPONSE',
         message: {
           text: 'Hello',
         },
@@ -57,6 +82,7 @@ describe('createMessage', () => {
       method: 'POST',
       relative_url: 'me/messages',
       body: {
+        messaging_type: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -75,6 +101,7 @@ describe('createText', () => {
       method: 'POST',
       relative_url: 'me/messages',
       body: {
+        messaging_type: 'UPDATE',
         message: {
           text: 'Hello',
         },
