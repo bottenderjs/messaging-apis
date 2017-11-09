@@ -1080,7 +1080,7 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/estimate-reach#get
    */
-  retrieveReachEstimate = (reachEstimationId: number) =>
+  getReachEstimate = (reachEstimationId: number) =>
     this._axios
       .post(`/${reachEstimationId}?access_token=${this._accessToken}`)
       .then(res => res.data, handleError);
