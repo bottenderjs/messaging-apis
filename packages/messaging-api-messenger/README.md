@@ -1144,8 +1144,6 @@ client.uploadImage('http://www.example.com/image.jpg');
 
 Upload video attachment using URL address.
 
-Upload image attachment using URL address.
-
 Param | Type     | Description
 ----- | -------- | -----------
 url   | `String` | URL address of the video.
