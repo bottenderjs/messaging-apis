@@ -1,3 +1,8 @@
+0.5.8 / 2017-11-13
+==================
+### messaging-api-messenger
+- [fix] make sure `options.messaging_type` works for all send apis [#205](https://github.com/Yoctol/messaging-apis/pull/205)
+
 0.5.7 / 2017-11-09
 ==================
 A large update to support [Messenger Platform 2.2](https://messenger.fb.com/blog/2-2-release/). 🎉
