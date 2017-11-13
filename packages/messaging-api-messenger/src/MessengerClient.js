@@ -707,13 +707,18 @@ export default class MessengerClient {
   sendButtonTemplate = (
     recipient: UserID | Recipient,
     text: string,
-    buttons: Array<TemplateButton>
+    buttons: Array<TemplateButton>,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'button',
-      text,
-      buttons,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'button',
+        text,
+        buttons,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic
   sendGenericTemplate = (
@@ -739,84 +744,126 @@ export default class MessengerClient {
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     buttons: Array<TemplateButton>,
-    options?: { top_element_style?: 'large' | 'compact' } = {}
+    options?: {
+      ...SendOption,
+      top_element_style?: 'large' | 'compact',
+    } = {}
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'list',
-      elements,
-      buttons,
-      top_element_style: options.top_element_style || 'large',
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'list',
+        elements,
+        buttons,
+        top_element_style: options.top_element_style || 'large',
+      },
+      omit(options, ['top_element_style'])
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/open-graph
   sendOpenGraphTemplate = (
     recipient: UserID | Recipient,
-    elements: Array<OpenGraphElement>
+    elements: Array<OpenGraphElement>,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'open_graph',
-      elements,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'open_graph',
+        elements,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt
   sendReceiptTemplate = (
     recipient: UserID | Recipient,
-    attrs: ReceiptAttributes
+    attrs: ReceiptAttributes,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'receipt',
-      ...attrs,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'receipt',
+        ...attrs,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/media
   sendMediaTemplate = (
     recipient: UserID | Recipient,
-    elements: Array<MediaElement>
+    elements: Array<MediaElement>,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'media',
-      elements,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'media',
+        elements,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#boarding_pass
   sendAirlineBoardingPassTemplate = (
     recipient: UserID | Recipient,
-    attrs: AirlineBoardingPassAttributes
+    attrs: AirlineBoardingPassAttributes,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'airline_boardingpass',
-      ...attrs,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'airline_boardingpass',
+        ...attrs,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#check_in
   sendAirlineCheckinTemplate = (
     recipient: UserID | Recipient,
-    attrs: AirlineCheckinAttributes
+    attrs: AirlineCheckinAttributes,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'airline_checkin',
-      ...attrs,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'airline_checkin',
+        ...attrs,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#itinerary
   sendAirlineItineraryTemplate = (
     recipient: UserID | Recipient,
-    attrs: AirlineItineraryAttributes
+    attrs: AirlineItineraryAttributes,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'airline_itinerary',
-      ...attrs,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'airline_itinerary',
+        ...attrs,
+      },
+      options
+    );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#update
   sendAirlineFlightUpdateTemplate = (
     recipient: UserID | Recipient,
-    attrs: AirlineFlightUpdateAttributes
+    attrs: AirlineFlightUpdateAttributes,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(recipient, {
-      template_type: 'airline_update',
-      ...attrs,
-    });
+    this.sendTemplate(
+      recipient,
+      {
+        template_type: 'airline_update',
+        ...attrs,
+      },
+      options
+    );
 
   /**
    * Quick Replies
@@ -826,7 +873,8 @@ export default class MessengerClient {
   sendQuickReplies = (
     recipient: UserID | Recipient,
     textOrAttachment: TextOrAttachment,
-    quickReplies: Array<QuickReply>
+    quickReplies: Array<QuickReply>,
+    options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
     // quick_replies is limited to 11
     invariant(
@@ -850,10 +898,14 @@ export default class MessengerClient {
       }
     });
 
-    return this.sendMessage(recipient, {
-      ...textOrAttachment,
-      quick_replies: quickReplies,
-    });
+    return this.sendMessage(
+      recipient,
+      {
+        ...textOrAttachment,
+        quick_replies: quickReplies,
+      },
+      options
+    );
   };
 
   /**
