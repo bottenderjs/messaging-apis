@@ -1611,10 +1611,8 @@ broadcastId    | `Number`      | The broadcast ID.
 
 Example
 ```js
-client
-  .getBroadcastMessagesSent(73450120243)
-  .then(result => {
-    console.log(result);
+client.getBroadcastMessagesSent(73450120243).then(result => {
+  console.log(result);
   // [
   //   {
   //     "name": "messages_sent",
@@ -1630,7 +1628,7 @@ client
   //     "id": "1301333349933076/insights/messages_sent"
   //   }
   // ]
-  });
+});
 ```
 
 <br />
