@@ -1,3 +1,8 @@
+0.5.9 / 2017-11-15
+==================
+### messaging-api-messenger
+- [fix] make NLP config model value match Facebook API [#207](https://github.com/Yoctol/messaging-apis/pull/207)
+
 0.5.8 / 2017-11-13
 ==================
 ### messaging-api-messenger
