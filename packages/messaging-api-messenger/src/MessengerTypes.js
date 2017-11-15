@@ -320,20 +320,18 @@ export type BatchItem = {
 };
 
 export type Model =
-  | 'zh'
-  | 'zh-Hans'
-  | 'zh-Hant'
-  | 'nl'
-  | 'en'
-  | 'fr'
-  | 'de'
-  | 'it'
-  | 'pl'
-  | 'pt'
-  | 'ro'
-  | 'es'
-  | 'vi'
-  | 'custom';
+  | 'CUSTOM'
+  | 'ENGLISH'
+  | 'CHINESE'
+  | 'DUTCH'
+  | 'FRENCH_STANDARD'
+  | 'GERMAN_STANDARD'
+  | 'ITALIAN_STANDARD'
+  | 'POLISH'
+  | 'PORTUGUESE'
+  | 'ROMANIAN'
+  | 'SPANISH'
+  | 'VIETNAMESE';
 
 export type MessengerNLPConfig = {
   nlp_enabled?: boolean,
