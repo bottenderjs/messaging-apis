@@ -232,8 +232,14 @@ export default class SlackOAuthClient {
     channel: string,
     text: string,
     options?: PostMessageOptions = {}
-  ): Promise<SlackOAuthAPIResponse> =>
-    this.callMethod('chat.postMessage', { channel, text, ...options });
+  ): Promise<SlackOAuthAPIResponse> => {
+    if (options.attachments && typeof options.attachments !== 'string') {
+      // A JSON-based array of structured attachments, presented as a URL-encoded string.
+      // eslint-disable-next-line no-param-reassign
+      options.attachments = JSON.stringify(options.attachments);
+    }
+    return this.callMethod('chat.postMessage', { channel, text, ...options });
+  };
 
   /**
    * Gets information about a user.
