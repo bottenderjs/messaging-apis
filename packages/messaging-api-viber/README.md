@@ -52,6 +52,13 @@ All methods return a Promise.
 
 ## `setWebhook(url [, eventTypes])`
 
+Setting a Webhook.
+
+Param      | Type            | Description
+---------- | --------------- | -----------
+url        | `String`        | HTTPS Account webhook URL to receive callbacks & messages from users.
+eventTypes | `Array<String>` | Indicates the types of Viber events that the account owner would like to be notified about. Possible values: `delivered`, `seen`, `failed`, `subscribed`, `unsubscribed` and `conversation_started`.
+
 Example:
 ```js
 client.setWebhook('https://4a16faff.ngrok.io/');
@@ -71,6 +78,8 @@ client.setWebhook('https://4a16faff.ngrok.io/', [
 
 ## `removeWebhook`
 
+Removing your webhook.
+
 Example:
 ```js
 client.removeWebhook();
@@ -80,7 +89,14 @@ client.removeWebhook();
 
 ### Send API
 
-## `sendMessage(receiver, message)`
+## `sendMessage(receiver, message)` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#send-message)
+
+Sending a message to a user.
+
+Param    |  Type    | Description
+-------- | -------- | -----------
+receiver | `String` | Unique Viber user id.
+message  | `Object` | Message and options to be sent.
 
 Example:
 ```js
@@ -90,11 +106,21 @@ client.sendMessage(USER_ID, {
 });
 ```
 
+> Note: Maximum total JSON size of the request is 30kb.
+
 <br />
 
-## `sendText(receiver, text [, options])`
+## `sendText(receiver, text [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#text-message)
+
+Sending a text message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481925-61e46008-aeeb-11e7-842f-79fee8066c6a.jpg" width="300" />
+
+Param    |  Type    | Description
+-------- | -------- | -----------
+receiver | `String` | Unique Viber user id.
+text     | `String` | The text of the message.
+options  | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -103,9 +129,20 @@ client.sendText(USER_ID, 'Hello');
 
 <br />
 
-## `sendPicture(receiver, picture [, options])`
+## `sendPicture(receiver, picture [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#picture-message)
+
+Sending a picture message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481916-5ec6cdac-aeeb-11e7-878b-6c8c4211a760.jpg" width="300" />
+
+Param             |  Type    | Description
+----------------- | -------- | -----------
+receiver          | `String` | Unique Viber user id.
+picture           | `Object` |
+picture.text      | `String` | Description of the photo. Can be an empty string if irrelevant. Max 120 characters.
+picture.media     | `String` | URL of the image (JPEG). Max size 1 MB. Only JPEG format is supported. Other image formats as well as animated GIFs can be sent as URL messages or file messages.
+picture.thumbnail | `String` | URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
+options           | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -118,9 +155,21 @@ client.sendPicture(USER_ID, {
 
 <br />
 
-## `sendVideo(receiver, video [, options])`
+## `sendVideo(receiver, video [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#video-message)
+
+Sending a video message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481918-5fa12074-aeeb-11e7-8287-830197d93b5b.jpg" width="300" />
+
+Param           |  Type    | Description
+--------------- | -------- | -----------
+receiver        | `String` | Unique Viber user id.
+video           | `Object` |
+video.media     | `String` | URL of the video (MP4, H264). Max size 50 MB. Only MP4 and H264 are supported.
+video.size      | `String` | Size of the video in bytes.
+video.duration  | `String` | Video duration in seconds; will be displayed to the receiver. Max 180 seconds.
+video.thumbnail | `String` | URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
+options         | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -134,9 +183,20 @@ client.sendVideo(USER_ID, {
 
 <br />
 
-## `sendFile(receiver, file [, options])`
+## `sendFile(receiver, file [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#file-message)
+
+Sending a file message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481919-600f437e-aeeb-11e7-9f13-7269a055cb86.jpg" width="300" />
+
+Param           |  Type    | Description
+--------------- | -------- | -----------
+receiver        | `String` | Unique Viber user id.
+file            | `Object` |
+file.media      | `String` | URL of the file. Max size 50 MB. See [forbidden file formats](https://developers.viber.com/docs/api/rest-bot-api/#forbiddenFileFormats) for unsupported file types.
+file.size       | `String` | Size of the file in bytes.
+file.file_name	| `String` | Name of the file. File name should include extension. Max 256 characters (including file extension).
+options         | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -149,9 +209,19 @@ client.sendFile(USER_ID, {
 
 <br />
 
-## `sendContact(receiver, contact [, options])`
+## `sendContact(receiver, contact [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#contact-message)
+
+Sending a contact message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481924-615ce8b2-aeeb-11e7-8425-2d3bfa115fc1.jpg" width="300" />
+
+Param                |  Type    | Description
+-------------------- | -------- | -----------
+receiver             | `String` | Unique Viber user id.
+contact              | `Object` |
+contact.name         | `String` | Name of the contact. Max 28 characters.
+contact.phone_number | `String` | Phone number of the contact. Max 18 characters.
+options              | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -163,9 +233,19 @@ client.sendContact(USER_ID, {
 
 <br />
 
-## `sendLocation(receiver, location [, options])`
+## `sendLocation(receiver, location [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#location-message)
+
+Sending a location message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481923-61199a9e-aeeb-11e7-8a25-e3813eceb25b.jpg" width="300" />
+
+Param        |  Type    | Description
+------------ | -------- | -----------
+receiver     | `String` | Unique Viber user id.
+location     | `Object` |
+location.lat | `String` | Latitude (±90°) within valid ranges.
+location.lon | `String` | Longitude (±180°) within valid ranges.
+options      | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -177,9 +257,17 @@ client.sendLocation(USER_ID, {
 
 <br />
 
-## `sendURL(receiver, url [, options])`
+## `sendURL(receiver, url [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#url-message)
+
+Sending an URL message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481921-6069f346-aeeb-11e7-97bf-83a17da0bc7a.jpg" width="300" />
+
+Param    |  Type    | Description
+-------- | -------- | -----------
+receiver | `String` | Unique Viber user id.
+url      | `String` | URL. Max 2,000 characters.
+options  | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -188,9 +276,17 @@ client.sendURL(USER_ID, 'http://developers.viber.com');
 
 <br />
 
-## `sendSticker(receiver, stickerId [, options])`
+## `sendSticker(receiver, stickerId [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#sticker-message)
+
+Sending a sticker message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481922-60c2c444-aeeb-11e7-8fc9-bce2e5d06c42.jpg" width="300" />
+
+Param     |  Type    | Description
+--------- | -------- | -----------
+receiver  | `String` | Unique Viber user id.
+stickerId | `Number` | Unique Viber sticker ID. For examples visit the [sticker IDs](https://viber.github.io/docs/tools/sticker-ids/) page.
+options   | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -199,9 +295,19 @@ client.sendSticker(USER_ID, 46105);
 
 <br />
 
-## `sendCarouselContent(receiver, richMedia [, options])`
+## `sendCarouselContent(receiver, richMedia [, options])` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message)
+
+Sending a carousel content message to a user.
 
 <img src="https://user-images.githubusercontent.com/3382565/31481917-5f1b43b4-aeeb-11e7-8557-e25951d69b53.jpg" width="300" />
+
+Param                         |  Type    | Description
+----------------------------- | -------- | -----------
+receiver                      | `String` | Unique Viber user id.
+richMedia.ButtonsGroupColumns | `Number` | Number of columns per carousel content block. Default 6 columns. Possible values: 1 - 6.
+richMedia.ButtonsGroupRows    | `Number` | Number of rows per carousel content block. Default 7 rows. Possible values: 1 - 7.
+richMedia.Buttons             | `Array<Object>` | Array of buttons. Max of 6 * ButtonsGroupColumns * ButtonsGroupRows.
+options                       | `Object` | Other optional parameters.
 
 Example:
 ```js
@@ -295,7 +401,9 @@ client.sendCarouselContent(USER_ID, {
 
 <br />
 
-### Keyboards
+<a id="keyboards" />
+
+### Keyboards - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#keyboards)
 
 The Viber API allows sending a custom keyboard using the send_message API, to supply the user with a set of predefined replies or actions. Keyboards can be attached to any message type and be sent and displayed together. To attach a keyboard to a message simply add the keyboard’s parameters to the options:
 
@@ -334,7 +442,9 @@ Which in turn will look like this:
 
 ### Get Account Info
 
-## `getAccountInfo()`
+## `getAccountInfo()` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#get-account-info)
+
+It will fetch the account’s details as registered in Viber.
 
 Example:
 ```js
@@ -374,7 +484,13 @@ client.getAccountInfo().then(info => {
 
 ### Get User Details
 
-## `getUserDetails(id)`
+## `getUserDetails(id)` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#get-user-details)
+
+It will fetch the details of a specific Viber user based on his unique user ID.
+
+Param    |  Type    | Description
+-------- | -------- | -----------
+id       | `String` | Unique Viber user id.
 
 Example:
 ```js
@@ -400,7 +516,13 @@ client.getUserDetails('01234567890A=').then(user => {
 
 ### Get Online
 
-## `getOnlineStatus(ids)`
+## `getOnlineStatus(ids)` - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#get-online)
+
+It will fetch the online status of a given subscribed account members.
+
+Param    |  Type           | Description
+-------- | --------------- | -----------
+id       | `Array<String>` | Array of unique Viber user id. 100 ids per request.
 
 Example:
 ```js
