@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-viber",
   "description": "Messaging API client for Viber",
-  "version": "0.5.7",
+  "version": "0.5.10",
   "engines": {
     "node": ">=6"
   },
