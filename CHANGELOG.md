@@ -1,3 +1,8 @@
+0.5.10 / 2017-11-21
+===================
+### messaging-api-slack
+- [new] auto stringify `options.attachments` in Slack `postMessage` [#208](https://github.com/Yoctol/messaging-apis/pull/208)
+
 0.5.9 / 2017-11-15
 ==================
 ### messaging-api-messenger
