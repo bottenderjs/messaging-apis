@@ -340,3 +340,8 @@ export type MessengerNLPConfig = {
   verbose?: boolean,
   n_best?: number,
 };
+
+export type PageInfo = {
+  name: string,
+  id: string,
+};
