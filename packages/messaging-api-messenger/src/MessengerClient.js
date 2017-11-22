@@ -62,6 +62,30 @@ function extractVersion(version) {
   return version;
 }
 
+function validateQuickReplies(quickReplies: Array<QuickReply>): void {
+  // quick_replies is limited to 11
+  invariant(
+    Array.isArray(quickReplies) && quickReplies.length <= 11,
+    'quick_replies is an array and limited to 11'
+  );
+
+  quickReplies.forEach(quickReply => {
+    if (quickReply.content_type === 'text') {
+      // title has a 20 character limit, after that it gets truncated
+      invariant(
+        (quickReply.title: any).trim().length <= 20,
+        'title of quick reply has a 20 character limit, after that it gets truncated'
+      );
+
+      // payload has a 1000 character limit
+      invariant(
+        (quickReply.payload: any).length <= 1000,
+        'payload of quick reply has a 1000 character limit'
+      );
+    }
+  });
+}
+
 function handleError(err) {
   const { error } = err.response.data;
   const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
@@ -537,17 +561,27 @@ export default class MessengerClient {
             id: idOrRecipient,
           }
         : idOrRecipient;
+
     let messageType = 'UPDATE';
+
     if (options.messaging_type) {
       messageType = options.messaging_type;
     } else if (options.tag) {
       messageType = 'MESSAGE_TAG';
     }
+
+    const { quick_replies: quickReplies, ...otherOptions } = options;
+
+    if (quickReplies) {
+      validateQuickReplies(quickReplies);
+      message.quick_replies = quickReplies; // eslint-disable-line no-param-reassign
+    }
+
     return this.sendRawBody({
       messaging_type: messageType,
       recipient,
       message,
-      ...options,
+      ...otherOptions,
     });
   };
 
@@ -564,12 +598,19 @@ export default class MessengerClient {
             id: recipient,
           }
         : recipient;
+
     let messageType = 'UPDATE';
     if (options.messaging_type) {
       messageType = options.messaging_type;
     } else if (options.tag) {
       messageType = 'MESSAGE_TAG';
     }
+
+    if (options.quick_replies) {
+      validateQuickReplies(options.quick_replies);
+      message.quick_replies = options.quick_replies; // eslint-disable-line no-param-reassign
+    }
+
     form.append('messaging_type', messageType);
     form.append('recipient', JSON.stringify(recipientObject));
     form.append('message', JSON.stringify(message));
@@ -888,27 +929,11 @@ export default class MessengerClient {
     quickReplies: Array<QuickReply>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    // quick_replies is limited to 11
-    invariant(
-      Array.isArray(quickReplies) && quickReplies.length <= 11,
-      'quickReplies is an array and limited to 11'
+    warning(
+      false,
+      '`sendQuickReplies` is deprecated. Use send message methods with `options.quick_replies` instead.'
     );
-
-    quickReplies.forEach(quickReply => {
-      if (quickReply.content_type === 'text') {
-        // title has a 20 character limit, after that it gets truncated
-        invariant(
-          (quickReply.title: any).trim().length <= 20,
-          'title of quickReply has a 20 character limit, after that it gets truncated'
-        );
-
-        // payload has a 1000 character limit
-        invariant(
-          (quickReply.payload: any).length <= 1000,
-          'payload of quickReply has a 1000 character limit'
-        );
-      }
-    });
+    validateQuickReplies(quickReplies);
 
     return this.sendMessage(
       recipient,

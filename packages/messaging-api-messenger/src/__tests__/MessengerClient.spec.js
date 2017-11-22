@@ -1717,6 +1717,122 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should attatch quick_replies to message', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: USER_ID,
+          },
+          message: {
+            text: 'Hello!',
+            quick_replies: [
+              {
+                content_type: 'text',
+                title: 'Search',
+                payload: '<POSTBACK_PAYLOAD>',
+                image_url: 'http://example.com/img/red.png',
+              },
+              {
+                content_type: 'location',
+              },
+            ],
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        USER_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          quick_replies: [
+            {
+              content_type: 'text',
+              title: 'Search',
+              payload: '<POSTBACK_PAYLOAD>',
+              image_url: 'http://example.com/img/red.png',
+            },
+            {
+              content_type: 'location',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should throw if quick_replies length > 11', async () => {
+      const { client } = createMock();
+
+      const lotsOfQuickReplies = new Array(12).fill({
+        content_type: 'text',
+        title: 'Red',
+        payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+      });
+
+      expect(() => {
+        client.sendMessage(
+          USER_ID,
+          { text: 'Pick a color:' },
+          { quick_replies: lotsOfQuickReplies }
+        );
+      }).toThrow('quick_replies is an array and limited to 11');
+    });
+
+    it('should throw if title length > 20', async () => {
+      const { client } = createMock();
+
+      expect(() => {
+        client.sendMessage(
+          USER_ID,
+          { text: 'Pick a color:' },
+          {
+            quick_replies: [
+              {
+                content_type: 'text',
+                title: 'RedRedRedRedRedRedRedRed',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+            ],
+          }
+        );
+      }).toThrow(
+        'title of quick reply has a 20 character limit, after that it gets truncated'
+      );
+    });
+
+    it('should throw if payload length > 1000', async () => {
+      const { client } = createMock();
+
+      const longString = new Array(1001).fill('x').join('');
+
+      expect(() => {
+        client.sendMessage(
+          USER_ID,
+          { text: 'Pick a color:' },
+          {
+            quick_replies: [
+              {
+                content_type: 'text',
+                title: 'Red',
+                payload: longString,
+              },
+            ],
+          }
+        );
+      }).toThrow('payload of quick reply has a 1000 character limit');
+    });
   });
 
   describe('#sendAttachment', () => {
@@ -3598,10 +3714,10 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
-    it('should throw if quickReplies length > 11', async () => {
+    it('should throw if quick_replies length > 11', async () => {
       const { client } = createMock();
 
-      const bigQuickReplies = new Array(12).fill({
+      const lotsOfQuickReplies = new Array(12).fill({
         content_type: 'text',
         title: 'Red',
         payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
@@ -3611,9 +3727,9 @@ describe('send api', () => {
         client.sendQuickReplies(
           USER_ID,
           { text: 'Pick a color:' },
-          bigQuickReplies
+          lotsOfQuickReplies
         );
-      }).toThrow('quickReplies is an array and limited to 11');
+      }).toThrow('quick_replies is an array and limited to 11');
     });
 
     it('should throw if title length > 20', async () => {
@@ -3628,7 +3744,7 @@ describe('send api', () => {
           },
         ]);
       }).toThrow(
-        'title of quickReply has a 20 character limit, after that it gets truncated'
+        'title of quick reply has a 20 character limit, after that it gets truncated'
       );
     });
 
@@ -3645,7 +3761,7 @@ describe('send api', () => {
             payload: longString,
           },
         ]);
-      }).toThrow('payload of quickReply has a 1000 character limit');
+      }).toThrow('payload of quick reply has a 1000 character limit');
     });
   });
 
