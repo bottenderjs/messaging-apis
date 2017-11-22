@@ -103,6 +103,24 @@ describe('#axios', () => {
   });
 });
 
+describe('page info', () => {
+  describe('#getPageInfo', () => {
+    it('should response page info', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        name: 'Bot Demo',
+        id: '1895382890692546',
+      };
+
+      mock.onGet(`/me?access_token=${ACCESS_TOKEN}`).reply(200, reply);
+
+      const res = await client.getPageInfo();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
 describe('user profile', () => {
   describe('#getUserProfile', () => {
     it('should response user profile', async () => {

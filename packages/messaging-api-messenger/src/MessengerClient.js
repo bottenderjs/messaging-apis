@@ -44,6 +44,7 @@ import type {
   MessengerNLPConfig,
   InsightMetric,
   InsightOptions,
+  PageInfo,
 } from './MessengerTypes';
 
 type Axios = {
@@ -102,6 +103,17 @@ export default class MessengerClient {
     );
     return this._axios;
   };
+
+  /**
+   * Get Page Info
+   *
+   * https://developers.facebook.com/docs/graph-api/using-graph-api
+   * id, name
+   */
+  getPageInfo = (): Promise<PageInfo> =>
+    this._axios
+      .get(`/me?access_token=${this._accessToken}`)
+      .then(res => res.data, handleError);
 
   /**
    * Get User Profile

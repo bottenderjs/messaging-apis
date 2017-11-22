@@ -36,6 +36,7 @@
   * [Page Messaging Insights API](#page-messaging-insights-api)
   * [Built-in NLP API](#built-in-nlp-api)
   * [Event Logging API](#event-logging-api)
+  * [Others](#others)
 
 ## Installation
 
@@ -2638,6 +2639,25 @@ client.logCustomEvents({
       _fb_currency: 'USD',
     },
   ],
+});
+```
+
+<br />
+
+### Others
+
+## `getPageInfo`
+
+Get page name and page id using Graph API.
+
+Example:
+```js
+client.getPageInfo().then(page => {
+  console.log(page);
+  // {
+  //   name: 'Bot Demo',
+  //   id: '1895382890692546',
+  // }
 });
 ```
 
