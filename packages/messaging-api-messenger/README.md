@@ -299,7 +299,7 @@ client.sendVideo(USER_ID, fs.createReadStream('video.mp4'));
 
 Send files to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480153_1115020735225077_1305291896_n.png?oh=a972010ea3edd1ea967885b06317efab&oe=59F63578" alt="sendVideo" width="250" />
+<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480153_1115020735225077_1305291896_n.png?oh=a972010ea3edd1ea967885b06317efab&oe=59F63578" alt="sendFile" width="250" />
 
 Param   | Type                              | Description
 ------- | --------------------------------- | -----------
@@ -1016,7 +1016,7 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 
 ### Quick Replies - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14175277_1582251242076612_248078259_n.png?oh=f87f9d3ea0f9902686f21a105e6fe9eb&oe=59F265D6" alt="Sender Actions" width="750" />
+<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14175277_1582251242076612_248078259_n.png?oh=f87f9d3ea0f9902686f21a105e6fe9eb&oe=59F265D6" alt="Quick Replies" width="750" />
 
 ## `sendQuickReplies(userId, message, items [, options])`
 
