@@ -263,6 +263,8 @@ export type GreetingConfig = {
   text: string,
 };
 
+export type AudienceType = 'all' | 'custom' | 'none';
+
 export type MessengerProfile = {
   get_started?: {
     payload: string,
@@ -280,11 +282,17 @@ export type MessengerProfile = {
     test_users?: Array<string>,
   },
   target_audience?: {
-    audience_type?: string,
+    audience_type: AudienceType,
     countries?: {
-      whitelist: ?Array<string>,
-      blacklist: ?Array<string>,
+      whitelist?: ?Array<string>,
+      blacklist?: ?Array<string>,
     },
+  },
+  home_url?: {
+    url: string,
+    webview_height_ratio: 'tall',
+    webview_share_button?: 'hide' | 'show',
+    in_test: boolean,
   },
 };
 

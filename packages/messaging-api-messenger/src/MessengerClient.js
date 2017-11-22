@@ -33,6 +33,7 @@ import type {
   AirlineItineraryAttributes,
   AirlineFlightUpdateAttributes,
   PersistentMenu,
+  AudienceType,
   MessengerProfile,
   MessengerProfileResponse,
   MutationSuccessResponse,
@@ -415,7 +416,7 @@ export default class MessengerClient {
     );
 
   setTargetAudience = (
-    type: string,
+    type: AudienceType,
     whitelist: ?Array<string> = [],
     blacklist: ?Array<string> = []
   ): Promise<MutationSuccessResponse> =>
@@ -453,19 +454,17 @@ export default class MessengerClient {
   setHomeURL = (
     url: string,
     {
-      webview_height_ratio,
       webview_share_button,
       in_test,
     }: {
-      webview_height_ratio: string,
-      webview_share_button?: string,
+      webview_share_button?: 'hide' | 'show',
       in_test: boolean,
     }
   ): Promise<MutationSuccessResponse> =>
     this.setMessengerProfile({
       home_url: {
         url,
-        webview_height_ratio,
+        webview_height_ratio: 'tall',
         in_test,
         webview_share_button,
       },
@@ -479,7 +478,7 @@ export default class MessengerClient {
       in_test,
     }: {
       webview_height_ratio: string,
-      webview_share_button?: string,
+      webview_share_button?: 'hide' | 'show',
       in_test: boolean,
     }
   ): Promise<MutationSuccessResponse> => {
