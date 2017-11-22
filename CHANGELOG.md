@@ -1,3 +1,18 @@
+0.5.11 / 2017-11-22
+===================
+### messaging-api-messenger
+- [new] support `getPageInfo` to get page name and page id using Graph API. For example:
+
+```js
+client.getPageInfo().then(page => {
+  console.log(page);
+  // {
+  //   name: 'Bot Demo',
+  //   id: '1895382890692546',
+  // }
+});
+```
+
 0.5.10 / 2017-11-21
 ===================
 ### messaging-api-slack
