@@ -1,3 +1,32 @@
+0.5.12 / 2017-11-23
+===================
+### messaging-api-messenger
+- [new] Support pass `options.quick_replies` to send message with quick replies: [#216](https://github.com/Yoctol/messaging-apis/issues/216)
+
+```js
+client.sendText(USER_ID, 'Pick a color:', {
+  quick_replies: [
+    {
+      content_type: 'text',
+      title: 'Red',
+      payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+    },
+  ],
+});
+```
+
+- [new] Support upload attachment from buffer or stream [#219](https://github.com/Yoctol/messaging-apis/issues/219)
+
+For example:
+
+```js
+client.uploadImage(buffer);
+client.uploadImage(fs.creatReadStream('xxx.jpg'));
+```
+
+- [docs] update docs and type for nlp config model [#222](https://github.com/Yoctol/messaging-apis/pull/222)
+
+
 0.5.11 / 2017-11-22
 ===================
 ### messaging-api-messenger
