@@ -331,16 +331,24 @@ export type BatchItem = {
 
 export type Model =
   | 'CUSTOM'
-  | 'ENGLISH'
   | 'CHINESE'
+  | 'CROATIAN'
+  | 'DANISH'
   | 'DUTCH'
+  | 'ENGLISH'
   | 'FRENCH_STANDARD'
   | 'GERMAN_STANDARD'
+  | 'HEBREW'
+  | 'HUNGARIAN'
+  | 'IRISH'
   | 'ITALIAN_STANDARD'
+  | 'KOREAN'
+  | 'NORWEGIAN_BOKMAL'
   | 'POLISH'
   | 'PORTUGUESE'
   | 'ROMANIAN'
   | 'SPANISH'
+  | 'SWEDISH'
   | 'VIETNAMESE';
 
 export type MessengerNLPConfig = {
