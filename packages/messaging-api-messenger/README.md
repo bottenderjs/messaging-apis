@@ -196,7 +196,7 @@ Send sounds to specified user by uploading them or sharing a URL using the [Send
 Param   | Type                              | Description
 ------- | --------------------------------- | -----------
 userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-audio   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | audio to be sent.
+audio   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The audio to be sent.
 options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
 
 Example:
@@ -232,7 +232,7 @@ Send images to specified user by uploading them or sharing a URL using the [Send
 Param   | Type                              | Description
 ------- | --------------------------------- | -----------
 userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-audio   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | image to be sent.
+audio   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The image to be sent.
 options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
 
 Example:
@@ -268,7 +268,7 @@ Send videos to specified user by uploading them or sharing a URL using the [Send
 Param   | Type                              | Description
 ------- | --------------------------------- | -----------
 userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-video   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | video to be sent.
+video   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The video to be sent.
 options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
 
 Example:
@@ -304,7 +304,7 @@ Send files to specified user by uploading them or sharing a URL using the [Send 
 Param   | Type                              | Description
 ------- | --------------------------------- | -----------
 userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-file    | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | file to be sent.
+file    | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The file to be sent.
 options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
 
 Example:
@@ -1121,78 +1121,118 @@ client.typingOff(USER_ID);
 
 ### Attachment Upload API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload)
 
-## `uploadAttachment(type, url)`
+## `uploadAttachment(type, attachment)`
 
-Upload specified type attachment using URL address.
+Upload specified type attachment using URL address, buffer, or stream.
 
 Param | Type     | Description
 ----- | -------- | -----------
 type  | `String` | Must be one of `image | video | audio | file`.
-url   | `String` | URL address of the attachment.
+attachment | <code>String &#124; Buffer &#124; ReadStream</code> | Attachment to be uploaded.
 
 Example:
 ```js
 client.uploadAttachment('image', 'http://www.example.com/image.jpg');
 ```
 
+Or using read stream:
+
+```js
+const fs = require('fs');
+
+client.uploadAttachment('image', fs.createReadStream('image.jpg'));
+```
+
 <br />
 
-## `uploadAudio(url)`
+## `uploadAudio(audio)`
 
-Upload audio attachment using URL address.
+Upload audio attachment using URL address, buffer, or stream.
 
-Param | Type     | Description
------ | -------- | -----------
-url   | `String` | URL address of the audio.
+Param   | Type                                                | Description
+------- | --------------------------------------------------- | -----------
+audio   | <code>String &#124; Buffer &#124; ReadStream</code> | The audio to be uploaded.
 
 Example:
 ```js
 client.uploadAudio('http://www.example.com/audio.mp3');
 ```
 
+Or using read stream:
+
+```js
+const fs = require('fs');
+
+client.uploadAudio(fs.createReadStream('audio.mp3'));
+```
+
 <br />
 
-## `uploadImage(url)`
+## `uploadImage(image)`
 
-Upload image attachment using URL address.
+Upload image attachment using URL address, buffer, or stream.
 
-Param | Type     | Description
------ | -------- | -----------
-url   | `String` | URL address of the image.
+Param   | Type                                                | Description
+------- | --------------------------------------------------- | -----------
+image   | <code>String &#124; Buffer &#124; ReadStream</code> | The image to be uploaded.
 
 Example:
 ```js
 client.uploadImage('http://www.example.com/image.jpg');
 ```
 
+Or using read stream:
+
+```js
+const fs = require('fs');
+
+client.uploadImage(fs.createReadStream('image.jpg'));
+```
+
 <br />
 
-## `uploadVideo(url)`
+## `uploadVideo(video)`
 
-Upload video attachment using URL address.
+Upload video attachment using URL address, buffer, or stream.
 
-Param | Type     | Description
------ | -------- | -----------
-url   | `String` | URL address of the video.
+Param   | Type                                                | Description
+------- | --------------------------------------------------- | -----------
+video   | <code>String &#124; Buffer &#124; ReadStream</code> | The video to be uploaded.
 
 Example:
 ```js
 client.uploadVideo('http://www.example.com/video.mp4');
 ```
 
+Or using read stream:
+
+```js
+const fs = require('fs');
+
+client.uploadVideo(fs.createReadStream('video.mp4'));
+```
+
 <br />
 
-## `uploadFile(url)`
+## `uploadFile(file)`
 
-Upload file attachment using URL address.
+Upload file attachment using URL address, buffer, or stream.
 
-Param | Type     | Description
------ | -------- | -----------
-url   | `String` | URL address of the file.
+Param   | Type                                                | Description
+------- | --------------------------------------------------- | -----------
+file    | <code>String &#124; Buffer &#124; ReadStream</code> | The file to be uploaded.
 
 Example:
 ```js
 client.uploadFile('http://www.example.com/file.pdf');
+```
+
+Or using read stream:
+
+```js
+const fs = require('fs');
+
+client.uploadFile(fs.createReadStream('file.pdf'));
 ```
 
 <br />
