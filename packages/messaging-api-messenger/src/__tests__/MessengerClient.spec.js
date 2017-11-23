@@ -4333,6 +4333,29 @@ describe('upload api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('can call api with file stream', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        attachment_id: '1857777774821032',
+      };
+
+      mock
+        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`)
+        .reply(config => {
+          expect(config.data).toBeInstanceOf(FormData);
+
+          return [200, reply];
+        });
+
+      const res = await client.uploadAttachment(
+        'file',
+        fs.createReadStream('./')
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#uploadAudio', () => {

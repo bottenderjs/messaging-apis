@@ -1192,25 +1192,62 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api
    */
-  uploadAttachment = (type: string, url: string) =>
-    this._axios
-      .post(`/me/message_attachments?access_token=${this._accessToken}`, {
+  uploadAttachment = (
+    type: 'audio' | 'image' | 'video' | 'file',
+    attachment: string | FileData
+  ) => {
+    const args = [];
+
+    if (typeof attachment === 'string') {
+      args.push({
         message: {
           attachment: {
             type,
             payload: {
-              url,
+              url: attachment,
               is_reusable: true,
             },
           },
         },
-      })
-      .then(res => res.data, handleError);
+      });
+    } else {
+      const form = new FormData();
 
-  uploadAudio = (url: string) => this.uploadAttachment('audio', url);
-  uploadImage = (url: string) => this.uploadAttachment('image', url);
-  uploadVideo = (url: string) => this.uploadAttachment('video', url);
-  uploadFile = (url: string) => this.uploadAttachment('file', url);
+      form.append(
+        'message',
+        JSON.stringify({
+          attachment: {
+            type,
+            payload: {
+              is_reusable: true,
+            },
+          },
+        })
+      );
+
+      form.append('filedata', attachment);
+
+      args.push(form, {
+        headers: form.getHeaders(),
+      });
+    }
+
+    return this._axios
+      .post(
+        `/me/message_attachments?access_token=${this._accessToken}`,
+        ...args
+      )
+      .then(res => res.data, handleError);
+  };
+
+  uploadAudio = (attachment: string | FileData) =>
+    this.uploadAttachment('audio', attachment);
+  uploadImage = (attachment: string | FileData) =>
+    this.uploadAttachment('image', attachment);
+  uploadVideo = (attachment: string | FileData) =>
+    this.uploadAttachment('video', attachment);
+  uploadFile = (attachment: string | FileData) =>
+    this.uploadAttachment('file', attachment);
 
   /**
    * Messenger Code API
