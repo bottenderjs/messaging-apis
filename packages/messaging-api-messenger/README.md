@@ -1018,27 +1018,35 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14175277_1582251242076612_248078259_n.png?oh=f87f9d3ea0f9902686f21a105e6fe9eb&oe=59F265D6" alt="Quick Replies" width="750" />
 
-## `sendQuickReplies(userId, message, items [, options])`
+To send messages with quick replies to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request), pass `quick_replies` option to send message methods, for example, with `sendText`:
 
-Send messages with quick replies to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
-
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-message | `Object`                          | `text` or [`attachment`](https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies#attachment) must be set.
-items   | `Array<Object>`                   | Array of [quick_reply](https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies#quick_reply) to be sent with messages.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
-
-Example:
 ```js
-client.sendQuickReplies(USER_ID, { text: 'Pick a color:' }, [
-  {
-    content_type: 'text',
-    title: 'Red',
-    payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-  },
-]);
+client.sendText(USER_ID, 'Pick a color:', {
+  quick_replies: [
+    {
+      content_type: 'text',
+      title: 'Red',
+      payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+    },
+  ],
+});
 ```
+
+with `sendImage`:
+
+```js
+client.sendImage(USER_ID, 'https://example.com/vr.jpg', {
+  quick_replies: [
+    {
+      content_type: 'text',
+      title: 'Red',
+      payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+    },
+  ],
+});
+```
+
+It works with all of send message methods.
 
 <br />
 
