@@ -2622,7 +2622,7 @@ Param               | Type      | Description
 ------------------- | --------- | -----------
 config              | `Object`  | Configuration of NLP.
 config.nlp_enabled  | `Boolean` | Optional. Either enable NLP or disable NLP for that Page.
-config.model        | `String`  | Optional. Specifies the NLP model to use. Either one of `{ENGLISH, CHINESE, DUTCH, FRENCH_STANDARD, GERMAN_STANDARD, TALIAN_STANDARD, POLISH, PORTUGUESE, ROMANIAN, SPANISH, VIETNAMESE}`, or `CUSTOM`.
+config.model        | `String`  | Optional. Specifies the NLP model to use. Either one of `{CHINESE, CROATIAN, DANISH, DUTCH, ENGLISH, FRENCH_STANDARD, GERMAN_STANDARD, HEBREW, HUNGARIAN, IRISH, ITALIAN_STANDARD, KOREAN, NORWEGIAN_BOKMAL, POLISH, PORTUGUESE, ROMANIAN, SPANISH, SWEDISH, VIETNAMESE}`, or `CUSTOM`.
 config.custom_token | `String`  | Optional. Access token from Wit.
 config.verbose      | `Boolean` | Optional. Specifies whether verbose mode if enabled, which returns extra information like the position of the detected entity in the query.
 config.n_best       | `Number`  | Optional. The number of entities to return, in descending order of confidence. Minimum 1. Maximum 8. Defaults to 1.
