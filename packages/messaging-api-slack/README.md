@@ -349,7 +349,7 @@ client.getAllConversationList().then(res => {
 
 ## Usage
 
-Get your webhook url by adding a [Incoming Webhooks](https://api.slack.com/incoming-webhooks) integreation to your team or setup Incoming Webhooks function to your app.
+Get your webhook url by adding a [Incoming Webhooks](https://api.slack.com/incoming-webhooks) integration to your team or setup Incoming Webhooks function to your app.
 
 ```js
 const { SlackWebhookClient } = require('messaging-api-slack');
