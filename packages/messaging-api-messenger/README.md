@@ -1143,6 +1143,12 @@ const fs = require('fs');
 client.uploadAttachment('image', fs.createReadStream('image.jpg'));
 ```
 
+Or using buffer:
+
+```js
+client.uploadAttachment('image', buffer, { filename: 'image.jpg' });
+```
+
 <br />
 
 ## `uploadAudio(audio)`
@@ -1164,6 +1170,12 @@ Or using read stream:
 const fs = require('fs');
 
 client.uploadAudio(fs.createReadStream('audio.mp3'));
+```
+
+Or using buffer:
+
+```js
+client.uploadAudio(buffer, { filename: 'audio.mp3' });
 ```
 
 <br />
@@ -1189,6 +1201,12 @@ const fs = require('fs');
 client.uploadImage(fs.createReadStream('image.jpg'));
 ```
 
+Or using buffer:
+
+```js
+client.uploadImage(buffer, { filename: 'image.jpg' });
+```
+
 <br />
 
 ## `uploadVideo(video)`
@@ -1212,6 +1230,12 @@ const fs = require('fs');
 client.uploadVideo(fs.createReadStream('video.mp4'));
 ```
 
+Or using buffer:
+
+```js
+client.uploadVideo(buffer, { filename: 'video.mp4' });
+```
+
 <br />
 
 ## `uploadFile(file)`
@@ -1233,6 +1257,12 @@ Or using read stream:
 const fs = require('fs');
 
 client.uploadFile(fs.createReadStream('file.pdf'));
+```
+
+Or using buffer:
+
+```js
+client.uploadFile(buffer, { filename: 'file.pdf' });
 ```
 
 <br />
