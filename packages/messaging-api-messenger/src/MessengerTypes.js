@@ -88,7 +88,7 @@ export type SendOption = {
 
 export type UploadOption = {
   filename?: string,
-}
+};
 
 export type TemplateButton = {
   type: string,
