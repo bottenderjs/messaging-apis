@@ -86,6 +86,10 @@ export type SendOption = {
   quick_replies?: Array<QuickReply>,
 };
 
+export type UploadOption = {
+  filename?: string,
+};
+
 export type TemplateButton = {
   type: string,
   title: string,
