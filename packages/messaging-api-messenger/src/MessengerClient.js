@@ -1242,14 +1242,14 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
   };
 
-  uploadAudio = (attachment: string | FileData) =>
-    this.uploadAttachment('audio', attachment);
-  uploadImage = (attachment: string | FileData) =>
-    this.uploadAttachment('image', attachment);
-  uploadVideo = (attachment: string | FileData) =>
-    this.uploadAttachment('video', attachment);
-  uploadFile = (attachment: string | FileData) =>
-    this.uploadAttachment('file', attachment);
+  uploadAudio = (attachment: string | FileData, options?: UploadOption) =>
+    this.uploadAttachment('audio', attachment, options);
+  uploadImage = (attachment: string | FileData, options?: UploadOption) =>
+    this.uploadAttachment('image', attachment, options);
+  uploadVideo = (attachment: string | FileData, options?: UploadOption) =>
+    this.uploadAttachment('video', attachment, options);
+  uploadFile = (attachment: string | FileData, options?: UploadOption) =>
+    this.uploadAttachment('file', attachment, options);
 
   /**
    * Messenger Code API
