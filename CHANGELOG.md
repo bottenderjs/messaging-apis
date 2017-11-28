@@ -1,3 +1,12 @@
+0.5.13 / 2017-11-28
+===================
+### messaging-api-messenger
+- [fix] Fixed `uploadAttachment` with buffer data using a `filename` option pass in:
+
+```js
+client.uploadAttachment('image', buffer, { filename: 'image.jpg' });
+```
+
 0.5.12 / 2017-11-23
 ===================
 ### messaging-api-messenger
