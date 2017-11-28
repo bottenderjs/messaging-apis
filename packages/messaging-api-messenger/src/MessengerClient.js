@@ -545,10 +545,16 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/reference/send-api
    */
   // TODO: body flowtype
-  sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
-    this._axios
-      .post(`/me/messages?access_token=${this._accessToken}`, body)
+  sendRawBody = (body: Object): Promise<SendMessageSucessResponse> => {
+    const { access_token: customAccessToken } = body;
+
+    return this._axios
+      .post(
+        `/me/messages?access_token=${customAccessToken || this._accessToken}`,
+        body
+      )
       .then(res => res.data, handleError);
+  };
 
   sendMessage = (
     idOrRecipient: UserID | Recipient,
@@ -616,9 +622,14 @@ export default class MessengerClient {
     form.append('message', JSON.stringify(message));
     form.append('filedata', filedata);
     return this._axios
-      .post(`/me/messages?access_token=${this._accessToken}`, form, {
-        headers: form.getHeaders(),
-      })
+      .post(
+        `/me/messages?access_token=${options.access_token ||
+          this._accessToken}`,
+        form,
+        {
+          headers: form.getHeaders(),
+        }
+      )
       .then(res => res.data, handleError);
   };
 
@@ -952,7 +963,8 @@ export default class MessengerClient {
    */
   sendSenderAction = (
     idOrRecipient: UserID | Recipient,
-    action: SenderAction
+    action: SenderAction,
+    { access_token: customAccessToken }: { access_token?: string } = {}
   ): Promise<SendSenderActionResponse> => {
     const recipient =
       typeof idOrRecipient === 'string'
@@ -963,23 +975,27 @@ export default class MessengerClient {
     return this.sendRawBody({
       recipient,
       sender_action: action,
+      access_token: customAccessToken,
     });
   };
 
   markSeen = (
-    recipient: UserID | Recipient
+    recipient: UserID | Recipient,
+    options?: Object = {}
   ): Promise<SendSenderActionResponse> =>
-    this.sendSenderAction(recipient, 'mark_seen');
+    this.sendSenderAction(recipient, 'mark_seen', options);
 
   typingOn = (
-    recipient: UserID | Recipient
+    recipient: UserID | Recipient,
+    options?: Object = {}
   ): Promise<SendSenderActionResponse> =>
-    this.sendSenderAction(recipient, 'typing_on');
+    this.sendSenderAction(recipient, 'typing_on', options);
 
   typingOff = (
-    recipient: UserID | Recipient
+    recipient: UserID | Recipient,
+    options?: Object = {}
   ): Promise<SendSenderActionResponse> =>
-    this.sendSenderAction(recipient, 'typing_off');
+    this.sendSenderAction(recipient, 'typing_off', options);
 
   /**
    * Send Batch Request
@@ -1087,11 +1103,19 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#associate_label
    */
-  associateLabel = (userId: UserID, labelId: number) =>
+  associateLabel = (
+    userId: UserID,
+    labelId: number,
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) =>
     this._axios
-      .post(`/${labelId}/label?access_token=${this._accessToken}`, {
-        user: userId,
-      })
+      .post(
+        `/${labelId}/label?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          user: userId,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1099,11 +1123,19 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#associate_label
    */
-  dissociateLabel = (userId: UserID, labelId: number) =>
+  dissociateLabel = (
+    userId: UserID,
+    labelId: number,
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) =>
     this._axios
-      .delete(`/${labelId}/label?access_token=${this._accessToken}`, {
-        data: { user: userId },
-      })
+      .delete(
+        `/${labelId}/label?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          data: { user: userId },
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1111,9 +1143,15 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_all_labels
    */
-  getAssociatedLabels = (userId: UserID) =>
+  getAssociatedLabels = (
+    userId: UserID,
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) =>
     this._axios
-      .get(`/${userId}/custom_labels?access_token=${this._accessToken}`)
+      .get(
+        `/${userId}/custom_labels?access_token=${customAccessToken ||
+          this._accessToken}`
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1278,30 +1316,46 @@ export default class MessengerClient {
   passThreadControl = (
     recipientId: string,
     targetAppId: number,
-    metadata?: string
+    metadata?: string,
+    { access_token: customAccessToken }: { access_token?: string } = {}
   ) =>
     this._axios
-      .post(`/me/pass_thread_control?access_token=${this._accessToken}`, {
-        recipient: { id: recipientId },
-        target_app_id: targetAppId,
-        metadata,
-      })
+      .post(
+        `/me/pass_thread_control?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          recipient: { id: recipientId },
+          target_app_id: targetAppId,
+          metadata,
+        }
+      )
       .then(res => res.data, handleError);
 
-  passThreadControlToPageInbox = (recipientId: string, metadata?: string) =>
-    this.passThreadControl(recipientId, 263902037430900, metadata);
+  passThreadControlToPageInbox = (
+    recipientId: string,
+    metadata?: string,
+    options?: Object = {}
+  ) => this.passThreadControl(recipientId, 263902037430900, metadata, options);
 
   /**
    * Take Thread Control
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/take-thread-control
    */
-  takeThreadControl = (recipientId: string, metadata?: string) =>
+  takeThreadControl = (
+    recipientId: string,
+    metadata?: string,
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) =>
     this._axios
-      .post(`/me/take_thread_control?access_token=${this._accessToken}`, {
-        recipient: { id: recipientId },
-        metadata,
-      })
+      .post(
+        `/me/take_thread_control?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          recipient: { id: recipientId },
+          metadata,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
