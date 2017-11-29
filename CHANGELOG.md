@@ -1,3 +1,8 @@
+0.5.14 / 2017-11-29
+===================
+### messaging-api-messenger
+- [new] Support call api methods with custom `access_token` (Experimental)
+
 0.5.13 / 2017-11-28
 ===================
 ### messaging-api-messenger
