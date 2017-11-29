@@ -136,9 +136,11 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/graph-api/using-graph-api
    * id, name
    */
-  getPageInfo = (): Promise<PageInfo> =>
+  getPageInfo = (
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ): Promise<PageInfo> =>
     this._axios
-      .get(`/me?access_token=${this._accessToken}`)
+      .get(`/me?access_token=${customAccessToken || this._accessToken}`)
       .then(res => res.data, handleError);
 
   /**
@@ -147,9 +149,12 @@ export default class MessengerClient {
    * https://www.quora.com/How-connect-Facebook-user-id-to-sender-id-in-the-Facebook-messenger-platform
    * first_name, last_name, profile_pic, locale, timezone, gender
    */
-  getUserProfile = (userId: string): Promise<User> =>
+  getUserProfile = (
+    userId: string,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ): Promise<User> =>
     this._axios
-      .get(`/${userId}?access_token=${this._accessToken}`)
+      .get(`/${userId}?access_token=${customAccessToken || this._accessToken}`)
       .then(res => res.data, handleError);
 
   /**
@@ -158,31 +163,43 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api
    */
   getMessengerProfile = (
-    fields: Array<string>
+    fields: Array<string>,
+    { access_token: customAccessToken }: { access_token?: string } = {}
   ): Promise<MessengerProfileResponse> =>
     this._axios
       .get(
-        `/me/messenger_profile?fields=${fields.join(',')}&access_token=${this
-          ._accessToken}`
+        `/me/messenger_profile?fields=${fields.join(
+          ','
+        )}&access_token=${customAccessToken || this._accessToken}`
       )
       .then(res => res.data.data, handleError);
 
   setMessengerProfile = (
-    profile: MessengerProfile
+    profile: MessengerProfile,
+    { access_token: customAccessToken }: { access_token?: string } = {}
   ): Promise<MutationSuccessResponse> =>
     this._axios
-      .post(`/me/messenger_profile?access_token=${this._accessToken}`, profile)
+      .post(
+        `/me/messenger_profile?access_token=${customAccessToken ||
+          this._accessToken}`,
+        profile
+      )
       .then(res => res.data, handleError);
 
   deleteMessengerProfile = (
-    fields: Array<string>
+    fields: Array<string>,
+    { access_token: customAccessToken }: { access_token?: string } = {}
   ): Promise<MutationSuccessResponse> =>
     this._axios
-      .delete(`/me/messenger_profile?access_token=${this._accessToken}`, {
-        data: {
-          fields,
-        },
-      })
+      .delete(
+        `/me/messenger_profile?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          data: {
+            fields,
+          },
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -190,8 +207,10 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/get-started-button
    */
-  getGetStarted = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['get_started']).then(
+  getGetStarted = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['get_started'], options).then(
       res => (res[0] ? res[0].get_started : null)
     );
 
@@ -218,8 +237,10 @@ export default class MessengerClient {
     return this.setGetStarted(payload);
   };
 
-  deleteGetStarted = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['get_started']);
+  deleteGetStarted = (
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['get_started'], options);
 
   deleteGetStartedButton = (): Promise<MutationSuccessResponse> => {
     warning(
@@ -234,44 +255,59 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/persistent-menu
    */
-  getPersistentMenu = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['persistent_menu']).then(
+  getPersistentMenu = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['persistent_menu'], options).then(
       res => (res[0] ? res[0].persistent_menu : null)
     );
 
   setPersistentMenu = (
     menuItems: Array<MenuItem> | PersistentMenu,
-    { composerInputDisabled = false }: { composerInputDisabled: boolean } = {}
+    {
+      composer_input_disabled: composerInputDisabled = false,
+      ...options
+    }: { composer_input_disabled: boolean } = {}
   ): Promise<MutationSuccessResponse> => {
     // menuItems is in type PersistentMenu
     if (menuItems.some((item: Object) => item.locale === 'default')) {
-      return this.setMessengerProfile({
-        persistent_menu: ((menuItems: any): PersistentMenu),
-      });
+      return this.setMessengerProfile(
+        {
+          persistent_menu: ((menuItems: any): PersistentMenu),
+        },
+        options
+      );
     }
 
     // menuItems is in type Array<MenuItem>
-    return this.setMessengerProfile({
-      persistent_menu: [
-        {
-          locale: 'default',
-          composer_input_disabled: composerInputDisabled,
-          call_to_actions: ((menuItems: any): Array<MenuItem>),
-        },
-      ],
-    });
+    return this.setMessengerProfile(
+      {
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: composerInputDisabled,
+            call_to_actions: ((menuItems: any): Array<MenuItem>),
+          },
+        ],
+      },
+      options
+    );
   };
 
-  deletePersistentMenu = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['persistent_menu']);
+  deletePersistentMenu = (
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['persistent_menu'], options);
 
   /**
    * Greeting Text
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/greeting
    */
-  getGreeting = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['greeting']).then(
+  getGreeting = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['greeting'], options).then(
       res => (res[0] ? res[0].greeting : null)
     );
 
@@ -284,22 +320,29 @@ export default class MessengerClient {
   };
 
   setGreeting = (
-    greeting: string | Array<GreetingConfig>
+    greeting: string | Array<GreetingConfig>,
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> => {
     if (typeof greeting === 'string') {
-      return this.setMessengerProfile({
-        greeting: [
-          {
-            locale: 'default',
-            text: greeting,
-          },
-        ],
-      });
+      return this.setMessengerProfile(
+        {
+          greeting: [
+            {
+              locale: 'default',
+              text: greeting,
+            },
+          ],
+        },
+        options
+      );
     }
 
-    return this.setMessengerProfile({
-      greeting,
-    });
+    return this.setMessengerProfile(
+      {
+        greeting,
+      },
+      options
+    );
   };
 
   setGreetingText = (
@@ -312,8 +355,8 @@ export default class MessengerClient {
     return this.setGreeting(greeting);
   };
 
-  deleteGreeting = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['greeting']);
+  deleteGreeting = (options?: Object = {}): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['greeting'], options);
 
   deleteGreetingText = (): Promise<MutationSuccessResponse> => {
     warning(
@@ -359,112 +402,158 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/domain-whitelisting
    */
-  getWhitelistedDomains = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['whitelisted_domains']).then(
+  getWhitelistedDomains = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['whitelisted_domains'], options).then(
       res => (res[0] ? res[0].whitelisted_domains : null)
     );
 
   setWhitelistedDomains = (
-    domains: Array<string>
+    domains: Array<string>,
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      whitelisted_domains: domains,
-    });
+    this.setMessengerProfile(
+      {
+        whitelisted_domains: domains,
+      },
+      options
+    );
 
-  deleteWhitelistedDomains = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['whitelisted_domains']);
+  deleteWhitelistedDomains = (
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['whitelisted_domains'], options);
 
   /**
    * Account Linking URL
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/account-linking-url
    */
-  getAccountLinkingURL = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['account_linking_url']).then(
+  getAccountLinkingURL = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['account_linking_url'], options).then(
       res => (res[0] ? res[0] : null)
     );
 
-  setAccountLinkingURL = (url: string): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      account_linking_url: url,
-    });
+  setAccountLinkingURL = (
+    url: string,
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.setMessengerProfile(
+      {
+        account_linking_url: url,
+      },
+      options
+    );
 
-  deleteAccountLinkingURL = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['account_linking_url']);
+  deleteAccountLinkingURL = (
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['account_linking_url'], options);
 
   /**
    * Payment Settings
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/payment-settings
    */
-  getPaymentSettings = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['payment_settings']).then(
+  getPaymentSettings = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['payment_settings'], options).then(
       res => (res[0] ? res[0] : null)
     );
 
   setPaymentPrivacyPolicyURL = (
-    url: string
+    url: string,
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      payment_settings: {
-        privacy_url: url,
+    this.setMessengerProfile(
+      {
+        payment_settings: {
+          privacy_url: url,
+        },
       },
-    });
+      options
+    );
 
-  setPaymentPublicKey = (key: string): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      payment_settings: {
-        public_key: key,
+  setPaymentPublicKey = (
+    key: string,
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.setMessengerProfile(
+      {
+        payment_settings: {
+          public_key: key,
+        },
       },
-    });
+      options
+    );
 
   setPaymentTestUsers = (
-    users: Array<string>
+    users: Array<string>,
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      payment_settings: {
-        test_users: users,
+    this.setMessengerProfile(
+      {
+        payment_settings: {
+          test_users: users,
+        },
       },
-    });
+      options
+    );
 
-  deletePaymentSettings = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['payment_settings']);
+  deletePaymentSettings = (
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['payment_settings'], options);
 
   /**
    * Target Audience
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/target-audience
    */
-  getTargetAudience = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['target_audience']).then(
+  getTargetAudience = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['target_audience'], options).then(
       res => (res[0] ? res[0] : null)
     );
 
   setTargetAudience = (
     type: AudienceType,
     whitelist: ?Array<string> = [],
-    blacklist: ?Array<string> = []
+    blacklist: ?Array<string> = [],
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      target_audience: {
-        audience_type: type,
-        countries: {
-          whitelist,
-          blacklist,
+    this.setMessengerProfile(
+      {
+        target_audience: {
+          audience_type: type,
+          countries: {
+            whitelist,
+            blacklist,
+          },
         },
       },
-    });
+      options
+    );
 
-  deleteTargetAudience = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['target_audience']);
+  deleteTargetAudience = (
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['target_audience'], options);
 
   /**
    * Chat Extension Home URL
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/home-url
    */
-  getHomeURL = (): Promise<MessengerProfileResponse | null> =>
-    this.getMessengerProfile(['home_url']).then(
+  getHomeURL = (
+    options?: Object = {}
+  ): Promise<MessengerProfileResponse | null> =>
+    this.getMessengerProfile(['home_url'], options).then(
       res => (res[0] ? res[0] : null)
     );
 
@@ -484,16 +573,20 @@ export default class MessengerClient {
     }: {
       webview_share_button?: 'hide' | 'show',
       in_test: boolean,
-    }
+    },
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      home_url: {
-        url,
-        webview_height_ratio: 'tall',
-        in_test,
-        webview_share_button,
+    this.setMessengerProfile(
+      {
+        home_url: {
+          url,
+          webview_height_ratio: 'tall',
+          in_test,
+          webview_share_button,
+        },
       },
-    });
+      options
+    );
 
   setChatExtensionHomeURL = (
     url: string,
@@ -518,8 +611,8 @@ export default class MessengerClient {
     });
   };
 
-  deleteHomeURL = (): Promise<MutationSuccessResponse> =>
-    this.deleteMessengerProfile(['home_url']);
+  deleteHomeURL = (options?: Object = {}): Promise<MutationSuccessResponse> =>
+    this.deleteMessengerProfile(['home_url'], options);
 
   deleteChatExtensionHomeURL = (): Promise<MutationSuccessResponse> => {
     warning(
@@ -534,9 +627,14 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
    */
-  getMessageTags = (): Promise<MessageTagResponse> =>
+  getMessageTags = (
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ): Promise<MessageTagResponse> =>
     this._axios
-      .get(`/page_message_tags?access_token=${this._accessToken}`)
+      .get(
+        `/page_message_tags?access_token=${customAccessToken ||
+          this._accessToken}`
+      )
       .then(res => res.data.data, handleError);
 
   /**
@@ -1003,7 +1101,8 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/graph-api/making-multiple-requests
    */
   sendBatch = (
-    batch: Array<BatchItem>
+    batch: Array<BatchItem>,
+    { access_token: customAccessToken }: { access_token?: string } = {}
   ): Promise<Array<SendMessageSucessResponse>> => {
     invariant(
       batch.length <= 50,
@@ -1029,7 +1128,7 @@ export default class MessengerClient {
     });
     return axios
       .post('https://graph.facebook.com/', {
-        access_token: this._accessToken,
+        access_token: customAccessToken || this._accessToken,
         batch: bodyEncodedbatch,
       })
       .then(res => res.data);
@@ -1046,11 +1145,18 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/sponsored-messages#creative
    */
-  createMessageCreative = (messages: Array<Object> = []) =>
+  createMessageCreative = (
+    messages: Array<Object> = [],
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
-      .post(`/me/message_creatives?access_token=${this._accessToken}`, {
-        messages,
-      })
+      .post(
+        `/me/message_creatives?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          messages,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1060,10 +1166,14 @@ export default class MessengerClient {
    */
   sendBroadcastMessage = (messageCreativeId: number, options?: Object = {}) =>
     this._axios
-      .post(`/me/broadcast_messages?access_token=${this._accessToken}`, {
-        message_creative_id: messageCreativeId,
-        ...options,
-      })
+      .post(
+        `/me/broadcast_messages?access_token=${options.access_token ||
+          this._accessToken}`,
+        {
+          message_creative_id: messageCreativeId,
+          ...options,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1091,11 +1201,18 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#create_label
    */
-  createLabel = (name: string) =>
+  createLabel = (
+    name: string,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
-      .post(`/me/custom_labels?access_token=${this._accessToken}`, {
-        name,
-      })
+      .post(
+        `/me/custom_labels?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          name,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1162,7 +1279,10 @@ export default class MessengerClient {
   getLabelDetails = (labelId: number, options?: Object = {}) => {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
-      .get(`/${labelId}?fields=${fields}&access_token=${this._accessToken}`)
+      .get(
+        `/${labelId}?fields=${fields}&access_token=${options.access_token ||
+          this._accessToken}`
+      )
       .then(res => res.data, handleError);
   };
 
@@ -1175,7 +1295,8 @@ export default class MessengerClient {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
       .get(
-        `/me/custom_labels?fields=${fields}&access_token=${this._accessToken}`
+        `/me/custom_labels?fields=${fields}&access_token=${options.access_token ||
+          this._accessToken}`
       )
       .then(res => res.data, handleError);
   };
@@ -1185,9 +1306,14 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#delete_label
    */
-  deleteLabel = (labelId: number) =>
+  deleteLabel = (
+    labelId: number,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
-      .delete(`/${labelId}?access_token=${this._accessToken}`)
+      .delete(
+        `/${labelId}?access_token=${customAccessToken || this._accessToken}`
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1195,11 +1321,18 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/estimate-reach#start
    */
-  startReachEstimation = (customLabelId: number) =>
+  startReachEstimation = (
+    customLabelId: number,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
-      .post(`/broadcast_reach_estimations?access_token=${this._accessToken}`, {
-        custom_label_id: customLabelId,
-      })
+      .post(
+        `/broadcast_reach_estimations?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          custom_label_id: customLabelId,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1207,9 +1340,15 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/estimate-reach#get
    */
-  getReachEstimate = (reachEstimationId: number) =>
+  getReachEstimate = (
+    reachEstimationId: number,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
-      .post(`/${reachEstimationId}?access_token=${this._accessToken}`)
+      .post(
+        `/${reachEstimationId}?access_token=${customAccessToken ||
+          this._accessToken}`
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1218,11 +1357,14 @@ export default class MessengerClient {
    * Once a broadcast has been delivered, you can find out the total number of people it reached.
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/#metrics
    */
-  getBroadcastMessagesSent = (broadcastId: number) =>
+  getBroadcastMessagesSent = (
+    broadcastId: number,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
       .post(
-        `/${broadcastId}/insights/messages_sent?access_token=${this
-          ._accessToken}`
+        `/${broadcastId}/insights/messages_sent?access_token=${customAccessToken ||
+          this._accessToken}`
       )
       .then(res => res.data.data, handleError);
 
@@ -1234,7 +1376,7 @@ export default class MessengerClient {
   uploadAttachment = (
     type: 'audio' | 'image' | 'video' | 'file',
     attachment: string | FileData,
-    options?: UploadOption
+    options?: UploadOption = {}
   ) => {
     const args = [];
 
@@ -1274,7 +1416,8 @@ export default class MessengerClient {
 
     return this._axios
       .post(
-        `/me/message_attachments?access_token=${this._accessToken}`,
+        `/me/message_attachments?access_token=${options.access_token ||
+          this._accessToken}`,
         ...args
       )
       .then(res => res.data, handleError);
@@ -1296,10 +1439,14 @@ export default class MessengerClient {
    */
   generateMessengerCode = (options: Object = {}) =>
     this._axios
-      .post(`/me/messenger_codes?access_token=${this._accessToken}`, {
-        type: 'standard',
-        ...options,
-      })
+      .post(
+        `/me/messenger_codes?access_token=${options.access_token ||
+          this._accessToken}`,
+        {
+          type: 'standard',
+          ...options,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1363,11 +1510,13 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
    */
-  getSecondaryReceivers = () =>
+  getSecondaryReceivers = (
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) =>
     this._axios
       .get(
-        `/me/secondary_receivers?fields=id,name&access_token=${this
-          ._accessToken}`
+        `/me/secondary_receivers?fields=id,name&access_token=${customAccessToken ||
+          this._accessToken}`
       )
       .then(res => res.data.data, handleError);
 
@@ -1384,23 +1533,23 @@ export default class MessengerClient {
       .get(
         `/me/insights/?${querystring.stringify({
           metric: metrics.join(','),
-          access_token: this._accessToken,
+          access_token: options.access_token || this._accessToken,
           ...options,
         })}`
       )
       .then(res => res.data.data, handleError);
 
-  getDailyUniqueActiveThreadCounts = () =>
-    this.getInsights(['page_messages_active_threads_unique']);
+  getDailyUniqueActiveThreadCounts = (options?: Object = {}) =>
+    this.getInsights(['page_messages_active_threads_unique'], options);
 
-  getBlockedConversations = () =>
-    this.getInsights(['page_messages_blocked_conversations_unique']);
+  getBlockedConversations = (options?: Object = {}) =>
+    this.getInsights(['page_messages_blocked_conversations_unique'], options);
 
-  getReportedConversations = () =>
-    this.getInsights(['page_messages_reported_conversations_unique']);
+  getReportedConversations = (options?: Object = {}) =>
+    this.getInsights(['page_messages_reported_conversations_unique'], options);
 
-  getReportedConversationsByReportType = () =>
-    this.getInsights(['page_messages_blocked_conversations_unique']);
+  getReportedConversationsByReportType = (options?: Object = {}) =>
+    this.getInsights(['page_messages_blocked_conversations_unique'], options);
 
   getDailyUniqueConversationCounts = () => {
     warning(
@@ -1415,15 +1564,20 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/built-in-nlp
    */
-  setNLPConfigs = (config: MessengerNLPConfig = {}) =>
+  setNLPConfigs = (
+    config: MessengerNLPConfig = {},
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) =>
     this._axios
       .post(`/me/nlp_configs?${querystring.stringify(config)}`, {
-        access_token: this._accessToken,
+        access_token: customAccessToken || this._accessToken,
       })
       .then(res => res.data, handleError);
 
-  enableNLP = () => this.setNLPConfigs({ nlp_enabled: true });
-  disableNLP = () => this.setNLPConfigs({ nlp_enabled: false });
+  enableNLP = (options?: Object = {}) =>
+    this.setNLPConfigs({ nlp_enabled: true }, options);
+  disableNLP = (options?: Object = {}) =>
+    this.setNLPConfigs({ nlp_enabled: false }, options);
 
   /**
    * Logging Custom Events
@@ -1435,21 +1589,27 @@ export default class MessengerClient {
     pageId,
     userId,
     events,
+    access_token: customAccessToken,
   }: {
     appId: number,
     pageId: number,
     userId: UserID,
     events: Array<Object>,
+    access_token?: string,
   }) =>
     this._axios
-      .post(`/${appId}/activities?access_token=${this._accessToken}`, {
-        event: 'CUSTOM_APP_EVENTS',
-        custom_events: JSON.stringify(events),
-        advertiser_tracking_enabled: 0,
-        application_tracking_enabled: 0,
-        extinfo: JSON.stringify(['mb1']),
-        page_id: pageId,
-        page_scoped_user_id: userId,
-      })
+      .post(
+        `/${appId}/activities?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify(events),
+          advertiser_tracking_enabled: 0,
+          application_tracking_enabled: 0,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: pageId,
+          page_scoped_user_id: userId,
+        }
+      )
       .then(res => res.data, handleError);
 }

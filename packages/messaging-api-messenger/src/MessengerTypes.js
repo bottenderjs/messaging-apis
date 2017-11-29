@@ -89,6 +89,7 @@ export type SendOption = {
 
 export type UploadOption = {
   filename?: string,
+  access_token?: string,
 };
 
 export type TemplateButton = {
