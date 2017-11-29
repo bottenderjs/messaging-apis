@@ -84,10 +84,12 @@ export type SendOption = {
   messaging_type?: MessagingType,
   tag?: MessageTag,
   quick_replies?: Array<QuickReply>,
+  access_token?: string,
 };
 
 export type UploadOption = {
   filename?: string,
+  access_token?: string,
 };
 
 export type TemplateButton = {

@@ -757,7 +757,7 @@ describe('persistent menu', () => {
       ];
 
       const res = await client.setPersistentMenu(items, {
-        composerInputDisabled: true,
+        composer_input_disabled: true,
       });
 
       expect(res).toEqual(reply);
@@ -1583,6 +1583,43 @@ describe('send api', () => {
         message: {
           text: 'Hello!',
         },
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      const customAccessToken = '0987654321';
+
+      mock
+        .onPost(`/me/messages?access_token=${customAccessToken}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: USER_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+          access_token: customAccessToken,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendRawBody({
+        messaging_type: 'UPDATE',
+        recipient: {
+          id: USER_ID,
+        },
+        message: {
+          text: 'Hello!',
+        },
+        access_token: customAccessToken,
       });
 
       expect(res).toEqual(reply);
@@ -3832,6 +3869,31 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call messages api with sender action and custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+      };
+      const customAccessToken = '097654321';
+
+      mock
+        .onPost(`/me/messages?access_token=${customAccessToken}`, {
+          recipient: {
+            id: USER_ID,
+          },
+          sender_action: 'typing_on',
+          access_token: customAccessToken,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendSenderAction(USER_ID, 'typing_on', {
+        access_token: customAccessToken,
+      });
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#markSeen', () => {
@@ -3852,6 +3914,31 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.markSeen(USER_ID);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api with mark_seen sender action and options', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${options.access_token}`, {
+          recipient: {
+            id: USER_ID,
+          },
+          sender_action: 'mark_seen',
+          ...options,
+        })
+        .reply(200, reply);
+
+      const res = await client.markSeen(USER_ID, options);
 
       expect(res).toEqual(reply);
     });
@@ -3878,6 +3965,31 @@ describe('send api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call messages api with typing_on sender action and options', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${options.access_token}`, {
+          recipient: {
+            id: USER_ID,
+          },
+          sender_action: 'typing_on',
+          ...options,
+        })
+        .reply(200, reply);
+
+      const res = await client.typingOn(USER_ID, options);
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#typingOff', () => {
@@ -3898,6 +4010,31 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.typingOff(USER_ID);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api with typing_off sender action and options', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${options.access_token}`, {
+          recipient: {
+            id: USER_ID,
+          },
+          sender_action: 'typing_off',
+          ...options,
+        })
+        .reply(200, reply);
+
+      const res = await client.typingOff(USER_ID, options);
 
       expect(res).toEqual(reply);
     });
@@ -4173,6 +4310,34 @@ describe('label api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call messages api to associate label with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(
+          `/1712444532121303/label?access_token=${options.access_token}`,
+          {
+            user: USER_ID,
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.associateLabel(
+        USER_ID,
+        1712444532121303,
+        options
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#dissociateLabel', () => {
@@ -4190,6 +4355,34 @@ describe('label api', () => {
         .reply(200, reply);
 
       const res = await client.dissociateLabel(USER_ID, 1712444532121303);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to dissociate label with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onDelete(
+          `/1712444532121303/label?access_token=${options.access_token}`,
+          {
+            user: USER_ID,
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.dissociateLabel(
+        USER_ID,
+        1712444532121303,
+        options
+      );
 
       expect(res).toEqual(reply);
     });
@@ -4225,6 +4418,42 @@ describe('label api', () => {
         .reply(200, reply);
 
       const res = await client.getAssociatedLabels(USER_ID);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to get associated label with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            name: 'myLabel',
+            id: '1001200005003',
+          },
+          {
+            name: 'myOtherLabel',
+            id: '1001200005002',
+          },
+        ],
+        paging: {
+          cursors: {
+            before:
+              'QVFIUmx1WTBpMGpJWXprYzVYaVhabW55dVpycko4U2xURGE5ODNtNFZAPal94a1hTUnNVMUtoMVVoTzlzSDktUkMtQkUzWEFLSXlMS3ZALYUw3TURLelZAPOGVR',
+            after:
+              'QVFIUmItNkpTbjVzakxFWGRydzdaVUFNNnNPaUl0SmwzVHN5ZAWZAEQ3lZANDAzTXFIM0NHbHdYSkQ5OG1GaEozdjkzRmxpUFhxTDl4ZAlBibnE4LWt1eGlTa3Bn',
+          },
+        },
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onGet(`/${USER_ID}/custom_labels?access_token=${options.access_token}`)
+        .reply(200, reply);
+
+      const res = await client.getAssociatedLabels(USER_ID, options);
 
       expect(res).toEqual(reply);
     });
@@ -4574,6 +4803,39 @@ describe('Handover Protocol API', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call messages api to pass thread control with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(
+          `/me/pass_thread_control?access_token=${options.access_token}`,
+          {
+            recipient: {
+              id: USER_ID,
+            },
+            target_app_id: 123456789,
+            metadata: 'free formed text for another app',
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.passThreadControl(
+        USER_ID,
+        123456789,
+        'free formed text for another app',
+        options
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#passThreadControlToPageInbox', () => {
@@ -4601,6 +4863,38 @@ describe('Handover Protocol API', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call messages api to pass thread control to page inbox with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(
+          `/me/pass_thread_control?access_token=${options.access_token}`,
+          {
+            recipient: {
+              id: USER_ID,
+            },
+            target_app_id: 263902037430900,
+            metadata: 'free formed text for another app',
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.passThreadControlToPageInbox(
+        USER_ID,
+        'free formed text for another app',
+        options
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#takeThreadControl', () => {
@@ -4623,6 +4917,37 @@ describe('Handover Protocol API', () => {
       const res = await client.takeThreadControl(
         USER_ID,
         'free formed text for another app'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to take thread control with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(
+          `/me/take_thread_control?access_token=${options.access_token}`,
+          {
+            recipient: {
+              id: USER_ID,
+            },
+            metadata: 'free formed text for another app',
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.takeThreadControl(
+        USER_ID,
+        'free formed text for another app',
+        options
       );
 
       expect(res).toEqual(reply);
