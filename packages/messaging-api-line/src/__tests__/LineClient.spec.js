@@ -2594,12 +2594,14 @@ describe('Rich Menu', () => {
       const reply = {
         richmenus: [
           {
-            richMenuId: '{richMenuId}',
+            richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
             size: {
               width: 2500,
               height: 1686,
             },
             selected: false,
+            name: 'Nice richmenu',
+            chatBarText: 'Tap here',
             areas: [
               {
                 bounds: {
@@ -2624,12 +2626,14 @@ describe('Rich Menu', () => {
 
       expect(res).toEqual([
         {
-          richMenuId: '{richMenuId}',
+          richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
           size: {
             width: 2500,
             height: 1686,
           },
           selected: false,
+          name: 'Nice richmenu',
+          chatBarText: 'Tap here',
           areas: [
             {
               bounds: {
@@ -2654,12 +2658,14 @@ describe('Rich Menu', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        richMenuId: '{richMenuId}',
+        richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
         size: {
           width: 2500,
           height: 1686,
         },
         selected: false,
+        name: 'Nice richmenu',
+        chatBarText: 'Tap here',
         areas: [
           {
             bounds: {
@@ -2676,9 +2682,13 @@ describe('Rich Menu', () => {
         ],
       };
 
-      mock.onGet('/richmenu/1').reply(200, reply, headers);
+      mock
+        .onGet('/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5')
+        .reply(200, reply, headers);
 
-      const res = await client.getRichMenu(1);
+      const res = await client.getRichMenu(
+        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+      );
 
       expect(res).toEqual(reply);
     });
@@ -2689,7 +2699,7 @@ describe('Rich Menu', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        richMenuId: '{richMenuId}',
+        richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
       mock.onPost('/richmenu').reply(200, reply, headers);
@@ -2730,7 +2740,7 @@ describe('Rich Menu', () => {
 
       mock.onDelete('/richmenu/1').reply(200, reply, headers);
 
-      const res = await client.deleteRichMenu(1);
+      const res = await client.deleteRichMenu('1');
 
       expect(res).toEqual(reply);
     });
@@ -2741,12 +2751,12 @@ describe('Rich Menu', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        richMenuId: '{richMenuId}',
+        richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
       mock.onGet('/user/1/richmenu').reply(200, reply, headers);
 
-      const res = await client.getLinkedRichMenu(1);
+      const res = await client.getLinkedRichMenu('1');
 
       expect(res).toEqual(reply);
     });
@@ -2760,7 +2770,7 @@ describe('Rich Menu', () => {
 
       mock.onPost('/user/1/richmenu/2').reply(200, reply, headers);
 
-      const res = await client.linkRichMenu(1, 2);
+      const res = await client.linkRichMenu('1', '2');
 
       expect(res).toEqual(reply);
     });
@@ -2774,7 +2784,7 @@ describe('Rich Menu', () => {
 
       mock.onDelete('/user/1/richmenu').reply(200, reply, headers);
 
-      const res = await client.unlinkRichMenu(1);
+      const res = await client.unlinkRichMenu('1');
 
       expect(res).toEqual(reply);
     });
@@ -2798,7 +2808,7 @@ describe('Rich Menu', () => {
         });
       });
 
-      const res = await client.uploadRichMenuImage(1, buffer);
+      const res = await client.uploadRichMenuImage('1', buffer);
 
       expect(res).toEqual(reply);
     });
@@ -2812,7 +2822,7 @@ describe('Rich Menu', () => {
 
       let error;
       try {
-        await client.uploadRichMenuImage(1, Buffer.from('a content buffer'));
+        await client.uploadRichMenuImage('1', Buffer.from('a content buffer'));
       } catch (err) {
         error = err;
       }
@@ -2829,7 +2839,7 @@ describe('Rich Menu', () => {
 
       mock.onGet('/richmenu/1/content').reply(200, reply);
 
-      const res = await client.downloadRichMenuImage(1);
+      const res = await client.downloadRichMenuImage('1');
 
       expect(res).toEqual(reply);
     });
