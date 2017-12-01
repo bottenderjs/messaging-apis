@@ -166,8 +166,8 @@ Param           |  Type    | Description
 receiver        | `String` | Unique Viber user id.
 video           | `Object` |
 video.media     | `String` | URL of the video (MP4, H264). Max size 50 MB. Only MP4 and H264 are supported.
-video.size      | `String` | Size of the video in bytes.
-video.duration  | `String` | Video duration in seconds; will be displayed to the receiver. Max 180 seconds.
+video.size      | `Number` | Size of the video in bytes.
+video.duration  | `Number` | Video duration in seconds; will be displayed to the receiver. Max 180 seconds.
 video.thumbnail | `String` | URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
 options         | `Object` | Other optional parameters.
 
@@ -194,7 +194,7 @@ Param           |  Type    | Description
 receiver        | `String` | Unique Viber user id.
 file            | `Object` |
 file.media      | `String` | URL of the file. Max size 50 MB. See [forbidden file formats](https://developers.viber.com/docs/api/rest-bot-api/#forbiddenFileFormats) for unsupported file types.
-file.size       | `String` | Size of the file in bytes.
+file.size       | `Number` | Size of the file in bytes.
 file.file_name	| `String` | Name of the file. File name should include extension. Max 256 characters (including file extension).
 options         | `Object` | Other optional parameters.
 
