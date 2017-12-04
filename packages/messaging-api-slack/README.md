@@ -74,40 +74,48 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 Sends a message to a channel.
 
-Param   | Type     | Description
-------- | -------- | -----------
-channel | `String` | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
-text    | `String` | Text of the message to be sent.
-options | `Object` | Other optional parameters.
+Param   | Type                              | Description
+------- | --------------------------------- | -----------
+channel | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
+message | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.
+options | `Object`                          | Other optional parameters.
 
 Example:
 ```js
+client.postMessage('C8763', { text: 'Hello!' });
+client.postMessage('C8763', { attachments: [someAttachments] });
 client.postMessage('C8763', 'Hello!');
 client.postMessage('C8763', 'Hello!', { as_user: true });
 ```
 
 If you send message with `attachments`, `messaging-api-slack` will automatically stringify the `attachments` field for you.
 ```js
-client.postMessage('C8763', 'Hello!', {
-  as_user: true,
-  attachments: [
-    {
-      text: 'Choose a game to play',
-      fallback: 'You are unable to choose a game',
-      callback_id: 'wopr_game',
-      color: '#3AA3E3',
-      attachment_type: 'default',
-      actions: [
-        {
-          name: 'game',
-          text: 'Chess',
-          type: 'button',
-          value: 'chess',
-        },
-      ],
-    },
-  ],
-});
+client.postMessage(
+  'C8763',
+  {
+    text: 'Hello!',
+    attachments: [
+      {
+        text: 'Choose a game to play',
+        fallback: 'You are unable to choose a game',
+        callback_id: 'wopr_game',
+        color: '#3AA3E3',
+        attachment_type: 'default',
+        actions: [
+          {
+            name: 'game',
+            text: 'Chess',
+            type: 'button',
+            value: 'chess',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    as_user: true,
+  }
+);
 ```
 
 <br />

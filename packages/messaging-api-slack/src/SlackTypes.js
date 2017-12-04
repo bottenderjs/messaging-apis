@@ -19,6 +19,22 @@ export type SlackAttachment = {
   thumb_url?: string,
   footer?: string,
   footer_icon?: string,
+  callback_id?: string,
+  attachment_type?: string,
+  actions: Array<{
+    name?: string,
+    text?: string,
+    type?: string,
+    value?: string,
+    style?: string,
+    options?: Array<{ text: string, value: string }>,
+    confirm?: {
+      title?: string,
+      text?: string,
+      ok_text?: string,
+      dismiss_text?: string,
+    },
+  }>,
   ts?: number,
 };
 
