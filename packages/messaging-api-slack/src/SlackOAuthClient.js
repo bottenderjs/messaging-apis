@@ -7,6 +7,7 @@ import AxiosError from 'axios-error';
 import warning from 'warning';
 
 import type {
+  SlackAttachment,
   SlackOAuthAPIResponse,
   SlackAvailableMethod,
   SlackUser,
@@ -230,15 +231,36 @@ export default class SlackOAuthClient {
    */
   postMessage = (
     channel: string,
-    text: string,
+    message:
+      | { text?: string, attachments: Array<SlackAttachment> | string }
+      | string,
     options?: PostMessageOptions = {}
   ): Promise<SlackOAuthAPIResponse> => {
     if (options.attachments && typeof options.attachments !== 'string') {
       // A JSON-based array of structured attachments, presented as a URL-encoded string.
       // eslint-disable-next-line no-param-reassign
       options.attachments = JSON.stringify(options.attachments);
+    } else if (
+      typeof message === 'object' &&
+      message.attachments &&
+      typeof message.attachments !== 'string'
+    ) {
+      // eslint-disable-next-line no-param-reassign
+      message.attachments = JSON.stringify(message.attachments);
     }
-    return this.callMethod('chat.postMessage', { channel, text, ...options });
+
+    if (typeof message === 'string') {
+      return this.callMethod('chat.postMessage', {
+        channel,
+        text: message,
+        ...options,
+      });
+    }
+    return this.callMethod('chat.postMessage', {
+      channel,
+      ...message,
+      ...options,
+    });
   };
 
   /**
