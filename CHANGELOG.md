@@ -1,3 +1,14 @@
+0.5.15 / 2017-12-04
+===================
+### messaging-api-slack
+- [new] Support pass message object to `postMessage`:
+
+```js
+client.postMessage('C8763', { text: 'Hello!' });
+client.postMessage('C8763', { attachments: [someAttachments] });
+client.postMessage('C8763', { text: 'Hello!' }, { as_user: true });
+```
+
 0.5.14 / 2017-11-29
 ===================
 ### messaging-api-messenger
