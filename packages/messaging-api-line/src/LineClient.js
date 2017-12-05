@@ -459,12 +459,19 @@ export default class LineClient {
    *
    * https://devdocs.line.me/en/#webhooks
    */
-  isValidSignature = (rawBody: string, signature: string): boolean =>
-    signature ===
-    crypto
-      .createHmac('sha256', this._channelSecret)
-      .update(rawBody, 'utf8')
-      .digest('base64');
+  isValidSignature = (rawBody: string, signature: string): boolean => {
+    warning(
+      false,
+      "`isValidSignature` is deprecated. Client doesn't take responsibility for signature validation."
+    );
+    return (
+      signature ===
+      crypto
+        .createHmac('sha256', this._channelSecret)
+        .update(rawBody, 'utf8')
+        .digest('base64')
+    );
+  };
 }
 
 const sendTypes = ['reply', 'push', 'multicast'];

@@ -24,7 +24,6 @@
   * [Group/Room Member IDs API](#grouproom-member-ids-api)
   * [Leave API](#leave-api)
   * [Rich Menu API](#rich-menu-api)
-  * [Others](#others)
 
 ## Installation
 
@@ -1879,9 +1878,3 @@ const fs = require('fs');
 
 client.uploadRichMenuImage(RICH_MENU_ID, fs.readFileSync('image.png'));
 ```
-
-<br />
-
-### Others
-
-## `isValidSignature` - [Official Docs](https://devdocs.line.me/en/#webhooks)
