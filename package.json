@@ -52,7 +52,7 @@
     "typecheck": "flow check"
   },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.js": ["eslint --fix", "git add"]
   },
   "jest": {
     "coverageDirectory": "./coverage/",
