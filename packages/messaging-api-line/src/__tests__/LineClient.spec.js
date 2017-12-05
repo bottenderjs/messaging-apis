@@ -74,17 +74,6 @@ describe('constructor', () => {
   });
 });
 
-describe('#getHTTPClient', () => {
-  it('should return underlying http client', () => {
-    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
-    const http = client.getHTTPClient();
-    expect(http.get).toBeDefined();
-    expect(http.post).toBeDefined();
-    expect(http.put).toBeDefined();
-    expect(http.delete).toBeDefined();
-  });
-});
-
 describe('#axios', () => {
   it('should return underlying http client', () => {
     const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);

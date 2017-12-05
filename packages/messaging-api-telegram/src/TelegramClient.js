@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
-import warning from 'warning';
 
 import type { ChatAction } from './TelegramTypes';
 
@@ -43,14 +42,6 @@ export default class TelegramClient {
   get accessToken(): string {
     return this._token;
   }
-
-  getHTTPClient: () => Axios = () => {
-    warning(
-      false,
-      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
-    );
-    return this._axios;
-  };
 
   _request = (url: string, data?: Object) =>
     this._axios.post(url, data).then(res => res.data, handleError);

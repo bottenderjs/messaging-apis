@@ -4,7 +4,6 @@ import querystring from 'querystring';
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
-import warning from 'warning';
 
 import type {
   SlackAttachment,
@@ -81,14 +80,6 @@ export default class SlackOAuthClient {
   get accessToken(): Token {
     return this._token;
   }
-
-  getHTTPClient: () => Axios = () => {
-    warning(
-      false,
-      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
-    );
-    return this._axios;
-  };
 
   callMethod = async (
     method: SlackAvailableMethod,

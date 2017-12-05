@@ -73,14 +73,6 @@ export default class LineClient {
     return this._accessToken;
   }
 
-  getHTTPClient: () => Axios = () => {
-    warning(
-      false,
-      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
-    );
-    return this._axios;
-  };
-
   _send = (type: SendType, target: SendTarget, ...args: Array<any>) => {
     if (type === 'push') {
       return this.push(((target: any): UserId), ...args);

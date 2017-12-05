@@ -6,7 +6,7 @@ const URL = 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ';
 
 const createMock = () => {
   const client = new SlackWebhookClient(URL);
-  const mock = new MockAdapter(client.getHTTPClient());
+  const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 
@@ -53,17 +53,6 @@ describe('constructor', () => {
       baseURL: 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ',
       headers: { 'Content-Type': 'application/json' },
     });
-  });
-});
-
-describe('#getHTTPClient', () => {
-  it('should return underlying http client', () => {
-    const client = new SlackWebhookClient(URL);
-    const http = client.getHTTPClient();
-    expect(http.get).toBeDefined();
-    expect(http.post).toBeDefined();
-    expect(http.put).toBeDefined();
-    expect(http.delete).toBeDefined();
   });
 });
 
