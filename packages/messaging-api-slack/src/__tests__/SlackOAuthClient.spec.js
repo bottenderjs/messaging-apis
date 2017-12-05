@@ -70,6 +70,13 @@ describe('#axios', () => {
   });
 });
 
+describe('#accessToken', () => {
+  it('should return underlying access token', () => {
+    const client = new SlackOAuthClient(TOKEN);
+    expect(client.accessToken).toBe(TOKEN);
+  });
+});
+
 describe('#callMethod', () => {
   it('should call slack api', async () => {
     const { client, mock } = createMock();

@@ -50,6 +50,10 @@ export default class ViberClient {
     return this._axios;
   }
 
+  get accessToken(): string {
+    return this._token;
+  }
+
   getHTTPClient: () => Axios = () => {
     warning(
       false,

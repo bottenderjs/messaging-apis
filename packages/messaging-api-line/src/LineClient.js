@@ -49,10 +49,12 @@ export default class LineClient {
   static connect = (accessToken: string, channelSecret: string): LineClient =>
     new LineClient(accessToken, channelSecret);
 
+  _accessToken: string;
   _channelSecret: string;
   _axios: Axios;
 
   constructor(accessToken: string, channelSecret: string) {
+    this._accessToken = accessToken;
     this._channelSecret = channelSecret;
     this._axios = axios.create({
       baseURL: 'https://api.line.me/v2/bot/',
@@ -65,6 +67,10 @@ export default class LineClient {
 
   get axios(): Axios {
     return this._axios;
+  }
+
+  get accessToken(): string {
+    return this._accessToken;
   }
 
   getHTTPClient: () => Axios = () => {

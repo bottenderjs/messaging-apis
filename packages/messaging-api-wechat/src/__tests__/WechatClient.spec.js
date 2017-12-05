@@ -82,6 +82,13 @@ describe('#axios', () => {
   });
 });
 
+describe('#accessToken', () => {
+  it('should return underlying access token', () => {
+    const client = new WechatClient(APP_ID, APP_SECRET);
+    expect(typeof client.accessToken).toBe('string');
+  });
+});
+
 describe('access token', () => {
   describe('#getAccessToken', () => {
     it('should response access_token and expires_in', async () => {
