@@ -78,6 +78,10 @@ export default class SlackOAuthClient {
     return this._axios;
   }
 
+  get accessToken(): Token {
+    return this._token;
+  }
+
   getHTTPClient: () => Axios = () => {
     warning(
       false,

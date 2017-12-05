@@ -122,6 +122,10 @@ export default class MessengerClient {
     return this._axios;
   }
 
+  get accessToken(): string {
+    return this._accessToken;
+  }
+
   getHTTPClient: () => Axios = () => {
     warning(
       false,

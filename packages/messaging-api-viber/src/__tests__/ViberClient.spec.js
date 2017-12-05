@@ -90,6 +90,13 @@ describe('#axios', () => {
   });
 });
 
+describe('#accessToken', () => {
+  it('should return underlying access token', () => {
+    const client = new ViberClient(AUTH_TOKEN);
+    expect(client.accessToken).toBe(AUTH_TOKEN);
+  });
+});
+
 describe('webhooks', () => {
   describe('#setWebhook', () => {
     it('should response event_types was set', async () => {

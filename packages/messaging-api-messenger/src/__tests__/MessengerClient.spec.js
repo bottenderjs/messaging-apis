@@ -103,6 +103,13 @@ describe('#axios', () => {
   });
 });
 
+describe('#accessToken', () => {
+  it('should return underlying access token', () => {
+    const client = new MessengerClient(ACCESS_TOKEN);
+    expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
 describe('page info', () => {
   describe('#getPageInfo', () => {
     it('should response page info', async () => {

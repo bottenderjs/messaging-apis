@@ -83,6 +83,13 @@ describe('#axios', () => {
   });
 });
 
+describe('#accessToken', () => {
+  it('should return underlying access token', () => {
+    const client = new TelegramClient(ACCESS_TOKEN);
+    expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
 describe('webhooks', () => {
   describe('#getWebhookInfo', () => {
     it('should response webhook info', async () => {

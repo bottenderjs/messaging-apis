@@ -95,6 +95,13 @@ describe('#axios', () => {
   });
 });
 
+describe('#accessToken', () => {
+  it('should return underlying access token', () => {
+    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
 describe('Client instance', () => {
   it('prototype should be defined', () => {
     const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);

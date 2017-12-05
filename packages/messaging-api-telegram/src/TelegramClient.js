@@ -40,6 +40,10 @@ export default class TelegramClient {
     return this._axios;
   }
 
+  get accessToken(): string {
+    return this._token;
+  }
+
   getHTTPClient: () => Axios = () => {
     warning(
       false,

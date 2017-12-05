@@ -60,6 +60,10 @@ export default class WechatClient {
     return this._axios;
   }
 
+  get accessToken(): string {
+    return this._accessToken;
+  }
+
   async _refreshToken() {
     const {
       access_token: accessToken,
