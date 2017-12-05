@@ -1,3 +1,7 @@
+0.5.16 / 2017-12-05
+===================
+- [new] Add `client.accessToken` getter
+
 0.5.15 / 2017-12-04
 ===================
 ### messaging-api-slack
