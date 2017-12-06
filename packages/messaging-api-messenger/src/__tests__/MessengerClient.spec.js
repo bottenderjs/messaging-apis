@@ -293,7 +293,7 @@ describe('messenger profile', () => {
 });
 
 describe('get started button', () => {
-  describe('#getGetStartedButton', () => {
+  describe('#getGetStarted', () => {
     it('should response data of get started button', async () => {
       const { client, mock } = createMock();
 
@@ -313,7 +313,7 @@ describe('get started button', () => {
         )
         .reply(200, reply);
 
-      const res = await client.getGetStartedButton();
+      const res = await client.getGetStarted();
 
       expect(res).toEqual({
         payload: 'GET_STARTED',
@@ -333,13 +333,13 @@ describe('get started button', () => {
         )
         .reply(200, reply);
 
-      const res = await client.getGetStartedButton();
+      const res = await client.getGetStarted();
 
       expect(res).toEqual(null);
     });
   });
 
-  describe('#setGetStartedButton', () => {
+  describe('#setGetStarted', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -355,13 +355,13 @@ describe('get started button', () => {
         })
         .reply(200, reply);
 
-      const res = await client.setGetStartedButton('GET_STARTED');
+      const res = await client.setGetStarted('GET_STARTED');
 
       expect(res).toEqual(reply);
     });
   });
 
-  describe('#deleteGetStartedButton', () => {
+  describe('#deleteGetStarted', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -375,7 +375,7 @@ describe('get started button', () => {
         })
         .reply(200, reply);
 
-      const res = await client.deleteGetStartedButton();
+      const res = await client.deleteGetStarted();
 
       expect(res).toEqual(reply);
     });
@@ -793,7 +793,7 @@ describe('persistent menu', () => {
 });
 
 describe('greeting text', () => {
-  describe('#getGreetingText', () => {
+  describe('#getGreeting', () => {
     it('should response data of greeting text', async () => {
       const { client, mock } = createMock();
 
@@ -812,7 +812,7 @@ describe('greeting text', () => {
 
       mock.onGet().reply(200, reply);
 
-      const res = await client.getGreetingText();
+      const res = await client.getGreeting();
 
       expect(res).toEqual([
         {
@@ -831,13 +831,13 @@ describe('greeting text', () => {
 
       mock.onGet().reply(200, reply);
 
-      const res = await client.getGreetingText();
+      const res = await client.getGreeting();
 
       expect(res).toEqual(null);
     });
   });
 
-  describe('#setGreetingText', () => {
+  describe('#setGreeting', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -856,7 +856,7 @@ describe('greeting text', () => {
         })
         .reply(200, reply);
 
-      const res = await client.setGreetingText('Hello!');
+      const res = await client.setGreeting('Hello!');
 
       expect(res).toEqual(reply);
     });
@@ -883,7 +883,7 @@ describe('greeting text', () => {
         })
         .reply(200, reply);
 
-      const res = await client.setGreetingText([
+      const res = await client.setGreeting([
         {
           locale: 'default',
           text: 'Hello!',
@@ -898,7 +898,7 @@ describe('greeting text', () => {
     });
   });
 
-  describe('#deleteGreetingText', () => {
+  describe('#deleteGreeting', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -912,7 +912,7 @@ describe('greeting text', () => {
         })
         .reply(200, reply);
 
-      const res = await client.deleteGreetingText();
+      const res = await client.deleteGreeting();
 
       expect(res).toEqual(reply);
     });
@@ -1359,7 +1359,7 @@ describe('target audience', () => {
 });
 
 describe('chat extension home URL', () => {
-  describe('#getChatExtensionHomeURL', () => {
+  describe('#getHomeURL', () => {
     it('should response data of target audience', async () => {
       const { client, mock } = createMock();
 
@@ -1379,7 +1379,7 @@ describe('chat extension home URL', () => {
         )
         .reply(200, reply);
 
-      const res = await client.getChatExtensionHomeURL();
+      const res = await client.getHomeURL();
 
       expect(res).toEqual({
         url: 'http://petershats.com/send-a-hat',
@@ -1401,13 +1401,13 @@ describe('chat extension home URL', () => {
         )
         .reply(200, reply);
 
-      const res = await client.getChatExtensionHomeURL();
+      const res = await client.getHomeURL();
 
       expect(res).toEqual(null);
     });
   });
 
-  describe('#setChatExtensionHomeURL', () => {
+  describe('#setHomeURL', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -1425,19 +1425,16 @@ describe('chat extension home URL', () => {
         })
         .reply(200, reply);
 
-      const res = await client.setChatExtensionHomeURL(
-        'http://petershats.com/send-a-hat',
-        {
-          webview_height_ratio: 'tall',
-          in_test: true,
-        }
-      );
+      const res = await client.setHomeURL('http://petershats.com/send-a-hat', {
+        webview_height_ratio: 'tall',
+        in_test: true,
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
-  describe('#deleteChatExtensionHomeURL', () => {
+  describe('#deleteHomeURL', () => {
     it('should response success result', async () => {
       const { client, mock } = createMock();
 
@@ -1451,7 +1448,7 @@ describe('chat extension home URL', () => {
         })
         .reply(200, reply);
 
-      const res = await client.deleteChatExtensionHomeURL();
+      const res = await client.deleteHomeURL();
 
       expect(res).toEqual(reply);
     });
