@@ -533,4 +533,18 @@ export default class TelegramClient {
       ok,
       ...options,
     });
+
+  /**
+    * https://core.telegram.org/bots/api#answerinlinequery
+    */
+  answerInlineQuery = (
+    inlineQueryId: string,
+    results: Array<Object>,
+    options?: Object
+  ) =>
+    this._request('/answerInlineQuery', {
+      inline_query_id: inlineQueryId,
+      results,
+      ...options,
+    });
 }
