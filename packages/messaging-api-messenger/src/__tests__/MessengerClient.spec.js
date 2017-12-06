@@ -82,17 +82,6 @@ describe('#version', () => {
   });
 });
 
-describe('#getHTTPClient', () => {
-  it('should return underlying http client', () => {
-    const client = new MessengerClient(ACCESS_TOKEN);
-    const http = client.getHTTPClient();
-    expect(http.get).toBeDefined();
-    expect(http.post).toBeDefined();
-    expect(http.put).toBeDefined();
-    expect(http.delete).toBeDefined();
-  });
-});
-
 describe('#axios', () => {
   it('should return underlying http client', () => {
     const client = new MessengerClient(ACCESS_TOKEN);

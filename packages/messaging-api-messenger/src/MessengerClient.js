@@ -126,14 +126,6 @@ export default class MessengerClient {
     return this._accessToken;
   }
 
-  getHTTPClient: () => Axios = () => {
-    warning(
-      false,
-      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
-    );
-    return this._axios;
-  };
-
   /**
    * Get Page Info
    *

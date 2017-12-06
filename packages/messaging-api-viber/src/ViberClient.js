@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
-import warning from 'warning';
 
 import type {
   ViberEventType,
@@ -53,14 +52,6 @@ export default class ViberClient {
   get accessToken(): string {
     return this._token;
   }
-
-  getHTTPClient: () => Axios = () => {
-    warning(
-      false,
-      '`.getHTTPClient` method is deprecated. use `.axios` getter instead.'
-    );
-    return this._axios;
-  };
 
   _callAPI = async (...args: Array<any>) => {
     const response = await this._axios.post(...args);

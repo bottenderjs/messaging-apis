@@ -6,7 +6,7 @@ const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
 const createMock = () => {
   const client = new TelegramClient(ACCESS_TOKEN);
-  const mock = new MockAdapter(client.getHTTPClient());
+  const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 
@@ -59,17 +59,6 @@ describe('constructor', () => {
         'Content-Type': 'application/json',
       },
     });
-  });
-});
-
-describe('#getHTTPClient', () => {
-  it('should return underlying http client', () => {
-    const client = new TelegramClient(ACCESS_TOKEN);
-    const http = client.getHTTPClient();
-    expect(http.get).toBeDefined();
-    expect(http.post).toBeDefined();
-    expect(http.put).toBeDefined();
-    expect(http.delete).toBeDefined();
   });
 });
 
