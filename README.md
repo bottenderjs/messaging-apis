@@ -11,7 +11,7 @@ It helps you build your bots using similar API for multiple platforms, e.g. Mess
 
 If you are looking for a framework to build your bots, [Bottender](https://github.com/Yoctol/bottender) may suit for your needs. It is built on top of [Messaging APIs](https://github.com/Yoctol/messaging-apis) and provides some powerful features for bot building.
 
-![](https://user-images.githubusercontent.com/3382565/31454776-35977ca2-ae7c-11e7-9cda-0cd4b0239cc8.png)
+![](https://user-images.githubusercontent.com/3382565/33652388-3644799e-daa4-11e7-97f1-e9af5788ff6e.png)
 
 ## Packages
 
@@ -22,6 +22,7 @@ If you are looking for a framework to build your bots, [Bottender](https://githu
 | [`messaging-api-slack`](/packages/messaging-api-slack) | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack) | [Slack](https://slack.com/) |
 | [`messaging-api-telegram`](/packages/messaging-api-telegram) | [![npm](https://img.shields.io/npm/v/messaging-api-telegram.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-telegram) | [Telegram](https://telegram.org/) |
 | [`messaging-api-viber`](/packages/messaging-api-viber) | [![npm](https://img.shields.io/npm/v/messaging-api-viber.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-viber) | [Viber](https://www.viber.com/) |
+| [`messaging-api-wechat`](/packages/messaging-api-wechat) | [![npm](https://img.shields.io/npm/v/messaging-api-wechat.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-wechat) | [WeChat](https://weixin.qq.com/) |
 
 ## Usage
 
@@ -187,6 +188,35 @@ client.sendText(userId, 'Hello World').then(() => {
 
 Check out [full API documentation](./packages/messaging-api-viber/README.md) for more detail information.
 
+## WeChat
+
+<img src="https://user-images.githubusercontent.com/3382565/33652361-1dc854c6-daa4-11e7-997e-e1dedd818881.jpg" alt="WeChat" width="100" />
+
+Install `messaging-api-wechat` package from the registry:
+
+```sh
+npm i --save messaging-api-wechat
+```
+or
+```sh
+yarn add messaging-api-wechat
+```
+
+Then, create a `WechatClient` to call Wechat APIs:
+
+```js
+const { WechatClient } = require('messaging-api-wechat');
+
+// get appId, appSecret from「微信公众平台-开发-基本配置」page
+const client = WechatClient.connect(appId, appSecret);
+
+client.sendText(userId, 'Hello World').then(() => {
+  console.log('sent');
+});
+```
+
+Check out [full API documentation](./packages/messaging-api-wechat/README.md) for more detail information.
+
 ## Documentation
 
 - [Messenger](./packages/messaging-api-messenger/README.md)
@@ -194,6 +224,7 @@ Check out [full API documentation](./packages/messaging-api-viber/README.md) for
 - [Slack](./packages/messaging-api-slack/README.md)
 - [Telegram](./packages/messaging-api-telegram/README.md)
 - [Viber](./packages/messaging-api-viber/README.md)
+- [WeChat](./packages/messaging-api-wechat/README.md)
 
 ## Change Log
 
