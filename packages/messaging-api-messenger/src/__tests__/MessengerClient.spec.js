@@ -4555,7 +4555,7 @@ describe('upload api', () => {
               type: 'image',
               payload: {
                 url: 'http://www.yoctol-rocks.com/image.jpg',
-                is_reusable: true,
+                is_reusable: false,
               },
             },
           },
@@ -4565,6 +4565,36 @@ describe('upload api', () => {
       const res = await client.uploadAttachment(
         'image',
         'http://www.yoctol-rocks.com/image.jpg'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('can upload reusable attachment', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        attachment_id: '1854626884821032',
+      };
+
+      mock
+        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
+          message: {
+            attachment: {
+              type: 'image',
+              payload: {
+                url: 'http://www.yoctol-rocks.com/image.jpg',
+                is_reusable: true,
+              },
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.uploadAttachment(
+        'image',
+        'http://www.yoctol-rocks.com/image.jpg',
+        { is_reusable: true }
       );
 
       expect(res).toEqual(reply);
@@ -4609,7 +4639,7 @@ describe('upload api', () => {
               type: 'audio',
               payload: {
                 url: 'http://www.yoctol-rocks.com/audio.mp3',
-                is_reusable: true,
+                is_reusable: false,
               },
             },
           },
@@ -4639,7 +4669,7 @@ describe('upload api', () => {
               type: 'image',
               payload: {
                 url: 'http://www.yoctol-rocks.com/image.jpg',
-                is_reusable: true,
+                is_reusable: false,
               },
             },
           },
@@ -4669,7 +4699,7 @@ describe('upload api', () => {
               type: 'video',
               payload: {
                 url: 'http://www.yoctol-rocks.com/video.mp4',
-                is_reusable: true,
+                is_reusable: false,
               },
             },
           },
@@ -4699,7 +4729,7 @@ describe('upload api', () => {
               type: 'file',
               payload: {
                 url: 'http://www.yoctol-rocks.com/file.pdf',
-                is_reusable: true,
+                is_reusable: false,
               },
             },
           },

@@ -1121,18 +1121,25 @@ client.typingOff(USER_ID);
 
 ### Attachment Upload API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload)
 
-## `uploadAttachment(type, attachment)`
+> Note: Only attachments that were uploaded with the `is_reusable` property set to `true` can be sent to other message recipients.
+
+## `uploadAttachment(type, attachment, options)`
 
 Upload specified type attachment using URL address, buffer, or stream.
 
-Param | Type     | Description
------ | -------- | -----------
-type  | `String` | Must be one of `image | video | audio | file`.
+Param      | Type     | Description
+---------- | -------- | -----------
+type       | `String` | Must be one of `image | video | audio | file`.
 attachment | <code>String &#124; Buffer &#124; ReadStream</code> | Attachment to be uploaded.
+options    | `Object` | Other optional parameters.
+options.is_reusable | Set to `true` to make the saved asset sendable to other message recipients. Defaults to `false`.
+options.filename    | Required when upload from buffer.
 
 Example:
 ```js
-client.uploadAttachment('image', 'http://www.example.com/image.jpg');
+client.uploadAttachment('image', 'http://www.example.com/image.jpg', {
+  is_reusable: true,
+});
 ```
 
 Or using read stream:
@@ -1140,28 +1147,34 @@ Or using read stream:
 ```js
 const fs = require('fs');
 
-client.uploadAttachment('image', fs.createReadStream('image.jpg'));
+client.uploadAttachment('image', fs.createReadStream('image.jpg'), {
+  is_reusable: true,
+});
 ```
 
 Or using buffer:
 
 ```js
-client.uploadAttachment('image', buffer, { filename: 'image.jpg' });
+client.uploadAttachment('image', buffer, {
+  is_reusable: true,
+  filename: 'image.jpg',
+});
 ```
 
 <br />
 
-## `uploadAudio(audio)`
+## `uploadAudio(audio, options)`
 
 Upload audio attachment using URL address, buffer, or stream.
 
 Param   | Type                                                | Description
 ------- | --------------------------------------------------- | -----------
 audio   | <code>String &#124; Buffer &#124; ReadStream</code> | The audio to be uploaded.
+options | `Object`                                            | Other optional parameters.
 
 Example:
 ```js
-client.uploadAudio('http://www.example.com/audio.mp3');
+client.uploadAudio('http://www.example.com/audio.mp3', { is_reusable: true });
 ```
 
 Or using read stream:
@@ -1169,28 +1182,32 @@ Or using read stream:
 ```js
 const fs = require('fs');
 
-client.uploadAudio(fs.createReadStream('audio.mp3'));
+client.uploadAudio(fs.createReadStream('audio.mp3'), { is_reusable: true });
 ```
 
 Or using buffer:
 
 ```js
-client.uploadAudio(buffer, { filename: 'audio.mp3' });
+client.uploadAudio(buffer, {
+  is_reusable: true,
+  filename: 'audio.mp3',
+});
 ```
 
 <br />
 
-## `uploadImage(image)`
+## `uploadImage(image, options)`
 
 Upload image attachment using URL address, buffer, or stream.
 
 Param   | Type                                                | Description
 ------- | --------------------------------------------------- | -----------
 image   | <code>String &#124; Buffer &#124; ReadStream</code> | The image to be uploaded.
+options | `Object`                                            | Other optional parameters.
 
 Example:
 ```js
-client.uploadImage('http://www.example.com/image.jpg');
+client.uploadImage('http://www.example.com/image.jpg', { is_reusable: true });
 ```
 
 Or using read stream:
@@ -1198,28 +1215,32 @@ Or using read stream:
 ```js
 const fs = require('fs');
 
-client.uploadImage(fs.createReadStream('image.jpg'));
+client.uploadImage(fs.createReadStream('image.jpg'), { is_reusable: true });
 ```
 
 Or using buffer:
 
 ```js
-client.uploadImage(buffer, { filename: 'image.jpg' });
+client.uploadImage(buffer, {
+  is_reusable: true,
+  filename: 'image.jpg',
+});
 ```
 
 <br />
 
-## `uploadVideo(video)`
+## `uploadVideo(video, options)`
 
 Upload video attachment using URL address, buffer, or stream.
 
 Param   | Type                                                | Description
 ------- | --------------------------------------------------- | -----------
 video   | <code>String &#124; Buffer &#124; ReadStream</code> | The video to be uploaded.
+options | `Object`                                            | Other optional parameters.
 
 Example:
 ```js
-client.uploadVideo('http://www.example.com/video.mp4');
+client.uploadVideo('http://www.example.com/video.mp4', { is_reusable: true });
 ```
 
 Or using read stream:
@@ -1227,28 +1248,32 @@ Or using read stream:
 ```js
 const fs = require('fs');
 
-client.uploadVideo(fs.createReadStream('video.mp4'));
+client.uploadVideo(fs.createReadStream('video.mp4'), { is_reusable: true });
 ```
 
 Or using buffer:
 
 ```js
-client.uploadVideo(buffer, { filename: 'video.mp4' });
+client.uploadVideo(buffer, {
+  is_reusable: true,
+  filename: 'video.mp4',
+});
 ```
 
 <br />
 
-## `uploadFile(file)`
+## `uploadFile(file, options)`
 
 Upload file attachment using URL address, buffer, or stream.
 
 Param   | Type                                                | Description
 ------- | --------------------------------------------------- | -----------
 file    | <code>String &#124; Buffer &#124; ReadStream</code> | The file to be uploaded.
+options | `Object`                                            | Other optional parameters.
 
 Example:
 ```js
-client.uploadFile('http://www.example.com/file.pdf');
+client.uploadFile('http://www.example.com/file.pdf', { is_reusable: true });
 ```
 
 Or using read stream:
@@ -1256,13 +1281,16 @@ Or using read stream:
 ```js
 const fs = require('fs');
 
-client.uploadFile(fs.createReadStream('file.pdf'));
+client.uploadFile(fs.createReadStream('file.pdf'), { is_reusable: true });
 ```
 
 Or using buffer:
 
 ```js
-client.uploadFile(buffer, { filename: 'file.pdf' });
+client.uploadFile(buffer, {
+  is_reusable: true,
+  filename: 'file.pdf',
+});
 ```
 
 <br />

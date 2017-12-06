@@ -1384,6 +1384,8 @@ export default class MessengerClient {
   ) => {
     const args = [];
 
+    const isReusable = options.is_reusable || false;
+
     if (typeof attachment === 'string') {
       args.push({
         message: {
@@ -1391,7 +1393,7 @@ export default class MessengerClient {
             type,
             payload: {
               url: attachment,
-              is_reusable: true,
+              is_reusable: isReusable,
             },
           },
         },
@@ -1405,13 +1407,13 @@ export default class MessengerClient {
           attachment: {
             type,
             payload: {
-              is_reusable: true,
+              is_reusable: isReusable,
             },
           },
         })
       );
 
-      form.append('filedata', attachment, options);
+      form.append('filedata', attachment, omit(options, ['is_reusable']));
 
       args.push(form, {
         headers: form.getHeaders(),
