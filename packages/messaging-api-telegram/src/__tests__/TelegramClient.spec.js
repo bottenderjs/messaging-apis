@@ -1541,6 +1541,57 @@ describe('payment api', () => {
   });
 });
 
+describe('inline mode api', () => {
+  describe('#answerInlineQuery', () => {
+    it('should send answers to an inline query', async () => {
+      const { client, mock } = createMock();
+
+      mock
+        .onPost('/answerInlineQuery', {
+          inline_query_id: 'INLINE_QUERY_ID',
+          results: [
+            {
+              type: 'photo',
+              id: 'UNIQUE_ID',
+              photo_file_id: 'FILE_ID',
+              title: 'PHOTO_TITLE',
+            },
+            {
+              type: 'audio',
+              id: 'UNIQUE_ID',
+              audio_file_id: 'FILE_ID',
+              caption: 'AUDIO_TITLE',
+            },
+          ],
+          cache_time: 1000,
+        })
+        .reply(200, true);
+
+      const res = await client.answerInlineQuery(
+        'INLINE_QUERY_ID',
+        [
+          {
+            type: 'photo',
+            id: 'UNIQUE_ID',
+            photo_file_id: 'FILE_ID',
+            title: 'PHOTO_TITLE',
+          },
+          {
+            type: 'audio',
+            id: 'UNIQUE_ID',
+            audio_file_id: 'FILE_ID',
+            caption: 'AUDIO_TITLE',
+          },
+        ],
+        {
+          cache_time: 1000,
+        }
+      );
+      expect(res).toEqual(true);
+    });
+  });
+});
+
 describe('other api', () => {
   describe('#forwardMessage', () => {
     it('should forward messages of any kind', async () => {

@@ -13,7 +13,9 @@
   * [Send API](#send-api)
   * [Get API](#get-api)
   * [Updating API](#updating-api)
+  * [Group API](#group-api)
   * [Payments API](#payments-api)
+  * [Inline Mode API](#inline-mode-api)
   * [Others](#others)
 
 ## Installation
@@ -461,7 +463,7 @@ client.getChatMember(CHAT_ID, USER_ID);
 
 <br />
 
-### updating API
+### Updating API
 
 ## `editMessageText(text [, options])` - [Official Docs](https://core.telegram.org/bots/api/#editmessagetext)
 
@@ -883,6 +885,44 @@ options            | `Object`  | Additional Telegram query options.
 Example:
 ```js
 client.answerPreCheckoutQuery('UNIQUE_ID', true);
+```
+
+<br />
+
+### Inline mode API
+
+## `answerInlineQuery(inlineQueryId, results [, options])` - [Official Docs](https://core.telegram.org/bots/api/#answerinlinequery)
+
+Send answers to an inline query.
+
+Param           |  Type     | Description
+--------------- | --------- | -----------
+inlineQueryId   | `String`  | Unique identifier of the query.
+results         | Array<[InlineQueryResult](https://core.telegram.org/bots/api#inlinequeryresult)> | Array of object represents one result of an inline query.
+options         | `Object`  | Additional Telegram query options.
+
+Example:
+```js
+client.answerInlineQuery(
+  'INLINE_QUERY_ID',
+  [
+    {
+      type: 'photo',
+      id: 'UNIQUE_ID',
+      photo_file_id: 'FILE_ID',
+      title: 'PHOTO_TITLE',
+    },
+    {
+      type: 'audio',
+      id: 'UNIQUE_ID',
+      audio_file_id: 'FILE_ID',
+      caption: 'AUDIO_TITLE',
+    },
+  ],
+  {
+    cache_time: 1000,
+  }
+);
 ```
 
 <br />
