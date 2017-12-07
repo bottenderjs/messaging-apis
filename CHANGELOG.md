@@ -1,3 +1,57 @@
+0.6.0 / 2017-12-07
+==================
+- [new] Support WeChat! 🎉🎉🎉
+
+<img src="https://user-images.githubusercontent.com/3382565/33652361-1dc854c6-daa4-11e7-997e-e1dedd818881.jpg" alt="WeChat" width="100" />
+
+- [breaking] Remove `client.getHTTPClient()` use `client.axios` instead [#236](https://github.com/Yoctol/messaging-apis/pull/236)
+
+### messaging-api-messenger
+- [breaking] Set default `is_reusable` to false when upload attachment [#221](https://github.com/Yoctol/messaging-apis/issues/221)
+- [breaking] Remove messenger profile deprecated methods [#239](https://github.com/Yoctol/messaging-apis/pull/239)
+
+```
+getGetStartedButton -> getGetStarted
+setGetStartedButton -> setGetStarted
+deleteGetStartedButton -> deleteGetStarted
+getGreetingText -> getGreeting
+setGreetingText -> setGreeting
+deleteGreetingText -> deleteGreeting
+getDomainWhitelist -> getWhitelistedDomains
+setDomainWhitelist -> setWhitelistedDomains
+deleteDomainWhitelist -> deleteWhitelistedDomains
+getChatExtensionHomeURL -> getHomeURL
+setChatExtensionHomeURL -> setHomeURL
+deleteChatExtensionHomeURL -> deleteHomeURL
+```
+
+
+### messaging-api-telegram
+- [new] Add Inline mode API - `answerInlineQuery`:
+
+```js
+client.answerInlineQuery(
+  'INLINE_QUERY_ID',
+  [
+    {
+      type: 'photo',
+      id: 'UNIQUE_ID',
+      photo_file_id: 'FILE_ID',
+      title: 'PHOTO_TITLE',
+    },
+    {
+      type: 'audio',
+      id: 'UNIQUE_ID',
+      audio_file_id: 'FILE_ID',
+      caption: 'AUDIO_TITLE',
+    },
+  ],
+  {
+    cache_time: 1000,
+  }
+);
+```
+
 0.5.16 / 2017-12-05
 ===================
 - [new] Add `client.accessToken` getter
