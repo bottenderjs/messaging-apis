@@ -776,6 +776,50 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendMediaGroup', () => {
+    it('should send a group of photos or videos as an album', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 1,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499403678,
+          photo: [
+            {
+              file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+              width: 1000,
+              height: 1000,
+            },
+          ],
+        },
+      };
+
+      mock
+        .onPost('/sendMediaGroup', {
+          chat_id: 427770117,
+          media: [{ type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' }],
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMediaGroup(427770117, [
+        { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
+      ]);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendLocation', () => {
     it('should send location message to user', async () => {
       const { client, mock } = createMock();
