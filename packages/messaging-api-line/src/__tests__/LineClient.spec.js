@@ -528,6 +528,9 @@ describe('Reply Message', () => {
               template: {
                 type: 'buttons',
                 thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
+                imageBackgroundColor: '#FFFFFF',
                 title: 'Menu',
                 text: 'Please select',
                 actions: [
@@ -558,6 +561,9 @@ describe('Reply Message', () => {
         'this is a template',
         {
           thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+          imageBackgroundColor: '#FFFFFF',
           title: 'Menu',
           text: 'Please select',
           actions: [
@@ -657,6 +663,8 @@ describe('Reply Message', () => {
               altText: 'this is a carousel template',
               template: {
                 type: 'carousel',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
                 columns: [
                   {
                     thumbnailImageUrl:
@@ -759,7 +767,11 @@ describe('Reply Message', () => {
               },
             ],
           },
-        ]
+        ],
+        {
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+        }
       );
 
       expect(res).toEqual(reply);
@@ -1260,6 +1272,9 @@ describe('Push Message', () => {
               template: {
                 type: 'buttons',
                 thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
+                imageBackgroundColor: '#FFFFFF',
                 title: 'Menu',
                 text: 'Please select',
                 actions: [
@@ -1290,6 +1305,9 @@ describe('Push Message', () => {
         'this is a template',
         {
           thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+          imageBackgroundColor: '#FFFFFF',
           title: 'Menu',
           text: 'Please select',
           actions: [
@@ -1389,6 +1407,8 @@ describe('Push Message', () => {
               altText: 'this is a carousel template',
               template: {
                 type: 'carousel',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
                 columns: [
                   {
                     thumbnailImageUrl:
@@ -1491,7 +1511,11 @@ describe('Push Message', () => {
               },
             ],
           },
-        ]
+        ],
+        {
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+        }
       );
 
       expect(res).toEqual(reply);
@@ -1995,6 +2019,9 @@ describe('Multicast', () => {
               template: {
                 type: 'buttons',
                 thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
+                imageBackgroundColor: '#FFFFFF',
                 title: 'Menu',
                 text: 'Please select',
                 actions: [
@@ -2025,6 +2052,9 @@ describe('Multicast', () => {
         'this is a template',
         {
           thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+          imageBackgroundColor: '#FFFFFF',
           title: 'Menu',
           text: 'Please select',
           actions: [
@@ -2124,6 +2154,8 @@ describe('Multicast', () => {
               altText: 'this is a carousel template',
               template: {
                 type: 'carousel',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
                 columns: [
                   {
                     thumbnailImageUrl:
@@ -2226,7 +2258,11 @@ describe('Multicast', () => {
               },
             ],
           },
-        ]
+        ],
+        {
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+        }
       );
 
       expect(res).toEqual(reply);

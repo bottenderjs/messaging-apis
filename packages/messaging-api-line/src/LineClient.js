@@ -183,11 +183,17 @@ export default class LineClient {
     altText: string,
     {
       thumbnailImageUrl,
+      imageAspectRatio,
+      imageSize,
+      imageBackgroundColor,
       title,
       text,
       actions,
     }: {
       thumbnailImageUrl?: string,
+      imageAspectRatio?: 'rectangle' | 'square',
+      imageSize?: 'cover' | 'contain',
+      imageBackgroundColor?: string,
       title?: string,
       text: string,
       actions: Array<TemplateAction>,
@@ -196,6 +202,9 @@ export default class LineClient {
     this._send(type, target, [
       Line.createButtonTemplate(altText, {
         thumbnailImageUrl,
+        imageAspectRatio,
+        imageSize,
+        imageBackgroundColor,
         title,
         text,
         actions,
@@ -225,9 +234,21 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     altText: string,
-    columns: Array<ColumnObject>
+    columns: Array<ColumnObject>,
+    {
+      imageAspectRatio,
+      imageSize,
+    }: {
+      imageAspectRatio?: 'rectangle' | 'square',
+      imageSize?: 'cover' | 'contain',
+    }
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createCarouselTemplate(altText, columns)]);
+    this._send(type, target, [
+      Line.createCarouselTemplate(altText, columns, {
+        imageAspectRatio,
+        imageSize,
+      }),
+    ]);
 
   _sendImageCarouselTemplate = (
     type: SendType,
