@@ -231,6 +231,25 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
 
 <br />
 
+## `sendMediaGroup(chatId, media [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendmediagroup)
+
+send a group of photos or videos as an album.
+
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+chatId  | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+media   | Array<[InputMedia](https://core.telegram.org/bots/api#inputmedia)> | A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+options | `Object`                          | Other optional parameters.
+
+Example:
+```js
+client.sendMediaGroup(CHAT_ID, [
+  { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
+]);
+```
+
+<br />
+
 ## `sendLocation(chatId, location [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendlocation)
 
 Sends point on the map.

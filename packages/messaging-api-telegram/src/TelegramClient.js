@@ -209,6 +209,16 @@ export default class TelegramClient {
   //   });
 
   /**
+   * https://core.telegram.org/bots/api#sendmediagroup
+   */
+  sendMediaGroup = (chatId: string, media: Array<Object>, options?: Object) =>
+    this._request('/sendMediaGroup', {
+      chat_id: chatId,
+      media,
+      ...options,
+    });
+
+  /**
    * https://core.telegram.org/bots/api#sendlocation
    */
   sendLocation = (
