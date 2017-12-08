@@ -96,11 +96,17 @@ function createButtonTemplate(
   altText: string,
   {
     thumbnailImageUrl,
+    imageAspectRatio,
+    imageSize,
+    imageBackgroundColor,
     title,
     text,
     actions,
   }: {
     thumbnailImageUrl?: string,
+    imageAspectRatio?: 'rectangle' | 'square',
+    imageSize?: 'cover' | 'contain',
+    imageBackgroundColor?: string,
     title?: string,
     text: string,
     actions: Array<TemplateAction>,
@@ -109,6 +115,9 @@ function createButtonTemplate(
   return createTemplate(altText, {
     type: 'buttons',
     thumbnailImageUrl,
+    imageAspectRatio,
+    imageSize,
+    imageBackgroundColor,
     title,
     text,
     actions,
@@ -132,10 +141,22 @@ function createConfirmTemplate(
   });
 }
 
-function createCarouselTemplate(altText: string, columns: Array<ColumnObject>) {
+function createCarouselTemplate(
+  altText: string,
+  columns: Array<ColumnObject>,
+  {
+    imageAspectRatio,
+    imageSize,
+  }: {
+    imageAspectRatio?: 'rectangle' | 'square',
+    imageSize?: 'cover' | 'contain',
+  }
+) {
   return createTemplate(altText, {
     type: 'carousel',
     columns,
+    imageAspectRatio,
+    imageSize,
   });
 }
 
