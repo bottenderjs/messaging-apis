@@ -336,6 +336,9 @@ token                  | `String`           | `replyToken` received via webhook.
 altText                | `String`           | Alternative text.
 buttonTemplate         | `Object`           | Object contains buttonTemplate's parameters.
 buttonTemplate.thumbnailImageUrl | `String` | Image URL of buttonTemplate.
+buttonTemplate.imageAspectRatio | `String` | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square`
+buttonTemplate.imageSize | `String` | Size of the image. Specify one of the following values: `cover`, `contain`
+buttonTemplate.imageBackgroundColor | `String` | Background color of image. Specify a RGB color value. The default value is `#FFFFFF` (white).
 buttonTemplate.title   | `String`           | Title of buttonTemplate.
 buttonTemplate.text    | `String`           | Message text of buttonTemplate.
 buttonTemplate.actions | `Array<Object>`    | Action when tapped.
@@ -403,7 +406,7 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
 
 <br />
 
-## `replyCarouselTemplate(token, altText, carouselItems)`
+## `replyCarouselTemplate(token, altText, carouselItems, options)`
 
 Responds carousel template message using specified reply token.
 
@@ -414,6 +417,9 @@ Param         | Type            | Description
 token         | `String`        | `replyToken` received via webhook.
 altText       | `String`        | Alternative text.
 carouselItems | `Array<Object>` | Array of columns which contains object for carousel.
+options         | `Object`        | Object contains options.
+options.imageAspectRatio | `String` | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square`
+options.imageSize | `String` | Size of the image. Specify one of the following values: `cover`, `contain`
 
 Example:
 ```js
@@ -781,6 +787,9 @@ userId                 | `String`           | ID of the receiver.
 altText                | `String`           | Alternative text.
 buttonTemplate         | `Object`           | Object contains buttonTemplate's parameters.
 buttonTemplate.thumbnailImageUrl | `String` | Image URL of buttonTemplate.
+buttonTemplate.imageAspectRatio | `String` | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square`
+buttonTemplate.imageSize | `String` | Size of the image. Specify one of the following values: `cover`, `contain`
+buttonTemplate.imageBackgroundColor | `String` | Background color of image. Specify a RGB color value. The default value is `#FFFFFF` (white).
 buttonTemplate.title   | `String`           | Title of buttonTemplate.
 buttonTemplate.text    | `String`           | Message text of buttonTemplate.
 buttonTemplate.actions | `Array<Object>`    | Action when tapped.
@@ -848,7 +857,7 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
 
 <br />
 
-## `pushCarouselTemplate(userId, altText, carouselItems)`
+## `pushCarouselTemplate(userId, altText, carouselItems, options)`
 
 Sends carousel template message using ID of the receiver.
 
@@ -859,6 +868,9 @@ Param         | Type            | Description
 userId        | `String`        | ID of the receiver.
 altText       | `String`        | Alternative text.
 carouselItems | `Array<Object>` | Array of columns which contains object for carousel.
+options         | `Object`        | Object contains options.
+options.imageAspectRatio | `String` | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square`
+options.imageSize | `String` | Size of the image. Specify one of the following values: `cover`, `contain`
 
 Example:
 ```js
@@ -1229,6 +1241,9 @@ userIds                | `Array<String>`    | IDs of the receivers.
 altText                | `String`           | Alternative text.
 buttonTemplate         | `Object`           | Object contains buttonTemplate's parameters.
 buttonTemplate.thumbnailImageUrl | `String` | Image URL of buttonTemplate.
+buttonTemplate.imageAspectRatio | `String` | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square`
+buttonTemplate.imageSize | `String` | Size of the image. Specify one of the following values: `cover`, `contain`
+buttonTemplate.imageBackgroundColor | `String` | Background color of image. Specify a RGB color value. The default value is `#FFFFFF` (white).
 buttonTemplate.title   | `String`           | Title of buttonTemplate.
 buttonTemplate.text    | `String`           | Message text of buttonTemplate.
 buttonTemplate.actions | `Array<Object>`    | Action when tapped.
@@ -1296,7 +1311,7 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 
 <br />
 
-## `multicastCarouselTemplate(userIds, altText, carouselItems)`
+## `multicastCarouselTemplate(userIds, altText, carouselItems, options)`
 
 Sends carousel template message to multiple users.
 
@@ -1307,6 +1322,9 @@ Param         | Type            | Description
 userIds       | `Array<String>` | IDs of the receivers.
 altText       | `String`        | Alternative text.
 carouselItems | `Array<Object>` | Array of columns which contains object for carousel.
+options         | `Object`        | Object contains options.
+options.imageAspectRatio | `String` | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square`
+options.imageSize | `String` | Size of the image. Specify one of the following values: `cover`, `contain`
 
 Example:
 ```js
