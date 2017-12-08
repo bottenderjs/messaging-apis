@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 
 import querystring from 'querystring';
+import crypto from 'crypto';
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
@@ -1518,4 +1519,81 @@ export default class MessengerClient {
       )
       .then(res => res.data, handleError);
   };
+
+  /**
+   * https://developers.facebook.com/docs/messenger-platform/identity/id-matching#examples
+   */
+  getUserField = ({
+    field,
+    user_id,
+    app_secret,
+    app,
+    access_token: customAccessToken,
+  }: {
+    field: string,
+    user_id: string,
+    app_secret: string,
+    app?: string,
+    access_token?: string,
+  }) => {
+    const accessToken = customAccessToken || this._accessToken;
+
+    // $appsecret_proof= hash_hmac('sha256', $access_token, $app_secret);
+    const appsecretProof = crypto
+      .createHmac('sha256', app_secret)
+      .update(accessToken)
+      .digest('hex');
+
+    const appQueryString = app ? `&app=${app}` : '';
+
+    return this._axios
+      .get(
+        `/${user_id}/${field}?access_token=${accessToken}&appsecret_proof=${appsecretProof}${appQueryString}`
+      )
+      .then(res => res.data, handleError);
+  };
+
+  /**
+   * Given a user ID for a bot in Messenger, retrieve the IDs for apps owned by the same business
+   */
+  getIdsForApps = ({
+    user_id,
+    app_secret,
+    app,
+    access_token,
+  }: {
+    user_id: string,
+    app_secret: string,
+    app?: string,
+    access_token?: string,
+  }) =>
+    this.getUserField({
+      field: 'ids_for_apps',
+      user_id,
+      app_secret,
+      app,
+      access_token,
+    });
+
+  /**
+   * Given a user ID for a Page (associated with a bot), retrieve the IDs for other Pages owned by the same business
+   */
+  getIdsForPages = ({
+    user_id,
+    app_secret,
+    app,
+    access_token,
+  }: {
+    user_id: string,
+    app_secret: string,
+    app?: string,
+    access_token?: string,
+  }) =>
+    this.getUserField({
+      field: 'ids_for_pages',
+      user_id,
+      app_secret,
+      app,
+      access_token,
+    });
 }
