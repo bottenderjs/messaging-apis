@@ -1,3 +1,37 @@
+0.6.1 / 2017-12-08
+==================
+### messaging-api-line
+- [new] Support new options (`imageAspectRatio`, `imageSize`, `imageBackgroundColor`) for template message images [#247](https://github.com/Yoctol/messaging-apis/pull/247)
+
+```js
+client.replyButtonTemplate(REPLY_TOKEN, altText, {
+  thumbnailImageUrl,
+  title,
+  imageAspectRatio: 'rectangle',
+  imageSize: 'cover',
+  imageBackgroundColor: '#FFFFFF',
+  actions,
+});
+```
+
+```js
+client.replyCarouselTemplate(REPLY_TOKEN, altText, columns, {
+  imageAspectRatio: 'rectangle',
+  imageSize: 'cover',
+}),
+```
+
+### messaging-api-telegram
+- [new] Add [`sendMediaGroup`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#sendmediagroupchatid-media--options---official-docs):
+
+```js
+client.sendMediaGroup(CHAT_ID, [
+  { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
+]);
+```
+
+[Telegram Bot API 3.5](https://core.telegram.org/bots/api#november-17-2017)
+
 0.6.0 / 2017-12-07
 ==================
 - [new] Support WeChat! 🎉🎉🎉
