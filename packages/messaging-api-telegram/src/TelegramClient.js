@@ -548,4 +548,33 @@ export default class TelegramClient {
       results,
       ...options,
     });
+
+  /**
+    * https://core.telegram.org/bots/api#sendgame
+    */
+  sendGame = (chatId: string, gameShortName: string, options?: Object) =>
+    this._request('/sendGame', {
+      chat_id: chatId,
+      game_short_name: gameShortName,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#setgamescore
+    */
+  setGameScore = (userId: string, score: number, options?: Object) =>
+    this._request('/setGameScore', {
+      user_id: userId,
+      score,
+      ...options,
+    });
+
+  /**
+    * https://core.telegram.org/bots/api#getgamehighscores
+    */
+  getGameHighScores = (userId: string, options?: Object) =>
+    this._request('/getGameHighScores', {
+      user_id: userId,
+      ...options,
+    });
 }

@@ -16,6 +16,7 @@
   * [Group API](#group-api)
   * [Payments API](#payments-api)
   * [Inline Mode API](#inline-mode-api)
+  * [Game API](#game-api)
   * [Others](#others)
 
 ## Installation
@@ -942,6 +943,62 @@ client.answerInlineQuery(
     cache_time: 1000,
   }
 );
+```
+
+<br />
+
+### Game API
+
+## `sendGame` - [Official Docs](https://core.telegram.org/bots/api#sendgame)  
+
+Sends a game.
+
+Param  |  Type                             | Description
+------ | --------------------------------- | -----------
+chatId | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+gameShortName | String   | Short name of the game.
+options       | `Object` | Additional Telegram query options.
+
+Example:
+```js
+client.sendGame(CHAT_ID, 'Mario Bros.', {
+  disable_notification: true,
+});
+```
+
+<br />
+
+## `setGameScore` - [Official Docs](https://core.telegram.org/bots/api#setgamescore)  
+
+Sets the score of the specified user in a game.
+
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+userId  | <code>Number &#124; String</code> | User identifier.
+score   | Number   | New score, must be non-negative.
+options | `Object` | Additional Telegram query options.
+
+
+Example:
+```js
+client.setGameScore(USER_ID, 999);
+```
+
+<br />
+
+## `getGameHighScores` - [Official Docs](https://core.telegram.org/bots/api#getgamehighscores)  
+
+Gets data for high score tables.
+
+Param   |  Type                             | Description
+------- | --------------------------------- | -----------
+userId  | <code>Number &#124; String</code> | User identifier.
+options | `Object` | Additional Telegram query options.
+
+
+Example:
+```js
+client.getGameHighScores(USER_ID);
 ```
 
 <br />
