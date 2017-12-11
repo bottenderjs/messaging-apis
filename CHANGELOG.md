@@ -1,3 +1,29 @@
+0.6.2 / 2017-12-11
+==================
+### messaging-api-telegram
+
+Support Game APIs!
+
+- `sendGame`:
+
+```js
+client.sendGame(CHAT_ID, 'Mario Bros.', {
+  disable_notification: true,
+});
+```
+
+- `setGameScore`:
+
+```js
+client.setGameScore(USER_ID, 999);
+```
+
+- `getGameHighScores`:
+
+```js
+client.getGameHighScores(USER_ID);
+```
+
 0.6.1 / 2017-12-08
 ==================
 ### messaging-api-line
