@@ -210,12 +210,18 @@ export default class MessengerClient {
       res => (res[0] ? res[0].get_started : null)
     );
 
-  setGetStarted = (payload: string): Promise<MutationSuccessResponse> =>
-    this.setMessengerProfile({
-      get_started: {
-        payload,
+  setGetStarted = (
+    payload: string,
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> =>
+    this.setMessengerProfile(
+      {
+        get_started: {
+          payload,
+        },
       },
-    });
+      options
+    );
 
   deleteGetStarted = (
     options?: Object = {}

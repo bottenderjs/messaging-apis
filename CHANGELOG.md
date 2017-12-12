@@ -44,7 +44,7 @@ client.replyButtonTemplate(REPLY_TOKEN, altText, {
 client.replyCarouselTemplate(REPLY_TOKEN, altText, columns, {
   imageAspectRatio: 'rectangle',
   imageSize: 'cover',
-}),
+});
 ```
 
 ### messaging-api-telegram
