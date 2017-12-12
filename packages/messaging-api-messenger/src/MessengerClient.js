@@ -10,6 +10,7 @@ import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
 import warning from 'warning';
 
+import Messenger from './_Messenger'; // FIXME: v0.7
 import type {
   UserID,
   Recipient,
@@ -623,7 +624,11 @@ export default class MessengerClient {
     attachment: Attachment,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendMessage(recipient, { attachment }, options);
+    this.sendMessage(
+      recipient,
+      Messenger.createAttachment(attachment),
+      options
+    );
 
   sendAttachmentFormData = (
     recipient: UserID | Recipient,
@@ -638,7 +643,7 @@ export default class MessengerClient {
     text: string,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendMessage(recipient, { text }, options);
+    this.sendMessage(recipient, Messenger.createText(text), options);
 
   sendAudio = (
     recipient: UserID | Recipient,
@@ -738,14 +743,7 @@ export default class MessengerClient {
     payload: AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(
-      recipient,
-      {
-        type: 'template',
-        payload,
-      },
-      options
-    );
+    this.sendMessage(recipient, Messenger.createTemplate(payload), options);
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/button
   sendButtonTemplate = (
@@ -754,13 +752,9 @@ export default class MessengerClient {
     buttons: Array<TemplateButton>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'button',
-        text,
-        buttons,
-      },
+      Messenger.createButtonTemplate(text, buttons),
       options
     );
 
@@ -773,13 +767,11 @@ export default class MessengerClient {
       image_aspect_ratio?: 'horizontal' | 'square',
     } = {}
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'generic',
-        elements,
+      Messenger.createGenericTemplate(elements, {
         image_aspect_ratio: options.image_aspect_ratio || 'horizontal',
-      },
+      }),
       omit(options, ['image_aspect_ratio'])
     );
 
@@ -793,14 +785,11 @@ export default class MessengerClient {
       top_element_style?: 'large' | 'compact',
     } = {}
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'list',
-        elements,
-        buttons,
+      Messenger.createListTemplate(elements, buttons, {
         top_element_style: options.top_element_style || 'large',
-      },
+      }),
       omit(options, ['top_element_style'])
     );
 
@@ -810,12 +799,9 @@ export default class MessengerClient {
     elements: Array<OpenGraphElement>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'open_graph',
-        elements,
-      },
+      Messenger.createOpenGraphTemplate(elements),
       options
     );
 
@@ -825,12 +811,9 @@ export default class MessengerClient {
     attrs: ReceiptAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'receipt',
-        ...attrs,
-      },
+      Messenger.createReceiptTemplate(attrs),
       options
     );
 
@@ -840,12 +823,9 @@ export default class MessengerClient {
     elements: Array<MediaElement>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'media',
-        elements,
-      },
+      Messenger.createMediaTemplate(elements),
       options
     );
 
@@ -855,12 +835,9 @@ export default class MessengerClient {
     attrs: AirlineBoardingPassAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_boardingpass',
-        ...attrs,
-      },
+      Messenger.createAirlineBoardingPassTemplate(attrs),
       options
     );
 
@@ -870,12 +847,9 @@ export default class MessengerClient {
     attrs: AirlineCheckinAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_checkin',
-        ...attrs,
-      },
+      Messenger.createAirlineCheckinTemplate(attrs),
       options
     );
 
@@ -885,12 +859,9 @@ export default class MessengerClient {
     attrs: AirlineItineraryAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_itinerary',
-        ...attrs,
-      },
+      Messenger.createAirlineItineraryTemplate(attrs),
       options
     );
 
@@ -900,12 +871,9 @@ export default class MessengerClient {
     attrs: AirlineFlightUpdateAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_update',
-        ...attrs,
-      },
+      Messenger.createAirlineFlightUpdateTemplate(attrs),
       options
     );
 
