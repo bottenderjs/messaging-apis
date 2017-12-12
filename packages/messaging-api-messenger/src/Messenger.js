@@ -1,52 +1,29 @@
-/* @flow */
+import warning from 'warning';
 
-import type {
-  UserID,
-  Recipient,
-  SendOption,
-  Message,
-  BatchItem,
-} from './MessengerTypes';
+import MessengerBatch from './MessengerBatch';
 
-function createRequest(body: Object): BatchItem {
-  return {
-    method: 'POST',
-    relative_url: 'me/messages',
-    body,
-  };
+function createRequest(...args) {
+  warning(
+    false,
+    '`Messenger.createRequest` will breaking and become part of message creation API in v0.7. For batch usage, use `MessengerBatch.createRequest` instead.'
+  );
+  return MessengerBatch.createRequest(...args);
 }
 
-function createMessage(
-  idOrRecipient: UserID | Recipient,
-  message: Message,
-  options?: SendOption = {}
-): BatchItem {
-  const recipient =
-    typeof idOrRecipient === 'string'
-      ? {
-          id: idOrRecipient,
-        }
-      : idOrRecipient;
-  let messageType = 'UPDATE';
-  if (options.messaging_type) {
-    messageType = options.messaging_type;
-  } else if (options.tag) {
-    messageType = 'MESSAGE_TAG';
-  }
-  return createRequest({
-    messaging_type: messageType,
-    recipient,
-    message,
-    ...options,
-  });
+function createMessage(...args) {
+  warning(
+    false,
+    '`Messenger.createMessage` will breaking and become part of message creation API in v0.7. For batch usage, use `MessengerBatch.createMessage` instead.'
+  );
+  return MessengerBatch.createMessage(...args);
 }
 
-function createText(
-  recipient: UserID | Recipient,
-  text: string,
-  options?: SendOption
-): BatchItem {
-  return createMessage(recipient, { text }, options);
+function createText(...args) {
+  warning(
+    false,
+    '`Messenger.createText` will breaking and become part of message creation API in v0.7. For batch usage, use `MessengerBatch.createText` instead.'
+  );
+  return MessengerBatch.createText(...args);
 }
 
 const Messenger = {
