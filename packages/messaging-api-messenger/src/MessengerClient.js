@@ -557,28 +557,19 @@ export default class MessengerClient {
       messageType = 'MESSAGE_TAG';
     }
 
-    const { quick_replies: quickReplies, ...otherOptions } = options;
-
-    if (quickReplies) {
-      validateQuickReplies(quickReplies);
-      message.quick_replies = quickReplies; // eslint-disable-line no-param-reassign
-    }
-
     return this.sendRawBody({
       messaging_type: messageType,
       recipient,
-      message,
-      ...otherOptions,
+      message: Messenger.createMessage(message, options),
+      ...omit(options, 'quick_replies'),
     });
   };
 
   sendMessageFormData = (
     recipient: UserID | Recipient,
-    message: Message,
-    filedata: FileData,
+    formdata: FormData,
     options?: SendOption = {}
   ) => {
-    const form = new FormData();
     const recipientObject =
       typeof recipient === 'string'
         ? {
@@ -593,22 +584,16 @@ export default class MessengerClient {
       messageType = 'MESSAGE_TAG';
     }
 
-    if (options.quick_replies) {
-      validateQuickReplies(options.quick_replies);
-      message.quick_replies = options.quick_replies; // eslint-disable-line no-param-reassign
-    }
+    formdata.append('messaging_type', messageType);
+    formdata.append('recipient', JSON.stringify(recipientObject));
 
-    form.append('messaging_type', messageType);
-    form.append('recipient', JSON.stringify(recipientObject));
-    form.append('message', JSON.stringify(message));
-    form.append('filedata', filedata);
     return this._axios
       .post(
         `/me/messages?access_token=${options.access_token ||
           this._accessToken}`,
-        form,
+        formdata,
         {
-          headers: form.getHeaders(),
+          headers: formdata.getHeaders(),
         }
       )
       .then(res => res.data, handleError);
@@ -630,14 +615,6 @@ export default class MessengerClient {
       options
     );
 
-  sendAttachmentFormData = (
-    recipient: UserID | Recipient,
-    attachment: Attachment,
-    filedata: FileData,
-    option?: SendOption
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendMessageFormData(recipient, { attachment }, filedata, option);
-
   sendText = (
     recipient: UserID | Recipient,
     text: string,
@@ -650,21 +627,14 @@ export default class MessengerClient {
     audio: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'audio',
-      payload: {},
-    };
+    const message = Messenger.createAudio(audio, options);
 
-    if (typeof audio === 'string') {
-      attachment.payload.url = audio;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (audio && isPlainObject(audio)) {
-      attachment.payload = audio;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, audio, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   sendImage = (
@@ -672,21 +642,14 @@ export default class MessengerClient {
     image: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'image',
-      payload: {},
-    };
+    const message = Messenger.createImage(image, options);
 
-    if (typeof image === 'string') {
-      attachment.payload.url = image;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (image && isPlainObject(image)) {
-      attachment.payload = image;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, image, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   sendVideo = (
@@ -694,21 +657,14 @@ export default class MessengerClient {
     video: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'video',
-      payload: {},
-    };
+    const message = Messenger.createVideo(video, options);
 
-    if (typeof video === 'string') {
-      attachment.payload.url = video;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (video && isPlainObject(video)) {
-      attachment.payload = video;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, video, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   sendFile = (
@@ -716,21 +672,14 @@ export default class MessengerClient {
     file: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'file',
-      payload: {},
-    };
+    const message = Messenger.createFile(file, options);
 
-    if (typeof file === 'string') {
-      attachment.payload.url = file;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (file && isPlainObject(file)) {
-      attachment.payload = file;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, file, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   /**
