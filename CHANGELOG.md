@@ -1,3 +1,8 @@
+0.6.3 / 2017-12-12
+==================
+### messaging-api-messenger
+- [fix] pass options into `setGetStarted` 
+
 0.6.2 / 2017-12-11
 ==================
 ### messaging-api-telegram
