@@ -2727,17 +2727,17 @@ Log custom events by using the [Application Activities Graph API](https://develo
 Param           | Type            | Description
 --------------- | --------------- | -----------
 activity        | `Object`        |
-activity.appId  | `Number`        | ID of the app.
-activity.pageId | `String`        | ID of the page.
-activity.userId | `String`        | Page-scoped user ID of the recipient.
+activity.app_id  | `Number`        | ID of the app.
+activity.page_id | `String`        | ID of the page.
+activity.page_scoped_user_id | `String`        | Page-scoped user ID of the recipient.
 activity.events | `Array<Object>` | Custom events.
 
 Example:
 ```js
 client.logCustomEvents({
-  appId: APP_ID,
-  pageId: PAGE_ID,
-  userId: USER_ID,
+  app_id: APP_ID,
+  page_id: PAGE_ID,
+  page_scoped_user_id: USER_ID,
   events: [
     {
       _eventName: 'fb_mobile_purchase',
