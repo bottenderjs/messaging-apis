@@ -5517,9 +5517,9 @@ describe('Event Logging API', () => {
         .reply(200, reply);
 
       const res = await client.logCustomEvents({
-        appId: 12345,
-        pageId: 67890,
-        userId: USER_ID,
+        app_id: 12345,
+        page_id: 67890,
+        page_scoped_user_id: USER_ID,
         events: [
           {
             _eventName: 'fb_mobile_purchase',

@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable camelcase */
 
 import querystring from 'querystring';
 
@@ -1469,21 +1470,41 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/app-events/bots-for-messenger#logging-custom-events
    */
   logCustomEvents = ({
+    app_id,
     appId,
+    page_id,
     pageId,
+    page_scoped_user_id,
     userId,
     events,
     access_token: customAccessToken,
   }: {
-    appId: number,
-    pageId: number,
-    userId: UserID,
+    app_id?: number,
+    appId?: number,
+    page_id?: number,
+    pageId?: number,
+    page_scoped_user_id?: UserID,
+    userId?: UserID,
     events: Array<Object>,
     access_token?: string,
-  }) =>
-    this._axios
+  }) => {
+    // FIXME: remove in v0.7
+    warning(!appId, '`appId` is deprecated. Use `app_id` instead.');
+    warning(!pageId, '`pageId` is deprecated. Use `page_id` instead.');
+    warning(
+      !userId,
+      '`userId` is deprecated. Use `page_scoped_user_id` instead.'
+    );
+
+    /* eslint-disable no-param-reassign */
+    app_id = ((app_id || appId: any): number);
+    page_id = ((page_id || pageId: any): number);
+    page_scoped_user_id = ((page_scoped_user_id || userId: any): string);
+    /* eslint-enable no-param-reassign */
+
+    return this._axios
       .post(
-        `/${appId}/activities?access_token=${customAccessToken ||
+        `/${app_id}/activities?access_token=${customAccessToken ||
           this._accessToken}`,
         {
           event: 'CUSTOM_APP_EVENTS',
@@ -1491,9 +1512,10 @@ export default class MessengerClient {
           advertiser_tracking_enabled: 0,
           application_tracking_enabled: 0,
           extinfo: JSON.stringify(['mb1']),
-          page_id: pageId,
-          page_scoped_user_id: userId,
+          page_id,
+          page_scoped_user_id,
         }
       )
       .then(res => res.data, handleError);
+  };
 }
