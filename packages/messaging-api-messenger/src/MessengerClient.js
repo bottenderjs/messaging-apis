@@ -1569,6 +1569,7 @@ export default class MessengerClient {
     user_id: string,
     app_secret: string,
     app?: string,
+    page?: string,
     access_token?: string,
   }) =>
     this.getUserField({
