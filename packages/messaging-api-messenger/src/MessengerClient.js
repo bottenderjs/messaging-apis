@@ -1528,12 +1528,14 @@ export default class MessengerClient {
     user_id,
     app_secret,
     app,
+    page,
     access_token: customAccessToken,
   }: {
     field: string,
     user_id: string,
     app_secret: string,
     app?: string,
+    page?: string,
     access_token?: string,
   }) => {
     const accessToken = customAccessToken || this._accessToken;
@@ -1545,10 +1547,11 @@ export default class MessengerClient {
       .digest('hex');
 
     const appQueryString = app ? `&app=${app}` : '';
+    const pageQueryString = page ? `&page=${page}` : '';
 
     return this._axios
       .get(
-        `/${user_id}/${field}?access_token=${accessToken}&appsecret_proof=${appsecretProof}${appQueryString}`
+        `/${user_id}/${field}?access_token=${accessToken}&appsecret_proof=${appsecretProof}${appQueryString}${pageQueryString}`
       )
       .then(res => res.data, handleError);
   };
@@ -1560,6 +1563,7 @@ export default class MessengerClient {
     user_id,
     app_secret,
     app,
+    page,
     access_token,
   }: {
     user_id: string,
@@ -1572,6 +1576,7 @@ export default class MessengerClient {
       user_id,
       app_secret,
       app,
+      page,
       access_token,
     });
 
@@ -1582,11 +1587,13 @@ export default class MessengerClient {
     user_id,
     app_secret,
     app,
+    page,
     access_token,
   }: {
     user_id: string,
     app_secret: string,
     app?: string,
+    page?: string,
     access_token?: string,
   }) =>
     this.getUserField({
@@ -1594,6 +1601,7 @@ export default class MessengerClient {
       user_id,
       app_secret,
       app,
+      page,
       access_token,
     });
 }
