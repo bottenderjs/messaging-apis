@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable camelcase */
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
@@ -92,8 +93,9 @@ export default class TelegramClient {
   getFileLink = (fileId: string) =>
     this.getFile(fileId).then(
       response =>
-        `https://api.telegram.org/file/bot${this._token}/${response.result
-          .file_path}`
+        `https://api.telegram.org/file/bot${this._token}/${
+          response.result.file_path
+        }`
     );
 
   /**
@@ -309,8 +311,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#editmessagetext
-    */
+   * https://core.telegram.org/bots/api#editmessagetext
+   */
   editMessageText = (text: string, options?: Object) =>
     this._request('/editMessageText', {
       text,
@@ -318,8 +320,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#editmessagecaption
-    */
+   * https://core.telegram.org/bots/api#editmessagecaption
+   */
   editMessageCaption = (caption: string, options?: Object) =>
     this._request('/editMessageCaption', {
       caption,
@@ -327,8 +329,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#editmessagereplymarkup
-    */
+   * https://core.telegram.org/bots/api#editmessagereplymarkup
+   */
   editMessageReplyMarkup = (replyMarkup: Object, options?: Object) =>
     this._request('/editMessageReplyMarkup', {
       reply_markup: replyMarkup,
@@ -336,8 +338,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#deletemessage
-    */
+   * https://core.telegram.org/bots/api#deletemessage
+   */
   deleteMessage = (chatId: string, messageId: string) =>
     this._request('/deleteMessage', {
       chat_id: chatId,
@@ -345,8 +347,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#kickchatmember
-    */
+   * https://core.telegram.org/bots/api#kickchatmember
+   */
   kickChatMember = (chatId: string, userId: string, options?: Object) =>
     this._request('/kickChatMember', {
       chat_id: chatId,
@@ -355,8 +357,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#unbanChatMember
-    */
+   * https://core.telegram.org/bots/api#unbanChatMember
+   */
   unbanChatMember = (chatId: string, userId: string) =>
     this._request('/unbanChatMember', {
       chat_id: chatId,
@@ -364,8 +366,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#restrictChatMember
-    */
+   * https://core.telegram.org/bots/api#restrictChatMember
+   */
   restrictChatMember = (chatId: string, userId: string, options?: Object) =>
     this._request('/restrictChatMember', {
       chat_id: chatId,
@@ -374,8 +376,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#promoteChatMember
-    */
+   * https://core.telegram.org/bots/api#promoteChatMember
+   */
   promoteChatMember = (chatId: string, userId: string, options?: Object) =>
     this._request('/promoteChatMember', {
       chat_id: chatId,
@@ -384,16 +386,16 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#exportChatInviteLink
-    */
+   * https://core.telegram.org/bots/api#exportChatInviteLink
+   */
   exportChatInviteLink = (chatId: string) =>
     this._request('/exportChatInviteLink', {
       chat_id: chatId,
     });
 
   /**
-    * https://core.telegram.org/bots/api#setChatPhoto
-    */
+   * https://core.telegram.org/bots/api#setChatPhoto
+   */
   setChatPhoto = (chatId: string, photo: string) =>
     this._request('/setChatPhoto', {
       chat_id: chatId,
@@ -401,16 +403,16 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#deleteChatPhoto
-    */
+   * https://core.telegram.org/bots/api#deleteChatPhoto
+   */
   deleteChatPhoto = (chatId: string) =>
     this._request('/deleteChatPhoto', {
       chat_id: chatId,
     });
 
   /**
-    * https://core.telegram.org/bots/api#setChatTitle
-    */
+   * https://core.telegram.org/bots/api#setChatTitle
+   */
   setChatTitle = (chatId: string, title: string) =>
     this._request('/setChatTitle', {
       chat_id: chatId,
@@ -418,8 +420,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#setChatDescription
-    */
+   * https://core.telegram.org/bots/api#setChatDescription
+   */
   setChatDescription = (chatId: string, description: string) =>
     this._request('/setChatDescription', {
       chat_id: chatId,
@@ -427,8 +429,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#setchatstickerset
-    */
+   * https://core.telegram.org/bots/api#setchatstickerset
+   */
   setChatStickerSet = (chatId: string, stickerSetName: string) =>
     this._request('/setChatStickerSet', {
       chat_id: chatId,
@@ -436,16 +438,16 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#deletechatstickerset
-    */
+   * https://core.telegram.org/bots/api#deletechatstickerset
+   */
   deleteChatStickerSet = (chatId: string) =>
     this._request('/deleteChatStickerSet', {
       chat_id: chatId,
     });
 
   /**
-    * https://core.telegram.org/bots/api#pinChatMessage
-    */
+   * https://core.telegram.org/bots/api#pinChatMessage
+   */
   pinChatMessage = (chatId: string, messageId: number, options?: Object) =>
     this._request('/pinChatMessage', {
       chat_id: chatId,
@@ -454,24 +456,24 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#unpinChatMessage
-    */
+   * https://core.telegram.org/bots/api#unpinChatMessage
+   */
   unpinChatMessage = (chatId: string) =>
     this._request('/unpinChatMessage', {
       chat_id: chatId,
     });
 
   /**
-    * https://core.telegram.org/bots/api#leaveChat
-    */
+   * https://core.telegram.org/bots/api#leaveChat
+   */
   leaveChat = (chatId: string) =>
     this._request('/leaveChat', {
       chat_id: chatId,
     });
 
   /**
-    * https://core.telegram.org/bots/api#getchatmemberscount
-    */
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
   forwardMessage = (
     chatId: string,
     fromChatId: string,
@@ -486,8 +488,8 @@ export default class TelegramClient {
     });
 
   /**
-      * https://core.telegram.org/bots/api#sendinvoice
-      */
+   * https://core.telegram.org/bots/api#sendinvoice
+   */
   sendInvoice = (
     chatId: string,
     product: {|
@@ -508,8 +510,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#answershippingquery
-    */
+   * https://core.telegram.org/bots/api#answershippingquery
+   */
   answerShippingQuery = (
     shippingQueryId: string,
     ok: boolean,
@@ -522,8 +524,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#answerprecheckoutquery
-    */
+   * https://core.telegram.org/bots/api#answerprecheckoutquery
+   */
   answerPreCheckoutQuery = (
     preCheckoutQueryId: string,
     ok: boolean,
@@ -536,8 +538,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#answerinlinequery
-    */
+   * https://core.telegram.org/bots/api#answerinlinequery
+   */
   answerInlineQuery = (
     inlineQueryId: string,
     results: Array<Object>,
@@ -550,8 +552,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#sendgame
-    */
+   * https://core.telegram.org/bots/api#sendgame
+   */
   sendGame = (chatId: string, gameShortName: string, options?: Object) =>
     this._request('/sendGame', {
       chat_id: chatId,
@@ -560,8 +562,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#setgamescore
-    */
+   * https://core.telegram.org/bots/api#setgamescore
+   */
   setGameScore = (userId: string, score: number, options?: Object) =>
     this._request('/setGameScore', {
       user_id: userId,
@@ -570,8 +572,8 @@ export default class TelegramClient {
     });
 
   /**
-    * https://core.telegram.org/bots/api#getgamehighscores
-    */
+   * https://core.telegram.org/bots/api#getgamehighscores
+   */
   getGameHighScores = (userId: string, options?: Object) =>
     this._request('/getGameHighScores', {
       user_id: userId,
