@@ -183,6 +183,7 @@ export default class MessengerClient {
         }
       )
       .then(res => res.data, handleError);
+
   /**
    * Get User Profile
    *

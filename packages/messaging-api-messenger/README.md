@@ -2851,6 +2851,25 @@ client.getIdsForPages({
 
 ### Others
 
+## `createSubscription`
+
+Example:
+```js
+client.createSubscription({
+  app_id: APP_ID,
+  callback_url: '',
+  fields: [
+    'messages',
+    'messaging_postbacks',
+    'messaging_optins',
+    'messaging_referrals',
+    'messaging_handovers',
+    'messaging_policy_enforcement',
+  ],
+  verify_token,
+})
+```
+
 ## `getPageInfo`
 
 Get page name and page id using Graph API.
