@@ -135,9 +135,9 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/graph-api/using-graph-api
    * id, name
    */
-  getPageInfo = (
-    { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<PageInfo> =>
+  getPageInfo = ({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<PageInfo> =>
     this._axios
       .get(`/me?access_token=${customAccessToken || this._accessToken}`)
       .then(res => res.data, handleError);
@@ -291,7 +291,10 @@ export default class MessengerClient {
     {
       composer_input_disabled: composerInputDisabled = false,
       ...options
-    }: { composer_input_disabled: boolean } = {}
+    }: {
+      composer_input_disabled: boolean,
+      access_token?: string,
+    } = {}
   ): Promise<MutationSuccessResponse> => {
     // menuItems is in type PersistentMenu
     if (menuItems.some((item: Object) => item.locale === 'default')) {
@@ -555,9 +558,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
    */
-  getMessageTags = (
-    { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<MessageTagResponse> =>
+  getMessageTags = ({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<MessageTagResponse> =>
     this._axios
       .get(
         `/page_message_tags?access_token=${customAccessToken ||
@@ -756,17 +759,21 @@ export default class MessengerClient {
   sendGenericTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
-    options?: {
+    {
+      // $FlowFixMe
+      image_aspect_ratio = 'horizontal',
+      ...options
+    }: {
+      image_aspect_ratio: 'horizontal' | 'square',
       ...SendOption,
-      image_aspect_ratio?: 'horizontal' | 'square',
     } = {}
   ): Promise<SendMessageSucessResponse> =>
     this.sendMessage(
       recipient,
       Messenger.createGenericTemplate(elements, {
-        image_aspect_ratio: options.image_aspect_ratio || 'horizontal',
+        image_aspect_ratio,
       }),
-      omit(options, ['image_aspect_ratio'])
+      options
     );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/list
@@ -774,17 +781,21 @@ export default class MessengerClient {
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     buttons: Array<TemplateButton>,
-    options?: {
+    {
+      // $FlowFixMe
+      top_element_style = 'large',
+      ...options
+    }: {
+      top_element_style: 'large' | 'compact',
       ...SendOption,
-      top_element_style?: 'large' | 'compact',
     } = {}
   ): Promise<SendMessageSucessResponse> =>
     this.sendMessage(
       recipient,
       Messenger.createListTemplate(elements, buttons, {
-        top_element_style: options.top_element_style || 'large',
+        top_element_style,
       }),
-      omit(options, ['top_element_style'])
+      options
     );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/open-graph
@@ -1028,8 +1039,9 @@ export default class MessengerClient {
   sendSponsoredMessage = (adAccountId: string, message: Object) =>
     this._axios
       .post(
-        `/act_${adAccountId}/sponsored_message_ads?access_token=${this
-          ._accessToken}`,
+        `/act_${adAccountId}/sponsored_message_ads?access_token=${
+          this._accessToken
+        }`,
         message
       )
       .then(res => res.data, handleError);
@@ -1356,9 +1368,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
    */
-  getSecondaryReceivers = (
-    { access_token: customAccessToken }: { access_token: ?string } = {}
-  ) =>
+  getSecondaryReceivers = ({
+    access_token: customAccessToken,
+  }: { access_token: ?string } = {}) =>
     this._axios
       .get(
         `/me/secondary_receivers?fields=id,name&access_token=${customAccessToken ||

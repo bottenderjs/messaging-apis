@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable camelcase */
 
 import axios from 'axios';
 import AxiosError from 'axios-error';

@@ -69,12 +69,12 @@ function createText(
 }
 
 function createMessageFormData(
-  msg: Message,
+  payload: AttachmentPayload,
   filedata: FileData,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
   const message = {
-    ...msg,
+    ...payload,
   };
 
   if (options.quick_replies) {
@@ -93,87 +93,100 @@ function createMessageFormData(
 function createAttachment(
   attachment: Attachment,
   options?: { quick_replies?: Array<QuickReply> } = {}
-): Message {
-  const media = attachment.payload;
-  let payload = {};
+) {
+  return createMessage(
+    {
+      attachment,
+    },
+    options
+  );
+}
 
-  if (typeof media === 'string') {
-    payload.url = media;
-    return createMessage(
-      {
-        attachment: {
-          ...attachment,
-          payload,
-        },
-      },
-      options
-    );
-  } else if (media && isPlainObject(media)) {
-    payload = media;
-    return createMessage(
-      {
-        attachment: {
-          ...attachment,
-          payload,
-        },
-      },
-      options
-    );
-  }
-
-  return createMessageFormData(attachment, media, options);
+function createAttachmentFormData(attachment, filedata, options) {
+  return createMessageFormData(
+    {
+      attachment,
+    },
+    // $FlowFixMe
+    filedata,
+    options
+  );
 }
 
 function createAudio(
   audio: string | FileData | AttachmentPayload,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
-  return createAttachment(
-    {
-      type: 'audio',
-      payload: audio,
-    },
-    options
-  );
+  const attachment = {
+    type: 'audio',
+    payload: {},
+  };
+  if (typeof audio === 'string') {
+    attachment.payload.url = audio;
+    return createAttachment(attachment, options);
+  } else if (audio && isPlainObject(audio)) {
+    attachment.payload = audio;
+    return createAttachment(attachment, options);
+  }
+
+  return createAttachmentFormData(attachment, audio, options);
 }
 
 function createImage(
   image: string | FileData | AttachmentPayload,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
-  return createAttachment(
-    {
-      type: 'image',
-      payload: image,
-    },
-    options
-  );
+  const attachment = {
+    type: 'image',
+    payload: {},
+  };
+  if (typeof image === 'string') {
+    attachment.payload.url = image;
+    return createAttachment(attachment, options);
+  } else if (image && isPlainObject(image)) {
+    attachment.payload = image;
+    return createAttachment(attachment, options);
+  }
+
+  return createAttachmentFormData(attachment, image, options);
 }
 
 function createVideo(
   video: string | FileData | AttachmentPayload,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
-  return createAttachment(
-    {
-      type: 'video',
-      payload: video,
-    },
-    options
-  );
+  const attachment = {
+    type: 'video',
+    payload: {},
+  };
+  if (typeof video === 'string') {
+    attachment.payload.url = video;
+    return createAttachment(attachment, options);
+  } else if (video && isPlainObject(video)) {
+    attachment.payload = video;
+    return createAttachment(attachment, options);
+  }
+
+  return createAttachmentFormData(attachment, video, options);
 }
 
 function createFile(
   file: string | FileData | AttachmentPayload,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
-  return createAttachment(
-    {
-      type: 'file',
-      payload: file,
-    },
-    options
-  );
+  const attachment = {
+    type: 'file',
+    payload: {},
+  };
+  if (typeof file === 'string') {
+    attachment.payload.url = file;
+    return createAttachment(attachment, options);
+  } else if (file && isPlainObject(file)) {
+    attachment.payload = file;
+    return createAttachment(attachment, options);
+  }
+
+  return createAttachmentFormData(attachment, file, options);
 }
 
 function createTemplate(
