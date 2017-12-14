@@ -2851,6 +2851,43 @@ client.getIdsForPages({
 
 ### Others
 
+## `createSubscription`
+
+Create new Webhooks subscriptions.
+
+Param          | Type            | Description
+-------------- | --------------- | -----------
+app_id         | `String`        | ID of the app.
+callback_url   | `String`        | The URL that will receive the POST request when an update is triggered, and a GET request when attempting this publish operation.
+verify_token   | `String`        | An arbitrary string that can be used to confirm to your server that the request is valid.
+fields         | `Array<String>` | One or more of the set of valid fields in this object to subscribe to.
+object         | `String`        | Indicates the object type that this subscription applies to. Defaults to `page`.
+include_values | `Boolean`       | Indicates if change notifications should include the new values.
+
+Example:
+```js
+client.createSubscription({
+  app_id: APP_ID,
+  callback_url: '',
+  fields: [
+    'messages',
+    'messaging_postbacks',
+    'messaging_referrals',
+  ],
+  verify_token,
+})
+```
+
+Default Fields:
+- `messages`
+- `messaging_postbacks`
+- `messaging_optins`
+- `messaging_referrals`
+- `messaging_handovers`
+- `messaging_policy_enforcement`
+
+<br />
+
 ## `getPageInfo`
 
 Get page name and page id using Graph API.
