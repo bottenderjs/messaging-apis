@@ -1,11 +1,11 @@
-import Messenger from '../Messenger';
+import MessengerBatch from '../MessengerBatch';
 
 const RECIPIENT_ID = '1QAZ2WSX';
 
 describe('createRequest', () => {
   it('should create send text request', () => {
     expect(
-      Messenger.createRequest({
+      MessengerBatch.createRequest({
         messaging_type: 'UPDATE',
         message: {
           text: 'Hello',
@@ -32,7 +32,9 @@ describe('createRequest', () => {
 
 describe('createMessage', () => {
   it('should create send text request', () => {
-    expect(Messenger.createMessage(RECIPIENT_ID, { text: 'Hello' })).toEqual({
+    expect(
+      MessengerBatch.createMessage(RECIPIENT_ID, { text: 'Hello' })
+    ).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
       body: {
@@ -49,7 +51,7 @@ describe('createMessage', () => {
 
   it('should create send text with RESPONSE type', () => {
     expect(
-      Messenger.createMessage(
+      MessengerBatch.createMessage(
         RECIPIENT_ID,
         { text: 'Hello' },
         { messaging_type: 'RESPONSE' }
@@ -71,7 +73,7 @@ describe('createMessage', () => {
 
   it('can create request with phone_number', () => {
     expect(
-      Messenger.createMessage(
+      MessengerBatch.createMessage(
         {
           phone_number: '+1(212)555-2368',
           name: { first_name: 'John', last_name: 'Doe' },
@@ -97,7 +99,7 @@ describe('createMessage', () => {
 
 describe('createText', () => {
   it('should create send text request', () => {
-    expect(Messenger.createText(RECIPIENT_ID, 'Hello')).toEqual({
+    expect(MessengerBatch.createText(RECIPIENT_ID, 'Hello')).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
       body: {

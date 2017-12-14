@@ -12,7 +12,7 @@ import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
 import warning from 'warning';
 
-import Messenger from './_Messenger'; // FIXME: v0.7
+import Messenger from './Messenger';
 import type {
   UserID,
   Recipient,
