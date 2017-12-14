@@ -144,6 +144,34 @@ describe('subscription', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should set other optional parameters', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+          object: 'user',
+          callback_url: 'https://mycallback.com',
+          fields: 'messages,messaging_postbacks',
+          verify_token: '1234567890',
+          include_values: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.createSubscription({
+        app_id: '54321',
+        callback_url: 'https://mycallback.com',
+        verify_token: '1234567890',
+        object: 'user',
+        fields: ['messages', 'messaging_postbacks'],
+        include_values: true,
+      });
+
+      expect(res).toEqual(reply);
+    });
   });
 });
 
