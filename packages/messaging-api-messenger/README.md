@@ -2766,41 +2766,42 @@ options.page | `String`        | The page to retrieve the IDs.
 
 Example:
 ```js
-client.getIdsForApps({
-  user_id: USER_ID,
-  app_secret: APP_SECRET,
-})
-.then(result => {
-  console.log(result);
-  // {
-  //   data: [
-  //     {
-  //       id: '10152368852405295',
-  //       app: {
-  //         category: 'Business',
-  //         link: 'https://www.facebook.com/games/?app_id=1419232575008550',
-  //         name: "John's Game App",
-  //         id: '1419232575008550',
-  //       },
-  //     },
-  //     {
-  //       id: '645195294',
-  //       app: {
-  //         link: 'https://apps.facebook.com/johnsmovieappns/',
-  //         name: 'JohnsMovieApp',
-  //         namespace: 'johnsmovieappns',
-  //         id: '259773517400382',
-  //       },
-  //     },
-  //   ],
-  //   paging: {
-  //     cursors: {
-  //       before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
-  //       after: 'NDAwMDExOTA3MDM1ODMwA',
-  //     },
-  //   },
-  // };
-});
+client
+  .getIdsForApps({
+    user_id: USER_ID,
+    app_secret: APP_SECRET,
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   data: [
+    //     {
+    //       id: '10152368852405295',
+    //       app: {
+    //         category: 'Business',
+    //         link: 'https://www.facebook.com/games/?app_id=1419232575008550',
+    //         name: "John's Game App",
+    //         id: '1419232575008550',
+    //       },
+    //     },
+    //     {
+    //       id: '645195294',
+    //       app: {
+    //         link: 'https://apps.facebook.com/johnsmovieappns/',
+    //         name: 'JohnsMovieApp',
+    //         namespace: 'johnsmovieappns',
+    //         id: '259773517400382',
+    //       },
+    //     },
+    //   ],
+    //   paging: {
+    //     cursors: {
+    //       before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
+    //       after: 'NDAwMDExOTA3MDM1ODMwA',
+    //     },
+    //   },
+    // };
+  });
 ```
 
 <br />
@@ -2818,33 +2819,34 @@ options.page | `String`        | The page to retrieve the IDs.
 
 Example:
 ```js
-client.getIdsForPages({
-  user_id: USER_ID,
-  app_secret: APP_SECRET,
-})
-.then(result => {
-  console.log(result);
-  // {
-  //   data: [
-  //     {
-  //       id: '12345123', // The psid for the user for that page
-  //       page: {
-  //         category: 'Musician',
-  //         link:
-  //           'https://www.facebook.com/Johns-Next-Great-Thing-380374449010653/',
-  //         name: "John's Next Great Thing",
-  //         id: '380374449010653',
-  //       },
-  //     },
-  //   ],
-  //   paging: {
-  //     cursors: {
-  //       before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
-  //       after: 'NDAwMDExOTA3MDM1ODMwA',
-  //     },
-  //   },
-  // };
-});
+client
+  .getIdsForPages({
+    user_id: USER_ID,
+    app_secret: APP_SECRET,
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   data: [
+    //     {
+    //       id: '12345123', // The psid for the user for that page
+    //       page: {
+    //         category: 'Musician',
+    //         link:
+    //           'https://www.facebook.com/Johns-Next-Great-Thing-380374449010653/',
+    //         name: "John's Next Great Thing",
+    //         id: '380374449010653',
+    //       },
+    //     },
+    //   ],
+    //   paging: {
+    //     cursors: {
+    //       before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
+    //       after: 'NDAwMDExOTA3MDM1ODMwA',
+    //     },
+    //   },
+    // };
+  });
 ```
 
 <br />
@@ -2868,14 +2870,10 @@ Example:
 ```js
 client.createSubscription({
   app_id: APP_ID,
-  callback_url: '',
-  fields: [
-    'messages',
-    'messaging_postbacks',
-    'messaging_referrals',
-  ],
-  verify_token,
-})
+  callback_url: 'https://mycallback.com',
+  fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
+  verify_token: VERIFY_TOKEN,
+});
 ```
 
 Default Fields:
