@@ -1,6 +1,8 @@
 /* @flow */
+/* eslint-disable camelcase */
 
 import querystring from 'querystring';
+import crypto from 'crypto';
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
@@ -138,6 +140,49 @@ export default class MessengerClient {
   ): Promise<PageInfo> =>
     this._axios
       .get(`/me?access_token=${customAccessToken || this._accessToken}`)
+      .then(res => res.data, handleError);
+
+  /**
+   * Create Subscription
+   *
+   * https://developers.facebook.com/docs/graph-api/reference/app/subscriptions
+   */
+  createSubscription = ({
+    app_id: appId,
+    object = 'page',
+    callback_url,
+    fields = [
+      'messages',
+      'messaging_postbacks',
+      'messaging_optins',
+      'messaging_referrals',
+      'messaging_handovers',
+      'messaging_policy_enforcement',
+    ],
+    include_values,
+    verify_token,
+    access_token: customAccessToken,
+  }: {
+    app_id: string,
+    object?: 'user' | 'page' | 'permissions' | 'payments',
+    callback_url: string,
+    fields?: Array<string>,
+    include_values?: boolean,
+    verify_token: string,
+    access_token?: string,
+  }): Promise<{ success: boolean }> =>
+    this._axios
+      .post(
+        `/${appId}/subscriptions?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          object,
+          callback_url,
+          fields: fields.join(','),
+          include_values,
+          verify_token,
+        }
+      )
       .then(res => res.data, handleError);
 
   /**
@@ -1386,21 +1431,41 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/app-events/bots-for-messenger#logging-custom-events
    */
   logCustomEvents = ({
+    app_id,
     appId,
+    page_id,
     pageId,
+    page_scoped_user_id,
     userId,
     events,
     access_token: customAccessToken,
   }: {
-    appId: number,
-    pageId: number,
-    userId: UserID,
+    app_id?: number,
+    appId?: number,
+    page_id?: number,
+    pageId?: number,
+    page_scoped_user_id?: UserID,
+    userId?: UserID,
     events: Array<Object>,
     access_token?: string,
-  }) =>
-    this._axios
+  }) => {
+    // FIXME: remove in v0.7
+    warning(!appId, '`appId` is deprecated. Use `app_id` instead.');
+    warning(!pageId, '`pageId` is deprecated. Use `page_id` instead.');
+    warning(
+      !userId,
+      '`userId` is deprecated. Use `page_scoped_user_id` instead.'
+    );
+
+    /* eslint-disable no-param-reassign */
+    app_id = ((app_id || appId: any): number);
+    page_id = ((page_id || pageId: any): number);
+    page_scoped_user_id = ((page_scoped_user_id || userId: any): string);
+    /* eslint-enable no-param-reassign */
+
+    return this._axios
       .post(
-        `/${appId}/activities?access_token=${customAccessToken ||
+        `/${app_id}/activities?access_token=${customAccessToken ||
           this._accessToken}`,
         {
           event: 'CUSTOM_APP_EVENTS',
@@ -1408,9 +1473,96 @@ export default class MessengerClient {
           advertiser_tracking_enabled: 0,
           application_tracking_enabled: 0,
           extinfo: JSON.stringify(['mb1']),
-          page_id: pageId,
-          page_scoped_user_id: userId,
+          page_id,
+          page_scoped_user_id,
         }
       )
       .then(res => res.data, handleError);
+  };
+
+  /**
+   * https://developers.facebook.com/docs/messenger-platform/identity/id-matching#examples
+   */
+  getUserField = ({
+    field,
+    user_id,
+    app_secret,
+    app,
+    page,
+    access_token: customAccessToken,
+  }: {
+    field: string,
+    user_id: string,
+    app_secret: string,
+    app?: string,
+    page?: string,
+    access_token?: string,
+  }) => {
+    const accessToken = customAccessToken || this._accessToken;
+
+    // $appsecret_proof= hash_hmac('sha256', $access_token, $app_secret);
+    const appsecretProof = crypto
+      .createHmac('sha256', app_secret)
+      .update(accessToken)
+      .digest('hex');
+
+    const appQueryString = app ? `&app=${app}` : '';
+    const pageQueryString = page ? `&page=${page}` : '';
+
+    return this._axios
+      .get(
+        `/${user_id}/${field}?access_token=${accessToken}&appsecret_proof=${appsecretProof}${appQueryString}${pageQueryString}`
+      )
+      .then(res => res.data, handleError);
+  };
+
+  /**
+   * Given a user ID for a bot in Messenger, retrieve the IDs for apps owned by the same business
+   */
+  getIdsForApps = ({
+    user_id,
+    app_secret,
+    app,
+    page,
+    access_token,
+  }: {
+    user_id: string,
+    app_secret: string,
+    app?: string,
+    page?: string,
+    access_token?: string,
+  }) =>
+    this.getUserField({
+      field: 'ids_for_apps',
+      user_id,
+      app_secret,
+      app,
+      page,
+      access_token,
+    });
+
+  /**
+   * Given a user ID for a Page (associated with a bot), retrieve the IDs for other Pages owned by the same business
+   */
+  getIdsForPages = ({
+    user_id,
+    app_secret,
+    app,
+    page,
+    access_token,
+  }: {
+    user_id: string,
+    app_secret: string,
+    app?: string,
+    page?: string,
+    access_token?: string,
+  }) =>
+    this.getUserField({
+      field: 'ids_for_pages',
+      user_id,
+      app_secret,
+      app,
+      page,
+      access_token,
+    });
 }

@@ -1,7 +1,90 @@
+0.6.4 / 2017-12-14
+==================
+### messaging-api-messenger
+- [changed] Rename arguments in `logCustomEvent` for consistency:
+
+```
+appId -> app_id
+pageId -> page_id
+userId -> page_scoped_user_id
+```
+
+```js
+client.logCustomEvents({
+  app_id: APP_ID,
+  page_id: PAGE_ID,
+  page_scoped_user_id: USER_ID,
+  events: [
+    {
+      _eventName: 'fb_mobile_purchase',
+      _valueToSum: 55.22,
+      _fb_currency: 'USD',
+    },
+  ],
+});
+```
+
+Original keys (`appId`, `pageId`, `userId`) will be removed when `v0.7` or `v0.8` release.
+
+- [changed] Rename `Messenger` to `MessengerBatch`:
+
+```js
+const { MessengerBatch } = require('messaging-api-messenger');
+
+client.sendBatch([
+  MessengerBatch.createText(USER_ID, '1'),
+  MessengerBatch.createText(USER_ID, '2'),
+  MessengerBatch.createText(USER_ID, '3'),
+  MessengerBatch.createText(USER_ID, '4'),
+  MessengerBatch.createText(USER_ID, '5'),
+]);
+```
+
+Original APIs on `Messenger` will be changed when `v0.7` release.
+
+- [new] Add `createSubscription` method:
+
+```js
+client.createSubscription({
+  app_id: APP_ID,
+  callback_url: 'https://mycallback.com',
+  fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
+  verify_token: VERIFY_TOKEN,
+});
+```
+
+- [new] ID Matching API:
+
+Given a user ID for an app, retrieve the IDs for other apps owned by the same business.
+
+```js
+client
+  .getIdsForApps({
+    user_id: USER_ID,
+    app_secret: APP_SECRET,
+  })
+  .then(result => {
+    console.log(result);
+  });
+```
+
+Given a user ID for a Page (associated with a bot), retrieve the IDs for other Pages owned by the same business.
+
+```js
+client
+  .getIdsForPages({
+    user_id: USER_ID,
+    app_secret: APP_SECRET,
+  })
+  .then(result => {
+    console.log(result);
+  });
+```
+
 0.6.3 / 2017-12-12
 ==================
 ### messaging-api-messenger
-- [fix] pass options into `setGetStarted` 
+- [fix] pass options into `setGetStarted`
 
 0.6.2 / 2017-12-11
 ==================

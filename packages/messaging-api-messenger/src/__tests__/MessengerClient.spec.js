@@ -8,6 +8,7 @@ import MessengerClient from '../MessengerClient';
 
 const USER_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
+const APP_SECRET = '1WDVGY78';
 
 const createMock = () => {
   const client = new MessengerClient(ACCESS_TOKEN);
@@ -111,6 +112,63 @@ describe('page info', () => {
       mock.onGet(`/me?access_token=${ACCESS_TOKEN}`).reply(200, reply);
 
       const res = await client.getPageInfo();
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('subscription', () => {
+  describe('#createSubscription', () => {
+    it('should set default fields', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+          object: 'page',
+          callback_url: 'https://mycallback.com',
+          fields:
+            'messages,messaging_postbacks,messaging_optins,messaging_referrals,messaging_handovers,messaging_policy_enforcement',
+          verify_token: '1234567890',
+        })
+        .reply(200, reply);
+
+      const res = await client.createSubscription({
+        app_id: '54321',
+        callback_url: 'https://mycallback.com',
+        verify_token: '1234567890',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should set other optional parameters', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+          object: 'user',
+          callback_url: 'https://mycallback.com',
+          fields: 'messages,messaging_postbacks',
+          verify_token: '1234567890',
+          include_values: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.createSubscription({
+        app_id: '54321',
+        callback_url: 'https://mycallback.com',
+        verify_token: '1234567890',
+        object: 'user',
+        fields: ['messages', 'messaging_postbacks'],
+        include_values: true,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -5517,9 +5575,9 @@ describe('Event Logging API', () => {
         .reply(200, reply);
 
       const res = await client.logCustomEvents({
-        appId: 12345,
-        pageId: 67890,
-        userId: USER_ID,
+        app_id: 12345,
+        page_id: 67890,
+        page_scoped_user_id: USER_ID,
         events: [
           {
             _eventName: 'fb_mobile_purchase',
@@ -5527,6 +5585,98 @@ describe('Event Logging API', () => {
             _fb_currency: 'USD',
           },
         ],
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('ID Matching', () => {
+  describe('getIdsForApps', () => {
+    it('should call api with appsecret_proof', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            id: '10152368852405295',
+            app: {
+              category: 'Business',
+              link: 'https://www.facebook.com/games/?app_id=1419232575008550',
+              name: "John's Game App",
+              id: '1419232575008550',
+            },
+          },
+          {
+            id: '645195294',
+            app: {
+              link: 'https://apps.facebook.com/johnsmovieappns/',
+              name: 'JohnsMovieApp',
+              namespace: 'johnsmovieappns',
+              id: '259773517400382',
+            },
+          },
+        ],
+        paging: {
+          cursors: {
+            before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
+            after: 'NDAwMDExOTA3MDM1ODMwA',
+          },
+        },
+      };
+
+      mock
+        .onGet(
+          `/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&page=5678`
+        )
+        .reply(200, reply);
+
+      const res = await client.getIdsForApps({
+        user_id: '12345123',
+        app_secret: APP_SECRET,
+        page: '5678',
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('getIdsForPages', () => {
+    it('should call api with appsecret_proof', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            id: '12345123', // The psid for the user for that page
+            page: {
+              category: 'Musician',
+              link:
+                'https://www.facebook.com/Johns-Next-Great-Thing-380374449010653/',
+              name: "John's Next Great Thing",
+              id: '380374449010653',
+            },
+          },
+        ],
+        paging: {
+          cursors: {
+            before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
+            after: 'NDAwMDExOTA3MDM1ODMwA',
+          },
+        },
+      };
+
+      mock
+        .onGet(
+          `/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&app=5678`
+        )
+        .reply(200, reply);
+
+      const res = await client.getIdsForPages({
+        user_id: '12345123',
+        app_secret: APP_SECRET,
+        app: '5678',
       });
 
       expect(res).toEqual(reply);

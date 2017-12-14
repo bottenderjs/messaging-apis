@@ -36,6 +36,7 @@
   * [Page Messaging Insights API](#page-messaging-insights-api)
   * [Built-in NLP API](#built-in-nlp-api)
   * [Event Logging API](#event-logging-api)
+  * [ID Matching API](#id-matching-api)
   * [Others](#others)
 
 ## Installation
@@ -2727,17 +2728,17 @@ Log custom events by using the [Application Activities Graph API](https://develo
 Param           | Type            | Description
 --------------- | --------------- | -----------
 activity        | `Object`        |
-activity.appId  | `Number`        | ID of the app.
-activity.pageId | `String`        | ID of the page.
-activity.userId | `String`        | Page-scoped user ID of the recipient.
+activity.app_id  | `Number`        | ID of the app.
+activity.page_id | `String`        | ID of the page.
+activity.page_scoped_user_id | `String`        | Page-scoped user ID of the recipient.
 activity.events | `Array<Object>` | Custom events.
 
 Example:
 ```js
 client.logCustomEvents({
-  appId: APP_ID,
-  pageId: PAGE_ID,
-  userId: USER_ID,
+  app_id: APP_ID,
+  page_id: PAGE_ID,
+  page_scoped_user_id: USER_ID,
   events: [
     {
       _eventName: 'fb_mobile_purchase',
@@ -2748,9 +2749,142 @@ client.logCustomEvents({
 });
 ```
 
+<a id="id-matching-api" />
+
+### ID Matching API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/identity/id-matching)
+
+## `getIdsForApps({ user_id, app_secret, ...options })`
+
+Given a user ID for an app, retrieve the IDs for other apps owned by the same business
+
+Param        | Type            | Description
+------------ | --------------- | -----------
+user_id      | `String`        | Page-scoped user ID.
+app_secret   | `String`        | Secret of the app.
+options.app  | `String`        | The app to retrieve the IDs.
+options.page | `String`        | The page to retrieve the IDs.
+
+Example:
+```js
+client
+  .getIdsForApps({
+    user_id: USER_ID,
+    app_secret: APP_SECRET,
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   data: [
+    //     {
+    //       id: '10152368852405295',
+    //       app: {
+    //         category: 'Business',
+    //         link: 'https://www.facebook.com/games/?app_id=1419232575008550',
+    //         name: "John's Game App",
+    //         id: '1419232575008550',
+    //       },
+    //     },
+    //     {
+    //       id: '645195294',
+    //       app: {
+    //         link: 'https://apps.facebook.com/johnsmovieappns/',
+    //         name: 'JohnsMovieApp',
+    //         namespace: 'johnsmovieappns',
+    //         id: '259773517400382',
+    //       },
+    //     },
+    //   ],
+    //   paging: {
+    //     cursors: {
+    //       before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
+    //       after: 'NDAwMDExOTA3MDM1ODMwA',
+    //     },
+    //   },
+    // };
+  });
+```
+
+<br />
+
+## `getIdsForPages({ user_id, app_secret, ...options })`
+
+Given a user ID for a Page (associated with a bot), retrieve the IDs for other Pages owned by the same business.
+
+Param        | Type            | Description
+------------ | --------------- | -----------
+user_id      | `String`        | Page-scoped user ID.
+app_secret   | `String`        | Secret of the app.
+options.app  | `String`        | The app to retrieve the IDs.
+options.page | `String`        | The page to retrieve the IDs.
+
+Example:
+```js
+client
+  .getIdsForPages({
+    user_id: USER_ID,
+    app_secret: APP_SECRET,
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   data: [
+    //     {
+    //       id: '12345123', // The psid for the user for that page
+    //       page: {
+    //         category: 'Musician',
+    //         link:
+    //           'https://www.facebook.com/Johns-Next-Great-Thing-380374449010653/',
+    //         name: "John's Next Great Thing",
+    //         id: '380374449010653',
+    //       },
+    //     },
+    //   ],
+    //   paging: {
+    //     cursors: {
+    //       before: 'MTQ4OTU4MjQ5Nzc4NjY4OAZDZDA',
+    //       after: 'NDAwMDExOTA3MDM1ODMwA',
+    //     },
+    //   },
+    // };
+  });
+```
+
 <br />
 
 ### Others
+
+## `createSubscription`
+
+Create new Webhooks subscriptions.
+
+Param          | Type            | Description
+-------------- | --------------- | -----------
+app_id         | `String`        | ID of the app.
+callback_url   | `String`        | The URL that will receive the POST request when an update is triggered, and a GET request when attempting this publish operation.
+verify_token   | `String`        | An arbitrary string that can be used to confirm to your server that the request is valid.
+fields         | `Array<String>` | One or more of the set of valid fields in this object to subscribe to.
+object         | `String`        | Indicates the object type that this subscription applies to. Defaults to `page`.
+include_values | `Boolean`       | Indicates if change notifications should include the new values.
+
+Example:
+```js
+client.createSubscription({
+  app_id: APP_ID,
+  callback_url: 'https://mycallback.com',
+  fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
+  verify_token: VERIFY_TOKEN,
+});
+```
+
+Default Fields:
+- `messages`
+- `messaging_postbacks`
+- `messaging_optins`
+- `messaging_referrals`
+- `messaging_handovers`
+- `messaging_policy_enforcement`
+
+<br />
 
 ## `getPageInfo`
 
