@@ -1369,14 +1369,14 @@ requests | `Array<Object>` | Subrequests in the batch.
 
 Example
 ```js
-const { Messenger } = require('messaging-api-messenger');
+const { MessengerBatch } = require('messaging-api-messenger');
 
 client.sendBatch([
-  Messenger.createText(USER_ID, '1'),
-  Messenger.createText(USER_ID, '2'),
-  Messenger.createText(USER_ID, '3'),
-  Messenger.createText(USER_ID, '4'),
-  Messenger.createText(USER_ID, '5'),
+  MessengerBatch.createText(USER_ID, '1'),
+  MessengerBatch.createText(USER_ID, '2'),
+  MessengerBatch.createText(USER_ID, '3'),
+  MessengerBatch.createText(USER_ID, '4'),
+  MessengerBatch.createText(USER_ID, '5'),
 ]);
 ```
 
