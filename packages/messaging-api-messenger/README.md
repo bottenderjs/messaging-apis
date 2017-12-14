@@ -2766,7 +2766,7 @@ options.page | `String`        | The page to retrieve the IDs.
 
 Example:
 ```js
-client.getIdsForPages({
+client.getIdsForApps({
   user_id: USER_ID,
   app_secret: APP_SECRET,
 })
