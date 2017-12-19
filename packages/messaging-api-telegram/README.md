@@ -232,6 +232,26 @@ client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
 
 <br />
 
+## `sendVideoNote(chatId, videoNote [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendvideonote)
+
+Sends video messages. As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long.
+
+Param     |  Type                             | Description
+--------- | --------------------------------- | -----------
+chatId    | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+videoNote | `String`                          | Pass a file id (recommended) or HTTP URL to send video note.
+options   | `Object`                          | Other optional parameters.
+
+Example:
+```js
+client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
+  duration: 40,
+  disable_notification: true,
+});
+```
+
+<br />
+
 ## `sendMediaGroup(chatId, media [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendmediagroup)
 
 send a group of photos or videos as an album.
