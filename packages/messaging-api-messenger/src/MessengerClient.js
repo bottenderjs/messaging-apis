@@ -603,7 +603,11 @@ export default class MessengerClient {
 
     const { quick_replies: quickReplies, ...otherOptions } = options;
 
-    if (quickReplies) {
+    if (
+      quickReplies &&
+      Array.isArray(quickReplies) &&
+      quickReplies.length >= 1
+    ) {
       validateQuickReplies(quickReplies);
       message.quick_replies = quickReplies; // eslint-disable-line no-param-reassign
     }
@@ -637,7 +641,11 @@ export default class MessengerClient {
       messageType = 'MESSAGE_TAG';
     }
 
-    if (options.quick_replies) {
+    if (
+      options.quick_replies &&
+      Array.isArray(options.quick_replies) &&
+      options.quick_replies.length >= 1
+    ) {
       validateQuickReplies(options.quick_replies);
       message.quick_replies = options.quick_replies; // eslint-disable-line no-param-reassign
     }
