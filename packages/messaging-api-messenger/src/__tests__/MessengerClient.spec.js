@@ -1860,6 +1860,72 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
+    it('should not attatch empty array quick_replies to message', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: USER_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        USER_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          quick_replies: [],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should not attatch non-array quick_replies to message', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: USER_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        USER_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          quick_replies: {},
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
     it('should throw if quick_replies length > 11', async () => {
       const { client } = createMock();
 
