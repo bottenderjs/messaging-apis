@@ -776,6 +776,62 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendVideoNote', () => {
+    it('should send video note message to user', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 1,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499403678,
+          document: {
+            file_name: 'madora.mp4',
+            mime_type: 'video/mp4',
+            thumb: {
+              file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+              file_size: 2874,
+              width: 90,
+              height: 90,
+            },
+            file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+            file_size: 40582,
+          },
+        },
+      };
+
+      mock
+        .onPost('/sendVideoNote', {
+          chat_id: 427770117,
+          video_note: 'https://example.com/video_note.mp4',
+          duration: 40,
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVideoNote(
+        427770117,
+        'https://example.com/video_note.mp4',
+        {
+          duration: 40,
+          disable_notification: true,
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendMediaGroup', () => {
     it('should send a group of photos or videos as an album', async () => {
       const { client, mock } = createMock();
