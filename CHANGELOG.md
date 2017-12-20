@@ -1,3 +1,8 @@
+0.6.6 / 2017-12-20
+==================
+### messaging-api-messenger
+- [fix] Not to attach empty array as `quick_replies` to message. [#261](https://github.com/Yoctol/messaging-apis/pull/261)
+
 0.6.5 / 2017-12-20
 ==================
 ### messaging-api-telegram
