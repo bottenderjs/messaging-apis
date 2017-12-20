@@ -1,3 +1,15 @@
+0.6.5 / 2017-12-20
+==================
+### messaging-api-telegram
+- [new] Add `sendVideoNote`:
+
+```js
+client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
+  duration: 40,
+  disable_notification: true,
+});
+```
+
 0.6.4 / 2017-12-14
 ==================
 ### messaging-api-messenger
