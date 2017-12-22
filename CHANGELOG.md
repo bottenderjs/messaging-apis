@@ -459,7 +459,7 @@ To get the approximate number of people a broadcast message will be sent, you ca
 
 <br />
 
-## More Configuration for Bulit-in NLP - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#built-in-nlp-api)
+## More Configuration for Built-in NLP - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#built-in-nlp-api)
 
 We have more parameters are supported now:
 
@@ -900,7 +900,7 @@ client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 ==================
 ### messaging-api-messenger
 - [new] Implement Page Messaging Insights API
-- [new] Implement Bulit-in NLP API
+- [new] Implement Built-in NLP API
 
 ### messaging-api-slack
 - [new] Slack OAuth Client
