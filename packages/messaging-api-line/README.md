@@ -240,22 +240,25 @@ Responds imagemap message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap.png" width="250px" />
 
-Param               | Type            | Description
-------------------- | --------------- | -----------
-token               | `String`        | `replyToken` received via webhook.
-altText             | `String`        | Alternative text.
-imagemap            | `Object`        | Object contains imagemap's parameters.
-imagemap.baseUrl    | `String`        | Base URL of image.
-imagemap.baseWidth  | `Number`        | Width of base image.
-imagemap.baseHeight | `Number`        | Height of base image.
-imagemap.actions    | `Array<Object>` | Action when tapped.
+Param                    | Type            | Description
+------------------------ | --------------- | -----------
+token                    | `String`        | `replyToken` received via webhook.
+altText                  | `String`        | Alternative text.
+imagemap                 | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl         | `String`        | Base URL of image.
+imagemap.baseSize        | `Object`        | Base size object.
+imagemap.baseSize.width  | `Number`        | Width of base image.
+imagemap.baseSize.height | `Number`        | Height of base image.
+imagemap.actions         | `Array<Object>` | Action when tapped.
 
 Example:
 ```js
 client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
-  baseWidth: 1040,
-  baseHeight: 1040,
+  baseSize: {
+    width: 1040,
+    height: 1040,
+  },
   actions: [
     {
       type: 'uri',
@@ -691,22 +694,25 @@ Sends imagemap message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap.png" width="250px" />
 
-Param               | Type            | Description
-------------------- | --------------- | -----------
-userId              | `String`        | ID of the receiver.
-altText             | `String`        | Alternative text.
-imagemap            | `Object`        | Object contains imagemap's parameters.
-imagemap.baseUrl    | `String`        | Base URL of image.
-imagemap.baseWidth  | `Number`        | Width of base image.
-imagemap.baseHeight | `Number`        | Height of base image.
-imagemap.actions    | `Array<Object>` | Action when tapped.
+Param                    | Type            | Description
+------------------------ | --------------- | -----------
+userId                   | `String`        | ID of the receiver.
+altText                  | `String`        | Alternative text.
+imagemap                 | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl         | `String`        | Base URL of image.
+imagemap.baseSize        | `Object`        | Base size object.
+imagemap.baseSize.width  | `Number`        | Width of base image.
+imagemap.baseSize.height | `Number`        | Height of base image.
+imagemap.actions         | `Array<Object>` | Action when tapped.
 
 Example:
 ```js
 client.pushImagemap(USER_ID, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
-  baseHeight: 1040,
-  baseWidth: 1040,
+  baseSize: {
+    width: 1040,
+    height: 1040,
+  },
   actions: [
     {
       type: 'uri',
@@ -1145,22 +1151,25 @@ Sends imagemap message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap.png" width="250px" />
 
-Param               | Type            | Description
-------------------- | --------------- | -----------
-userIds             | `Array<String>` | IDs of the receivers.
-altText             | `String`        | Alternative text.
-imagemap            | `Object`        | Object contains imagemap's parameters.
-imagemap.baseUrl    | `String`        | Base URL of image.
-imagemap.baseWidth  | `Number`        | Width of base image.
-imagemap.baseHeight | `Number`        | Height of base image.
-imagemap.actions    | `Array<Object>` | Action when tapped.
+Param                    | Type            | Description
+------------------------ | --------------- | -----------
+userIds                  | `Array<String>` | IDs of the receivers.
+altText                  | `String`        | Alternative text.
+imagemap                 | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl         | `String`        | Base URL of image.
+imagemap.baseSize        | `Object`        | Base size object.
+imagemap.baseSize.width  | `Number`        | Width of base image.
+imagemap.baseSize.height | `Number`        | Height of base image.
+imagemap.actions         | `Array<Object>` | Action when tapped.
 
 Example:
 ```js
 client.multicastImagemap([USER_ID], 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
-  baseHeight: 1040,
-  baseWidth: 1040,
+  baseSize: {
+    width: 1040,
+    height: 1040,
+  },
   actions: [
     {
       type: 'uri',

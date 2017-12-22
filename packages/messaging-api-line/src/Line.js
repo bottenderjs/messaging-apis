@@ -62,11 +62,16 @@ function createImagemap(
   altText: string,
   {
     baseUrl,
+    baseSize,
     baseHeight,
     baseWidth,
     actions,
   }: {
     baseUrl: string,
+    baseSize: {
+      height: number,
+      width: number,
+    },
     baseHeight: number,
     baseWidth: number,
     actions: Array<ImageMapAction>,
@@ -76,7 +81,7 @@ function createImagemap(
     type: 'imagemap',
     baseUrl,
     altText,
-    baseSize: {
+    baseSize: baseSize || {
       height: baseHeight,
       width: baseWidth,
     },

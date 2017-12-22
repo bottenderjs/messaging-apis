@@ -437,6 +437,87 @@ describe('Reply Message', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should support baseSize argument', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'imagemap',
+              baseUrl: 'https://example.com/bot/images/rm001',
+              altText: 'this is an imagemap',
+              baseSize: {
+                height: 1040,
+                width: 1040,
+              },
+              actions: [
+                {
+                  type: 'uri',
+                  linkUri: 'https://example.com/',
+                  area: {
+                    x: 0,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+                {
+                  type: 'message',
+                  text: 'hello',
+                  area: {
+                    x: 520,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyImagemap(
+        REPLY_TOKEN,
+        'this is an imagemap',
+        {
+          baseUrl: 'https://example.com/bot/images/rm001',
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
+          actions: [
+            {
+              type: 'uri',
+              linkUri: 'https://example.com/',
+              area: {
+                x: 0,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+            {
+              type: 'message',
+              text: 'hello',
+              area: {
+                x: 520,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#replyTemplate', () => {
@@ -1154,6 +1235,87 @@ describe('Push Message', () => {
           baseUrl: 'https://example.com/bot/images/rm001',
           baseHeight: 1040,
           baseWidth: 1040,
+          actions: [
+            {
+              type: 'uri',
+              linkUri: 'https://example.com/',
+              area: {
+                x: 0,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+            {
+              type: 'message',
+              text: 'hello',
+              area: {
+                x: 520,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should suport baseSize argument', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'imagemap',
+              baseUrl: 'https://example.com/bot/images/rm001',
+              altText: 'this is an imagemap',
+              baseSize: {
+                height: 1040,
+                width: 1040,
+              },
+              actions: [
+                {
+                  type: 'uri',
+                  linkUri: 'https://example.com/',
+                  area: {
+                    x: 0,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+                {
+                  type: 'message',
+                  text: 'hello',
+                  area: {
+                    x: 520,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushImagemap(
+        RECIPIENT_ID,
+        'this is an imagemap',
+        {
+          baseUrl: 'https://example.com/bot/images/rm001',
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
           actions: [
             {
               type: 'uri',
@@ -1901,6 +2063,87 @@ describe('Multicast', () => {
           baseUrl: 'https://example.com/bot/images/rm001',
           baseHeight: 1040,
           baseWidth: 1040,
+          actions: [
+            {
+              type: 'uri',
+              linkUri: 'https://example.com/',
+              area: {
+                x: 0,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+            {
+              type: 'message',
+              text: 'hello',
+              area: {
+                x: 520,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support baseSize argument', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'imagemap',
+              baseUrl: 'https://example.com/bot/images/rm001',
+              altText: 'this is an imagemap',
+              baseSize: {
+                height: 1040,
+                width: 1040,
+              },
+              actions: [
+                {
+                  type: 'uri',
+                  linkUri: 'https://example.com/',
+                  area: {
+                    x: 0,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+                {
+                  type: 'message',
+                  text: 'hello',
+                  area: {
+                    x: 520,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastImagemap(
+        [RECIPIENT_ID],
+        'this is an imagemap',
+        {
+          baseUrl: 'https://example.com/bot/images/rm001',
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
           actions: [
             {
               type: 'uri',
