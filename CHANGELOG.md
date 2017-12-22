@@ -1,3 +1,8 @@
+0.6.7 / 2017-12-20
+==================
+### messaging-api-line
+- [changed] Support original `baseSize` key in LINE imagemap APIs.
+
 0.6.6 / 2017-12-20
 ==================
 ### messaging-api-messenger
