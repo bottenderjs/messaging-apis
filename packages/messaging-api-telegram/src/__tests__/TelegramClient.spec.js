@@ -80,6 +80,83 @@ describe('#accessToken', () => {
 });
 
 describe('webhooks', () => {
+  describe('#getUpdates', () => {
+    it('should response array of Update objects', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: [
+          {
+            update_id: 513400512,
+            message: {
+              message_id: 3,
+              from: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+              },
+              chat: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+                type: 'private',
+              },
+              date: 1499402829,
+              text: 'hi',
+            },
+          },
+          {
+            update_id: 513400513,
+            message: {
+              message_id: 4,
+              from: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+              },
+              chat: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+                type: 'private',
+              },
+              date: 1484944975,
+              sticker: {
+                width: 512,
+                height: 512,
+                emoji: '\ud83d\ude0d',
+                thumb: {
+                  file_id: 'AAQEABMr6HIwAAT9WnLtRCT6KIgiAAIC',
+                  file_size: 2828,
+                  width: 128,
+                  height: 128,
+                },
+                file_id: 'BQADBAADrwgAAjn8EwY1EPt_ycp8OwI',
+                file_size: 14102,
+              },
+            },
+          },
+        ],
+      };
+
+      mock
+        .onPost('/getUpdates', {
+          limit: 10,
+        })
+        .reply(200, reply);
+
+      const res = await client.getUpdates({
+        limit: 10,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#getWebhookInfo', () => {
     it('should response webhook info', async () => {
       const { client, mock } = createMock();
