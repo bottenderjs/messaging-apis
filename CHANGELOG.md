@@ -1,3 +1,44 @@
+0.6.8 / 2017-12-25
+==================
+### messaging-api-telegram
+- [new] Add `getUpdates`:
+
+```js
+client
+  .getUpdates({
+    limit: 10,
+  })
+  .then(data => {
+    console.log(data.result);
+    /*
+      [
+        {
+          update_id: 513400512,
+          message: {
+            message_id: 3,
+            from: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+            },
+            chat: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              type: 'private',
+            },
+            date: 1499402829,
+            text: 'hi',
+          },
+        },
+        ...
+      ]
+    */
+  });
+```
+
 0.6.7 / 2017-12-22
 ==================
 ### messaging-api-line
