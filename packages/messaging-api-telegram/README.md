@@ -63,6 +63,54 @@ client.getWebhookInfo();
 
 <br />
 
+## `getUpdates` - [Official Docs](https://core.telegram.org/bots/api#getupdates)  
+
+Use this method to receive incoming updates using long polling. An Array of [Update](https://core.telegram.org/bots/api#update) objects is returned.
+
+Param   |  Type    | Description
+------- | -------- | -----------
+options | `Object` | Optional parameters.
+
+
+Example:
+```js
+client
+  .getUpdates({
+    limit: 10,
+  })
+  .then(data => {
+    console.log(data.result);
+    /*
+      [
+        {
+          update_id: 513400512,
+          message: {
+            message_id: 3,
+            from: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+            },
+            chat: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              type: 'private',
+            },
+            date: 1499402829,
+            text: 'hi',
+          },
+        },
+        ...
+      ]
+    */
+  });
+```
+
+<br />
+
 ## `setWebhook(url)` - [Official Docs](https://core.telegram.org/bots/api#setwebhook)  
 
 Specifies a url and receive incoming updates via an outgoing webhook.

@@ -47,6 +47,14 @@ export default class TelegramClient {
     this._axios.post(url, data).then(res => res.data, handleError);
 
   /**
+   * https://core.telegram.org/bots/api#getupdates
+   */
+  getUpdates = (options?: Object) =>
+    this._request('/getUpdates', {
+      ...options,
+    });
+
+  /**
    * https://core.telegram.org/bots/api#getwebhookinfo
    */
   getWebhookInfo = () => this._request('/getWebhookInfo');
