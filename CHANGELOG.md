@@ -1,3 +1,8 @@
+0.6.9 / 2017-12-28
+==================
+### messaging-api-messenger
+- [fix] Not to use page token as default token when create subscription. [#267](https://github.com/Yoctol/messaging-apis/pull/267)
+
 0.6.8 / 2017-12-25
 ==================
 ### messaging-api-telegram
