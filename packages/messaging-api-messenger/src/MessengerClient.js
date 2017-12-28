@@ -160,7 +160,7 @@ export default class MessengerClient {
     ],
     include_values,
     verify_token,
-    access_token: customAccessToken,
+    access_token: appAccessToken,
   }: {
     app_id: string,
     object?: 'user' | 'page' | 'permissions' | 'payments',
@@ -168,20 +168,16 @@ export default class MessengerClient {
     fields?: Array<string>,
     include_values?: boolean,
     verify_token: string,
-    access_token?: string,
+    access_token: string,
   }): Promise<{ success: boolean }> =>
     this._axios
-      .post(
-        `/${appId}/subscriptions?access_token=${customAccessToken ||
-          this._accessToken}`,
-        {
-          object,
-          callback_url,
-          fields: fields.join(','),
-          include_values,
-          verify_token,
-        }
-      )
+      .post(`/${appId}/subscriptions?access_token=${appAccessToken}`, {
+        object,
+        callback_url,
+        fields: fields.join(','),
+        include_values,
+        verify_token,
+      })
       .then(res => res.data, handleError);
 
   /**

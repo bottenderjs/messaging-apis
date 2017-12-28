@@ -2860,6 +2860,7 @@ Create new Webhooks subscriptions.
 Param          | Type            | Description
 -------------- | --------------- | -----------
 app_id         | `String`        | ID of the app.
+access_token   | `String`        | App access token.
 callback_url   | `String`        | The URL that will receive the POST request when an update is triggered, and a GET request when attempting this publish operation.
 verify_token   | `String`        | An arbitrary string that can be used to confirm to your server that the request is valid.
 fields         | `Array<String>` | One or more of the set of valid fields in this object to subscribe to.
@@ -2870,6 +2871,19 @@ Example:
 ```js
 client.createSubscription({
   app_id: APP_ID,
+  access_token: APP_ACCESS_TOKEN,
+  callback_url: 'https://mycallback.com',
+  fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
+  verify_token: VERIFY_TOKEN,
+});
+```
+
+Or provide app id and app secret instead of app access token:
+
+```js
+client.createSubscription({
+  app_id: APP_ID,
+  access_token: `${APP_ID}|${APP_SECRET}`,
   callback_url: 'https://mycallback.com',
   fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
   verify_token: VERIFY_TOKEN,

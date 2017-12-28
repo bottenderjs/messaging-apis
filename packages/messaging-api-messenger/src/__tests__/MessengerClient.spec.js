@@ -119,6 +119,8 @@ describe('page info', () => {
 });
 
 describe('subscription', () => {
+  const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
+
   describe('#createSubscription', () => {
     it('should set default fields', async () => {
       const { client, mock } = createMock();
@@ -127,7 +129,7 @@ describe('subscription', () => {
       };
 
       mock
-        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+        .onPost(`/54321/subscriptions?access_token=${APP_ACCESS_TOKEN}`, {
           object: 'page',
           callback_url: 'https://mycallback.com',
           fields:
@@ -140,6 +142,7 @@ describe('subscription', () => {
         app_id: '54321',
         callback_url: 'https://mycallback.com',
         verify_token: '1234567890',
+        access_token: APP_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -152,7 +155,7 @@ describe('subscription', () => {
       };
 
       mock
-        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+        .onPost(`/54321/subscriptions?access_token=${APP_ACCESS_TOKEN}`, {
           object: 'user',
           callback_url: 'https://mycallback.com',
           fields: 'messages,messaging_postbacks',
@@ -168,6 +171,7 @@ describe('subscription', () => {
         object: 'user',
         fields: ['messages', 'messaging_postbacks'],
         include_values: true,
+        access_token: APP_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
