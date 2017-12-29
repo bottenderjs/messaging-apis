@@ -47,6 +47,7 @@
     "precommit": "lint-staged",
     "publish": "yarn run clean && yarn run build && lerna publish",
     "testonly": "jest",
+    "testonly:cov": "jest --coverage --runInBand --forceExit --no-cache",
     "testonly:watch": "jest --watch",
     "test": "yarn run typecheck && yarn run lint && yarn run testonly",
     "typecheck": "flow check"
