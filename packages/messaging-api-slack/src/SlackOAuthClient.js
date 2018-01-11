@@ -85,7 +85,7 @@ export default class SlackOAuthClient {
     method: SlackAvailableMethod,
     body: Object = {}
   ): Promise<SlackOAuthAPIResponse> => {
-    body.token = this._token; // eslint-disable-line no-param-reassign
+    body.token = body.token || this._token; // eslint-disable-line no-param-reassign
     const response = await this._axios.post(
       method,
       querystring.stringify(body)

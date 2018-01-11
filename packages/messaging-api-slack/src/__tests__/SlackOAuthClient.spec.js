@@ -110,6 +110,39 @@ describe('#callMethod', () => {
     expect(res).toEqual(reply);
   });
 
+  it('should call slack api with custom token', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postMessage',
+        querystring.stringify({
+          token: 'custom token',
+          channel: CHANNEL,
+          text: 'hello',
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.callMethod('chat.postMessage', {
+      token: 'custom token',
+      channel: CHANNEL,
+      text: 'hello',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
   it('should throw if slack api return not ok', async () => {
     expect.assertions(1);
     const { client, mock } = createMock();
