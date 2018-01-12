@@ -7,7 +7,7 @@
 client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
 ```
 
-- [new] add SlactOAuthClient custom token support:
+- [new] add SlackOAuthClient custom token support:
 
 ```js
 client.callMethod('chat.postMessage', {
