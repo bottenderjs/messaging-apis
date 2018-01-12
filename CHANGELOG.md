@@ -1,3 +1,22 @@
+0.6.10 / 2018-01-12
+===================
+### messaging-api-slack
+- [new] add Slack `postEphemeral` method:
+ 
+```js
+client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
+```
+
+- [new] add SlactOAuthClient custom token support:
+
+```js
+client.callMethod('chat.postMessage', {
+ token: 'custom token',
+ channel: CHANNEL,
+ text: 'hello',
+});
+```
+
 0.6.9 / 2017-12-28
 ==================
 ### messaging-api-messenger
