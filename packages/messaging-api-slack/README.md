@@ -70,7 +70,7 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-## `postMessage(channel, text [, options])` - [Official docs](https://api.slack.com/methods/chat.postMessage)
+## `postMessage(channel, message [, options])` - [Official docs](https://api.slack.com/methods/chat.postMessage)
 
 Sends a message to a channel.
 
@@ -116,6 +116,27 @@ client.postMessage(
     as_user: true,
   }
 );
+```
+
+<br />
+
+## `postEphemeral(channel, user, message [, options])` - [Official docs](https://api.slack.com/methods/chat.postEphemeral)
+
+Sends an ephemeral message to a user in a channel.
+
+Param   | Type                              | Description
+------- | --------------------------------- | -----------
+channel | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
+user    | `String`                          | `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument.
+message | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.
+options | `Object`                          | Other optional parameters.
+
+Example:
+```js
+client.postEphemeral('C8763', 'U56781234', { text: 'Hello!' });
+client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
+client.postEphemeral('C8763', 'U56781234', 'Hello!');
+client.postEphemeral('C8763', 'U56781234', 'Hello!', { as_user: true });
 ```
 
 <br />
