@@ -12,6 +12,7 @@
   * [Webhook API](#webhook-api)
   * [Send API](#send-api)
   * [Keyboards](#keyboards)
+  * [Broadcast API](#broadcast-api)
   * [Get Account Info](#get-account-info)
   * [Get User Details](#get-user-details)
   * [Get Online](#get-online)
@@ -437,6 +438,64 @@ client.sendText(USER_ID, 'Hello', {
 Which in turn will look like this:
 
 <img src="https://developers.viber.com/docs/img/example_keyboard.png" width="300" />
+
+<br />
+
+<a id="broadcast-api" />
+
+### Broadcast API - [Official Docs](https://developers.viber.com/docs/api/rest-bot-api/#broadcast-message)
+
+Those API methods use the same parameters as the send methods with a few variations described below. You should specify a list of receivers instead of a single receiver.
+
+- `broadcastMessage(broadcastList, message)`
+- `broadcastText(broadcastList, text [, options])`
+- `broadcastPicture(broadcastList, picture [, options])`
+- `broadcastVideo(broadcastList, video [, options])`
+- `broadcastFile(broadcastList, file [, options])`
+- `broadcastContact(broadcastList, contact [, options])`
+- `broadcastLocation(broadcastList, location [, options])`
+- `broadcastURL(broadcastList, url [, options])`
+- `broadcastSticker(broadcastList, stickerId [, options])`
+- `broadcastCarouselContent(broadcastList, richMedia [, options])`
+
+Param         |  Type           | Description
+------------- | --------------- | -----------
+broadcastList | `Array<String>` | This mandatory parameter defines the recipients for the message. Every user must be subscribed and have a valid user id. The maximum list length is 300 receivers.
+
+Example:
+```js
+
+client
+  .broadcastText(
+    [
+      'pttm25kSGUo1919sBORWyA==',
+      '2yBSIsbzs7sSrh4oLm2hdQ==',
+      'EGAZ3SZRi6zW1D0uNYhQHg==',
+      'kBQYX9LrGyF5mm8JTxdmpw==',
+    ],
+    'a broadcast to everybody'
+  )
+  .then(result => {
+    console.log(result);
+    // {
+    //   message_token: 40808912438712,
+    //   status: 0,
+    //   status_message: 'ok',
+    //   failed_list: [
+    //     {
+    //       receiver: 'pttm25kSGUo1919sBORWyA==',
+    //       status: 6,
+    //       status_message: 'Not subscribed',
+    //     },
+    //     {
+    //       receiver: 'EGAZ3SZRi6zW1D0uNYhQHg==',
+    //       status: 5,
+    //       status_message: 'Not found',
+    //     },
+    //   ],
+    // }
+  });
+```
 
 <br />
 

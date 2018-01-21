@@ -11,9 +11,9 @@ client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
 
 ```js
 client.callMethod('chat.postMessage', {
- token: 'custom token',
- channel: CHANNEL,
- text: 'hello',
+  token: 'custom token',
+  channel: CHANNEL,
+  text: 'hello',
 });
 ```
 
