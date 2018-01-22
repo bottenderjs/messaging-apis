@@ -98,6 +98,8 @@ export default class ViberClient {
   removeWebhook = () => this.setWebhook('');
 
   /**
+   * Send Message
+   *
    * https://developers.viber.com/docs/api/rest-bot-api/#send-message
    */
   sendMessage = async (receiver: string, { type, ...options }: Object) =>
@@ -224,6 +226,156 @@ export default class ViberClient {
     options: Object = {}
   ) =>
     this.sendMessage(receiver, {
+      type: 'rich_media',
+      min_api_version: 2,
+      rich_media: richMedia,
+      ...options,
+    });
+
+  /**
+   * Broadcast Message
+   *
+   * https://developers.viber.com/docs/api/rest-bot-api/#broadcast-message
+   */
+  broadcastMessage = async (
+    broadcastList: Array<string>,
+    { type, ...options }: Object
+  ) =>
+    this._callAPI('/broadcast_message', {
+      broadcast_list: broadcastList,
+      type,
+      sender: this._sender,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#text-message
+   */
+  broadcastText = (
+    broadcastList: Array<string>,
+    text: string,
+    options?: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'text',
+      text,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#picture-message
+   */
+  broadcastPicture = (
+    broadcastList: Array<string>,
+    { text, media, thumbnail }: ViberPicture,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'picture',
+      text,
+      media,
+      thumbnail,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#video-message
+   */
+  broadcastVideo = (
+    broadcastList: Array<string>,
+    { media, size, thumbnail, duration }: ViberVideo,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'video',
+      media,
+      size,
+      thumbnail,
+      duration,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#file-message
+   */
+  broadcastFile = (
+    broadcastList: Array<string>,
+    { media, size, file_name }: ViberFile,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'file',
+      media,
+      size,
+      file_name,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#contact-message
+   */
+  broadcastContact = (
+    broadcastList: Array<string>,
+    { name, phone_number }: ViberContact,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'contact',
+      contact: { name, phone_number },
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#location-message
+   */
+  broadcastLocation = (
+    broadcastList: Array<string>,
+    { lat, lon }: ViberLocation,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'location',
+      location: { lat, lon },
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#url-message
+   */
+  broadcastURL = (
+    broadcastList: Array<string>,
+    url: string,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'url',
+      media: url,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#sticker-message
+   */
+  broadcastSticker = (
+    broadcastList: Array<string>,
+    stickerId: string,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
+      type: 'sticker',
+      sticker_id: stickerId,
+      ...options,
+    });
+
+  /**
+   * https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message
+   */
+  broadcastCarouselContent = (
+    broadcastList: Array<string>,
+    richMedia: ViberRichMedia,
+    options: Object = {}
+  ) =>
+    this.broadcastMessage(broadcastList, {
       type: 'rich_media',
       min_api_version: 2,
       rich_media: richMedia,
