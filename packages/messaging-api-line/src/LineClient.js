@@ -1,10 +1,6 @@
 /* @flow */
-
-import crypto from 'crypto';
-
 import axios from 'axios';
 import AxiosError from 'axios-error';
-import warning from 'warning';
 import invariant from 'invariant';
 import imageType from 'image-type';
 
@@ -477,25 +473,6 @@ export default class LineClient {
     this._axios
       .get(`/richmenu/${richMenuId}/content`, { responseType: 'arraybuffer' })
       .then(res => Buffer.from(res.data), handleError);
-
-  /**
-   * Signature Validation
-   *
-   * https://devdocs.line.me/en/#webhooks
-   */
-  isValidSignature = (rawBody: string, signature: string): boolean => {
-    warning(
-      false,
-      "`isValidSignature` is deprecated. Client doesn't take responsibility for signature validation."
-    );
-    return (
-      signature ===
-      crypto
-        .createHmac('sha256', this._channelSecret)
-        .update(rawBody, 'utf8')
-        .digest('base64')
-    );
-  };
 }
 
 const sendTypes = ['reply', 'push', 'multicast'];
