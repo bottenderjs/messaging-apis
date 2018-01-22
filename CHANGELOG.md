@@ -2,17 +2,16 @@
 ===================
 ### messaging-api-viber
 - [new] Support broadcast methods:
-
-- `broadcastMessage(broadcastList, message)`
-- `broadcastText(broadcastList, text [, options])`
-- `broadcastPicture(broadcastList, picture [, options])`
-- `broadcastVideo(broadcastList, video [, options])`
-- `broadcastFile(broadcastList, file [, options])`
-- `broadcastContact(broadcastList, contact [, options])`
-- `broadcastLocation(broadcastList, location [, options])`
-- `broadcastURL(broadcastList, url [, options])`
-- `broadcastSticker(broadcastList, stickerId [, options])`
-- `broadcastCarouselContent(broadcastList, richMedia [, options])`
+  * `broadcastMessage(broadcastList, message)`
+  * `broadcastText(broadcastList, text [, options])`
+  * `broadcastPicture(broadcastList, picture [, options])`
+  * `broadcastVideo(broadcastList, video [, options])`
+  * `broadcastFile(broadcastList, file [, options])`
+  * `broadcastContact(broadcastList, contact [, options])`
+  * `broadcastLocation(broadcastList, location [, options])`
+  * `broadcastURL(broadcastList, url [, options])`
+  * `broadcastSticker(broadcastList, stickerId [, options])`
+  * `broadcastCarouselContent(broadcastList, richMedia [, options])`
 
 0.6.10 / 2018-01-12
 ===================
