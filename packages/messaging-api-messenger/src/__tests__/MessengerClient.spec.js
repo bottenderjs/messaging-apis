@@ -119,6 +119,8 @@ describe('page info', () => {
 });
 
 describe('subscription', () => {
+  const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
+
   describe('#createSubscription', () => {
     it('should set default fields', async () => {
       const { client, mock } = createMock();
@@ -127,7 +129,7 @@ describe('subscription', () => {
       };
 
       mock
-        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+        .onPost(`/54321/subscriptions?access_token=${APP_ACCESS_TOKEN}`, {
           object: 'page',
           callback_url: 'https://mycallback.com',
           fields:
@@ -140,6 +142,7 @@ describe('subscription', () => {
         app_id: '54321',
         callback_url: 'https://mycallback.com',
         verify_token: '1234567890',
+        access_token: APP_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -152,7 +155,7 @@ describe('subscription', () => {
       };
 
       mock
-        .onPost(`/54321/subscriptions?access_token=${ACCESS_TOKEN}`, {
+        .onPost(`/54321/subscriptions?access_token=${APP_ACCESS_TOKEN}`, {
           object: 'user',
           callback_url: 'https://mycallback.com',
           fields: 'messages,messaging_postbacks',
@@ -168,6 +171,7 @@ describe('subscription', () => {
         object: 'user',
         fields: ['messages', 'messaging_postbacks'],
         include_values: true,
+        access_token: APP_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -1854,6 +1858,72 @@ describe('send api', () => {
               content_type: 'location',
             },
           ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should not attatch empty array quick_replies to message', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: USER_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        USER_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          quick_replies: [],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should not attatch non-array quick_replies to message', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      };
+
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`, {
+          messaging_type: 'UPDATE',
+          recipient: {
+            id: USER_ID,
+          },
+          message: {
+            text: 'Hello!',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(
+        USER_ID,
+        {
+          text: 'Hello!',
+        },
+        {
+          quick_replies: {},
         }
       );
 

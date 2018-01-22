@@ -1,3 +1,105 @@
+0.6.11 / 2018-01-22
+===================
+### messaging-api-viber
+- [new] Support broadcast methods:
+  * `broadcastMessage(broadcastList, message)`
+  * `broadcastText(broadcastList, text [, options])`
+  * `broadcastPicture(broadcastList, picture [, options])`
+  * `broadcastVideo(broadcastList, video [, options])`
+  * `broadcastFile(broadcastList, file [, options])`
+  * `broadcastContact(broadcastList, contact [, options])`
+  * `broadcastLocation(broadcastList, location [, options])`
+  * `broadcastURL(broadcastList, url [, options])`
+  * `broadcastSticker(broadcastList, stickerId [, options])`
+  * `broadcastCarouselContent(broadcastList, richMedia [, options])`
+
+0.6.10 / 2018-01-12
+===================
+### messaging-api-slack
+- [new] add Slack `postEphemeral` method:
+
+```js
+client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
+```
+
+- [new] add SlackOAuthClient custom token support:
+
+```js
+client.callMethod('chat.postMessage', {
+  token: 'custom token',
+  channel: CHANNEL,
+  text: 'hello',
+});
+```
+
+0.6.9 / 2017-12-28
+==================
+### messaging-api-messenger
+- [fix] Not to use page token as default token when create subscription. [#267](https://github.com/Yoctol/messaging-apis/pull/267)
+
+0.6.8 / 2017-12-25
+==================
+### messaging-api-telegram
+- [new] Add `getUpdates`:
+
+```js
+client
+  .getUpdates({
+    limit: 10,
+  })
+  .then(data => {
+    console.log(data.result);
+    /*
+      [
+        {
+          update_id: 513400512,
+          message: {
+            message_id: 3,
+            from: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+            },
+            chat: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              type: 'private',
+            },
+            date: 1499402829,
+            text: 'hi',
+          },
+        },
+        ...
+      ]
+    */
+  });
+```
+
+0.6.7 / 2017-12-22
+==================
+### messaging-api-line
+- [changed] Support original `baseSize` key in LINE imagemap APIs.
+
+0.6.6 / 2017-12-20
+==================
+### messaging-api-messenger
+- [fix] Not to attach empty array as `quick_replies` to message. [#261](https://github.com/Yoctol/messaging-apis/pull/261)
+
+0.6.5 / 2017-12-20
+==================
+### messaging-api-telegram
+- [new] Add `sendVideoNote`:
+
+```js
+client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
+  duration: 40,
+  disable_notification: true,
+});
+```
+
 0.6.4 / 2017-12-14
 ==================
 ### messaging-api-messenger
@@ -442,7 +544,7 @@ To get the approximate number of people a broadcast message will be sent, you ca
 
 <br />
 
-## More Configuration for Bulit-in NLP - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#built-in-nlp-api)
+## More Configuration for Built-in NLP - [docs](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#built-in-nlp-api)
 
 We have more parameters are supported now:
 
@@ -883,7 +985,7 @@ client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 ==================
 ### messaging-api-messenger
 - [new] Implement Page Messaging Insights API
-- [new] Implement Bulit-in NLP API
+- [new] Implement Built-in NLP API
 
 ### messaging-api-slack
 - [new] Slack OAuth Client

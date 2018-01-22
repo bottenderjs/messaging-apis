@@ -63,6 +63,54 @@ client.getWebhookInfo();
 
 <br />
 
+## `getUpdates` - [Official Docs](https://core.telegram.org/bots/api#getupdates)  
+
+Use this method to receive incoming updates using long polling. An Array of [Update](https://core.telegram.org/bots/api#update) objects is returned.
+
+Param   |  Type    | Description
+------- | -------- | -----------
+options | `Object` | Optional parameters.
+
+
+Example:
+```js
+client
+  .getUpdates({
+    limit: 10,
+  })
+  .then(data => {
+    console.log(data.result);
+    /*
+      [
+        {
+          update_id: 513400512,
+          message: {
+            message_id: 3,
+            from: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+            },
+            chat: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              type: 'private',
+            },
+            date: 1499402829,
+            text: 'hi',
+          },
+        },
+        ...
+      ]
+    */
+  });
+```
+
+<br />
+
 ## `setWebhook(url)` - [Official Docs](https://core.telegram.org/bots/api#setwebhook)  
 
 Specifies a url and receive incoming updates via an outgoing webhook.
@@ -226,6 +274,26 @@ Example:
 ```js
 client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
   caption: 'gooooooodVoice',
+  disable_notification: true,
+});
+```
+
+<br />
+
+## `sendVideoNote(chatId, videoNote [, options])` - [Official Docs](https://core.telegram.org/bots/api/#sendvideonote)
+
+Sends video messages. As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long.
+
+Param     |  Type                             | Description
+--------- | --------------------------------- | -----------
+chatId    | <code>Number &#124; String</code> | Unique identifier for the target chat or username of the target channel.
+videoNote | `String`                          | Pass a file id (recommended) or HTTP URL to send video note.
+options   | `Object`                          | Other optional parameters.
+
+Example:
+```js
+client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
+  duration: 40,
   disable_notification: true,
 });
 ```

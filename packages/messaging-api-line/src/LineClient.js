@@ -141,11 +141,16 @@ export default class LineClient {
     altText: string,
     {
       baseUrl,
+      baseSize,
       baseHeight,
       baseWidth,
       actions,
     }: {
       baseUrl: string,
+      baseSize: {
+        height: number,
+        width: number,
+      },
       baseHeight: number,
       baseWidth: number,
       actions: Array<ImageMapAction>,
@@ -156,7 +161,7 @@ export default class LineClient {
         type: 'imagemap',
         baseUrl,
         altText,
-        baseSize: {
+        baseSize: baseSize || {
           height: baseHeight,
           width: baseWidth,
         },

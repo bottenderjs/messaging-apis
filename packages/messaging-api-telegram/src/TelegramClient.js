@@ -14,12 +14,6 @@ type Axios = {
   delete: Function,
 };
 
-function handleError(err) {
-  const { error_code, description } = err.response.data;
-  const msg = `Telegram API - ${error_code} ${description || ''}`; // eslint-disable-line camelcase
-  throw new AxiosError(msg, err);
-}
-
 export default class TelegramClient {
   static connect = (token: string): TelegramClient => new TelegramClient(token);
 
@@ -44,8 +38,36 @@ export default class TelegramClient {
     return this._token;
   }
 
-  _request = (url: string, data?: Object) =>
-    this._axios.post(url, data).then(res => res.data, handleError);
+  _request = async (...args: Array<any>) => {
+    try {
+      const response = await this._axios.post(...args);
+
+      const { data, config, request } = response;
+
+      if (!data.ok) {
+        throw new AxiosError(`Telegram API - ${data.description || ''}`, {
+          config,
+          request,
+          response,
+        });
+      }
+
+      return data;
+    } catch (err) {
+      const { error_code, description } = err.response.data;
+      const msg = `Telegram API - ${error_code} ${description || ''}`; // eslint-disable-line camelcase
+
+      throw new AxiosError(msg, err);
+    }
+  };
+
+  /**
+   * https://core.telegram.org/bots/api#getupdates
+   */
+  getUpdates = (options?: Object) =>
+    this._request('/getUpdates', {
+      ...options,
+    });
 
   /**
    * https://core.telegram.org/bots/api#getwebhookinfo
@@ -83,9 +105,9 @@ export default class TelegramClient {
    * https://core.telegram.org/bots/api#getfile
    */
   getFile = (fileId: string) =>
-    this._request('/getFile', {
+    (this._request('/getFile', {
       file_id: fileId,
-    });
+    }): Object);
 
   /**
    * Get link for file. This is extension method of getFile()
@@ -204,11 +226,12 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#sendvideonote
    */
-  // sendVideoNote = (chatId: string, videoNote: string) =>
-  //   this._request('/sendVideoNote', {
-  //     chat_id: chatId,
-  //     video_note: videoNote,
-  //   });
+  sendVideoNote = (chatId: string, videoNote: string, options?: Object) =>
+    this._request('/sendVideoNote', {
+      chat_id: chatId,
+      video_note: videoNote,
+      ...options,
+    });
 
   /**
    * https://core.telegram.org/bots/api#sendmediagroup

@@ -6,6 +6,7 @@ import SlackOAuthClient from '../SlackOAuthClient';
 
 const TOKEN = 'xxxx-xxxxxxxxx-xxxx';
 const CHANNEL = 'C1234567890';
+const USER = 'U56781234';
 
 const createMock = () => {
   const client = new SlackOAuthClient(TOKEN);
@@ -103,6 +104,39 @@ describe('#callMethod', () => {
       .reply(200, reply);
 
     const res = await client.callMethod('chat.postMessage', {
+      channel: CHANNEL,
+      text: 'hello',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call slack api with custom token', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postMessage',
+        querystring.stringify({
+          token: 'custom token',
+          channel: CHANNEL,
+          text: 'hello',
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.callMethod('chat.postMessage', {
+      token: 'custom token',
       channel: CHANNEL,
       text: 'hello',
     });
@@ -444,6 +478,359 @@ describe('#postMessage', () => {
       .reply(200, reply);
 
     const res = await client.postMessage(CHANNEL, 'hello', {
+      attachments: [
+        {
+          text: 'Choose a game to play',
+          fallback: 'You are unable to choose a game',
+          callback_id: 'wopr_game',
+          color: '#3AA3E3',
+          attachment_type: 'default',
+          actions: [
+            {
+              name: 'game',
+              text: 'Chess',
+              type: 'button',
+              value: 'chess',
+            },
+            {
+              name: 'game',
+              text: "Falken's Maze",
+              type: 'button',
+              value: 'maze',
+            },
+            {
+              name: 'game',
+              text: 'Thermonuclear War',
+              style: 'danger',
+              type: 'button',
+              value: 'war',
+              confirm: {
+                title: 'Are you sure?',
+                text: "Wouldn't you prefer a good game of chess?",
+                ok_text: 'Yes',
+                dismiss_text: 'No',
+              },
+            },
+          ],
+        },
+      ],
+      as_user: true,
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#postEphemeral', () => {
+  it('should call chat.postEphemeral with channel, user and text message', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          text: 'hello',
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(CHANNEL, USER, { text: 'hello' });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.postEphemeral with channel, user and text and attachments message', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          text: 'hello',
+          attachments:
+            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(
+      CHANNEL,
+      USER,
+      {
+        text: 'hello',
+        attachments: [
+          {
+            text: 'Choose a game to play',
+            fallback: 'You are unable to choose a game',
+            callback_id: 'wopr_game',
+            color: '#3AA3E3',
+            attachment_type: 'default',
+            actions: [
+              {
+                name: 'game',
+                text: 'Chess',
+                type: 'button',
+                value: 'chess',
+              },
+              {
+                name: 'game',
+                text: "Falken's Maze",
+                type: 'button',
+                value: 'maze',
+              },
+              {
+                name: 'game',
+                text: 'Thermonuclear War',
+                style: 'danger',
+                type: 'button',
+                value: 'war',
+                confirm: {
+                  title: 'Are you sure?',
+                  text: "Wouldn't you prefer a good game of chess?",
+                  ok_text: 'Yes',
+                  dismiss_text: 'No',
+                },
+              },
+            ],
+          },
+        ],
+      },
+      { as_user: true }
+    );
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.postEphemeral with channel, user and attachments message', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          attachments:
+            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(
+      CHANNEL,
+      USER,
+      {
+        attachments: [
+          {
+            text: 'Choose a game to play',
+            fallback: 'You are unable to choose a game',
+            callback_id: 'wopr_game',
+            color: '#3AA3E3',
+            attachment_type: 'default',
+            actions: [
+              {
+                name: 'game',
+                text: 'Chess',
+                type: 'button',
+                value: 'chess',
+              },
+              {
+                name: 'game',
+                text: "Falken's Maze",
+                type: 'button',
+                value: 'maze',
+              },
+              {
+                name: 'game',
+                text: 'Thermonuclear War',
+                style: 'danger',
+                type: 'button',
+                value: 'war',
+                confirm: {
+                  title: 'Are you sure?',
+                  text: "Wouldn't you prefer a good game of chess?",
+                  ok_text: 'Yes',
+                  dismiss_text: 'No',
+                },
+              },
+            ],
+          },
+        ],
+      },
+      { as_user: true }
+    );
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.postEphemeral with channel, user and text', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          text: 'hello',
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(CHANNEL, USER, 'hello');
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.postEphemeral with channel, user and text and optional options', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          text: 'hello',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(CHANNEL, USER, 'hello', {
+      as_user: true,
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.postEphemeral with optional options and not parse attachments string', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          text: 'hello',
+          attachments:
+            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(CHANNEL, USER, 'hello', {
+      attachments:
+        '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+      as_user: true,
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.postEphemeral with optional options and parse attachments to string', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postEphemeral',
+        querystring.stringify({
+          channel: CHANNEL,
+          user: USER,
+          text: 'hello',
+          attachments:
+            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.postEphemeral(CHANNEL, USER, 'hello', {
       attachments: [
         {
           text: 'Choose a game to play',

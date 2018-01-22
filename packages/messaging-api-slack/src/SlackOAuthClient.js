@@ -37,6 +37,13 @@ type PostMessageOptions = {
   username?: string,
 };
 
+type postEphemeral = {
+  as_user?: boolean,
+  attachments?: string,
+  link_names?: boolean,
+  parse?: 'none' | 'full',
+};
+
 type GetInfoOptions = {
   include_locale?: boolean,
 };
@@ -85,7 +92,7 @@ export default class SlackOAuthClient {
     method: SlackAvailableMethod,
     body: Object = {}
   ): Promise<SlackOAuthAPIResponse> => {
-    body.token = this._token; // eslint-disable-line no-param-reassign
+    body.token = body.token || this._token; // eslint-disable-line no-param-reassign
     const response = await this._axios.post(
       method,
       querystring.stringify(body)
@@ -253,6 +260,48 @@ export default class SlackOAuthClient {
     }
     return this.callMethod('chat.postMessage', {
       channel,
+      ...message,
+      ...options,
+    });
+  };
+
+  /**
+   * Sends an ephemeral message to a user in a channel.
+   *
+   * https://api.slack.com/methods/chat.postMessage
+   */
+  postEphemeral = (
+    channel: string,
+    user: string,
+    message:
+      | { text?: string, attachments: Array<SlackAttachment> | string }
+      | string,
+    options?: postEphemeral = {}
+  ): Promise<SlackOAuthAPIResponse> => {
+    if (options.attachments && typeof options.attachments !== 'string') {
+      // A JSON-based array of structured attachments, presented as a URL-encoded string.
+      // eslint-disable-next-line no-param-reassign
+      options.attachments = JSON.stringify(options.attachments);
+    } else if (
+      typeof message === 'object' &&
+      message.attachments &&
+      typeof message.attachments !== 'string'
+    ) {
+      // eslint-disable-next-line no-param-reassign
+      message.attachments = JSON.stringify(message.attachments);
+    }
+
+    if (typeof message === 'string') {
+      return this.callMethod('chat.postEphemeral', {
+        channel,
+        user,
+        text: message,
+        ...options,
+      });
+    }
+    return this.callMethod('chat.postEphemeral', {
+      channel,
+      user,
       ...message,
       ...options,
     });

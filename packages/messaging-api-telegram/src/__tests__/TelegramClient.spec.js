@@ -70,6 +70,18 @@ describe('#axios', () => {
     expect(client.axios.put).toBeDefined();
     expect(client.axios.delete).toBeDefined();
   });
+
+  it('should throw error when ok is false', async () => {
+    const { client, mock } = createMock();
+    const reply = {
+      ok: false,
+      description: 'Delete webhook failed',
+    };
+
+    mock.onPost('/deleteWebhook').reply(200, reply);
+
+    expect(client.deleteWebhook().then).toThrow();
+  });
 });
 
 describe('#accessToken', () => {
@@ -80,6 +92,83 @@ describe('#accessToken', () => {
 });
 
 describe('webhooks', () => {
+  describe('#getUpdates', () => {
+    it('should response array of Update objects', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: [
+          {
+            update_id: 513400512,
+            message: {
+              message_id: 3,
+              from: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+              },
+              chat: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+                type: 'private',
+              },
+              date: 1499402829,
+              text: 'hi',
+            },
+          },
+          {
+            update_id: 513400513,
+            message: {
+              message_id: 4,
+              from: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+              },
+              chat: {
+                id: 313534466,
+                first_name: 'first',
+                last_name: 'last',
+                username: 'username',
+                type: 'private',
+              },
+              date: 1484944975,
+              sticker: {
+                width: 512,
+                height: 512,
+                emoji: '\ud83d\ude0d',
+                thumb: {
+                  file_id: 'AAQEABMr6HIwAAT9WnLtRCT6KIgiAAIC',
+                  file_size: 2828,
+                  width: 128,
+                  height: 128,
+                },
+                file_id: 'BQADBAADrwgAAjn8EwY1EPt_ycp8OwI',
+                file_size: 14102,
+              },
+            },
+          },
+        ],
+      };
+
+      mock
+        .onPost('/getUpdates', {
+          limit: 10,
+        })
+        .reply(200, reply);
+
+      const res = await client.getUpdates({
+        limit: 10,
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#getWebhookInfo', () => {
     it('should response webhook info', async () => {
       const { client, mock } = createMock();
@@ -777,6 +866,62 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendVideoNote', () => {
+    it('should send video note message to user', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: {
+          message_id: 1,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499403678,
+          document: {
+            file_name: 'madora.mp4',
+            mime_type: 'video/mp4',
+            thumb: {
+              file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+              file_size: 2874,
+              width: 90,
+              height: 90,
+            },
+            file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+            file_size: 40582,
+          },
+        },
+      };
+
+      mock
+        .onPost('/sendVideoNote', {
+          chat_id: 427770117,
+          video_note: 'https://example.com/video_note.mp4',
+          duration: 40,
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVideoNote(
+        427770117,
+        'https://example.com/video_note.mp4',
+        {
+          duration: 40,
+          disable_notification: true,
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendMediaGroup', () => {
     it('should send a group of photos or videos as an album', async () => {
       const { client, mock } = createMock();
@@ -976,6 +1121,27 @@ describe('send api', () => {
         },
         { last_name: 'last' }
       );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#sendChatAction', () => {
+    it("should tell the user that something is happening on the bot's side", async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/sendChatAction', {
+          chat_id: 427770117,
+          action: 'typing',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendChatAction(427770117, 'typing');
 
       expect(res).toEqual(reply);
     });
@@ -1590,6 +1756,10 @@ describe('inline mode api', () => {
   describe('#answerInlineQuery', () => {
     it('should send answers to an inline query', async () => {
       const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
 
       mock
         .onPost('/answerInlineQuery', {
@@ -1610,7 +1780,7 @@ describe('inline mode api', () => {
           ],
           cache_time: 1000,
         })
-        .reply(200, true);
+        .reply(200, reply);
 
       const res = await client.answerInlineQuery(
         'INLINE_QUERY_ID',
@@ -1632,7 +1802,7 @@ describe('inline mode api', () => {
           cache_time: 1000,
         }
       );
-      expect(res).toEqual(true);
+      expect(res).toEqual(reply);
     });
   });
 });

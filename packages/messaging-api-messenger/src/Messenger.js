@@ -53,7 +53,11 @@ function createMessage(
     ...msg,
   };
 
-  if (options.quick_replies) {
+  if (
+    options.quick_replies &&
+    Array.isArray(options.quick_replies) &&
+    options.quick_replies.length >= 1
+  ) {
     validateQuickReplies(options.quick_replies);
     message.quick_replies = options.quick_replies;
   }

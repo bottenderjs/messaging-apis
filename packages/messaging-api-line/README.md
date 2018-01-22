@@ -170,7 +170,7 @@ client.replyVideo(
 
 Responds audio message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/audio.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
 Param    | Type     | Description
 -------- | -------- | -----------
@@ -217,7 +217,7 @@ client.replyLocation(REPLY_TOKEN, {
 Responds sticker message using specified reply token.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
-<img src="https://developers.line.me/media/messaging-api/messages/sticker.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
 Param     | Type     | Description
 --------- | -------- | -----------
@@ -238,24 +238,27 @@ client.replySticker(REPLY_TOKEN, '1', '1');
 
 Responds imagemap message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/imagemap.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-Param               | Type            | Description
-------------------- | --------------- | -----------
-token               | `String`        | `replyToken` received via webhook.
-altText             | `String`        | Alternative text.
-imagemap            | `Object`        | Object contains imagemap's parameters.
-imagemap.baseUrl    | `String`        | Base URL of image.
-imagemap.baseWidth  | `Number`        | Width of base image.
-imagemap.baseHeight | `Number`        | Height of base image.
-imagemap.actions    | `Array<Object>` | Action when tapped.
+Param                    | Type            | Description
+------------------------ | --------------- | -----------
+token                    | `String`        | `replyToken` received via webhook.
+altText                  | `String`        | Alternative text.
+imagemap                 | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl         | `String`        | Base URL of image.
+imagemap.baseSize        | `Object`        | Base size object.
+imagemap.baseSize.width  | `Number`        | Width of base image.
+imagemap.baseSize.height | `Number`        | Height of base image.
+imagemap.actions         | `Array<Object>` | Action when tapped.
 
 Example:
 ```js
 client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
-  baseWidth: 1040,
-  baseHeight: 1040,
+  baseSize: {
+    width: 1040,
+    height: 1040,
+  },
   actions: [
     {
       type: 'uri',
@@ -328,7 +331,7 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 
 Responds button template message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/buttons.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/buttons-86e14165.png" width="250px" />
 
 Param                  | Type               | Description
 ---------------------- | ------------------ | -----------
@@ -620,7 +623,7 @@ client.pushVideo(
 
 Sends audio message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/audio.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
 Param    | Type     | Description
 -------- | -------- | -----------
@@ -667,7 +670,7 @@ client.pushLocation(USER_ID, {
 Sends sticker message using ID of the receiver.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
-<img src="https://developers.line.me/media/messaging-api/messages/sticker.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
 
 Param     | Type     | Description
@@ -689,24 +692,27 @@ client.pushSticker(USER_ID, '1', '1');
 
 Sends imagemap message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/imagemap.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-Param               | Type            | Description
-------------------- | --------------- | -----------
-userId              | `String`        | ID of the receiver.
-altText             | `String`        | Alternative text.
-imagemap            | `Object`        | Object contains imagemap's parameters.
-imagemap.baseUrl    | `String`        | Base URL of image.
-imagemap.baseWidth  | `Number`        | Width of base image.
-imagemap.baseHeight | `Number`        | Height of base image.
-imagemap.actions    | `Array<Object>` | Action when tapped.
+Param                    | Type            | Description
+------------------------ | --------------- | -----------
+userId                   | `String`        | ID of the receiver.
+altText                  | `String`        | Alternative text.
+imagemap                 | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl         | `String`        | Base URL of image.
+imagemap.baseSize        | `Object`        | Base size object.
+imagemap.baseSize.width  | `Number`        | Width of base image.
+imagemap.baseSize.height | `Number`        | Height of base image.
+imagemap.actions         | `Array<Object>` | Action when tapped.
 
 Example:
 ```js
 client.pushImagemap(USER_ID, 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
-  baseHeight: 1040,
-  baseWidth: 1040,
+  baseSize: {
+    width: 1040,
+    height: 1040,
+  },
   actions: [
     {
       type: 'uri',
@@ -779,7 +785,7 @@ client.pushTemplate(USER_ID, 'this is a template', {
 
 Sends button template message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/buttons.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/buttons-86e14165.png" width="250px" />
 
 Param                  | Type               | Description
 ---------------------- | ------------------ | -----------
@@ -1074,7 +1080,7 @@ client.multicastVideo(
 
 Sends audio message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/audio.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
 Param    | Type            | Description
 -------- | --------------- | -----------
@@ -1121,7 +1127,7 @@ client.multicastLocation([USER_ID], {
 Sends sticker message to multiple users.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
-<img src="https://developers.line.me/media/messaging-api/messages/sticker.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
 
 Param     | Type            | Description
@@ -1143,24 +1149,27 @@ client.multicastSticker([USER_ID], '1', '1');
 
 Sends imagemap message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/imagemap.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-Param               | Type            | Description
-------------------- | --------------- | -----------
-userIds             | `Array<String>` | IDs of the receivers.
-altText             | `String`        | Alternative text.
-imagemap            | `Object`        | Object contains imagemap's parameters.
-imagemap.baseUrl    | `String`        | Base URL of image.
-imagemap.baseWidth  | `Number`        | Width of base image.
-imagemap.baseHeight | `Number`        | Height of base image.
-imagemap.actions    | `Array<Object>` | Action when tapped.
+Param                    | Type            | Description
+------------------------ | --------------- | -----------
+userIds                  | `Array<String>` | IDs of the receivers.
+altText                  | `String`        | Alternative text.
+imagemap                 | `Object`        | Object contains imagemap's parameters.
+imagemap.baseUrl         | `String`        | Base URL of image.
+imagemap.baseSize        | `Object`        | Base size object.
+imagemap.baseSize.width  | `Number`        | Width of base image.
+imagemap.baseSize.height | `Number`        | Height of base image.
+imagemap.actions         | `Array<Object>` | Action when tapped.
 
 Example:
 ```js
 client.multicastImagemap([USER_ID], 'this is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
-  baseHeight: 1040,
-  baseWidth: 1040,
+  baseSize: {
+    width: 1040,
+    height: 1040,
+  },
   actions: [
     {
       type: 'uri',
@@ -1233,7 +1242,7 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 
 Sends button template message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/buttons.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/buttons-86e14165.png" width="250px" />
 
 Param                  | Type               | Description
 ---------------------- | ------------------ | -----------
