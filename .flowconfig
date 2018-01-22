@@ -4,8 +4,6 @@
 [libs]
 
 [options]
-unsafe.enable_getters_and_setters=true
-
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
 suppress_type=$FixMe
@@ -19,4 +17,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 module.name_mapper='^axios-error$' -> '<PROJECT_ROOT>/packages/axios-error/src/index.js'
 
 [version]
-^0.61.0
+^0.63.1
