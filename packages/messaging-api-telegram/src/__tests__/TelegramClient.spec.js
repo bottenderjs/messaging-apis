@@ -70,6 +70,18 @@ describe('#axios', () => {
     expect(client.axios.put).toBeDefined();
     expect(client.axios.delete).toBeDefined();
   });
+
+  it('should throw error when ok is false', async () => {
+    const { client, mock } = createMock();
+    const reply = {
+      ok: false,
+      description: 'Delete webhook failed',
+    };
+
+    mock.onPost('/deleteWebhook').reply(200, reply);
+
+    expect(client.deleteWebhook().then).toThrow();
+  });
 });
 
 describe('#accessToken', () => {
@@ -1112,6 +1124,27 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#sendChatAction', () => {
+    it("should tell the user that something is happening on the bot's side", async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
+
+      mock
+        .onPost('/sendChatAction', {
+          chat_id: 427770117,
+          action: 'typing',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendChatAction(427770117, 'typing');
+
+      expect(res).toEqual(reply);
+    });
+  });
 });
 
 describe('updating api', () => {
@@ -1722,6 +1755,10 @@ describe('inline mode api', () => {
   describe('#answerInlineQuery', () => {
     it('should send answers to an inline query', async () => {
       const { client, mock } = createMock();
+      const reply = {
+        ok: true,
+        result: true,
+      };
 
       mock
         .onPost('/answerInlineQuery', {
@@ -1742,7 +1779,7 @@ describe('inline mode api', () => {
           ],
           cache_time: 1000,
         })
-        .reply(200, true);
+        .reply(200, reply);
 
       const res = await client.answerInlineQuery(
         'INLINE_QUERY_ID',
@@ -1764,7 +1801,7 @@ describe('inline mode api', () => {
           cache_time: 1000,
         }
       );
-      expect(res).toEqual(true);
+      expect(res).toEqual(reply);
     });
   });
 });
