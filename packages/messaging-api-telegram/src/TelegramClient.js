@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable camelcase */
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
@@ -114,8 +115,9 @@ export default class TelegramClient {
   getFileLink = (fileId: string) =>
     this.getFile(fileId).then(
       response =>
-        `https://api.telegram.org/file/bot${this._token}/${response.result
-          .file_path}`
+        `https://api.telegram.org/file/bot${this._token}/${
+          response.result.file_path
+        }`
     );
 
   /**

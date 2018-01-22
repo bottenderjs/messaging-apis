@@ -131,10 +131,10 @@ export default class LineClient {
     this._send(type, target, [Line.createSticker(packageId, stickerId)]);
 
   /**
-     * Imagemap Message
-     *
-     * https://devdocs.line.me/en/#imagemap-message
-     */
+   * Imagemap Message
+   *
+   * https://devdocs.line.me/en/#imagemap-message
+   */
   _sendImagemap = (
     type: SendType,
     target: SendTarget,
@@ -170,10 +170,10 @@ export default class LineClient {
     ]);
 
   /**
-     * Template Messages
-     *
-     * https://devdocs.line.me/en/#template-messages
-     */
+   * Template Messages
+   *
+   * https://devdocs.line.me/en/#template-messages
+   */
   _sendTemplate = (
     type: SendType,
     target: SendTarget,

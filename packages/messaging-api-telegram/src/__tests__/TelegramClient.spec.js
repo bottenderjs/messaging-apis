@@ -368,8 +368,9 @@ describe('get api', () => {
       );
 
       expect(res).toEqual(
-        `https://api.telegram.org/file/bot${ACCESS_TOKEN}/${reply.result
-          .file_path}`
+        `https://api.telegram.org/file/bot${ACCESS_TOKEN}/${
+          reply.result.file_path
+        }`
       );
     });
   });

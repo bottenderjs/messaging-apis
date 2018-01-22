@@ -12,6 +12,7 @@ import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
 import warning from 'warning';
 
+import Messenger from './Messenger';
 import type {
   UserID,
   Recipient,
@@ -134,9 +135,9 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/graph-api/using-graph-api
    * id, name
    */
-  getPageInfo = (
-    { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<PageInfo> =>
+  getPageInfo = ({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<PageInfo> =>
     this._axios
       .get(`/me?access_token=${customAccessToken || this._accessToken}`)
       .then(res => res.data, handleError);
@@ -286,7 +287,10 @@ export default class MessengerClient {
     {
       composer_input_disabled: composerInputDisabled = false,
       ...options
-    }: { composer_input_disabled: boolean } = {}
+    }: {
+      composer_input_disabled: boolean,
+      access_token?: string,
+    } = {}
   ): Promise<MutationSuccessResponse> => {
     // menuItems is in type PersistentMenu
     if (menuItems.some((item: Object) => item.locale === 'default')) {
@@ -550,9 +554,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
    */
-  getMessageTags = (
-    { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<MessageTagResponse> =>
+  getMessageTags = ({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<MessageTagResponse> =>
     this._axios
       .get(
         `/page_message_tags?access_token=${customAccessToken ||
@@ -597,32 +601,19 @@ export default class MessengerClient {
       messageType = 'MESSAGE_TAG';
     }
 
-    const { quick_replies: quickReplies, ...otherOptions } = options;
-
-    if (
-      quickReplies &&
-      Array.isArray(quickReplies) &&
-      quickReplies.length >= 1
-    ) {
-      validateQuickReplies(quickReplies);
-      message.quick_replies = quickReplies; // eslint-disable-line no-param-reassign
-    }
-
     return this.sendRawBody({
       messaging_type: messageType,
       recipient,
-      message,
-      ...otherOptions,
+      message: Messenger.createMessage(message, options),
+      ...omit(options, 'quick_replies'),
     });
   };
 
   sendMessageFormData = (
     recipient: UserID | Recipient,
-    message: Message,
-    filedata: FileData,
+    formdata: FormData,
     options?: SendOption = {}
   ) => {
-    const form = new FormData();
     const recipientObject =
       typeof recipient === 'string'
         ? {
@@ -637,26 +628,16 @@ export default class MessengerClient {
       messageType = 'MESSAGE_TAG';
     }
 
-    if (
-      options.quick_replies &&
-      Array.isArray(options.quick_replies) &&
-      options.quick_replies.length >= 1
-    ) {
-      validateQuickReplies(options.quick_replies);
-      message.quick_replies = options.quick_replies; // eslint-disable-line no-param-reassign
-    }
+    formdata.append('messaging_type', messageType);
+    formdata.append('recipient', JSON.stringify(recipientObject));
 
-    form.append('messaging_type', messageType);
-    form.append('recipient', JSON.stringify(recipientObject));
-    form.append('message', JSON.stringify(message));
-    form.append('filedata', filedata);
     return this._axios
       .post(
         `/me/messages?access_token=${options.access_token ||
           this._accessToken}`,
-        form,
+        formdata,
         {
-          headers: form.getHeaders(),
+          headers: formdata.getHeaders(),
         }
       )
       .then(res => res.data, handleError);
@@ -672,43 +653,32 @@ export default class MessengerClient {
     attachment: Attachment,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendMessage(recipient, { attachment }, options);
-
-  sendAttachmentFormData = (
-    recipient: UserID | Recipient,
-    attachment: Attachment,
-    filedata: FileData,
-    option?: SendOption
-  ): Promise<SendMessageSucessResponse> =>
-    this.sendMessageFormData(recipient, { attachment }, filedata, option);
+    this.sendMessage(
+      recipient,
+      Messenger.createAttachment(attachment),
+      options
+    );
 
   sendText = (
     recipient: UserID | Recipient,
     text: string,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendMessage(recipient, { text }, options);
+    this.sendMessage(recipient, Messenger.createText(text), options);
 
   sendAudio = (
     recipient: UserID | Recipient,
     audio: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'audio',
-      payload: {},
-    };
+    const message = Messenger.createAudio(audio, options);
 
-    if (typeof audio === 'string') {
-      attachment.payload.url = audio;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (audio && isPlainObject(audio)) {
-      attachment.payload = audio;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, audio, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   sendImage = (
@@ -716,21 +686,14 @@ export default class MessengerClient {
     image: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'image',
-      payload: {},
-    };
+    const message = Messenger.createImage(image, options);
 
-    if (typeof image === 'string') {
-      attachment.payload.url = image;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (image && isPlainObject(image)) {
-      attachment.payload = image;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, image, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   sendVideo = (
@@ -738,21 +701,14 @@ export default class MessengerClient {
     video: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'video',
-      payload: {},
-    };
+    const message = Messenger.createVideo(video, options);
 
-    if (typeof video === 'string') {
-      attachment.payload.url = video;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (video && isPlainObject(video)) {
-      attachment.payload = video;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, video, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   sendFile = (
@@ -760,21 +716,14 @@ export default class MessengerClient {
     file: string | FileData | AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> => {
-    const attachment = {
-      type: 'file',
-      payload: {},
-    };
+    const message = Messenger.createFile(file, options);
 
-    if (typeof file === 'string') {
-      attachment.payload.url = file;
-      return this.sendAttachment(recipient, attachment, options);
-    } else if (file && isPlainObject(file)) {
-      attachment.payload = file;
-      return this.sendAttachment(recipient, attachment, options);
+    if (message && isPlainObject(message)) {
+      return this.sendMessage(recipient, message, options);
     }
 
     // $FlowFixMe
-    return this.sendAttachmentFormData(recipient, attachment, file, options);
+    return this.sendMessageFormData(recipient, message, options);
   };
 
   /**
@@ -787,14 +736,7 @@ export default class MessengerClient {
     payload: AttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendAttachment(
-      recipient,
-      {
-        type: 'template',
-        payload,
-      },
-      options
-    );
+    this.sendMessage(recipient, Messenger.createTemplate(payload), options);
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/button
   sendButtonTemplate = (
@@ -803,13 +745,9 @@ export default class MessengerClient {
     buttons: Array<TemplateButton>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'button',
-        text,
-        buttons,
-      },
+      Messenger.createButtonTemplate(text, buttons),
       options
     );
 
@@ -817,19 +755,21 @@ export default class MessengerClient {
   sendGenericTemplate = (
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
-    options?: {
+    {
+      // $FlowFixMe
+      image_aspect_ratio = 'horizontal',
+      ...options
+    }: {
+      image_aspect_ratio: 'horizontal' | 'square',
       ...SendOption,
-      image_aspect_ratio?: 'horizontal' | 'square',
     } = {}
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'generic',
-        elements,
-        image_aspect_ratio: options.image_aspect_ratio || 'horizontal',
-      },
-      omit(options, ['image_aspect_ratio'])
+      Messenger.createGenericTemplate(elements, {
+        image_aspect_ratio,
+      }),
+      options
     );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/list
@@ -837,20 +777,21 @@ export default class MessengerClient {
     recipient: UserID | Recipient,
     elements: Array<TemplateElement>,
     buttons: Array<TemplateButton>,
-    options?: {
+    {
+      // $FlowFixMe
+      top_element_style = 'large',
+      ...options
+    }: {
+      top_element_style: 'large' | 'compact',
       ...SendOption,
-      top_element_style?: 'large' | 'compact',
     } = {}
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'list',
-        elements,
-        buttons,
-        top_element_style: options.top_element_style || 'large',
-      },
-      omit(options, ['top_element_style'])
+      Messenger.createListTemplate(elements, buttons, {
+        top_element_style,
+      }),
+      options
     );
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/open-graph
@@ -859,12 +800,9 @@ export default class MessengerClient {
     elements: Array<OpenGraphElement>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'open_graph',
-        elements,
-      },
+      Messenger.createOpenGraphTemplate(elements),
       options
     );
 
@@ -874,12 +812,9 @@ export default class MessengerClient {
     attrs: ReceiptAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'receipt',
-        ...attrs,
-      },
+      Messenger.createReceiptTemplate(attrs),
       options
     );
 
@@ -889,12 +824,9 @@ export default class MessengerClient {
     elements: Array<MediaElement>,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'media',
-        elements,
-      },
+      Messenger.createMediaTemplate(elements),
       options
     );
 
@@ -904,12 +836,9 @@ export default class MessengerClient {
     attrs: AirlineBoardingPassAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_boardingpass',
-        ...attrs,
-      },
+      Messenger.createAirlineBoardingPassTemplate(attrs),
       options
     );
 
@@ -919,12 +848,9 @@ export default class MessengerClient {
     attrs: AirlineCheckinAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_checkin',
-        ...attrs,
-      },
+      Messenger.createAirlineCheckinTemplate(attrs),
       options
     );
 
@@ -934,12 +860,9 @@ export default class MessengerClient {
     attrs: AirlineItineraryAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_itinerary',
-        ...attrs,
-      },
+      Messenger.createAirlineItineraryTemplate(attrs),
       options
     );
 
@@ -949,12 +872,9 @@ export default class MessengerClient {
     attrs: AirlineFlightUpdateAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> =>
-    this.sendTemplate(
+    this.sendMessage(
       recipient,
-      {
-        template_type: 'airline_update',
-        ...attrs,
-      },
+      Messenger.createAirlineFlightUpdateTemplate(attrs),
       options
     );
 
@@ -1115,8 +1035,9 @@ export default class MessengerClient {
   sendSponsoredMessage = (adAccountId: string, message: Object) =>
     this._axios
       .post(
-        `/act_${adAccountId}/sponsored_message_ads?access_token=${this
-          ._accessToken}`,
+        `/act_${adAccountId}/sponsored_message_ads?access_token=${
+          this._accessToken
+        }`,
         message
       )
       .then(res => res.data, handleError);
@@ -1443,9 +1364,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
    */
-  getSecondaryReceivers = (
-    { access_token: customAccessToken }: { access_token: ?string } = {}
-  ) =>
+  getSecondaryReceivers = ({
+    access_token: customAccessToken,
+  }: { access_token: ?string } = {}) =>
     this._axios
       .get(
         `/me/secondary_receivers?fields=id,name&access_token=${customAccessToken ||

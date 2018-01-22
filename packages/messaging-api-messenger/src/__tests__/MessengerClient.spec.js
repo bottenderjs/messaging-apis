@@ -3,7 +3,7 @@ import fs from 'fs';
 import MockAdapter from 'axios-mock-adapter';
 import FormData from 'form-data';
 
-import Messenger from '../Messenger';
+import MessengerBatch from '../MessengerBatch';
 import MessengerClient from '../MessengerClient';
 
 const USER_ID = '1QAZ2WSX';
@@ -3936,7 +3936,7 @@ describe('send api', () => {
         },
       ];
 
-      const batch = [Messenger.createText(USER_ID, 'Hello')];
+      const batch = [MessengerBatch.createText(USER_ID, 'Hello')];
 
       mock
         .onPost(`https://graph.facebook.com/`, {
@@ -3960,7 +3960,7 @@ describe('send api', () => {
       const { client } = createMock();
 
       const bigBatch = new Array(51).fill(
-        Messenger.createText(USER_ID, 'Hello')
+        MessengerBatch.createText(USER_ID, 'Hello')
       );
 
       expect(() => {
