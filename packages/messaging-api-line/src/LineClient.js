@@ -242,7 +242,7 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square',
       imageSize?: 'cover' | 'contain',
-    }
+    } = {}
   ): Promise<MutationSuccessResponse> =>
     this._send(type, target, [
       Line.createCarouselTemplate(altText, columns, {

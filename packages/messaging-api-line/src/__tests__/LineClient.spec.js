@@ -857,6 +857,128 @@ describe('Reply Message', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should work without option', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a carousel template',
+              template: {
+                type: 'carousel',
+                columns: [
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item1.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=111',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=111',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/111',
+                      },
+                    ],
+                  },
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item2.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=222',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=222',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/222',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyCarouselTemplate(
+        REPLY_TOKEN,
+        'this is a carousel template',
+        [
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=111',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=111',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/111',
+              },
+            ],
+          },
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=222',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=222',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/222',
+              },
+            ],
+          },
+        ]
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#replyImageCarouselTemplate', () => {
@@ -1678,6 +1800,128 @@ describe('Push Message', () => {
           imageAspectRatio: 'rectangle',
           imageSize: 'cover',
         }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should work without option', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a carousel template',
+              template: {
+                type: 'carousel',
+                columns: [
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item1.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=111',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=111',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/111',
+                      },
+                    ],
+                  },
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item2.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=222',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=222',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/222',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushCarouselTemplate(
+        RECIPIENT_ID,
+        'this is a carousel template',
+        [
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=111',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=111',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/111',
+              },
+            ],
+          },
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=222',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=222',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/222',
+              },
+            ],
+          },
+        ]
       );
 
       expect(res).toEqual(reply);
@@ -2506,6 +2750,128 @@ describe('Multicast', () => {
           imageAspectRatio: 'rectangle',
           imageSize: 'cover',
         }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should work without option', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/multicast', {
+          to: [RECIPIENT_ID],
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a carousel template',
+              template: {
+                type: 'carousel',
+                columns: [
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item1.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=111',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=111',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/111',
+                      },
+                    ],
+                  },
+                  {
+                    thumbnailImageUrl:
+                      'https://example.com/bot/images/item2.jpg',
+                    title: 'this is menu',
+                    text: 'description',
+                    actions: [
+                      {
+                        type: 'postback',
+                        label: 'Buy',
+                        data: 'action=buy&itemid=222',
+                      },
+                      {
+                        type: 'postback',
+                        label: 'Add to cart',
+                        data: 'action=add&itemid=222',
+                      },
+                      {
+                        type: 'uri',
+                        label: 'View detail',
+                        uri: 'http://example.com/page/222',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.multicastCarouselTemplate(
+        [RECIPIENT_ID],
+        'this is a carousel template',
+        [
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=111',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=111',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/111',
+              },
+            ],
+          },
+          {
+            thumbnailImageUrl: 'https://example.com/bot/images/item2.jpg',
+            title: 'this is menu',
+            text: 'description',
+            actions: [
+              {
+                type: 'postback',
+                label: 'Buy',
+                data: 'action=buy&itemid=222',
+              },
+              {
+                type: 'postback',
+                label: 'Add to cart',
+                data: 'action=add&itemid=222',
+              },
+              {
+                type: 'uri',
+                label: 'View detail',
+                uri: 'http://example.com/page/222',
+              },
+            ],
+          },
+        ]
       );
 
       expect(res).toEqual(reply);
