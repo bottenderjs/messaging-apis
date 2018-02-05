@@ -1,17 +1,25 @@
 language: node_js
+
 node_js:
   - "stable"
   - "8"
   - "6"
-cache: yarn
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.28.4
-  - export PATH="$HOME/.yarn/bin:$PATH"
+
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+
 install:
   - yarn
   - npm run bootstrap
   - yarn global add codecov
+
 script:
   - npm run lint
   - npm run typecheck
   - npm run testonly -- --coverage && codecov
+
+notifications:
+  email:
+    on_success: never
