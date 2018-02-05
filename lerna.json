@@ -2,10 +2,12 @@
   "lerna": "2.8.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "0.7.0-alpha.1",
+  "version": "0.7.0-alpha.2",
   "commands": {
     "publish": {
-      "ignore": ["__tests__/**"]
+      "ignore": [
+        "__tests__/**"
+      ]
     }
   }
 }
