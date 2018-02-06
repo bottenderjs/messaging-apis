@@ -102,11 +102,11 @@ client.reply(REPLY_TOKEN, [
 
 Responds text message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/text.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/text-bf530b30.png" width="250px" />
 
 You can include LINE original emoji in text messages using character codes. For a list of LINE emoji that can be sent in LINE chats, see the [emoji list](https://developers.line.me/media/messaging-api/emoji-list.pdf).
 
-<img src="https://developers.line.me/media/messaging-api/messages/emoji.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/emoji-b3285d27.png" width="250px" />
 
 Param | Type     | Description
 ----- | -------- | -----------
@@ -124,7 +124,7 @@ client.reply(REPLY_TOKEN, 'Hello!');
 
 Responds image message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
 Param           | Type     | Description
 --------------- | -------- | -----------
@@ -147,7 +147,7 @@ client.replyImage(
 
 Responds video message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/video.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
 Param           | Type     | Description
 --------------- | -------- | -----------
@@ -189,7 +189,7 @@ client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 
 Responds location message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/location.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/location-8f9b6b79.png" width="250px" />
 
 Param              | Type     | Description
 ------------------ | -------- | -----------
@@ -378,7 +378,7 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 
 Responds confirm template message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/confirm.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/confirm-444aead5.png" width="250px" />
 
 Param                   | Type               | Description
 ----------------------- | ------------------ | -----------
@@ -413,7 +413,7 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
 
 Responds carousel template message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/carousel-c59baef6.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -480,7 +480,7 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 Responds image carousel template message using specified reply token.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image-carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-carousel-301701f6.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -555,11 +555,11 @@ client.push(USER_ID, [
 
 Sends text message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/text.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/text-bf530b30.png" width="250px" />
 
 You can include LINE original emoji in text messages using character codes. For a list of LINE emoji that can be sent in LINE chats, see the [emoji list](https://developers.line.me/media/messaging-api/emoji-list.pdf).
 
-<img src="https://developers.line.me/media/messaging-api/messages/emoji.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/emoji-b3285d27.png" width="250px" />
 
 Param  | Type     | Description
 ------ | -------- | -----------
@@ -577,7 +577,7 @@ client.pushText(USER_ID, 'Hello!');
 
 Sends image message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
 Param           | Type     | Description
 --------------- | -------- | -----------
@@ -600,7 +600,7 @@ client.pushImage(
 
 Sends video message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/video.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
 Param           | Type     | Description
 --------------- | -------- | -----------
@@ -642,7 +642,7 @@ client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 
 Sends location message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/location.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/location-8f9b6b79.png" width="250px" />
 
 Param              | Type     | Description
 ------------------ | -------- | -----------
@@ -832,7 +832,7 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 
 Sends confirm template message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/confirm.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/confirm-444aead5.png" width="250px" />
 
 Param                   | Type               | Description
 ----------------------- | ------------------ | -----------
@@ -867,7 +867,7 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
 
 Sends carousel template message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/carousel-c59baef6.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -934,7 +934,7 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 Sends image carousel template message using ID of the receiver.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image-carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-carousel-301701f6.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -1012,11 +1012,11 @@ client.multicast(
 
 Sends text message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/text.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/text-bf530b30.png" width="250px" />
 
 You can include LINE original emoji in text messages using character codes. For a list of LINE emoji that can be sent in LINE chats, see the [emoji list](https://developers.line.me/media/messaging-api/emoji-list.pdf).
 
-<img src="https://developers.line.me/media/messaging-api/messages/emoji.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/emoji-b3285d27.png" width="250px" />
 
 Param   | Type            | Description
 ------- | --------------- | -----------
@@ -1034,7 +1034,7 @@ client.multicastText([USER_ID], 'Hello!');
 
 Sends image message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
 Param           | Type            | Description
 --------------- | --------------- | -----------
@@ -1057,7 +1057,7 @@ client.multicastImage(
 
 Sends video message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/video.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
 Param           | Type            | Description
 --------------- | --------------- | -----------
@@ -1099,7 +1099,7 @@ client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 
 Sends location message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/location.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/location-8f9b6b79.png" width="250px" />
 
 Param              | Type            | Description
 ------------------ | --------------- | -----------
@@ -1289,7 +1289,7 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 Sends confirm template message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/confirm.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/confirm-444aead5.png" width="250px" />
 
 Param                   | Type            | Description
 ----------------------- | --------------- | -----------
@@ -1324,7 +1324,7 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 
 Sends carousel template message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/carousel-c59baef6.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
@@ -1391,7 +1391,7 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 
 Sends image carousel template message to multiple users.
 
-<img src="https://developers.line.me/media/messaging-api/messages/image-carousel.png" width="250px" />
+<img src="https://developers.line.me/media/messaging-api/messages/image-carousel-301701f6.png" width="250px" />
 
 Param         | Type            | Description
 ------------- | --------------- | -----------
