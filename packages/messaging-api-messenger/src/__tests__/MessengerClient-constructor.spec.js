@@ -57,6 +57,19 @@ describe('connect', () => {
       });
     });
   });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    MessengerClient.connect({
+      accessToken: ACCESS_TOKEN,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/v2.11/',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  });
 });
 
 describe('constructor', () => {
@@ -101,6 +114,20 @@ describe('constructor', () => {
         baseURL: 'https://graph.facebook.com/v2.6/',
         headers: { 'Content-Type': 'application/json' },
       });
+    });
+  });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    // eslint-disable-next-line no-new
+    new MessengerClient({
+      accessToken: ACCESS_TOKEN,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/v2.11/',
+      headers: { 'Content-Type': 'application/json' },
     });
   });
 });

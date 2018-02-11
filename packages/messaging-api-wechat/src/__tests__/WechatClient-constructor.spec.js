@@ -40,6 +40,22 @@ describe('connect', () => {
       });
     });
   });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    WechatClient.connect({
+      appId: APP_ID,
+      appSecret: APP_SECRET,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/cgi-bin/',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
 });
 
 describe('constructor', () => {
@@ -77,6 +93,23 @@ describe('constructor', () => {
           'Content-Type': 'application/json',
         },
       });
+    });
+  });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    // eslint-disable-next-line no-new
+    new WechatClient({
+      appId: APP_ID,
+      appSecret: APP_SECRET,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/cgi-bin/',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
   });
 });
