@@ -45,21 +45,42 @@ function handleError(err) {
   throw new AxiosError(msg, err);
 }
 
+type ClientConfig = {
+  accessToken: string,
+  channelSecret: string,
+  origin?: string,
+};
+
 export default class LineClient {
-  static connect = (accessToken: string, channelSecret: string): LineClient =>
-    new LineClient(accessToken, channelSecret);
+  static connect = (
+    accessTokenOrConfig: string | ClientConfig,
+    channelSecret: string
+  ): LineClient => new LineClient(accessTokenOrConfig, channelSecret);
 
   _accessToken: string;
   _channelSecret: string;
   _axios: Axios;
 
-  constructor(accessToken: string, channelSecret: string) {
-    this._accessToken = accessToken;
-    this._channelSecret = channelSecret;
+  constructor(
+    accessTokenOrConfig: string | ClientConfig,
+    channelSecret: string
+  ) {
+    let origin;
+    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
+      const config = accessTokenOrConfig;
+
+      this._accessToken = config.accessToken;
+      this._channelSecret = config.channelSecret;
+      ({ origin } = config);
+    } else {
+      this._accessToken = accessTokenOrConfig;
+      this._channelSecret = channelSecret;
+    }
+
     this._axios = axios.create({
-      baseURL: 'https://api.line.me/v2/bot/',
+      baseURL: `${origin || 'https://api.line.me'}/v2/bot/`,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${this._accessToken}`,
         'Content-Type': 'application/json',
       },
     });
@@ -131,10 +152,10 @@ export default class LineClient {
     this._send(type, target, [Line.createSticker(packageId, stickerId)]);
 
   /**
-     * Imagemap Message
-     *
-     * https://devdocs.line.me/en/#imagemap-message
-     */
+   * Imagemap Message
+   *
+   * https://devdocs.line.me/en/#imagemap-message
+   */
   _sendImagemap = (
     type: SendType,
     target: SendTarget,
@@ -170,10 +191,10 @@ export default class LineClient {
     ]);
 
   /**
-     * Template Messages
-     *
-     * https://devdocs.line.me/en/#template-messages
-     */
+   * Template Messages
+   *
+   * https://devdocs.line.me/en/#template-messages
+   */
   _sendTemplate = (
     type: SendType,
     target: SendTarget,
