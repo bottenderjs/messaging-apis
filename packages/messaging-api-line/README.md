@@ -24,6 +24,7 @@
   * [Group/Room Member IDs API](#grouproom-member-ids-api)
   * [Leave API](#leave-api)
   * [Rich Menu API](#rich-menu-api)
+- [Test](#test)
 
 ## Installation
 
@@ -1905,3 +1906,21 @@ const fs = require('fs');
 
 client.uploadRichMenuImage(RICH_MENU_ID, fs.readFileSync('image.png'));
 ```
+
+## Test
+
+### Point requests to your dummy server
+
+To avoid sending requests to real LINE server, specify `origin` option when constructing your client:
+
+```js
+const { LineClient } = require('messaging-api-line');
+
+const client = LineClient.connect({
+  accessToken: ACCESS_TOKEN,
+  channelSecret: CHANNEL_SECRET,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
+> Warning: Don't do this on production server.

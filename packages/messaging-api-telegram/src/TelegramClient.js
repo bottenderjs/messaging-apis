@@ -38,7 +38,7 @@ export default class TelegramClient {
       const config = accessTokenOrConfig;
 
       this._token = config.accessToken;
-      ({ origin } = config);
+      origin = config.origin;
     } else {
       this._token = accessTokenOrConfig;
     }

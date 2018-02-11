@@ -48,7 +48,7 @@ export default class ViberClient {
 
       this._token = config.accessToken;
       this._sender = config.sender;
-      ({ origin } = config);
+      origin = config.origin;
     } else {
       this._token = accessTokenOrConfig;
       this._sender = sender;

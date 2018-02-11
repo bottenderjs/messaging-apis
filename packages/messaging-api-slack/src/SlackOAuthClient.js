@@ -70,7 +70,7 @@ export default class SlackOAuthClient {
       const config = accessTokenOrConfig;
 
       this._token = config.accessToken;
-      ({ origin } = config);
+      origin = config.origin;
     } else {
       // Bot User OAuth Access Token
       this._token = accessTokenOrConfig;
