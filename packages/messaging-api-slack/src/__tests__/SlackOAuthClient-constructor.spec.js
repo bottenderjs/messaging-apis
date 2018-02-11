@@ -35,6 +35,19 @@ describe('connect', () => {
       });
     });
   });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    SlackOAuthClient.connect({
+      accessToken: TOKEN,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/api/',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+  });
 });
 
 describe('constructor', () => {
@@ -68,6 +81,20 @@ describe('constructor', () => {
         baseURL: 'https://slack.com/api/',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
+    });
+  });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    // eslint-disable-next-line no-new
+    new SlackOAuthClient({
+      accessToken: TOKEN,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/api/',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     });
   });
 });

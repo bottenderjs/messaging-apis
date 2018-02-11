@@ -41,6 +41,22 @@ describe('connect', () => {
       });
     });
   });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    TelegramClient.connect({
+      accessToken: ACCESS_TOKEN,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL:
+        'https://mydummytestserver.com/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
 });
 
 describe('constructor', () => {
@@ -80,6 +96,23 @@ describe('constructor', () => {
           'Content-Type': 'application/json',
         },
       });
+    });
+  });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    // eslint-disable-next-line no-new
+    new TelegramClient({
+      accessToken: ACCESS_TOKEN,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL:
+        'https://mydummytestserver.com/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
   });
 });

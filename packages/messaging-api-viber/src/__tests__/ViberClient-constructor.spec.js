@@ -46,6 +46,23 @@ describe('connect', () => {
       });
     });
   });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    ViberClient.connect({
+      accessToken: AUTH_TOKEN,
+      sender: SENDER,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/pa/',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Viber-Auth-Token': AUTH_TOKEN,
+      },
+    });
+  });
 });
 
 describe('constructor', () => {
@@ -85,6 +102,24 @@ describe('constructor', () => {
           'X-Viber-Auth-Token': AUTH_TOKEN,
         },
       });
+    });
+  });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    // eslint-disable-next-line no-new
+    new ViberClient({
+      accessToken: AUTH_TOKEN,
+      sender: SENDER,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/pa/',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Viber-Auth-Token': AUTH_TOKEN,
+      },
     });
   });
 });

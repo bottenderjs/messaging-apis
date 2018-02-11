@@ -45,6 +45,23 @@ describe('connect', () => {
       });
     });
   });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    LineClient.connect({
+      accessToken: ACCESS_TOKEN,
+      channelSecret: CHANNEL_SECRET,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/v2/bot/',
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  });
 });
 
 describe('constructor', () => {
@@ -88,6 +105,24 @@ describe('constructor', () => {
           'Content-Type': 'application/json',
         },
       });
+    });
+  });
+
+  it('support origin', () => {
+    axios.create = jest.fn();
+    // eslint-disable-next-line no-new
+    new LineClient({
+      accessToken: ACCESS_TOKEN,
+      channelSecret: CHANNEL_SECRET,
+      origin: 'https://mydummytestserver.com',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://mydummytestserver.com/v2/bot/',
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
     });
   });
 });
