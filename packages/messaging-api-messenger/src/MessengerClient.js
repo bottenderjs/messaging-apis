@@ -122,7 +122,7 @@ export default class MessengerClient {
 
       this._accessToken = config.accessToken;
       invariant(
-        typeof config.version === 'string',
+        !config.version || typeof config.version === 'string',
         'Type of `version` must be string.'
       );
       this._version = extractVersion(config.version || '2.11');
