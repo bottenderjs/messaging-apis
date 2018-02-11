@@ -38,6 +38,7 @@
   * [Event Logging API](#event-logging-api)
   * [ID Matching API](#id-matching-api)
   * [Others](#others)
+- [Test](#test)
 
 ## Installation
 
@@ -2914,5 +2915,23 @@ client.getPageInfo().then(page => {
   // }
 });
 ```
+
+## Test
+
+### Point requests to your dummy server
+
+To avoid sending requests to real Messenger server, specify `origin` option when constructing your client:
+
+```js
+const { MessengerClient } = require('messaging-api-messenger');
+
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
+> Warning: Don't do this on production server.
+
 
 [send-api-reference#recipient]: https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient

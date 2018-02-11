@@ -9,6 +9,7 @@
 - [API Reference](#api-reference)
   * [Send API](#send-api)
   * [Medai API](#media-api)
+- [Test](#test)
 
 ## Installation
 
@@ -219,3 +220,21 @@ client.getMedia(MEDIA_ID).then(media => {
   // }
 });
 ```
+
+## Test
+
+### Point requests to your dummy server
+
+To avoid sending requests to real WeChat server, specify `origin` option when constructing your client:
+
+```js
+const { WechatClient } = require('messaging-api-wechat');
+
+const client = WechatClient.connect({
+  appId: APP_ID,
+  appSecret: APP_SECRET,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
+> Warning: Don't do this on production server.

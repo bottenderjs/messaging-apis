@@ -126,7 +126,7 @@ export default class MessengerClient {
         'Type of `version` must be string.'
       );
       this._version = extractVersion(config.version || '2.11');
-      ({ origin } = config);
+      origin = config.origin;
     } else {
       this._accessToken = accessTokenOrConfig;
       invariant(

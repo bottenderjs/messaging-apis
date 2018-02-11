@@ -10,6 +10,7 @@
 - [OAuth Client](#oauth-client)
   - [Usage](#usage)
   - [API Reference](#api-reference)
+  - [Test](#test)
 - [Webhook Client](#webhook-client)
   - [Usage](#usage-1)
   - [API Reference](#api-reference-1)
@@ -371,6 +372,25 @@ client.getAllConversationList().then(res => {
   // ],
 });
 ```
+
+<br />
+
+## Test
+
+### Point requests to your dummy server
+
+To avoid sending requests to real Slack server, specify `origin` option when constructing your client:
+
+```js
+const { SlackOAuthClient } = require('messaging-api-slack');
+
+const client = SlackOAuthClient.connect({
+  accessToken: ACCESS_TOKEN,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
+> Warning: Don't do this on production server.
 
 <br />
 

@@ -60,7 +60,7 @@ export default class WechatClient {
 
       this._appId = config.appId;
       this._appSecret = config.appSecret;
-      ({ origin } = config);
+      origin = config.origin;
     } else {
       this._appId = appIdOrClientConfig;
       this._appSecret = appSecret;

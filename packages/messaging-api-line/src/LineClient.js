@@ -71,7 +71,7 @@ export default class LineClient {
 
       this._accessToken = config.accessToken;
       this._channelSecret = config.channelSecret;
-      ({ origin } = config);
+      origin = config.origin;
     } else {
       this._accessToken = accessTokenOrConfig;
       this._channelSecret = channelSecret;
