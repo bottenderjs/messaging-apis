@@ -96,22 +96,48 @@ function handleError(err) {
   throw new AxiosError(msg, err);
 }
 
+type ClientConfig = {
+  accessToken: string,
+  version?: string,
+  origin?: string,
+};
+
 export default class MessengerClient {
   static connect = (
-    accessToken: string,
+    accessTokenOrConfig: string | ClientConfig,
     version?: string = '2.11'
-  ): MessengerClient => new MessengerClient(accessToken, version);
+  ): MessengerClient => new MessengerClient(accessTokenOrConfig, version);
 
   _accessToken: string;
   _version: string;
   _axios: Axios;
 
-  constructor(accessToken: string, version?: string = '2.11') {
-    this._accessToken = accessToken;
-    invariant(typeof version === 'string', 'Type of `version` must be string.');
-    this._version = extractVersion(version);
+  constructor(
+    accessTokenOrConfig: string | ClientConfig,
+    version?: string = '2.11'
+  ) {
+    let origin;
+    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
+      const config = accessTokenOrConfig;
+
+      this._accessToken = config.accessToken;
+      invariant(
+        typeof config.version === 'string',
+        'Type of `version` must be string.'
+      );
+      this._version = extractVersion(config.version || '2.11');
+      ({ origin } = config);
+    } else {
+      this._accessToken = accessTokenOrConfig;
+      invariant(
+        typeof version === 'string',
+        'Type of `version` must be string.'
+      );
+      this._version = extractVersion(version);
+    }
+
     this._axios = axios.create({
-      baseURL: `https://graph.facebook.com/v${this._version}/`,
+      baseURL: `${origin || 'https://graph.facebook.com'}/v${this._version}/`,
       headers: { 'Content-Type': 'application/json' },
     });
   }
