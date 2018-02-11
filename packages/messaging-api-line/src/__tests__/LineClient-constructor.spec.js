@@ -15,16 +15,34 @@ describe('connect', () => {
     axios.create = _create;
   });
 
-  it('create axios with Line API', () => {
-    axios.create = jest.fn();
-    LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
+  describe('create axios with Line API', () => {
+    it('with args', () => {
+      axios.create = jest.fn();
+      LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
 
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://api.line.me/v2/bot/',
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.line.me/v2/bot/',
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    });
+
+    it('with config', () => {
+      axios.create = jest.fn();
+      LineClient.connect({
+        accessToken: ACCESS_TOKEN,
+        channelSecret: CHANNEL_SECRET,
+      });
+
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.line.me/v2/bot/',
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      });
     });
   });
 });
@@ -41,23 +59,51 @@ describe('constructor', () => {
     axios.create = _create;
   });
 
-  it('create axios with Line API', () => {
-    axios.create = jest.fn();
-    new LineClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
+  describe('create axios with Line API', () => {
+    it('with args', () => {
+      axios.create = jest.fn();
+      new LineClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
 
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://api.line.me/v2/bot/',
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.line.me/v2/bot/',
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    });
+
+    it('with config', () => {
+      axios.create = jest.fn();
+      // eslint-disable-next-line no-new
+      new LineClient({
+        accessToken: ACCESS_TOKEN,
+        channelSecret: CHANNEL_SECRET,
+      });
+
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.line.me/v2/bot/',
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      });
     });
   });
 });
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    expect(client.axios.get).toBeDefined();
+    expect(client.axios.post).toBeDefined();
+    expect(client.axios.put).toBeDefined();
+    expect(client.axios.delete).toBeDefined();
+
+    client = new LineClient({
+      accessToken: ACCESS_TOKEN,
+      channelSecret: CHANNEL_SECRET,
+    });
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -67,14 +113,19 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+    expect(client.accessToken).toBe(ACCESS_TOKEN);
+
+    client = new LineClient({
+      accessToken: ACCESS_TOKEN,
+      channelSecret: CHANNEL_SECRET,
+    });
     expect(client.accessToken).toBe(ACCESS_TOKEN);
   });
 });
 
 describe('Client instance', () => {
   it('prototype should be defined', () => {
-    const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
     const sendTypes = ['reply', 'push', 'multicast'];
     const messageTypes = [
       'Text',
@@ -90,6 +141,20 @@ describe('Client instance', () => {
       'CarouselTemplate',
       'ImageCarouselTemplate',
     ];
+
+    let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+
+    sendTypes.forEach(sendType => {
+      messageTypes.forEach(messageType => {
+        expect(client[`${sendType}${messageType}`]).toBeDefined();
+      });
+    });
+
+    client = new LineClient({
+      accessToken: ACCESS_TOKEN,
+      channelSecret: CHANNEL_SECRET,
+    });
+
     sendTypes.forEach(sendType => {
       messageTypes.forEach(messageType => {
         expect(client[`${sendType}${messageType}`]).toBeDefined();

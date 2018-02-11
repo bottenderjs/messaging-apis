@@ -15,15 +15,29 @@ describe('connect', () => {
     axios.create = _create;
   });
 
-  it('create axios with WeChat API', () => {
-    axios.create = jest.fn();
-    WechatClient.connect(APP_ID, APP_SECRET);
+  describe('create axios with WeChat API', () => {
+    it('with args', () => {
+      axios.create = jest.fn();
+      WechatClient.connect(APP_ID, APP_SECRET);
 
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    });
+
+    it('with config', () => {
+      axios.create = jest.fn();
+      WechatClient.connect({ appId: APP_ID, appSecret: APP_SECRET });
+
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     });
   });
 });
@@ -40,22 +54,42 @@ describe('constructor', () => {
     axios.create = _create;
   });
 
-  it('create axios with WeChat API', () => {
-    axios.create = jest.fn();
-    new WechatClient(APP_ID, APP_SECRET); // eslint-disable-line no-new
+  describe('create axios with WeChat API', () => {
+    it('with args', () => {
+      axios.create = jest.fn();
+      new WechatClient(APP_ID, APP_SECRET); // eslint-disable-line no-new
 
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    });
+
+    it('with config', () => {
+      axios.create = jest.fn();
+      new WechatClient({ appId: APP_ID, appSecret: APP_SECRET }); // eslint-disable-line no-new
+
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     });
   });
 });
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    const client = new WechatClient(APP_ID, APP_SECRET);
+    let client = new WechatClient(APP_ID, APP_SECRET);
+    expect(client.axios.get).toBeDefined();
+    expect(client.axios.post).toBeDefined();
+    expect(client.axios.put).toBeDefined();
+    expect(client.axios.delete).toBeDefined();
+
+    client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -65,7 +99,10 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    const client = new WechatClient(APP_ID, APP_SECRET);
+    let client = new WechatClient(APP_ID, APP_SECRET);
+    expect(typeof client.accessToken).toBe('string');
+
+    client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
     expect(typeof client.accessToken).toBe('string');
   });
 });

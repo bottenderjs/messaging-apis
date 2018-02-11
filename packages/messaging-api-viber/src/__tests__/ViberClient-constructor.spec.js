@@ -19,16 +19,31 @@ describe('connect', () => {
     axios.create = _create;
   });
 
-  it('create axios with Viber API', () => {
-    axios.create = jest.fn();
-    ViberClient.connect(AUTH_TOKEN, SENDER);
+  describe('create axios with Viber API', () => {
+    it('with args', () => {
+      axios.create = jest.fn();
+      ViberClient.connect(AUTH_TOKEN, SENDER);
 
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://chatapi.viber.com/pa/',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Viber-Auth-Token': AUTH_TOKEN,
-      },
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://chatapi.viber.com/pa/',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Viber-Auth-Token': AUTH_TOKEN,
+        },
+      });
+    });
+
+    it('with config', () => {
+      axios.create = jest.fn();
+      ViberClient.connect({ accessToken: AUTH_TOKEN, sender: SENDER });
+
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://chatapi.viber.com/pa/',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Viber-Auth-Token': AUTH_TOKEN,
+        },
+      });
     });
   });
 });
@@ -45,23 +60,44 @@ describe('constructor', () => {
     axios.create = _create;
   });
 
-  it('create axios with Viber API', () => {
-    axios.create = jest.fn();
-    new ViberClient(AUTH_TOKEN, SENDER); // eslint-disable-line no-new
+  describe('create axios with Viber API', () => {
+    it('with args', () => {
+      axios.create = jest.fn();
+      new ViberClient(AUTH_TOKEN, SENDER); // eslint-disable-line no-new
 
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://chatapi.viber.com/pa/',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Viber-Auth-Token': AUTH_TOKEN,
-      },
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://chatapi.viber.com/pa/',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Viber-Auth-Token': AUTH_TOKEN,
+        },
+      });
+    });
+
+    it('with config', () => {
+      axios.create = jest.fn();
+      new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER }); // eslint-disable-line no-new
+
+      expect(axios.create).toBeCalledWith({
+        baseURL: 'https://chatapi.viber.com/pa/',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Viber-Auth-Token': AUTH_TOKEN,
+        },
+      });
     });
   });
 });
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    const client = new ViberClient(AUTH_TOKEN, SENDER);
+    let client = new ViberClient(AUTH_TOKEN, SENDER);
+    expect(client.axios.get).toBeDefined();
+    expect(client.axios.post).toBeDefined();
+    expect(client.axios.put).toBeDefined();
+    expect(client.axios.delete).toBeDefined();
+
+    client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -71,7 +107,10 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    const client = new ViberClient(AUTH_TOKEN, SENDER);
+    let client = new ViberClient(AUTH_TOKEN, SENDER);
+    expect(client.accessToken).toBe(AUTH_TOKEN);
+
+    client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
     expect(client.accessToken).toBe(AUTH_TOKEN);
   });
 });
