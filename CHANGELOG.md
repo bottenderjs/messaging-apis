@@ -418,7 +418,7 @@ client.getPageInfo().then(page => {
 
   # 0.5.7 / 2017-11-09
 
-  A large update to support [Messenger Platform 2.2](https://messenger.fb.com/blog/2-2-release/). 🎉
+  A large update to support [Messenger Platform 2.2](https://messenger.fb.com/newsroom/2-2-release). 🎉
 
 ## Messaging Types
 
@@ -626,7 +626,7 @@ client.logCustomEvents({
 
 Support messenger platform 2.2 - [#186](https://github.com/Yoctol/messaging-apis/issues/186)
 
-See more details in [Messenger official release post](https://messenger.fb.com/blog/2-2-release/) and [changelog](https://developers.facebook.com/docs/messenger-platform/changelog#november-7--2017).
+See more details in [Messenger official release post](https://messenger.fb.com/newsroom/2-2-release) and [changelog](https://developers.facebook.com/docs/messenger-platform/changelog#november-7--2017).
 
 # 0.5.6 / 2017-11-07
 

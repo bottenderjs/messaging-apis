@@ -1,6 +1,6 @@
 # Messaging APIs
 
-[![Build Status](https://travis-ci.org/Yoctol/messaging-apis.svg?branch=master)](https://travis-ci.org/Yoctol/messaging-apis)
+[![Build Status](https://api.travis-ci.org/Yoctol/messaging-apis.svg?branch=master)](https://travis-ci.org/Yoctol/messaging-apis)
 [![Build status](https://ci.appveyor.com/api/projects/status/d8br1kcybpikdm8m/branch/master?svg=true)](https://ci.appveyor.com/project/tw0517tw/messaging-apis/branch/master)
 [![coverage](https://codecov.io/gh/Yoctol/messaging-apis/branch/master/graph/badge.svg)](https://codecov.io/gh/Yoctol/messaging-apis)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -18,7 +18,7 @@ If you are looking for a framework to build your bots, [Bottender](https://githu
 | Package | Version | Platform |
 |---------|---------|-------------|
 | [`messaging-api-messenger`](/packages/messaging-api-messenger) | [![npm](https://img.shields.io/npm/v/messaging-api-messenger.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-messenger) | [Messenger](https://www.messenger.com/) |
-| [`messaging-api-line`](/packages/messaging-api-line) | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line) | [LINE](https://line.me/) |
+| [`messaging-api-line`](/packages/messaging-api-line) | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line) | [LINE](https://line.me/en/) |
 | [`messaging-api-slack`](/packages/messaging-api-slack) | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack) | [Slack](https://slack.com/) |
 | [`messaging-api-telegram`](/packages/messaging-api-telegram) | [![npm](https://img.shields.io/npm/v/messaging-api-telegram.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-telegram) | [Telegram](https://telegram.org/) |
 | [`messaging-api-viber`](/packages/messaging-api-viber) | [![npm](https://img.shields.io/npm/v/messaging-api-viber.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-viber) | [Viber](https://www.viber.com/) |
@@ -118,7 +118,7 @@ client.postMessage('#random', 'Hello World').then(() => {
 const { SlackWebhookClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
-// https://my.slack.com/services/new/incoming-webhook/
+// https://my.slack.com/services/new/incoming-webhook
 const client = SlackWebhookClient.connect(
   'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ'
 );

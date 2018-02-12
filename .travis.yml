@@ -22,8 +22,8 @@ matrix:
     - language: ruby
       install: gem install awesome_bot
       script:
-        - awesome_bot *.md --allow-dupe --white-list hooks.slack.com/services,example.com
-        - for d in ./packages/*/ ; do (cd "$d" && echo "\ncd ${d}\n" && awesome_bot *.md --allow-dupe --white-list example.com,mycallback.com,petershats,jaspersmarket,airline.com,ngrok.io,hooks.slack.com/services,images.com,html-test,url.by,my.site.com); done
+        - awesome_bot *.md --allow-dupe --allow-redirect --skip-save-results --white-list hooks.slack.com/services,example.com,mycallback.com,jaspers,jaspersmarket,graph.facebook.com/v2.10/me/messages?access_token=
+        - for d in ./packages/*/ ; do (cd "$d" && echo -e "\ncd ${d}\n" && awesome_bot *.md --allow-dupe --allow-redirect --skip-save-results --white-list example.com,mycallback.com,petershats,jaspersmarket,airline.com,ngrok.io,hooks.slack.com/services,images.com,html-test,url.by,my.site.com,johnsmovieappns); done
 
 notifications:
   email:
