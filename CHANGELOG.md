@@ -1,3 +1,16 @@
+# 0.6.13 / 2018-02-12
+
+* [new] Support `origin` for test:
+
+```js
+const { MessengerClient } = require('messaging-api-messenger');
+
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
 # 0.6.12 / 2018-02-05
 
 ### messaging-api-line
