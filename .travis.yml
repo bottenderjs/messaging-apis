@@ -1,24 +1,29 @@
-language: node_js
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "stable"
+        - "8"
+        - "6"
+      cache:
+        yarn: true
+        directories:
+          - "node_modules"
+      install:
+        - yarn
+        - npm run bootstrap
+        - yarn global add codecov
 
-node_js:
-  - "stable"
-  - "8"
-  - "6"
+      script:
+        - npm run lint
+        - npm run typecheck
+        - npm run testonly -- --coverage && codecov
 
-cache:
-  yarn: true
-  directories:
-    - "node_modules"
-
-install:
-  - yarn
-  - npm run bootstrap
-  - yarn global add codecov
-
-script:
-  - npm run lint
-  - npm run typecheck
-  - npm run testonly -- --coverage && codecov
+    - language: ruby
+      install: gem install awesome_bot
+      script:
+        - awesome_bot *.md --allow-dupe --allow-redirect --skip-save-results --white-list hooks.slack.com/services,example.com,mycallback.com,jaspers,jaspersmarket,graph.facebook.com/v2.10/me/messages?access_token=
+        - for d in ./packages/*/ ; do (cd "$d" && echo -e "\ncd ${d}\n" && awesome_bot *.md --allow-dupe --allow-redirect --skip-save-results --white-list example.com,mycallback.com,petershats,jaspersmarket,airline.com,ngrok.io,hooks.slack.com/services,images.com,html-test,url.by,my.site.com,johnsmovieappns); done
 
 notifications:
   email:
