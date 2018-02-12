@@ -34,9 +34,17 @@ function throwErrorIfAny(response) {
   });
 }
 
+type ClientConfig = {
+  appId: string,
+  appSecret: string,
+  origin?: string,
+};
+
 export default class WechatClient {
-  static connect = (appId: string, appSecret: string): WechatClient =>
-    new WechatClient(appId, appSecret);
+  static connect = (
+    appIdOrClientConfig: string | ClientConfig,
+    appSecret: string
+  ): WechatClient => new WechatClient(appIdOrClientConfig, appSecret);
 
   _appId: string;
   _appSecret: string;
@@ -45,11 +53,21 @@ export default class WechatClient {
   _accessToken: string = '';
   _tokenExpiresAt: number = 0;
 
-  constructor(appId: string, appSecret: string) {
-    this._appId = appId;
-    this._appSecret = appSecret;
+  constructor(appIdOrClientConfig: string | ClientConfig, appSecret: string) {
+    let origin;
+    if (appIdOrClientConfig && typeof appIdOrClientConfig === 'object') {
+      const config = appIdOrClientConfig;
+
+      this._appId = config.appId;
+      this._appSecret = config.appSecret;
+      origin = config.origin;
+    } else {
+      this._appId = appIdOrClientConfig;
+      this._appSecret = appSecret;
+    }
+
     this._axios = axios.create({
-      baseURL: 'https://api.weixin.qq.com/cgi-bin/',
+      baseURL: `${origin || 'https://api.weixin.qq.com'}/cgi-bin/`,
       headers: {
         'Content-Type': 'application/json',
       },

@@ -18,6 +18,7 @@
   * [Inline Mode API](#inline-mode-api)
   * [Game API](#game-api)
   * [Others](#others)
+- [Test](#test)
 
 ## Installation
 
@@ -1090,3 +1091,20 @@ client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
 });
 ```
+
+## Test
+
+### Point requests to your dummy server
+
+To avoid sending requests to real Telegram server, specify `origin` option when constructing your client:
+
+```js
+const { TelegramClient } = require('messaging-api-telegram');
+
+const client = TelegramClient.connect({
+  accessToken: ACCESS_TOKEN,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
+> Warning: Don't do this on production server.

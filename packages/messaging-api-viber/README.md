@@ -16,7 +16,7 @@
   * [Get Account Info](#get-account-info)
   * [Get User Details](#get-user-details)
   * [Get Online](#get-online)
-
+- [Test](#test)
 
 ## Installation
 
@@ -609,3 +609,20 @@ client
     // ];
   });
 ```
+
+## Test
+
+### Point requests to your dummy server
+
+To avoid sending requests to real Viber server, specify `origin` option when constructing your client:
+
+```js
+const { ViberClient } = require('messaging-api-viber');
+
+const client = ViberClient.connect({
+  accessToken: ACCESS_TOKEN,
+  origin: 'https://mydummytestserver.com',
+});
+```
+
+> Warning: Don't do this on production server.

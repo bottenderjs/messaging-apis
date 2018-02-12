@@ -5,9 +5,7 @@
   "version": "0.7.0-alpha.2",
   "commands": {
     "publish": {
-      "ignore": [
-        "__tests__/**"
-      ]
+      "ignore": ["__tests__/**"]
     }
   }
 }

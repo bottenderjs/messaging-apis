@@ -21,8 +21,6 @@ type Axios = {
   delete: Function,
 };
 
-type Token = string;
-
 type PostMessageOptions = {
   as_user?: boolean,
   attachments?: string,
@@ -59,32 +57,47 @@ type ConversationListOptions = {
   types?: string,
 };
 
+type ClientConfig = {
+  accessToken: string,
+  origin?: string,
+};
+
 export default class SlackOAuthClient {
-  static connect = (token: Token): SlackOAuthClient =>
-    new SlackOAuthClient(token);
+  static connect = (
+    accessTokenOrConfig: string | ClientConfig
+  ): SlackOAuthClient => new SlackOAuthClient(accessTokenOrConfig);
 
   _axios: Axios;
 
-  _token: Token;
+  _token: string;
 
-  constructor(token: Token) {
+  constructor(accessTokenOrConfig: string | ClientConfig) {
+    let origin;
+    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
+      const config = accessTokenOrConfig;
+
+      this._token = config.accessToken;
+      origin = config.origin;
+    } else {
+      // Bot User OAuth Access Token
+      this._token = accessTokenOrConfig;
+    }
+
     // Web API
     // https://api.slack.com/web
     this._axios = axios.create({
-      baseURL: 'https://slack.com/api/',
+      baseURL: `${origin || 'https://slack.com'}/api/`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    // Bot User OAuth Access Token
-    this._token = token;
   }
 
   get axios(): Axios {
     return this._axios;
   }
 
-  get accessToken(): Token {
+  get accessToken(): string {
     return this._token;
   }
 

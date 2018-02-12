@@ -41,21 +41,42 @@ function handleError(err) {
   throw new AxiosError(msg, err);
 }
 
+type ClientConfig = {
+  accessToken: string,
+  channelSecret: string,
+  origin?: string,
+};
+
 export default class LineClient {
-  static connect = (accessToken: string, channelSecret: string): LineClient =>
-    new LineClient(accessToken, channelSecret);
+  static connect = (
+    accessTokenOrConfig: string | ClientConfig,
+    channelSecret: string
+  ): LineClient => new LineClient(accessTokenOrConfig, channelSecret);
 
   _accessToken: string;
   _channelSecret: string;
   _axios: Axios;
 
-  constructor(accessToken: string, channelSecret: string) {
-    this._accessToken = accessToken;
-    this._channelSecret = channelSecret;
+  constructor(
+    accessTokenOrConfig: string | ClientConfig,
+    channelSecret: string
+  ) {
+    let origin;
+    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
+      const config = accessTokenOrConfig;
+
+      this._accessToken = config.accessToken;
+      this._channelSecret = config.channelSecret;
+      origin = config.origin;
+    } else {
+      this._accessToken = accessTokenOrConfig;
+      this._channelSecret = channelSecret;
+    }
+
     this._axios = axios.create({
-      baseURL: 'https://api.line.me/v2/bot/',
+      baseURL: `${origin || 'https://api.line.me'}/v2/bot/`,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${this._accessToken}`,
         'Content-Type': 'application/json',
       },
     });

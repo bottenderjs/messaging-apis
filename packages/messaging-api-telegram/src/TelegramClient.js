@@ -14,16 +14,32 @@ type Axios = {
   delete: Function,
 };
 
+type ClientConfig = {
+  accessToken: string,
+  origin?: string,
+};
+
 export default class TelegramClient {
-  static connect = (token: string): TelegramClient => new TelegramClient(token);
+  static connect = (
+    accessTokenOrConfig: string | ClientConfig
+  ): TelegramClient => new TelegramClient(accessTokenOrConfig);
 
   _token: string;
   _axios: Axios;
 
-  constructor(token: string) {
-    this._token = token;
+  constructor(accessTokenOrConfig: string | ClientConfig) {
+    let origin;
+    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
+      const config = accessTokenOrConfig;
+
+      this._token = config.accessToken;
+      origin = config.origin;
+    } else {
+      this._token = accessTokenOrConfig;
+    }
+
     this._axios = axios.create({
-      baseURL: `https://api.telegram.org/bot${token}/`,
+      baseURL: `${origin || 'https://api.telegram.org'}/bot${this._token}/`,
       headers: {
         'Content-Type': 'application/json',
       },

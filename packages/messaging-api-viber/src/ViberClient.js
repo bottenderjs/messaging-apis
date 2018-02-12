@@ -23,25 +23,43 @@ type Axios = {
   delete: Function,
 };
 
+type ClientConfig = {
+  accessToken: string,
+  sender: ViberSender,
+  origin?: string,
+};
+
 /**
  * https://developers.viber.com/docs/api/rest-bot-api/#viber-rest-api
  */
 export default class ViberClient {
-  static connect = (token: string, sender: ViberSender): ViberClient =>
-    new ViberClient(token, sender);
+  static connect = (
+    accessTokenOrConfig: string | ClientConfig,
+    sender: ViberSender
+  ): ViberClient => new ViberClient(accessTokenOrConfig, sender);
 
   _token: string;
   _sender: ViberSender;
   _axios: Axios;
 
-  constructor(token: string, sender: ViberSender) {
-    this._token = token;
-    this._sender = sender;
+  constructor(accessTokenOrConfig: string | ClientConfig, sender: ViberSender) {
+    let origin;
+    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
+      const config = accessTokenOrConfig;
+
+      this._token = config.accessToken;
+      this._sender = config.sender;
+      origin = config.origin;
+    } else {
+      this._token = accessTokenOrConfig;
+      this._sender = sender;
+    }
+
     this._axios = axios.create({
-      baseURL: `https://chatapi.viber.com/pa/`,
+      baseURL: `${origin || 'https://chatapi.viber.com'}/pa/`,
       headers: {
         'Content-Type': 'application/json',
-        'X-Viber-Auth-Token': token,
+        'X-Viber-Auth-Token': this._token,
       },
     });
   }
