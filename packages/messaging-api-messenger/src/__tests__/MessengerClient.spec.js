@@ -4276,9 +4276,7 @@ describe('broadcast api', () => {
         id: '<REACH_ESTIMATION_ID>',
       };
 
-      mock
-        .onPost(`/73450120243?access_token=${ACCESS_TOKEN}`)
-        .reply(200, reply);
+      mock.onGet(`/73450120243?access_token=${ACCESS_TOKEN}`).reply(200, reply);
 
       const res = await client.getReachEstimate(73450120243);
 

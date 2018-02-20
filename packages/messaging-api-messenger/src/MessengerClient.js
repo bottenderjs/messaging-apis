@@ -1303,7 +1303,7 @@ export default class MessengerClient {
     { access_token: customAccessToken }: { access_token?: string } = {}
   ) =>
     this._axios
-      .post(
+      .get(
         `/${reachEstimationId}?access_token=${customAccessToken ||
           this._accessToken}`
       )
