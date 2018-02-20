@@ -1,3 +1,10 @@
+# 0.6.14 / 2018-02-20
+
+### messaging-api-messenger
+
+* [fix] broadcast `startReachEstimation` request path
+* [fix] broadcast `getReachEstimate` request method
+
 # 0.6.13 / 2018-02-12
 
 * [new] Support `origin` for test:
