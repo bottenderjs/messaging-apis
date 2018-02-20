@@ -4253,9 +4253,12 @@ describe('broadcast api', () => {
       };
 
       mock
-        .onPost(`/broadcast_reach_estimations?access_token=${ACCESS_TOKEN}`, {
-          custom_label_id: 938461089,
-        })
+        .onPost(
+          `/me/broadcast_reach_estimations?access_token=${ACCESS_TOKEN}`,
+          {
+            custom_label_id: 938461089,
+          }
+        )
         .reply(200, reply);
 
       const res = await client.startReachEstimation(938461089);
