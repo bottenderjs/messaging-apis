@@ -1083,8 +1083,8 @@ export default class MessengerClient {
       }
       return item;
     });
-    return axios
-      .post('https://graph.facebook.com/', {
+    return this._axios
+      .post('/', {
         access_token: customAccessToken || this._accessToken,
         batch: bodyEncodedbatch,
       })

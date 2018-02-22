@@ -3852,9 +3852,7 @@ describe('send api', () => {
 
   describe('#sendBatch', () => {
     it('call messages api with batch requests', async () => {
-      const { client } = createMock();
-
-      const mock = new MockAdapter(axios);
+      const { client, mock } = createMock();
 
       const reply = [
         {
@@ -3866,7 +3864,7 @@ describe('send api', () => {
       const batch = [Messenger.createText(USER_ID, 'Hello')];
 
       mock
-        .onPost(`https://graph.facebook.com/`, {
+        .onPost('/', {
           access_token: ACCESS_TOKEN,
           batch: [
             {
