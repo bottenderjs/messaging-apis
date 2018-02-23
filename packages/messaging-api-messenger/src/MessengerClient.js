@@ -1088,7 +1088,7 @@ export default class MessengerClient {
         access_token: customAccessToken || this._accessToken,
         batch: bodyEncodedbatch,
       })
-      .then(res => res.data);
+      .then(res => res.data, handleError);
   };
 
   /**
