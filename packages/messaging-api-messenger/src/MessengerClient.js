@@ -1465,6 +1465,27 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
 
   /**
+   * Request Thread Control
+   *
+   * https://developers.facebook.com/docs/messenger-platform/handover-protocol/request-thread-control/
+   */
+  requestThreadControl = (
+    recipientId: string,
+    metadata?: string,
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) =>
+    this._axios
+      .post(
+        `/me/request_thread_control?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          recipient: { id: recipientId },
+          metadata,
+        }
+      )
+      .then(res => res.data, handleError);
+
+  /**
    * Secondary Receivers List
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
