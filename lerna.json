@@ -2,7 +2,7 @@
   "lerna": "2.1.2",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "0.6.14",
+  "version": "0.6.15",
   "commands": {
     "publish": {
       "ignore": [
