@@ -2429,7 +2429,23 @@ metadata    | `String` | Metadata passed back to the secondary app in the `take_
 
 Example:
 ```js
-client.passThreadControl(USER_ID, 'free formed text for another app');
+client.takeThreadControl(USER_ID, 'free formed text for another app');
+```
+
+<br />
+
+## `requestThreadControl(userId, metadata)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/handover-protocol/request-thread-control/)
+
+Requests control of a specific thread from a Primary Receiver app.
+
+Param       | Type     | Description
+----------- | ---------| -----------
+userId      | `String` | The PSID of the message recipient.
+metadata    | `String` | Metadata passed to the primary app in the `request_thread_control` webhook event.
+
+Example:
+```js
+client.requestThreadControl(USER_ID, 'free formed text for primary app');
 ```
 
 <br />

@@ -1,3 +1,23 @@
+# 0.6.15 / 2018-02-26
+
+### messaging-api-messenger
+
+* [new] implement `requestThreadControl`:
+
+```js
+client.requestThreadControl(USER_ID, 'free formed text for primary app');
+```
+
+* [fix] handle axios error in batch
+* [fix] let batch api use internal axios instance
+
+# 0.6.14 / 2018-02-20
+
+### messaging-api-messenger
+
+* [fix] broadcast `startReachEstimation` request path
+* [fix] broadcast `getReachEstimate` request method
+
 # 0.6.13 / 2018-02-12
 
 * [new] Support `origin` for test:
@@ -60,9 +80,9 @@ client.callMethod('chat.postMessage', {
 
 * [fix] Not to use page token as default token when create subscription. [#267](https://github.com/Yoctol/messaging-apis/pull/267)
 
-  # 0.6.8 / 2017-12-25
+# 0.6.8 / 2017-12-25
 
-  ### messaging-api-telegram
+### messaging-api-telegram
 
 * [new] Add `getUpdates`:
 
@@ -108,15 +128,15 @@ client
 
 * [changed] Support original `baseSize` key in LINE imagemap APIs.
 
-  # 0.6.6 / 2017-12-20
+# 0.6.6 / 2017-12-20
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [fix] Not to attach empty array as `quick_replies` to message. [#261](https://github.com/Yoctol/messaging-apis/pull/261)
 
-  # 0.6.5 / 2017-12-20
+# 0.6.5 / 2017-12-20
 
-  ### messaging-api-telegram
+### messaging-api-telegram
 
 * [new] Add `sendVideoNote`:
 
@@ -217,9 +237,9 @@ client
 
 * [fix] pass options into `setGetStarted`
 
-  # 0.6.2 / 2017-12-11
+# 0.6.2 / 2017-12-11
 
-  ### messaging-api-telegram
+### messaging-api-telegram
 
 Support Game APIs!
 
@@ -417,21 +437,21 @@ client.getPageInfo().then(page => {
 
 * [new] auto stringify `options.attachments` in Slack `postMessage` [#208](https://github.com/Yoctol/messaging-apis/pull/208)
 
-  # 0.5.9 / 2017-11-15
+# 0.5.9 / 2017-11-15
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [fix] make NLP config model value match Facebook API [#207](https://github.com/Yoctol/messaging-apis/pull/207)
 
-  # 0.5.8 / 2017-11-13
+# 0.5.8 / 2017-11-13
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [fix] make sure `options.messaging_type` works for all send apis [#205](https://github.com/Yoctol/messaging-apis/pull/205)
 
-  # 0.5.7 / 2017-11-09
+# 0.5.7 / 2017-11-09
 
-  A large update to support [Messenger Platform 2.2](https://messenger.fb.com/blog/2-2-release/). 🎉
+A large update to support [Messenger Platform 2.2](https://messenger.fb.com/blog/2-2-release/). 🎉
 
 ## Messaging Types
 
@@ -653,9 +673,9 @@ See more details in [Messenger official release post](https://messenger.fb.com/b
   * getConversationList
   * getAllConversationList
 
-  # 0.5.5 / 2017-11-01
+# 0.5.5 / 2017-11-01
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [new] Added [`passThreadControlToPageInbox`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#handover-protocol-api) method:
 
@@ -694,13 +714,13 @@ See more details in [LINE Official docs](https://developers.line.me/en/docs/mess
 
 * [fix] return null when no any messenger profile setting exists [#176](https://github.com/Yoctol/messaging-apis/issues/176)
 
-  # 0.5.2 / 2017-10-26
+# 0.5.2 / 2017-10-26
 
 * [deps] Upgrade `axios` to `v0.17.0`.
 
-  # 0.5.1 / 2017-10-25
+# 0.5.1 / 2017-10-25
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [renamed] Following profile methods has been renamed to match api key:
   * `getGetStartedButton` -> `getGetStarted`
@@ -771,15 +791,15 @@ The error messages are powered by [axios-error](https://github.com/Yoctol/messag
 
 * [breaking] `client.version` now return version number string (`2.10`) instead of the v-prefix version (`v2.10`).
 
-  # 0.4.7 / 2017-10-16
+# 0.4.7 / 2017-10-16
 
-  ### messaging-api-viber
+### messaging-api-viber
 
 * [fix] Always throw error when status != 0 in api response body.
 
-  # 0.4.6 / 2017-10-15
+# 0.4.6 / 2017-10-15
 
-  ### messaging-api-telegram
+### messaging-api-telegram
 
 * [new] Support methods introduced in Telegram 3.4
   * [editMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#editmessagelivelocationlocation--options---official-docs)
@@ -799,9 +819,9 @@ See more details in [Telegram October 11, 2017 changelog](https://core.telegram.
   * [`getUserDetails(id)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getuserdetailsid)
   * [`getOnlineStatus(ids)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getonlinestatusids)
 
-  # 0.4.4 / 2017-10-11
+# 0.4.4 / 2017-10-11
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [renamed] `getDomainWhitelist` -> `getWhitelistedDomains`
 * [renamed] `setDomainWhitelist` -> `setWhitelistedDomains`
@@ -811,9 +831,9 @@ See more details in [Telegram October 11, 2017 changelog](https://core.telegram.
 
 * [new] First release of [Viber](https://www.viber.com/) API Support!
 
-  # 0.4.3 / 2017-09-28
+# 0.4.3 / 2017-09-28
 
-  ### messaging-api-line
+### messaging-api-line
 
 * [new] Added a [LINE Bot example](https://github.com/Yoctol/messaging-apis/tree/master/examples/line). Thanks @madeinfree!
 
@@ -825,9 +845,9 @@ See more details in [Telegram October 11, 2017 changelog](https://core.telegram.
   * `answerShippingQuery`
   * `answerPreCheckoutQuery`
 
-  # 0.4.2 / 2017-09-22
+# 0.4.2 / 2017-09-22
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [new] Export version of Graph API:
 
@@ -845,9 +865,9 @@ client.version; // "v2.10"
 
 * [fix] Wrong case in filename.
 
-  # 0.4.0 / 2017-09-19
+# 0.4.0 / 2017-09-19
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [breaking] Renamed `send` to `sendMessage`
 
@@ -922,9 +942,9 @@ client.sendBatch([
 
 * publish docs changes to npm.
 
-  # 0.3.2 / 2017-09-05
+# 0.3.2 / 2017-09-05
 
-  ### messaging-api-line
+### messaging-api-line
 
 * [new] Support ImageCarouselTemplate methods
 
@@ -932,9 +952,9 @@ client.sendBatch([
   * pushImageCarouselTemplate
   * multicaseImageCarouselTemplate
 
-  # 0.3.1 / 2017-08-31
+# 0.3.1 / 2017-08-31
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [new] using `AttachmentPayload` to send cached attachment:
 
@@ -997,9 +1017,9 @@ client.sendGenericTemplate(
 
 * [breaking] Changed `contact.firstName` to `contact.first_name`, and `contact.phoneNumber` to `contact.phone_number` in `sendContact` method.
 
-  # 0.2.8 / 2017-08-25
+# 0.2.8 / 2017-08-25
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [new] Support `mark_seen` sender action:
 
@@ -1052,9 +1072,9 @@ client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 
 * [docs] Added Slack OAuth API document
 
-  # 0.2.5 / 2017-08-09
+# 0.2.5 / 2017-08-09
 
-  ### messaging-api-messenger
+### messaging-api-messenger
 
 * [new] Implement Page Messaging Insights API
 * [new] Implement Built-in NLP API
@@ -1063,7 +1083,7 @@ client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 
 * [new] Slack OAuth Client
 
-  # 0.2.4 / 2017-08-02
+# 0.2.4 / 2017-08-02
 
 * [docs] A big improvement.
 * [docs] prettify code examples with prettier
@@ -1080,9 +1100,9 @@ client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 
 * [new] LINE Group/Room Member API
 
-  # 0.2.3 / 2017-07-13
+# 0.2.3 / 2017-07-13
 
-  ### messaging-api-telegram
+### messaging-api-telegram
 
 * [new] Add optional parameters to telegram api [#47](https://github.com/Yoctol/messaging-apis/pull/47).
 * [new] Implement get methods

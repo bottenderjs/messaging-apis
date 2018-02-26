@@ -3852,9 +3852,7 @@ describe('send api', () => {
 
   describe('#sendBatch', () => {
     it('call messages api with batch requests', async () => {
-      const { client } = createMock();
-
-      const mock = new MockAdapter(axios);
+      const { client, mock } = createMock();
 
       const reply = [
         {
@@ -3866,7 +3864,7 @@ describe('send api', () => {
       const batch = [MessengerBatch.createText(USER_ID, 'Hello')];
 
       mock
-        .onPost(`https://graph.facebook.com/`, {
+        .onPost('/', {
           access_token: ACCESS_TOKEN,
           batch: [
             {
@@ -4253,9 +4251,12 @@ describe('broadcast api', () => {
       };
 
       mock
-        .onPost(`/broadcast_reach_estimations?access_token=${ACCESS_TOKEN}`, {
-          custom_label_id: 938461089,
-        })
+        .onPost(
+          `/me/broadcast_reach_estimations?access_token=${ACCESS_TOKEN}`,
+          {
+            custom_label_id: 938461089,
+          }
+        )
         .reply(200, reply);
 
       const res = await client.startReachEstimation(938461089);
@@ -4273,9 +4274,7 @@ describe('broadcast api', () => {
         id: '<REACH_ESTIMATION_ID>',
       };
 
-      mock
-        .onPost(`/73450120243?access_token=${ACCESS_TOKEN}`)
-        .reply(200, reply);
+      mock.onGet(`/73450120243?access_token=${ACCESS_TOKEN}`).reply(200, reply);
 
       const res = await client.getReachEstimate(73450120243);
 
@@ -5025,6 +5024,63 @@ describe('Handover Protocol API', () => {
       const res = await client.takeThreadControl(
         USER_ID,
         'free formed text for another app',
+        options
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#requestThreadControl', () => {
+    it('should call messages api to request thread control', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/request_thread_control?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: USER_ID,
+          },
+          metadata: 'free formed text for primary app',
+        })
+        .reply(200, reply);
+
+      const res = await client.requestThreadControl(
+        USER_ID,
+        'free formed text for primary app'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to request thread control with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(
+          `/me/request_thread_control?access_token=${options.access_token}`,
+          {
+            recipient: {
+              id: USER_ID,
+            },
+            metadata: 'free formed text for primary app',
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.requestThreadControl(
+        USER_ID,
+        'free formed text for primary app',
         options
       );
 
