@@ -1,3 +1,16 @@
+# 0.6.15 / 2018-02-26
+
+### messaging-api-messenger
+
+* [new] implement `requestThreadControl`:
+
+```js
+client.requestThreadControl(USER_ID, 'free formed text for primary app');
+```
+
+* [fix] handle axios error in batch
+* [fix] let batch api use internal axios instance
+
 # 0.6.14 / 2018-02-20
 
 ### messaging-api-messenger
