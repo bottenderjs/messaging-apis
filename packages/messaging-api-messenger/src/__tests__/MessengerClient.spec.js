@@ -5031,6 +5031,63 @@ describe('Handover Protocol API', () => {
     });
   });
 
+  describe('#requestThreadControl', () => {
+    it('should call messages api to request thread control', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/me/request_thread_control?access_token=${ACCESS_TOKEN}`, {
+          recipient: {
+            id: USER_ID,
+          },
+          metadata: 'free formed text for primary app',
+        })
+        .reply(200, reply);
+
+      const res = await client.requestThreadControl(
+        USER_ID,
+        'free formed text for primary app'
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call messages api to request thread control with custom access token', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+      const options = {
+        access_token: '0987654321',
+      };
+
+      mock
+        .onPost(
+          `/me/request_thread_control?access_token=${options.access_token}`,
+          {
+            recipient: {
+              id: USER_ID,
+            },
+            metadata: 'free formed text for primary app',
+          }
+        )
+        .reply(200, reply);
+
+      const res = await client.requestThreadControl(
+        USER_ID,
+        'free formed text for primary app',
+        options
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#getSecondaryReceivers', () => {
     it('should call messages api to get Secondary receivers', async () => {
       const { client, mock } = createMock();
