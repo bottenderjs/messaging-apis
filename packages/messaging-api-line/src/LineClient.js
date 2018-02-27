@@ -379,7 +379,7 @@ export default class LineClient {
    */
   getGroupMemberIds = (groupId: string, start?: string) =>
     this._axios
-      .get(`/group/${groupId}/member/ids${start ? `?start=${start}` : ''}`)
+      .get(`/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`)
       .then(res => res.data, handleError);
 
   getAllGroupMemberIds = async (groupId: string) => {
@@ -401,7 +401,7 @@ export default class LineClient {
 
   getRoomMemberIds = (roomId: string, start?: string) =>
     this._axios
-      .get(`/room/${roomId}/member/ids${start ? `?start=${start}` : ''}`)
+      .get(`/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`)
       .then(res => res.data, handleError);
 
   getAllRoomMemberIds = async (roomId: string) => {
