@@ -1,3 +1,9 @@
+# 0.6.16 / 2018-02-27
+
+### messaging-api-line
+
+* [fix] fix LINE API URL typos for getting group and room member ids
+
 # 0.6.15 / 2018-02-26
 
 ### messaging-api-messenger
