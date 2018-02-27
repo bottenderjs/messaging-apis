@@ -2954,7 +2954,7 @@ describe('Group/Room Member', () => {
         ],
       };
 
-      mock.onGet(`/group/${GROUP_ID}/member/ids`).reply(200, reply, headers);
+      mock.onGet(`/group/${GROUP_ID}/members/ids`).reply(200, reply, headers);
 
       const res = await client.getGroupMemberIds(GROUP_ID);
 
@@ -2974,7 +2974,7 @@ describe('Group/Room Member', () => {
       const continuationToken = 'TOKEN';
 
       mock
-        .onGet(`/group/${GROUP_ID}/member/ids?start=${continuationToken}`)
+        .onGet(`/group/${GROUP_ID}/members/ids?start=${continuationToken}`)
         .reply(200, reply, headers);
 
       const res = await client.getGroupMemberIds(GROUP_ID, continuationToken);
@@ -3004,9 +3004,9 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/group/${GROUP_ID}/member/ids`)
+        .onGet(`/group/${GROUP_ID}/members/ids`)
         .replyOnce(200, reply1, headers)
-        .onGet(`/group/${GROUP_ID}/member/ids?start=${continuationToken}`)
+        .onGet(`/group/${GROUP_ID}/members/ids?start=${continuationToken}`)
         .replyOnce(200, reply2, headers);
 
       const res = await client.getAllGroupMemberIds(GROUP_ID);
@@ -3033,7 +3033,7 @@ describe('Group/Room Member', () => {
         ],
       };
 
-      mock.onGet(`/room/${ROOM_ID}/member/ids`).reply(200, reply, headers);
+      mock.onGet(`/room/${ROOM_ID}/members/ids`).reply(200, reply, headers);
 
       const res = await client.getRoomMemberIds(ROOM_ID);
 
@@ -3053,7 +3053,7 @@ describe('Group/Room Member', () => {
       const continuationToken = 'TOKEN';
 
       mock
-        .onGet(`/room/${ROOM_ID}/member/ids?start=${continuationToken}`)
+        .onGet(`/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
         .reply(200, reply, headers);
 
       const res = await client.getRoomMemberIds(ROOM_ID, continuationToken);
@@ -3083,9 +3083,9 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/room/${ROOM_ID}/member/ids`)
+        .onGet(`/room/${ROOM_ID}/members/ids`)
         .replyOnce(200, reply1, headers)
-        .onGet(`/room/${ROOM_ID}/member/ids?start=${continuationToken}`)
+        .onGet(`/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
         .replyOnce(200, reply2, headers);
 
       const res = await client.getAllRoomMemberIds(ROOM_ID);
