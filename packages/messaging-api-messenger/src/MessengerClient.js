@@ -161,9 +161,9 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/graph-api/using-graph-api
    * id, name
    */
-  getPageInfo = (
-    { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<PageInfo> =>
+  getPageInfo = ({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<PageInfo> =>
     this._axios
       .get(`/me?access_token=${customAccessToken || this._accessToken}`)
       .then(res => res.data, handleError);
@@ -580,9 +580,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
    */
-  getMessageTags = (
-    { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<MessageTagResponse> =>
+  getMessageTags = ({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<MessageTagResponse> =>
     this._axios
       .get(
         `/page_message_tags?access_token=${customAccessToken ||
@@ -1061,8 +1061,9 @@ export default class MessengerClient {
   sendSponsoredMessage = (adAccountId: string, message: Object) =>
     this._axios
       .post(
-        `/act_${adAccountId}/sponsored_message_ads?access_token=${this
-          ._accessToken}`,
+        `/act_${adAccountId}/sponsored_message_ads?access_token=${
+          this._accessToken
+        }`,
         message
       )
       .then(res => res.data, handleError);
@@ -1410,9 +1411,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
    */
-  getSecondaryReceivers = (
-    { access_token: customAccessToken }: { access_token: ?string } = {}
-  ) =>
+  getSecondaryReceivers = ({
+    access_token: customAccessToken,
+  }: { access_token: ?string } = {}) =>
     this._axios
       .get(
         `/me/secondary_receivers?fields=id,name&access_token=${customAccessToken ||
