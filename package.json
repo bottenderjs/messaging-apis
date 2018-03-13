@@ -1,54 +1,65 @@
 {
-  "name": "messaging-apis",
   "private": true,
+  "name": "messaging-apis",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=6"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.1",
-    "babel-jest": "^22.1.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "chalk": "^2.3.0",
-    "eslint": "^4.16.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-config-yoctol-base": "^0.15.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-prettier": "^2.5.0",
-    "flow-bin": "^0.63.1",
-    "husky": "^0.14.3",
-    "jest": "^22.1.4",
-    "lerna": "^2.8.0",
-    "lint-staged": "^6.0.1",
-    "micromatch": "^3.1.5",
-    "mkdir": "^0.0.2",
-    "prettier": "^1.10.2",
-    "rimraf": "^2.6.2"
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "node ./scripts/build.js",
     "clean": "rimraf ./packages/*/lib",
+    "precommit": "lint-staged",
+    "postinstall": "yarn run build",
     "lint": "eslint packages examples",
     "lint:fix": "yarn run lint:fix:md && yarn run lint --fix",
     "lint:fix:md": "prettier --write **/*.md",
     "lint:staged": "lint-staged",
-    "postinstall": "yarn run build",
-    "precommit": "lint-staged",
     "publish": "yarn run clean && yarn run build && lerna publish",
+    "test": "yarn run typecheck && yarn run lint && yarn run testonly",
     "testonly": "jest",
     "testonly:cov": "jest --coverage --runInBand --forceExit --no-cache",
     "testonly:watch": "jest --watch",
-    "test": "yarn run typecheck && yarn run lint && yarn run testonly",
     "typecheck": "flow check"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "chalk": "^2.3.2",
+    "eslint": "^4.18.2",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-yoctol-base": "^0.15.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "flow-bin": "^0.67.1",
+    "husky": "^0.14.3",
+    "jest": "^22.4.2",
+    "lerna": "^2.9.0",
+    "lint-staged": "^7.0.0",
+    "micromatch": "^3.1.9",
+    "mkdir": "^0.0.2",
+    "prettier": "^1.11.1",
+    "prettier-package-json": "^1.5.1",
+    "rimraf": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testEnvironment": "node"
   },
   "lint-staged": {
     "*.js": [
@@ -58,20 +69,14 @@
     "*.md": [
       "prettier --write",
       "git add"
-    ]
-  },
-  "jest": {
-    "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": [
-      "/node_modules/"
     ],
-    "testEnvironment": "node"
+    "package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ]
   },
   "prettier": {
     "trailingComma": "es5",
     "singleQuote": true
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }
