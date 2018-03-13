@@ -147,7 +147,6 @@ Available messaging types:
 * `UPDATE` as default
 * `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
 * `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
-* `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
 
 <br />
 
@@ -464,6 +463,9 @@ client.sendGenericTemplate(
 
 Available tags:
 
+* `COMMUNITY_ALERT`
+* `CONFIRMED_EVENT_REMINDER`
+* `NON_PROMOTIONAL_SUBSCRIPTION`
 * `PAIRING_UPDATE`
 * `APPLICATION_UPDATE`
 * `ACCOUNT_UPDATE`
