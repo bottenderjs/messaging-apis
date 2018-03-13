@@ -7,7 +7,9 @@
 ```sh
 npm i --save axios-error
 ```
+
 or
+
 ```sh
 yarn add axios-error
 ```
