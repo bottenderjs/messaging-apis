@@ -15,14 +15,14 @@ If you are looking for a framework to build your bots, [Bottender](https://githu
 
 ## Packages
 
-| Package | Version | Platform |
-|---------|---------|-------------|
+| Package                                                        | Version                                                                                                                                     | Platform                                |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
 | [`messaging-api-messenger`](/packages/messaging-api-messenger) | [![npm](https://img.shields.io/npm/v/messaging-api-messenger.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-messenger) | [Messenger](https://www.messenger.com/) |
-| [`messaging-api-line`](/packages/messaging-api-line) | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line) | [LINE](https://line.me/) |
-| [`messaging-api-slack`](/packages/messaging-api-slack) | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack) | [Slack](https://slack.com/) |
-| [`messaging-api-telegram`](/packages/messaging-api-telegram) | [![npm](https://img.shields.io/npm/v/messaging-api-telegram.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-telegram) | [Telegram](https://telegram.org/) |
-| [`messaging-api-viber`](/packages/messaging-api-viber) | [![npm](https://img.shields.io/npm/v/messaging-api-viber.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-viber) | [Viber](https://www.viber.com/) |
-| [`messaging-api-wechat`](/packages/messaging-api-wechat) | [![npm](https://img.shields.io/npm/v/messaging-api-wechat.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-wechat) | [WeChat](https://weixin.qq.com/) |
+| [`messaging-api-line`](/packages/messaging-api-line)           | [![npm](https://img.shields.io/npm/v/messaging-api-line.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-line)           | [LINE](https://line.me/)                |
+| [`messaging-api-slack`](/packages/messaging-api-slack)         | [![npm](https://img.shields.io/npm/v/messaging-api-slack.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-slack)         | [Slack](https://slack.com/)             |
+| [`messaging-api-telegram`](/packages/messaging-api-telegram)   | [![npm](https://img.shields.io/npm/v/messaging-api-telegram.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-telegram)   | [Telegram](https://telegram.org/)       |
+| [`messaging-api-viber`](/packages/messaging-api-viber)         | [![npm](https://img.shields.io/npm/v/messaging-api-viber.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-viber)         | [Viber](https://www.viber.com/)         |
+| [`messaging-api-wechat`](/packages/messaging-api-wechat)       | [![npm](https://img.shields.io/npm/v/messaging-api-wechat.svg?style=flat-square)](https://www.npmjs.com/package/messaging-api-wechat)       | [WeChat](https://weixin.qq.com/)        |
 
 ## Usage
 
@@ -35,7 +35,9 @@ Install `messaging-api-messenger` package from the registry:
 ```sh
 npm i --save messaging-api-messenger
 ```
+
 or
+
 ```sh
 yarn add messaging-api-messenger
 ```
@@ -64,7 +66,9 @@ Install `messaging-api-line` package from the registry:
 ```sh
 npm i --save messaging-api-line
 ```
+
 or
+
 ```sh
 yarn add messaging-api-line
 ```
@@ -93,7 +97,9 @@ Install `messaging-api-slack` package from the registry:
 ```sh
 npm i --save messaging-api-slack
 ```
+
 or
+
 ```sh
 yarn add messaging-api-slack
 ```
@@ -139,7 +145,9 @@ Install `messaging-api-telegram` package from the registry:
 ```sh
 npm i --save messaging-api-telegram
 ```
+
 or
+
 ```sh
 yarn add messaging-api-telegram
 ```
@@ -168,7 +176,9 @@ Install `messaging-api-viber` package from the registry:
 ```sh
 npm i --save messaging-api-viber
 ```
+
 or
+
 ```sh
 yarn add messaging-api-viber
 ```
@@ -197,7 +207,9 @@ Install `messaging-api-wechat` package from the registry:
 ```sh
 npm i --save messaging-api-wechat
 ```
+
 or
+
 ```sh
 yarn add messaging-api-wechat
 ```
@@ -219,12 +231,12 @@ Check out [full API documentation](./packages/messaging-api-wechat/README.md) fo
 
 ## Documentation
 
-- [Messenger](./packages/messaging-api-messenger/README.md)
-- [LINE](./packages/messaging-api-line/README.md)
-- [Slack](./packages/messaging-api-slack/README.md)
-- [Telegram](./packages/messaging-api-telegram/README.md)
-- [Viber](./packages/messaging-api-viber/README.md)
-- [WeChat](./packages/messaging-api-wechat/README.md)
+* [Messenger](./packages/messaging-api-messenger/README.md)
+* [LINE](./packages/messaging-api-line/README.md)
+* [Slack](./packages/messaging-api-slack/README.md)
+* [Telegram](./packages/messaging-api-telegram/README.md)
+* [Viber](./packages/messaging-api-viber/README.md)
+* [WeChat](./packages/messaging-api-wechat/README.md)
 
 ## Change Log
 

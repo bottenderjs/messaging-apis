@@ -10,7 +10,6 @@
     "node": ">=6"
   },
   "devDependencies": {
-    "@dschau/prettier-markdown": "^1.2.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.1.0",
@@ -40,8 +39,7 @@
     "clean": "rimraf ./packages/*/lib",
     "lint": "eslint packages examples",
     "lint:fix": "yarn run lint:fix:md && yarn run lint --fix",
-    "lint:fix:md":
-      "prettier-markdown --single-quote --trailing-comma es5 *.md ./packages/**/*.md",
+    "lint:fix:md": "prettier --write **/*.md",
     "lint:staged": "lint-staged",
     "postinstall": "yarn run build",
     "precommit": "lint-staged",
@@ -53,12 +51,27 @@
     "typecheck": "flow check"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.md": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": ["/node_modules/"],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
     "testEnvironment": "node"
   },
-  "workspaces": ["packages/*"]
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

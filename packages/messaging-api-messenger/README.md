@@ -6,9 +6,9 @@
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
+* [Installation](#installation)
+* [Usage](#usage)
+* [API Reference](#api-reference)
   * [Send API](#send-api)
     * [Content Types](#content-types)
     * [Templates](#templates)
@@ -38,14 +38,16 @@
   * [Event Logging API](#event-logging-api)
   * [ID Matching API](#id-matching-api)
   * [Others](#others)
-- [Test](#test)
+* [Test](#test)
 
 ## Installation
 
 ```sh
 npm i --save messaging-api-messenger
 ```
+
 or
+
 ```sh
 yarn add messaging-api-messenger
 ```
@@ -81,17 +83,18 @@ All methods return a Promise.
 
 <a id="send-api" />
 
-### Send API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)  
+### Send API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference)
 
 ## `sendRawBody(body)`
 
 Send request raw body using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param | Type     | Description
------ | -------- | -----------
-body  | `Object` | Raw body to be sent.
+| Param | Type     | Description          |
+| ----- | -------- | -------------------- |
+| body  | `Object` | Raw body to be sent. |
 
 Example:
+
 ```js
 client.sendRawBody({
   recipient: {
@@ -109,14 +112,14 @@ client.sendRawBody({
 
 Send messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-message | `Object`                          | [message](https://developers.facebook.com/docs/messenger-platform/reference/send-api#message) object.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
-
+| Param   | Type                              | Description                                                                                                                                                                                                                       |
+| ------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                                                                                         |
+| message | `Object`                          | [message](https://developers.facebook.com/docs/messenger-platform/reference/send-api#message) object.                                                                                                                             |
+| options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags). |
 
 Example:
+
 ```js
 client.sendMessage(USER_ID, {
   text: 'Hello!',
@@ -126,6 +129,7 @@ client.sendMessage(USER_ID, {
 You can specifiy [messaging type](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) using options. If `messaging_type` and `tag` is not provided, `UPDATE` will be used as default messaging type.
 
 Example:
+
 ```js
 client.sendMessage(
   USER_ID,
@@ -139,10 +143,11 @@ client.sendMessage(
 ```
 
 Available messaging types:
-- `UPDATE` as default
-- `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
-- `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
-- `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
+
+* `UPDATE` as default
+* `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
+* `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
+* `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
 
 <br />
 
@@ -154,13 +159,14 @@ Available messaging types:
 
 Send plain text messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param   | Type                             | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-text    | `String`                          | Text of the message to be sent.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
+| Param   | Type                              | Description                                                                                                                                                                                                                       |
+| ------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                                                                                         |
+| text    | `String`                          | Text of the message to be sent.                                                                                                                                                                                                   |
+| options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags). |
 
 Example:
+
 ```js
 client.sendText(USER_ID, 'Hello!', { tag: 'ISSUE_RESOLUTION' });
 ```
@@ -171,13 +177,14 @@ client.sendText(USER_ID, 'Hello!', { tag: 'ISSUE_RESOLUTION' });
 
 Send attachment messages to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param      | Type                              | Description
----------- | --------------------------------- | -----------
-userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-attachment | `Object`                          | [attachment](https://developers.facebook.com/docs/messenger-platform/reference/send-api#attachment) object.
-options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
+| Param      | Type                              | Description                                                                                                                                                                                                                       |
+| ---------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                                                                                         |
+| attachment | `Object`                          | [attachment](https://developers.facebook.com/docs/messenger-platform/reference/send-api#attachment) object.                                                                                                                       |
+| options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags). |
 
 Example:
+
 ```js
 client.sendAttachment(USER_ID, {
   type: 'image',
@@ -195,27 +202,27 @@ Send sounds to specified user by uploading them or sharing a URL using the [Send
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13503473_1584526905179825_88080075_n.png?oh=085ef554f12d061090677b89f3275d64&oe=59EB29D3" alt="sendAudio" width="250" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-audio   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The audio to be sent.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                                                                         | Description                                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code>                                            | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| audio   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The audio to be sent.                                                                                                                             |
+| options | `Object`                                                                     | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
 
- - Send audio using url string:
+* Send audio using url string:
 
 ```js
 client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 ```
 
- - Use `AttachmentPayload` to send cached attachment:
+* Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendAudio(USER_ID, { attachment_id: '55688' });
 ```
 
- - Use `ReadStream` created from local file:
+* Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -231,27 +238,27 @@ Send images to specified user by uploading them or sharing a URL using the [Send
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466577_1753800631570799_2129488873_n.png?oh=5904aadb6aa82cd2287d777359bd3cd2&oe=59F32D6A" alt="sendImage" width="250" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-image   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The image to be sent.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                                                                         | Description                                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code>                                            | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| image   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The image to be sent.                                                                                                                             |
+| options | `Object`                                                                     | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
 
- - Send image using url string:
+* Send image using url string:
 
 ```js
 client.sendImage(USER_ID, 'https://example.com/vr.jpg');
 ```
 
- - Use `AttachmentPayload` to send cached attachment:
+* Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendImage(USER_ID, { attachment_id: '55688' });
 ```
 
- - Use `ReadStream` created from local file:
+* Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -267,27 +274,27 @@ Send videos to specified user by uploading them or sharing a URL using the [Send
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509239_1608341092811398_289173120_n.png?oh=160ea165834203bae79c24c8e07137de&oe=5A350DB4" alt="sendVideo" width="250" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-video   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The video to be sent.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                                                                         | Description                                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code>                                            | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| video   | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The video to be sent.                                                                                                                             |
+| options | `Object`                                                                     | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
 
- - Send video using url string:
+* Send video using url string:
 
 ```js
 client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 ```
 
- - Use `AttachmentPayload` to send cached attachment:
+* Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendVideo(USER_ID, { attachment_id: '55688' });
 ```
 
- - Use `ReadStream` created from local file:
+* Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -303,27 +310,27 @@ Send files to specified user by uploading them or sharing a URL using the [Send 
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480153_1115020735225077_1305291896_n.png?oh=a972010ea3edd1ea967885b06317efab&oe=59F63578" alt="sendFile" width="250" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-file    | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The file to be sent.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                                                                         | Description                                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code>                                            | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| file    | <code>String &#124; Buffer &#124; ReadStream &#124; AttachmentPayload</code> | The file to be sent.                                                                                                                              |
+| options | `Object`                                                                     | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
 
- - Send file using url string:
+* Send file using url string:
 
 ```js
 client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
 ```
 
- - Use `AttachmentPayload` to send cached attachment:
+* Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendFile(USER_ID, { attachment_id: '55688' });
 ```
 
- - Use `ReadStream` created from local file:
+* Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -341,13 +348,14 @@ client.sendFile(USER_ID, fs.createReadStream('receipt.pdf'));
 
 Send structured message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param    | Type                              | Description
--------- | --------------------------------- | -----------
-userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-template | `Object`                          | Object of the template.
-options  | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
+| Param    | Type                              | Description                                                                                                                                                                                                                       |
+| -------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                                                                                         |
+| template | `Object`                          | Object of the template.                                                                                                                                                                                                           |
+| options  | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) or [tags](https://developers.facebook.com/docs/messenger-platform/message-tags). |
 
 Example:
+
 ```js
 client.sendTemplate(USER_ID, {
   template_type: 'button',
@@ -370,14 +378,15 @@ Send button message templates to specified user using the [Send API](https://dev
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509162_1732711383655205_1306472501_n.png?oh=0e2409226bc50b23207bf37bf6e2edb6&oe=5A377CAC" alt="sendButtonTemplate" width="250" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-title   | `String`                          | Text that appears above the buttons.
-buttons | `Array<Object>`                   | Array of [button](https://developers.facebook.com/docs/messenger-platform/send-messages/template/button#button). Set of 1-3 buttons that appear as call-to-actions.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                              | Description                                                                                                                                                         |
+| ------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                           |
+| title   | `String`                          | Text that appears above the buttons.                                                                                                                                |
+| buttons | `Array<Object>`                   | Array of [button](https://developers.facebook.com/docs/messenger-platform/send-messages/template/button#button). Set of 1-3 buttons that appear as call-to-actions. |
+| options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).                   |
 
 Example:
+
 ```js
 client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
   {
@@ -401,13 +410,14 @@ Send generic message templates to specified user using the [Send API](https://de
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509251_1026555627430343_1803381600_n.png?oh=e9fadd445090a4743bfd20fda487be5f&oe=59EE4571" alt="sendGenericTemplate" width="250" />
 
-Param    | Type                              | Description
--------- | --------------------------------- | -----------
-userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic#element). Data for each bubble in message.
-options  | `Object`                          | Other optional parameters, such as `image_aspect_ratio`, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) and [tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
+| Param    | Type                              | Description                                                                                                                                                                                                                                         |
+| -------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                                                                                                           |
+| elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic#element). Data for each bubble in message.                                                                                                |
+| options  | `Object`                          | Other optional parameters, such as `image_aspect_ratio`, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types) and [tags](https://developers.facebook.com/docs/messenger-platform/message-tags). |
 
 Example:
+
 ```js
 client.sendGenericTemplate(
   USER_ID,
@@ -436,9 +446,10 @@ client.sendGenericTemplate(
 );
 ```
 
-Adding a [tag](https://developers.facebook.com/docs/messenger-platform/message-tags) to a message allows you to send it outside the 24+1 window, for a limited number of use cases, per [Messenger Platform policy](https://developers.facebook.com/docs/messenger-platform/policy-overview).  
+Adding a [tag](https://developers.facebook.com/docs/messenger-platform/message-tags) to a message allows you to send it outside the 24+1 window, for a limited number of use cases, per [Messenger Platform policy](https://developers.facebook.com/docs/messenger-platform/policy-overview).
 
 Example:
+
 ```js
 client.sendGenericTemplate(
   USER_ID,
@@ -452,19 +463,20 @@ client.sendGenericTemplate(
 ```
 
 Available tags:
-- `PAIRING_UPDATE`
-- `APPLICATION_UPDATE`
-- `ACCOUNT_UPDATE`
-- `PAYMENT_UPDATE`
-- `PERSONAL_FINANCE_UPDATE`
-- `SHIPPING_UPDATE`
-- `RESERVATION_UPDATE`
-- `ISSUE_RESOLUTION`
-- `APPOINTMENT_UPDATE`
-- `GAME_EVENT`
-- `TRANSPORTATION_UPDATE`
-- `FEATURE_FUNCTIONALITY_UPDATE`
-- `TICKET_UPDATE`
+
+* `PAIRING_UPDATE`
+* `APPLICATION_UPDATE`
+* `ACCOUNT_UPDATE`
+* `PAYMENT_UPDATE`
+* `PERSONAL_FINANCE_UPDATE`
+* `SHIPPING_UPDATE`
+* `RESERVATION_UPDATE`
+* `ISSUE_RESOLUTION`
+* `APPOINTMENT_UPDATE`
+* `GAME_EVENT`
+* `TRANSPORTATION_UPDATE`
+* `FEATURE_FUNCTIONALITY_UPDATE`
+* `TICKET_UPDATE`
 
 <br />
 
@@ -474,14 +486,15 @@ Send list message templates to specified user using the [Send API](https://devel
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14858155_1136082199802015_362293724211838976_n.png?oh=46900eb955ff8ea1040fc5353d9be2fa&oe=59F245DD" alt="sendListTemplate" width="500" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-items   | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic#element). List view elements.
-buttons | `Array<Object>`                   | Array of [button](https://developers.facebook.com/docs/messenger-platform/send-messages/template/button#button). List of buttons associated on the list template message (maximum of 1 button).
-options | `Object`                          | Other optional parameters, such as `top_element_style` and [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                              | Description                                                                                                                                                                                     |
+| ------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                                                                       |
+| items   | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic#element). List view elements.                                                         |
+| buttons | `Array<Object>`                   | Array of [button](https://developers.facebook.com/docs/messenger-platform/send-messages/template/button#button). List of buttons associated on the list template message (maximum of 1 button). |
+| options | `Object`                          | Other optional parameters, such as `top_element_style` and [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).                            |
 
 Example:
+
 ```js
 client.sendListTemplate(
   USER_ID,
@@ -526,13 +539,14 @@ client.sendListTemplate(
 
 Send open graph message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param    | Type                              | Description
--------- | --------------------------------- | -----------
-userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic#element). Only one element is allowed.
-options  | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param    | Type                              | Description                                                                                                                                       |
+| -------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic#element). Only one element is allowed.  |
+| options  | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
+
 ```js
 client.sendOpenGraphTemplate(USER_ID, [
   {
@@ -554,13 +568,14 @@ client.sendOpenGraphTemplate(USER_ID, [
 
 Send media message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-Param    | Type                              | Description
--------- | --------------------------------- | -----------
-userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/reference/template/media#payload). Only one element is allowed.
-options  | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param    | Type                              | Description                                                                                                                                       |
+| -------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| elements | `Array<Object>`                   | Array of [element](https://developers.facebook.com/docs/messenger-platform/reference/template/media#payload). Only one element is allowed.        |
+| options  | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
+
 ```js
 client.sendMediaTemplate(USER_ID, [
   {
@@ -579,19 +594,20 @@ client.sendMediaTemplate(USER_ID, [
 
 <br />
 
-## `sendReceiptTemplate(userId, receipt [, options])`  - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+## `sendReceiptTemplate(userId, receipt [, options])` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
 
 Send receipt message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466939_915325738590743_1056699384_n.png?oh=bd6869385dee4c2cfaef1329fc660a01&oe=5A0331D4" alt="sendReceiptTemplate" width="250" />
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-receipt | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt#payload) of receipt template.
-options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param   | Type                              | Description                                                                                                                                       |
+| ------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId  | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| receipt | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt#payload) of receipt template.                    |
+| options | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
+
 ```js
 client.sendReceiptTemplate(USER_ID, {
   recipient_name: 'Stephane Crozatier',
@@ -653,13 +669,14 @@ Send airline boarding pass message templates to specified user using the [Send A
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466921_1408414619175015_4955822_n.png?oh=3136f1ef03e482bda03f433b18745033&oe=5A316E63" alt="sendAirlineBoardingPassTemplate" width="600" />
 
-Param      | Type                              | Description
----------- | --------------------------------- | -----------
-userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline-boarding-pass#payload) of boarding pass template.
-options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
+| Param      | Type                              | Description                                                                                                                                        |
+| ---------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                          |
+| attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline-boarding-pass#payload) of boarding pass template. |
+| options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).  |
 
 Example:
+
 ```js
 client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
   intro_message: 'You are checked in.',
@@ -787,14 +804,14 @@ Send airline checkin message templates to specified user using the [Send API](ht
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466944_1156144061116360_549622536_n.png?oh=1aa077176a59f346abf8d199e133d2d2&oe=59F2476C" alt="sendAirlineCheckinTemplate" width="250" />
 
-Param      | Type                              | Description
----------- | --------------------------------- | -----------
-userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template#payload) of checkin template.
-options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
-
+| Param      | Type                              | Description                                                                                                                                       |
+| ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template#payload) of checkin template.       |
+| options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
+
 ```js
 client.sendAirlineCheckinTemplate(USER_ID, {
   intro_message: 'Check-in is available now.',
@@ -834,14 +851,14 @@ Send airline itinerary message templates to specified user using the [Send API](
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466573_979516348832909_515976570_n.png?oh=1eb97bf63d3a9f5c333ba28184085950&oe=59FB8738" alt="sendAirlineItineraryTemplate" width="600" />
 
-Param      | Type                              | Description
----------- | --------------------------------- | -----------
-userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template#payload) of itinerary template.
-options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
-
+| Param      | Type                              | Description                                                                                                                                       |
+| ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template#payload) of itinerary template.   |
+| options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
+
 ```js
 client.sendAirlineItineraryTemplate(USER_ID, {
   intro_message: "Here's your flight itinerary.",
@@ -975,14 +992,14 @@ Send airline flight update message templates to specified user using the [Send A
 
 <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13503467_502166346641834_1768260104_n.png?oh=141fe3238aa6f04d413705860eb52ede&oe=59F5C6BC" alt="sendAirlineFlightUpdateTemplate" width="250" />
 
-Param      | Type                              | Description
----------- | --------------------------------- | -----------
-userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template#payload) of update template.
-options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types).
-
+| Param      | Type                              | Description                                                                                                                                       |
+| ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
+| attributes | `Object`                          | [payload](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template#payload) of update template.         |
+| options    | `Object`                          | Other optional parameters. For example, [messaging types](https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). |
 
 Example:
+
 ```js
 client.sendAirlineFlightUpdateTemplate(USER_ID, {
   intro_message: 'Your flight is delayed',
@@ -1062,12 +1079,13 @@ It works with all of send message methods.
 
 Send sender actions to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request), to let users know you are processing their request.
 
-Param  | Type                              | Description
------- | --------------------------------- | -----------
-userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
-action | `String`                          | Name of the action.
+| Param  | Type                              | Description                                                                               |
+| ------ | --------------------------------- | ----------------------------------------------------------------------------------------- |
+| userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object. |
+| action | `String`                          | Name of the action.                                                                       |
 
 Example:
+
 ```js
 client.sendSenderAction(USER_ID, 'typing_on');
 ```
@@ -1078,11 +1096,12 @@ client.sendSenderAction(USER_ID, 'typing_on');
 
 Mark last message as read for specified user.
 
-Param  | Type                              | Description
------- | --------------------------------- | -----------
-userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
+| Param  | Type                              | Description                                                                               |
+| ------ | --------------------------------- | ----------------------------------------------------------------------------------------- |
+| userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object. |
 
 Example:
+
 ```js
 client.markSeen(USER_ID);
 ```
@@ -1093,11 +1112,12 @@ client.markSeen(USER_ID);
 
 Turn typing indicators on for specified user.
 
-Param  | Type                              | Description
------- | --------------------------------- | -----------
-userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
+| Param  | Type                              | Description                                                                               |
+| ------ | --------------------------------- | ----------------------------------------------------------------------------------------- |
+| userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object. |
 
 Example:
+
 ```js
 client.typingOn(USER_ID);
 ```
@@ -1108,11 +1128,12 @@ client.typingOn(USER_ID);
 
 Turn typing indicators off for specified user.
 
-Param  | Type                              | Description
------- | --------------------------------- | -----------
-userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.
+| Param  | Type                              | Description                                                                               |
+| ------ | --------------------------------- | ----------------------------------------------------------------------------------------- |
+| userId | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object. |
 
 Example:
+
 ```js
 client.typingOff(USER_ID);
 ```
@@ -1129,15 +1150,16 @@ client.typingOff(USER_ID);
 
 Upload specified type attachment using URL address, buffer, or stream.
 
-Param      | Type     | Description
----------- | -------- | -----------
-type       | `String` | Must be one of `image | video | audio | file`.
-attachment | <code>String &#124; Buffer &#124; ReadStream</code> | Attachment to be uploaded.
-options    | `Object` | Other optional parameters.
-options.is_reusable | Set to `true` to make the saved asset sendable to other message recipients. Defaults to `false`.
-options.filename    | Required when upload from buffer.
+| Param               | Type                                                                                             | Description                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| type                | `String`                                                                                         | Must be one of `image | video | audio | file`. |
+| attachment          | <code>String &#124; Buffer &#124; ReadStream</code>                                              | Attachment to be uploaded.                     |
+| options             | `Object`                                                                                         | Other optional parameters.                     |
+| options.is_reusable | Set to `true` to make the saved asset sendable to other message recipients. Defaults to `false`. |
+| options.filename    | Required when upload from buffer.                                                                |
 
 Example:
+
 ```js
 client.uploadAttachment('image', 'http://www.example.com/image.jpg', {
   is_reusable: true,
@@ -1169,12 +1191,13 @@ client.uploadAttachment('image', buffer, {
 
 Upload audio attachment using URL address, buffer, or stream.
 
-Param   | Type                                                | Description
-------- | --------------------------------------------------- | -----------
-audio   | <code>String &#124; Buffer &#124; ReadStream</code> | The audio to be uploaded.
-options | `Object`                                            | Other optional parameters.
+| Param   | Type                                                | Description                |
+| ------- | --------------------------------------------------- | -------------------------- |
+| audio   | <code>String &#124; Buffer &#124; ReadStream</code> | The audio to be uploaded.  |
+| options | `Object`                                            | Other optional parameters. |
 
 Example:
+
 ```js
 client.uploadAudio('http://www.example.com/audio.mp3', { is_reusable: true });
 ```
@@ -1202,12 +1225,13 @@ client.uploadAudio(buffer, {
 
 Upload image attachment using URL address, buffer, or stream.
 
-Param   | Type                                                | Description
-------- | --------------------------------------------------- | -----------
-image   | <code>String &#124; Buffer &#124; ReadStream</code> | The image to be uploaded.
-options | `Object`                                            | Other optional parameters.
+| Param   | Type                                                | Description                |
+| ------- | --------------------------------------------------- | -------------------------- |
+| image   | <code>String &#124; Buffer &#124; ReadStream</code> | The image to be uploaded.  |
+| options | `Object`                                            | Other optional parameters. |
 
 Example:
+
 ```js
 client.uploadImage('http://www.example.com/image.jpg', { is_reusable: true });
 ```
@@ -1235,12 +1259,13 @@ client.uploadImage(buffer, {
 
 Upload video attachment using URL address, buffer, or stream.
 
-Param   | Type                                                | Description
-------- | --------------------------------------------------- | -----------
-video   | <code>String &#124; Buffer &#124; ReadStream</code> | The video to be uploaded.
-options | `Object`                                            | Other optional parameters.
+| Param   | Type                                                | Description                |
+| ------- | --------------------------------------------------- | -------------------------- |
+| video   | <code>String &#124; Buffer &#124; ReadStream</code> | The video to be uploaded.  |
+| options | `Object`                                            | Other optional parameters. |
 
 Example:
+
 ```js
 client.uploadVideo('http://www.example.com/video.mp4', { is_reusable: true });
 ```
@@ -1268,12 +1293,13 @@ client.uploadVideo(buffer, {
 
 Upload file attachment using URL address, buffer, or stream.
 
-Param   | Type                                                | Description
-------- | --------------------------------------------------- | -----------
-file    | <code>String &#124; Buffer &#124; ReadStream</code> | The file to be uploaded.
-options | `Object`                                            | Other optional parameters.
+| Param   | Type                                                | Description                |
+| ------- | --------------------------------------------------- | -------------------------- |
+| file    | <code>String &#124; Buffer &#124; ReadStream</code> | The file to be uploaded.   |
+| options | `Object`                                            | Other optional parameters. |
 
 Example:
+
 ```js
 client.uploadFile('http://www.example.com/file.pdf', { is_reusable: true });
 ```
@@ -1306,6 +1332,7 @@ client.uploadFile(buffer, {
 Getting tags list via an API.
 
 Example:
+
 ```js
 client.getMessageTags().then(tags => {
   console.log(tags);
@@ -1364,11 +1391,12 @@ client.getMessageTags().then(tags => {
 
 Sends multiple requests in one batch.
 
-Param    | Type            | Description
--------- | --------------- | -----------
-requests | `Array<Object>` | Subrequests in the batch.
+| Param    | Type            | Description               |
+| -------- | --------------- | ------------------------- |
+| requests | `Array<Object>` | Subrequests in the batch. |
 
 Example
+
 ```js
 const { MessengerBatch } = require('messaging-api-messenger');
 
@@ -1389,16 +1417,17 @@ client.sendBatch([
 
 To use the broadcast API, your Messenger bot must have the following permissions:
 
-- `pages_messaging`
-- `pages_messaging_subscriptions`
+* `pages_messaging`
+* `pages_messaging_subscriptions`
 
 ## `createMessageCreative(messages)`
 
-Param    | Type            | Description
--------- | --------------- | -----------
-messages | `Array<Object>` | The messages to send.
+| Param    | Type            | Description           |
+| -------- | --------------- | --------------------- |
+| messages | `Array<Object>` | The messages to send. |
 
 Example
+
 ```js
 client
   .createMessageCreative([
@@ -1435,24 +1464,25 @@ client
 
 The following message templates are not supported:
 
-- Airline boarding pass template
-- Airline check-in template
-- Airline itinerary template
-- Airline flight update template
-- Receipt template
-- Open graph template
+* Airline boarding pass template
+* Airline check-in template
+* Airline itinerary template
+* Airline flight update template
+* Receipt template
+* Open graph template
 
 <br />
 
 ## `sendBroadcastMessage(messageCreativeId, options)`
 
-Param                     | Type     | Description
-------------------------- | -------- | -----------
-messageCreativeId         | `Number` | The `message_creative_id` of the message creative to send in the broadcast.
-options                   | `Object` | Other optional parameters.
-options.custom_label_id   | `Number` | The id of custom label.
+| Param                   | Type     | Description                                                                 |
+| ----------------------- | -------- | --------------------------------------------------------------------------- |
+| messageCreativeId       | `Number` | The `message_creative_id` of the message creative to send in the broadcast. |
+| options                 | `Object` | Other optional parameters.                                                  |
+| options.custom_label_id | `Number` | The id of custom label.                                                     |
 
 Example
+
 ```js
 client.sendBroadcastMessage(938461089).then(result => {
   console.log(result);
@@ -1472,16 +1502,17 @@ client.sendBroadcastMessage(938461089, { custom_label_id: LABEL_ID });
 
 ## `sendSponsoredMessage(adAccountId, args)`
 
-Param                       | Type          | Description
---------------------------- | ------------- | -----------
-adAccountId                 | `String`      | The Ad account ID. [See more](https://developers.facebook.com/docs/marketing-api/guides/messenger-sponsored)
-message                     | `Object`      | The Object to pass into request body.
-message.message_creative_id | `Number`      | The ID of the Message Creative you want to send.
-message.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.
-message.bid_amount          | `Number`      | Maximum amount to bid for each message.
-message.targeting           | `JSON String` | Option field for ads targeting
+| Param                       | Type          | Description                                                                                                  |
+| --------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------ |
+| adAccountId                 | `String`      | The Ad account ID. [See more](https://developers.facebook.com/docs/marketing-api/guides/messenger-sponsored) |
+| message                     | `Object`      | The Object to pass into request body.                                                                        |
+| message.message_creative_id | `Number`      | The ID of the Message Creative you want to send.                                                             |
+| message.daily_budget        | `Number`      | The maximum daily budget of the ad campaign for sending the sponsored message.                               |
+| message.bid_amount          | `Number`      | Maximum amount to bid for each message.                                                                      |
+| message.targeting           | `JSON String` | Option field for ads targeting                                                                               |
 
 Example
+
 ```js
 client
   .sendSponsoredMessage('18910417349234', {
@@ -1510,11 +1541,12 @@ client
 
 Creating a Label.
 
-Param  | Type     | Description
------- | -------- | -----------
-name   | `String` | name of the custom label.
+| Param | Type     | Description               |
+| ----- | -------- | ------------------------- |
+| name  | `String` | name of the custom label. |
 
 Example:
+
 ```js
 client.createLabel('awesome').then(label => {
   console.log(label);
@@ -1530,12 +1562,13 @@ client.createLabel('awesome').then(label => {
 
 Associating a Label to a PSID.
 
-Param   | Type     | Description
-------- | -------- | -----------
-userId  | `String` | Page-scoped user ID of the recipient.
-labelId | `String` | ID of the custom label.
+| Param   | Type     | Description                           |
+| ------- | -------- | ------------------------------------- |
+| userId  | `String` | Page-scoped user ID of the recipient. |
+| labelId | `String` | ID of the custom label.               |
 
 Example:
+
 ```js
 client.associateLabel(USER_ID, LABEL_ID);
 ```
@@ -1546,12 +1579,13 @@ client.associateLabel(USER_ID, LABEL_ID);
 
 Removing a Label From a PSID.
 
-Param   | Type     | Description
-------- | -------- | -----------
-userId  | `String` | Page-scoped user ID of the recipient.
-labelId | `String` | ID of the custom label.
+| Param   | Type     | Description                           |
+| ------- | -------- | ------------------------------------- |
+| userId  | `String` | Page-scoped user ID of the recipient. |
+| labelId | `String` | ID of the custom label.               |
 
 Example:
+
 ```js
 client.dissociateLabel(USER_ID, LABEL_ID);
 ```
@@ -1562,11 +1596,12 @@ client.dissociateLabel(USER_ID, LABEL_ID);
 
 Retrieving Labels Associated with a PSID.
 
-Param   | Type     | Description
-------- | -------- | -----------
-userId  | `String` | Page-scoped user ID of the recipient.
+| Param  | Type     | Description                           |
+| ------ | -------- | ------------------------------------- |
+| userId | `String` | Page-scoped user ID of the recipient. |
 
 Example:
+
 ```js
 client.getAssociatedLabels(USER_ID).then(result => {
   console.log(result);
@@ -1599,12 +1634,13 @@ client.getAssociatedLabels(USER_ID).then(result => {
 
 Retrieving Label Details.
 
-Param          | Type            | Description
--------------- | --------------- | -----------
-labelId        | `String`        | ID of the custom label.
-options.fields | `Array<String>` | fields to retrieve with its ID.
+| Param          | Type            | Description                     |
+| -------------- | --------------- | ------------------------------- |
+| labelId        | `String`        | ID of the custom label.         |
+| options.fields | `Array<String>` | fields to retrieve with its ID. |
 
 Example:
+
 ```js
 client.getLabelDetails(LABEL_ID, { fields: ['name'] }).then(result => {
   console.log(result);
@@ -1622,6 +1658,7 @@ client.getLabelDetails(LABEL_ID, { fields: ['name'] }).then(result => {
 Retrieving a List of All Labels.
 
 Example:
+
 ```js
 client.getLabelList().then(result => {
   console.log(result);
@@ -1654,11 +1691,12 @@ client.getLabelList().then(result => {
 
 Deleting a Label.
 
-Param   | Type     | Description
-------- | -------- | -----------
-labelId | `String` | ID of the custom label.
+| Param   | Type     | Description             |
+| ------- | -------- | ----------------------- |
+| labelId | `String` | ID of the custom label. |
 
 Example:
+
 ```js
 client.deleteLabel(LABEL_ID);
 ```
@@ -1673,11 +1711,12 @@ client.deleteLabel(LABEL_ID);
 
 ## `startReachEstimation(customLabelId)`
 
-Param            | Type          | Description
----------------- | ------------- | -----------
-customLabelId    | `Number`      | The custom label ID.
+| Param         | Type     | Description          |
+| ------------- | -------- | -------------------- |
+| customLabelId | `Number` | The custom label ID. |
 
 Example
+
 ```js
 client.startReachEstimation(938461089).then(result => {
   console.log(result);
@@ -1691,11 +1730,12 @@ client.startReachEstimation(938461089).then(result => {
 
 ## `getReachEstimate(reachEstimationId)`
 
-Param                       | Type          | Description
---------------------------- | ------------- | -----------
-reachEstimationId           | `Number`      | The reach estimate ID from *startReachEstimation*.
+| Param             | Type     | Description                                        |
+| ----------------- | -------- | -------------------------------------------------- |
+| reachEstimationId | `Number` | The reach estimate ID from _startReachEstimation_. |
 
 Example
+
 ```js
 client.getReachEstimate(73450120243).then(result => {
   console.log(result);
@@ -1714,11 +1754,12 @@ client.getReachEstimate(73450120243).then(result => {
 
 ## `getBroadcastMessagesSent(broadcastId)`
 
-Param          | Type          | Description
--------------- | ------------- | -----------
-broadcastId    | `Number`      | The broadcast ID.
+| Param       | Type     | Description       |
+| ----------- | -------- | ----------------- |
+| broadcastId | `Number` | The broadcast ID. |
 
 Example
+
 ```js
 client.getBroadcastMessagesSent(73450120243).then(result => {
   console.log(result);
@@ -1750,11 +1791,12 @@ client.getBroadcastMessagesSent(73450120243).then(result => {
 
 Retrieving a Person's Profile.
 
-Param  | Type     | Description
------- | -------- | -----------
-userId | `String` | Page-scoped user ID of the recipient.
+| Param  | Type     | Description                           |
+| ------ | -------- | ------------------------------------- |
+| userId | `String` | Page-scoped user ID of the recipient. |
 
 Example:
+
 ```js
 client.getUserProfile(USER_ID).then(user => {
   console.log(user);
@@ -1779,11 +1821,12 @@ client.getUserProfile(USER_ID).then(user => {
 
 Retrieves the current value of one or more Messenger Profile properties by name.
 
-Param  | Type            | Description
------- | --------------- | -----------
-fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`.
+| Param  | Type            | Description                                                                                                                                                        |
+| ------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`. |
 
 Example:
+
 ```js
 client.getMessengerProfile(['get_started', 'persistent_menu']).then(profile => {
   console.log(profile);
@@ -1818,11 +1861,12 @@ client.getMessengerProfile(['get_started', 'persistent_menu']).then(profile => {
 
 Sets the values of one or more Messenger Profile properties. Only properties set in the request body will be overwritten.
 
-Param   | Type     | Description
-------- | -------- | -----------
-profile | `Object` | Object of [Profile](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api#profile_properties).
+| Param   | Type     | Description                                                                                                                      |
+| ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| profile | `Object` | Object of [Profile](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api#profile_properties). |
 
 Example:
+
 ```js
 client.setMessengerProfile({
   get_started: {
@@ -1850,11 +1894,12 @@ client.setMessengerProfile({
 
 Deletes one or more Messenger Profile properties. Only properties specified in the fields array will be deleted.
 
-Param  | Type            | Description
------- | --------------- | -----------
-fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`.
+| Param  | Type            | Description                                                                                                                                                        |
+| ------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`. |
 
 Example:
+
 ```js
 client.deleteMessengerProfile(['get_started', 'persistent_menu']);
 ```
@@ -1872,6 +1917,7 @@ client.deleteMessengerProfile(['get_started', 'persistent_menu']);
 Retrieves the current value of persistent menu.
 
 Example:
+
 ```js
 client.getPersistentMenu().then(menu => {
   console.log(menu);
@@ -1902,11 +1948,12 @@ client.getPersistentMenu().then(menu => {
 
 Sets the values of persistent menu.
 
-Param | Type            | Description
------ | --------------- | -----------
-menu  | `Array<Object>` | Array of [menu](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/persistent-menu#properties).
+| Param | Type            | Description                                                                                                                          |
+| ----- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| menu  | `Array<Object>` | Array of [menu](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/persistent-menu#properties). |
 
 Example:
+
 ```js
 client.setPersistentMenu([
   {
@@ -1971,6 +2018,7 @@ client.setPersistentMenu([
 Deletes persistent menu.
 
 Example:
+
 ```js
 client.deletePersistentMenu();
 ```
@@ -1986,6 +2034,7 @@ client.deletePersistentMenu();
 Retrieves the current value of get started button.
 
 Example:
+
 ```js
 client.getGetStarted().then(getStarted => {
   console.log(getStarted);
@@ -2001,11 +2050,12 @@ client.getGetStarted().then(getStarted => {
 
 Sets the values of get started button.
 
-Param   | Type     | Description
-------- | -------- | -----------
-payload | `String` | Payload sent back to your webhook in a `messaging_postbacks` event when the 'Get Started' button is tapped.
+| Param   | Type     | Description                                                                                                 |
+| ------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| payload | `String` | Payload sent back to your webhook in a `messaging_postbacks` event when the 'Get Started' button is tapped. |
 
 Example:
+
 ```js
 client.setGetStarted('GET_STARTED');
 ```
@@ -2017,6 +2067,7 @@ client.setGetStarted('GET_STARTED');
 Deletes get started button.
 
 Example:
+
 ```js
 client.deleteGetStarted();
 ```
@@ -2032,6 +2083,7 @@ client.deleteGetStarted();
 Retrieves the current value of greeting text.
 
 Example:
+
 ```js
 client.getGreeting().then(greeting => {
   console.log(greeting);
@@ -2050,11 +2102,12 @@ client.getGreeting().then(greeting => {
 
 Sets the values of greeting text.
 
-Param    | Type            | Description
--------- | --------------- | -----------
-greeting | `Array<Object>` | Array of [greeting](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/greeting#properties).
+| Param    | Type            | Description                                                                                                                       |
+| -------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| greeting | `Array<Object>` | Array of [greeting](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/greeting#properties). |
 
 Example:
+
 ```js
 client.setGreeting([
   {
@@ -2071,6 +2124,7 @@ client.setGreeting([
 Deletes greeting text.
 
 Example:
+
 ```js
 client.deleteGreeting();
 ```
@@ -2084,6 +2138,7 @@ client.deleteGreeting();
 Retrieves the current value of whitelisted domains.
 
 Example:
+
 ```js
 client.getWhitelistedDomains().then(domains => {
   console.log(domains);
@@ -2097,11 +2152,12 @@ client.getWhitelistedDomains().then(domains => {
 
 Sets the values of whitelisted domains.
 
-Param   | Type            | Description
-------- | --------------- | -----------
-domains | `Array<String>` | Array of [whitelisted_domain](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/domain-whitelisting#properties).
+| Param   | Type            | Description                                                                                                                                            |
+| ------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| domains | `Array<String>` | Array of [whitelisted_domain](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/domain-whitelisting#properties). |
 
 Example:
+
 ```js
 client.setWhitelistedDomains(['www.example.com']);
 ```
@@ -2113,6 +2169,7 @@ client.setWhitelistedDomains(['www.example.com']);
 Deletes whitelisted domains.
 
 Example:
+
 ```js
 client.deleteWhitelistedDomains();
 ```
@@ -2126,6 +2183,7 @@ client.deleteWhitelistedDomains();
 Retrieves the current value of account linking URL.
 
 Example:
+
 ```js
 client.getAccountLinkingURL().then(accountLinking => {
   console.log(accountLinking);
@@ -2142,11 +2200,12 @@ client.getAccountLinkingURL().then(accountLinking => {
 
 Sets the values of account linking URL.
 
-Param | Type     | Description
------ | -------- | -----------
-url   | `String` | Account linking URL.
+| Param | Type     | Description          |
+| ----- | -------- | -------------------- |
+| url   | `String` | Account linking URL. |
 
 Example:
+
 ```js
 client.setAccountLinkingURL(
   'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
@@ -2160,6 +2219,7 @@ client.setAccountLinkingURL(
 Deletes account linking URL.
 
 Example:
+
 ```js
 client.deleteAccountLinkingURL();
 ```
@@ -2173,6 +2233,7 @@ client.deleteAccountLinkingURL();
 Retrieves the current value of payment settings.
 
 Example:
+
 ```js
 client.getPaymentSettings().then(settings => {
   console.log(settings);
@@ -2190,11 +2251,12 @@ client.getPaymentSettings().then(settings => {
 
 Sets the values of payment privacy policy URL.
 
-Param | Type     | Description
------ | -------- | -----------
-url   | `String` | Payment privacy policy URL.
+| Param | Type     | Description                 |
+| ----- | -------- | --------------------------- |
+| url   | `String` | Payment privacy policy URL. |
 
 Example:
+
 ```js
 client.setPaymentPrivacyPolicyURL('https://www.example.com');
 ```
@@ -2205,11 +2267,12 @@ client.setPaymentPrivacyPolicyURL('https://www.example.com');
 
 Sets the values of payment public key.
 
-Param | Type     | Description
------ | -------- | -----------
-key   | `String` | payment public key.
+| Param | Type     | Description         |
+| ----- | -------- | ------------------- |
+| key   | `String` | payment public key. |
 
 Example:
+
 ```js
 client.setPaymentPublicKey('YOUR_PUBLIC_KEY');
 ```
@@ -2220,11 +2283,12 @@ client.setPaymentPublicKey('YOUR_PUBLIC_KEY');
 
 Sets the values of payment test users.
 
-Param | Type            | Description
------ | --------------- | -----------
-users | `Array<String>` | Array of IDs for people that will test payments in your app.
+| Param | Type            | Description                                                  |
+| ----- | --------------- | ------------------------------------------------------------ |
+| users | `Array<String>` | Array of IDs for people that will test payments in your app. |
 
 Example:
+
 ```js
 client.setPaymentTestUsers(['12345678']);
 ```
@@ -2236,6 +2300,7 @@ client.setPaymentTestUsers(['12345678']);
 Deletes payment settings.
 
 Example:
+
 ```js
 client.deletePaymentSettings();
 ```
@@ -2251,6 +2316,7 @@ client.deletePaymentSettings();
 Retrieves the current value of target audience.
 
 Example:
+
 ```js
 client.getTargetAudience().then(targetAudience => {
   console.log(targetAudience);
@@ -2269,13 +2335,14 @@ client.getTargetAudience().then(targetAudience => {
 
 Sets the values of target audience.
 
-Param     | Type            | Description
---------- | --------------- | -----------
-type      | `String`        | Audience type. Valid values include `all | custom | none`.
-whitelist | `Array<String>` | List of ISO 3166 Alpha-2 codes. Users in any of the blacklist countries won't see your bot on discovery surfaces on Messenger Platform.
-blacklist | `Array<String>` | List of ISO 3166 Alpha-2 codes. Users in any of the whitelist countries will see your bot on discovery surfaces on Messenger Platform.
+| Param     | Type            | Description                                                                                                                             |
+| --------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| type      | `String`        | Audience type. Valid values include `all | custom | none`.                                                                              |
+| whitelist | `Array<String>` | List of ISO 3166 Alpha-2 codes. Users in any of the blacklist countries won't see your bot on discovery surfaces on Messenger Platform. |
+| blacklist | `Array<String>` | List of ISO 3166 Alpha-2 codes. Users in any of the whitelist countries will see your bot on discovery surfaces on Messenger Platform.  |
 
 Exmaple:
+
 ```js
 client.setTargetAudience('custom', ['US', 'CA'], ['UK']);
 ```
@@ -2287,6 +2354,7 @@ client.setTargetAudience('custom', ['US', 'CA'], ['UK']);
 Deletes target audience.
 
 Example:
+
 ```js
 client.deleteTargetAudience();
 ```
@@ -2302,6 +2370,7 @@ client.deleteTargetAudience();
 Retrieves the current value of chat extension home URL.
 
 Example:
+
 ```js
 client.getHomeURL().then(chatExtension => {
   console.log(chatExtension);
@@ -2319,12 +2388,13 @@ client.getHomeURL().then(chatExtension => {
 
 Sets the values of chat extension home URL.
 
-Param      | Type     | Description
----------- | ---------| -----------
-url        | `String` | The URL to be invoked from drawer.
-attributes | `Object` | Other [properties](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/home-url#properties) of home URL.
+| Param      | Type     | Description                                                                                                                                  |
+| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| url        | `String` | The URL to be invoked from drawer.                                                                                                           |
+| attributes | `Object` | Other [properties](https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/home-url#properties) of home URL. |
 
 Exmaple:
+
 ```js
 client.setHomeURL('http://petershats.com/send-a-hat', {
   webview_height_ratio: 'tall',
@@ -2339,6 +2409,7 @@ client.setHomeURL('http://petershats.com/send-a-hat', {
 Deletes chat extension home URL.
 
 Example:
+
 ```js
 client.deleteHomeURL();
 ```
@@ -2355,13 +2426,14 @@ client.deleteHomeURL();
 
 Generating a Messenger code.
 
-Param              | Type     | Description
------------------- | ---------| -----------
-options            | `Object` | Optional parameters of generating a Messenger code.
-options.image_size | `Number` | The size, in pixels, for the image you are requesting.
-options.data       | `Object` | If creating a parametric code, pass `{ "data": { "ref": "YOUR_REF_HERE" } }`.
+| Param              | Type     | Description                                                                   |
+| ------------------ | -------- | ----------------------------------------------------------------------------- |
+| options            | `Object` | Optional parameters of generating a Messenger code.                           |
+| options.image_size | `Number` | The size, in pixels, for the image you are requesting.                        |
+| options.data       | `Object` | If creating a parametric code, pass `{ "data": { "ref": "YOUR_REF_HERE" } }`. |
 
 Example:
+
 ```js
 client
   .generateMessengerCode({
@@ -2386,13 +2458,14 @@ client
 
 Passes thread control from your app to another app.
 
-Param       | Type     | Description
------------ | ---------| -----------
-userId      | `String` | The PSID of the message recipient.
-targetAppId | `Number` | The app ID of the Secondary Receiver to pass thread control to.
-metadata    | `String` | Metadata passed to the receiving app in the `pass_thread_control` webhook event.
+| Param       | Type     | Description                                                                      |
+| ----------- | -------- | -------------------------------------------------------------------------------- |
+| userId      | `String` | The PSID of the message recipient.                                               |
+| targetAppId | `Number` | The app ID of the Secondary Receiver to pass thread control to.                  |
+| metadata    | `String` | Metadata passed to the receiving app in the `pass_thread_control` webhook event. |
 
 Example:
+
 ```js
 client.passThreadControl(USER_ID, APP_ID, 'free formed text for another app');
 ```
@@ -2403,12 +2476,13 @@ client.passThreadControl(USER_ID, APP_ID, 'free formed text for another app');
 
 Passes thread control from your app to "Page Inbox" app.
 
-Param       | Type     | Description
------------ | ---------| -----------
-userId      | `String` | The PSID of the message recipient.
-metadata    | `String` | Metadata passed to the receiving app in the `pass_thread_control` webhook event.
+| Param    | Type     | Description                                                                      |
+| -------- | -------- | -------------------------------------------------------------------------------- |
+| userId   | `String` | The PSID of the message recipient.                                               |
+| metadata | `String` | Metadata passed to the receiving app in the `pass_thread_control` webhook event. |
 
 Example:
+
 ```js
 client.passThreadControlToPageInbox(
   USER_ID,
@@ -2422,12 +2496,13 @@ client.passThreadControlToPageInbox(
 
 Takes control of a specific thread from a Secondary Receiver app.
 
-Param       | Type     | Description
------------ | ---------| -----------
-userId      | `String` | The PSID of the message recipient.
-metadata    | `String` | Metadata passed back to the secondary app in the `take_thread_control` webhook event.
+| Param    | Type     | Description                                                                           |
+| -------- | -------- | ------------------------------------------------------------------------------------- |
+| userId   | `String` | The PSID of the message recipient.                                                    |
+| metadata | `String` | Metadata passed back to the secondary app in the `take_thread_control` webhook event. |
 
 Example:
+
 ```js
 client.takeThreadControl(USER_ID, 'free formed text for another app');
 ```
@@ -2438,12 +2513,13 @@ client.takeThreadControl(USER_ID, 'free formed text for another app');
 
 Requests control of a specific thread from a Primary Receiver app.
 
-Param       | Type     | Description
------------ | ---------| -----------
-userId      | `String` | The PSID of the message recipient.
-metadata    | `String` | Metadata passed to the primary app in the `request_thread_control` webhook event.
+| Param    | Type     | Description                                                                       |
+| -------- | -------- | --------------------------------------------------------------------------------- |
+| userId   | `String` | The PSID of the message recipient.                                                |
+| metadata | `String` | Metadata passed to the primary app in the `request_thread_control` webhook event. |
 
 Example:
+
 ```js
 client.requestThreadControl(USER_ID, 'free formed text for primary app');
 ```
@@ -2455,6 +2531,7 @@ client.requestThreadControl(USER_ID, 'free formed text for primary app');
 Retrieves the list of apps that are Secondary Receivers for a page.
 
 Example:
+
 ```js
 client.getSecondaryReceivers().then(receivers => {
   console.log(receivers);
@@ -2481,15 +2558,15 @@ client.getSecondaryReceivers().then(receivers => {
 
 Retrieves the insights of your Facebook Page.
 
-Param          | Type     | Description
--------------- | ---------| -----------
-metrics        | `Array`  | [The metrics](https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api/#metrics) you want to check.
-options        | `Object` | Optional arguments.
-options.since  | `number` | Optional. UNIX timestamp of the start time to get the metric for.
-options.until  | `number` | Optional. UNIX timestamp of the end time to get the metric for.
-
+| Param         | Type     | Description                                                                                                                         |
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| metrics       | `Array`  | [The metrics](https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api/#metrics) you want to check. |
+| options       | `Object` | Optional arguments.                                                                                                                 |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for.                                                                   |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.                                                                     |
 
 Example:
+
 ```js
 client.getInsights(['page_messages_active_threads_unique']).then(counts => {
   console.log(counts);
@@ -2519,6 +2596,7 @@ client.getInsights(['page_messages_active_threads_unique']).then(counts => {
 Retrieves a count of the unique active threads your app participated in per day.
 
 Example:
+
 ```js
 client.getDailyUniqueActiveThreadCounts().then(counts => {
   console.log(counts);
@@ -2555,6 +2633,7 @@ client.getDailyUniqueActiveThreadCounts().then(counts => {
 Retrieves the number of conversations with the Page that have been blocked.
 
 Example:
+
 ```js
 client.getBlockedConversations().then(counts => {
   console.log(counts);
@@ -2584,6 +2663,7 @@ client.getBlockedConversations().then(counts => {
 Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
 
 Example:
+
 ```js
 client.getReportedConversations().then(counts => {
   console.log(counts);
@@ -2613,6 +2693,7 @@ client.getReportedConversations().then(counts => {
 Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
 
 Example:
+
 ```js
 client.getReportedConversationsByReportType().then(counts => {
   console.log(counts);
@@ -2647,6 +2728,7 @@ client.getReportedConversationsByReportType().then(counts => {
 Retrieves a count of actions that were initiated by people your app was in an active thread with per day.
 
 Example:
+
 ```js
 client.getDailyUniqueConversationCounts().then(counts => {
   console.log(counts);
@@ -2694,16 +2776,17 @@ client.getDailyUniqueConversationCounts().then(counts => {
 
 Set values of NLP configs.
 
-Param               | Type      | Description
-------------------- | --------- | -----------
-config              | `Object`  | Configuration of NLP.
-config.nlp_enabled  | `Boolean` | Optional. Either enable NLP or disable NLP for that Page.
-config.model        | `String`  | Optional. Specifies the NLP model to use. Either one of `{CHINESE, CROATIAN, DANISH, DUTCH, ENGLISH, FRENCH_STANDARD, GERMAN_STANDARD, HEBREW, HUNGARIAN, IRISH, ITALIAN_STANDARD, KOREAN, NORWEGIAN_BOKMAL, POLISH, PORTUGUESE, ROMANIAN, SPANISH, SWEDISH, VIETNAMESE}`, or `CUSTOM`.
-config.custom_token | `String`  | Optional. Access token from Wit.
-config.verbose      | `Boolean` | Optional. Specifies whether verbose mode if enabled, which returns extra information like the position of the detected entity in the query.
-config.n_best       | `Number`  | Optional. The number of entities to return, in descending order of confidence. Minimum 1. Maximum 8. Defaults to 1.
+| Param               | Type      | Description                                                                                                                                                                                                                                                                             |
+| ------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config              | `Object`  | Configuration of NLP.                                                                                                                                                                                                                                                                   |
+| config.nlp_enabled  | `Boolean` | Optional. Either enable NLP or disable NLP for that Page.                                                                                                                                                                                                                               |
+| config.model        | `String`  | Optional. Specifies the NLP model to use. Either one of `{CHINESE, CROATIAN, DANISH, DUTCH, ENGLISH, FRENCH_STANDARD, GERMAN_STANDARD, HEBREW, HUNGARIAN, IRISH, ITALIAN_STANDARD, KOREAN, NORWEGIAN_BOKMAL, POLISH, PORTUGUESE, ROMANIAN, SPANISH, SWEDISH, VIETNAMESE}`, or `CUSTOM`. |
+| config.custom_token | `String`  | Optional. Access token from Wit.                                                                                                                                                                                                                                                        |
+| config.verbose      | `Boolean` | Optional. Specifies whether verbose mode if enabled, which returns extra information like the position of the detected entity in the query.                                                                                                                                             |
+| config.n_best       | `Number`  | Optional. The number of entities to return, in descending order of confidence. Minimum 1. Maximum 8. Defaults to 1.                                                                                                                                                                     |
 
 Example:
+
 ```js
 client.setNLPConfigs({
   nlp_enabled: true,
@@ -2717,6 +2800,7 @@ client.setNLPConfigs({
 Enabling Built-in NLP.
 
 Example:
+
 ```js
 client.enableNLP();
 ```
@@ -2728,6 +2812,7 @@ client.enableNLP();
 Disabling Built-in NLP.
 
 Example:
+
 ```js
 client.disableNLP();
 ```
@@ -2742,15 +2827,16 @@ client.disableNLP();
 
 Log custom events by using the [Application Activities Graph API](https://developers.facebook.com/docs/graph-api/reference/application/activities/) endpoint.
 
-Param           | Type            | Description
---------------- | --------------- | -----------
-activity        | `Object`        |
-activity.app_id  | `Number`        | ID of the app.
-activity.page_id | `String`        | ID of the page.
-activity.page_scoped_user_id | `String`        | Page-scoped user ID of the recipient.
-activity.events | `Array<Object>` | Custom events.
+| Param                        | Type            | Description                           |
+| ---------------------------- | --------------- | ------------------------------------- |
+| activity                     | `Object`        |
+| activity.app_id              | `Number`        | ID of the app.                        |
+| activity.page_id             | `String`        | ID of the page.                       |
+| activity.page_scoped_user_id | `String`        | Page-scoped user ID of the recipient. |
+| activity.events              | `Array<Object>` | Custom events.                        |
 
 Example:
+
 ```js
 client.logCustomEvents({
   app_id: APP_ID,
@@ -2774,14 +2860,15 @@ client.logCustomEvents({
 
 Given a user ID for an app, retrieve the IDs for other apps owned by the same business
 
-Param        | Type            | Description
------------- | --------------- | -----------
-user_id      | `String`        | Page-scoped user ID.
-app_secret   | `String`        | Secret of the app.
-options.app  | `String`        | The app to retrieve the IDs.
-options.page | `String`        | The page to retrieve the IDs.
+| Param        | Type     | Description                   |
+| ------------ | -------- | ----------------------------- |
+| user_id      | `String` | Page-scoped user ID.          |
+| app_secret   | `String` | Secret of the app.            |
+| options.app  | `String` | The app to retrieve the IDs.  |
+| options.page | `String` | The page to retrieve the IDs. |
 
 Example:
+
 ```js
 client
   .getIdsForApps({
@@ -2827,14 +2914,15 @@ client
 
 Given a user ID for a Page (associated with a bot), retrieve the IDs for other Pages owned by the same business.
 
-Param        | Type            | Description
------------- | --------------- | -----------
-user_id      | `String`        | Page-scoped user ID.
-app_secret   | `String`        | Secret of the app.
-options.app  | `String`        | The app to retrieve the IDs.
-options.page | `String`        | The page to retrieve the IDs.
+| Param        | Type     | Description                   |
+| ------------ | -------- | ----------------------------- |
+| user_id      | `String` | Page-scoped user ID.          |
+| app_secret   | `String` | Secret of the app.            |
+| options.app  | `String` | The app to retrieve the IDs.  |
+| options.page | `String` | The page to retrieve the IDs. |
 
 Example:
+
 ```js
 client
   .getIdsForPages({
@@ -2874,17 +2962,18 @@ client
 
 Create new Webhooks subscriptions.
 
-Param          | Type            | Description
--------------- | --------------- | -----------
-app_id         | `String`        | ID of the app.
-access_token   | `String`        | App access token.
-callback_url   | `String`        | The URL that will receive the POST request when an update is triggered, and a GET request when attempting this publish operation.
-verify_token   | `String`        | An arbitrary string that can be used to confirm to your server that the request is valid.
-fields         | `Array<String>` | One or more of the set of valid fields in this object to subscribe to.
-object         | `String`        | Indicates the object type that this subscription applies to. Defaults to `page`.
-include_values | `Boolean`       | Indicates if change notifications should include the new values.
+| Param          | Type            | Description                                                                                                                       |
+| -------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| app_id         | `String`        | ID of the app.                                                                                                                    |
+| access_token   | `String`        | App access token.                                                                                                                 |
+| callback_url   | `String`        | The URL that will receive the POST request when an update is triggered, and a GET request when attempting this publish operation. |
+| verify_token   | `String`        | An arbitrary string that can be used to confirm to your server that the request is valid.                                         |
+| fields         | `Array<String>` | One or more of the set of valid fields in this object to subscribe to.                                                            |
+| object         | `String`        | Indicates the object type that this subscription applies to. Defaults to `page`.                                                  |
+| include_values | `Boolean`       | Indicates if change notifications should include the new values.                                                                  |
 
 Example:
+
 ```js
 client.createSubscription({
   app_id: APP_ID,
@@ -2908,12 +2997,13 @@ client.createSubscription({
 ```
 
 Default Fields:
-- `messages`
-- `messaging_postbacks`
-- `messaging_optins`
-- `messaging_referrals`
-- `messaging_handovers`
-- `messaging_policy_enforcement`
+
+* `messages`
+* `messaging_postbacks`
+* `messaging_optins`
+* `messaging_referrals`
+* `messaging_handovers`
+* `messaging_policy_enforcement`
 
 <br />
 
@@ -2922,6 +3012,7 @@ Default Fields:
 Get page name and page id using Graph API.
 
 Example:
+
 ```js
 client.getPageInfo().then(page => {
   console.log(page);
@@ -2948,6 +3039,5 @@ const client = MessengerClient.connect({
 ```
 
 > Warning: Don't do this on production server.
-
 
 [send-api-reference#recipient]: https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient

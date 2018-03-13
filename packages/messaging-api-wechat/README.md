@@ -4,19 +4,21 @@
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
+* [Installation](#installation)
+* [Usage](#usage)
+* [API Reference](#api-reference)
   * [Send API](#send-api)
   * [Medai API](#media-api)
-- [Test](#test)
+* [Test](#test)
 
 ## Installation
 
 ```sh
 npm i --save messaging-api-wechat
 ```
+
 or
+
 ```sh
 yarn add messaging-api-wechat
 ```
@@ -44,18 +46,19 @@ All methods return a Promise.
 
 <a id="send-api" />
 
-### Send API - [Official Docs](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547)  
+### Send API - [Official Docs](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547)
 
 ## `sendText(userId, text)`
 
 > 发送文本消息
 
-Param   | Type                             | Description
-------- | --------------------------------- | -----------
-userId  | `String`                          | user ID of the recipient.
-text    | `String`                          | Text of the message to be sent.
+| Param  | Type     | Description                     |
+| ------ | -------- | ------------------------------- |
+| userId | `String` | user ID of the recipient.       |
+| text   | `String` | Text of the message to be sent. |
 
 Example:
+
 ```js
 client.sendText(USER_ID, 'Hello!');
 ```
@@ -67,6 +70,7 @@ client.sendText(USER_ID, 'Hello!');
 > 发送图片消息
 
 Example:
+
 ```js
 client.sendImage(USER_ID, 'MEDIA_ID');
 ```
@@ -78,6 +82,7 @@ client.sendImage(USER_ID, 'MEDIA_ID');
 > 发送语音消息
 
 Example:
+
 ```js
 client.sendVoice(USER_ID, 'MEDIA_ID');
 ```
@@ -89,6 +94,7 @@ client.sendVoice(USER_ID, 'MEDIA_ID');
 > 发送视频消息
 
 Example:
+
 ```js
 client.sendVideo(USER_ID, {
   media_id: 'MEDIA_ID',
@@ -105,6 +111,7 @@ client.sendVideo(USER_ID, {
 > 发送音乐消息
 
 Example:
+
 ```js
 client.sendMusic(USER_ID, {
   musicurl: 'MUSIC_URL',
@@ -122,6 +129,7 @@ client.sendMusic(USER_ID, {
 > 发送图文消息（点击跳转到外链）
 
 Example:
+
 ```js
 client.sendNews(USER_ID, {
   articles: [
@@ -148,6 +156,7 @@ client.sendNews(USER_ID, {
 > 发送图文消息（点击跳转到图文消息页面）
 
 Example:
+
 ```js
 client.sendMPNews(USER_ID, 'MEDIA_ID');
 ```
@@ -159,6 +168,7 @@ client.sendMPNews(USER_ID, 'MEDIA_ID');
 > 发送卡券
 
 Example:
+
 ```js
 client.sendWXCard(USER_ID, '123dsdajkasd231jhksad');
 ```
@@ -170,6 +180,7 @@ client.sendWXCard(USER_ID, '123dsdajkasd231jhksad');
 > 发送小程序卡片
 
 Example:
+
 ```js
 client.sendMiniProgramPage(USER_ID, {
   title: 'title',
@@ -183,13 +194,14 @@ client.sendMiniProgramPage(USER_ID, {
 
 <a id="media-api" />
 
-### Media API - [Official Docs](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547)  
+### Media API - [Official Docs](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547)
 
 ## `uploadMedia(type, media)`
 
 > 多媒体文件上传接口
 
 Example:
+
 ```js
 const fs = require('fs');
 
@@ -212,6 +224,7 @@ client.uploadMedia('image', buffer).then(media => {
 > 下载多媒体文件接口
 
 Example:
+
 ```js
 client.getMedia(MEDIA_ID).then(media => {
   console.log(media);

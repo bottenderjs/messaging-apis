@@ -6,21 +6,23 @@
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [OAuth Client](#oauth-client)
-  - [Usage](#usage)
-  - [API Reference](#api-reference)
-  - [Test](#test)
-- [Webhook Client](#webhook-client)
-  - [Usage](#usage-1)
-  - [API Reference](#api-reference-1)
+* [Installation](#installation)
+* [OAuth Client](#oauth-client)
+  * [Usage](#usage)
+  * [API Reference](#api-reference)
+  * [Test](#test)
+* [Webhook Client](#webhook-client)
+  * [Usage](#usage-1)
+  * [API Reference](#api-reference-1)
 
 ## Installation
 
 ```sh
 npm i --save messaging-api-slack
 ```
+
 or
+
 ```sh
 yarn add messaging-api-slack
 ```
@@ -57,12 +59,13 @@ All methods return a Promise.
 
 Calling any API methods which follow [slack calling conventions](https://api.slack.com/web#basics).
 
-Param  | Type     | Description
------- | -------- | -----------
-method | `String` | One of [API Methods](https://api.slack.com/methods)
-body   | `Object` | Body that the method needs.
+| Param  | Type     | Description                                         |
+| ------ | -------- | --------------------------------------------------- |
+| method | `String` | One of [API Methods](https://api.slack.com/methods) |
+| body   | `Object` | Body that the method needs.                         |
 
 Example:
+
 ```js
 client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 ```
@@ -75,13 +78,14 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 Sends a message to a channel.
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-channel | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
-message | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.
-options | `Object`                          | Other optional parameters.
+| Param   | Type                              | Description                                                                                |
+| ------- | --------------------------------- | ------------------------------------------------------------------------------------------ |
+| channel | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. |
+| message | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                         |
+| options | `Object`                          | Other optional parameters.                                                                 |
 
 Example:
+
 ```js
 client.postMessage('C8763', { text: 'Hello!' });
 client.postMessage('C8763', { attachments: [someAttachments] });
@@ -90,6 +94,7 @@ client.postMessage('C8763', 'Hello!', { as_user: true });
 ```
 
 If you send message with `attachments`, `messaging-api-slack` will automatically stringify the `attachments` field for you.
+
 ```js
 client.postMessage(
   'C8763',
@@ -125,14 +130,15 @@ client.postMessage(
 
 Sends an ephemeral message to a user in a channel.
 
-Param   | Type                              | Description
-------- | --------------------------------- | -----------
-channel | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
-user    | `String`                          | `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument.
-message | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.
-options | `Object`                          | Other optional parameters.
+| Param   | Type                              | Description                                                                                                                     |
+| ------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| channel | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.                                      |
+| user    | `String`                          | `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument. |
+| message | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                                                              |
+| options | `Object`                          | Other optional parameters.                                                                                                      |
 
 Example:
+
 ```js
 client.postEphemeral('C8763', 'U56781234', { text: 'Hello!' });
 client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
@@ -148,11 +154,12 @@ client.postEphemeral('C8763', 'U56781234', 'Hello!', { as_user: true });
 
 Lists all users in a Slack team.
 
-Param  | Type     | Description
------- | -------- | -----------
-cursor | `String` | Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`.
+| Param  | Type     | Description                                                                                                                                               |
+| ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cursor | `String` | Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. |
 
 Example:
+
 ```js
 client.getUserList(cursor).then(res => {
   console.log(res);
@@ -173,6 +180,7 @@ client.getUserList(cursor).then(res => {
 Recursively lists all users in a Slack team using cursor.
 
 Example:
+
 ```js
 client.getAllUserList().then(res => {
   console.log(res);
@@ -189,11 +197,12 @@ client.getAllUserList().then(res => {
 
 Gets information about an user.
 
-Param  | Type     | Description
------- | -------- | -----------
-userId | `String` | User to get info on.
+| Param  | Type     | Description          |
+| ------ | -------- | -------------------- |
+| userId | `String` | User to get info on. |
 
 Example:
+
 ```js
 client.getUserInfo(userId).then(res => {
   console.log(res);
@@ -214,6 +223,7 @@ client.getUserInfo(userId).then(res => {
 Lists all channels in a Slack team.
 
 Example:
+
 ```js
 client.getChannelList().then(res => {
   console.log(res);
@@ -230,11 +240,12 @@ client.getChannelList().then(res => {
 
 Gets information about a channel.
 
-Param     | Type     | Description
---------- | -------- | -----------
-channelId | `String` | Channel to get info on.
+| Param     | Type     | Description             |
+| --------- | -------- | ----------------------- |
+| channelId | `String` | Channel to get info on. |
 
 Example:
+
 ```js
 client.getChannelInfo(channelId).then(res => {
   console.log(res);
@@ -254,11 +265,12 @@ client.getChannelInfo(channelId).then(res => {
 
 Retrieve information about a conversation.
 
-Param     | Type     | Description
---------- | -------- | -----------
-channelId | `String` | Channel to get info on.
+| Param     | Type     | Description             |
+| --------- | -------- | ----------------------- |
+| channelId | `String` | Channel to get info on. |
 
 Example:
+
 ```js
 client.getConversationInfo(channelId).then(res => {
   console.log(res);
@@ -276,12 +288,13 @@ client.getConversationInfo(channelId).then(res => {
 
 Retrieve members of a conversation.
 
-Param     | Type     | Description
---------- | -------- | -----------
-channelId | `String` | Channel to get info on.
-options   | `Object` | Optional arguments.
+| Param     | Type     | Description             |
+| --------- | -------- | ----------------------- |
+| channelId | `String` | Channel to get info on. |
+| options   | `Object` | Optional arguments.     |
 
 Example:
+
 ```js
 client.getConversationMembers(channelId, { cursor: 'xxx' });
 client.getConversationMembers(channelId).then(res => {
@@ -299,11 +312,12 @@ client.getConversationMembers(channelId).then(res => {
 
 Recursively retrieve members of a conversation using cursor.
 
-Param     | Type     | Description
---------- | -------- | -----------
-channelId | `String` | Channel to get info on.
+| Param     | Type     | Description             |
+| --------- | -------- | ----------------------- |
+| channelId | `String` | Channel to get info on. |
 
 Example:
+
 ```js
 client.getAllConversationMembers(channelId).then(res => {
   console.log(res);
@@ -317,11 +331,12 @@ client.getAllConversationMembers(channelId).then(res => {
 
 Lists all channels in a Slack team.
 
-Param     | Type     | Description
---------- | -------- | -----------
-options   | `Object` | Optional arguments.
+| Param   | Type     | Description         |
+| ------- | -------- | ------------------- |
+| options | `Object` | Optional arguments. |
 
 Example:
+
 ```js
 client.getConversationList({ cursor: 'xxx' });
 client.getConversationList().then(res => {
@@ -350,11 +365,12 @@ client.getConversationList().then(res => {
 
 Recursively lists all channels in a Slack team using cursor.
 
-Param     | Type     | Description
---------- | -------- | -----------
-options   | `Object` | Optional arguments.
+| Param   | Type     | Description         |
+| ------- | -------- | ------------------- |
+| options | `Object` | Optional arguments. |
 
 Example:
+
 ```js
 client.getAllConversationList().then(res => {
   console.log(res);
@@ -422,11 +438,12 @@ All methods return a Promise.
 
 ## `sendRawBody(body)`
 
-Param | Type     | Description
------ | -------- | -----------
-body  | `Object` | Raw data to be sent.
+| Param | Type     | Description          |
+| ----- | -------- | -------------------- |
+| body  | `Object` | Raw data to be sent. |
 
 Example:
+
 ```js
 client.sendRawBody({ text: 'Hello!' });
 ```
@@ -435,11 +452,12 @@ client.sendRawBody({ text: 'Hello!' });
 
 ## `sendText(text)`
 
-Param | Type     | Description
------ | -------- | -----------
-text  | `String` | Text of the message to be sent.
+| Param | Type     | Description                     |
+| ----- | -------- | ------------------------------- |
+| text  | `String` | Text of the message to be sent. |
 
 Example:
+
 ```js
 client.sendText('Hello!');
 ```
@@ -450,11 +468,12 @@ client.sendText('Hello!');
 
 Send multiple attachments which let you add more context to a message.
 
-Param       | Type            | Description
------------ | --------------- | -----------
-attachments | `Array<Object>` | Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment.
+| Param       | Type            | Description                                                                                                                             |
+| ----------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| attachments | `Array<Object>` | Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment. |
 
 Example:
+
 ```js
 client.sendAttachments([
   {
@@ -490,11 +509,12 @@ client.sendAttachments([
 
 Send only one attachment.
 
-Param       | Type     | Description
------------ | -------- | -----------
-attachments | `Object` | Message is an attachment. The object contains the parameters to customize the appearance of a message attachment.
+| Param       | Type     | Description                                                                                                       |
+| ----------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
+| attachments | `Object` | Message is an attachment. The object contains the parameters to customize the appearance of a message attachment. |
 
 Example:
+
 ```js
 client.sendAttachment({
   fallback: 'some text',
