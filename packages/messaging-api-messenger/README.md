@@ -2589,9 +2589,15 @@ client.getInsights(['page_messages_active_threads_unique']).then(counts => {
 
 <br />
 
-## `getDailyUniqueActiveThreadCounts`
+## `getDailyUniqueActiveThreadCounts(options)`
 
 Retrieves a count of the unique active threads your app participated in per day.
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
 
 Example:
 
@@ -2626,9 +2632,15 @@ client.getDailyUniqueActiveThreadCounts().then(counts => {
 
 <br />
 
-## `getBlockedConversations`
+## `getBlockedConversations(options)`
 
 Retrieves the number of conversations with the Page that have been blocked.
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
 
 Example:
 
@@ -2637,7 +2649,7 @@ client.getBlockedConversations().then(counts => {
   console.log(counts);
   // [
   //   {
-  //     "name": "<METRIC>",
+  //     "name": "page_messages_blocked_conversations_unique",
   //     "period": "day",
   //     "values": [
   //       {
@@ -2656,9 +2668,15 @@ client.getBlockedConversations().then(counts => {
 
 <br />
 
-## `getReportedConversations`
+## `getReportedConversations(options)`
 
 Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
 
 Example:
 
@@ -2667,7 +2685,7 @@ client.getReportedConversations().then(counts => {
   console.log(counts);
   // [
   //   {
-  //     "name": "<METRIC>",
+  //     "name": "page_messages_reported_conversations_unique",
   //     "period": "day",
   //     "values": [
   //       {
@@ -2686,9 +2704,15 @@ client.getReportedConversations().then(counts => {
 
 <br />
 
-## `getReportedConversationsByReportType`
+## `getReportedConversationsByReportType(options)`
 
 Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
 
 Example:
 
@@ -2697,26 +2721,34 @@ client.getReportedConversationsByReportType().then(counts => {
   console.log(counts);
   // [
   //   {
-  //     "name": "<METRIC>",
-  //     "period": "day",
-  //     "values": [
+  //     name: 'page_messages_reported_conversations_by_report_type_unique',
+  //     period: 'day',
+  //     values: [
   //       {
-  //         "value": "<VALUE>",
-  //         "end_time": "<UTC_TIMESTAMP>"
+  //         value: {
+  //           spam: 0,
+  //           inappropriate: 0,
+  //           other: 0,
+  //         },
+  //         end_time: '2018-03-11T08:00:00+0000',
   //       },
   //       {
-  //         "value": "<VALUE>",
-  //         "end_time": "<UTC_TIMESTAMP>"
-  //       }
-  //     ]
-  //   }
-  // ]
+  //         value: {
+  //           spam: 0,
+  //           inappropriate: 0,
+  //           other: 0,
+  //         },
+  //         end_time: '2018-03-12T07:00:00+0000',
+  //       },
+  //     ],
+  //   },
+  // ];
 });
 ```
 
 <br />
 
-## `getDailyUniqueConversationCounts`
+## `getDailyUniqueConversationCounts(options)`
 
 **Deprecated**
 
@@ -2724,6 +2756,12 @@ client.getReportedConversationsByReportType().then(counts => {
 > This metric will be removed in Graph API v2.12.
 
 Retrieves a count of actions that were initiated by people your app was in an active thread with per day.
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
 
 Example:
 

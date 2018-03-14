@@ -1450,7 +1450,10 @@ export default class MessengerClient {
     this.getInsights(['page_messages_reported_conversations_unique'], options);
 
   getReportedConversationsByReportType = (options?: Object = {}) =>
-    this.getInsights(['page_messages_blocked_conversations_unique'], options);
+    this.getInsights(
+      ['page_messages_reported_conversations_by_report_type_unique'],
+      options
+    );
 
   getDailyUniqueConversationCounts = () => {
     warning(
