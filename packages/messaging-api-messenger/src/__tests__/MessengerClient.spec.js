@@ -5272,9 +5272,9 @@ describe('Page Messaging Insights API', () => {
                 end_time: '2017-02-04T08:00:00+0000',
               },
             ],
-            title: 'Daily unique active threads count by thread fbid',
+            title: 'Daily unique blocked conversations count',
             description:
-              'Daily: total unique active threads created between users and page.',
+              'Daily: The number of conversations with the Page that have been blocked.',
             id:
               '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
           },
@@ -5307,9 +5307,9 @@ describe('Page Messaging Insights API', () => {
               end_time: '2017-02-04T08:00:00+0000',
             },
           ],
-          title: 'Daily unique active threads count by thread fbid',
+          title: 'Daily unique blocked conversations count',
           description:
-            'Daily: total unique active threads created between users and page.',
+            'Daily: The number of conversations with the Page that have been blocked.',
           id:
             '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
         },
@@ -5340,9 +5340,9 @@ describe('Page Messaging Insights API', () => {
                 end_time: '2017-02-04T08:00:00+0000',
               },
             ],
-            title: 'Daily unique active threads count by thread fbid',
+            title: 'Daily unique reported conversations count',
             description:
-              'Daily: total unique active threads created between users and page.',
+              'Daily: The number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.',
             id:
               '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
           },
@@ -5375,9 +5375,9 @@ describe('Page Messaging Insights API', () => {
               end_time: '2017-02-04T08:00:00+0000',
             },
           ],
-          title: 'Daily unique active threads count by thread fbid',
+          title: 'Daily unique reported conversations count',
           description:
-            'Daily: total unique active threads created between users and page.',
+            'Daily: The number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.',
           id:
             '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
         },
@@ -5392,34 +5392,39 @@ describe('Page Messaging Insights API', () => {
       const reply = {
         data: [
           {
-            name: 'page_messages_blocked_conversations_unique',
+            name: 'page_messages_reported_conversations_by_report_type_unique',
             period: 'day',
             values: [
               {
-                value: 83111,
-                end_time: '2017-02-02T08:00:00+0000',
+                value: {
+                  spam: 0,
+                  inappropriate: 0,
+                  other: 0,
+                },
+                end_time: '2018-03-11T08:00:00+0000',
               },
               {
-                value: 85215,
-                end_time: '2017-02-03T08:00:00+0000',
-              },
-              {
-                value: 87175,
-                end_time: '2017-02-04T08:00:00+0000',
+                value: {
+                  spam: 0,
+                  inappropriate: 0,
+                  other: 0,
+                },
+                end_time: '2018-03-12T07:00:00+0000',
               },
             ],
-            title: 'Daily unique active threads count by thread fbid',
+            title:
+              'Daily unique reported conversations count broken down by report type',
             description:
-              'Daily: total unique active threads created between users and page.',
+              'Daily: The number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content broken down by report type.',
             id:
-              '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+              '1234567/insights/?metric=page_messages_reported_conversations_by_report_type_unique/day',
           },
         ],
       };
 
       mock
         .onGet(
-          `/me/insights/?metric=page_messages_blocked_conversations_unique&access_token=${ACCESS_TOKEN}`
+          `/me/insights/?metric=page_messages_reported_conversations_by_report_type_unique&access_token=${ACCESS_TOKEN}`
         )
         .reply(200, reply);
 
@@ -5427,27 +5432,32 @@ describe('Page Messaging Insights API', () => {
 
       expect(res).toEqual([
         {
-          name: 'page_messages_blocked_conversations_unique',
+          name: 'page_messages_reported_conversations_by_report_type_unique',
           period: 'day',
           values: [
             {
-              value: 83111,
-              end_time: '2017-02-02T08:00:00+0000',
+              value: {
+                spam: 0,
+                inappropriate: 0,
+                other: 0,
+              },
+              end_time: '2018-03-11T08:00:00+0000',
             },
             {
-              value: 85215,
-              end_time: '2017-02-03T08:00:00+0000',
-            },
-            {
-              value: 87175,
-              end_time: '2017-02-04T08:00:00+0000',
+              value: {
+                spam: 0,
+                inappropriate: 0,
+                other: 0,
+              },
+              end_time: '2018-03-12T07:00:00+0000',
             },
           ],
-          title: 'Daily unique active threads count by thread fbid',
+          title:
+            'Daily unique reported conversations count broken down by report type',
           description:
-            'Daily: total unique active threads created between users and page.',
+            'Daily: The number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content broken down by report type.',
           id:
-            '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+            '1234567/insights/?metric=page_messages_reported_conversations_by_report_type_unique/day',
         },
       ]);
     });
