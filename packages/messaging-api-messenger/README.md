@@ -199,8 +199,6 @@ client.sendAttachment(USER_ID, {
 
 Send sounds to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13503473_1584526905179825_88080075_n.png?oh=085ef554f12d061090677b89f3275d64&oe=59EB29D3" alt="sendAudio" width="250" />
-
 | Param   | Type                                                                         | Description                                                                                                                                       |
 | ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | userId  | <code>String &#124; Object</code>                                            | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
@@ -234,8 +232,6 @@ client.sendAudio(USER_ID, fs.createReadStream('audio.mp3'));
 ## `sendImage(userId, image [, options])`
 
 Send images to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request). Supported formats are jpg, png and gif.
-
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466577_1753800631570799_2129488873_n.png?oh=5904aadb6aa82cd2287d777359bd3cd2&oe=59F32D6A" alt="sendImage" width="250" />
 
 | Param   | Type                                                                         | Description                                                                                                                                       |
 | ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -271,8 +267,6 @@ client.sendImage(USER_ID, fs.createReadStream('vr.jpg'));
 
 Send videos to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509239_1608341092811398_289173120_n.png?oh=160ea165834203bae79c24c8e07137de&oe=5A350DB4" alt="sendVideo" width="250" />
-
 | Param   | Type                                                                         | Description                                                                                                                                       |
 | ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | userId  | <code>String &#124; Object</code>                                            | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
@@ -306,8 +300,6 @@ client.sendVideo(USER_ID, fs.createReadStream('video.mp4'));
 ## `sendFile(userId, file [, options])`
 
 Send files to specified user by uploading them or sharing a URL using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
-
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480153_1115020735225077_1305291896_n.png?oh=a972010ea3edd1ea967885b06317efab&oe=59F63578" alt="sendFile" width="250" />
 
 | Param   | Type                                                                         | Description                                                                                                                                       |
 | ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -375,7 +367,7 @@ client.sendTemplate(USER_ID, {
 
 Send button message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509162_1732711383655205_1306472501_n.png?oh=0e2409226bc50b23207bf37bf6e2edb6&oe=5A377CAC" alt="sendButtonTemplate" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37410664-0b80b080-27dc-11e8-8854-4408d6f32fdf.png" alt="sendButtonTemplate" width="250" />
 
 | Param   | Type                              | Description                                                                                                                                                         |
 | ------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -407,7 +399,7 @@ client.sendButtonTemplate(USER_ID, 'What do you want to do next?', [
 
 Send generic message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13509251_1026555627430343_1803381600_n.png?oh=e9fadd445090a4743bfd20fda487be5f&oe=59EE4571" alt="sendGenericTemplate" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37410502-bf948426-27db-11e8-8c9d-7fd6158d0cc2.png" alt="sendGenericTemplate" width="750" />
 
 | Param    | Type                              | Description                                                                                                                                                                                                                                         |
 | -------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -486,7 +478,7 @@ Available tags:
 
 Send list message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14858155_1136082199802015_362293724211838976_n.png?oh=46900eb955ff8ea1040fc5353d9be2fa&oe=59F245DD" alt="sendListTemplate" width="500" />
+<img src="https://user-images.githubusercontent.com/3382565/37410530-c97f03e4-27db-11e8-8331-56610e6fc3ad.png" alt="sendListTemplate" width="250" />
 
 | Param   | Type                              | Description                                                                                                                                                                                     |
 | ------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -541,6 +533,8 @@ client.sendListTemplate(
 
 Send open graph message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
+<img src="https://user-images.githubusercontent.com/3382565/37410778-4a6e77e6-27dc-11e8-9a3a-487bd2f7197e.png" alt="sendOpenGraphTemplate" width="250" />
+
 | Param    | Type                              | Description                                                                                                                                       |
 | -------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | userId   | <code>String &#124; Object</code> | Page-scoped user ID of the recipient or [recipient][send-api-reference#recipient] object.                                                         |
@@ -569,6 +563,8 @@ client.sendOpenGraphTemplate(USER_ID, [
 ## `sendMediaTemplate(userId, elements [, options])` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/template/media)
 
 Send media message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
+
+<img src="https://user-images.githubusercontent.com/3382565/37410836-64249ada-27dc-11e8-8dc4-5a155916961a.png" alt="sendMediaTemplate" width="250" />
 
 | Param    | Type                              | Description                                                                                                                                       |
 | -------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -600,7 +596,7 @@ client.sendMediaTemplate(USER_ID, [
 
 Send receipt message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466939_915325738590743_1056699384_n.png?oh=bd6869385dee4c2cfaef1329fc660a01&oe=5A0331D4" alt="sendReceiptTemplate" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37410909-8b72001e-27dc-11e8-94ae-555cb4ae93c9.png" alt="sendReceiptTemplate" width="250" />
 
 | Param   | Type                              | Description                                                                                                                                       |
 | ------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -669,7 +665,7 @@ client.sendReceiptTemplate(USER_ID, {
 
 Send airline boarding pass message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466921_1408414619175015_4955822_n.png?oh=3136f1ef03e482bda03f433b18745033&oe=5A316E63" alt="sendAirlineBoardingPassTemplate" width="600" />
+<img src="https://user-images.githubusercontent.com/3382565/37410966-a5fb1542-27dc-11e8-9d23-e3a090b0cdeb.png" alt="sendAirlineBoardingPassTemplate" width="600" />
 
 | Param      | Type                              | Description                                                                                                                                        |
 | ---------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -804,7 +800,7 @@ client.sendAirlineBoardingPassTemplate(RECIPIENT_ID, {
 
 Send airline checkin message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466944_1156144061116360_549622536_n.png?oh=1aa077176a59f346abf8d199e133d2d2&oe=59F2476C" alt="sendAirlineCheckinTemplate" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37411010-bfb3d8a2-27dc-11e8-91de-30653cf2d62c.png" alt="sendAirlineCheckinTemplate" width="250" />
 
 | Param      | Type                              | Description                                                                                                                                       |
 | ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -851,7 +847,7 @@ client.sendAirlineCheckinTemplate(USER_ID, {
 
 Send airline itinerary message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13466573_979516348832909_515976570_n.png?oh=1eb97bf63d3a9f5c333ba28184085950&oe=59FB8738" alt="sendAirlineItineraryTemplate" width="600" />
+<img src="https://user-images.githubusercontent.com/3382565/37411025-ce27545e-27dc-11e8-91be-28ab27644db7.png" alt="sendAirlineItineraryTemplate" width="600" />
 
 | Param      | Type                              | Description                                                                                                                                       |
 | ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -992,7 +988,7 @@ client.sendAirlineItineraryTemplate(USER_ID, {
 
 Send airline flight update message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13503467_502166346641834_1768260104_n.png?oh=141fe3238aa6f04d413705860eb52ede&oe=59F5C6BC" alt="sendAirlineFlightUpdateTemplate" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37411064-e3005a56-27dc-11e8-8486-4fc548ad7b1a.png" alt="sendAirlineFlightUpdateTemplate" width="250" />
 
 | Param      | Type                              | Description                                                                                                                                       |
 | ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1037,7 +1033,7 @@ client.sendAirlineFlightUpdateTemplate(USER_ID, {
 
 ### Quick Replies - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/14175277_1582251242076612_248078259_n.png?oh=f87f9d3ea0f9902686f21a105e6fe9eb&oe=59F265D6" alt="Quick Replies" width="750" />
+<img src="https://user-images.githubusercontent.com/3382565/37411344-91c8ad54-27dd-11e8-82fc-fd9adf896301.png" alt="Quick Replies" width="750" />
 
 To send messages with quick replies to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request), pass `quick_replies` option to send message methods, for example, with `sendText`:
 
@@ -1075,7 +1071,7 @@ It works with all of send message methods.
 
 ### Sender Actions - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
 
-<img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.2365-6/13480169_570751053131489_689799179_n.png?oh=e0a04cc8a7bdc05b39f9fd4262a6be04&oe=59F7E61C" alt="Sender Actions" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37411363-9b65ecaa-27dd-11e8-8f51-7aac7fd0bd2f.png" alt="Sender Actions" width="250" />
 
 ## `sendSenderAction(userId, action)`
 
