@@ -1441,26 +1441,36 @@ export default class MessengerClient {
       .then(res => res.data.data, handleError);
 
   getDailyUniqueActiveThreadCounts = (options?: Object = {}) =>
-    this.getInsights(['page_messages_active_threads_unique'], options);
+    this.getInsights(['page_messages_active_threads_unique'], options).then(
+      result => result[0]
+    );
 
   getBlockedConversations = (options?: Object = {}) =>
-    this.getInsights(['page_messages_blocked_conversations_unique'], options);
+    this.getInsights(
+      ['page_messages_blocked_conversations_unique'],
+      options
+    ).then(result => result[0]);
 
   getReportedConversations = (options?: Object = {}) =>
-    this.getInsights(['page_messages_reported_conversations_unique'], options);
+    this.getInsights(
+      ['page_messages_reported_conversations_unique'],
+      options
+    ).then(result => result[0]);
 
   getReportedConversationsByReportType = (options?: Object = {}) =>
     this.getInsights(
       ['page_messages_reported_conversations_by_report_type_unique'],
       options
-    );
+    ).then(result => result[0]);
 
   getDailyUniqueConversationCounts = () => {
     warning(
       false,
       'page_messages_feedback_by_action_unique is deprecated as of November 7, 2017.\nThis metric will be removed in Graph API v2.12.'
     );
-    return this.getInsights(['page_messages_feedback_by_action_unique']);
+    return this.getInsights(['page_messages_feedback_by_action_unique']).then(
+      result => result[0]
+    );
   };
 
   /**

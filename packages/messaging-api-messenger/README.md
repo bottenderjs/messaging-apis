@@ -2604,7 +2604,6 @@ Example:
 ```js
 client.getDailyUniqueActiveThreadCounts().then(counts => {
   console.log(counts);
-  // [
   //   {
   //     "name": "page_messages_active_threads_unique",
   //     "period": "day",
@@ -2626,7 +2625,6 @@ client.getDailyUniqueActiveThreadCounts().then(counts => {
   //    "description": "Daily: total unique active threads created between users and page.",
   //    "id": "1234567/insights/page_messages_active_threads_unique/day"
   //   }
-  // ]
 });
 ```
 
@@ -2647,7 +2645,6 @@ Example:
 ```js
 client.getBlockedConversations().then(counts => {
   console.log(counts);
-  // [
   //   {
   //     "name": "page_messages_blocked_conversations_unique",
   //     "period": "day",
@@ -2662,7 +2659,6 @@ client.getBlockedConversations().then(counts => {
   //       }
   //    ]
   //   }
-  // ]
 });
 ```
 
@@ -2683,7 +2679,6 @@ Example:
 ```js
 client.getReportedConversations().then(counts => {
   console.log(counts);
-  // [
   //   {
   //     "name": "page_messages_reported_conversations_unique",
   //     "period": "day",
@@ -2698,7 +2693,6 @@ client.getReportedConversations().then(counts => {
   //       }
   //     ]
   //   }
-  // ]
 });
 ```
 
@@ -2719,7 +2713,6 @@ Example:
 ```js
 client.getReportedConversationsByReportType().then(counts => {
   console.log(counts);
-  // [
   //   {
   //     name: 'page_messages_reported_conversations_by_report_type_unique',
   //     period: 'day',
@@ -2742,7 +2735,6 @@ client.getReportedConversationsByReportType().then(counts => {
   //       },
   //     ],
   //   },
-  // ];
 });
 ```
 
@@ -2768,7 +2760,6 @@ Example:
 ```js
 client.getDailyUniqueConversationCounts().then(counts => {
   console.log(counts);
-  // [
   //   {
   //     "name": "page_messages_feedback_by_action_unique",
   //     "period": "day",
@@ -2798,7 +2789,6 @@ client.getDailyUniqueConversationCounts().then(counts => {
   //     "description": "Daily: total unique active threads created between users and page.",
   //     "id": "1234567/insights/page_messages_active_threads_unique/day"
   //   }
-  // ],
 });
 ```
 
