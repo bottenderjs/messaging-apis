@@ -360,85 +360,94 @@ describe('Page Messaging Insights API', () => {
     });
   });
 
-  describe('#getDailyUniqueConversationCounts', () => {
+  describe('#getOpenConversations', () => {
     it('should call api get Insight data', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [
           {
-            name: 'page_messages_feedback_by_action_unique',
+            name: 'page_messages_open_conversations_unique',
             period: 'day',
             values: [
-              {
-                value: {
-                  TURN_ON: 40,
-                  TURN_OFF: 167,
-                  DELETE: 720,
-                  OTHER: 0,
-                  REPORT_SPAM: 0,
-                },
-                end_time: '2017-02-02T08:00:00+0000',
-              },
-              {
-                value: {
-                  TURN_ON: 38,
-                  DELETE: 654,
-                  TURN_OFF: 155,
-                  REPORT_SPAM: 1,
-                  OTHER: 0,
-                },
-                end_time: '2017-02-03T08:00:00+0000',
-              },
+              { end_time: '2018-03-12T07:00:00+0000' },
+              { end_time: '2018-03-13T07:00:00+0000' },
             ],
-            title:
-              'Daily unique conversation count broken down by user feedback actions',
+            title: 'Daily unique open conversations count',
             description:
-              'Daily: total unique active threads created between users and page.',
+              'Daily: The total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.',
             id:
-              '1234567/insights/?metric=page_messages_active_threads_unique/day',
+              '1386473101668063/insights/page_messages_open_conversations_unique/day',
           },
         ],
       };
 
       mock
         .onGet(
-          `/me/insights/?metric=page_messages_feedback_by_action_unique&access_token=${ACCESS_TOKEN}`
+          `/me/insights/?metric=page_messages_open_conversations_unique&access_token=${ACCESS_TOKEN}`
         )
         .reply(200, reply);
 
-      const res = await client.getDailyUniqueConversationCounts();
+      const res = await client.getOpenConversations();
 
       expect(res).toEqual({
-        name: 'page_messages_feedback_by_action_unique',
+        name: 'page_messages_open_conversations_unique',
         period: 'day',
         values: [
+          { end_time: '2018-03-12T07:00:00+0000' },
+          { end_time: '2018-03-13T07:00:00+0000' },
+        ],
+        title: 'Daily unique open conversations count',
+        description:
+          'Daily: The total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.',
+        id:
+          '1386473101668063/insights/page_messages_open_conversations_unique/day',
+      });
+    });
+  });
+
+  describe('#getNewConversations', () => {
+    it('should call api get Insight data', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
           {
-            value: {
-              TURN_ON: 40,
-              TURN_OFF: 167,
-              DELETE: 720,
-              OTHER: 0,
-              REPORT_SPAM: 0,
-            },
-            end_time: '2017-02-02T08:00:00+0000',
-          },
-          {
-            value: {
-              TURN_ON: 38,
-              DELETE: 654,
-              TURN_OFF: 155,
-              REPORT_SPAM: 1,
-              OTHER: 0,
-            },
-            end_time: '2017-02-03T08:00:00+0000',
+            name: 'page_messages_new_conversations_unique',
+            period: 'day',
+            values: [
+              { value: 1, end_time: '2018-03-12T07:00:00+0000' },
+              { value: 0, end_time: '2018-03-13T07:00:00+0000' },
+            ],
+            title: 'Daily unique new conversations count',
+            description:
+              'Daily: The number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.',
+            id:
+              '1386473101668063/insights/page_messages_new_conversations_unique/day',
           },
         ],
-        title:
-          'Daily unique conversation count broken down by user feedback actions',
+      };
+
+      mock
+        .onGet(
+          `/me/insights/?metric=page_messages_new_conversations_unique&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getNewConversations();
+
+      expect(res).toEqual({
+        name: 'page_messages_new_conversations_unique',
+        period: 'day',
+        values: [
+          { value: 1, end_time: '2018-03-12T07:00:00+0000' },
+          { value: 0, end_time: '2018-03-13T07:00:00+0000' },
+        ],
+        title: 'Daily unique new conversations count',
         description:
-          'Daily: total unique active threads created between users and page.',
-        id: '1234567/insights/?metric=page_messages_active_threads_unique/day',
+          'Daily: The number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.',
+        id:
+          '1386473101668063/insights/page_messages_new_conversations_unique/day',
       });
     });
   });

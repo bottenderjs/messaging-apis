@@ -2745,14 +2745,9 @@ client.getReportedConversationsByReportType().then(counts => {
 
 <br />
 
-## `getDailyUniqueConversationCounts(options)`
+## `getOpenConversations(options)`
 
-**Deprecated**
-
-> `getDailyUniqueConversationCounts` is deprecated as of November 7, 2017.
-> This metric will be removed in Graph API v2.12.
-
-Retrieves a count of actions that were initiated by people your app was in an active thread with per day.
+Retrieves the total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.
 
 | Param         | Type     | Description                                                       |
 | ------------- | -------- | ----------------------------------------------------------------- |
@@ -2763,37 +2758,54 @@ Retrieves a count of actions that were initiated by people your app was in an ac
 Example:
 
 ```js
-client.getDailyUniqueConversationCounts().then(counts => {
-  console.log(counts);
-  //   {
-  //     "name": "page_messages_feedback_by_action_unique",
-  //     "period": "day",
-  //     "values": [
-  //       {
-  //         "value": {
-  //           "TURN_ON": 40,
-  //           "TURN_OFF": 167,
-  //           "DELETE": 720,
-  //           "OTHER": 0,
-  //           "REPORT_SPAM": 0
-  //         },
-  //         "end_time": "2017-02-02T08:00:00+0000"
-  //       },
-  //       {
-  //         "value": {
-  //           "TURN_ON": 38,
-  //           "DELETE": 654,
-  //           "TURN_OFF": 155,
-  //           "REPORT_SPAM": 1,
-  //           "OTHER": 0
-  //         },
-  //         "end_time": "2017-02-03T08:00:00+0000"
-  //       }
-  //     ],
-  //     "title": "Daily unique conversation count broken down by user feedback actions",
-  //     "description": "Daily: total unique active threads created between users and page.",
-  //     "id": "1234567/insights/page_messages_active_threads_unique/day"
-  //   }
+client.getOpenConversations().then(result => {
+  console.log(result);
+  // {
+  //   name: 'page_messages_open_conversations_unique',
+  //   period: 'day',
+  //   values: [
+  //     { end_time: '2018-03-12T07:00:00+0000' },
+  //     { end_time: '2018-03-13T07:00:00+0000' },
+  //   ],
+  //   title: 'Daily unique open conversations count',
+  //   description:
+  //     'Daily: The total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.',
+  //   id:
+  //     '1386473101668063/insights/page_messages_open_conversations_unique/day',
+  // }
+});
+```
+
+<br />
+
+## `getNewConversations(options)`
+
+Retrieves the number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
+
+Example:
+
+```js
+client.getNewConversations().then(result => {
+  console.log(result);
+  // {
+  //   name: 'page_messages_new_conversations_unique',
+  //   period: 'day',
+  //   values: [
+  //     { value: 1, end_time: '2018-03-12T07:00:00+0000' },
+  //     { value: 0, end_time: '2018-03-13T07:00:00+0000' },
+  //   ],
+  //   title: 'Daily unique new conversations count',
+  //   description:
+  //     'Daily: The number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.',
+  //   id:
+  //     '1386473101668063/insights/page_messages_new_conversations_unique/day',
+  // }
 });
 ```
 
