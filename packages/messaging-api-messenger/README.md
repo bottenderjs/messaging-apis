@@ -2552,6 +2552,11 @@ client.getSecondaryReceivers().then(receivers => {
 
 ### Page Messaging Insights API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/insights/page-messaging)
 
+Requirements for insights API:
+
+- Page token must have `read_insights` permission.
+- Insights are only generated for a Facebook Page that has more than `30` people that like it.
+
 ## `getInsights(metrics, options)`
 
 Retrieves the insights of your Facebook Page.
