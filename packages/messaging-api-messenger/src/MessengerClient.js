@@ -1463,15 +1463,15 @@ export default class MessengerClient {
       options
     ).then(result => result[0]);
 
-  getDailyUniqueConversationCounts = () => {
-    warning(
-      false,
-      'page_messages_feedback_by_action_unique is deprecated as of November 7, 2017.\nThis metric will be removed in Graph API v2.12.'
-    );
-    return this.getInsights(['page_messages_feedback_by_action_unique']).then(
+  getOpenConversations = (options?: Object = {}) =>
+    this.getInsights(['page_messages_open_conversations_unique'], options).then(
       result => result[0]
     );
-  };
+
+  getNewConversations = (options?: Object = {}) =>
+    this.getInsights(['page_messages_new_conversations_unique'], options).then(
+      result => result[0]
+    );
 
   /**
    * Built-in NLP API
