@@ -470,7 +470,7 @@ Gets a list of profile pictures for a user.
 
 | Param   | Type     | Description                           |
 | ------- | -------- | ------------------------------------- |
-| chatId  | `String` | Unique identifier of the target user. |
+| userId  | `String` | Unique identifier of the target user. |
 | options | `Object` | Other optional parameters             |
 
 Example:
@@ -731,7 +731,7 @@ client.kickChatMember(CHAT_ID, USER_ID, { until_date: UNIX_TIME });
 
 <br />
 
-## `unbanChatMember(chatId, userId)` - [Official Docs](https://core.telegram.org/bots/api/#unbanChatMember)
+## `unbanChatMember(chatId, userId)` - [Official Docs](https://core.telegram.org/bots/api/#unbanchatmember)
 
 Unbans a previously kicked user in a supergroup or channel.
 
@@ -748,7 +748,7 @@ client.unbanChatMember(CHAT_ID, USER_ID);
 
 <br />
 
-## `restrictChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#restrictChatMember)
+## `restrictChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#restrictchatmember)
 
 Restricts a user in a supergroup
 
@@ -766,7 +766,7 @@ client.restrictChatMember(CHAT_ID, USER_ID, { can_send_messages: true });
 
 <br />
 
-## `promoteChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#promoteChatMember)
+## `promoteChatMember(chatId, userId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#promotechatmember)
 
 Promotes or demotes a user in a supergroup or a channel.
 
@@ -787,7 +787,7 @@ client.promoteChatMember(CHAT_ID, USER_ID, {
 
 <br />
 
-## `exportChatInviteLink(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#exportChatInviteLink)
+## `exportChatInviteLink(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#exportchatinvitelink)
 
 Exports an invite link to a supergroup or a channel.
 
@@ -803,7 +803,7 @@ client.exportChatInviteLink(CHAT_ID);
 
 <br />
 
-## `setChatPhoto(chatId, photo)` - [Official Docs](https://core.telegram.org/bots/api/#setChatPhoto)
+## `setChatPhoto(chatId, photo)` - [Official Docs](https://core.telegram.org/bots/api/#setchatphoto)
 
 Sets a new profile photo for the chat.
 
@@ -820,7 +820,7 @@ client.setChatPhoto(CHAT_ID, 'https://example.com/image.png');
 
 <br />
 
-## `deleteChatPhoto(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#deleteChatPhoto)
+## `deleteChatPhoto(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#deletechatphoto)
 
 Deletes a chat photo.
 
@@ -836,7 +836,7 @@ client.deleteChatPhoto(CHAT_ID);
 
 <br />
 
-## `setChatTitle(chatId, title)` - [Official Docs](https://core.telegram.org/bots/api/#setChatTitle)
+## `setChatTitle(chatId, title)` - [Official Docs](https://core.telegram.org/bots/api/#setchattitle)
 
 Changes the title of a chat.
 
@@ -853,7 +853,7 @@ client.setChatTitle(CHAT_ID, 'New Title');
 
 <br />
 
-## `setChatDescription(chatId, description)` - [Official Docs](https://core.telegram.org/bots/api/#setChatDescription)
+## `setChatDescription(chatId, description)` - [Official Docs](https://core.telegram.org/bots/api/#setchatdescription)
 
 Changes the description of a supergroup or a channel.
 
@@ -903,7 +903,7 @@ client.deleteChatStickerSet(CHAT_ID);
 
 <br />
 
-## `pinChatMessage(chatId, messageId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#pinChatMessage)
+## `pinChatMessage(chatId, messageId [, options])` - [Official Docs](https://core.telegram.org/bots/api/#pinchatmessage)
 
 Pins a message in a supergroup.
 
@@ -921,7 +921,7 @@ client.pinChatMessage(CHAT_ID, MESSAGE_ID, { disable_notification: true });
 
 <br />
 
-## `unpinChatMessage(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#unpinChatMessage)
+## `unpinChatMessage(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#unpinchatmessage)
 
 Unpins a message in a supergroup chat.
 
@@ -937,7 +937,7 @@ client.unpinChatMessage(CHAT_ID);
 
 <br />
 
-## `leaveChat(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#leaveChat)
+## `leaveChat(chatId)` - [Official Docs](https://core.telegram.org/bots/api/#leavechat)
 
 Leaves a group, supergroup or channel.
 
@@ -1068,7 +1068,7 @@ client.answerInlineQuery(
 
 ### Game API
 
-## `sendGame` - [Official Docs](https://core.telegram.org/bots/api#sendgame)
+## `sendGame(chatId, gameShortName [, options])` - [Official Docs](https://core.telegram.org/bots/api#sendgame)
 
 Sends a game.
 
@@ -1088,7 +1088,7 @@ client.sendGame(CHAT_ID, 'Mario Bros.', {
 
 <br />
 
-## `setGameScore` - [Official Docs](https://core.telegram.org/bots/api#setgamescore)
+## `setGameScore(userId, score [, options])` - [Official Docs](https://core.telegram.org/bots/api#setgamescore)
 
 Sets the score of the specified user in a game.
 
@@ -1106,7 +1106,7 @@ client.setGameScore(USER_ID, 999);
 
 <br />
 
-## `getGameHighScores` - [Official Docs](https://core.telegram.org/bots/api#getgamehighscores)
+## `getGameHighScores(userId [, options])` - [Official Docs](https://core.telegram.org/bots/api#getgamehighscores)
 
 Gets data for high score tables.
 
