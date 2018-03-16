@@ -1587,10 +1587,10 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 Gets the ID of the users of the members of a group that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
 This feature is only available for LINE@ Approved accounts or official accounts.
 
-| Param   | Type     | Description      |
-| ------- | -------- | ---------------- |
-| groupId | `String` | ID of the group. |
-| userId  | `String` | ID of the user.  |
+| Param   | Type     | Description          |
+| ------- | -------- | -------------------- |
+| groupId | `String` | ID of the group.     |
+| start   | `String` | `continuationToken`. |
 
 Example:
 
