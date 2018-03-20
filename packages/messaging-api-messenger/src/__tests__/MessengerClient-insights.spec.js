@@ -87,7 +87,7 @@ describe('Page Messaging Insights API', () => {
     });
   });
 
-  describe('#getDailyUniqueActiveThreadCounts', () => {
+  describe('#getActiveThreads', () => {
     it('should call api get Insight data', async () => {
       const { client, mock } = createMock();
 
@@ -125,7 +125,7 @@ describe('Page Messaging Insights API', () => {
         )
         .reply(200, reply);
 
-      const res = await client.getDailyUniqueActiveThreadCounts();
+      const res = await client.getActiveThreads();
 
       expect(res).toEqual({
         name: 'page_messages_active_threads_unique',

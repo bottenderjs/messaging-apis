@@ -2554,8 +2554,8 @@ client.getSecondaryReceivers().then(receivers => {
 
 Requirements for insights API:
 
-- Page token must have `read_insights` permission.
-- Insights are only generated for a Facebook Page that has more than `30` people that like it.
+* Page token must have `read_insights` permission.
+* Insights are only generated for a Facebook Page that has more than `30` people that like it.
 
 ## `getInsights(metrics, options)`
 
@@ -2594,7 +2594,7 @@ client.getInsights(['page_messages_active_threads_unique']).then(counts => {
 
 <br />
 
-## `getDailyUniqueActiveThreadCounts(options)`
+## `getActiveThreads(options)`
 
 Retrieves a count of the unique active threads your app participated in per day.
 
@@ -2607,7 +2607,7 @@ Retrieves a count of the unique active threads your app participated in per day.
 Example:
 
 ```js
-client.getDailyUniqueActiveThreadCounts().then(counts => {
+client.getActiveThreads().then(counts => {
   console.log(counts);
   //   {
   //     "name": "page_messages_active_threads_unique",
