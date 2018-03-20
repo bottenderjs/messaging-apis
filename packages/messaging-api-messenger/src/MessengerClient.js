@@ -1440,7 +1440,7 @@ export default class MessengerClient {
       )
       .then(res => res.data.data, handleError);
 
-  getDailyUniqueActiveThreadCounts = (options?: Object = {}) =>
+  getActiveThreads = (options?: Object = {}) =>
     this.getInsights(['page_messages_active_threads_unique'], options).then(
       result => result[0]
     );
