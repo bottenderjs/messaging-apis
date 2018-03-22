@@ -140,6 +140,32 @@ describe('Reply Message', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call reply api with object image arg', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: 'https://example.com/original.jpg',
+              previewImageUrl: 'https://example.com/preview.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyImage(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.jpg',
+        previewImageUrl: 'https://example.com/preview.jpg',
+      });
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#replyVideo', () => {
@@ -169,6 +195,32 @@ describe('Reply Message', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should call reply api with object video arg', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'video',
+              originalContentUrl: 'https://example.com/original.mp4',
+              previewImageUrl: 'https://example.com/preview.jpg',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyVideo(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.mp4',
+        previewImageUrl: 'https://example.com/preview.jpg',
+      });
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#replyAudio', () => {
@@ -195,6 +247,32 @@ describe('Reply Message', () => {
         'https://example.com/original.m4a',
         240000
       );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call reply api with object audio arg', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'audio',
+              originalContentUrl: 'https://example.com/original.m4a',
+              duration: 240000,
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replyAudio(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.m4a',
+        duration: 240000,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -252,6 +330,32 @@ describe('Reply Message', () => {
         .reply(200, reply, headers);
 
       const res = await client.replySticker(REPLY_TOKEN, '1', '1');
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should call reply api with object sticker arg', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/reply', {
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'sticker',
+              packageId: '1',
+              stickerId: '1',
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.replySticker(REPLY_TOKEN, {
+        packageId: '1',
+        stickerId: '1',
+      });
 
       expect(res).toEqual(reply);
     });
