@@ -14,24 +14,25 @@ describe('updating api', () => {
   describe('#editMessageText', () => {
     it('should change message text', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        text: 'new_text',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          text: 'new_text',
-        },
+        result,
       };
 
       mock
@@ -47,39 +48,40 @@ describe('updating api', () => {
         disable_web_page_preview: true,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#editMessageCaption', () => {
     it('should change message caption', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        audio: {
+          duration: 108,
+          mime_type: 'audio/mpeg',
+          title: 'Song_Title',
+          performer: 'Song_Performer',
+          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+          file_size: 1739320,
+        },
+        caption: 'new_caption',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          audio: {
-            duration: 108,
-            mime_type: 'audio/mpeg',
-            title: 'Song_Title',
-            performer: 'Song_Performer',
-            file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-            file_size: 1739320,
-          },
-          caption: 'new_caption',
-        },
+        result,
       };
 
       mock
@@ -93,31 +95,32 @@ describe('updating api', () => {
         message_id: 66,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#editMessageReplyMarkup', () => {
     it('should change message reply_markup', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        text: 'hi',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          text: 'hi',
-        },
+        result,
       };
 
       mock
@@ -140,16 +143,17 @@ describe('updating api', () => {
         { message_id: 66 }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#deleteMessage', () => {
     it('should delete message', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -161,34 +165,35 @@ describe('updating api', () => {
 
       const res = await client.deleteMessage(427770117, 66);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#editMessageLiveLocation', () => {
     it('should edit live location message', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        location: {
+          latitude: 11,
+          longitude: 22,
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          location: {
-            latitude: 11,
-            longitude: 22,
-          },
-        },
+        result,
       };
 
       mock
@@ -207,7 +212,7 @@ describe('updating api', () => {
         { message_id: 66 }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });

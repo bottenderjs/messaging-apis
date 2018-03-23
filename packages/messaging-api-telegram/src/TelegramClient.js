@@ -68,7 +68,7 @@ export default class TelegramClient {
         });
       }
 
-      return data;
+      return data.result;
     } catch (err) {
       const { error_code, description } = err.response.data;
       const msg = `Telegram API - ${error_code} ${description || ''}`; // eslint-disable-line camelcase
@@ -140,10 +140,8 @@ export default class TelegramClient {
    */
   getFileLink(fileId: string) {
     return this.getFile(fileId).then(
-      response =>
-        `https://api.telegram.org/file/bot${this._token}/${
-          response.result.file_path
-        }`
+      result =>
+        `https://api.telegram.org/file/bot${this._token}/${result.file_path}`
     );
   }
 

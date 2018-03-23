@@ -14,24 +14,25 @@ describe('send api', () => {
   describe('#sendMessage', () => {
     it('should send text message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        text: 'hi',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          text: 'hi',
-        },
+        result,
       };
 
       mock
@@ -48,54 +49,52 @@ describe('send api', () => {
         disable_notification: true,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendPhoto', () => {
     it('should send photo message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403191,
+        photo: [
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
+            file_size: 1611,
+            width: 90,
+            height: 80,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
+            file_size: 17218,
+            width: 320,
+            height: 285,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
+            file_size: 16209,
+            width: 374,
+            height: 333,
+          },
+        ],
+        caption: 'gooooooodPhoto',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403191,
-          photo: [
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
-              file_size: 1611,
-              width: 90,
-              height: 80,
-            },
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
-              file_size: 17218,
-              width: 320,
-              height: 285,
-            },
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
-              file_size: 16209,
-              width: 374,
-              height: 333,
-            },
-          ],
-          caption: 'gooooooodPhoto',
-        },
+        result,
       };
 
       mock
@@ -116,39 +115,40 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendAudio', () => {
     it('should send audio message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        audio: {
+          duration: 108,
+          mime_type: 'audio/mpeg',
+          title: 'Song_Title',
+          performer: 'Song_Performer',
+          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+          file_size: 1739320,
+        },
+        caption: 'gooooooodAudio',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          audio: {
-            duration: 108,
-            mime_type: 'audio/mpeg',
-            title: 'Song_Title',
-            performer: 'Song_Performer',
-            file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-            file_size: 1739320,
-          },
-          caption: 'gooooooodAudio',
-        },
+        result,
       };
 
       mock
@@ -169,43 +169,44 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendDocument', () => {
     it('should send document message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: 'ylDRTR05sy6M.gif.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
+            file_size: 1627,
+            width: 90,
+            height: 90,
+          },
+          file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
+          file_size: 21301,
+        },
+        caption: 'gooooooodDocument',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          document: {
-            file_name: 'ylDRTR05sy6M.gif.mp4',
-            mime_type: 'video/mp4',
-            thumb: {
-              file_id: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
-              file_size: 1627,
-              width: 90,
-              height: 90,
-            },
-            file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
-            file_size: 21301,
-          },
-          caption: 'gooooooodDocument',
-        },
+        result,
       };
 
       mock
@@ -226,43 +227,44 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendSticker', () => {
     it('should send sticker message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        sticker: {
+          width: 362,
+          height: 512,
+          emoji: '✊',
+          thumb: {
+            file_id: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
+            file_size: 2142,
+            width: 63,
+            height: 90,
+          },
+          file_id: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
+          file_size: 36326,
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          sticker: {
-            width: 362,
-            height: 512,
-            emoji: '✊',
-            thumb: {
-              file_id: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
-              file_size: 2142,
-              width: 63,
-              height: 90,
-            },
-            file_id: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
-            file_size: 36326,
-          },
-        },
+        result,
       };
 
       mock
@@ -281,43 +283,44 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendVideo', () => {
     it('should send video message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: 'madora.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+            file_size: 2874,
+            width: 90,
+            height: 90,
+          },
+          file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+          file_size: 40582,
+        },
+        caption: 'gooooooodVideo',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          document: {
-            file_name: 'madora.mp4',
-            mime_type: 'video/mp4',
-            thumb: {
-              file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
-              file_size: 2874,
-              width: 90,
-              height: 90,
-            },
-            file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
-            file_size: 40582,
-          },
-          caption: 'gooooooodVideo',
-        },
+        result,
       };
 
       mock
@@ -338,37 +341,38 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendVoice', () => {
     it('should send voice message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: '1.ogg',
+          mime_type: 'audio/ogg',
+          file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+          file_size: 10870,
+        },
+        caption: 'gooooooodVoice',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          document: {
-            file_name: '1.ogg',
-            mime_type: 'audio/ogg',
-            file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-            file_size: 10870,
-          },
-          caption: 'gooooooodVoice',
-        },
+        result,
       };
 
       mock
@@ -389,42 +393,43 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendVideoNote', () => {
     it('should send video note message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: 'madora.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+            file_size: 2874,
+            width: 90,
+            height: 90,
+          },
+          file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+          file_size: 40582,
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          document: {
-            file_name: 'madora.mp4',
-            mime_type: 'video/mp4',
-            thumb: {
-              file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
-              file_size: 2874,
-              width: 90,
-              height: 90,
-            },
-            file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
-            file_size: 40582,
-          },
-        },
+        result,
       };
 
       mock
@@ -445,37 +450,38 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendMediaGroup', () => {
     it('should send a group of photos or videos as an album', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        photo: [
+          {
+            file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+            width: 1000,
+            height: 1000,
+          },
+        ],
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          photo: [
-            {
-              file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-              width: 1000,
-              height: 1000,
-            },
-          ],
-        },
+        result,
       };
 
       mock
@@ -489,34 +495,35 @@ describe('send api', () => {
         { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
       ]);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendLocation', () => {
     it('should send location message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        location: {
+          latitude: 30.000005,
+          longitude: 45,
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          location: {
-            latitude: 30.000005,
-            longitude: 45,
-          },
-        },
+        result,
       };
 
       mock
@@ -539,42 +546,43 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendVenue', () => {
     it('should send venue message to user', async () => {
       const { client, mock } = createMock();
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        location: {
+          latitude: 30.000005,
+          longitude: 45,
+        },
+        venue: {
           location: {
             latitude: 30.000005,
             longitude: 45,
           },
-          venue: {
-            location: {
-              latitude: 30.000005,
-              longitude: 45,
-            },
-            title: 'a_title',
-            address: 'an_address',
-          },
+          title: 'a_title',
+          address: 'an_address',
         },
+      };
+      const reply = {
+        ok: true,
+        result,
       };
 
       mock
@@ -601,34 +609,35 @@ describe('send api', () => {
         }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendContact', () => {
     it('should send contact message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        contact: {
+          phone_number: '886123456789',
+          first_name: 'first',
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          contact: {
-            phone_number: '886123456789',
-            first_name: 'first',
-          },
-        },
+        result,
       };
 
       mock
@@ -649,16 +658,17 @@ describe('send api', () => {
         { last_name: 'last' }
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#sendChatAction', () => {
     it("should tell the user that something is happening on the bot's side", async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -670,7 +680,7 @@ describe('send api', () => {
 
       const res = await client.sendChatAction(427770117, 'typing');
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });
