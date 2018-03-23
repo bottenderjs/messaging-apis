@@ -15,8 +15,9 @@ type Axios = {
 type URL = string;
 
 export default class SlackWebhookClient {
-  static connect = (url: URL): SlackWebhookClient =>
-    new SlackWebhookClient(url);
+  static connect(url: URL): SlackWebhookClient {
+    return new SlackWebhookClient(url);
+  }
 
   _axios: Axios;
 
@@ -33,11 +34,13 @@ export default class SlackWebhookClient {
     return this._axios;
   }
 
-  sendRawBody = (body: Object): Promise<SendMessageSucessResponse> =>
-    this._axios.post('', body).then(res => res.data);
+  sendRawBody(body: Object): Promise<SendMessageSucessResponse> {
+    return this._axios.post('', body).then(res => res.data);
+  }
 
-  sendText = (text: string): Promise<SendMessageSucessResponse> =>
-    this.sendRawBody({ text });
+  sendText(text: string): Promise<SendMessageSucessResponse> {
+    return this.sendRawBody({ text });
+  }
 
   /**
    * Attachments
@@ -45,11 +48,15 @@ export default class SlackWebhookClient {
    * https://api.slack.com/docs/message-attachments
    */
 
-  sendAttachments = (
+  sendAttachments(
     attachments: Array<SlackAttachment>
-  ): Promise<SendMessageSucessResponse> => this.sendRawBody({ attachments });
+  ): Promise<SendMessageSucessResponse> {
+    return this.sendRawBody({ attachments });
+  }
 
-  sendAttachment = (
+  sendAttachment(
     attachment: SlackAttachment
-  ): Promise<SendMessageSucessResponse> => this.sendAttachments([attachment]);
+  ): Promise<SendMessageSucessResponse> {
+    return this.sendAttachments([attachment]);
+  }
 }

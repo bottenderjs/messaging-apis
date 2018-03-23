@@ -41,10 +41,12 @@ type ClientConfig = {
 };
 
 export default class WechatClient {
-  static connect = (
+  static connect(
     appIdOrClientConfig: string | ClientConfig,
     appSecret: string
-  ): WechatClient => new WechatClient(appIdOrClientConfig, appSecret);
+  ): WechatClient {
+    return new WechatClient(appIdOrClientConfig, appSecret);
+  }
 
   _appId: string;
   _appSecret: string;
@@ -103,14 +105,15 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
-  getAccessToken = (): Promise<AccessToken> =>
-    this._axios
+  getAccessToken(): Promise<AccessToken> {
+    return this._axios
       .get(
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${
           this._appSecret
         }`
       )
       .then(res => res.data);
+  }
 
   /**
    * 临时素材
@@ -128,7 +131,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
    */
-  uploadMedia = async (type: MediaType, media: Buffer | fs.ReadStream) => {
+  async uploadMedia(type: MediaType, media: Buffer | fs.ReadStream) {
     await this._refreshTokenWhenExpired();
 
     const form = new FormData();
@@ -145,41 +148,41 @@ export default class WechatClient {
       )
       .then(throwErrorIfAny)
       .then(res => res.data);
-  };
+  }
 
   /**
    * 下载多媒体文件接口
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
    */
-  getMedia = async (mediaId: string) => {
+  async getMedia(mediaId: string) {
     await this._refreshTokenWhenExpired();
 
     return this._axios
       .get(`/media/get?access_token=${this._accessToken}&media_id=${mediaId}`)
       .then(throwErrorIfAny)
       .then(res => res.data);
-  };
+  }
 
   /**
    * 发送消息-客服消息
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
    */
-  sendRawBody = async (body: Object) => {
+  async sendRawBody(body: Object) {
     await this._refreshTokenWhenExpired();
 
     return this._axios
       .post(`/message/custom/send?access_token=${this._accessToken}`, body)
       .then(throwErrorIfAny)
       .then(res => res.data);
-  };
+  }
 
   /**
    * 发送文本消息
    */
-  sendText = (userId: string, text: string, options: Object) =>
-    this.sendRawBody({
+  sendText(userId: string, text: string, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'text',
       text: {
@@ -187,12 +190,13 @@ export default class WechatClient {
       },
       ...options,
     });
+  }
 
   /**
    * 发送图片消息
    */
-  sendImage = (userId: string, mediaId: string, options: Object) =>
-    this.sendRawBody({
+  sendImage(userId: string, mediaId: string, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'image',
       image: {
@@ -200,12 +204,13 @@ export default class WechatClient {
       },
       ...options,
     });
+  }
 
   /**
    * 发送语音消息
    */
-  sendVoice = (userId: string, mediaId: string, options: Object) =>
-    this.sendRawBody({
+  sendVoice(userId: string, mediaId: string, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'voice',
       voice: {
@@ -213,49 +218,53 @@ export default class WechatClient {
       },
       ...options,
     });
+  }
 
   /**
    * 发送视频消息
    */
-  sendVideo = (userId: string, video: Video, options: Object) =>
-    this.sendRawBody({
+  sendVideo(userId: string, video: Video, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'video',
       video,
       ...options,
     });
+  }
 
   /**
    * 发送音乐消息
    */
-  sendMusic = (userId: string, music: Music, options: Object) =>
-    this.sendRawBody({
+  sendMusic(userId: string, music: Music, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'music',
       music,
       ...options,
     });
+  }
 
   /**
    * 发送图文消息（点击跳转到外链）
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendNews = (userId: string, news: News, options: Object) =>
-    this.sendRawBody({
+  sendNews(userId: string, news: News, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'news',
       news,
       ...options,
     });
+  }
 
   /**
    * 发送图文消息（点击跳转到图文消息页面）
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendMPNews = (userId: string, mediaId: string, options: Object) =>
-    this.sendRawBody({
+  sendMPNews(userId: string, mediaId: string, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'mpnews',
       mpnews: {
@@ -263,12 +272,13 @@ export default class WechatClient {
       },
       ...options,
     });
+  }
 
   /**
    * 发送卡券
    */
-  sendWXCard = (userId: string, cardId: string, options: Object) =>
-    this.sendRawBody({
+  sendWXCard(userId: string, cardId: string, options: Object) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'wxcard',
       wxcard: {
@@ -276,19 +286,21 @@ export default class WechatClient {
       },
       ...options,
     });
+  }
 
   /**
    * 发送小程序卡片（要求小程序与公众号已关联）
    */
-  sendMiniProgramPage = (
+  sendMiniProgramPage(
     userId: string,
     miniProgramPage: MiniProgramPage,
     options: Object
-  ) =>
-    this.sendRawBody({
+  ) {
+    return this.sendRawBody({
       touser: userId,
       msgtype: 'miniprogrampage',
       miniprogrampage: miniProgramPage,
       ...options,
     });
+  }
 }
