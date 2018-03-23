@@ -105,25 +105,26 @@ export default class LineClient {
   _sendImage = (
     type: SendType,
     target: SendTarget,
-    contentUrl: string,
+    contentUrlOrImage: string | Object,
     previewUrl: ?string
-  ) => this._send(type, target, [Line.createImage(contentUrl, previewUrl)]);
+  ) =>
+    this._send(type, target, [Line.createImage(contentUrlOrImage, previewUrl)]);
 
   _sendVideo = (
     type: SendType,
     target: SendTarget,
-    contentUrl: string,
+    contentUrlOrVideo: string | Object,
     previewUrl: string
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createVideo(contentUrl, previewUrl)]);
+    this._send(type, target, [Line.createVideo(contentUrlOrVideo, previewUrl)]);
 
   _sendAudio = (
     type: SendType,
     target: SendTarget,
-    contentUrl: string,
-    duration: number
+    contentUrlOrAudio: string | Object,
+    duration: ?number
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createAudio(contentUrl, duration)]);
+    this._send(type, target, [Line.createAudio(contentUrlOrAudio, duration)]);
 
   _sendLocation = (
     type: SendType,
@@ -142,10 +143,12 @@ export default class LineClient {
   _sendSticker = (
     type: SendType,
     target: SendTarget,
-    packageId: string,
-    stickerId: string
+    packageIdOrSticker: string | Object,
+    stickerId: ?string
   ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createSticker(packageId, stickerId)]);
+    this._send(type, target, [
+      Line.createSticker(packageIdOrSticker, stickerId),
+    ]);
 
   /**
    * Imagemap Message

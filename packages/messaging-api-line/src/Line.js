@@ -9,38 +9,76 @@ import type {
   ImageCarouselColumnObject,
 } from './LineTypes';
 
-function createText(text: string) {
+function createText(text: string): Object {
   return {
     type: 'text',
     text,
   };
 }
 
-function createImage(contentUrl: string, previewUrl: ?string) {
+function createImage(
+  contentUrlOrImage: string | Object,
+  previewUrl: ?string
+): Object {
+  if (typeof contentUrlOrImage === 'object') {
+    const image = contentUrlOrImage;
+    return {
+      type: 'image',
+      originalContentUrl: image.originalContentUrl,
+      previewImageUrl: image.previewImageUrl || image.originalContentUrl,
+    };
+  }
   return {
     type: 'image',
-    originalContentUrl: contentUrl,
-    previewImageUrl: previewUrl || contentUrl,
+    originalContentUrl: contentUrlOrImage,
+    previewImageUrl: previewUrl || contentUrlOrImage,
   };
 }
 
-function createVideo(contentUrl: string, previewUrl: string) {
+function createVideo(
+  contentUrlOrVideo: string | Object,
+  previewUrl: ?string
+): Object {
+  if (typeof contentUrlOrVideo === 'object') {
+    const video = contentUrlOrVideo;
+    return {
+      type: 'video',
+      originalContentUrl: video.originalContentUrl,
+      previewImageUrl: video.previewImageUrl,
+    };
+  }
   return {
     type: 'video',
-    originalContentUrl: contentUrl,
+    originalContentUrl: contentUrlOrVideo,
     previewImageUrl: previewUrl,
   };
 }
 
-function createAudio(contentUrl: string, duration: number) {
+function createAudio(
+  contentUrlOrAudio: string | Object,
+  duration: ?number
+): Object {
+  if (typeof contentUrlOrAudio === 'object') {
+    const audio = contentUrlOrAudio;
+    return {
+      type: 'audio',
+      originalContentUrl: audio.originalContentUrl,
+      duration: audio.duration,
+    };
+  }
   return {
     type: 'audio',
-    originalContentUrl: contentUrl,
+    originalContentUrl: contentUrlOrAudio,
     duration,
   };
 }
 
-function createLocation({ title, address, latitude, longitude }: Location) {
+function createLocation({
+  title,
+  address,
+  latitude,
+  longitude,
+}: Location): Object {
   return {
     type: 'location',
     title,
@@ -50,10 +88,21 @@ function createLocation({ title, address, latitude, longitude }: Location) {
   };
 }
 
-function createSticker(packageId: string, stickerId: string) {
+function createSticker(
+  packageIdOrSticker: string | Object,
+  stickerId: ?string
+): Object {
+  if (typeof packageIdOrSticker === 'object') {
+    const sticker = packageIdOrSticker;
+    return {
+      type: 'sticker',
+      packageId: sticker.packageId,
+      stickerId: sticker.stickerId,
+    };
+  }
   return {
     type: 'sticker',
-    packageId,
+    packageId: packageIdOrSticker,
     stickerId,
   };
 }
@@ -76,7 +125,7 @@ function createImagemap(
     baseWidth: number,
     actions: Array<ImageMapAction>,
   }
-) {
+): Object {
   return {
     type: 'imagemap',
     baseUrl,
@@ -89,7 +138,7 @@ function createImagemap(
   };
 }
 
-function createTemplate(altText: string, template: Template) {
+function createTemplate(altText: string, template: Template): Object {
   return {
     type: 'template',
     altText,
@@ -116,7 +165,7 @@ function createButtonTemplate(
     text: string,
     actions: Array<TemplateAction>,
   }
-) {
+): Object {
   return createTemplate(altText, {
     type: 'buttons',
     thumbnailImageUrl,
@@ -138,7 +187,7 @@ function createConfirmTemplate(
     text: string,
     actions: Array<TemplateAction>,
   }
-) {
+): Object {
   return createTemplate(altText, {
     type: 'confirm',
     text,
@@ -155,8 +204,8 @@ function createCarouselTemplate(
   }: {
     imageAspectRatio?: 'rectangle' | 'square',
     imageSize?: 'cover' | 'contain',
-  }
-) {
+  } = {}
+): Object {
   return createTemplate(altText, {
     type: 'carousel',
     columns,
@@ -168,7 +217,7 @@ function createCarouselTemplate(
 function createImageCarouselTemplate(
   altText: string,
   columns: Array<ImageCarouselColumnObject>
-) {
+): Object {
   return createTemplate(altText, {
     type: 'image_carousel',
     columns,
