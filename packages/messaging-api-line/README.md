@@ -61,7 +61,7 @@ All methods return a Promise.
 
 <a id="reply-api" />
 
-### Reply API - [Official Docs](https://devdocs.line.me/en/#reply-message)
+### Reply API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#send-reply-message)
 
 Responds to events from users, groups, and rooms.
 
@@ -102,7 +102,7 @@ client.reply(REPLY_TOKEN, [
 
 <br />
 
-## `replyText(token, text)`
+## `replyText(token, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
 
 Responds text message using specified reply token.
 
@@ -125,7 +125,7 @@ client.reply(REPLY_TOKEN, 'Hello!');
 
 <br />
 
-## `replyImage(token, imageUrl, previewImageUrl)`
+## `replyImage(token, imageUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Responds image message using specified reply token.
 
@@ -149,7 +149,7 @@ client.replyImage(
 
 <br />
 
-## `replyVideo(token, videoUrl, previewImageUrl)`
+## `replyVideo(token, videoUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Responds video message using specified reply token.
 
@@ -173,7 +173,7 @@ client.replyVideo(
 
 <br />
 
-## `replyAudio(token, audioUrl, duration)`
+## `replyAudio(token, audioUrl, duration)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Responds audio message using specified reply token.
 
@@ -193,7 +193,7 @@ client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
 
 <br />
 
-## `replyLocation(token, location)`
+## `replyLocation(token, location)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
 
 Responds location message using specified reply token.
 
@@ -221,7 +221,7 @@ client.replyLocation(REPLY_TOKEN, {
 
 <br />
 
-## `replySticker(token, packageId, stickerId)`
+## `replySticker(token, packageId, stickerId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Responds sticker message using specified reply token.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
@@ -244,7 +244,7 @@ client.replySticker(REPLY_TOKEN, '1', '1');
 
 ### Reply Imagemap Message
 
-## `replyImagemap(token, altText, imagemap)`
+## `replyImagemap(token, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
 Responds imagemap message using specified reply token.
 
@@ -299,7 +299,7 @@ client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
 
 ### Reply Template Messages
 
-## `replyTemplate(token, altText, template)`
+## `replyTemplate(token, altText, template)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
 
 Responds template message using specified reply token.
 
@@ -339,7 +339,7 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 
 <br />
 
-## `replyButtonTemplate(token, altText, buttonTemplate)`
+## `replyButtonTemplate(token, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
 
 Responds button template message using specified reply token.
 
@@ -387,7 +387,7 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 
 <br />
 
-## `replyConfirmTemplate(token, altText, confirmTemplate)`
+## `replyConfirmTemplate(token, altText, confirmTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
 
 Responds confirm template message using specified reply token.
 
@@ -423,7 +423,7 @@ client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
 
 <br />
 
-## `replyCarouselTemplate(token, altText, carouselItems, options)`
+## `replyCarouselTemplate(token, altText, carouselItems, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#carousel)
 
 Responds carousel template message using specified reply token.
 
@@ -491,7 +491,7 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 <br />
 
-## `replyImageCarouselTemplate(token, altText, carouselItems)`
+## `replyImageCarouselTemplate(token, altText, carouselItems)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
 
 Responds image carousel template message using specified reply token.
 
@@ -542,7 +542,7 @@ client.replyImageCarouselTemplate(
 
 <a id="push-api" />
 
-### Push API - [Official Docs](https://devdocs.line.me/en/#push-message)
+### Push API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#send-push-message)
 
 Sends messages to a user, group, or room at any time.
 
@@ -568,7 +568,7 @@ client.push(USER_ID, [
 
 <br />
 
-## `pushText(userId, text)`
+## `pushText(userId, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
 
 Sends text message using ID of the receiver.
 
@@ -591,7 +591,7 @@ client.pushText(USER_ID, 'Hello!');
 
 <br />
 
-## `pushImage(userId, imageUrl, previewImageUrl)`
+## `pushImage(userId, imageUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Sends image message using ID of the receiver.
 
@@ -615,7 +615,7 @@ client.pushImage(
 
 <br />
 
-## `pushVideo(userId, videoUrl, previewImageUrl)`
+## `pushVideo(userId, videoUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Sends video message using ID of the receiver.
 
@@ -639,7 +639,7 @@ client.pushVideo(
 
 <br />
 
-## `pushAudio(userId, audioUrl, duration)`
+## `pushAudio(userId, audioUrl, duration)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Sends audio message using ID of the receiver.
 
@@ -659,7 +659,7 @@ client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
 
 <br />
 
-## `pushLocation(userId, location)`
+## `pushLocation(userId, location)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
 
 Sends location message using ID of the receiver.
 
@@ -687,7 +687,7 @@ client.pushLocation(USER_ID, {
 
 <br />
 
-## `pushSticker(userId, packageId, stickerId)`
+## `pushSticker(userId, packageId, stickerId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Sends sticker message using ID of the receiver.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
@@ -710,7 +710,7 @@ client.pushSticker(USER_ID, '1', '1');
 
 ### Push Imagemap Message
 
-## `pushImagemap(userId, altText, imagemap)`
+## `pushImagemap(userId, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
 Sends imagemap message using ID of the receiver.
 
@@ -765,7 +765,7 @@ client.pushImagemap(USER_ID, 'this is an imagemap', {
 
 ### Push Template Messages
 
-## `pushTemplate(userId, altText, template)`
+## `pushTemplate(userId, altText, template)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
 
 Sends template message using ID of the receiver.
 
@@ -805,7 +805,7 @@ client.pushTemplate(USER_ID, 'this is a template', {
 
 <br />
 
-## `pushButtonTemplate(userId, altText, buttonTemplate)`
+## `pushButtonTemplate(userId, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
 
 Sends button template message using ID of the receiver.
 
@@ -853,7 +853,7 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 
 <br />
 
-## `pushConfirmTemplate(userId, altText, confirmTemplate)`
+## `pushConfirmTemplate(userId, altText, confirmTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
 
 Sends confirm template message using ID of the receiver.
 
@@ -889,7 +889,7 @@ client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
 
 <br />
 
-## `pushCarouselTemplate(userId, altText, carouselItems, options)`
+## `pushCarouselTemplate(userId, altText, carouselItems, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#carousel)
 
 Sends carousel template message using ID of the receiver.
 
@@ -957,7 +957,7 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 <br />
 
-## `pushImageCarouselTemplate(userId, altText, carouselItems)`
+## `pushImageCarouselTemplate(userId, altText, carouselItems)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
 
 Sends image carousel template message using ID of the receiver.
 
@@ -1008,7 +1008,7 @@ client.pushImageCarouselTemplate(
 
 <a id="multicast-api" />
 
-### Multicast API - [Official Docs](https://devdocs.line.me/en/#multicast)
+### Multicast API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#send-multicast-messages)
 
 Sends messages to multiple users at any time.
 
@@ -1037,7 +1037,7 @@ client.multicast(
 
 <br />
 
-## `multicastText(userIds, text)`
+## `multicastText(userIds, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
 
 Sends text message to multiple users.
 
@@ -1060,7 +1060,7 @@ client.multicastText([USER_ID], 'Hello!');
 
 <br />
 
-## `multicastImage(userIds, imageUrl, previewImageUrl)`
+## `multicastImage(userIds, imageUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Sends image message to multiple users.
 
@@ -1084,7 +1084,7 @@ client.multicastImage(
 
 <br />
 
-## `multicastVideo(userIds, videoUrl, previewImageUrl)`
+## `multicastVideo(userIds, videoUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Sends video message to multiple users.
 
@@ -1108,7 +1108,7 @@ client.multicastVideo(
 
 <br />
 
-## `multicastAudio(userIds, audioUrl, duration)`
+## `multicastAudio(userIds, audioUrl, duration)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Sends audio message to multiple users.
 
@@ -1128,7 +1128,7 @@ client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
 
 <br />
 
-## `multicastLocation(userIds, location)`
+## `multicastLocation(userIds, location)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
 
 Sends location message to multiple users.
 
@@ -1156,7 +1156,7 @@ client.multicastLocation([USER_ID], {
 
 <br />
 
-## `multicastSticker(userIds, packageId, stickerId)`
+## `multicastSticker(userIds, packageId, stickerId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Sends sticker message to multiple users.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
@@ -1179,7 +1179,7 @@ client.multicastSticker([USER_ID], '1', '1');
 
 ### Multicast Imagemap Message
 
-## `multicastImagemap(userIds, altText, imagemap)`
+## `multicastImagemap(userIds, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
 Sends imagemap message to multiple users.
 
@@ -1234,7 +1234,7 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
 
 ### Multicast Template Messages
 
-## `multicastTemplate(userIds, altText, template)`
+## `multicastTemplate(userIds, altText, template)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
 
 Sends template message to multiple users.
 
@@ -1274,7 +1274,7 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 
 <br />
 
-## `multicastButtonTemplate(userIds, altText, buttonTemplate)`
+## `multicastButtonTemplate(userIds, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
 
 Sends button template message to multiple users.
 
@@ -1322,7 +1322,7 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 <br />
 
-## `multicastConfirmTemplate(userIds, altText, confirmTemplate)`
+## `multicastConfirmTemplate(userIds, altText, confirmTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
 
 Sends confirm template message to multiple users.
 
@@ -1358,7 +1358,7 @@ client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
 
 <br />
 
-## `multicastCarouselTemplate(userIds, altText, carouselItems, options)`
+## `multicastCarouselTemplate(userIds, altText, carouselItems, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#carousel)
 
 Sends carousel template message to multiple users.
 
@@ -1426,7 +1426,7 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 
 <br />
 
-## `multicastImageCarouselTemplate(userIds, altText, carouselItems)`
+## `multicastImageCarouselTemplate(userIds, altText, carouselItems)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
 
 Sends image carousel template message to multiple users.
 
@@ -1477,7 +1477,7 @@ client.multicastImageCarouselTemplate(
 
 <a id="content-api" />
 
-### Content API - [Official Docs](https://devdocs.line.me/en/#content)
+### Content API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-content)
 
 ## `retrieveMessageContent(messageId)`
 
@@ -1500,7 +1500,7 @@ client.retrieveMessageContent(MESSAGE_ID).then(buffer => {
 
 <a id="profile-api" />
 
-### Profile API - [Official Docs](https://devdocs.line.me/en/#bot-api-get-profile)
+### Profile API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-profile)
 
 ## `getUserProfile(userId)`
 
@@ -1528,9 +1528,9 @@ client.getUserProfile(USER_ID).then(profile => {
 
 <a id="grouproom-member-profile-api" />
 
-### Group/Room Member Profile API - [Official Docs](https://devdocs.line.me/en/#get-group-room-member-profile)
+### Group/Room Member Profile API - [Official Docs](https://developers.line.me/en/docs/messaging-api/group-chats/#getting-a-user-profile-of-a-member-of-a-group-or-room)
 
-## `getGroupMemberProfile(groupId, userId)`
+## `getGroupMemberProfile(groupId, userId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-profile)
 
 Gets the user profile of a member of a group that the bot is in. This includes the user IDs of users who has not added the bot as a friend or has blocked the bot.
 
@@ -1554,7 +1554,7 @@ client.getGroupMemberProfile(GROUP_ID, USER_ID).then(member => {
 
 <br />
 
-## `getRoomMemberProfile(roomId, userId)`
+## `getRoomMemberProfile(roomId, userId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-profile)
 
 Gets the user profile of a member of a room that the bot is in. This includes the user IDs of users who has not added the bot as a friend or has blocked the bot.
 
@@ -1580,9 +1580,9 @@ client.getRoomMemberProfile(ROOM_ID, USER_ID).then(member => {
 
 <a id="grouproom-member-ids-api" />
 
-### Group/Room Member IDs API - [Official Docs](https://devdocs.line.me/en/#get-group-room-member-ids)
+### Group/Room Member IDs API - [Official Docs](https://developers.line.me/en/docs/messaging-api/group-chats/#getting-user-ids-of-the-members-of-a-group-or-room)
 
-## `getGroupMemberIds(groupId, start)`
+## `getGroupMemberIds(groupId, start)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-user-ids)
 
 Gets the ID of the users of the members of a group that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
 This feature is only available for LINE@ Approved accounts or official accounts.
@@ -1637,7 +1637,7 @@ client.getAllGroupMemberIds(GROUP_ID).then(ids => {
 
 <br />
 
-## `getRoomMemberIds(roomId, start)`
+## `getRoomMemberIds(roomId, start)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-user-ids)
 
 Gets the ID of the users of the members of a room that the bot is in. This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.  
 This feature is only available for LINE@ Approved accounts or official accounts.
@@ -1694,9 +1694,9 @@ client.getAllRoomMemberIds(ROOM_ID).then(ids => {
 
 <a id="leave-api" />
 
-### Leave API - [Official Docs](https://devdocs.line.me/en/#leave)
+### Leave API - [Official Docs](https://developers.line.me/en/docs/messaging-api/group-chats/#leaving-a-group-or-room)
 
-## `leaveGroup(groupId)`
+## `leaveGroup(groupId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#leave-group)
 
 Leave a group.
 
@@ -1712,7 +1712,7 @@ client.leaveGroup(GROUP_ID);
 
 <br />
 
-## `leaveRoom(roomId)`
+## `leaveRoom(roomId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#leave-room)
 
 Leave a room.
 
@@ -1732,7 +1732,7 @@ client.leaveRoom(ROOM_ID);
 
 ### Rich Menu API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#rich-menu)
 
-## `getRichMenuList`
+## `getRichMenuList()` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-rich-menu-list)
 
 Gets a list of all uploaded rich menus.
 
@@ -1772,7 +1772,7 @@ client.getRichMenuList().then(richMenus => {
 
 <br />
 
-## `getRichMenu(richMenuId)`
+## `getRichMenu(richMenuId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-rich-menu)
 
 Gets a rich menu via a rich menu ID.
 
@@ -1814,7 +1814,7 @@ client.getRichMenu(RICH_MENU_ID).then(richMenu => {
 
 <br />
 
-## `createRichMenu(richMenu)`
+## `createRichMenu(richMenu)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#create-rich-menu)
 
 Creates a rich menu.
 
@@ -1859,7 +1859,7 @@ client
 
 <br />
 
-## `deleteRichMenu(richMenuId)`
+## `deleteRichMenu(richMenuId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#delete-rich-menu)
 
 Deletes a rich menu.
 
@@ -1875,7 +1875,7 @@ client.deleteRichMenu(RICH_MENU_ID);
 
 <br />
 
-## `getLinkedRichMenu(userId)`
+## `getLinkedRichMenu(userId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#get-rich-menu-id-of-user)
 
 Gets the ID of the rich menu linked to a user.
 
@@ -1896,7 +1896,7 @@ client.getLinkedRichMenu(USER_ID).then(richMenu => {
 
 <br />
 
-## `linkRichMenu(userId, richMenuId)`
+## `linkRichMenu(userId, richMenuId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#link-rich-menu-to-user)
 
 Links a rich menu to a user.
 
@@ -1913,7 +1913,7 @@ client.linkRichMenu(USER_ID, RICH_MENU_ID);
 
 <br />
 
-## `unlinkRichMenu(userId)`
+## `unlinkRichMenu(userId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#unlink-rich-menu-from-user)
 
 Unlinks a rich menu from a user.
 
@@ -1929,7 +1929,7 @@ client.unlinkRichMenu(USER_ID);
 
 <br />
 
-## `downloadRichMenuImage(richMenuId)`
+## `downloadRichMenuImage(richMenuId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#download-rich-menu-image)
 
 Downloads an image associated with a rich menu.
 
@@ -1948,7 +1948,7 @@ client.downloadRichMenuImage(RICH_MENU_ID).then(imageBuffer => {
 
 <br />
 
-## `uploadRichMenuImage(richMenuId, buffer)`
+## `uploadRichMenuImage(richMenuId, buffer)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#upload-rich-menu-image)
 
 Uploads and attaches an image to a rich menu.
 
