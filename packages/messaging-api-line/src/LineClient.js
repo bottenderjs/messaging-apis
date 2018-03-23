@@ -48,10 +48,12 @@ type ClientConfig = {
 };
 
 export default class LineClient {
-  static connect = (
+  static connect(
     accessTokenOrConfig: string | ClientConfig,
     channelSecret: string
-  ): LineClient => new LineClient(accessTokenOrConfig, channelSecret);
+  ): LineClient {
+    return new LineClient(accessTokenOrConfig, channelSecret);
+  }
 
   _accessToken: string;
   _channelSecret: string;
@@ -90,48 +92,66 @@ export default class LineClient {
     return this._accessToken;
   }
 
-  _send = (type: SendType, target: SendTarget, ...args: Array<any>) => {
+  _send(
+    type: SendType,
+    target: SendTarget,
+    ...args: Array<any>
+  ): Promise<MutationSuccessResponse> {
     if (type === 'push') {
       return this.push(((target: any): UserId), ...args);
     } else if (type === 'multicast') {
       return this.multicast(((target: any): Array<UserId>), ...args);
     }
     return this.reply(((target: any): ReplyToken), ...args);
-  };
+  }
 
-  _sendText = (type: SendType, target: SendTarget, text: string) =>
-    this._send(type, target, [Line.createText(text)]);
+  _sendText(
+    type: SendType,
+    target: SendTarget,
+    text: string
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [Line.createText(text)]);
+  }
 
-  _sendImage = (
+  _sendImage(
     type: SendType,
     target: SendTarget,
     contentUrlOrImage: string | Object,
     previewUrl: ?string
-  ) =>
-    this._send(type, target, [Line.createImage(contentUrlOrImage, previewUrl)]);
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
+      Line.createImage(contentUrlOrImage, previewUrl),
+    ]);
+  }
 
-  _sendVideo = (
+  _sendVideo(
     type: SendType,
     target: SendTarget,
     contentUrlOrVideo: string | Object,
     previewUrl: string
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createVideo(contentUrlOrVideo, previewUrl)]);
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
+      Line.createVideo(contentUrlOrVideo, previewUrl),
+    ]);
+  }
 
-  _sendAudio = (
+  _sendAudio(
     type: SendType,
     target: SendTarget,
     contentUrlOrAudio: string | Object,
     duration: ?number
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createAudio(contentUrlOrAudio, duration)]);
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
+      Line.createAudio(contentUrlOrAudio, duration),
+    ]);
+  }
 
-  _sendLocation = (
+  _sendLocation(
     type: SendType,
     target: SendTarget,
     { title, address, latitude, longitude }: Location
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       Line.createLocation({
         title,
         address,
@@ -139,23 +159,25 @@ export default class LineClient {
         longitude,
       }),
     ]);
+  }
 
-  _sendSticker = (
+  _sendSticker(
     type: SendType,
     target: SendTarget,
     packageIdOrSticker: string | Object,
     stickerId: ?string
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       Line.createSticker(packageIdOrSticker, stickerId),
     ]);
+  }
 
   /**
    * Imagemap Message
    *
    * https://devdocs.line.me/en/#imagemap-message
    */
-  _sendImagemap = (
+  _sendImagemap(
     type: SendType,
     target: SendTarget,
     altText: string,
@@ -175,8 +197,8 @@ export default class LineClient {
       baseWidth: number,
       actions: Array<ImageMapAction>,
     }
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       {
         type: 'imagemap',
         baseUrl,
@@ -188,21 +210,23 @@ export default class LineClient {
         actions,
       },
     ]);
+  }
 
   /**
    * Template Messages
    *
    * https://devdocs.line.me/en/#template-messages
    */
-  _sendTemplate = (
+  _sendTemplate(
     type: SendType,
     target: SendTarget,
     altText: string,
     template: Template
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [Line.createTemplate(altText, template)]);
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [Line.createTemplate(altText, template)]);
+  }
 
-  _sendButtonTemplate = (
+  _sendButtonTemplate(
     type: SendType,
     target: SendTarget,
     altText: string,
@@ -223,8 +247,8 @@ export default class LineClient {
       text: string,
       actions: Array<TemplateAction>,
     }
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       Line.createButtonTemplate(altText, {
         thumbnailImageUrl,
         imageAspectRatio,
@@ -235,8 +259,9 @@ export default class LineClient {
         actions,
       }),
     ]);
+  }
 
-  _sendConfirmTemplate = (
+  _sendConfirmTemplate(
     type: SendType,
     target: SendTarget,
     altText: string,
@@ -247,15 +272,16 @@ export default class LineClient {
       text: string,
       actions: Array<TemplateAction>,
     }
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       Line.createConfirmTemplate(altText, {
         text,
         actions,
       }),
     ]);
+  }
 
-  _sendCarouselTemplate = (
+  _sendCarouselTemplate(
     type: SendType,
     target: SendTarget,
     altText: string,
@@ -267,85 +293,96 @@ export default class LineClient {
       imageAspectRatio?: 'rectangle' | 'square',
       imageSize?: 'cover' | 'contain',
     } = {}
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       Line.createCarouselTemplate(altText, columns, {
         imageAspectRatio,
         imageSize,
       }),
     ]);
+  }
 
-  _sendImageCarouselTemplate = (
+  _sendImageCarouselTemplate(
     type: SendType,
     target: SendTarget,
     altText: string,
     columns: Array<ImageCarouselColumnObject>
-  ): Promise<MutationSuccessResponse> =>
-    this._send(type, target, [
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [
       Line.createImageCarouselTemplate(altText, columns),
     ]);
+  }
 
   /**
    * Reply Message
    *
    * https://devdocs.line.me/en/#reply-message
    */
-  replyRawBody = (body: {
+  replyRawBody(body: {
     replyToken: ReplyToken,
     messages: Array<Message>,
-  }): Promise<MutationSuccessResponse> =>
-    this._axios.post('/message/reply', body).then(res => res.data, handleError);
+  }): Promise<MutationSuccessResponse> {
+    return this._axios
+      .post('/message/reply', body)
+      .then(res => res.data, handleError);
+  }
 
-  reply = (
+  reply(
     replyToken: ReplyToken,
     messages: Array<Message>
-  ): Promise<MutationSuccessResponse> =>
-    this.replyRawBody({ replyToken, messages });
+  ): Promise<MutationSuccessResponse> {
+    return this.replyRawBody({ replyToken, messages });
+  }
 
   /**
    * Push Message
    *
    * https://devdocs.line.me/en/#push-message
    */
-  pushRawBody = (body: {
+  pushRawBody(body: {
     to: string,
     messages: Array<Message>,
-  }): Promise<MutationSuccessResponse> =>
-    this._axios.post('/message/push', body).then(res => res.data, handleError);
+  }): Promise<MutationSuccessResponse> {
+    return this._axios
+      .post('/message/push', body)
+      .then(res => res.data, handleError);
+  }
 
-  push = (
-    to: string,
-    messages: Array<Message>
-  ): Promise<MutationSuccessResponse> => this.pushRawBody({ to, messages });
+  push(to: string, messages: Array<Message>): Promise<MutationSuccessResponse> {
+    return this.pushRawBody({ to, messages });
+  }
 
   /**
    * Multicast
    *
    * https://devdocs.line.me/en/#multicast
    */
-  multicastRawBody = (body: {
+  multicastRawBody(body: {
     to: Array<UserId>,
     messages: Array<Message>,
-  }): Promise<MutationSuccessResponse> =>
-    this._axios
+  }): Promise<MutationSuccessResponse> {
+    return this._axios
       .post('/message/multicast', body)
       .then(res => res.data, handleError);
+  }
 
-  multicast = (
+  multicast(
     to: Array<UserId>,
     messages: Array<Message>
-  ): Promise<MutationSuccessResponse> =>
-    this.multicastRawBody({ to, messages });
+  ): Promise<MutationSuccessResponse> {
+    return this.multicastRawBody({ to, messages });
+  }
 
   /**
    * Content
    *
    * https://devdocs.line.me/en/#content
    */
-  retrieveMessageContent = (messageId: string): Promise<Buffer> =>
-    this._axios
+  retrieveMessageContent(messageId: string): Promise<Buffer> {
+    return this._axios
       .get(`/message/${messageId}/content`, { responseType: 'arraybuffer' })
       .then(res => Buffer.from(res.data), handleError);
+  }
 
   /**
    * Get User Profile
@@ -353,35 +390,41 @@ export default class LineClient {
    * https://devdocs.line.me/en/#bot-api-get-profile
    * displayName, userId, pictureUrl, statusMessage
    */
-  getUserProfile = (userId: UserId): Promise<User> =>
-    this._axios.get(`/profile/${userId}`).then(res => res.data, handleError);
+  getUserProfile(userId: UserId): Promise<User> {
+    return this._axios
+      .get(`/profile/${userId}`)
+      .then(res => res.data, handleError);
+  }
 
   /**
    * Get Group/Room Member Profile
    *
    * https://devdocs.line.me/en/#get-group-room-member-profile
    */
-  getGroupMemberProfile = (groupId: string, userId: UserId) =>
-    this._axios
+  getGroupMemberProfile(groupId: string, userId: UserId) {
+    return this._axios
       .get(`/group/${groupId}/member/${userId}`)
       .then(res => res.data, handleError);
+  }
 
-  getRoomMemberProfile = (roomId: string, userId: UserId) =>
-    this._axios
+  getRoomMemberProfile(roomId: string, userId: UserId) {
+    return this._axios
       .get(`/room/${roomId}/member/${userId}`)
       .then(res => res.data, handleError);
+  }
 
   /**
    * Get Group/Room Member IDs
    *
    * https://devdocs.line.me/en/#get-group-room-member-ids
    */
-  getGroupMemberIds = (groupId: string, start?: string) =>
-    this._axios
+  getGroupMemberIds(groupId: string, start?: string) {
+    return this._axios
       .get(`/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`)
       .then(res => res.data, handleError);
+  }
 
-  getAllGroupMemberIds = async (groupId: string) => {
+  async getAllGroupMemberIds(groupId: string) {
     let allMemberIds = [];
     let continuationToken;
 
@@ -396,12 +439,13 @@ export default class LineClient {
     } while (continuationToken);
 
     return allMemberIds;
-  };
+  }
 
-  getRoomMemberIds = (roomId: string, start?: string) =>
-    this._axios
+  getRoomMemberIds(roomId: string, start?: string) {
+    return this._axios
       .get(`/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`)
       .then(res => res.data, handleError);
+  }
 
   getAllRoomMemberIds = async (roomId: string) => {
     let allMemberIds = [];
@@ -425,60 +469,71 @@ export default class LineClient {
    *
    * https://devdocs.line.me/en/#leave
    */
-  leaveGroup = (groupId: string): Promise<MutationSuccessResponse> =>
-    this._axios
+  leaveGroup(groupId: string): Promise<MutationSuccessResponse> {
+    return this._axios
       .post(`/group/${groupId}/leave`)
       .then(res => res.data, handleError);
+  }
 
-  leaveRoom = (roomId: string): Promise<MutationSuccessResponse> =>
-    this._axios
+  leaveRoom(roomId: string): Promise<MutationSuccessResponse> {
+    return this._axios
       .post(`/room/${roomId}/leave`)
       .then(res => res.data, handleError);
+  }
 
   /**
    * Rich Menu
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#rich-menu
    */
-  getRichMenuList = () =>
-    this._axios
+  getRichMenuList() {
+    return this._axios
       .get('/richmenu/list')
       .then(res => res.data.richmenus, handleError);
+  }
 
-  getRichMenu = (richMenuId: string) =>
-    this._axios
+  getRichMenu(richMenuId: string) {
+    return this._axios
       .get(`/richmenu/${richMenuId}`)
       .then(res => res.data, handleError);
+  }
 
-  createRichMenu = (richMenu: RichMenu) =>
-    this._axios.post('/richmenu', richMenu).then(res => res.data, handleError);
+  createRichMenu(richMenu: RichMenu) {
+    return this._axios
+      .post('/richmenu', richMenu)
+      .then(res => res.data, handleError);
+  }
 
-  deleteRichMenu = (richMenuId: string) =>
-    this._axios
+  deleteRichMenu(richMenuId: string) {
+    return this._axios
       .delete(`/richmenu/${richMenuId}`)
       .then(res => res.data, handleError);
+  }
 
-  getLinkedRichMenu = (userId: string) =>
-    this._axios
+  getLinkedRichMenu(userId: string) {
+    return this._axios
       .get(`/user/${userId}/richmenu`)
       .then(res => res.data, handleError);
+  }
 
-  linkRichMenu = (userId: string, richMenuId: string) =>
-    this._axios
+  linkRichMenu(userId: string, richMenuId: string) {
+    return this._axios
       .post(`/user/${userId}/richmenu/${richMenuId}`)
       .then(res => res.data, handleError);
+  }
 
-  unlinkRichMenu = (userId: string) =>
-    this._axios
+  unlinkRichMenu(userId: string) {
+    return this._axios
       .delete(`/user/${userId}/richmenu`)
       .then(res => res.data, handleError);
+  }
 
   /**
    * - Images must have one of the following resolutions: 2500x1686, 2500x843.
    * - You cannot replace an image attached to a rich menu.
    *   To update your rich menu image, create a new rich menu object and upload another image.
    */
-  uploadRichMenuImage = (richMenuId: string, image: Buffer) => {
+  uploadRichMenuImage(richMenuId: string, image: Buffer) {
     const type = imageType(image);
     invariant(
       type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
@@ -491,12 +546,13 @@ export default class LineClient {
         },
       })
       .then(res => res.data, handleError);
-  };
+  }
 
-  downloadRichMenuImage = (richMenuId: string) =>
-    this._axios
+  downloadRichMenuImage(richMenuId: string) {
+    return this._axios
       .get(`/richmenu/${richMenuId}/content`, { responseType: 'arraybuffer' })
       .then(res => Buffer.from(res.data), handleError);
+  }
 }
 
 const sendTypes = ['reply', 'push', 'multicast'];

@@ -63,9 +63,9 @@ type ClientConfig = {
 };
 
 export default class SlackOAuthClient {
-  static connect = (
-    accessTokenOrConfig: string | ClientConfig
-  ): SlackOAuthClient => new SlackOAuthClient(accessTokenOrConfig);
+  static connect(accessTokenOrConfig: string | ClientConfig): SlackOAuthClient {
+    return new SlackOAuthClient(accessTokenOrConfig);
+  }
 
   _axios: Axios;
 
@@ -101,10 +101,10 @@ export default class SlackOAuthClient {
     return this._token;
   }
 
-  callMethod = async (
+  async callMethod(
     method: SlackAvailableMethod,
     body: Object = {}
-  ): Promise<SlackOAuthAPIResponse> => {
+  ): Promise<SlackOAuthAPIResponse> {
     body.token = body.token || this._token; // eslint-disable-line no-param-reassign
     const response = await this._axios.post(
       method,
@@ -122,20 +122,22 @@ export default class SlackOAuthClient {
     }
 
     return data;
-  };
+  }
 
   /**
    * Gets information about a public channel.
    *
    * https://api.slack.com/methods/channels.info
    */
-  getChannelInfo = (
+  getChannelInfo(
     channelId: string,
     options: GetInfoOptions = {}
-  ): Promise<SlackChannel> =>
-    this.callMethod('channels.info', { channel: channelId, ...options }).then(
-      data => data.channel
-    );
+  ): Promise<SlackChannel> {
+    return this.callMethod('channels.info', {
+      channel: channelId,
+      ...options,
+    }).then(data => data.channel);
+  }
 
   /**
    * Lists all public channels in a Slack team.
@@ -143,46 +145,47 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/channels.list
    * FIXME: [breaking] support cursor, exclude_archived, exclude_members, limit
    */
-  getChannelList = (): Promise<Array<SlackChannel>> =>
-    this.callMethod('channels.list').then(data => data.channels);
+  getChannelList(): Promise<Array<SlackChannel>> {
+    return this.callMethod('channels.list').then(data => data.channels);
+  }
 
   /**
    * Retrieve information about a conversation.
    *
    * https://api.slack.com/methods/conversations.info
    */
-  getConversationInfo = (
+  getConversationInfo(
     channelId: string,
     options: GetInfoOptions = {}
-  ): Promise<SlackChannel> =>
-    this.callMethod('conversations.info', {
+  ): Promise<SlackChannel> {
+    return this.callMethod('conversations.info', {
       channel: channelId,
       ...options,
     }).then(data => data.channel);
+  }
 
   /**
    * Retrieve members of a conversation.
    *
    * https://api.slack.com/methods/conversations.members
    */
-  getConversationMembers = (
+  getConversationMembers(
     channelId: string,
     options: WithCursorOptions = {}
   ): Promise<{
     members: Array<string>,
     next: ?string,
-  }> =>
-    this.callMethod('conversations.members', {
+  }> {
+    return this.callMethod('conversations.members', {
       channel: channelId,
       ...options,
     }).then(data => ({
       members: data.members,
       next: data.response_metadata && data.response_metadata.next_cursor,
     }));
+  }
 
-  getAllConversationMembers = async (
-    channelId: string
-  ): Promise<Array<string>> => {
+  async getAllConversationMembers(channelId: string): Promise<Array<string>> {
     let allMembers = [];
     let continuationCursor;
 
@@ -199,27 +202,28 @@ export default class SlackOAuthClient {
     } while (continuationCursor);
 
     return allMembers;
-  };
+  }
 
   /**
    * Lists all channels in a Slack team.
    *
    * https://api.slack.com/methods/conversations.list
    */
-  getConversationList = (
+  getConversationList(
     options: ConversationListOptions = {}
   ): Promise<{
     channels: Array<SlackChannel>,
     next: ?string,
-  }> =>
-    this.callMethod('conversations.list', options).then(data => ({
+  }> {
+    return this.callMethod('conversations.list', options).then(data => ({
       channels: data.channels,
       next: data.response_metadata && data.response_metadata.next_cursor,
     }));
+  }
 
-  getAllConversationList = async (
+  async getAllConversationList(
     options: ConversationListOptions = {}
-  ): Promise<Array<SlackChannel>> => {
+  ): Promise<Array<SlackChannel>> {
     let allChannels = [];
     let continuationCursor;
 
@@ -237,20 +241,20 @@ export default class SlackOAuthClient {
     } while (continuationCursor);
 
     return allChannels;
-  };
+  }
 
   /**
    * Sends a message to a channel.
    *
    * https://api.slack.com/methods/chat.postMessage
    */
-  postMessage = (
+  postMessage(
     channel: string,
     message:
       | { text?: string, attachments: Array<SlackAttachment> | string }
       | string,
     options?: PostMessageOptions = {}
-  ): Promise<SlackOAuthAPIResponse> => {
+  ): Promise<SlackOAuthAPIResponse> {
     if (options.attachments && typeof options.attachments !== 'string') {
       // A JSON-based array of structured attachments, presented as a URL-encoded string.
       // eslint-disable-next-line no-param-reassign
@@ -276,21 +280,21 @@ export default class SlackOAuthClient {
       ...message,
       ...options,
     });
-  };
+  }
 
   /**
    * Sends an ephemeral message to a user in a channel.
    *
    * https://api.slack.com/methods/chat.postMessage
    */
-  postEphemeral = (
+  postEphemeral(
     channel: string,
     user: string,
     message:
       | { text?: string, attachments: Array<SlackAttachment> | string }
       | string,
     options?: postEphemeral = {}
-  ): Promise<SlackOAuthAPIResponse> => {
+  ): Promise<SlackOAuthAPIResponse> {
     if (options.attachments && typeof options.attachments !== 'string') {
       // A JSON-based array of structured attachments, presented as a URL-encoded string.
       // eslint-disable-next-line no-param-reassign
@@ -318,20 +322,21 @@ export default class SlackOAuthClient {
       ...message,
       ...options,
     });
-  };
+  }
 
   /**
    * Gets information about a user.
    *
    * https://api.slack.com/methods/users.info
    */
-  getUserInfo = (
+  getUserInfo(
     userId: string,
     options: GetInfoOptions = {}
-  ): Promise<SlackUser> =>
-    this.callMethod('users.info', { user: userId, ...options }).then(
+  ): Promise<SlackUser> {
+    return this.callMethod('users.info', { user: userId, ...options }).then(
       data => data.user
     );
+  }
 
   /**
    * Lists all users in a Slack team.
@@ -339,15 +344,16 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/users.list
    * FIXME: [breaking] support include_locale, limit, presence
    */
-  getUserList = (
+  getUserList(
     cursor?: string
-  ): Promise<{ members: Array<SlackUser>, next: ?string }> =>
-    this.callMethod('users.list', { cursor }).then(data => ({
+  ): Promise<{ members: Array<SlackUser>, next: ?string }> {
+    return this.callMethod('users.list', { cursor }).then(data => ({
       members: data.members,
       next: data.response_metadata && data.response_metadata.next_cursor,
     }));
+  }
 
-  getAllUserList = async (): Promise<Array<SlackUser>> => {
+  async getAllUserList(): Promise<Array<SlackUser>> {
     let allUsers = [];
     let continuationCursor;
 
@@ -362,5 +368,5 @@ export default class SlackOAuthClient {
     } while (continuationCursor);
 
     return allUsers;
-  };
+  }
 }
