@@ -2008,3 +2008,30 @@ const client = LineClient.connect({
 ```
 
 > Warning: Don't do this on production server.
+
+### Manual Mock with [Jest](https://facebook.github.io/jest/)
+
+create `__mocks__/messaging-api-line.js` in your project root:
+
+```js
+// __mocks__/messaging-api-line.js
+const jestMock = require('jest-mock');
+const { Line, LineClient } = require.requireActual('messaging-api-line');
+
+module.exports = {
+  Line: jestMock.generateFromMetadata(jestMock.getMetadata(Line)),
+  LineClient: jest.fn().mockImplementation(() => {
+    const Mock = jestMock.generateFromMetadata(
+      jestMock.getMetadata(LineClient)
+    );
+    return new Mock();
+  }),
+};
+```
+
+Then, mock `messaging-api-line` package in your tests:
+
+```js
+// __tests__/mytest.spec.js
+jest.mock('messaging-api-line');
+```
