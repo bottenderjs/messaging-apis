@@ -71,6 +71,7 @@ export type InsightMetric =
 export type InsightOptions = {
   since?: number,
   until?: number,
+  access_token?: string,
 };
 
 export type SendOption = {
@@ -82,6 +83,7 @@ export type SendOption = {
 
 export type UploadOption = {
   filename?: string,
+  is_reusable?: boolean,
   access_token?: string,
 };
 
