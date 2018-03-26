@@ -557,30 +557,32 @@ export default class LineClient {
 
 const sendTypes = ['reply', 'push', 'multicast'];
 
-const messageTypes = [
-  'Text',
-  'Image',
-  'Video',
-  'Audio',
-  'Location',
-  'Sticker',
-  'Imagemap',
-  'Template',
-  'ButtonTemplate',
-  'ConfirmTemplate',
-  'CarouselTemplate',
-  'ImageCarouselTemplate',
+const messageTypes: Array<{ name: string, aliases?: Array<string> }> = [
+  { name: 'Text' },
+  { name: 'Image' },
+  { name: 'Video' },
+  { name: 'Audio' },
+  { name: 'Location' },
+  { name: 'Sticker' },
+  { name: 'Imagemap' },
+  { name: 'Template' },
+  { name: 'ButtonTemplate', aliases: ['ButtonsTemplate'] },
+  { name: 'ConfirmTemplate' },
+  { name: 'CarouselTemplate' },
+  { name: 'ImageCarouselTemplate' },
 ];
 
 sendTypes.forEach(sendType => {
-  messageTypes.forEach(messageType => {
-    Object.defineProperty(LineClient.prototype, `${sendType}${messageType}`, {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value(target: SendTarget, ...args) {
-        return this[`_send${messageType}`](sendType, target, ...args);
-      },
+  messageTypes.forEach(({ name, aliases }) => {
+    [name].concat(aliases || []).forEach(type => {
+      Object.defineProperty(LineClient.prototype, `${sendType}${type}`, {
+        enumerable: false,
+        configurable: true,
+        writable: true,
+        value(target: SendTarget, ...args) {
+          return this[`_send${name}`](sendType, target, ...args);
+        },
+      });
     });
   });
 });
