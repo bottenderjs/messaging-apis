@@ -10,7 +10,6 @@ import FormData from 'form-data';
 import invariant from 'invariant';
 import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
-import warning from 'warning';
 
 import Messenger from './Messenger';
 import type {
@@ -18,7 +17,6 @@ import type {
   Recipient,
   AttachmentPayload,
   Attachment,
-  TextOrAttachment,
   Message,
   SendOption,
   UploadOption,
@@ -26,7 +24,6 @@ import type {
   MenuItem,
   GreetingConfig,
   TemplateElement,
-  QuickReply,
   SenderAction,
   User,
   OpenGraphElement,
@@ -65,30 +62,6 @@ function extractVersion(version) {
     return version.slice(1);
   }
   return version;
-}
-
-function validateQuickReplies(quickReplies: Array<QuickReply>): void {
-  // quick_replies is limited to 11
-  invariant(
-    Array.isArray(quickReplies) && quickReplies.length <= 11,
-    'quick_replies is an array and limited to 11'
-  );
-
-  quickReplies.forEach(quickReply => {
-    if (quickReply.content_type === 'text') {
-      // title has a 20 character limit, after that it gets truncated
-      invariant(
-        (quickReply.title: any).trim().length <= 20,
-        'title of quick reply has a 20 character limit, after that it gets truncated'
-      );
-
-      // payload has a 1000 character limit
-      invariant(
-        (quickReply.payload: any).length <= 1000,
-        'payload of quick reply has a 1000 character limit'
-      );
-    }
-  });
 }
 
 function handleError(err) {
@@ -949,33 +922,6 @@ export default class MessengerClient {
   }
 
   /**
-   * Quick Replies
-   *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies
-   */
-  sendQuickReplies(
-    recipient: UserID | Recipient,
-    textOrAttachment: TextOrAttachment,
-    quickReplies: Array<QuickReply>,
-    options?: SendOption
-  ): Promise<SendMessageSucessResponse> {
-    warning(
-      false,
-      '`sendQuickReplies` is deprecated. Use send message methods with `options.quick_replies` instead.'
-    );
-    validateQuickReplies(quickReplies);
-
-    return this.sendMessage(
-      recipient,
-      {
-        ...textOrAttachment,
-        quick_replies: quickReplies,
-      },
-      options
-    );
-  }
-
-  /**
    * Typing
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions
@@ -1585,37 +1531,17 @@ export default class MessengerClient {
    */
   logCustomEvents({
     app_id,
-    appId,
     page_id,
-    pageId,
     page_scoped_user_id,
-    userId,
     events,
     access_token: customAccessToken,
   }: {
-    app_id?: number,
-    appId?: number,
-    page_id?: number,
-    pageId?: number,
-    page_scoped_user_id?: UserID,
-    userId?: UserID,
+    app_id: number,
+    page_id: number,
+    page_scoped_user_id: UserID,
     events: Array<Object>,
     access_token?: string,
   }) {
-    // FIXME: remove in v0.7
-    warning(!appId, '`appId` is deprecated. Use `app_id` instead.');
-    warning(!pageId, '`pageId` is deprecated. Use `page_id` instead.');
-    warning(
-      !userId,
-      '`userId` is deprecated. Use `page_scoped_user_id` instead.'
-    );
-
-    /* eslint-disable no-param-reassign */
-    app_id = ((app_id || appId: any): number);
-    page_id = ((page_id || pageId: any): number);
-    page_scoped_user_id = ((page_scoped_user_id || userId: any): string);
-    /* eslint-enable no-param-reassign */
-
     return this._axios
       .post(
         `/${app_id}/activities?access_token=${customAccessToken ||
