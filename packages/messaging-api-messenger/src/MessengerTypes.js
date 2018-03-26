@@ -26,14 +26,6 @@ export type Attachment = {
   payload: AttachmentPayload,
 };
 
-export type TextOrAttachment =
-  | {
-      text: string,
-    }
-  | {
-      attachment: Attachment,
-    };
-
 export type QuickReply = {
   content_type: 'text' | 'location',
   title?: string,
