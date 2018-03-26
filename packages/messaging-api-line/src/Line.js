@@ -233,6 +233,7 @@ const Line = {
   createSticker,
   createImagemap,
   createTemplate,
+  createButtonsTemplate: createButtonTemplate,
   createButtonTemplate,
   createConfirmTemplate,
   createCarouselTemplate,

@@ -441,7 +441,7 @@ describe('Push Message', () => {
       expect(res).toEqual(reply);
     });
 
-    it('should suport baseSize argument', async () => {
+    it('should support baseSize argument', async () => {
       const { client, mock } = createMock();
 
       const reply = {};
@@ -641,6 +641,82 @@ describe('Push Message', () => {
         .reply(200, reply, headers);
 
       const res = await client.pushButtonTemplate(
+        RECIPIENT_ID,
+        'this is a template',
+        {
+          thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+          imageBackgroundColor: '#FFFFFF',
+          title: 'Menu',
+          text: 'Please select',
+          actions: [
+            {
+              type: 'postback',
+              label: 'Buy',
+              data: 'action=buy&itemid=123',
+            },
+            {
+              type: 'postback',
+              label: 'Add to cart',
+              data: 'action=add&itemid=123',
+            },
+            {
+              type: 'uri',
+              label: 'View detail',
+              uri: 'http://example.com/page/123',
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support pushButtonsTemplate alias', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'template',
+              altText: 'this is a template',
+              template: {
+                type: 'buttons',
+                thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+                imageAspectRatio: 'rectangle',
+                imageSize: 'cover',
+                imageBackgroundColor: '#FFFFFF',
+                title: 'Menu',
+                text: 'Please select',
+                actions: [
+                  {
+                    type: 'postback',
+                    label: 'Buy',
+                    data: 'action=buy&itemid=123',
+                  },
+                  {
+                    type: 'postback',
+                    label: 'Add to cart',
+                    data: 'action=add&itemid=123',
+                  },
+                  {
+                    type: 'uri',
+                    label: 'View detail',
+                    uri: 'http://example.com/page/123',
+                  },
+                ],
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushButtonsTemplate(
         RECIPIENT_ID,
         'this is a template',
         {
