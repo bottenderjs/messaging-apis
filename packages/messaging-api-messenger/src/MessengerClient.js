@@ -681,7 +681,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createAttachment(attachment),
+      Messenger.createAttachment(attachment, options),
       options
     );
   }
@@ -691,7 +691,11 @@ export default class MessengerClient {
     text: string,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> {
-    return this.sendMessage(recipient, Messenger.createText(text), options);
+    return this.sendMessage(
+      recipient,
+      Messenger.createText(text, options),
+      options
+    );
   }
 
   sendAudio(
@@ -766,7 +770,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createTemplate(payload),
+      Messenger.createTemplate(payload, options),
       options
     );
   }
@@ -780,7 +784,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createButtonTemplate(text, buttons),
+      Messenger.createButtonTemplate(text, buttons, options),
       options
     );
   }
@@ -801,6 +805,7 @@ export default class MessengerClient {
     return this.sendMessage(
       recipient,
       Messenger.createGenericTemplate(elements, {
+        ...options,
         image_aspect_ratio,
       }),
       options
@@ -824,6 +829,7 @@ export default class MessengerClient {
     return this.sendMessage(
       recipient,
       Messenger.createListTemplate(elements, buttons, {
+        ...options,
         top_element_style,
       }),
       options
@@ -838,7 +844,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createOpenGraphTemplate(elements),
+      Messenger.createOpenGraphTemplate(elements, options),
       options
     );
   }
@@ -851,7 +857,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createReceiptTemplate(attrs),
+      Messenger.createReceiptTemplate(attrs, options),
       options
     );
   }
@@ -864,7 +870,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createMediaTemplate(elements),
+      Messenger.createMediaTemplate(elements, options),
       options
     );
   }
@@ -877,7 +883,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createAirlineBoardingPassTemplate(attrs),
+      Messenger.createAirlineBoardingPassTemplate(attrs, options),
       options
     );
   }
@@ -890,7 +896,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createAirlineCheckinTemplate(attrs),
+      Messenger.createAirlineCheckinTemplate(attrs, options),
       options
     );
   }
@@ -903,7 +909,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createAirlineItineraryTemplate(attrs),
+      Messenger.createAirlineItineraryTemplate(attrs, options),
       options
     );
   }
@@ -916,7 +922,7 @@ export default class MessengerClient {
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createAirlineFlightUpdateTemplate(attrs),
+      Messenger.createAirlineFlightUpdateTemplate(attrs, options),
       options
     );
   }
