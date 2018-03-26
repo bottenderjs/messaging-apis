@@ -14,30 +14,31 @@ describe('payment api', () => {
   describe('#sendInvoice', () => {
     it('should send invoice message to user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        invoice: {
+          title: 'product name',
+          description: 'product description',
+          start_parameter: 'pay',
+          currency: 'USD',
+          total_count: 22000,
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          invoice: {
-            title: 'product name',
-            description: 'product description',
-            start_parameter: 'pay',
-            currency: 'USD',
-            total_count: 22000,
-          },
-        },
+        result,
       };
 
       mock
@@ -69,16 +70,17 @@ describe('payment api', () => {
         ],
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#answerShippingQuery', () => {
     it('should export chat invite link', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -89,16 +91,17 @@ describe('payment api', () => {
         .reply(200, reply);
 
       const res = await client.answerShippingQuery('UNIQUE_ID', true);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#answerPreCheckoutQuery', () => {
     it('should respond to such pre-checkout queries', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -109,7 +112,7 @@ describe('payment api', () => {
         .reply(200, reply);
 
       const res = await client.answerPreCheckoutQuery('UNIQUE_ID', true);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });

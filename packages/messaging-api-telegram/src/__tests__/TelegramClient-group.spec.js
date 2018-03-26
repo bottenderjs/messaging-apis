@@ -14,9 +14,10 @@ describe('group api', () => {
   describe('#kickChatMember', () => {
     it('should kick chat member', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -30,16 +31,17 @@ describe('group api', () => {
       const res = await client.kickChatMember(427770117, 313534466, {
         until_date: 1502855973,
       });
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#unbanChatMember', () => {
     it('should unban chat member', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -50,16 +52,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.unbanChatMember(427770117, 313534466);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#restrictChatMember', () => {
     it('should restrict chat member', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -75,16 +78,17 @@ describe('group api', () => {
         can_send_messages: true,
         can_add_web_page_previews: true,
       });
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#promoteChatMember', () => {
     it('should pormote chat member', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -102,16 +106,17 @@ describe('group api', () => {
         can_invite_users: true,
         can_delete_messages: true,
       });
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#exportChatInviteLink', () => {
     it('should export chat invite link', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -121,16 +126,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.exportChatInviteLink(427770117);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#setChatPhoto', () => {
     it('should set chat photo', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -144,16 +150,17 @@ describe('group api', () => {
         427770117,
         'https://example.com/image.png'
       );
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#deleteChatPhoto', () => {
     it('should delete chat photo', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -163,16 +170,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.deleteChatPhoto(427770117);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#setChatTitle', () => {
     it('should set chat title', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -183,16 +191,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.setChatTitle(427770117, 'New Title');
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#setChatDescription', () => {
     it('should set chat description', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -203,16 +212,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.setChatDescription(427770117, 'New Description');
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#setChatStickerSet', () => {
     it('should set a new group sticker set', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -223,16 +233,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.setChatStickerSet(427770117, 'Sticker Set Name');
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#deleteChatStickerSet', () => {
     it('should set a new group sticker set', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -242,16 +253,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.deleteChatStickerSet(427770117);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#pinChatMessage', () => {
     it('should pin a message in chat', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -265,16 +277,17 @@ describe('group api', () => {
       const res = await client.pinChatMessage(427770117, 1, {
         disable_notification: true,
       });
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#unpinChatMessage', () => {
     it('should unpin a message in chat', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -284,16 +297,17 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.unpinChatMessage(427770117);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#leaveChat', () => {
     it('should leave chat', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -303,7 +317,7 @@ describe('group api', () => {
         .reply(200, reply);
 
       const res = await client.leaveChat(427770117);
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });

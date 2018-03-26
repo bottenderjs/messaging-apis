@@ -14,64 +14,65 @@ describe('webhooks', () => {
   describe('#getUpdates', () => {
     it('should response array of Update objects', async () => {
       const { client, mock } = createMock();
+      const result = [
+        {
+          update_id: 513400512,
+          message: {
+            message_id: 3,
+            from: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+            },
+            chat: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              type: 'private',
+            },
+            date: 1499402829,
+            text: 'hi',
+          },
+        },
+        {
+          update_id: 513400513,
+          message: {
+            message_id: 4,
+            from: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+            },
+            chat: {
+              id: 313534466,
+              first_name: 'first',
+              last_name: 'last',
+              username: 'username',
+              type: 'private',
+            },
+            date: 1484944975,
+            sticker: {
+              width: 512,
+              height: 512,
+              emoji: '\ud83d\ude0d',
+              thumb: {
+                file_id: 'AAQEABMr6HIwAAT9WnLtRCT6KIgiAAIC',
+                file_size: 2828,
+                width: 128,
+                height: 128,
+              },
+              file_id: 'BQADBAADrwgAAjn8EwY1EPt_ycp8OwI',
+              file_size: 14102,
+            },
+          },
+        },
+      ];
       const reply = {
         ok: true,
-        result: [
-          {
-            update_id: 513400512,
-            message: {
-              message_id: 3,
-              from: {
-                id: 313534466,
-                first_name: 'first',
-                last_name: 'last',
-                username: 'username',
-              },
-              chat: {
-                id: 313534466,
-                first_name: 'first',
-                last_name: 'last',
-                username: 'username',
-                type: 'private',
-              },
-              date: 1499402829,
-              text: 'hi',
-            },
-          },
-          {
-            update_id: 513400513,
-            message: {
-              message_id: 4,
-              from: {
-                id: 313534466,
-                first_name: 'first',
-                last_name: 'last',
-                username: 'username',
-              },
-              chat: {
-                id: 313534466,
-                first_name: 'first',
-                last_name: 'last',
-                username: 'username',
-                type: 'private',
-              },
-              date: 1484944975,
-              sticker: {
-                width: 512,
-                height: 512,
-                emoji: '\ud83d\ude0d',
-                thumb: {
-                  file_id: 'AAQEABMr6HIwAAT9WnLtRCT6KIgiAAIC',
-                  file_size: 2828,
-                  width: 128,
-                  height: 128,
-                },
-                file_id: 'BQADBAADrwgAAjn8EwY1EPt_ycp8OwI',
-                file_size: 14102,
-              },
-            },
-          },
-        ],
+        result,
       };
 
       mock
@@ -84,37 +85,39 @@ describe('webhooks', () => {
         limit: 10,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getWebhookInfo', () => {
     it('should response webhook info', async () => {
       const { client, mock } = createMock();
+      const result = {
+        url: 'https://4a16faff.ngrok.io/',
+        has_custom_certificate: false,
+        pending_update_count: 0,
+        max_connections: 40,
+      };
       const reply = {
         ok: true,
-        result: {
-          url: 'https://4a16faff.ngrok.io/',
-          has_custom_certificate: false,
-          pending_update_count: 0,
-          max_connections: 40,
-        },
+        result,
       };
 
       mock.onPost('/getWebhookInfo').reply(200, reply);
 
       const res = await client.getWebhookInfo();
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#setWebhook', () => {
     it('should response webhook was set', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
         description: 'Webhook was set',
       };
 
@@ -122,16 +125,17 @@ describe('webhooks', () => {
 
       const res = await client.setWebhook('https://4a16faff.ngrok.io/');
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#deleteWebhook', () => {
     it('should response webhook is already deleted', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
         description: 'Webhook is already deleted',
       };
 
@@ -139,7 +143,7 @@ describe('webhooks', () => {
 
       const res = await client.deleteWebhook();
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });
@@ -148,79 +152,81 @@ describe('get api', () => {
   describe('#getMe', () => {
     it('should response bot profile', async () => {
       const { client, mock } = createMock();
+      const result = {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      };
       const reply = {
         ok: true,
-        result: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
+        result,
       };
 
       mock.onPost('/getMe').reply(200, reply);
 
       const res = await client.getMe();
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getUserProfilePhotos', () => {
     it('should response a list of profile pictures for the user', async () => {
       const { client, mock } = createMock();
+      const result = {
+        total_count: 3,
+        photos: [
+          [
+            {
+              file_id:
+                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+              file_size: 14650,
+              width: 160,
+              height: 160,
+            },
+            {
+              file_id:
+                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+              file_size: 39019,
+              width: 320,
+              height: 320,
+            },
+            {
+              file_id:
+                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+              file_size: 132470,
+              width: 640,
+              height: 640,
+            },
+          ],
+          [
+            {
+              file_id:
+                'AgABXQSPEUo4Gz8cZAeR-ouu7XBx93EeqRkABHahi76pN-aO0UoDO203',
+              file_size: 14220,
+              width: 160,
+              height: 160,
+            },
+            {
+              file_id:
+                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAT90',
+              file_size: 35122,
+              width: 320,
+              height: 320,
+            },
+            {
+              file_id:
+                'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+              file_size: 106356,
+              width: 640,
+              height: 640,
+            },
+          ],
+        ],
+      };
       const reply = {
         ok: true,
-        result: {
-          total_count: 3,
-          photos: [
-            [
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
-                file_size: 14650,
-                width: 160,
-                height: 160,
-              },
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
-                file_size: 39019,
-                width: 320,
-                height: 320,
-              },
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
-                file_size: 132470,
-                width: 640,
-                height: 640,
-              },
-            ],
-            [
-              {
-                file_id:
-                  'AgABXQSPEUo4Gz8cZAeR-ouu7XBx93EeqRkABHahi76pN-aO0UoDO203',
-                file_size: 14220,
-                width: 160,
-                height: 160,
-              },
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAT90',
-                file_size: 35122,
-                width: 320,
-                height: 320,
-              },
-              {
-                file_id:
-                  'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
-                file_size: 106356,
-                width: 640,
-                height: 640,
-              },
-            ],
-          ],
-        },
+        result,
       };
 
       mock
@@ -234,20 +240,21 @@ describe('get api', () => {
         limit: 2,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getFile', () => {
     it('should response info about the file', async () => {
       const { client, mock } = createMock();
+      const result = {
+        file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+        file_size: 106356,
+        file_path: 'photos/1068230105874016297.jpg',
+      };
       const reply = {
         ok: true,
-        result: {
-          file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
-          file_size: 106356,
-          file_path: 'photos/1068230105874016297.jpg',
-        },
+        result,
       };
 
       mock
@@ -260,20 +267,21 @@ describe('get api', () => {
         'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2'
       );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getFileLink', () => {
     it('should response file link about the file', async () => {
       const { client, mock } = createMock();
+      const result = {
+        file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+        file_size: 106356,
+        file_path: 'photos/1068230105874016297.jpg',
+      };
       const reply = {
         ok: true,
-        result: {
-          file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
-          file_size: 106356,
-          file_path: 'photos/1068230105874016297.jpg',
-        },
+        result,
       };
 
       mock
@@ -297,15 +305,16 @@ describe('get api', () => {
   describe('#getChat', () => {
     it('should response information about the chat', async () => {
       const { client, mock } = createMock();
+      const result = {
+        id: 313534466,
+        first_name: 'first',
+        last_name: 'last',
+        username: 'username',
+        type: 'private',
+      };
       const reply = {
         ok: true,
-        result: {
-          id: 313534466,
-          first_name: 'first',
-          last_name: 'last',
-          username: 'username',
-          type: 'private',
-        },
+        result,
       };
 
       mock
@@ -316,27 +325,28 @@ describe('get api', () => {
 
       const res = await client.getChat(313534466);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getChatAdministrators', () => {
     it('should response a list of administrators in the chat.', async () => {
       const { client, mock } = createMock();
+      const result = [
+        {
+          user: {
+            id: 313534466,
+            first_name: 'first',
+            last_name: 'last',
+            username: 'username',
+            languange_code: 'zh-TW',
+          },
+          status: 'creator',
+        },
+      ];
       const reply = {
         ok: true,
-        result: [
-          {
-            user: {
-              id: 313534466,
-              first_name: 'first',
-              last_name: 'last',
-              username: 'username',
-              languange_code: 'zh-TW',
-            },
-            status: 'creator',
-          },
-        ],
+        result,
       };
 
       mock
@@ -347,16 +357,17 @@ describe('get api', () => {
 
       const res = await client.getChatAdministrators(-427770117);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getChatMembersCount', () => {
     it('should response the number of members in the chat.', async () => {
       const { client, mock } = createMock();
+      const result = '6';
       const reply = {
         ok: true,
-        result: '6',
+        result,
       };
 
       mock
@@ -367,25 +378,26 @@ describe('get api', () => {
 
       const res = await client.getChatMembersCount(-427770117);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#getChatMember', () => {
     it('should response information about a member of the chat.', async () => {
       const { client, mock } = createMock();
+      const result = {
+        user: {
+          id: 313534466,
+          first_name: 'first',
+          last_name: 'last',
+          username: 'username',
+          languange_code: 'zh-TW',
+        },
+        status: 'creator',
+      };
       const reply = {
         ok: true,
-        result: {
-          user: {
-            id: 313534466,
-            first_name: 'first',
-            last_name: 'last',
-            username: 'username',
-            languange_code: 'zh-TW',
-          },
-          status: 'creator',
-        },
+        result,
       };
 
       mock
@@ -397,7 +409,7 @@ describe('get api', () => {
 
       const res = await client.getChatMember(-427770117, 313534466);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });
@@ -406,9 +418,10 @@ describe('inline mode api', () => {
   describe('#answerInlineQuery', () => {
     it('should send answers to an inline query', async () => {
       const { client, mock } = createMock();
+      const result = true;
       const reply = {
         ok: true,
-        result: true,
+        result,
       };
 
       mock
@@ -452,7 +465,7 @@ describe('inline mode api', () => {
           cache_time: 1000,
         }
       );
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });
@@ -461,31 +474,32 @@ describe('other api', () => {
   describe('#forwardMessage', () => {
     it('should forward messages of any kind', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        forward_from: {
+          id: 357830311,
+          first_name: 'first_2',
+          last_name: 'last_2',
+          language_code: 'zh-TW',
+        },
+        forward_date: 1499849644,
+        text: 'hi',
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          forward_from: {
-            id: 357830311,
-            first_name: 'first_2',
-            last_name: 'last_2',
-            language_code: 'zh-TW',
-          },
-          forward_date: 1499849644,
-          text: 'hi',
-        },
+        result,
       };
 
       mock
@@ -501,34 +515,35 @@ describe('other api', () => {
         disable_notification: true,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 
   describe('#stopMessageLiveLocation', () => {
     it('should stop updating a live location message', async () => {
       const { client, mock } = createMock();
+      const result = {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        location: {
+          latitude: 30.000005,
+          longitude: 45,
+        },
+      };
       const reply = {
         ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          location: {
-            latitude: 30.000005,
-            longitude: 45,
-          },
-        },
+        result,
       };
 
       mock
@@ -537,7 +552,7 @@ describe('other api', () => {
 
       const res = await client.stopMessageLiveLocation({ message_id: 66 });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(result);
     });
   });
 });
