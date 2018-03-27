@@ -85,6 +85,7 @@ export type PostbackAction = {
   label?: string,
   data: string,
   text?: string,
+  displayText?: string,
 };
 
 export type MessageAction = {
