@@ -447,7 +447,7 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
-  getAllRoomMemberIds = async (roomId: string) => {
+  async getAllRoomMemberIds(roomId: string) {
     let allMemberIds = [];
     let continuationToken;
 
@@ -462,7 +462,7 @@ export default class LineClient {
     } while (continuationToken);
 
     return allMemberIds;
-  };
+  }
 
   /**
    * Leave
