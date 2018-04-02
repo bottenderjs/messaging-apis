@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint-disable camelcase */
+import warning from 'warning';
 
 import Messenger from './Messenger';
 import type {
@@ -22,7 +23,7 @@ import type {
   AirlineFlightUpdateAttributes,
 } from './MessengerTypes';
 
-function createRequest(body: Object): BatchItem {
+function sendRequest(body: Object): BatchItem {
   return {
     method: 'POST',
     relative_url: 'me/messages',
@@ -30,7 +31,7 @@ function createRequest(body: Object): BatchItem {
   };
 }
 
-function createMessage(
+function sendMessage(
   idOrRecipient: UserID | Recipient,
   msg: Message,
   options?: SendOption = {}
@@ -48,7 +49,7 @@ function createMessage(
     messageType = 'MESSAGE_TAG';
   }
 
-  return createRequest({
+  return sendRequest({
     messaging_type: messageType,
     recipient,
     message: Messenger.createMessage(msg, options),
@@ -56,95 +57,83 @@ function createMessage(
   });
 }
 
-function createText(
+function sendText(
   recipient: UserID | Recipient,
   text: string,
   options?: SendOption
 ): BatchItem {
-  return createMessage(recipient, Messenger.createText(text, options), options);
+  return sendMessage(recipient, Messenger.createText(text, options), options);
 }
 
-function createAttachment(
+function sendAttachment(
   recipient: UserID | Recipient,
   attachment: Attachment,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createAttachment(attachment, options),
     options
   );
 }
-function createAudio(
+function sendAudio(
   recipient: UserID | Recipient,
   audio: string | FileData | AttachmentPayload,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
-    recipient,
-    Messenger.createAudio(audio, options),
-    options
-  );
+  return sendMessage(recipient, Messenger.createAudio(audio, options), options);
 }
 
-function createImage(
+function sendImage(
   recipient: UserID | Recipient,
   image: string | FileData | AttachmentPayload,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
-    recipient,
-    Messenger.createImage(image, options),
-    options
-  );
+  return sendMessage(recipient, Messenger.createImage(image, options), options);
 }
 
-function createVideo(
+function sendVideo(
   recipient: UserID | Recipient,
   video: string | FileData | AttachmentPayload,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
-    recipient,
-    Messenger.createVideo(video, options),
-    options
-  );
+  return sendMessage(recipient, Messenger.createVideo(video, options), options);
 }
 
-function createFile(
+function sendFile(
   recipient: UserID | Recipient,
   file: string | FileData | AttachmentPayload,
   options?: SendOption
 ): BatchItem {
-  return createMessage(recipient, Messenger.createFile(file, options), options);
+  return sendMessage(recipient, Messenger.createFile(file, options), options);
 }
 
-function createTemplate(
+function sendTemplate(
   recipient: UserID | Recipient,
   payload: AttachmentPayload,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createTemplate(payload, options),
     options
   );
 }
 
-function createButtonTemplate(
+function sendButtonTemplate(
   recipient: UserID | Recipient,
   text: string,
   buttons: Array<TemplateButton>,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createButtonTemplate(text, buttons, options),
     options
   );
 }
 
-function createGenericTemplate(
+function sendGenericTemplate(
   recipient: UserID | Recipient,
   elements: Array<TemplateElement>,
   {
@@ -156,7 +145,7 @@ function createGenericTemplate(
     ...SendOption,
   } = {}
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createGenericTemplate(elements, {
       ...options,
@@ -166,7 +155,7 @@ function createGenericTemplate(
   );
 }
 
-function createListTemplate(
+function sendListTemplate(
   recipient: UserID | Recipient,
   elements: Array<TemplateElement>,
   buttons: Array<TemplateButton>,
@@ -179,7 +168,7 @@ function createListTemplate(
     ...SendOption,
   } = {}
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createListTemplate(elements, buttons, {
       ...options,
@@ -189,110 +178,164 @@ function createListTemplate(
   );
 }
 
-function createOpenGraphTemplate(
+function sendOpenGraphTemplate(
   recipient: UserID | Recipient,
   elements: Array<OpenGraphElement>,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createOpenGraphTemplate(elements, options),
     options
   );
 }
 
-function createReceiptTemplate(
+function sendReceiptTemplate(
   recipient: UserID | Recipient,
   attrs: ReceiptAttributes,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createReceiptTemplate(attrs, options),
     options
   );
 }
 
-function createMediaTemplate(
+function sendMediaTemplate(
   recipient: UserID | Recipient,
   elements: Array<MediaElement>,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createMediaTemplate(elements, options),
     options
   );
 }
 
-function createAirlineBoardingPassTemplate(
+function sendAirlineBoardingPassTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineBoardingPassAttributes,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createAirlineBoardingPassTemplate(attrs, options),
     options
   );
 }
 
-function createAirlineCheckinTemplate(
+function sendAirlineCheckinTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineCheckinAttributes,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createAirlineCheckinTemplate(attrs, options),
     options
   );
 }
 
-function createAirlineItineraryTemplate(
+function sendAirlineItineraryTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineItineraryAttributes,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createAirlineItineraryTemplate(attrs, options),
     options
   );
 }
 
-function createAirlineFlightUpdateTemplate(
+function sendAirlineFlightUpdateTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineFlightUpdateAttributes,
   options?: SendOption
 ): BatchItem {
-  return createMessage(
+  return sendMessage(
     recipient,
     Messenger.createAirlineFlightUpdateTemplate(attrs, options),
     options
   );
 }
 
+function deprecated(name, fn) {
+  return (...args: any) => {
+    warning(
+      false,
+      `\`MessengerBatch.${name}\` is deprecated. Use \`MessengerBatch.${
+        fn.name
+      }\` instead.`
+    );
+    return fn(...args);
+  };
+}
+
 const MessengerBatch = {
-  createRequest,
-  createMessage,
-  createText,
-  createAttachment,
-  createAudio,
-  createImage,
-  createVideo,
-  createFile,
-  createTemplate,
-  createButtonTemplate,
-  createGenericTemplate,
-  createListTemplate,
-  createOpenGraphTemplate,
-  createReceiptTemplate,
-  createMediaTemplate,
-  createAirlineBoardingPassTemplate,
-  createAirlineCheckinTemplate,
-  createAirlineItineraryTemplate,
-  createAirlineFlightUpdateTemplate,
+  // TODO: Remove in v0.8
+  createRequest: deprecated('createRequest', sendRequest),
+  createMessage: deprecated('createMessage', sendMessage),
+  createText: deprecated('createText', sendText),
+  createAttachment: deprecated('createAttachment', sendAttachment),
+  createAudio: deprecated('createAudio', sendAudio),
+  createImage: deprecated('createImage', sendImage),
+  createVideo: deprecated('createVideo', sendVideo),
+  createFile: deprecated('createFile', sendFile),
+  createTemplate: deprecated('createTemplate', sendTemplate),
+  createButtonTemplate: deprecated('createButtonTemplate', sendButtonTemplate),
+  createGenericTemplate: deprecated(
+    'createGenericTemplate',
+    sendGenericTemplate
+  ),
+  createListTemplate: deprecated('createListTemplate', sendListTemplate),
+  createOpenGraphTemplate: deprecated(
+    'createOpenGraphTemplate',
+    sendOpenGraphTemplate
+  ),
+  createReceiptTemplate: deprecated(
+    'createReceiptTemplate',
+    sendReceiptTemplate
+  ),
+  createMediaTemplate: deprecated('createMediaTemplate', sendMediaTemplate),
+  createAirlineBoardingPassTemplate: deprecated(
+    'createAirlineBoardingPassTemplate',
+    sendAirlineBoardingPassTemplate
+  ),
+  createAirlineCheckinTemplate: deprecated(
+    'createAirlineCheckinTemplate',
+    sendAirlineCheckinTemplate
+  ),
+  createAirlineItineraryTemplate: deprecated(
+    'createAirlineItineraryTemplate',
+    sendAirlineItineraryTemplate
+  ),
+  createAirlineFlightUpdateTemplate: deprecated(
+    'createAirlineFlightUpdateTemplate',
+    sendAirlineFlightUpdateTemplate
+  ),
+
+  sendRequest,
+  sendMessage,
+  sendText,
+  sendAttachment,
+  sendAudio,
+  sendImage,
+  sendVideo,
+  sendFile,
+  sendTemplate,
+  sendButtonTemplate,
+  sendGenericTemplate,
+  sendListTemplate,
+  sendOpenGraphTemplate,
+  sendReceiptTemplate,
+  sendMediaTemplate,
+  sendAirlineBoardingPassTemplate,
+  sendAirlineCheckinTemplate,
+  sendAirlineItineraryTemplate,
+  sendAirlineFlightUpdateTemplate,
 };
 
 export default MessengerBatch;
