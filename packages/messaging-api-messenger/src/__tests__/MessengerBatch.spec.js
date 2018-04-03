@@ -99,16 +99,15 @@ describe('createMessage', () => {
 
   it('should omit options with undefined value', () => {
     expect(
-      'access_token' in
-        MessengerBatch.createMessage(
-          RECIPIENT_ID,
-          { text: 'Hello' },
-          {
-            messaging_type: 'RESPONSE',
-            access_token: undefined,
-          }
-        ).body
-    ).toBe(false);
+      MessengerBatch.createMessage(
+        RECIPIENT_ID,
+        { text: 'Hello' },
+        {
+          messaging_type: 'RESPONSE',
+          access_token: undefined,
+        }
+      )
+    ).not.toHaveProperty('body.access_token');
   });
 });
 
