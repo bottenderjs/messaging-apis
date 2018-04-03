@@ -1,6 +1,7 @@
 import MessengerBatch from '../MessengerBatch';
 
 const RECIPIENT_ID = '1QAZ2WSX';
+const LABEL_ID = 123456;
 
 describe('createRequest', () => {
   it('should create send text request', () => {
@@ -1015,6 +1016,174 @@ describe('createAirlineFlightUpdateTemplate', () => {
           id: RECIPIENT_ID,
         },
       },
+    });
+  });
+});
+
+describe('getUserProfile', () => {
+  it('should create get user profile request', () => {
+    expect(MessengerBatch.getUserProfile(RECIPIENT_ID)).toEqual({
+      method: 'GET',
+      relative_url: RECIPIENT_ID,
+    });
+  });
+});
+
+describe('sendSenderAction', () => {
+  it('should create send sender action request', () => {
+    expect(MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on')).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+        sender_action: 'typing_on',
+      },
+    });
+  });
+});
+
+describe('typingOn', () => {
+  it('should create send typing on request', () => {
+    expect(MessengerBatch.typingOn(RECIPIENT_ID)).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+        sender_action: 'typing_on',
+      },
+    });
+  });
+});
+
+describe('typingOff', () => {
+  it('should create send typing off request', () => {
+    expect(MessengerBatch.typingOff(RECIPIENT_ID)).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+        sender_action: 'typing_off',
+      },
+    });
+  });
+});
+
+describe('markSeen', () => {
+  it('should create send mark seen request', () => {
+    expect(MessengerBatch.markSeen(RECIPIENT_ID)).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+        sender_action: 'mark_seen',
+      },
+    });
+  });
+});
+
+describe('passThreadControl', () => {
+  it('should create pass thread control request', () => {
+    expect(
+      MessengerBatch.passThreadControl(
+        RECIPIENT_ID,
+        263902037430900,
+        'something'
+      )
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/pass_thread_control',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+        target_app_id: 263902037430900,
+        metadata: 'something',
+      },
+    });
+  });
+});
+
+describe('passThreadControlToPageInbox', () => {
+  it('should create pass thread control to inbox request', () => {
+    expect(
+      MessengerBatch.passThreadControlToPageInbox(RECIPIENT_ID, 'something')
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/pass_thread_control',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+        target_app_id: 263902037430900,
+        metadata: 'something',
+      },
+    });
+  });
+});
+
+describe('takeThreadControl', () => {
+  it('should create take thread control request', () => {
+    expect(MessengerBatch.takeThreadControl(RECIPIENT_ID, 'something')).toEqual(
+      {
+        method: 'POST',
+        relative_url: 'me/take_thread_control',
+        body: {
+          recipient: { id: RECIPIENT_ID },
+          metadata: 'something',
+        },
+      }
+    );
+  });
+});
+
+describe('requestThreadControl', () => {
+  it('should create request thread control request', () => {
+    expect(
+      MessengerBatch.requestThreadControl(RECIPIENT_ID, 'something')
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/request_thread_control',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+        metadata: 'something',
+      },
+    });
+  });
+});
+
+describe('associateLabel', () => {
+  it('should create associate label request', () => {
+    expect(MessengerBatch.associateLabel(RECIPIENT_ID, LABEL_ID)).toEqual({
+      method: 'POST',
+      relative_url: `${LABEL_ID}/label`,
+      body: {
+        user: RECIPIENT_ID,
+      },
+    });
+  });
+});
+
+describe('dissociateLabel', () => {
+  it('should create dissociate label request', () => {
+    expect(MessengerBatch.dissociateLabel(RECIPIENT_ID, LABEL_ID)).toEqual({
+      method: 'DELETE',
+      relative_url: `${LABEL_ID}/label`,
+      body: {
+        user: RECIPIENT_ID,
+      },
+    });
+  });
+});
+
+describe('getAssociatedLabels', () => {
+  it('should create get associated labels request', () => {
+    expect(MessengerBatch.getAssociatedLabels(RECIPIENT_ID)).toEqual({
+      method: 'GET',
+      relative_url: `${RECIPIENT_ID}/custom_labels`,
     });
   });
 });

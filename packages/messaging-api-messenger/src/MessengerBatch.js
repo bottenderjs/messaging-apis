@@ -21,6 +21,7 @@ import type {
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
   AirlineFlightUpdateAttributes,
+  SenderAction,
 } from './MessengerTypes';
 
 function sendRequest(body: Object): BatchItem {
@@ -262,6 +263,111 @@ function sendAirlineFlightUpdateTemplate(
   );
 }
 
+function getUserProfile(userId: string) {
+  return {
+    method: 'GET',
+    relative_url: `${userId}`,
+  };
+}
+
+function sendSenderAction(
+  idOrRecipient: UserID | Recipient,
+  action: SenderAction
+) {
+  const recipient =
+    typeof idOrRecipient === 'string'
+      ? {
+          id: idOrRecipient,
+        }
+      : idOrRecipient;
+
+  return sendRequest({
+    recipient,
+    sender_action: action,
+  });
+}
+
+function typingOn(idOrRecipient: UserID | Recipient) {
+  return sendSenderAction(idOrRecipient, 'typing_on');
+}
+
+function typingOff(idOrRecipient: UserID | Recipient) {
+  return sendSenderAction(idOrRecipient, 'typing_off');
+}
+
+function markSeen(idOrRecipient: UserID | Recipient) {
+  return sendSenderAction(idOrRecipient, 'mark_seen');
+}
+
+function passThreadControl(
+  recipientId: string,
+  targetAppId: number,
+  metadata?: string
+) {
+  return {
+    method: 'POST',
+    relative_url: 'me/pass_thread_control',
+    body: {
+      recipient: { id: recipientId },
+      target_app_id: targetAppId,
+      metadata,
+    },
+  };
+}
+
+function passThreadControlToPageInbox(recipientId: string, metadata?: string) {
+  return passThreadControl(recipientId, 263902037430900, metadata);
+}
+
+function takeThreadControl(recipientId: string, metadata?: string) {
+  return {
+    method: 'POST',
+    relative_url: 'me/take_thread_control',
+    body: {
+      recipient: { id: recipientId },
+      metadata,
+    },
+  };
+}
+
+function requestThreadControl(recipientId: string, metadata?: string) {
+  return {
+    method: 'POST',
+    relative_url: 'me/request_thread_control',
+    body: {
+      recipient: { id: recipientId },
+      metadata,
+    },
+  };
+}
+
+function associateLabel(userId: UserID, labelId: number) {
+  return {
+    method: 'POST',
+    relative_url: `${labelId}/label`,
+    body: {
+      user: userId,
+    },
+  };
+}
+
+function dissociateLabel(userId: UserID, labelId: number) {
+  return {
+    method: 'DELETE',
+    relative_url: `${labelId}/label`,
+    body: {
+      user: userId,
+    },
+  };
+}
+
+function getAssociatedLabels(userId: UserID) {
+  return {
+    method: 'GET',
+    relative_url: `${userId}/custom_labels`,
+  };
+}
+
 function deprecated(name, fn) {
   return (...args: any) => {
     warning(
@@ -336,6 +442,22 @@ const MessengerBatch = {
   sendAirlineCheckinTemplate,
   sendAirlineItineraryTemplate,
   sendAirlineFlightUpdateTemplate,
+
+  getUserProfile,
+
+  sendSenderAction,
+  typingOn,
+  typingOff,
+  markSeen,
+
+  passThreadControl,
+  passThreadControlToPageInbox,
+  takeThreadControl,
+  requestThreadControl,
+
+  associateLabel,
+  dissociateLabel,
+  getAssociatedLabels,
 };
 
 export default MessengerBatch;
