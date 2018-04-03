@@ -24,6 +24,10 @@ import type {
   SenderAction,
 } from './MessengerTypes';
 
+function omitUndefinedFields(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
 function sendRequest(body: Object): BatchItem {
   return {
     method: 'POST',
@@ -54,7 +58,7 @@ function sendMessage(
     messaging_type: messageType,
     recipient,
     message: Messenger.createMessage(msg, options),
-    ...options,
+    ...omitUndefinedFields(options),
   });
 }
 
