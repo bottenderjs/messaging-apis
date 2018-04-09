@@ -1,6 +1,7 @@
 /* @flow */
 
 import FormData from 'form-data';
+import warning from 'warning';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
 
@@ -18,7 +19,7 @@ import type {
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
-  AirlineFlightUpdateAttributes,
+  AirlineUpdateAttributes,
 } from './MessengerTypes';
 
 function validateQuickReplies(quickReplies: Array<QuickReply>): void {
@@ -335,8 +336,8 @@ function createAirlineItineraryTemplate(
   );
 }
 
-function createAirlineFlightUpdateTemplate(
-  attrs: AirlineFlightUpdateAttributes,
+function createAirlineUpdateTemplate(
+  attrs: AirlineUpdateAttributes,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
   return createTemplate(
@@ -346,6 +347,18 @@ function createAirlineFlightUpdateTemplate(
     },
     options
   );
+}
+
+function deprecated(name, fn) {
+  return (...args: any) => {
+    warning(
+      false,
+      `\`Messenger.${name}\` is deprecated. Use \`Messenger.${
+        fn.name
+      }\` instead.`
+    );
+    return fn(...args);
+  };
 }
 
 const Messenger = {
@@ -366,7 +379,11 @@ const Messenger = {
   createAirlineBoardingPassTemplate,
   createAirlineCheckinTemplate,
   createAirlineItineraryTemplate,
-  createAirlineFlightUpdateTemplate,
+  createAirlineUpdateTemplate,
+  createAirlineFlightUpdateTemplate: deprecated(
+    'createAirlineFlightUpdateTemplate',
+    createAirlineUpdateTemplate
+  ),
 };
 
 export default Messenger;

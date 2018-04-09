@@ -242,7 +242,7 @@ export type AirlineCheckinAttributes = {
 
 export type AirlineItineraryAttributes = {};
 
-export type AirlineFlightUpdateAttributes = {};
+export type AirlineUpdateAttributes = {};
 
 export type SenderAction = string;
 
