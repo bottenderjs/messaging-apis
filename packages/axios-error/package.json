@@ -1,7 +1,7 @@
 {
   "name": "axios-error",
   "description": "An axios error wrapper that aim to provide clear error message to the user",
-  "version": "0.7.0-beta.5",
+  "version": "0.7.0-rc.1",
   "engines": {
     "node": ">=6"
   },
