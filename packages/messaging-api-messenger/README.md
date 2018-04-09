@@ -2764,8 +2764,8 @@ client.getOpenConversations().then(result => {
   //   name: 'page_messages_open_conversations_unique',
   //   period: 'day',
   //   values: [
-  //     { end_time: '2018-03-12T07:00:00+0000' },
-  //     { end_time: '2018-03-13T07:00:00+0000' },
+  //     { value: 1000, end_time: '2018-03-12T07:00:00+0000' },
+  //     { value: 1000, end_time: '2018-03-13T07:00:00+0000' },
   //   ],
   //   title: 'Daily unique open conversations count',
   //   description:
