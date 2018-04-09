@@ -20,7 +20,7 @@ import type {
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
-  AirlineFlightUpdateAttributes,
+  AirlineUpdateAttributes,
   SenderAction,
 } from './MessengerTypes';
 
@@ -255,14 +255,14 @@ function sendAirlineItineraryTemplate(
   );
 }
 
-function sendAirlineFlightUpdateTemplate(
+function sendAirlineUpdateTemplate(
   recipient: UserID | Recipient,
-  attrs: AirlineFlightUpdateAttributes,
+  attrs: AirlineUpdateAttributes,
   options?: SendOption
 ): BatchItem {
   return sendMessage(
     recipient,
-    Messenger.createAirlineFlightUpdateTemplate(attrs, options),
+    Messenger.createAirlineUpdateTemplate(attrs, options),
     options
   );
 }
@@ -424,7 +424,12 @@ const MessengerBatch = {
   ),
   createAirlineFlightUpdateTemplate: deprecated(
     'createAirlineFlightUpdateTemplate',
-    sendAirlineFlightUpdateTemplate
+    sendAirlineUpdateTemplate
+  ),
+
+  sendAirlineFlightUpdateTemplate: deprecated(
+    'sendAirlineFlightUpdateTemplate',
+    sendAirlineUpdateTemplate
   ),
 
   sendRequest,
@@ -445,7 +450,7 @@ const MessengerBatch = {
   sendAirlineBoardingPassTemplate,
   sendAirlineCheckinTemplate,
   sendAirlineItineraryTemplate,
-  sendAirlineFlightUpdateTemplate,
+  sendAirlineUpdateTemplate,
 
   getUserProfile,
 

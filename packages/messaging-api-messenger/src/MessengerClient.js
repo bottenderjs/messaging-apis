@@ -8,6 +8,7 @@ import axios from 'axios';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import invariant from 'invariant';
+import warning from 'warning';
 import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
 
@@ -32,7 +33,7 @@ import type {
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
-  AirlineFlightUpdateAttributes,
+  AirlineUpdateAttributes,
   PersistentMenu,
   AudienceType,
   MessengerProfile,
@@ -915,16 +916,28 @@ export default class MessengerClient {
   }
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#update
-  sendAirlineFlightUpdateTemplate(
+  sendAirlineUpdateTemplate(
     recipient: UserID | Recipient,
-    attrs: AirlineFlightUpdateAttributes,
+    attrs: AirlineUpdateAttributes,
     options?: SendOption
   ): Promise<SendMessageSucessResponse> {
     return this.sendMessage(
       recipient,
-      Messenger.createAirlineFlightUpdateTemplate(attrs, options),
+      Messenger.createAirlineUpdateTemplate(attrs, options),
       options
     );
+  }
+
+  sendAirlineFlightUpdateTemplate(
+    recipient: UserID | Recipient,
+    attrs: AirlineUpdateAttributes,
+    options?: SendOption
+  ): Promise<SendMessageSucessResponse> {
+    warning(
+      false,
+      '`MessengerClient.sendAirlineFlightUpdateTemplate` is deprecated. Use `MessengerClient.sendAirlineUpdateTemplate` instead.'
+    );
+    return this.sendAirlineUpdateTemplate(recipient, attrs, options);
   }
 
   /**
