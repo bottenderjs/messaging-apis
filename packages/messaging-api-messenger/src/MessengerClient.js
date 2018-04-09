@@ -166,7 +166,7 @@ export default class MessengerClient {
     verify_token,
     access_token: appAccessToken,
   }: {
-    app_id: string,
+    app_id: number,
     object?: 'user' | 'page' | 'permissions' | 'payments',
     callback_url: string,
     fields?: Array<string>,
