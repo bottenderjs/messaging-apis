@@ -3270,3 +3270,37 @@ const client = MessengerClient.connect({
 > Warning: Don't do this on production server.
 
 [send-api-reference#recipient]: https://developers.facebook.com/docs/messenger-platform/send-api-reference#recipient
+
+### Manual Mock with [Jest](https://facebook.github.io/jest/)
+
+create `__mocks__/messaging-api-messenger.js` in your project root:
+
+```js
+// __mocks__/messaging-api-messenger.js
+const jestMock = require('jest-mock');
+const { Messenger, MessengerBatch, MessengerClient } = require.requireActual(
+  'messaging-api-messenger'
+);
+
+module.exports = {
+  Messenger: jestMock.generateFromMetadata(jestMock.getMetadata(Messenger)),
+  MessengerBatch: jestMock.generateFromMetadata(
+    jestMock.getMetadata(MessengerBatch)
+  ),
+  MessengerClient: {
+    connect: jest.fn(() => {
+      const Mock = jestMock.generateFromMetadata(
+        jestMock.getMetadata(MessengerClient)
+      );
+      return new Mock();
+    }),
+  },
+};
+```
+
+Then, mock `messaging-api-messenger` package in your tests:
+
+```js
+// __tests__/mytest.spec.js
+jest.mock('messaging-api-messenger');
+```

@@ -251,3 +251,31 @@ const client = WechatClient.connect({
 ```
 
 > Warning: Don't do this on production server.
+
+### Manual Mock with [Jest](https://facebook.github.io/jest/)
+
+create `__mocks__/messaging-api-wechat.js` in your project root:
+
+```js
+// __mocks__/messaging-api-wechat.js
+const jestMock = require('jest-mock');
+const { WechatClient } = require.requireActual('messaging-api-wechat');
+
+module.exports = {
+  WechatClient: {
+    connect: jest.fn(() => {
+      const Mock = jestMock.generateFromMetadata(
+        jestMock.getMetadata(WechatClient)
+      );
+      return new Mock();
+    }),
+  },
+};
+```
+
+Then, mock `messaging-api-wechat` package in your tests:
+
+```js
+// __tests__/mytest.spec.js
+jest.mock('messaging-api-wechat');
+```

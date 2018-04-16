@@ -1160,3 +1160,31 @@ const client = TelegramClient.connect({
 ```
 
 > Warning: Don't do this on production server.
+
+### Manual Mock with [Jest](https://facebook.github.io/jest/)
+
+create `__mocks__/messaging-api-telegram.js` in your project root:
+
+```js
+// __mocks__/messaging-api-telegram.js
+const jestMock = require('jest-mock');
+const { TelegramClient } = require.requireActual('messaging-api-telegram');
+
+module.exports = {
+  TelegramClient: {
+    connect: jest.fn(() => {
+      const Mock = jestMock.generateFromMetadata(
+        jestMock.getMetadata(TelegramClient)
+      );
+      return new Mock();
+    }),
+  },
+};
+```
+
+Then, mock `messaging-api-telegram` package in your tests:
+
+```js
+// __tests__/mytest.spec.js
+jest.mock('messaging-api-telegram');
+```

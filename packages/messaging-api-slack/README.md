@@ -408,6 +408,34 @@ const client = SlackOAuthClient.connect({
 
 > Warning: Don't do this on production server.
 
+### Manual Mock with [Jest](https://facebook.github.io/jest/)
+
+create `__mocks__/messaging-api-slack.js` in your project root:
+
+```js
+// __mocks__/messaging-api-slack.js
+const jestMock = require('jest-mock');
+const { SlackOAuthClient } = require.requireActual('messaging-api-slack');
+
+module.exports = {
+  SlackOAuthClient: {
+    connect: jest.fn(() => {
+      const Mock = jestMock.generateFromMetadata(
+        jestMock.getMetadata(SlackOAuthClient)
+      );
+      return new Mock();
+    }),
+  },
+};
+```
+
+Then, mock `messaging-api-slack` package in your tests:
+
+```js
+// __tests__/mytest.spec.js
+jest.mock('messaging-api-slack');
+```
+
 <br />
 
 ## Webhook Client
