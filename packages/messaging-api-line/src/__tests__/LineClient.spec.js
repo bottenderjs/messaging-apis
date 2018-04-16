@@ -55,6 +55,23 @@ describe('Profile', () => {
   });
 });
 
+describe('Account link', () => {
+  describe('#issueLinkToken', () => {
+    it('should response data with link token', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
+      };
+
+      mock.onPost(`/user/${RECIPIENT_ID}/linkToken`).reply(200, reply, headers);
+
+      const res = await client.issueLinkToken(RECIPIENT_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
 describe('Error', () => {
   it('should format correctly when no details', async () => {
     const { client, mock } = createMock();

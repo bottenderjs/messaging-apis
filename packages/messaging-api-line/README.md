@@ -24,6 +24,7 @@
   * [Group/Room Member IDs API](#grouproom-member-ids-api)
   * [Leave API](#leave-api)
   * [Rich Menu API](#rich-menu-api)
+  * [Account Link API](#account-link-api)
 * [Test](#test)
 
 ## Installation
@@ -1963,6 +1964,31 @@ Example:
 const fs = require('fs');
 
 client.uploadRichMenuImage(RICH_MENU_ID, fs.readFileSync('image.png'));
+```
+
+<br />
+
+<a id="account-link-api" />
+
+### Account Link API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#account-link)
+
+## `issueLinkToken(userId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#issue-link-token)
+
+Issues a link token used for the [account link](https://developers.line.me/en/docs/messaging-api/linking-accounts/) feature.
+
+| Param  | Type     | Description     |
+| ------ | -------- | --------------- |
+| userId | `String` | ID of the user. |
+
+Example:
+
+```js
+client.issueLinkToken(USER_ID).then(result => {
+  console.log(result);
+  // {
+  //   linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
+  // }
+});
 ```
 
 ## Test
