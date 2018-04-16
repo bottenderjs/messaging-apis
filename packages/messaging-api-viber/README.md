@@ -643,3 +643,31 @@ const client = ViberClient.connect({
 ```
 
 > Warning: Don't do this on production server.
+
+### Manual Mock with [Jest](https://facebook.github.io/jest/)
+
+create `__mocks__/messaging-api-viber.js` in your project root:
+
+```js
+// __mocks__/messaging-api-viber.js
+const jestMock = require('jest-mock');
+const { ViberClient } = require.requireActual('messaging-api-viber');
+
+module.exports = {
+  ViberClient: {
+    connect: jest.fn(() => {
+      const Mock = jestMock.generateFromMetadata(
+        jestMock.getMetadata(ViberClient)
+      );
+      return new Mock();
+    }),
+  },
+};
+```
+
+Then, mock `messaging-api-viber` package in your tests:
+
+```js
+// __tests__/mytest.spec.js
+jest.mock('messaging-api-viber');
+```
