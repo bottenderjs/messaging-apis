@@ -553,6 +553,18 @@ export default class LineClient {
       .get(`/richmenu/${richMenuId}/content`, { responseType: 'arraybuffer' })
       .then(res => Buffer.from(res.data), handleError);
   }
+
+  /**
+   * Account link
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#account-link
+   */
+
+  issueLinkToken(userId: string): Promise<{ issueToken: string }> {
+    return this._axios
+      .post(`/user/${userId}/linkToken`)
+      .then(res => res.data, handleError);
+  }
 }
 
 const sendTypes = ['reply', 'push', 'multicast'];
