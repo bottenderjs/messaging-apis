@@ -4,6 +4,7 @@ import FormData from 'form-data';
 import warning from 'warning';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
+import omit from 'lodash.omit';
 
 import type {
   AttachmentPayload,
@@ -90,7 +91,7 @@ function createMessageFormData(
   const formdata = new FormData();
 
   formdata.append('message', JSON.stringify(message));
-  formdata.append('filedata', filedata);
+  formdata.append('filedata', filedata, omit(options, ['quick_replies']));
 
   return formdata;
 }
