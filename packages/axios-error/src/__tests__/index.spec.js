@@ -32,3 +32,27 @@ it('should work', async () => {
     expect(error.inspect()).toMatchSnapshot();
   }
 });
+
+it('should work with undefined response', async () => {
+  try {
+    await axios.post('/', { x: 1 });
+  } catch (err) {
+    // overwrite to undefined
+    // https://github.com/Yoctol/bottender/issues/246
+    err.response = undefined;
+
+    const error = new AxiosError('read ECONNRESET', err);
+
+    // overwrite stack to test it
+    error.stack = stack;
+
+    expect(error.inspect()).toMatchSnapshot();
+  }
+});
+
+it('should support error without axios data', () => {
+  const error = new AxiosError('custom error');
+  error.stack = stack;
+
+  expect(error.inspect()).toMatchSnapshot();
+});

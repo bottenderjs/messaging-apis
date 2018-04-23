@@ -31,14 +31,17 @@ type Axios = {
 };
 
 function handleError(err) {
-  const { message, details } = err.response.data;
-  let msg = `LINE API - ${message}`;
-  if (details && details.length > 0) {
-    details.forEach(detail => {
-      msg += `\n- ${detail.property}: ${detail.message}`;
-    });
+  if (err.response && err.response.data) {
+    const { message, details } = err.response.data;
+    let msg = `LINE API - ${message}`;
+    if (details && details.length > 0) {
+      details.forEach(detail => {
+        msg += `\n- ${detail.property}: ${detail.message}`;
+      });
+    }
+    throw new AxiosError(msg, err);
   }
-  throw new AxiosError(msg, err);
+  throw new AxiosError(err.message, err);
 }
 
 type ClientConfig = {
