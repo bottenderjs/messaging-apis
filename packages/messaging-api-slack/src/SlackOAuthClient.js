@@ -105,23 +105,27 @@ export default class SlackOAuthClient {
     method: SlackAvailableMethod,
     body: Object = {}
   ): Promise<SlackOAuthAPIResponse> {
-    body.token = body.token || this._token; // eslint-disable-line no-param-reassign
-    const response = await this._axios.post(
-      method,
-      querystring.stringify(body)
-    );
+    try {
+      body.token = body.token || this._token; // eslint-disable-line no-param-reassign
+      const response = await this._axios.post(
+        method,
+        querystring.stringify(body)
+      );
 
-    const { data, config, request } = response;
+      const { data, config, request } = response;
 
-    if (!data.ok) {
-      throw new AxiosError(`Slack API - ${data.error}`, {
-        config,
-        request,
-        response,
-      });
+      if (!data.ok) {
+        throw new AxiosError(`Slack API - ${data.error}`, {
+          config,
+          request,
+          response,
+        });
+      }
+
+      return data;
+    } catch (err) {
+      throw new AxiosError(err.message, err);
     }
-
-    return data;
   }
 
   /**

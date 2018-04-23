@@ -70,10 +70,13 @@ export default class TelegramClient {
 
       return data.result;
     } catch (err) {
-      const { error_code, description } = err.response.data;
-      const msg = `Telegram API - ${error_code} ${description || ''}`; // eslint-disable-line camelcase
+      if (err.response && err.response.data) {
+        const { error_code, description } = err.response.data;
+        const msg = `Telegram API - ${error_code} ${description || ''}`; // eslint-disable-line camelcase
 
-      throw new AxiosError(msg, err);
+        throw new AxiosError(msg, err);
+      }
+      throw new AxiosError(err.message, err);
     }
   }
 

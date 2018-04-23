@@ -66,9 +66,12 @@ function extractVersion(version) {
 }
 
 function handleError(err) {
-  const { error } = err.response.data;
-  const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
-  throw new AxiosError(msg, err);
+  if (err.response && err.response.data) {
+    const { error } = err.response.data;
+    const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
+    throw new AxiosError(msg, err);
+  }
+  throw new AxiosError(err.message, err);
 }
 
 type ClientConfig = {

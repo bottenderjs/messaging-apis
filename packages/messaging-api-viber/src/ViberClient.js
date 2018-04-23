@@ -75,19 +75,23 @@ export default class ViberClient {
   }
 
   async _callAPI(...args: Array<any>) {
-    const response = await this._axios.post(...args);
+    try {
+      const response = await this._axios.post(...args);
 
-    const { data, config, request } = response;
+      const { data, config, request } = response;
 
-    if (data.status !== 0) {
-      throw new AxiosError(`Viber API - ${data.status_message}`, {
-        config,
-        request,
-        response,
-      });
+      if (data.status !== 0) {
+        throw new AxiosError(`Viber API - ${data.status_message}`, {
+          config,
+          request,
+          response,
+        });
+      }
+
+      return data;
+    } catch (err) {
+      throw new AxiosError(err.message, err);
     }
-
-    return data;
   }
 
   /**

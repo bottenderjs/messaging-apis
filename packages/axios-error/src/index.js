@@ -10,43 +10,63 @@ function json(data) {
 }
 
 module.exports = class AxiosError extends Error {
-  constructor(message, { config, request, response }) {
+  constructor(message, err = {}) {
     super(message);
+    const { config, request, response } = err;
+
     this.config = config;
     this.request = request;
     this.response = response;
   }
 
   inspect() {
-    let requestData = '';
-    if (this.config.data) {
+    let requestMessage = '';
+
+    if (this.config) {
       let { data } = this.config;
+
       try {
         data = JSON.parse(data);
       } catch (_) {} // eslint-disable-line
-      requestData = `
+
+      let requestData = '';
+
+      if (this.config.data) {
+        requestData = `
 Request Data -
-${indent(json(data))}
-`;
+${indent(json(data))}`;
+      }
+
+      requestMessage = `
+Request -
+  ${this.config.method.toUpperCase()} ${this.config.url}
+${requestData}`;
     }
-    let responseData = '';
-    if (this.response.data) {
-      responseData = `
+
+    let responseMessage = '';
+
+    if (this.response) {
+      let responseData;
+
+      if (this.response.data) {
+        responseData = `
 Response Data -
 ${indent(json(this.response.data))}`;
+      }
+
+      responseMessage = `
+Response -
+  ${this.response.status} ${this.response.statusText}
+${responseData}`;
     }
+
     return `
 ${this.stack}
 
 Error Message -
   ${this.message}
-
-Request -
-  ${this.config.method.toUpperCase()} ${this.config.url}
-${requestData}
-Response -
-  ${this.response.status} ${this.response.statusText}
-${responseData}
+${requestMessage}
+${responseMessage}
 `;
   }
 };
