@@ -1,3 +1,265 @@
+# 0.7.0 / 2018-04-27
+
+* [changed] use class methods instead of class properties [#310](https://github.com/Yoctol/messaging-apis/pull/310)
+* [fix] handle network error better by fallback to original message [#338](https://github.com/Yoctol/messaging-apis/pull/338)
+
+### messaging-api-messenger
+
+* [new] move message creation api into singleton: [#255](https://github.com/Yoctol/messaging-apis/pull/255)
+
+```js
+Messenger.createMessage;
+Messenger.createText;
+Messenger.createAttachment;
+Messenger.createAudio;
+Messenger.createImage;
+Messenger.createVideo;
+Messenger.createFile;
+Messenger.createTemplate;
+Messenger.createButtonTemplate;
+Messenger.createGenericTemplate;
+Messenger.createListTemplate;
+Messenger.createOpenGraphTemplate;
+Messenger.createMediaTemplate;
+Messenger.createReceiptTemplate;
+Messenger.createAirlineBoardingPassTemplate;
+Messenger.createAirlineCheckinTemplate;
+Messenger.createAirlineItineraryTemplate;
+Messenger.createAirlineUpdateTemplate;
+```
+
+* [new] implement more batching api: [#317](https://github.com/Yoctol/messaging-apis/pull/317), [#324](https://github.com/Yoctol/messaging-apis/pull/324)
+
+```js
+MessengerBatch.sendRequest;
+MessengerBatch.sendMessage;
+MessengerBatch.sendText;
+MessengerBatch.sendAttachment;
+MessengerBatch.sendAudio;
+MessengerBatch.sendImage;
+MessengerBatch.sendVideo;
+MessengerBatch.sendFile;
+MessengerBatch.sendTemplate;
+MessengerBatch.sendButtonTemplate;
+MessengerBatch.sendGenericTemplate;
+MessengerBatch.sendListTemplate;
+MessengerBatch.sendOpenGraphTemplate;
+MessengerBatch.sendReceiptTemplate;
+MessengerBatch.sendMediaTemplate;
+MessengerBatch.sendAirlineBoardingPassTemplate;
+MessengerBatch.sendAirlineCheckinTemplate;
+MessengerBatch.sendAirlineItineraryTemplate;
+MessengerBatch.sendAirlineUpdateTemplate;
+
+MessengerBatch.getUserProfile;
+
+MessengerBatch.sendSenderAction;
+MessengerBatch.typingOn;
+MessengerBatch.typingOff;
+MessengerBatch.markSeen;
+
+MessengerBatch.passThreadControl;
+MessengerBatch.passThreadControlToPageInbox;
+MessengerBatch.takeThreadControl;
+MessengerBatch.requestThreadControl;
+
+MessengerBatch.associateLabel;
+MessengerBatch.dissociateLabel;
+MessengerBatch.getAssociatedLabels;
+```
+
+* [new] add 2 new metrix to messenger insights: [#304](https://github.com/Yoctol/messaging-apis/pull/304)
+
+`getOpenConversations(options)`:
+
+```js
+client.getOpenConversations().then(result => {
+  console.log(result);
+  // {
+  //   name: 'page_messages_open_conversations_unique',
+  //   period: 'day',
+  //   values: [
+  //     { end_time: '2018-03-12T07:00:00+0000' },
+  //     { end_time: '2018-03-13T07:00:00+0000' },
+  //   ],
+  //   title: 'Daily unique open conversations count',
+  //   description:
+  //     'Daily: The total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.',
+  //   id:
+  //     '1386473101668063/insights/page_messages_open_conversations_unique/day',
+  // }
+});
+```
+
+`getNewConversations(options)`:
+
+```js
+client.getNewConversations().then(result => {
+  console.log(result);
+  // {
+  //   name: 'page_messages_new_conversations_unique',
+  //   period: 'day',
+  //   values: [
+  //     { value: 1, end_time: '2018-03-12T07:00:00+0000' },
+  //     { value: 0, end_time: '2018-03-13T07:00:00+0000' },
+  //   ],
+  //   title: 'Daily unique new conversations count',
+  //   description:
+  //     'Daily: The number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.',
+  //   id:
+  //     '1386473101668063/insights/page_messages_new_conversations_unique/day',
+  // }
+});
+```
+
+* [breaking] rename `Messenger` to `MessengerBatch`: [#255](https://github.com/Yoctol/messaging-apis/pull/255)
+* [breaking] rename `getDailyUniqueActiveThreadCounts` to `getActiveThreads` [#307](https://github.com/Yoctol/messaging-apis/pull/307)
+* [breaking] remove deprecated MessengerClient method - `sendQuickReplies`
+* [breaking] Messenger Insights API: resolve `obj` instead of `[obj]`: [#302](https://github.com/Yoctol/messaging-apis/pull/302)
+
+Affected APIs:
+
+* getActiveThreads
+* getBlockedConversations
+* getReportedConversations
+* getReportedConversationsByReportType
+
+Before:
+
+```js
+client.getBlockedConversations().then(counts => {
+  console.log(counts);
+  // [
+  //   {
+  //     "name": "page_messages_blocked_conversations_unique",
+  //     "period": "day",
+  //     "values": [
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       },
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       }
+  //    ]
+  //   }
+  // ]
+});
+```
+
+After:
+
+```js
+client.getBlockedConversations().then(counts => {
+  console.log(counts);
+  //   {
+  //     "name": "page_messages_blocked_conversations_unique",
+  //     "period": "day",
+  //     "values": [
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       },
+  //       {
+  //         "value": "<VALUE>",
+  //         "end_time": "<UTC_TIMESTAMP>"
+  //       }
+  //    ]
+  //   }
+});
+```
+
+* [breaking] removed deprecated `getDailyUniqueConversationCounts` insights API [#304](https://github.com/Yoctol/messaging-apis/pull/304)
+* [changed] rename `AirlineFlightUpdateTemplate` to `AirlineUpdateTemplate` to match typename [#329](https://github.com/Yoctol/messaging-apis/pull/329)
+
+```
+AirlineFlightUpdateTemplate -> AirlineUpdateTemplate
+```
+
+* [fix] fix sending attachment with buffer (allow filename) [#335](https://github.com/Yoctol/messaging-apis/pull/335)
+* [fix] fix getReportedConversationsByReportType and improve docs [#297](https://github.com/Yoctol/messaging-apis/pull/297)
+* [fix] avoid pass undefined value to messenger in batch api [#326](https://github.com/Yoctol/messaging-apis/pull/326)
+
+### messaging-api-line
+
+* [new] support LINE issue link token for account linking: [#332](https://github.com/Yoctol/messaging-apis/pull/332)
+
+```js
+client.issueLinkToken(USER_ID).then(result => {
+  console.log(result);
+  // {
+  //   linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
+  // }
+});
+```
+
+* [new] allow pass object as image, audio, video, sticker args: [#309](https://github.com/Yoctol/messaging-apis/pull/309)
+
+```js
+client.pushImage(RECIPIENT_ID, {
+  originalContentUrl: 'https://example.com/original.jpg',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
+client.pushVideo(RECIPIENT_ID, {
+  originalContentUrl: 'https://example.com/original.mp4',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
+client.pushAudio(RECIPIENT_ID, {
+  originalContentUrl: 'https://example.com/original.m4a',
+  duration: 240000,
+});
+client.pushSticker(RECIPIENT_ID, {
+  packageId: '1',
+  stickerId: '1',
+});
+```
+
+* [new] support LINE ButtonsTemplate alias to match typename `buttons`:
+
+  * client.sendButtonsTemplate == client.sendButtonTemplate
+  * client.replyButtonsTemplate == client.replyButtonTemplate
+  * client.pushButtonsTemplate == client.pushButtonTemplate
+  * client.multicastButtonsTemplate == client.multicastButtonTemplate
+
+* [breaking] remove deprecated method `isValidSignature` in `LineClient`
+
+### messaging-api-telegram
+
+* [breaking] Throw error when `ok` is `false` in Telegram: [#268](https://github.com/Yoctol/messaging-apis/pull/268)
+
+```js
+{
+  ok: false,
+  result: { /* ... */ }
+}
+```
+
+Now throws `Telegram API` error.
+
+* [breaking] telegram api return result instead of `{ ok: true, result }`: [#313](https://github.com/Yoctol/messaging-apis/pull/313)
+
+Before:
+
+```js
+{
+  ok: true,
+  result: {
+    key: val
+  }
+}
+```
+
+After:
+
+```js
+{
+  key: val,
+}
+```
+
+Make it easier to access result and consist with other platforms.
+
 # 0.6.16 / 2018-02-27
 
 ### messaging-api-line
