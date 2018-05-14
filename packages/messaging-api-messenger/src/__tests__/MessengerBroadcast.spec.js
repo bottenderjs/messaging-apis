@@ -22,3 +22,27 @@ it('#not', () => {
     values: ['<CUSTOM_LABEL_ID_1>', '<CUSTOM_LABEL_ID_2>'],
   });
 });
+
+it('nested predicate', () => {
+  expect(
+    and(
+      '<CUSTOM_LABEL_ID_1>',
+      or('<CUSTOM_LABEL_ID_2>', not('<CUSTOM_LABEL_ID_3>'))
+    )
+  ).toEqual({
+    operator: 'AND',
+    values: [
+      '<CUSTOM_LABEL_ID_1>',
+      {
+        operator: 'OR',
+        values: [
+          '<CUSTOM_LABEL_ID_2>',
+          {
+            operator: 'NOT',
+            values: ['<CUSTOM_LABEL_ID_3>'],
+          },
+        ],
+      },
+    ],
+  });
+});
