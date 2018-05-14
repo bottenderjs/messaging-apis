@@ -83,7 +83,7 @@ type ClientConfig = {
 export default class MessengerClient {
   static connect(
     accessTokenOrConfig: string | ClientConfig,
-    version?: string = '2.11'
+    version?: string = '3.0'
   ): MessengerClient {
     return new MessengerClient(accessTokenOrConfig, version);
   }
@@ -94,7 +94,7 @@ export default class MessengerClient {
 
   constructor(
     accessTokenOrConfig: string | ClientConfig,
-    version?: string = '2.11'
+    version?: string = '3.0'
   ) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
@@ -105,7 +105,7 @@ export default class MessengerClient {
         !config.version || typeof config.version === 'string',
         'Type of `version` must be string.'
       );
-      this._version = extractVersion(config.version || '2.11');
+      this._version = extractVersion(config.version || '3.0');
       origin = config.origin;
     } else {
       this._accessToken = accessTokenOrConfig;
