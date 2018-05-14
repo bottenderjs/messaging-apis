@@ -2553,6 +2553,27 @@ client.requestThreadControl(USER_ID, 'free formed text for primary app');
 
 <br />
 
+## `getThreadOwner` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/handover-protocol/get-thread-owner)
+
+Get the current thread owner.
+
+Example:
+
+```js
+client.getThreadOwner().then(threadOwner => {
+  console.log(threadOwner);
+  // [
+  //   {
+  //      thread_owner: {
+  //        app_id: '12345678910',
+  //      },
+  //   },
+  // ]
+});
+```
+
+<br />
+
 ## `getSecondaryReceivers` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/secondary-receivers)
 
 Retrieves the list of apps that are Secondary Receivers for a page.
