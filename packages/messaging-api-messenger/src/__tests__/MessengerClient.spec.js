@@ -792,6 +792,74 @@ describe('Handover Protocol API', () => {
   });
 });
 
+describe('#getThreadOwner', () => {
+  it('should call messages api to get thread owner', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      data: [
+        {
+          thread_owner: {
+            app_id: '12345678910',
+          },
+        },
+      ],
+    };
+
+    mock
+      .onGet(
+        `/me/thread_owner?recipient=${USER_ID}&access_token=${ACCESS_TOKEN}`
+      )
+      .reply(200, reply);
+
+    const res = await client.getThreadOwner(USER_ID, ACCESS_TOKEN);
+
+    expect(res).toEqual([
+      {
+        thread_owner: {
+          app_id: '12345678910',
+        },
+      },
+    ]);
+  });
+
+  it('should call messages api to get thread owner with custom access token', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      data: [
+        {
+          thread_owner: {
+            app_id: '12345678910',
+          },
+        },
+      ],
+    };
+
+    const options = {
+      access_token: '0987654321',
+    };
+
+    mock
+      .onGet(
+        `/me/thread_owner?recipient=${USER_ID}&access_token=${
+          options.access_token
+        }`
+      )
+      .reply(200, reply);
+
+    const res = await client.getThreadOwner(USER_ID, options);
+
+    expect(res).toEqual([
+      {
+        thread_owner: {
+          app_id: '12345678910',
+        },
+      },
+    ]);
+  });
+});
+
 describe('Built-in NLP API', () => {
   describe('#setNLPConfigs', () => {
     it('should call api to set NLP configs', async () => {
