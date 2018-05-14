@@ -1464,6 +1464,23 @@ export default class MessengerClient {
   }
 
   /**
+   * Getting the Thread Owner
+   *
+   * https://developers.facebook.com/docs/messenger-platform/handover-protocol/get-thread-owner
+   */
+  getThreadOwner(
+    recipientId: string,
+    { access_token: customAccessToken }: { access_token: ?string } = {}
+  ) {
+    return this._axios
+      .get(
+        `/me/thread_owner?recipient=${recipientId}&access_token=${customAccessToken ||
+          this._accessToken}`
+      )
+      .then(res => res.data.data, handleError);
+  }
+
+  /**
    * Page Messaging Insights API
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api
