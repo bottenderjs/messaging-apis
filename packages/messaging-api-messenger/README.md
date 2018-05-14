@@ -1507,6 +1507,7 @@ The following message templates are not supported:
 | messageCreativeId       | `Number` | The `message_creative_id` of the message creative to send in the broadcast. |
 | options                 | `Object` | Other optional parameters.                                                  |
 | options.custom_label_id | `Number` | The id of custom label.                                                     |
+| options.targeting       | `Object` | The targeting config.                                                       |
 
 Example
 
@@ -1523,6 +1524,26 @@ To send a broadcast message to the set of PSIDs associated with a label, pass la
 
 ```js
 client.sendBroadcastMessage(938461089, { custom_label_id: LABEL_ID });
+```
+
+Or you can send broadcast messages with label predicates (`and`, `or`, `not`):
+
+```js
+import { MessengerBroadcast } from 'messaging-api-messenger';
+
+const { add, or, not } = MessengerBroadcast;
+
+client.sendBroadcastMessage(938461089, {
+  targeting: {
+    labels: and(
+      '<CUSTOM_LABEL_ID_1>'
+      or(
+        '<UNDER_25_CUSTOMERS_LABEL_ID>',
+        '<OVER_50_CUSTOMERS_LABEL_ID>'
+      )
+    ),
+  },
+});
 ```
 
 <br />
