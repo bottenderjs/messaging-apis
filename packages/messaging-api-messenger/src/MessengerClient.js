@@ -48,6 +48,7 @@ import type {
   InsightMetric,
   InsightOptions,
   PageInfo,
+  MessagingFeatureReview,
 } from './MessengerTypes';
 
 type Axios = {
@@ -186,6 +187,22 @@ export default class MessengerClient {
         verify_token,
       })
       .then(res => res.data, handleError);
+  }
+
+  /**
+   *  Messaging Feature Review API
+   *
+   *  https://developers.facebook.com/docs/messenger-platform/reference/messaging-feature-review-api
+   */
+  getMessagingFeatureReview({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<Array<MessagingFeatureReview>> {
+    return this._axios
+      .get(
+        `/me/messaging_feature_review?access_token=${customAccessToken ||
+          this._accessToken}`
+      )
+      .then(res => res.data.data, handleError);
   }
 
   /**
