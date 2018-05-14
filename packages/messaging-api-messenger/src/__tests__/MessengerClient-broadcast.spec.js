@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import MessengerClient from '../MessengerClient';
+import MessengerBroadcast from '../MessengerBroadcast';
 
 const USER_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
@@ -136,6 +137,40 @@ describe('broadcast api', () => {
 
       const res = await client.sendBroadcastMessage(938461089, {
         custom_label_id: 5678,
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('can send with label Predicates', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        broadcast_id: 837,
+      };
+
+      mock
+        .onPost(`/me/broadcast_messages?access_token=${ACCESS_TOKEN}`, {
+          message_creative_id: 938461089,
+          targeting: {
+            labels: {
+              operator: 'OR',
+              values: [
+                '<UNDER_25_CUSTOMERS_LABEL_ID>',
+                '<OVER_50_CUSTOMERS_LABEL_ID>',
+              ],
+            },
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendBroadcastMessage(938461089, {
+        targeting: {
+          labels: MessengerBroadcast.or(
+            '<UNDER_25_CUSTOMERS_LABEL_ID>',
+            '<OVER_50_CUSTOMERS_LABEL_ID>'
+          ),
+        },
       });
 
       expect(res).toEqual(reply);
