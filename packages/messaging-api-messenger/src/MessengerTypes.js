@@ -364,3 +364,8 @@ export type PageInfo = {
   name: string,
   id: string,
 };
+
+export type MessagingFeatureReview = {
+  feature: string,
+  status: 'pending' | 'rejected' | 'approved' | 'limited',
+};

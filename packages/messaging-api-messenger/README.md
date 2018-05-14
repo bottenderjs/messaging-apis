@@ -3095,6 +3095,24 @@ client.getPageInfo().then(page => {
 });
 ```
 
+## getMessagingFeatureReview
+
+Programmatically check the feature submission status of Page-level Platform features.
+
+Example:
+
+```js
+client.getMessagingFeatureReview().then(data => {
+  console.log(data);
+  // [
+  //   {
+  //     "feature": "subscription_messaging",
+  //     "status": "<pending|rejected|approved|limited>"
+  //   }
+  // ]
+});
+```
+
 ## Test
 
 ### Point requests to your dummy server

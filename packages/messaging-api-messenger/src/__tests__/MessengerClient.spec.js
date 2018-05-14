@@ -105,6 +105,33 @@ describe('subscription', () => {
   });
 });
 
+describe('#getMessagingFeatureReview', () => {
+  it('should response feature array', async () => {
+    const { client, mock } = createMock();
+    const reply = {
+      data: [
+        {
+          feature: 'subscription_messaging',
+          status: 'approved',
+        },
+      ],
+    };
+
+    mock
+      .onGet(`/me/messaging_feature_review?access_token=${ACCESS_TOKEN}`)
+      .reply(200, reply);
+
+    const res = await client.getMessagingFeatureReview();
+
+    expect(res).toEqual([
+      {
+        feature: 'subscription_messaging',
+        status: 'approved',
+      },
+    ]);
+  });
+});
+
 describe('user profile', () => {
   describe('#getUserProfile', () => {
     it('should response user profile', async () => {
