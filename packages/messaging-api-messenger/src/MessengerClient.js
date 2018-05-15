@@ -1070,6 +1070,27 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
   }
 
+  cancelBroadcast(broadcastId: number, options?: Object = {}) {
+    return this._axios
+      .post(
+        `/${broadcastId}?access_token=${options.access_token ||
+          this._accessToken}`,
+        {
+          operation: 'cancel',
+        }
+      )
+      .then(res => res.data, handleError);
+  }
+
+  getBroadcast(broadcastId: number, options?: Object = {}) {
+    return this._axios
+      .get(
+        `/${broadcastId}?fields=scheduled_time,status&access_token=${options.access_token ||
+          this._accessToken}`
+      )
+      .then(res => res.data, handleError);
+  }
+
   /**
    * Send Sponsored Message
    *
