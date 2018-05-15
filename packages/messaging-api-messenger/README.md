@@ -2562,13 +2562,9 @@ Example:
 ```js
 client.getThreadOwner().then(threadOwner => {
   console.log(threadOwner);
-  // [
-  //   {
-  //      thread_owner: {
-  //        app_id: '12345678910',
-  //      },
-  //   },
-  // ]
+  //      {
+  //        app_id: '12345678910'
+  //      }
 });
 ```
 

@@ -1472,12 +1472,16 @@ export default class MessengerClient {
     recipientId: string,
     { access_token: customAccessToken }: { access_token: ?string } = {}
   ) {
+    warning(
+      false,
+      '`getThreadOwner` is currently in open beta, and is subject to change. See details in  https://developers.facebook.com/docs/messenger-platform/handover-protocol/get-thread-owner'
+    );
     return this._axios
       .get(
         `/me/thread_owner?recipient=${recipientId}&access_token=${customAccessToken ||
           this._accessToken}`
       )
-      .then(res => res.data.data, handleError);
+      .then(res => res.data.data[0].thread_owner, handleError);
   }
 
   /**

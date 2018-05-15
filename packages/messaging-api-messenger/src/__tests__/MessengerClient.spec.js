@@ -787,13 +787,7 @@ describe('#getThreadOwner', () => {
 
     const res = await client.getThreadOwner(USER_ID, ACCESS_TOKEN);
 
-    expect(res).toEqual([
-      {
-        thread_owner: {
-          app_id: '12345678910',
-        },
-      },
-    ]);
+    expect(res).toEqual({ app_id: '12345678910' });
   });
 
   it('should call messages api to get thread owner with custom access token', async () => {
@@ -823,13 +817,7 @@ describe('#getThreadOwner', () => {
 
     const res = await client.getThreadOwner(USER_ID, options);
 
-    expect(res).toEqual([
-      {
-        thread_owner: {
-          app_id: '12345678910',
-        },
-      },
-    ]);
+    expect(res).toEqual({ app_id: '12345678910' });
   });
 });
 
