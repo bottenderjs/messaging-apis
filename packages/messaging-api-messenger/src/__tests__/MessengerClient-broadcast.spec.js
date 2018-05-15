@@ -175,6 +175,69 @@ describe('broadcast api', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('can send with schedule_time', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        broadcast_id: 837,
+      };
+
+      mock
+        .onPost(`/me/broadcast_messages?access_token=${ACCESS_TOKEN}`, {
+          message_creative_id: 938461089,
+          schedule_time: '2018-04-05T20:39:13+00:00',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendBroadcastMessage(938461089, {
+        schedule_time: '2018-04-05T20:39:13+00:00',
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#cancelBroadcast', () => {
+    it('should call broadcast api with cancel operation', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        success: true,
+      };
+
+      mock
+        .onPost(`/938461089?access_token=${ACCESS_TOKEN}`, {
+          operation: 'cancel',
+        })
+        .reply(200, reply);
+
+      const res = await client.cancelBroadcast(938461089);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getBroadcast', () => {
+    it('should get broadcast status', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        scheduled_time: '<ISO-8601_FORMAT_TIME>',
+        status: '<STATUS>',
+        id: '<BROADCAST_ID>',
+      };
+
+      mock
+        .onGet(
+          `/938461089?fields=scheduled_time,status&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getBroadcast(938461089);
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#sendSponsoredMessage', () => {

@@ -21,6 +21,7 @@
     * [Targeting Broadcast Messages](#targeting-broadcast-messages)
     * [Estimating Broadcast Size](#estimating-broadcast-size)
     * [Broadcast Metrics](#broadcast-metrics)
+    * [Scheduling Broadcasts](#scheduling-broadcasts)
   * [User Profile API](#user-profile-api)
   * [Messenger Profile API](#messenger-profile-api)
     * [Persistent Menu](#persistent-menu)
@@ -1502,12 +1503,13 @@ The following message templates are not supported:
 
 ## `sendBroadcastMessage(messageCreativeId, options)`
 
-| Param                   | Type     | Description                                                                 |
-| ----------------------- | -------- | --------------------------------------------------------------------------- |
-| messageCreativeId       | `Number` | The `message_creative_id` of the message creative to send in the broadcast. |
-| options                 | `Object` | Other optional parameters.                                                  |
-| options.custom_label_id | `Number` | The id of custom label.                                                     |
-| options.targeting       | `Object` | The targeting config.                                                       |
+| Param                   | Type     | Description                                                                                                                                       |
+| ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| messageCreativeId       | `Number` | The `message_creative_id` of the message creative to send in the broadcast.                                                                       |
+| options                 | `Object` | Other optional parameters.                                                                                                                        |
+| options.custom_label_id | `Number` | The id of custom label.                                                                                                                           |
+| options.targeting       | `Object` | The targeting config.                                                                                                                             |
+| options.schedule_time   | `String` | ISO-8601 and Unix timestamp formats are accepted. For example 2018-04-05T20:39:13+00:00 and 1522960753 both represent 8:39:13pm 04/05/2018 (UTC). |
 
 Example
 
@@ -1830,6 +1832,63 @@ client.getBroadcastMessagesSent(73450120243).then(result => {
 ```
 
 <br />
+
+<a id="scheduling-broadcasts" />
+
+### Scheduling Broadcasts - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/#scheduling)
+
+To schedule a broadcast, specify the `schedule_time` property when you call the `sendBroadcastMessage` API request to send the message.
+
+```js
+client
+  .sendBroadcastMessage(938461089, {
+    schedule_time: '2018-04-05T20:39:13+00:00',
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   broadcast_id: '115517705935329',
+    // }
+  });
+```
+
+## `cancelBroadcast(broadcastId)`
+
+| Param       | Type     | Description       |
+| ----------- | -------- | ----------------- |
+| broadcastId | `String` | The broadcast ID. |
+
+Cancel a scheduled broadcast.
+
+```js
+client.cancelBroadcast('115517705935329');
+```
+
+## `getBroadcast(broadcastId)`
+
+| Param       | Type     | Description       |
+| ----------- | -------- | ----------------- |
+| broadcastId | `String` | The broadcast ID. |
+
+Check on broadcast status.
+
+```js
+client.getBroadcast('115517705935329').then(broadcast => {
+  console.log(broadcast);
+  // {
+  //   scheduled_time: '2018-04-05T20:39:13+00:00',
+  //   status: 'SCHEDULED',
+  //   id: "115517705935329"
+  // }
+});
+```
+
+The API will respond with the time the broadcast is scheduled for, and one of the following statuses:
+
+* `SCHEDULED`: Broadcast is scheduled but has not been sent.
+* `IN_PROGRESS`: Broadcast has been initiated and is still in-progress.
+* `FINISHED`: Broadcast was completed successfully.
+* `CANCELED`: Broadcast was canceled by the developer.
 
 <a id="user-profile-api" />
 
