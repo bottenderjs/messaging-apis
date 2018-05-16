@@ -2637,10 +2637,14 @@ client.requestThreadControl(USER_ID, 'free formed text for primary app');
 
 Get the current thread owner.
 
+| Param  | Type     | Description                        |
+| ------ | -------- | ---------------------------------- |
+| userId | `String` | The PSID of the message recipient. |
+
 Example:
 
 ```js
-client.getThreadOwner().then(threadOwner => {
+client.getThreadOwner(USER_ID).then(threadOwner => {
   console.log(threadOwner);
   // {
   //   app_id: '12345678910'
