@@ -73,11 +73,24 @@ client.getThreadOwner().then(threadOwner => {
 });
 ```
 
-* [new] `getTotalMessagingConnections`:
+* [new] Support new insights API `getTotalMessagingConnections()`:
 
 ```js
-client.getTotalMessagingConnections().then(() => {
-  placeholder;
+client.getTotalMessagingConnections().then(result => {
+  console.log(result);
+  // {
+  //   name: 'page_messages_total_messaging_connections',
+  //   period: 'day',
+  //   values: [
+  //   values: [
+  //     { value: 1000, end_time: '2018-03-12T07:00:00+0000' },
+  //     { value: 1000, end_time: '2018-03-13T07:00:00+0000' },
+  //   ],
+  //   title: 'Messaging connections',
+  //     'Daily: The number of people who have sent a message to your business, not including people who have blocked or reported your business on Messenger. (This number only includes connections made since October 2016.)',
+  //   id:
+  //     '1386473101668063/insights/page_messages_total_messaging_connections/day',
+  // }
 });
 ```
 
@@ -94,6 +107,8 @@ client.getMessagingFeatureReview().then(data => {
   // ]
 });
 ```
+
+* [deprecated] `getOpenConversations()` is deprecated and replaced by new `getTotalMessagingConnections()`
 
 See [messenger official blog post](https://blog.messengerdevelopers.com/announcing-messenger-platform-v2-4-8a8ecd5f0f04) for more Messenger Platform 2.4 details.
 
