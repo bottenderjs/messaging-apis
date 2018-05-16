@@ -1,3 +1,102 @@
+# 0.7.1 / 2018-05-16
+
+### messaging-api-messenger
+
+There are no any visible breaking changes between 2.11 and 3.0, so after this version it uses Graph API 3.0 (`https://graph.facebook.com/v3.0/`) as default [(#349)](https://github.com/Yoctol/messaging-apis/pull/349).
+
+In this version, we bring some fetaures in Messenger Platform 2.4 into `messaging-api-messenger`.
+
+* [new] Support scheduling broadcasts
+
+To schedule a broadcast, specify the `schedule_time` property when you call the `sendBroadcastMessage` API request to send the message.
+
+```js
+client
+  .sendBroadcastMessage(938461089, {
+    schedule_time: '2018-04-05T20:39:13+00:00',
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   broadcast_id: '115517705935329',
+    // }
+  });
+```
+
+To cancel a scheduled broadcast:
+
+```js
+client.cancelBroadcast('115517705935329');
+```
+
+To check on broadcast status.
+
+```js
+client.getBroadcast('115517705935329').then(broadcast => {
+  console.log(broadcast);
+  // {
+  //   scheduled_time: '2018-04-05T20:39:13+00:00',
+  //   status: 'SCHEDULED',
+  //   id: "115517705935329"
+  // }
+});
+```
+
+* [new] Support nested predicate in Broadcast API, so you can send broadcast messages with label predicates (and, or, not):
+
+```js
+import { MessengerBroadcast } from 'messaging-api-messenger';
+
+const { add, or, not } = MessengerBroadcast;
+
+client.sendBroadcastMessage(938461089, {
+  targeting: {
+    labels: and(
+      '<CUSTOM_LABEL_ID_1>'
+      or(
+        '<UNDER_25_CUSTOMERS_LABEL_ID>',
+        '<OVER_50_CUSTOMERS_LABEL_ID>'
+      )
+    ),
+  },
+});
+```
+
+* [new] Support getting the thread owner when using Handover Protocol:
+
+```js
+client.getThreadOwner().then(threadOwner => {
+  console.log(threadOwner);
+  // {
+  //   app_id: '12345678910'
+  // }
+});
+```
+
+* [new] `getTotalMessagingConnections`:
+
+```js
+client.getTotalMessagingConnections().then(() => {
+  placeholder;
+});
+```
+
+* [new] Support programmatically checking the feature submission status of Page-level Platform features using `getMessagingFeatureReview`:
+
+```js
+client.getMessagingFeatureReview().then(data => {
+  console.log(data);
+  // [
+  //   {
+  //     "feature": "subscription_messaging",
+  //     "status": "<pending|rejected|approved|limited>"
+  //   }
+  // ]
+});
+```
+
+See [messenger official blog post](https://blog.messengerdevelopers.com/announcing-messenger-platform-v2-4-8a8ecd5f0f04) for more Messenger Platform 2.4 details.
+
 # 0.7.0 / 2018-04-27
 
 * [changed] use class methods instead of class properties [#310](https://github.com/Yoctol/messaging-apis/pull/310)
