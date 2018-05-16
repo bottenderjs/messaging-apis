@@ -2877,6 +2877,11 @@ client.getReportedConversationsByReportType().then(counts => {
 
 ## `getOpenConversations(options)`
 
+**Deprecated**
+
+> `getOpenConversations()` is deprecated on May 11, 2018.
+> Currently this method returns the same result as the replacing method getTotalMessagingConnections()
+
 Retrieves the total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.
 
 | Param         | Type     | Description                                                       |
@@ -2891,17 +2896,50 @@ Example:
 client.getOpenConversations().then(result => {
   console.log(result);
   // {
-  //   name: 'page_messages_open_conversations_unique',
+  //   name: 'page_messages_total_messaging_connections',
   //   period: 'day',
   //   values: [
   //     { value: 1000, end_time: '2018-03-12T07:00:00+0000' },
   //     { value: 1000, end_time: '2018-03-13T07:00:00+0000' },
   //   ],
-  //   title: 'Daily unique open conversations count',
+  //   title: 'Messaging connections',
   //   description:
-  //     'Daily: The total number of open conversations between your Page and people in Messenger. This metric excludes blocked conversations.',
+  //     'Daily: The number of people who have sent a message to your business, not including people who have blocked or reported your business on Messenger. (This number only includes connections made since October 2016.)',
   //   id:
-  //     '1386473101668063/insights/page_messages_open_conversations_unique/day',
+  //     '1386473101668063/insights/page_messages_total_messaging_connections/day',
+  // }
+});
+```
+
+<br />
+
+## `getTotalMessagingConnections(options)`
+
+Retrieves the number of people who have sent a message to your business, not including people who have blocked or reported your business on Messenger. (This number only includes connections made since October 2016.)
+
+| Param         | Type     | Description                                                       |
+| ------------- | -------- | ----------------------------------------------------------------- |
+| options       | `Object` | Optional arguments.                                               |
+| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
+| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
+
+Example:
+
+```js
+client.getTotalMessagingConnections().then(result => {
+  console.log(result);
+  // {
+  //   name: 'page_messages_total_messaging_connections',
+  //   period: 'day',
+  //   values: [
+  //     { value: 1000, end_time: '2018-03-12T07:00:00+0000' },
+  //     { value: 1000, end_time: '2018-03-13T07:00:00+0000' },
+  //   ],
+  //   title: 'Messaging connections',
+  //   description:
+  //     'Daily: The number of people who have sent a message to your business, not including people who have blocked or reported your business on Messenger. (This number only includes connections made since October 2016.)',
+  //   id:
+  //     '1386473101668063/insights/page_messages_total_messaging_connections/day',
   // }
 });
 ```
