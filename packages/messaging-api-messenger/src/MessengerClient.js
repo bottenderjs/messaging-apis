@@ -1568,8 +1568,20 @@ export default class MessengerClient {
   }
 
   getOpenConversations(options?: Object = {}) {
+    // The metrics used here was replaced by the metrics used in getTotalMessagingConnections()
+    warning(
+      false,
+      'getOpenConversations() was deprecated, please use getTotalMessagingConnections() now.'
+    );
+    return this.getTotalMessagingConnections(options);
+  }
+
+  getTotalMessagingConnections(options?: Object = {}) {
+    // https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api?locale=en_US#metrics
+    // This metrics replaces the page_messages_open_conversations_unique metric, which was deprecated on May 11, 2018.
+
     return this.getInsights(
-      ['page_messages_open_conversations_unique'],
+      ['page_messages_total_messaging_connections'],
       options
     ).then(result => result[0]);
   }
