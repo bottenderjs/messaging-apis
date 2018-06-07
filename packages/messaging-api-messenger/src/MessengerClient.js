@@ -11,6 +11,7 @@ import invariant from 'invariant';
 import warning from 'warning';
 import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
+import appendQuery from 'append-query';
 
 import Messenger from './Messenger';
 import type {
@@ -77,6 +78,7 @@ function handleError(err) {
 
 type ClientConfig = {
   accessToken: string,
+  appSecret?: string,
   version?: string,
   origin?: string,
 };
@@ -90,6 +92,7 @@ export default class MessengerClient {
   }
 
   _accessToken: string;
+  _appSecret: ?string;
   _version: string;
   _axios: Axios;
 
@@ -106,6 +109,7 @@ export default class MessengerClient {
         !config.version || typeof config.version === 'string',
         'Type of `version` must be string.'
       );
+      this._appSecret = config.appSecret;
       this._version = extractVersion(config.version || '3.0');
       origin = config.origin;
     } else {
@@ -121,6 +125,24 @@ export default class MessengerClient {
       baseURL: `${origin || 'https://graph.facebook.com'}/v${this._version}/`,
       headers: { 'Content-Type': 'application/json' },
     });
+
+    // add appsecret_proof to request if appSecret exists
+    if (this._appSecret != null) {
+      const appSecret = this._appSecret;
+      this._axios.interceptors.request.use(config => {
+        const appSecretProof = crypto
+          .createHmac('sha256', appSecret)
+          .update(this._accessToken, 'utf8')
+          .digest('hex');
+
+        // eslint-disable-next-line no-param-reassign
+        config.url = appendQuery(config.url, {
+          appsecret_proof: appSecretProof,
+        });
+
+        return config;
+      });
+    }
   }
 
   get version(): string {
