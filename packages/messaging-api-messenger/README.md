@@ -3092,15 +3092,17 @@ create `__mocks__/messaging-api-messenger.js` in your project root:
 ```js
 // __mocks__/messaging-api-messenger.js
 const jestMock = require('jest-mock');
-const { Messenger, MessengerBatch, MessengerClient } = require.requireActual(
-  'messaging-api-messenger'
-);
+const {
+  Messenger,
+  MessengerBatch,
+  MessengerBroadcast,
+  MessengerClient,
+} = require.requireActual('messaging-api-messenger');
 
 module.exports = {
-  Messenger: jestMock.generateFromMetadata(jestMock.getMetadata(Messenger)),
-  MessengerBatch: jestMock.generateFromMetadata(
-    jestMock.getMetadata(MessengerBatch)
-  ),
+  Messenger,
+  MessengerBatch,
+  MessengerBroadcast,
   MessengerClient: {
     connect: jest.fn(() => {
       const Mock = jestMock.generateFromMetadata(
