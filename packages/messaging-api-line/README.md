@@ -2019,7 +2019,7 @@ const jestMock = require('jest-mock');
 const { Line, LineClient } = require.requireActual('messaging-api-line');
 
 module.exports = {
-  Line: jestMock.generateFromMetadata(jestMock.getMetadata(Line)),
+  Line,
   LineClient: {
     connect: jest.fn(() => {
       const Mock = jestMock.generateFromMetadata(
