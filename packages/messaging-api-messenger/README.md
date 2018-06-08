@@ -74,6 +74,17 @@ const client = MessengerClient.connect(accessToken, '2.12');
 
 If it is not specified, version `3.0` will be used as default.
 
+### Verifying Graph API Calls with appsecret_proof
+
+If `appSecret` is provided, `MessengerClient` will enable this feature automatically and include `appsecret_proof` in every Graph API requests.
+
+```js
+const client = MessengerClient.connect({
+  accessToken,
+  appSecret,
+});
+```
+
 <br />
 
 ## API Reference

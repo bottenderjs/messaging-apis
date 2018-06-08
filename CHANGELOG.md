@@ -1,3 +1,18 @@
+# 0.7.2 / 2018-06-08
+
+### messaging-api-messenger
+
+* [new] Verifying Graph API Calls with `appsecret_proof`
+
+If `appSecret` is provided, `MessengerClient` will enable this feature automatically and include `appsecret_proof` in every Graph API requests.
+
+```js
+const client = MessengerClient.connect({
+  accessToken,
+  appSecret,
+});
+```
+
 # 0.7.1 / 2018-05-16
 
 ### messaging-api-messenger
