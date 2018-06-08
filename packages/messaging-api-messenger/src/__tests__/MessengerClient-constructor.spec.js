@@ -1,6 +1,9 @@
+import MockAdapter from 'axios-mock-adapter';
+
 import MessengerClient from '../MessengerClient';
 
-const ACCESS_TOKEN = '1234567890';
+const ACCESS_TOKEN = 'foo_token';
+const APP_SECRET = 'shhhhh!is.my.secret';
 
 let axios;
 let _create;
@@ -182,5 +185,34 @@ describe('#accessToken', () => {
 
     client = new MessengerClient({ accessToken: ACCESS_TOKEN });
     expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
+describe('appsecret proof', () => {
+  it('should add appsecret proof to requests if appSecret exists', async () => {
+    expect.assertions(1);
+
+    const client = new MessengerClient({
+      accessToken: ACCESS_TOKEN,
+      appSecret: APP_SECRET,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    const USER_ID = 'USER_ID';
+
+    const reply = {
+      recipient_id: USER_ID,
+      message_id: 'mid.1489394984387:3dd22de509',
+    };
+
+    mock.onPost().reply(config => {
+      expect(config.url).toBe(
+        'me/messages?access_token=foo_token&appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
+      );
+      return [200, reply];
+    });
+
+    await client.sendText(USER_ID, 'Hello!');
   });
 });
