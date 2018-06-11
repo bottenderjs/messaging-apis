@@ -52,7 +52,7 @@ describe('Rich Menu', () => {
         ],
       };
 
-      mock.onGet('/richmenu/list').reply(200, reply, headers);
+      mock.onGet('/v2/bot/richmenu/list').reply(200, reply, headers);
 
       const res = await client.getRichMenuList();
 
@@ -115,7 +115,7 @@ describe('Rich Menu', () => {
       };
 
       mock
-        .onGet('/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5')
+        .onGet('/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5')
         .reply(200, reply, headers);
 
       const res = await client.getRichMenu(
@@ -134,7 +134,7 @@ describe('Rich Menu', () => {
         richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
-      mock.onPost('/richmenu').reply(200, reply, headers);
+      mock.onPost('/v2/bot/richmenu').reply(200, reply, headers);
 
       const res = await client.createRichMenu({
         size: {
@@ -170,7 +170,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onDelete('/richmenu/1').reply(200, reply, headers);
+      mock.onDelete('/v2/bot/richmenu/1').reply(200, reply, headers);
 
       const res = await client.deleteRichMenu('1');
 
@@ -186,7 +186,7 @@ describe('Rich Menu', () => {
         richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
-      mock.onGet('/user/1/richmenu').reply(200, reply, headers);
+      mock.onGet('/v2/bot/user/1/richmenu').reply(200, reply, headers);
 
       const res = await client.getLinkedRichMenu('1');
 
@@ -200,7 +200,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onPost('/user/1/richmenu/2').reply(200, reply, headers);
+      mock.onPost('/v2/bot/user/1/richmenu/2').reply(200, reply, headers);
 
       const res = await client.linkRichMenu('1', '2');
 
@@ -214,7 +214,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onDelete('/user/1/richmenu').reply(200, reply, headers);
+      mock.onDelete('/v2/bot/user/1/richmenu').reply(200, reply, headers);
 
       const res = await client.unlinkRichMenu('1');
 
@@ -228,7 +228,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onPost('/richmenu/1/content').reply(200, reply);
+      mock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
 
       const buffer = await new Promise((resolve, reject) => {
         fs.readFile(path.join(__dirname, 'fixture.png'), (err, buf) => {
@@ -250,7 +250,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onPost('/richmenu/1/content').reply(200, reply);
+      mock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
 
       let error;
       try {
@@ -269,7 +269,7 @@ describe('Rich Menu', () => {
 
       const reply = Buffer.from('a content buffer');
 
-      mock.onGet('/richmenu/1/content').reply(200, reply);
+      mock.onGet('/v2/bot/richmenu/1/content').reply(200, reply);
 
       const res = await client.downloadRichMenuImage('1');
 

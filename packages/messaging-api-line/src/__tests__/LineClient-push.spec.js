@@ -24,7 +24,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
@@ -51,7 +51,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
@@ -75,7 +75,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
         })
@@ -94,7 +94,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -121,7 +121,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -147,7 +147,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -175,7 +175,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -202,7 +202,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -230,7 +230,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -257,7 +257,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -285,7 +285,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -317,7 +317,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -340,7 +340,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -368,7 +368,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -447,7 +447,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -530,7 +530,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -603,7 +603,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -679,7 +679,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -757,7 +757,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -815,7 +815,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -943,7 +943,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
@@ -1067,7 +1067,7 @@ describe('Push Message', () => {
       const reply = {};
 
       mock
-        .onPost('/message/push', {
+        .onPost('/v2/bot/message/push', {
           to: RECIPIENT_ID,
           messages: [
             {
