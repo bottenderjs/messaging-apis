@@ -164,6 +164,168 @@ export type TemplateMessage = {
   template: Template,
 };
 
+type Size = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+type FlexBlockStyle = {
+  backgroundColor?: string,
+  separator?: boolean,
+  separatorColor?: string,
+};
+
+type FlexBubbleStyle = {
+  header?: FlexBlockStyle,
+  hero?: FlexBlockStyle,
+  body?: FlexBlockStyle,
+  footer?: FlexBlockStyle,
+};
+
+type FlexButton = {
+  type: 'button',
+  action: TemplateAction,
+  flex?: number,
+  margin?: Size,
+  height?: 'sm' | 'md',
+  style?: 'link' | 'primary' | 'secondary',
+  color?: string,
+  gravity?: string,
+};
+
+type FlexFiller = {
+  type: 'filler',
+};
+
+type FlexIcon = {
+  type: 'icon',
+  url: string,
+  margin?: Size,
+  size?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
+    | '3xl'
+    | '4xl'
+    | '5xl',
+  asprctRatio?: '1:1' | '2:1' | '3:1',
+};
+
+type FlexImage = {
+  type: 'image',
+  url: string,
+  flex?: number,
+  margin?: Size,
+  align?: 'start' | 'end' | 'center',
+  gravity?: 'top' | 'bottom' | 'center',
+  size?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | 'full',
+  aspectRatio?:
+    | '1:1'
+    | '1.51:1'
+    | '1.91:1'
+    | '4:3'
+    | '16:9'
+    | '20:13'
+    | '2:1'
+    | '3:1'
+    | '3:4'
+    | '9:16'
+    | '1:2'
+    | '1:3',
+  aspectMode?: 'cover' | 'fit',
+  backgroundColor?: string,
+  action?: TemplateAction,
+};
+
+type FlexSeparator = {
+  type: 'separator',
+  margin?: Size,
+  color?: string,
+};
+
+type FlexSpacer = {
+  type: 'spacer',
+  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl',
+};
+
+type FlexText = {
+  type: 'text',
+  text: string,
+  flex?: number,
+  margin?: Size,
+  size?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
+    | '3xl'
+    | '4xl'
+    | '5xl',
+  align?: 'start' | 'end' | 'center',
+  gravity?: 'top' | 'bottom' | 'center',
+  wrap?: boolean,
+  weight?: 'regular' | 'bold',
+  color?: string,
+};
+
+type FlexBoxContent =
+  // content
+  | FlexButton
+  | FlexIcon
+  | FlexImage
+  | FlexText
+  // layout
+  | FlexFiller
+  | FlexSeparator
+  | FlexSpacer;
+
+type FlexBox = {
+  type: 'box',
+  layout: 'horizontal' | 'vertical' | 'baseline',
+  contents: Array<FlexBox | FlexBoxContent>,
+  flex?: number,
+  spacing?: Size,
+  margin?: Size,
+};
+
+type FlexBubbleContainer = {
+  type: 'bubble',
+  direction?: 'ltr' | 'rtl',
+  header?: FlexBox,
+  hero?: FlexImage,
+  body?: FlexBox,
+  footer?: FlexBox,
+  styles?: FlexBubbleStyle,
+};
+
+type FlexCarouselContainer = {
+  type: 'carousel',
+  contents: Array<FlexBubbleContainer>,
+};
+
+type FlexContainer = FlexBubbleContainer | FlexCarouselContainer;
+
+export type FlexMessage = {
+  type: 'flex',
+  altText: string,
+  contents: FlexContainer,
+};
+
 export type Message =
   | TextMessage
   | ImageMessage
@@ -172,7 +334,8 @@ export type Message =
   | AudioMessage
   | LocationMessage
   | StickerMessage
-  | TemplateMessage;
+  | TemplateMessage
+  | FlexMessage;
 
 type Area = {
   bounds: {
