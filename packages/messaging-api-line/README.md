@@ -102,6 +102,22 @@ client.reply(REPLY_TOKEN, [
 ]);
 ```
 
+There are a bunch of factory methods can be used to create messages:
+
+* `Line.createText(text)`
+* `Line.createImage(image)`
+* `Line.createVideo(video)`
+* `Line.createAudio(audio)`
+* `Line.createLocation(location)`
+* `Line.createSticker(sticker)`
+* `Line.createImagemap(altText, imagemap)`
+* `Line.createTemplate(altText, template)`
+* `Line.createButtonTemplate(altText, buttonTemplate)`
+* `Line.createConfirmTemplate(altText, confirmTemplate)`
+* `Line.createCarouselTemplate(altText, columns, options)`
+* `Line.createImageCarouselTemplate(altText, columns)`
+* `Line.createFlex(altText, contents)`
+
 <br />
 
 ## `replyText(token, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
