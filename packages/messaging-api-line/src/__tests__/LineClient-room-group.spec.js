@@ -29,7 +29,7 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/group/${GROUP_ID}/member/${RECIPIENT_ID}`)
+        .onGet(`/v2/bot/group/${GROUP_ID}/member/${RECIPIENT_ID}`)
         .reply(200, reply, headers);
 
       const res = await client.getGroupMemberProfile(GROUP_ID, RECIPIENT_ID);
@@ -48,7 +48,7 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/room/${ROOM_ID}/member/${RECIPIENT_ID}`)
+        .onGet(`/v2/bot/room/${ROOM_ID}/member/${RECIPIENT_ID}`)
         .reply(200, reply, headers);
 
       const res = await client.getRoomMemberProfile(ROOM_ID, RECIPIENT_ID);
@@ -68,7 +68,9 @@ describe('Group/Room Member', () => {
         ],
       };
 
-      mock.onGet(`/group/${GROUP_ID}/members/ids`).reply(200, reply, headers);
+      mock
+        .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
+        .reply(200, reply, headers);
 
       const res = await client.getGroupMemberIds(GROUP_ID);
 
@@ -88,7 +90,9 @@ describe('Group/Room Member', () => {
       const continuationToken = 'TOKEN';
 
       mock
-        .onGet(`/group/${GROUP_ID}/members/ids?start=${continuationToken}`)
+        .onGet(
+          `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
+        )
         .reply(200, reply, headers);
 
       const res = await client.getGroupMemberIds(GROUP_ID, continuationToken);
@@ -118,9 +122,11 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/group/${GROUP_ID}/members/ids`)
+        .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
         .replyOnce(200, reply1, headers)
-        .onGet(`/group/${GROUP_ID}/members/ids?start=${continuationToken}`)
+        .onGet(
+          `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
+        )
         .replyOnce(200, reply2, headers);
 
       const res = await client.getAllGroupMemberIds(GROUP_ID);
@@ -147,7 +153,9 @@ describe('Group/Room Member', () => {
         ],
       };
 
-      mock.onGet(`/room/${ROOM_ID}/members/ids`).reply(200, reply, headers);
+      mock
+        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids`)
+        .reply(200, reply, headers);
 
       const res = await client.getRoomMemberIds(ROOM_ID);
 
@@ -167,7 +175,7 @@ describe('Group/Room Member', () => {
       const continuationToken = 'TOKEN';
 
       mock
-        .onGet(`/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
+        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
         .reply(200, reply, headers);
 
       const res = await client.getRoomMemberIds(ROOM_ID, continuationToken);
@@ -197,9 +205,9 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/room/${ROOM_ID}/members/ids`)
+        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids`)
         .replyOnce(200, reply1, headers)
-        .onGet(`/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
+        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
         .replyOnce(200, reply2, headers);
 
       const res = await client.getAllRoomMemberIds(ROOM_ID);
@@ -223,7 +231,7 @@ describe('Leave', () => {
 
       const reply = {};
 
-      mock.onPost(`/group/${GROUP_ID}/leave`).reply(200, reply, headers);
+      mock.onPost(`/v2/bot/group/${GROUP_ID}/leave`).reply(200, reply, headers);
 
       const res = await client.leaveGroup(GROUP_ID);
 
@@ -237,7 +245,7 @@ describe('Leave', () => {
 
       const reply = {};
 
-      mock.onPost(`/room/${ROOM_ID}/leave`).reply(200, reply, headers);
+      mock.onPost(`/v2/bot/room/${ROOM_ID}/leave`).reply(200, reply, headers);
 
       const res = await client.leaveRoom(ROOM_ID);
 

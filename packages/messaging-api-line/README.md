@@ -25,6 +25,7 @@
   * [Leave API](#leave-api)
   * [Rich Menu API](#rich-menu-api)
   * [Account Link API](#account-link-api)
+  * [LINE Front-end Framework API](#liff-api)
 * [Test](#test)
 
 ## Installation
@@ -1989,6 +1990,95 @@ client.issueLinkToken(USER_ID).then(result => {
   //   linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
   // }
 });
+```
+
+<a id="liff-api" />
+
+### LINE Front-end Framework API - [Official Docs](https://developers.line.me/en/docs/liff/reference/)
+
+## createLiffApp(view)
+
+Adds an app to LIFF. You can add up to 10 LIFF apps on one channel.
+
+| Param     | Type     | Description                                 |
+| --------- | -------- | ------------------------------------------- |
+| view.type | `String` | Size of the LIFF app view.                  |
+| view.url  | `String` | URL of the LIFF app. Must start with HTTPS. |
+
+Example:
+
+```js
+client.createLiffApp({
+  type: 'compact',
+  url: 'https://example.com/liff-app',
+});
+```
+
+View type can be specified one of the following values:
+
+* `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
+* `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
+* `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
+
+## updateLiffApp(liffId, view)
+
+Updates LIFF app settings.
+
+| Param     | Type     | Description                                 |
+| --------- | -------- | ------------------------------------------- |
+| liffId    | `String` | ID of the LIFF app to be updated.           |
+| view.type | `String` | Size of the LIFF app view.                  |
+| view.url  | `String` | URL of the LIFF app. Must start with HTTPS. |
+
+Example:
+
+```js
+client.updateLiffApp(LIFF_ID, {
+  type: 'compact',
+  url: 'https://example.com/liff-app',
+});
+```
+
+## getLiffAppList
+
+Gets information on all the LIFF apps registered in the channel.
+
+Example:
+
+```js
+client.getLiffApps().then(apps => {
+  console.log(apps);
+  // [
+  //   {
+  //     liffId: '{liffId}',
+  //     view: {
+  //       type: 'full',
+  //       url: 'https://example.com/myservice',
+  //     },
+  //   },
+  //   {
+  //     liffId: '{liffId}',
+  //     view: {
+  //       type: 'tall',
+  //       url: 'https://example.com/myservice2',
+  //     },
+  //   },
+  // ]
+});
+```
+
+## deleteLiffApp(liffId)
+
+Deletes a LIFF app.
+
+| Param  | Type     | Description                       |
+| ------ | -------- | --------------------------------- |
+| liffId | `String` | ID of the LIFF app to be deleted. |
+
+Example:
+
+```js
+client.deleteLiffApp(LIFF_ID);
 ```
 
 ## Test

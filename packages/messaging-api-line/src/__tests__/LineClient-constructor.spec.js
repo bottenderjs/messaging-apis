@@ -21,7 +21,7 @@ describe('connect', () => {
       LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
 
       expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/v2/bot/',
+        baseURL: 'https://api.line.me/',
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ describe('connect', () => {
       });
 
       expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/v2/bot/',
+        baseURL: 'https://api.line.me/',
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ describe('connect', () => {
     });
 
     expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/v2/bot/',
+      baseURL: 'https://mydummytestserver.com/',
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ describe('constructor', () => {
       new LineClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/v2/bot/',
+        baseURL: 'https://api.line.me/',
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ describe('constructor', () => {
       });
 
       expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/v2/bot/',
+        baseURL: 'https://api.line.me/',
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
           'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ describe('constructor', () => {
     });
 
     expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/v2/bot/',
+      baseURL: 'https://mydummytestserver.com/',
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
         'Content-Type': 'application/json',

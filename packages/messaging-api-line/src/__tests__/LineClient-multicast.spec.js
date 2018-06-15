@@ -24,7 +24,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
         })
@@ -51,7 +51,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
         })
@@ -78,7 +78,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
         })
@@ -97,7 +97,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -124,7 +124,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -150,7 +150,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -178,7 +178,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -205,7 +205,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -233,7 +233,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -260,7 +260,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -288,7 +288,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -320,7 +320,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -343,7 +343,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -371,7 +371,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -450,7 +450,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -533,7 +533,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -606,7 +606,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -684,7 +684,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -742,7 +742,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -870,7 +870,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -994,7 +994,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock
-        .onPost('/message/multicast', {
+        .onPost('/v2/bot/message/multicast', {
           to: [RECIPIENT_ID],
           messages: [
             {

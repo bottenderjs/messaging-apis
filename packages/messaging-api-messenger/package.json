@@ -11,12 +11,8 @@
   },
   "license": "MIT",
   "main": "lib/index.js",
-  "keywords": [
-    "bot",
-    "chatbot",
-    "messaging-apis",
-    "messenger"
-  ],
+  "browser": "lib/browser.js",
+  "keywords": ["bot", "chatbot", "messaging-apis", "messenger"],
   "dependencies": {
     "append-query": "^2.0.1",
     "axios": "^0.17.0",
