@@ -11,12 +11,8 @@
   },
   "license": "MIT",
   "main": "lib/index.js",
-  "keywords": [
-    "bot",
-    "chatbot",
-    "messaging-apis",
-    "line"
-  ],
+  "browser": "lib/browser.js",
+  "keywords": ["bot", "chatbot", "messaging-apis", "line"],
   "dependencies": {
     "axios": "^0.17.0",
     "axios-error": "^0.7.0",
