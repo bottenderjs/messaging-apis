@@ -19,6 +19,7 @@ import type {
   ColumnObject,
   ImageCarouselColumnObject,
   RichMenu,
+  LiffView,
   MutationSuccessResponse,
 } from './LineTypes';
 
@@ -574,6 +575,35 @@ export default class LineClient {
   issueLinkToken(userId: string): Promise<{ issueToken: string }> {
     return this._axios
       .post(`/v2/bot/user/${userId}/linkToken`)
+      .then(res => res.data, handleError);
+  }
+
+  /**
+   * LINE Front-end Framework (LIFF)
+   *
+   * https://developers.line.me/en/docs/liff/reference/#add-liff-app
+   */
+  getLiffAppList(): Promise<{ liffId: string, view: LiffView }> {
+    return this._axios
+      .get('/liff/v1/apps')
+      .then(res => res.data.apps, handleError);
+  }
+
+  createLiffApp(view: LiffView): Promise<{ liffId: string }> {
+    return this._axios
+      .post('/liff/v1/apps', view)
+      .then(res => res.data, handleError);
+  }
+
+  updateLiffApp(liffId: string, view: LiffView): Promise<void> {
+    return this._axios
+      .put(`/liff/v1/apps/${liffId}/view`, view)
+      .then(res => res.data, handleError);
+  }
+
+  deleteLiffApp(liffId: string): Promise<void> {
+    return this._axios
+      .delete(`/liff/v1/apps/${liffId}`)
       .then(res => res.data, handleError);
   }
 }

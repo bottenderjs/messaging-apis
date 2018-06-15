@@ -2039,7 +2039,7 @@ client.updateLiffApp(LIFF_ID, {
 });
 ```
 
-## getLiffApps (List?)
+## getLiffAppList
 
 Gets information on all the LIFF apps registered in the channel.
 
@@ -2067,7 +2067,7 @@ client.getLiffApps().then(apps => {
 });
 ```
 
-## deleteLiffApp()
+## deleteLiffApp(liffId)
 
 Deletes a LIFF app.
 

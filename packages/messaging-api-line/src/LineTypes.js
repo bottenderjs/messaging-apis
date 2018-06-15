@@ -198,4 +198,9 @@ export type RichMenu = {
   areas: Array<Area>,
 };
 
+export type LiffView = {
+  type: 'compact' | 'tall' | 'full',
+  url: string,
+};
+
 export type MutationSuccessResponse = {};
