@@ -116,6 +116,12 @@ export type TemplateAction =
   | URIAction
   | DatetimePickerAction;
 
+export type TemplateMessage<Template> = {
+  type: 'template',
+  altText: string,
+  template: Template,
+};
+
 export type ButtonsTemplate = {
   type: 'buttons',
   thumbnailImageUrl?: string,
@@ -157,12 +163,6 @@ export type Template =
   | ConfirmTemplate
   | CarouselTemplate
   | ImageCarouselTemplate;
-
-export type TemplateMessage = {
-  type: 'template',
-  altText: string,
-  template: Template,
-};
 
 type Size = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
@@ -318,7 +318,7 @@ type FlexCarouselContainer = {
   contents: Array<FlexBubbleContainer>,
 };
 
-type FlexContainer = FlexBubbleContainer | FlexCarouselContainer;
+export type FlexContainer = FlexBubbleContainer | FlexCarouselContainer;
 
 export type FlexMessage = {
   type: 'flex',
@@ -334,7 +334,7 @@ export type Message =
   | AudioMessage
   | LocationMessage
   | StickerMessage
-  | TemplateMessage
+  | TemplateMessage<Template>
   | FlexMessage;
 
 type Area = {

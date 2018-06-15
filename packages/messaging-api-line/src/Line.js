@@ -1,15 +1,29 @@
 /* @flow */
 
 import type {
+  TextMessage,
+  ImageMessage,
+  VideoMessage,
+  AudioMessage,
   Location,
+  LocationMessage,
+  StickerMessage,
   Template,
-  ImageMapAction,
   TemplateAction,
+  TemplateMessage,
+  ButtonsTemplate,
+  ConfirmTemplate,
   ColumnObject,
+  CarouselTemplate,
   ImageCarouselColumnObject,
+  ImageCarouselTemplate,
+  ImageMapAction,
+  ImageMapMessage,
+  FlexContainer,
+  FlexMessage,
 } from './LineTypes';
 
-function createText(text: string): Object {
+function createText(text: string): TextMessage {
   return {
     type: 'text',
     text,
@@ -19,7 +33,7 @@ function createText(text: string): Object {
 function createImage(
   contentUrlOrImage: string | Object,
   previewUrl: ?string
-): Object {
+): ImageMessage {
   if (typeof contentUrlOrImage === 'object') {
     const image = contentUrlOrImage;
     return {
@@ -37,8 +51,8 @@ function createImage(
 
 function createVideo(
   contentUrlOrVideo: string | Object,
-  previewUrl: ?string
-): Object {
+  previewImageUrl: ?string
+): VideoMessage {
   if (typeof contentUrlOrVideo === 'object') {
     const video = contentUrlOrVideo;
     return {
@@ -50,14 +64,14 @@ function createVideo(
   return {
     type: 'video',
     originalContentUrl: contentUrlOrVideo,
-    previewImageUrl: previewUrl,
+    previewImageUrl: ((previewImageUrl: any): string),
   };
 }
 
 function createAudio(
   contentUrlOrAudio: string | Object,
   duration: ?number
-): Object {
+): AudioMessage {
   if (typeof contentUrlOrAudio === 'object') {
     const audio = contentUrlOrAudio;
     return {
@@ -69,7 +83,7 @@ function createAudio(
   return {
     type: 'audio',
     originalContentUrl: contentUrlOrAudio,
-    duration,
+    duration: ((duration: any): number),
   };
 }
 
@@ -78,7 +92,7 @@ function createLocation({
   address,
   latitude,
   longitude,
-}: Location): Object {
+}: Location): LocationMessage {
   return {
     type: 'location',
     title,
@@ -91,7 +105,7 @@ function createLocation({
 function createSticker(
   packageIdOrSticker: string | Object,
   stickerId: ?string
-): Object {
+): StickerMessage {
   if (typeof packageIdOrSticker === 'object') {
     const sticker = packageIdOrSticker;
     return {
@@ -103,7 +117,7 @@ function createSticker(
   return {
     type: 'sticker',
     packageId: packageIdOrSticker,
-    stickerId,
+    stickerId: ((stickerId: any): string),
   };
 }
 
@@ -125,7 +139,7 @@ function createImagemap(
     baseWidth: number,
     actions: Array<ImageMapAction>,
   }
-): Object {
+): ImageMapMessage {
   return {
     type: 'imagemap',
     baseUrl,
@@ -138,7 +152,10 @@ function createImagemap(
   };
 }
 
-function createTemplate(altText: string, template: Template): Object {
+function createTemplate(
+  altText: string,
+  template: Template
+): TemplateMessage<any> {
   return {
     type: 'template',
     altText,
@@ -165,7 +182,7 @@ function createButtonTemplate(
     text: string,
     actions: Array<TemplateAction>,
   }
-): Object {
+): TemplateMessage<ButtonsTemplate> {
   return createTemplate(altText, {
     type: 'buttons',
     thumbnailImageUrl,
@@ -187,7 +204,7 @@ function createConfirmTemplate(
     text: string,
     actions: Array<TemplateAction>,
   }
-): Object {
+): TemplateMessage<ConfirmTemplate> {
   return createTemplate(altText, {
     type: 'confirm',
     text,
@@ -205,7 +222,7 @@ function createCarouselTemplate(
     imageAspectRatio?: 'rectangle' | 'square',
     imageSize?: 'cover' | 'contain',
   } = {}
-): Object {
+): TemplateMessage<CarouselTemplate> {
   return createTemplate(altText, {
     type: 'carousel',
     columns,
@@ -217,11 +234,19 @@ function createCarouselTemplate(
 function createImageCarouselTemplate(
   altText: string,
   columns: Array<ImageCarouselColumnObject>
-): Object {
+): TemplateMessage<ImageCarouselTemplate> {
   return createTemplate(altText, {
     type: 'image_carousel',
     columns,
   });
+}
+
+function createFlex(altText: string, contents: FlexContainer): FlexMessage {
+  return {
+    type: 'flex',
+    altText,
+    contents,
+  };
 }
 
 const Line = {
@@ -238,6 +263,7 @@ const Line = {
   createConfirmTemplate,
   createCarouselTemplate,
   createImageCarouselTemplate,
+  createFlex,
 };
 
 export default Line;
