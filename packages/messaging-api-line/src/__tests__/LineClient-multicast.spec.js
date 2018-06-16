@@ -1068,4 +1068,12 @@ describe('Multicast', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#multicastFlex', () => {
+    it('should not define this method', async () => {
+      const { client } = createMock();
+
+      expect(client.multicastFlex).not.toBeDefined();
+    });
+  });
 });

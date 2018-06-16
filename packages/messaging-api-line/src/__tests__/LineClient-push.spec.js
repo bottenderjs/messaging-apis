@@ -1141,4 +1141,111 @@ describe('Push Message', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#pushFlex', () => {
+    it('should call push api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/v2/bot/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'flex',
+              altText: 'this is a flex message',
+              contents: {
+                type: 'bubble',
+                header: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: 'Header text',
+                    },
+                  ],
+                },
+                hero: {
+                  type: 'image',
+                  url: 'https://example.com/flex/images/image.jpg',
+                },
+                body: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: 'Body text',
+                    },
+                  ],
+                },
+                footer: {
+                  type: 'box',
+                  layout: 'vertical',
+                  contents: [
+                    {
+                      type: 'text',
+                      text: 'Footer text',
+                    },
+                  ],
+                },
+                styles: {
+                  comment: 'See the example of a bubble style object',
+                },
+              },
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushFlex(
+        RECIPIENT_ID,
+        'this is a flex message',
+        {
+          type: 'bubble',
+          header: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: 'Header text',
+              },
+            ],
+          },
+          hero: {
+            type: 'image',
+            url: 'https://example.com/flex/images/image.jpg',
+          },
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: 'Body text',
+              },
+            ],
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: 'Footer text',
+              },
+            ],
+          },
+          styles: {
+            comment: 'See the example of a bubble style object',
+          },
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
 });
