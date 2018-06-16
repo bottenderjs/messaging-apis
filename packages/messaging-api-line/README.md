@@ -6,27 +6,29 @@
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
-  - [Reply API](#reply-api)
-    - [Imagemap Message](#reply-imagemap-message)
-    - [Template Messages](#reply-template-messages)
-  - [Push API](#push-api)
-    - [Imagemap Message](#push-imagemap-message)
-    - [Template Messages](#push-template-messages)
-  - [Multicast API](#multicast-api)
-    - [Imagemap Message](#multicast-imagemap-message)
-    - [Template Messages](#multicast-template-messages)
-  - [Content API](#content-api)
-  - [Profile API](#profile-api)
-  - [Group/Room Member Profile API](#grouproom-member-profile-api)
-  - [Group/Room Member IDs API](#grouproom-member-ids-api)
-  - [Leave API](#leave-api)
-  - [Rich Menu API](#rich-menu-api)
-  - [Account Link API](#account-link-api)
-  - [LINE Front-end Framework API](#liff-api)
-- [Test](#test)
+* [Installation](#installation)
+* [Usage](#usage)
+* [API Reference](#api-reference)
+  * [Reply API](#reply-api)
+    * [Imagemap Message](#reply-imagemap-message)
+    * [Template Messages](#reply-template-messages)
+    * [Flex Messages](#reply-flex-messages)
+  * [Push API](#push-api)
+    * [Imagemap Message](#push-imagemap-message)
+    * [Template Messages](#push-template-messages)
+    * [Flex Messages](#push-flex-messages)
+  * [Multicast API](#multicast-api)
+    * [Imagemap Message](#multicast-imagemap-message)
+    * [Template Messages](#multicast-template-messages)
+  * [Content API](#content-api)
+  * [Profile API](#profile-api)
+  * [Group/Room Member Profile API](#grouproom-member-profile-api)
+  * [Group/Room Member IDs API](#grouproom-member-ids-api)
+  * [Leave API](#leave-api)
+  * [Rich Menu API](#rich-menu-api)
+  * [Account Link API](#account-link-api)
+  * [LINE Front-end Framework API](#liff-api)
+* [Test](#test)
 
 ## Installation
 
@@ -107,19 +109,19 @@ client.reply(REPLY_TOKEN, [
 
 There are a bunch of factory methods can be used to create messages:
 
-- `Line.createText(text)`
-- `Line.createImage(image)`
-- `Line.createVideo(video)`
-- `Line.createAudio(audio)`
-- `Line.createLocation(location)`
-- `Line.createSticker(sticker)`
-- `Line.createImagemap(altText, imagemap)`
-- `Line.createTemplate(altText, template)`
-- `Line.createButtonTemplate(altText, buttonTemplate)`
-- `Line.createConfirmTemplate(altText, confirmTemplate)`
-- `Line.createCarouselTemplate(altText, columns, options)`
-- `Line.createImageCarouselTemplate(altText, columns)`
-- `Line.createFlex(altText, contents)`
+* `Line.createText(text)`
+* `Line.createImage(image)`
+* `Line.createVideo(video)`
+* `Line.createAudio(audio)`
+* `Line.createLocation(location)`
+* `Line.createSticker(sticker)`
+* `Line.createImagemap(altText, imagemap)`
+* `Line.createTemplate(altText, template)`
+* `Line.createButtonTemplate(altText, buttonTemplate)`
+* `Line.createConfirmTemplate(altText, confirmTemplate)`
+* `Line.createCarouselTemplate(altText, columns, options)`
+* `Line.createImageCarouselTemplate(altText, columns)`
+* `Line.createFlex(altText, contents)`
 
 <br />
 
@@ -560,6 +562,67 @@ client.replyImageCarouselTemplate(
     },
   ]
 );
+```
+
+<br />
+
+### Reply Flex Message
+
+## `replyFlex(token, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+
+Responds flex message using specified reply token.
+
+<img src="https://developers.line.me/media/messaging-api/using-flex-messages/bubbleSample-77d825e6.png" />
+
+| Param    | Type     | Description                                                                                             |
+| -------- | -------- | ------------------------------------------------------------------------------------------------------- |
+| token    | `String` | `replyToken` received via webhook.                                                                      |
+| altText  | `String` | Alternative text.                                                                                       |
+| contents | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+
+Example:
+
+```js
+client.replyFlex(REPLY_TOKEN, 'this is a flex', {
+  type: 'bubble',
+  header: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Header text',
+      },
+    ],
+  },
+  hero: {
+    type: 'image',
+    url: 'https://example.com/flex/images/image.jpg',
+  },
+  body: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Body text',
+      },
+    ],
+  },
+  footer: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Footer text',
+      },
+    ],
+  },
+  styles: {
+    comment: 'See the example of a bubble style object',
+  },
+});
 ```
 
 <br />
@@ -1029,6 +1092,67 @@ client.pushImageCarouselTemplate(
     },
   ]
 );
+```
+
+<br />
+
+### Push Flex Message
+
+## `pushFlex(token, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+
+Sends flex message using ID of the receiver.
+
+<img src="https://developers.line.me/media/messaging-api/using-flex-messages/bubbleSample-77d825e6.png" />
+
+| Param    | Type     | Description                                                                                             |
+| -------- | -------- | ------------------------------------------------------------------------------------------------------- |
+| userId   | `String` | ID of the receiver.                                                                                     |
+| altText  | `String` | Alternative text.                                                                                       |
+| contents | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+
+Example:
+
+```js
+client.pushFlex(USER_ID, 'this is a flex', {
+  type: 'bubble',
+  header: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Header text',
+      },
+    ],
+  },
+  hero: {
+    type: 'image',
+    url: 'https://example.com/flex/images/image.jpg',
+  },
+  body: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Body text',
+      },
+    ],
+  },
+  footer: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Footer text',
+      },
+    ],
+  },
+  styles: {
+    comment: 'See the example of a bubble style object',
+  },
+});
 ```
 
 <br />
@@ -2047,9 +2171,9 @@ client.createLiffApp({
 
 View type can be specified one of the following values:
 
-- `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
-- `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
-- `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
+* `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
+* `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
+* `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
 
 ## updateLiffApp(liffId, view)
 

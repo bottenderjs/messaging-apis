@@ -16,6 +16,7 @@ import type {
   Template,
   TemplateAction,
   ImageMapAction,
+  FlexContainer,
   ColumnObject,
   ImageCarouselColumnObject,
   RichMenu,
@@ -203,17 +204,28 @@ export default class LineClient {
     }
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      {
-        type: 'imagemap',
+      Line.createImagemap(altText, {
         baseUrl,
-        altText,
-        baseSize: baseSize || {
-          height: baseHeight,
-          width: baseWidth,
-        },
+        baseSize,
+        baseHeight,
+        baseWidth,
         actions,
-      },
+      }),
     ]);
+  }
+
+  /**
+   * Flex Message
+   *
+   * https://devdocs.line.me/en/#imagemap-message
+   */
+  _sendFlex(
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    contents: FlexContainer
+  ): Promise<MutationSuccessResponse> {
+    return this._send(type, target, [Line.createFlex(altText, contents)]);
   }
 
   /**
@@ -616,7 +628,11 @@ export default class LineClient {
 
 const sendTypes = ['reply', 'push', 'multicast'];
 
-const messageTypes: Array<{ name: string, aliases?: Array<string> }> = [
+const messageTypes: Array<{
+  name: string,
+  aliases?: Array<string>,
+  allowSendTypes?: Array<string>,
+}> = [
   { name: 'Text' },
   { name: 'Image' },
   { name: 'Video' },
@@ -624,6 +640,7 @@ const messageTypes: Array<{ name: string, aliases?: Array<string> }> = [
   { name: 'Location' },
   { name: 'Sticker' },
   { name: 'Imagemap' },
+  { name: 'Flex', allowSendTypes: ['reply', 'push'] },
   { name: 'Template' },
   { name: 'ButtonTemplate', aliases: ['ButtonsTemplate'] },
   { name: 'ConfirmTemplate' },
@@ -631,8 +648,12 @@ const messageTypes: Array<{ name: string, aliases?: Array<string> }> = [
   { name: 'ImageCarouselTemplate' },
 ];
 
-sendTypes.forEach(sendType => {
-  messageTypes.forEach(({ name, aliases }) => {
+messageTypes.forEach(({ name, aliases, allowSendTypes }) => {
+  sendTypes.forEach(sendType => {
+    if (allowSendTypes && !allowSendTypes.includes(sendType)) {
+      return;
+    }
+
     [name].concat(aliases || []).forEach(type => {
       Object.defineProperty(LineClient.prototype, `${sendType}${type}`, {
         enumerable: false,
