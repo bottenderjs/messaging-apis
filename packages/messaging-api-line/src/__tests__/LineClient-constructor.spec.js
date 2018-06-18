@@ -18,7 +18,10 @@ describe('connect', () => {
   describe('create axios with Line API', () => {
     it('with args', () => {
       axios.create = jest.fn();
-      LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
+      LineClient.connect(
+        ACCESS_TOKEN,
+        CHANNEL_SECRET
+      );
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://api.line.me/',

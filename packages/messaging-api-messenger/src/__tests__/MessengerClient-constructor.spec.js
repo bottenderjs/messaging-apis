@@ -42,7 +42,10 @@ describe('connect', () => {
   describe('create axios with custom graphAPI version', () => {
     it('with args', () => {
       axios.create = jest.fn();
-      MessengerClient.connect(ACCESS_TOKEN, '2.6');
+      MessengerClient.connect(
+        ACCESS_TOKEN,
+        '2.6'
+      );
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://graph.facebook.com/v2.6/',

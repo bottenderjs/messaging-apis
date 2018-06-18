@@ -18,7 +18,10 @@ describe('connect', () => {
   describe('create axios with WeChat API', () => {
     it('with args', () => {
       axios.create = jest.fn();
-      WechatClient.connect(APP_ID, APP_SECRET);
+      WechatClient.connect(
+        APP_ID,
+        APP_SECRET
+      );
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://api.weixin.qq.com/cgi-bin/',

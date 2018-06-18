@@ -79,7 +79,7 @@ function createMessageFormData(
   filedata: FileData,
   options?: { quick_replies?: Array<QuickReply> } = {}
 ) {
-  const message = {
+  const message: { ...AttachmentPayload, quick_replies?: Array<QuickReply> } = {
     ...payload,
   };
 
