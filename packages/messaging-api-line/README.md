@@ -6,27 +6,27 @@
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [API Reference](#api-reference)
-  * [Reply API](#reply-api)
-    * [Imagemap Message](#reply-imagemap-message)
-    * [Template Messages](#reply-template-messages)
-  * [Push API](#push-api)
-    * [Imagemap Message](#push-imagemap-message)
-    * [Template Messages](#push-template-messages)
-  * [Multicast API](#multicast-api)
-    * [Imagemap Message](#multicast-imagemap-message)
-    * [Template Messages](#multicast-template-messages)
-  * [Content API](#content-api)
-  * [Profile API](#profile-api)
-  * [Group/Room Member Profile API](#grouproom-member-profile-api)
-  * [Group/Room Member IDs API](#grouproom-member-ids-api)
-  * [Leave API](#leave-api)
-  * [Rich Menu API](#rich-menu-api)
-  * [Account Link API](#account-link-api)
-  * [LINE Front-end Framework API](#liff-api)
-* [Test](#test)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  - [Reply API](#reply-api)
+    - [Imagemap Message](#reply-imagemap-message)
+    - [Template Messages](#reply-template-messages)
+  - [Push API](#push-api)
+    - [Imagemap Message](#push-imagemap-message)
+    - [Template Messages](#push-template-messages)
+  - [Multicast API](#multicast-api)
+    - [Imagemap Message](#multicast-imagemap-message)
+    - [Template Messages](#multicast-template-messages)
+  - [Content API](#content-api)
+  - [Profile API](#profile-api)
+  - [Group/Room Member Profile API](#grouproom-member-profile-api)
+  - [Group/Room Member IDs API](#grouproom-member-ids-api)
+  - [Leave API](#leave-api)
+  - [Rich Menu API](#rich-menu-api)
+  - [Account Link API](#account-link-api)
+  - [LINE Front-end Framework API](#liff-api)
+- [Test](#test)
 
 ## Installation
 
@@ -50,7 +50,10 @@ yarn add messaging-api-line
 const { LineClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
-const client = LineClient.connect(accessToken, channelSecret);
+const client = LineClient.connect({
+  accessToken: ACCESS_TOKEN,
+  channelSecret: CHANNEL_SECRET,
+});
 ```
 
 <br />
@@ -104,19 +107,19 @@ client.reply(REPLY_TOKEN, [
 
 There are a bunch of factory methods can be used to create messages:
 
-* `Line.createText(text)`
-* `Line.createImage(image)`
-* `Line.createVideo(video)`
-* `Line.createAudio(audio)`
-* `Line.createLocation(location)`
-* `Line.createSticker(sticker)`
-* `Line.createImagemap(altText, imagemap)`
-* `Line.createTemplate(altText, template)`
-* `Line.createButtonTemplate(altText, buttonTemplate)`
-* `Line.createConfirmTemplate(altText, confirmTemplate)`
-* `Line.createCarouselTemplate(altText, columns, options)`
-* `Line.createImageCarouselTemplate(altText, columns)`
-* `Line.createFlex(altText, contents)`
+- `Line.createText(text)`
+- `Line.createImage(image)`
+- `Line.createVideo(video)`
+- `Line.createAudio(audio)`
+- `Line.createLocation(location)`
+- `Line.createSticker(sticker)`
+- `Line.createImagemap(altText, imagemap)`
+- `Line.createTemplate(altText, template)`
+- `Line.createButtonTemplate(altText, buttonTemplate)`
+- `Line.createConfirmTemplate(altText, confirmTemplate)`
+- `Line.createCarouselTemplate(altText, columns, options)`
+- `Line.createImageCarouselTemplate(altText, columns)`
+- `Line.createFlex(altText, contents)`
 
 <br />
 
@@ -143,70 +146,71 @@ client.reply(REPLY_TOKEN, 'Hello!');
 
 <br />
 
-## `replyImage(token, imageUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
+## `replyImage(token, image)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Responds image message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
-| Param           | Type     | Description                        |
-| --------------- | -------- | ---------------------------------- |
-| token           | `String` | `replyToken` received via webhook. |
-| imageUrl        | `String` | Image URL.                         |
-| previewImageUrl | `String` | Preview image URL.                 |
+| Param                    | Type     | Description                        |
+| ------------------------ | -------- | ---------------------------------- |
+| token                    | `String` | `replyToken` received via webhook. |
+| image.originalContentUrl | `String` | Image URL.                         |
+| image.previewImageUrl    | `String` | Preview image URL.                 |
 
 Example:
 
 ```js
-client.replyImage(
-  REPLY_TOKEN,
-  'https://example.com/original.jpg',
-  'https://example.com/preview.jpg'
-);
+client.replyImage(REPLY_TOKEN, {
+  originalContentUrl: 'https://example.com/original.jpg',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
 ```
 
 <br />
 
-## `replyVideo(token, videoUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
+## `replyVideo(token, video)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Responds video message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
-| Param           | Type     | Description                        |
-| --------------- | -------- | ---------------------------------- |
-| token           | `String` | `replyToken` received via webhook. |
-| videoUrl        | `String` | URL of video file.                 |
-| previewImageUrl | `String` | URL of preview image.              |
+| Param                    | Type     | Description                        |
+| ------------------------ | -------- | ---------------------------------- |
+| token                    | `String` | `replyToken` received via webhook. |
+| video.originalContentUrl | `String` | URL of video file.                 |
+| video.previewImageUrl    | `String` | URL of preview image.              |
 
 Example:
 
 ```js
-client.replyVideo(
-  REPLY_TOKEN,
-  'https://example.com/original.mp4',
-  'https://example.com/preview.jpg'
-);
+client.replyVideo(REPLY_TOKEN, {
+  originalContentUrl: 'https://example.com/original.mp4',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
 ```
 
 <br />
 
-## `replyAudio(token, audioUrl, duration)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
+## `replyAudio(token, audio)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Responds audio message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
-| Param    | Type     | Description                        |
-| -------- | -------- | ---------------------------------- |
-| token    | `String` | `replyToken` received via webhook. |
-| audioUrl | `String` | URL of audio file.                 |
-| duration | `Number` | Length of audio file.              |
+| Param                    | Type     | Description                          |
+| ------------------------ | -------- | ------------------------------------ |
+| token                    | `String` | `replyToken` received via webhook.   |
+| audio.originalContentUrl | `String` | URL of audio file.                   |
+| audio.duration           | `Number` | Length of audio file (milliseconds). |
 
 Example:
 
 ```js
-client.replyAudio(REPLY_TOKEN, 'https://example.com/original.m4a', 240000);
+client.replyAudio(REPLY_TOKEN, {
+  originalContentUrl: 'https://example.com/original.m4a',
+  duration: 240000,
+});
 ```
 
 <br />
@@ -239,23 +243,23 @@ client.replyLocation(REPLY_TOKEN, {
 
 <br />
 
-## `replySticker(token, packageId, stickerId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
+## `replySticker(token, sticker)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Responds sticker message using specified reply token.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
 <img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
-| Param     | Type     | Description                        |
-| --------- | -------- | ---------------------------------- |
-| token     | `String` | `replyToken` received via webhook. |
-| packageId | `String` | Package ID.                        |
-| stickerId | `String` | Sticker ID.                        |
+| Param             | Type     | Description                        |
+| ----------------- | -------- | ---------------------------------- |
+| token             | `String` | `replyToken` received via webhook. |
+| sticker.packageId | `String` | Package ID.                        |
+| sticker.stickerId | `String` | Sticker ID.                        |
 
 Example:
 
 ```js
-client.replySticker(REPLY_TOKEN, '1', '1');
+client.replySticker(REPLY_TOKEN, { packageId: '1', stickerId: '1' });
 ```
 
 <br />
@@ -358,6 +362,8 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 <br />
 
 ## `replyButtonTemplate(token, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
+
+Alias: `replyButtonsTemplate`.
 
 Responds button template message using specified reply token.
 
@@ -609,70 +615,71 @@ client.pushText(USER_ID, 'Hello!');
 
 <br />
 
-## `pushImage(userId, imageUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
+## `pushImage(userId, image)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Sends image message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
-| Param           | Type     | Description         |
-| --------------- | -------- | ------------------- |
-| userId          | `String` | ID of the receiver. |
-| imageUrl        | `String` | Image URL.          |
-| previewImageUrl | `String` | Preview image URL.  |
+| Param                    | Type     | Description         |
+| ------------------------ | -------- | ------------------- |
+| userId                   | `String` | ID of the receiver. |
+| image.originalContentUrl | `String` | Image URL.          |
+| image.previewImageUrl    | `String` | Preview image URL.  |
 
 Example:
 
 ```js
-client.pushImage(
-  USER_ID,
-  'https://example.com/original.jpg',
-  'https://example.com/preview.jpg'
-);
+client.pushImage(USER_ID, {
+  originalContentUrl: 'https://example.com/original.jpg',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
 ```
 
 <br />
 
-## `pushVideo(userId, videoUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
+## `pushVideo(userId, video)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Sends video message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
-| Param           | Type     | Description           |
-| --------------- | -------- | --------------------- |
-| userId          | `String` | ID of the receiver.   |
-| videoUrl        | `String` | URL of video file.    |
-| previewImageUrl | `String` | URL of preview image. |
+| Param                    | Type     | Description           |
+| ------------------------ | -------- | --------------------- |
+| userId                   | `String` | ID of the receiver.   |
+| video.originalContentUrl | `String` | URL of video file.    |
+| video.previewImageUrl    | `String` | URL of preview image. |
 
 Example:
 
 ```js
-client.pushVideo(
-  USER_ID,
-  'https://example.com/original.mp4',
-  'https://example.com/preview.jpg'
-);
+client.pushVideo(USER_ID, {
+  originalContentUrl: 'https://example.com/original.mp4',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
 ```
 
 <br />
 
-## `pushAudio(userId, audioUrl, duration)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
+## `pushAudio(userId, audio)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Sends audio message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
-| Param    | Type     | Description           |
-| -------- | -------- | --------------------- |
-| userId   | `String` | ID of the receiver.   |
-| audioUrl | `String` | URL of audio file.    |
-| duration | `Number` | Length of audio file. |
+| Param                    | Type     | Description                          |
+| ------------------------ | -------- | ------------------------------------ |
+| userId                   | `String` | ID of the receiver.                  |
+| audio.originalContentUrl | `String` | URL of audio file.                   |
+| audio.duration           | `Number` | Length of audio file (milliseconds). |
 
 Example:
 
 ```js
-client.pushAudio(USER_ID, 'https://example.com/original.m4a', 240000);
+client.pushAudio(USER_ID, {
+  originalContentUrl: 'https://example.com/original.m4a',
+  duration: 240000,
+});
 ```
 
 <br />
@@ -705,23 +712,23 @@ client.pushLocation(USER_ID, {
 
 <br />
 
-## `pushSticker(userId, packageId, stickerId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
+## `pushSticker(userId, sticker)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Sends sticker message using ID of the receiver.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
 <img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
-| Param     | Type     | Description         |
-| --------- | -------- | ------------------- |
-| userId    | `String` | ID of the receiver. |
-| packageId | `String` | Package ID.         |
-| stickerId | `String` | Sticker ID.         |
+| Param             | Type     | Description         |
+| ----------------- | -------- | ------------------- |
+| userId            | `String` | ID of the receiver. |
+| sticker.packageId | `String` | Package ID.         |
+| sticker.stickerId | `String` | Sticker ID.         |
 
 Example:
 
 ```js
-client.pushSticker(USER_ID, '1', '1');
+client.pushSticker(USER_ID, { packageId: '1', stickerId: '1' });
 ```
 
 <br />
@@ -824,6 +831,8 @@ client.pushTemplate(USER_ID, 'this is a template', {
 <br />
 
 ## `pushButtonTemplate(userId, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
+
+Alias: `pushButtonsTemplate`.
 
 Sends button template message using ID of the receiver.
 
@@ -1078,70 +1087,71 @@ client.multicastText([USER_ID], 'Hello!');
 
 <br />
 
-## `multicastImage(userIds, imageUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
+## `multicastImage(userIds, image)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Sends image message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
-| Param           | Type            | Description           |
-| --------------- | --------------- | --------------------- |
-| userIds         | `Array<String>` | IDs of the receivers. |
-| imageUrl        | `String`        | Image URL.            |
-| previewImageUrl | `String`        | Preview image URL.    |
+| Param                    | Type            | Description           |
+| ------------------------ | --------------- | --------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers. |
+| image.originalContentUrl | `String`        | Image URL.            |
+| image.previewImageUrl    | `String`        | Preview image URL.    |
 
 Example:
 
 ```js
-client.multicastImage(
-  [USER_ID],
-  'https://example.com/original.jpg',
-  'https://example.com/preview.jpg'
-);
+client.multicastImage([USER_ID], {
+  originalContentUrl: 'https://example.com/original.jpg',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
 ```
 
 <br />
 
-## `multicastVideo(userIds, videoUrl, previewImageUrl)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
+## `multicastVideo(userIds, video)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Sends video message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
-| Param           | Type            | Description           |
-| --------------- | --------------- | --------------------- |
-| userIds         | `Array<String>` | IDs of the receivers. |
-| videoUrl        | `String`        | URL of video file.    |
-| previewImageUrl | `String`        | URL of preview image. |
+| Param                    | Type            | Description           |
+| ------------------------ | --------------- | --------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers. |
+| video.originalContentUrl | `String`        | URL of video file.    |
+| video.previewImageUrl    | `String`        | URL of preview image. |
 
 Example:
 
 ```js
-client.multicastVideo(
-  [USER_ID],
-  'https://example.com/original.mp4',
-  'https://example.com/preview.jpg'
-);
+client.multicastVideo([USER_ID], {
+  originalContentUrl: 'https://example.com/original.mp4',
+  previewImageUrl: 'https://example.com/preview.jpg',
+});
 ```
 
 <br />
 
-## `multicastAudio(userIds, audioUrl, duration)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
+## `multicastAudio(userIds, audio)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Sends audio message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
-| Param    | Type            | Description           |
-| -------- | --------------- | --------------------- |
-| userIds  | `Array<String>` | IDs of the receivers. |
-| audioUrl | `String`        | URL of audio file.    |
-| duration | `Number`        | Length of audio file. |
+| Param                    | Type            | Description                          |
+| ------------------------ | --------------- | ------------------------------------ |
+| userIds                  | `Array<String>` | IDs of the receivers.                |
+| audio.originalContentUrl | `String`        | URL of audio file.                   |
+| audio.duration           | `Number`        | Length of audio file (milliseconds). |
 
 Example:
 
 ```js
-client.multicastAudio([USER_ID], 'https://example.com/original.m4a', 240000);
+client.multicastAudio([USER_ID], {
+  originalContentUrl: 'https://example.com/original.m4a',
+  duration: 240000,
+});
 ```
 
 <br />
@@ -1174,23 +1184,26 @@ client.multicastLocation([USER_ID], {
 
 <br />
 
-## `multicastSticker(userIds, packageId, stickerId)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
+## `multicastSticker(userIds, sticker)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Sends sticker message to multiple users.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
 <img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
-| Param     | Type            | Description           |
-| --------- | --------------- | --------------------- |
-| userIds   | `Array<String>` | IDs of the receivers. |
-| packageId | `String`        | Package ID.           |
-| stickerId | `String`        | Sticker ID.           |
+| Param             | Type            | Description           |
+| ----------------- | --------------- | --------------------- |
+| userIds           | `Array<String>` | IDs of the receivers. |
+| sticker.packageId | `String`        | Package ID.           |
+| sticker.stickerId | `String`        | Sticker ID.           |
 
 Example:
 
 ```js
-client.multicastSticker([USER_ID], '1', '1');
+client.multicastSticker([USER_ID], {
+  packageId: '1',
+  stickerId: '1',
+});
 ```
 
 <br />
@@ -1293,6 +1306,8 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 <br />
 
 ## `multicastButtonTemplate(userIds, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
+
+Alias: `multicastButtonsTemplate`.
 
 Sends button template message to multiple users.
 
@@ -2032,9 +2047,9 @@ client.createLiffApp({
 
 View type can be specified one of the following values:
 
-* `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
-* `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
-* `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
+- `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
+- `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
+- `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
 
 ## updateLiffApp(liffId, view)
 

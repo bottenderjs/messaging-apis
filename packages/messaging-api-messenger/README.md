@@ -69,7 +69,10 @@ const client = MessengerClient.connect(accessToken);
 You can specify version of Facebook Graph API using second argument:
 
 ```js
-const client = MessengerClient.connect(accessToken, '2.12');
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  version: '2.12',
+});
 ```
 
 If it is not specified, version `3.0` will be used as default.
@@ -80,8 +83,8 @@ If `appSecret` is provided, `MessengerClient` will enable this feature automatic
 
 ```js
 const client = MessengerClient.connect({
-  accessToken,
-  appSecret,
+  accessToken: ACCESS_TOKEN,
+  appSecret: APP_SECRET,
 });
 ```
 
@@ -1025,11 +1028,11 @@ client.sendAirlineItineraryTemplate(USER_ID, {
 
 <br />
 
-## `sendAirlineFlightUpdateTemplate(userId, attributes [, options])` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
+## `sendAirlineUpdateTemplate(userId, attributes [, options])` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template)
 
 Send airline flight update message templates to specified user using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api#request).
 
-<img src="https://user-images.githubusercontent.com/3382565/37411064-e3005a56-27dc-11e8-8486-4fc548ad7b1a.png" alt="sendAirlineFlightUpdateTemplate" width="250" />
+<img src="https://user-images.githubusercontent.com/3382565/37411064-e3005a56-27dc-11e8-8486-4fc548ad7b1a.png" alt="sendAirlineUpdateTemplate" width="250" />
 
 | Param      | Type                              | Description                                                                                                                                       |
 | ---------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1040,7 +1043,7 @@ Send airline flight update message templates to specified user using the [Send A
 Example:
 
 ```js
-client.sendAirlineFlightUpdateTemplate(USER_ID, {
+client.sendAirlineUpdateTemplate(USER_ID, {
   intro_message: 'Your flight is delayed',
   update_type: 'delay',
   locale: 'en_US',
@@ -1448,6 +1451,42 @@ client.sendBatch([
 ]);
 ```
 
+There are a bunch of factory methods can be used to create batch messages:
+
+* `MessengerBatch.sendRequest`
+* `MessengerBatch.sendMessage`
+* `MessengerBatch.sendText`
+* `MessengerBatch.sendAttachment`
+* `MessengerBatch.sendAudio`
+* `MessengerBatch.sendImage`
+* `MessengerBatch.sendVideo`
+* `MessengerBatch.sendFile`
+* `MessengerBatch.sendTemplate`
+* `MessengerBatch.sendButtonTemplate`
+* `MessengerBatch.sendGenericTemplate`
+* `MessengerBatch.sendListTemplate`
+* `MessengerBatch.sendOpenGraphTemplate`
+* `MessengerBatch.sendReceiptTemplate`
+* `MessengerBatch.sendMediaTemplate`
+* `MessengerBatch.sendAirlineBoardingPassTemplate`
+* `MessengerBatch.sendAirlineCheckinTemplate`
+* `MessengerBatch.sendAirlineItineraryTemplate`
+* `MessengerBatch.sendAirlineUpdateTemplate`
+* `MessengerBatch.sendSenderAction`
+* `MessengerBatch.typingOn`
+* `MessengerBatch.typingOff`
+* `MessengerBatch.markSeen`
+* `MessengerBatch.getUserProfile`
+* `MessengerBatch.passThreadControl`
+* `MessengerBatch.passThreadControlToPageInbox`
+* `MessengerBatch.takeThreadControl`
+* `MessengerBatch.requestThreadControl`
+* `MessengerBatch.associateLabel`
+* `MessengerBatch.dissociateLabel`
+* `MessengerBatch.getAssociatedLabels`
+
+Those methods exactly have same argument signature with client methods.
+
 <br />
 
 <a id="broadcast-api" />
@@ -1501,7 +1540,56 @@ client
   });
 ```
 
-The following message templates are not supported:
+or you can use message factory methods to create message creative:
+
+```js
+const { Messenger } = require('messaging-api-messenger');
+
+client
+  .createMessageCreative([
+    Messenger.createGenericTemplate([
+      {
+        title: 'Welcome to Our Marketplace!',
+        image_url: 'https://www.facebook.com/jaspers.png',
+        subtitle: 'Fresh fruits and vegetables. Yum.',
+        buttons: [
+          {
+            type: 'web_url',
+            url: 'https://www.jaspersmarket.com',
+            title: 'View Website',
+          },
+        ],
+      },
+    ]),
+  ])
+  .then(result => {
+    console.log(result);
+    // {
+    //   message_creative_id: 938461089,
+    // }
+  });
+```
+
+* `Messenger.createMessage`
+* `Messenger.createText`
+* `Messenger.createAttachment`
+* `Messenger.createAudio`
+* `Messenger.createImage`
+* `Messenger.createVideo`
+* `Messenger.createFile`
+* `Messenger.createTemplate`
+* `Messenger.createButtonTemplate`
+* `Messenger.createGenericTemplate`
+* `Messenger.createListTemplate`
+* `Messenger.createOpenGraphTemplate`
+* `Messenger.createMediaTemplate`
+* `Messenger.createReceiptTemplate`
+* `Messenger.createAirlineBoardingPassTemplate`
+* `Messenger.createAirlineCheckinTemplate`
+* `Messenger.createAirlineItineraryTemplate`
+* `Messenger.createAirlineUpdateTemplate`
+
+The following message templates are not supported in broadcast API:
 
 * Airline boarding pass template
 * Airline check-in template

@@ -33,7 +33,10 @@ yarn add messaging-api-wechat
 const { WechatClient } = require('messaging-api-wechat');
 
 // get appId, appSecret from「微信公众平台-开发-基本配置」page
-const client = WechatClient.connect(appId, appSecret);
+const client = WechatClient.connect({
+  appId: APP_ID,
+  appSecret: APP_SECRET,
+});
 ```
 
 <br />
