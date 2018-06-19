@@ -424,7 +424,10 @@ export default class LineClient {
    *
    * https://devdocs.line.me/en/#get-group-room-member-ids
    */
-  getGroupMemberIds(groupId: string, start?: string) {
+  getGroupMemberIds(
+    groupId: string,
+    start?: string
+  ): Promise<{ memberIds: Array<string>, next?: ?string }> {
     return this._axios
       .get(
         `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`
@@ -432,8 +435,8 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
-  async getAllGroupMemberIds(groupId: string) {
-    let allMemberIds = [];
+  async getAllGroupMemberIds(groupId: string): Promise<Array<string>> {
+    let allMemberIds: Array<string> = [];
     let continuationToken;
 
     do {
@@ -449,7 +452,10 @@ export default class LineClient {
     return allMemberIds;
   }
 
-  getRoomMemberIds(roomId: string, start?: string) {
+  getRoomMemberIds(
+    roomId: string,
+    start?: string
+  ): Promise<{ memberIds: Array<string>, next?: ?string }> {
     return this._axios
       .get(
         `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`
@@ -457,8 +463,8 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
-  async getAllRoomMemberIds(roomId: string) {
-    let allMemberIds = [];
+  async getAllRoomMemberIds(roomId: string): Promise<Array<string>> {
+    let allMemberIds: Array<string> = [];
     let continuationToken;
 
     do {
