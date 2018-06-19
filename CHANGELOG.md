@@ -1,8 +1,41 @@
+# 0.7.3 / 2018-06-19
+
+### messaging-api-messenger
+
+- [new] export `Messenger`, `MessengerBatch`, `MessengerBroadcast` from browser entry
+
+### messaging-api-line
+
+- [new] support LINE Front-end Framework (LIFF):
+
+* [`createLiffApp(view)`](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-line/README.md#createliffappview)
+* [`updateLiffApp(liffId, view)`](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-line/README.md#updateliffappliffid-view)
+* [`getLiffAppList()`](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-line/README.md#getliffapplist)
+* [`deleteLiffApp(liffId)`](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-line/README.md#deleteliffappliffid)
+
+- [new] support Flex message:
+
+![](https://camo.githubusercontent.com/27e44e07770cb5de7a431dfb710cf99cf16c19d4/68747470733a2f2f646576656c6f706572732e6c696e652e6d652f6d656469612f6d6573736167696e672d6170692f7573696e672d666c65782d6d657373616765732f627562626c6553616d706c652d37376438323565362e706e67)
+
+- [`client.replyFlex`](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-line/README.md#replyflextoken-alttext-contents---official-docs)
+- [`client.pushFlex`](https://github.com/Yoctol/messaging-apis/blob/master/packages/messaging-api-line/README.md#pushflexuserid-alttext-contents---official-docs)
+
+* [new] export `Line` from browser entry, so it can be used in the browser with module bundler:
+
+```js
+const { Line } = require('messaging-api-line');
+
+liff.sendMessages([
+  Line.createText('hello~~~~~~'),
+  Line.createText('world~~~~~~'),
+]);
+```
+
 # 0.7.2 / 2018-06-08
 
 ### messaging-api-messenger
 
-* [new] Verifying Graph API Calls with `appsecret_proof`
+- [new] Verifying Graph API Calls with `appsecret_proof`
 
 If `appSecret` is provided, `MessengerClient` will enable this feature automatically and include `appsecret_proof` in every Graph API requests.
 
@@ -21,7 +54,7 @@ There are no any visible breaking changes between 2.11 and 3.0, so after this ve
 
 In this version, we bring some fetaures in Messenger Platform 2.4 into `messaging-api-messenger`.
 
-* [new] Support scheduling broadcasts
+- [new] Support scheduling broadcasts
 
 To schedule a broadcast, specify the `schedule_time` property when you call the `sendBroadcastMessage` API request to send the message.
 
@@ -57,7 +90,7 @@ client.getBroadcast('115517705935329').then(broadcast => {
 });
 ```
 
-* [new] Support nested predicate in Broadcast API, so you can send broadcast messages with label predicates (and, or, not):
+- [new] Support nested predicate in Broadcast API, so you can send broadcast messages with label predicates (and, or, not):
 
 ```js
 import { MessengerBroadcast } from 'messaging-api-messenger';
@@ -77,7 +110,7 @@ client.sendBroadcastMessage(938461089, {
 });
 ```
 
-* [new] Support getting the thread owner when using Handover Protocol:
+- [new] Support getting the thread owner when using Handover Protocol:
 
 ```js
 client.getThreadOwner().then(threadOwner => {
@@ -88,7 +121,7 @@ client.getThreadOwner().then(threadOwner => {
 });
 ```
 
-* [new] Support new insights API `getTotalMessagingConnections()`:
+- [new] Support new insights API `getTotalMessagingConnections()`:
 
 ```js
 client.getTotalMessagingConnections().then(result => {
@@ -109,7 +142,7 @@ client.getTotalMessagingConnections().then(result => {
 });
 ```
 
-* [new] Support programmatically checking the feature submission status of Page-level Platform features using `getMessagingFeatureReview`:
+- [new] Support programmatically checking the feature submission status of Page-level Platform features using `getMessagingFeatureReview`:
 
 ```js
 client.getMessagingFeatureReview().then(data => {
@@ -123,18 +156,18 @@ client.getMessagingFeatureReview().then(data => {
 });
 ```
 
-* [deprecated] `getOpenConversations()` is deprecated and replaced by new `getTotalMessagingConnections()`
+- [deprecated] `getOpenConversations()` is deprecated and replaced by new `getTotalMessagingConnections()`
 
 See [messenger official blog post](https://blog.messengerdevelopers.com/announcing-messenger-platform-v2-4-8a8ecd5f0f04) for more Messenger Platform 2.4 details.
 
 # 0.7.0 / 2018-04-27
 
-* [changed] use class methods instead of class properties [#310](https://github.com/Yoctol/messaging-apis/pull/310)
-* [fix] handle network error better by fallback to original message [#338](https://github.com/Yoctol/messaging-apis/pull/338)
+- [changed] use class methods instead of class properties [#310](https://github.com/Yoctol/messaging-apis/pull/310)
+- [fix] handle network error better by fallback to original message [#338](https://github.com/Yoctol/messaging-apis/pull/338)
 
 ### messaging-api-messenger
 
-* [new] move message creation api into singleton: [#255](https://github.com/Yoctol/messaging-apis/pull/255)
+- [new] move message creation api into singleton: [#255](https://github.com/Yoctol/messaging-apis/pull/255)
 
 ```js
 Messenger.createMessage;
@@ -157,7 +190,7 @@ Messenger.createAirlineItineraryTemplate;
 Messenger.createAirlineUpdateTemplate;
 ```
 
-* [new] implement more batching api: [#317](https://github.com/Yoctol/messaging-apis/pull/317), [#324](https://github.com/Yoctol/messaging-apis/pull/324)
+- [new] implement more batching api: [#317](https://github.com/Yoctol/messaging-apis/pull/317), [#324](https://github.com/Yoctol/messaging-apis/pull/324)
 
 ```js
 MessengerBatch.sendRequest;
@@ -197,7 +230,7 @@ MessengerBatch.dissociateLabel;
 MessengerBatch.getAssociatedLabels;
 ```
 
-* [new] add 2 new metrix to messenger insights: [#304](https://github.com/Yoctol/messaging-apis/pull/304)
+- [new] add 2 new metrix to messenger insights: [#304](https://github.com/Yoctol/messaging-apis/pull/304)
 
 `getOpenConversations(options)`:
 
@@ -241,17 +274,17 @@ client.getNewConversations().then(result => {
 });
 ```
 
-* [breaking] rename `Messenger` to `MessengerBatch`: [#255](https://github.com/Yoctol/messaging-apis/pull/255)
-* [breaking] rename `getDailyUniqueActiveThreadCounts` to `getActiveThreads` [#307](https://github.com/Yoctol/messaging-apis/pull/307)
-* [breaking] remove deprecated MessengerClient method - `sendQuickReplies`
-* [breaking] Messenger Insights API: resolve `obj` instead of `[obj]`: [#302](https://github.com/Yoctol/messaging-apis/pull/302)
+- [breaking] rename `Messenger` to `MessengerBatch`: [#255](https://github.com/Yoctol/messaging-apis/pull/255)
+- [breaking] rename `getDailyUniqueActiveThreadCounts` to `getActiveThreads` [#307](https://github.com/Yoctol/messaging-apis/pull/307)
+- [breaking] remove deprecated MessengerClient method - `sendQuickReplies`
+- [breaking] Messenger Insights API: resolve `obj` instead of `[obj]`: [#302](https://github.com/Yoctol/messaging-apis/pull/302)
 
 Affected APIs:
 
-* getActiveThreads
-* getBlockedConversations
-* getReportedConversations
-* getReportedConversationsByReportType
+- getActiveThreads
+- getBlockedConversations
+- getReportedConversations
+- getReportedConversationsByReportType
 
 Before:
 
@@ -299,20 +332,20 @@ client.getBlockedConversations().then(counts => {
 });
 ```
 
-* [breaking] removed deprecated `getDailyUniqueConversationCounts` insights API [#304](https://github.com/Yoctol/messaging-apis/pull/304)
-* [changed] rename `AirlineFlightUpdateTemplate` to `AirlineUpdateTemplate` to match typename [#329](https://github.com/Yoctol/messaging-apis/pull/329)
+- [breaking] removed deprecated `getDailyUniqueConversationCounts` insights API [#304](https://github.com/Yoctol/messaging-apis/pull/304)
+- [changed] rename `AirlineFlightUpdateTemplate` to `AirlineUpdateTemplate` to match typename [#329](https://github.com/Yoctol/messaging-apis/pull/329)
 
 ```
 AirlineFlightUpdateTemplate -> AirlineUpdateTemplate
 ```
 
-* [fix] fix sending attachment with buffer (allow filename) [#335](https://github.com/Yoctol/messaging-apis/pull/335)
-* [fix] fix getReportedConversationsByReportType and improve docs [#297](https://github.com/Yoctol/messaging-apis/pull/297)
-* [fix] avoid pass undefined value to messenger in batch api [#326](https://github.com/Yoctol/messaging-apis/pull/326)
+- [fix] fix sending attachment with buffer (allow filename) [#335](https://github.com/Yoctol/messaging-apis/pull/335)
+- [fix] fix getReportedConversationsByReportType and improve docs [#297](https://github.com/Yoctol/messaging-apis/pull/297)
+- [fix] avoid pass undefined value to messenger in batch api [#326](https://github.com/Yoctol/messaging-apis/pull/326)
 
 ### messaging-api-line
 
-* [new] support LINE issue link token for account linking: [#332](https://github.com/Yoctol/messaging-apis/pull/332)
+- [new] support LINE issue link token for account linking: [#332](https://github.com/Yoctol/messaging-apis/pull/332)
 
 ```js
 client.issueLinkToken(USER_ID).then(result => {
@@ -323,7 +356,7 @@ client.issueLinkToken(USER_ID).then(result => {
 });
 ```
 
-* [new] allow pass object as image, audio, video, sticker args: [#309](https://github.com/Yoctol/messaging-apis/pull/309)
+- [new] allow pass object as image, audio, video, sticker args: [#309](https://github.com/Yoctol/messaging-apis/pull/309)
 
 ```js
 client.pushImage(RECIPIENT_ID, {
@@ -344,18 +377,18 @@ client.pushSticker(RECIPIENT_ID, {
 });
 ```
 
-* [new] support LINE ButtonsTemplate alias to match typename `buttons`:
+- [new] support LINE ButtonsTemplate alias to match typename `buttons`:
 
-  * client.sendButtonsTemplate == client.sendButtonTemplate
-  * client.replyButtonsTemplate == client.replyButtonTemplate
-  * client.pushButtonsTemplate == client.pushButtonTemplate
-  * client.multicastButtonsTemplate == client.multicastButtonTemplate
+  - client.sendButtonsTemplate == client.sendButtonTemplate
+  - client.replyButtonsTemplate == client.replyButtonTemplate
+  - client.pushButtonsTemplate == client.pushButtonTemplate
+  - client.multicastButtonsTemplate == client.multicastButtonTemplate
 
-* [breaking] remove deprecated method `isValidSignature` in `LineClient`
+- [breaking] remove deprecated method `isValidSignature` in `LineClient`
 
 ### messaging-api-telegram
 
-* [breaking] Throw error when `ok` is `false` in Telegram: [#268](https://github.com/Yoctol/messaging-apis/pull/268)
+- [breaking] Throw error when `ok` is `false` in Telegram: [#268](https://github.com/Yoctol/messaging-apis/pull/268)
 
 ```js
 {
@@ -366,7 +399,7 @@ client.pushSticker(RECIPIENT_ID, {
 
 Now throws `Telegram API` error.
 
-* [breaking] telegram api return result instead of `{ ok: true, result }`: [#313](https://github.com/Yoctol/messaging-apis/pull/313)
+- [breaking] telegram api return result instead of `{ ok: true, result }`: [#313](https://github.com/Yoctol/messaging-apis/pull/313)
 
 Before:
 
@@ -393,31 +426,31 @@ Make it easier to access result and consist with other platforms.
 
 ### messaging-api-line
 
-* [fix] fix LINE API URL typos for getting group and room member ids
+- [fix] fix LINE API URL typos for getting group and room member ids
 
 # 0.6.15 / 2018-02-26
 
 ### messaging-api-messenger
 
-* [new] implement `requestThreadControl`:
+- [new] implement `requestThreadControl`:
 
 ```js
 client.requestThreadControl(USER_ID, 'free formed text for primary app');
 ```
 
-* [fix] handle axios error in batch
-* [fix] let batch api use internal axios instance
+- [fix] handle axios error in batch
+- [fix] let batch api use internal axios instance
 
 # 0.6.14 / 2018-02-20
 
 ### messaging-api-messenger
 
-* [fix] broadcast `startReachEstimation` request path
-* [fix] broadcast `getReachEstimate` request method
+- [fix] broadcast `startReachEstimation` request path
+- [fix] broadcast `getReachEstimate` request method
 
 # 0.6.13 / 2018-02-12
 
-* [new] Support `origin` for test:
+- [new] Support `origin` for test:
 
 ```js
 const { MessengerClient } = require('messaging-api-messenger');
@@ -432,36 +465,36 @@ const client = MessengerClient.connect({
 
 ### messaging-api-line
 
-* [fix] Add default value for LINE `_sendCarouselTemplate` options
+- [fix] Add default value for LINE `_sendCarouselTemplate` options
 
 # 0.6.11 / 2018-01-22
 
 ### messaging-api-viber
 
-* [new] Support broadcast methods:
+- [new] Support broadcast methods:
 
-* `broadcastMessage(broadcastList, message)`
-* `broadcastText(broadcastList, text [, options])`
-* `broadcastPicture(broadcastList, picture [, options])`
-* `broadcastVideo(broadcastList, video [, options])`
-* `broadcastFile(broadcastList, file [, options])`
-* `broadcastContact(broadcastList, contact [, options])`
-* `broadcastLocation(broadcastList, location [, options])`
-* `broadcastURL(broadcastList, url [, options])`
-* `broadcastSticker(broadcastList, stickerId [, options])`
-* `broadcastCarouselContent(broadcastList, richMedia [, options])`
+- `broadcastMessage(broadcastList, message)`
+- `broadcastText(broadcastList, text [, options])`
+- `broadcastPicture(broadcastList, picture [, options])`
+- `broadcastVideo(broadcastList, video [, options])`
+- `broadcastFile(broadcastList, file [, options])`
+- `broadcastContact(broadcastList, contact [, options])`
+- `broadcastLocation(broadcastList, location [, options])`
+- `broadcastURL(broadcastList, url [, options])`
+- `broadcastSticker(broadcastList, stickerId [, options])`
+- `broadcastCarouselContent(broadcastList, richMedia [, options])`
 
 # 0.6.10 / 2018-01-12
 
 ### messaging-api-slack
 
-* [new] add Slack `postEphemeral` method:
+- [new] add Slack `postEphemeral` method:
 
 ```js
 client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
 ```
 
-* [new] add SlackOAuthClient custom token support:
+- [new] add SlackOAuthClient custom token support:
 
 ```js
 client.callMethod('chat.postMessage', {
@@ -475,13 +508,13 @@ client.callMethod('chat.postMessage', {
 
 ### messaging-api-messenger
 
-* [fix] Not to use page token as default token when create subscription. [#267](https://github.com/Yoctol/messaging-apis/pull/267)
+- [fix] Not to use page token as default token when create subscription. [#267](https://github.com/Yoctol/messaging-apis/pull/267)
 
 # 0.6.8 / 2017-12-25
 
 ### messaging-api-telegram
 
-* [new] Add `getUpdates`:
+- [new] Add `getUpdates`:
 
 ```js
 client
@@ -523,19 +556,19 @@ client
 
 ### messaging-api-line
 
-* [changed] Support original `baseSize` key in LINE imagemap APIs.
+- [changed] Support original `baseSize` key in LINE imagemap APIs.
 
 # 0.6.6 / 2017-12-20
 
 ### messaging-api-messenger
 
-* [fix] Not to attach empty array as `quick_replies` to message. [#261](https://github.com/Yoctol/messaging-apis/pull/261)
+- [fix] Not to attach empty array as `quick_replies` to message. [#261](https://github.com/Yoctol/messaging-apis/pull/261)
 
 # 0.6.5 / 2017-12-20
 
 ### messaging-api-telegram
 
-* [new] Add `sendVideoNote`:
+- [new] Add `sendVideoNote`:
 
 ```js
 client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
@@ -548,7 +581,7 @@ client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
 
 ### messaging-api-messenger
 
-* [changed] Rename arguments in `logCustomEvent` for consistency:
+- [changed] Rename arguments in `logCustomEvent` for consistency:
 
 ```
 appId -> app_id
@@ -573,7 +606,7 @@ client.logCustomEvents({
 
 Original keys (`appId`, `pageId`, `userId`) will be removed when `v0.7` or `v0.8` release.
 
-* [changed] Rename `Messenger` to `MessengerBatch`:
+- [changed] Rename `Messenger` to `MessengerBatch`:
 
 ```js
 const { MessengerBatch } = require('messaging-api-messenger');
@@ -589,7 +622,7 @@ client.sendBatch([
 
 Original APIs on `Messenger` will be changed when `v0.7` release.
 
-* [new] Add `createSubscription` method:
+- [new] Add `createSubscription` method:
 
 ```js
 client.createSubscription({
@@ -600,7 +633,7 @@ client.createSubscription({
 });
 ```
 
-* [new] ID Matching API:
+- [new] ID Matching API:
 
 Given a user ID for an app, retrieve the IDs for other apps owned by the same business.
 
@@ -632,7 +665,7 @@ client
 
 ### messaging-api-messenger
 
-* [fix] pass options into `setGetStarted`
+- [fix] pass options into `setGetStarted`
 
 # 0.6.2 / 2017-12-11
 
@@ -640,7 +673,7 @@ client
 
 Support Game APIs!
 
-* `sendGame`:
+- `sendGame`:
 
 ```js
 client.sendGame(CHAT_ID, 'Mario Bros.', {
@@ -648,13 +681,13 @@ client.sendGame(CHAT_ID, 'Mario Bros.', {
 });
 ```
 
-* `setGameScore`:
+- `setGameScore`:
 
 ```js
 client.setGameScore(USER_ID, 999);
 ```
 
-* `getGameHighScores`:
+- `getGameHighScores`:
 
 ```js
 client.getGameHighScores(USER_ID);
@@ -664,7 +697,7 @@ client.getGameHighScores(USER_ID);
 
 ### messaging-api-line
 
-* [new] Support new options (`imageAspectRatio`, `imageSize`, `imageBackgroundColor`) for template message images [#247](https://github.com/Yoctol/messaging-apis/pull/247)
+- [new] Support new options (`imageAspectRatio`, `imageSize`, `imageBackgroundColor`) for template message images [#247](https://github.com/Yoctol/messaging-apis/pull/247)
 
 ```js
 client.replyButtonTemplate(REPLY_TOKEN, altText, {
@@ -686,7 +719,7 @@ client.replyCarouselTemplate(REPLY_TOKEN, altText, columns, {
 
 ### messaging-api-telegram
 
-* [new] Add [`sendMediaGroup`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#sendmediagroupchatid-media--options---official-docs):
+- [new] Add [`sendMediaGroup`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#sendmediagroupchatid-media--options---official-docs):
 
 ```js
 client.sendMediaGroup(CHAT_ID, [
@@ -698,16 +731,16 @@ client.sendMediaGroup(CHAT_ID, [
 
 # 0.6.0 / 2017-12-07
 
-* [new] Support WeChat! 🎉🎉🎉
+- [new] Support WeChat! 🎉🎉🎉
 
 <img src="https://user-images.githubusercontent.com/3382565/33652361-1dc854c6-daa4-11e7-997e-e1dedd818881.jpg" alt="WeChat" width="100" />
 
-* [breaking] Remove `client.getHTTPClient()` use `client.axios` instead [#236](https://github.com/Yoctol/messaging-apis/pull/236)
+- [breaking] Remove `client.getHTTPClient()` use `client.axios` instead [#236](https://github.com/Yoctol/messaging-apis/pull/236)
 
 ### messaging-api-messenger
 
-* [breaking] Set default `is_reusable` to false when upload attachment [#221](https://github.com/Yoctol/messaging-apis/issues/221)
-* [breaking] Remove messenger profile deprecated methods [#239](https://github.com/Yoctol/messaging-apis/pull/239)
+- [breaking] Set default `is_reusable` to false when upload attachment [#221](https://github.com/Yoctol/messaging-apis/issues/221)
+- [breaking] Remove messenger profile deprecated methods [#239](https://github.com/Yoctol/messaging-apis/pull/239)
 
 ```
 getGetStartedButton -> getGetStarted
@@ -726,7 +759,7 @@ deleteChatExtensionHomeURL -> deleteHomeURL
 
 ### messaging-api-telegram
 
-* [new] Add Inline mode API - `answerInlineQuery`:
+- [new] Add Inline mode API - `answerInlineQuery`:
 
 ```js
 client.answerInlineQuery(
@@ -753,13 +786,13 @@ client.answerInlineQuery(
 
 # 0.5.16 / 2017-12-05
 
-* [new] Add `client.accessToken` getter
+- [new] Add `client.accessToken` getter
 
   # 0.5.15 / 2017-12-04
 
   ### messaging-api-slack
 
-* [new] Support pass message object to `postMessage`:
+- [new] Support pass message object to `postMessage`:
 
 ```js
 client.postMessage('C8763', { text: 'Hello!' });
@@ -771,13 +804,13 @@ client.postMessage('C8763', { text: 'Hello!' }, { as_user: true });
 
 ### messaging-api-messenger
 
-* [new] Support call api methods with custom `access_token` (Experimental)
+- [new] Support call api methods with custom `access_token` (Experimental)
 
   # 0.5.13 / 2017-11-28
 
   ### messaging-api-messenger
 
-* [fix] Fixed `uploadAttachment` with buffer data using a `filename` option pass in:
+- [fix] Fixed `uploadAttachment` with buffer data using a `filename` option pass in:
 
 ```js
 client.uploadAttachment('image', buffer, { filename: 'image.jpg' });
@@ -787,7 +820,7 @@ client.uploadAttachment('image', buffer, { filename: 'image.jpg' });
 
 ### messaging-api-messenger
 
-* [new] Support pass `options.quick_replies` to send message with quick replies: [#216](https://github.com/Yoctol/messaging-apis/issues/216)
+- [new] Support pass `options.quick_replies` to send message with quick replies: [#216](https://github.com/Yoctol/messaging-apis/issues/216)
 
 ```js
 client.sendText(USER_ID, 'Pick a color:', {
@@ -801,7 +834,7 @@ client.sendText(USER_ID, 'Pick a color:', {
 });
 ```
 
-* [new] Support upload attachment from buffer or stream [#219](https://github.com/Yoctol/messaging-apis/issues/219)
+- [new] Support upload attachment from buffer or stream [#219](https://github.com/Yoctol/messaging-apis/issues/219)
 
 For example:
 
@@ -810,13 +843,13 @@ client.uploadImage(buffer);
 client.uploadImage(fs.creatReadStream('xxx.jpg'));
 ```
 
-* [docs] update docs and type for nlp config model [#222](https://github.com/Yoctol/messaging-apis/pull/222)
+- [docs] update docs and type for nlp config model [#222](https://github.com/Yoctol/messaging-apis/pull/222)
 
 # 0.5.11 / 2017-11-22
 
 ### messaging-api-messenger
 
-* [new] support `getPageInfo` to get page name and page id using Graph API. For example:
+- [new] support `getPageInfo` to get page name and page id using Graph API. For example:
 
 ```js
 client.getPageInfo().then(page => {
@@ -832,19 +865,19 @@ client.getPageInfo().then(page => {
 
 ### messaging-api-slack
 
-* [new] auto stringify `options.attachments` in Slack `postMessage` [#208](https://github.com/Yoctol/messaging-apis/pull/208)
+- [new] auto stringify `options.attachments` in Slack `postMessage` [#208](https://github.com/Yoctol/messaging-apis/pull/208)
 
 # 0.5.9 / 2017-11-15
 
 ### messaging-api-messenger
 
-* [fix] make NLP config model value match Facebook API [#207](https://github.com/Yoctol/messaging-apis/pull/207)
+- [fix] make NLP config model value match Facebook API [#207](https://github.com/Yoctol/messaging-apis/pull/207)
 
 # 0.5.8 / 2017-11-13
 
 ### messaging-api-messenger
 
-* [fix] make sure `options.messaging_type` works for all send apis [#205](https://github.com/Yoctol/messaging-apis/pull/205)
+- [fix] make sure `options.messaging_type` works for all send apis [#205](https://github.com/Yoctol/messaging-apis/pull/205)
 
 # 0.5.7 / 2017-11-09
 
@@ -860,10 +893,10 @@ client.sendText(USER_ID, 'Awesome!', { messaging_type: 'RESPONSE' });
 
 Available messaging types:
 
-* `UPDATE` as default
-* `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
-* `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
-* `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
+- `UPDATE` as default
+- `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
+- `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
+- `NON_PROMOTIONAL_SUBSCRIPTION` using `{ messaging_type: 'NON_PROMOTIONAL_SUBSCRIPTION' }` options
 
 <br />
 
@@ -976,13 +1009,13 @@ client.sendSponsoredMessage(message_creative_id, {
 
 You can manage your users with associated labels using following methods:
 
-* [`createLabel(name)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#createlabelname)
-* [`associateLabel(userId, labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#associatelabeluserid-labelid)
-* [`dissociateLabel(userId, labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#dissociatelabeluserid-labelid)
-* [`getAssociatedLabels(userId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getassociatedlabelsuserid)
-* [`getLabelDetails(labelId, options)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getlabeldetailslabelid-options)
-* [`getLabelList()`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getlabellist)
-* [`deleteLabel(labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#deletelabellabelid)
+- [`createLabel(name)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#createlabelname)
+- [`associateLabel(userId, labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#associatelabeluserid-labelid)
+- [`dissociateLabel(userId, labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#dissociatelabeluserid-labelid)
+- [`getAssociatedLabels(userId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getassociatedlabelsuserid)
+- [`getLabelDetails(labelId, options)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getlabeldetailslabelid-options)
+- [`getLabelList()`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getlabellist)
+- [`deleteLabel(labelId)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#deletelabellabelid)
 
 And send broadcast messages to only associated users:
 
@@ -994,8 +1027,8 @@ client.sendBroadcastMessage(message_creative_id, { custom_label_id: LABEL_ID });
 
 To get the approximate number of people a broadcast message will be sent, you can use Estimating API:
 
-* startReachEstimation(customLabelId)
-* getReachEstimate(reachEstimationId)
+- startReachEstimation(customLabelId)
+- getReachEstimate(reachEstimationId)
 
 > Note: Due to the fact that reach estimation is a resource intensive process, it is executed in two steps.
 
@@ -1021,11 +1054,11 @@ client.setNLPConfigs({
 
 There are a bunch of insights APIs introduced in this version:
 
-* [`getInsights(metrics, options)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getinsightsmetrics-options)
-* [`getBlockedConversations`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getblockedconversations)
-* [`getReportedConversations`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getreportedconversations)
-* [`getReportedConversationsByReportType`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getreportedconversationsbyreporttype)
-* [`getBroadcastMessagesSent`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getbroadcastmessagessentbroadcastid)
+- [`getInsights(metrics, options)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getinsightsmetrics-options)
+- [`getBlockedConversations`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getblockedconversations)
+- [`getReportedConversations`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getreportedconversations)
+- [`getReportedConversationsByReportType`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getreportedconversationsbyreporttype)
+- [`getBroadcastMessagesSent`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#getbroadcastmessagessentbroadcastid)
 
 > Note: `getDailyUniqueConversationCounts` is deprecated.
 
@@ -1062,19 +1095,19 @@ See more details in [Messenger official release post](https://messenger.fb.com/b
 
 ### messaging-api-slack
 
-* [new] Support Slack conversations APIs [#185](https://github.com/Yoctol/messaging-apis/pull/185/files)
+- [new] Support Slack conversations APIs [#185](https://github.com/Yoctol/messaging-apis/pull/185/files)
 
-  * getConversationInfo
-  * getConversationMembers
-  * getAllConversationMembers
-  * getConversationList
-  * getAllConversationList
+  - getConversationInfo
+  - getConversationMembers
+  - getAllConversationMembers
+  - getConversationList
+  - getAllConversationList
 
 # 0.5.5 / 2017-11-01
 
 ### messaging-api-messenger
 
-* [new] Added [`passThreadControlToPageInbox`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#handover-protocol-api) method:
+- [new] Added [`passThreadControlToPageInbox`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-messenger#handover-protocol-api) method:
 
 ```js
 client.passThreadControlToPageInbox(USER_ID);
@@ -1092,16 +1125,16 @@ See more details in [Messenger docs](https://developers.facebook.com/docs/messen
 
 ### messaging-api-line
 
-* [new] Introducing new Rich Menu APIs!
-  * [getRichMenuList](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#getrichmenulist)
-  * [getRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#getrichmenurichmenuid)
-  * [createRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#createrichmenurichmenu)
-  * [deleteRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#deleterichmenurichmenuid)
-  * [getLinkedRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#getlinkedrichmenuuserid)
-  * [linkRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#linkrichmenuuserid-richmenuid)
-  * [unlinkRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#unlinkrichmenuuserid)
-  * [downloadRichMenuImage](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#downloadrichmenuimagerichmenuid)
-  * [uploadRichMenuImage](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#uploadrichmenuimagerichmenuid-buffer)
+- [new] Introducing new Rich Menu APIs!
+  - [getRichMenuList](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#getrichmenulist)
+  - [getRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#getrichmenurichmenuid)
+  - [createRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#createrichmenurichmenu)
+  - [deleteRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#deleterichmenurichmenuid)
+  - [getLinkedRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#getlinkedrichmenuuserid)
+  - [linkRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#linkrichmenuuserid-richmenuid)
+  - [unlinkRichMenu](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#unlinkrichmenuuserid)
+  - [downloadRichMenuImage](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#downloadrichmenuimagerichmenuid)
+  - [uploadRichMenuImage](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-line#uploadrichmenuimagerichmenuid-buffer)
 
 See more details in [LINE Official docs](https://developers.line.me/en/docs/messaging-api/reference/#rich-menu).
 
@@ -1109,32 +1142,32 @@ See more details in [LINE Official docs](https://developers.line.me/en/docs/mess
 
 ### messaging-api-messenger
 
-* [fix] return null when no any messenger profile setting exists [#176](https://github.com/Yoctol/messaging-apis/issues/176)
+- [fix] return null when no any messenger profile setting exists [#176](https://github.com/Yoctol/messaging-apis/issues/176)
 
 # 0.5.2 / 2017-10-26
 
-* [deps] Upgrade `axios` to `v0.17.0`.
+- [deps] Upgrade `axios` to `v0.17.0`.
 
 # 0.5.1 / 2017-10-25
 
 ### messaging-api-messenger
 
-* [renamed] Following profile methods has been renamed to match api key:
-  * `getGetStartedButton` -> `getGetStarted`
-  * `setGetStartedButton` -> `setGetStarted`
-  * `deleteGetStartedButton` -> `deleteGetStarted`
-  * `getGreetingText` -> `getGreeting`
-  * `setGreetingText` -> `setGreeting`
-  * `deleteGreetingText` -> `deleteGreeting`
-  * `getChatExtensionHomeURL` -> `getHomeURL`
-  * `setChatExtensionHomeURL` -> `setHomeURL`
-  * `deleteChatExtensionHomeURL` -> `deleteHomeURL`
+- [renamed] Following profile methods has been renamed to match api key:
+  - `getGetStartedButton` -> `getGetStarted`
+  - `setGetStartedButton` -> `setGetStarted`
+  - `deleteGetStartedButton` -> `deleteGetStarted`
+  - `getGreetingText` -> `getGreeting`
+  - `setGreetingText` -> `setGreeting`
+  - `deleteGreetingText` -> `deleteGreeting`
+  - `getChatExtensionHomeURL` -> `getHomeURL`
+  - `setChatExtensionHomeURL` -> `setHomeURL`
+  - `deleteChatExtensionHomeURL` -> `deleteHomeURL`
 
 The deprecated methods will be removed after `v0.6.0`.
 
 # 0.5.0 / 2017-10-20
 
-* [new] A big improvement on error message.
+- [new] A big improvement on error message.
 
 For example, when you catch the error and log it out:
 
@@ -1182,27 +1215,27 @@ Response Data -
 
 The error messages are powered by [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package.
 
-* [deprecated] `client.getHTTPClient()` method is deprecated. use `client.axios` getter instead.
+- [deprecated] `client.getHTTPClient()` method is deprecated. use `client.axios` getter instead.
 
 ### messaging-api-messenger
 
-* [breaking] `client.version` now return version number string (`2.10`) instead of the v-prefix version (`v2.10`).
+- [breaking] `client.version` now return version number string (`2.10`) instead of the v-prefix version (`v2.10`).
 
 # 0.4.7 / 2017-10-16
 
 ### messaging-api-viber
 
-* [fix] Always throw error when status != 0 in api response body.
+- [fix] Always throw error when status != 0 in api response body.
 
 # 0.4.6 / 2017-10-15
 
 ### messaging-api-telegram
 
-* [new] Support methods introduced in Telegram 3.4
-  * [editMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#editmessagelivelocationlocation--options---official-docs)
-  * [stopMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#stopmessagelivelocationoptions---official-docs)
-  * [setChatStickerSet](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#setchatstickersetchatid-stickersetname---official-docs)
-  * [deleteChatStickerSet](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#deletechatstickersetchatid---official-docs)
+- [new] Support methods introduced in Telegram 3.4
+  - [editMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#editmessagelivelocationlocation--options---official-docs)
+  - [stopMessageLiveLocation](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#stopmessagelivelocationoptions---official-docs)
+  - [setChatStickerSet](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#setchatstickersetchatid-stickersetname---official-docs)
+  - [deleteChatStickerSet](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#deletechatstickersetchatid---official-docs)
 
 See more details in [Telegram October 11, 2017 changelog](https://core.telegram.org/bots/api#october-11-2017).
 
@@ -1210,43 +1243,43 @@ See more details in [Telegram October 11, 2017 changelog](https://core.telegram.
 
 ### messaging-api-viber
 
-* [new] implement getAccountInfo, getUserDetails, getOnlineStatus:
+- [new] implement getAccountInfo, getUserDetails, getOnlineStatus:
 
-  * [`getAccountInfo`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getaccountinfo)
-  * [`getUserDetails(id)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getuserdetailsid)
-  * [`getOnlineStatus(ids)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getonlinestatusids)
+  - [`getAccountInfo`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getaccountinfo)
+  - [`getUserDetails(id)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getuserdetailsid)
+  - [`getOnlineStatus(ids)`](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-viber#getonlinestatusids)
 
 # 0.4.4 / 2017-10-11
 
 ### messaging-api-messenger
 
-* [renamed] `getDomainWhitelist` -> `getWhitelistedDomains`
-* [renamed] `setDomainWhitelist` -> `setWhitelistedDomains`
-* [renamed] `deleteDomainWhitelist` -> `deleteWhitelistedDomains`
+- [renamed] `getDomainWhitelist` -> `getWhitelistedDomains`
+- [renamed] `setDomainWhitelist` -> `setWhitelistedDomains`
+- [renamed] `deleteDomainWhitelist` -> `deleteWhitelistedDomains`
 
 ### messaging-api-viber
 
-* [new] First release of [Viber](https://www.viber.com/) API Support!
+- [new] First release of [Viber](https://www.viber.com/) API Support!
 
 # 0.4.3 / 2017-09-28
 
 ### messaging-api-line
 
-* [new] Added a [LINE Bot example](https://github.com/Yoctol/messaging-apis/tree/master/examples/line). Thanks @madeinfree!
+- [new] Added a [LINE Bot example](https://github.com/Yoctol/messaging-apis/tree/master/examples/line). Thanks @madeinfree!
 
 ### messaging-api-telegram
 
-* [new] Gets [Payments API](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#payments-api) support! 🎉
+- [new] Gets [Payments API](https://github.com/Yoctol/messaging-apis/tree/master/packages/messaging-api-telegram#payments-api) support! 🎉
 
-  * `sendInvoice`
-  * `answerShippingQuery`
-  * `answerPreCheckoutQuery`
+  - `sendInvoice`
+  - `answerShippingQuery`
+  - `answerPreCheckoutQuery`
 
 # 0.4.2 / 2017-09-22
 
 ### messaging-api-messenger
 
-* [new] Export version of Graph API:
+- [new] Export version of Graph API:
 
 ```js
 const { MessengerClient } = require('messaging-api-messenger');
@@ -1260,17 +1293,17 @@ client.version; // "v2.10"
 
 ### messaging-api-line
 
-* [fix] Wrong case in filename.
+- [fix] Wrong case in filename.
 
 # 0.4.0 / 2017-09-19
 
 ### messaging-api-messenger
 
-* [breaking] Renamed `send` to `sendMessage`
+- [breaking] Renamed `send` to `sendMessage`
 
 ### messaging-api-line
 
-* [breaking] Renamed all of `LINE` to PascalCase `Line` (follow convention from other modules), e.g. `LineClient.connect`, `Line.createText`.
+- [breaking] Renamed all of `LINE` to PascalCase `Line` (follow convention from other modules), e.g. `LineClient.connect`, `Line.createText`.
 
 Example:
 
@@ -1282,23 +1315,23 @@ const { Line, LineClient } = require('messaging-api-line');
 
 ### messaging-api-messenger
 
-* [docs] Fix a typo.
+- [docs] Fix a typo.
 
 ### messaging-api-line
 
-* [new] Support message factories:
-  * LINE.createText
-  * LINE.createImage
-  * LINE.createVideo
-  * createAudio
-  * createLocation
-  * createSticker
-  * createImagemap
-  * createTemplate
-  * createButtonTemplate
-  * createConfirmTemplate
-  * createCarouselTemplate
-  * createImageCarouselTemplate
+- [new] Support message factories:
+  - LINE.createText
+  - LINE.createImage
+  - LINE.createVideo
+  - createAudio
+  - createLocation
+  - createSticker
+  - createImagemap
+  - createTemplate
+  - createButtonTemplate
+  - createConfirmTemplate
+  - createCarouselTemplate
+  - createImageCarouselTemplate
 
 For example:
 
@@ -1317,11 +1350,11 @@ client.reply(REPLY_TOKEN, [
 
 # 0.3.4 / 2017-09-13
 
-* [docs] Show method arguments in tables.
+- [docs] Show method arguments in tables.
 
 ### messaging-api-messenger
 
-* [new] Support message batching via `sendBatch`:
+- [new] Support message batching via `sendBatch`:
 
 ```js
 const { Messenger } = require('messaging-api-messenger');
@@ -1337,23 +1370,23 @@ client.sendBatch([
 
 # 0.3.3 / 2017-09-07
 
-* publish docs changes to npm.
+- publish docs changes to npm.
 
 # 0.3.2 / 2017-09-05
 
 ### messaging-api-line
 
-* [new] Support ImageCarouselTemplate methods
+- [new] Support ImageCarouselTemplate methods
 
-  * replyImageCarouselTemplate
-  * pushImageCarouselTemplate
-  * multicaseImageCarouselTemplate
+  - replyImageCarouselTemplate
+  - pushImageCarouselTemplate
+  - multicaseImageCarouselTemplate
 
 # 0.3.1 / 2017-08-31
 
 ### messaging-api-messenger
 
-* [new] using `AttachmentPayload` to send cached attachment:
+- [new] using `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendImage(USER_ID, { attachment_id: '55688' });
@@ -1364,27 +1397,27 @@ client.sendFile(USER_ID, { attachment_id: '55688' });
 
 # 0.3.0 / 2017-08-29
 
-* [docs] A big improvement.
+- [docs] A big improvement.
 
 ### messaging-api-messenger
 
-* [breaking] Renamed messenger typing methods:
+- [breaking] Renamed messenger typing methods:
 
 ```
 turnTypingIndicatorsOn => typingOn
 turnTypingIndicatorsOff => typingOff
 ```
 
-* [breaking] Removed tagged template methods:
-  * sendTaggedTemplate
-  * sendShippingUpdateTemplate
-  * sendReservationUpdateTemplate
-  * sendIssueResolutionTemplate
-  * sendAppointmentUpdateTemplate
-  * sendGameEventTemplate
-  * sendTransportationUpdateTemplate
-  * sendFeatureFunctionalityUpdateTemplate
-  * sendTicketUpdateTemplate
+- [breaking] Removed tagged template methods:
+  - sendTaggedTemplate
+  - sendShippingUpdateTemplate
+  - sendReservationUpdateTemplate
+  - sendIssueResolutionTemplate
+  - sendAppointmentUpdateTemplate
+  - sendGameEventTemplate
+  - sendTransportationUpdateTemplate
+  - sendFeatureFunctionalityUpdateTemplate
+  - sendTicketUpdateTemplate
 
 Use `tag` option instead:
 
@@ -1402,23 +1435,23 @@ client.sendGenericTemplate(
 );
 ```
 
-* [breaking] Renamed `topElementStyle` to `options.top_element_style` in `sendListTemplate` [@6840ec7](https://github.com/Yoctol/messaging-apis/commit/6840ec7094be6c0f6c0a9d995b3756b86f4f5f17)
-* [breaking] Renamed `ratio` to `options.image_aspect_ratio` in `sendGenericTemplate` [@701e717](https://github.com/Yoctol/messaging-apis/commit/701e717abe8b8f1de63d5c3f9c49e601fc9cacc0)
+- [breaking] Renamed `topElementStyle` to `options.top_element_style` in `sendListTemplate` [@6840ec7](https://github.com/Yoctol/messaging-apis/commit/6840ec7094be6c0f6c0a9d995b3756b86f4f5f17)
+- [breaking] Renamed `ratio` to `options.image_aspect_ratio` in `sendGenericTemplate` [@701e717](https://github.com/Yoctol/messaging-apis/commit/701e717abe8b8f1de63d5c3f9c49e601fc9cacc0)
 
 ### messaging-api-slack
 
-* [breaking] Removed `SlackClient` export, using `SlackOAuthClient` or `SlackWebhookClient` instead.
-* [breaking] `getUserList` now returns object includes cursor.
+- [breaking] Removed `SlackClient` export, using `SlackOAuthClient` or `SlackWebhookClient` instead.
+- [breaking] `getUserList` now returns object includes cursor.
 
 ### messaging-api-telegram
 
-* [breaking] Changed `contact.firstName` to `contact.first_name`, and `contact.phoneNumber` to `contact.phone_number` in `sendContact` method.
+- [breaking] Changed `contact.firstName` to `contact.first_name`, and `contact.phoneNumber` to `contact.phone_number` in `sendContact` method.
 
 # 0.2.8 / 2017-08-25
 
 ### messaging-api-messenger
 
-* [new] Support `mark_seen` sender action:
+- [new] Support `mark_seen` sender action:
 
 ```js
 client.markSeen(USER_ID);
@@ -1428,25 +1461,25 @@ client.markSeen(USER_ID);
 
 ### messaging-api-telegram
 
-* [new] Implement supergroup or channel methods
-  * `kickChatMember`
-  * `unbanChatMember`
-  * `restrictChatMember`
-  * `promoteChatMember`
-  * `exportChatInviteLink`
-  * `setChatPhoto`
-  * `deleteChatPhoto`
-  * `setChatTitle`
-  * `setChatDescription`
-  * `pinChatMessage`
-  * `unpinChatMessage`
-  * `leaveChat`
+- [new] Implement supergroup or channel methods
+  - `kickChatMember`
+  - `unbanChatMember`
+  - `restrictChatMember`
+  - `promoteChatMember`
+  - `exportChatInviteLink`
+  - `setChatPhoto`
+  - `deleteChatPhoto`
+  - `setChatTitle`
+  - `setChatDescription`
+  - `pinChatMessage`
+  - `unpinChatMessage`
+  - `leaveChat`
 
 # 0.2.6 / 2017-08-14
 
 ### messaging-api-messenger
 
-* [new] Support calling send API with recipient object:
+- [new] Support calling send API with recipient object:
 
 ```js
 client.sendText(
@@ -1458,7 +1491,7 @@ client.sendText(
 );
 ```
 
-* [new] Support send media (sendAudio、sendImage、sendVideo、sendFile) using `Buffer` or `ReadStream`:
+- [new] Support send media (sendAudio、sendImage、sendVideo、sendFile) using `Buffer` or `ReadStream`:
 
 ```js
 client.sendImage(USER_ID, buffer);
@@ -1467,97 +1500,97 @@ client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 
 ### messaging-api-slack
 
-* [docs] Added Slack OAuth API document
+- [docs] Added Slack OAuth API document
 
 # 0.2.5 / 2017-08-09
 
 ### messaging-api-messenger
 
-* [new] Implement Page Messaging Insights API
-* [new] Implement Built-in NLP API
+- [new] Implement Page Messaging Insights API
+- [new] Implement Built-in NLP API
 
 ### messaging-api-slack
 
-* [new] Slack OAuth Client
+- [new] Slack OAuth Client
 
 # 0.2.4 / 2017-08-02
 
-* [docs] A big improvement.
-* [docs] prettify code examples with prettier
+- [docs] A big improvement.
+- [docs] prettify code examples with prettier
 
 ### messaging-api-messenger
 
-* [new] Chat Extension Home URL API
-* [new] Messenger Code API
-* [new] Handover Protocol APIs
-* [new] add 5 new tagged templates
-* [deps] upgrade default graph api version to `v2.10`
+- [new] Chat Extension Home URL API
+- [new] Messenger Code API
+- [new] Handover Protocol APIs
+- [new] add 5 new tagged templates
+- [deps] upgrade default graph api version to `v2.10`
 
 ### messaging-api-line
 
-* [new] LINE Group/Room Member API
+- [new] LINE Group/Room Member API
 
 # 0.2.3 / 2017-07-13
 
 ### messaging-api-telegram
 
-* [new] Add optional parameters to telegram api [#47](https://github.com/Yoctol/messaging-apis/pull/47).
-* [new] Implement get methods
-  * `getUserProfilePhotos`
-  * `getFile`
-  * `getChat`
-  * `getChatAdministrators`
-  * `getChatMembersCount`
-  * `getChatMember`
-* [new] Implement updating methods
-  * `editMessageText`
-  * `editMessageCaption`
-  * `editMessageReplyMarkup`
-  * `deleteMessage`
-* [new] `forwardMessage` method
+- [new] Add optional parameters to telegram api [#47](https://github.com/Yoctol/messaging-apis/pull/47).
+- [new] Implement get methods
+  - `getUserProfilePhotos`
+  - `getFile`
+  - `getChat`
+  - `getChatAdministrators`
+  - `getChatMembersCount`
+  - `getChatMember`
+- [new] Implement updating methods
+  - `editMessageText`
+  - `editMessageCaption`
+  - `editMessageReplyMarkup`
+  - `deleteMessage`
+- [new] `forwardMessage` method
 
 # 0.2.2 / 2017-07-11
 
-* [deps] Update `lerna` to `v2.0.0`.
+- [deps] Update `lerna` to `v2.0.0`.
 
 ### messaging-api-messenger
 
-* [new] Support send open graph template with `MessengerClient.sendOpenGraphTemplate`.
+- [new] Support send open graph template with `MessengerClient.sendOpenGraphTemplate`.
 
 ### messaging-api-telegram
 
-* [new] First release.
+- [new] First release.
 
 # 0.2.1 / 2017-07-06
 
-* [new] Add `engines` in `package.json` [#38](https://github.com/Yoctol/messaging-apis/pull/38).
-* [new] Setup test coverage report using `codecov` .
+- [new] Add `engines` in `package.json` [#38](https://github.com/Yoctol/messaging-apis/pull/38).
+- [new] Setup test coverage report using `codecov` .
 
 ### messaging-api-messenger
 
-* [fix] Fix wrong checking rules in `sendQuickReplies` methods.
+- [fix] Fix wrong checking rules in `sendQuickReplies` methods.
 
 ### messaging-api-line
 
-* [fix] `retrieveMessageContent` should return `Promise<Buffer>`.
+- [fix] `retrieveMessageContent` should return `Promise<Buffer>`.
 
 ### messaging-api-slack
 
-* [new] First release.
+- [new] First release.
 
 # 0.2.0 / 2017-06-29
 
-* [docs] rewrite new docs for Messenger & LINE
-* [breaking] APIs now return detail data and not just an `axios` response.
-* [breaking] rename `factory` to `connect`
+- [docs] rewrite new docs for Messenger & LINE
+- [breaking] APIs now return detail data and not just an `axios` response.
+- [breaking] rename `factory` to `connect`
 
 ### messaging-api-messenger
 
-* [new] support use specified graph api version
-* [new] support menu locale
-* [new] support greeting locale
-* [breaking] rename `inputDisabled` to `composerInputDisabled`
+- [new] support use specified graph api version
+- [new] support menu locale
+- [new] support greeting locale
+- [breaking] rename `inputDisabled` to `composerInputDisabled`
 
 ### messaging-api-line
 
-* [new] support more `reply` methods and `multicast` methods
+- [new] support more `reply` methods and `multicast` methods
