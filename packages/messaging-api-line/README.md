@@ -1098,7 +1098,7 @@ client.pushImageCarouselTemplate(
 
 ### Push Flex Message
 
-## `pushFlex(token, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+## `pushFlex(userId, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
 
 Sends flex message using ID of the receiver.
 
