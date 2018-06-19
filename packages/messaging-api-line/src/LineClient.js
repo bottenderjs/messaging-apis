@@ -180,7 +180,7 @@ export default class LineClient {
   /**
    * Imagemap Message
    *
-   * https://devdocs.line.me/en/#imagemap-message
+   * https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message
    */
   _sendImagemap(
     type: SendType,
@@ -217,7 +217,7 @@ export default class LineClient {
   /**
    * Flex Message
    *
-   * https://devdocs.line.me/en/#imagemap-message
+   * https://developers.line.me/en/docs/messaging-api/reference/#flex-message
    */
   _sendFlex(
     type: SendType,
@@ -231,7 +231,7 @@ export default class LineClient {
   /**
    * Template Messages
    *
-   * https://devdocs.line.me/en/#template-messages
+   * https://developers.line.me/en/docs/messaging-api/reference/#template-messages
    */
   _sendTemplate(
     type: SendType,
@@ -332,7 +332,7 @@ export default class LineClient {
   /**
    * Reply Message
    *
-   * https://devdocs.line.me/en/#reply-message
+   * https://developers.line.me/en/docs/messaging-api/reference/#send-reply-message
    */
   replyRawBody(body: {
     replyToken: ReplyToken,
@@ -353,7 +353,7 @@ export default class LineClient {
   /**
    * Push Message
    *
-   * https://devdocs.line.me/en/#push-message
+   * https://developers.line.me/en/docs/messaging-api/reference/#send-push-message
    */
   pushRawBody(body: {
     to: string,
@@ -371,7 +371,7 @@ export default class LineClient {
   /**
    * Multicast
    *
-   * https://devdocs.line.me/en/#multicast
+   * https://developers.line.me/en/docs/messaging-api/reference/#send-multicast-messages
    */
   multicastRawBody(body: {
     to: Array<UserId>,
@@ -392,7 +392,7 @@ export default class LineClient {
   /**
    * Content
    *
-   * https://devdocs.line.me/en/#content
+   * https://developers.line.me/en/docs/messaging-api/reference/#get-content
    */
   retrieveMessageContent(messageId: string): Promise<Buffer> {
     return this._axios
@@ -405,7 +405,7 @@ export default class LineClient {
   /**
    * Get User Profile
    *
-   * https://devdocs.line.me/en/#bot-api-get-profile
+   * https://developers.line.me/en/docs/messaging-api/reference/#get-profile
    * displayName, userId, pictureUrl, statusMessage
    */
   getUserProfile(userId: UserId): Promise<User> {
@@ -415,9 +415,9 @@ export default class LineClient {
   }
 
   /**
-   * Get Group/Room Member Profile
+   * Get Group Member Profile
    *
-   * https://devdocs.line.me/en/#get-group-room-member-profile
+   * https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-profile
    */
   getGroupMemberProfile(groupId: string, userId: UserId) {
     return this._axios
@@ -425,6 +425,11 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
+  /**
+   * Get Room Member Profile
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-profile
+   */
   getRoomMemberProfile(roomId: string, userId: UserId) {
     return this._axios
       .get(`/v2/bot/room/${roomId}/member/${userId}`)
@@ -432,9 +437,9 @@ export default class LineClient {
   }
 
   /**
-   * Get Group/Room Member IDs
+   * Get Group Member IDs
    *
-   * https://devdocs.line.me/en/#get-group-room-member-ids
+   * https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-user-ids
    */
   getGroupMemberIds(
     groupId: string,
@@ -464,6 +469,11 @@ export default class LineClient {
     return allMemberIds;
   }
 
+  /**
+   * Get Room Member IDs
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-user-ids
+   */
   getRoomMemberIds(
     roomId: string,
     start?: string
@@ -493,9 +503,9 @@ export default class LineClient {
   }
 
   /**
-   * Leave
+   * Leave Group
    *
-   * https://devdocs.line.me/en/#leave
+   * https://developers.line.me/en/docs/messaging-api/reference/#leave-group
    */
   leaveGroup(groupId: string): Promise<MutationSuccessResponse> {
     return this._axios
@@ -503,6 +513,11 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
+  /**
+   * Leave Room
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#leave-room
+   */
   leaveRoom(roomId: string): Promise<MutationSuccessResponse> {
     return this._axios
       .post(`/v2/bot/room/${roomId}/leave`)
