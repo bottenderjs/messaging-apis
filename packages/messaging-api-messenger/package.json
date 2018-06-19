@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-messenger",
   "description": "Messaging API client for Messenger",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "engines": {
     "node": ">=6"
   },
@@ -12,7 +12,12 @@
   "license": "MIT",
   "main": "lib/index.js",
   "browser": "lib/browser.js",
-  "keywords": ["bot", "chatbot", "messaging-apis", "messenger"],
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis",
+    "messenger"
+  ],
   "dependencies": {
     "append-query": "^2.0.1",
     "axios": "^0.17.0",

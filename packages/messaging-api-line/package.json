@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-line",
   "description": "Messaging API client for LINE",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "engines": {
     "node": ">=6"
   },
@@ -12,7 +12,12 @@
   "license": "MIT",
   "main": "lib/index.js",
   "browser": "lib/browser.js",
-  "keywords": ["bot", "chatbot", "messaging-apis", "line"],
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis",
+    "line"
+  ],
   "dependencies": {
     "axios": "^0.17.0",
     "axios-error": "^0.7.0",
