@@ -10,15 +10,15 @@
 * [Usage](#usage)
 * [API Reference](#api-reference)
   * [Reply API](#reply-api)
-    * [Imagemap Message](#reply-imagemap-message)
+    * [Imagemap Messages](#reply-imagemap-messages)
     * [Template Messages](#reply-template-messages)
     * [Flex Messages](#reply-flex-messages)
   * [Push API](#push-api)
-    * [Imagemap Message](#push-imagemap-message)
+    * [Imagemap Messages](#push-imagemap-messages)
     * [Template Messages](#push-template-messages)
     * [Flex Messages](#push-flex-messages)
   * [Multicast API](#multicast-api)
-    * [Imagemap Message](#multicast-imagemap-message)
+    * [Imagemap Messages](#multicast-imagemap-messages)
     * [Template Messages](#multicast-template-messages)
   * [Content API](#content-api)
   * [Profile API](#profile-api)
@@ -266,7 +266,7 @@ client.replySticker(REPLY_TOKEN, { packageId: '1', stickerId: '1' });
 
 <br />
 
-### Reply Imagemap Message
+### Reply Imagemap Messages
 
 ## `replyImagemap(token, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
@@ -566,7 +566,7 @@ client.replyImageCarouselTemplate(
 
 <br />
 
-### Reply Flex Message
+### Reply Flex Messages
 
 ## `replyFlex(token, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
 
@@ -796,7 +796,7 @@ client.pushSticker(USER_ID, { packageId: '1', stickerId: '1' });
 
 <br />
 
-### Push Imagemap Message
+### Push Imagemap Messages
 
 ## `pushImagemap(userId, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
@@ -1096,7 +1096,7 @@ client.pushImageCarouselTemplate(
 
 <br />
 
-### Push Flex Message
+### Push Flex Messages
 
 ## `pushFlex(userId, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
 
@@ -1332,7 +1332,7 @@ client.multicastSticker([USER_ID], {
 
 <br />
 
-### Multicast Imagemap Message
+### Multicast Imagemap Messages
 
 ## `multicastImagemap(userIds, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
