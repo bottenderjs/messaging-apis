@@ -6,19 +6,19 @@
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [API Reference](#api-reference)
-  * [Webhook API](#webhook-api)
-  * [Send API](#send-api)
-  * [Get API](#get-api)
-  * [Updating API](#updating-api)
-  * [Group API](#group-api)
-  * [Payments API](#payments-api)
-  * [Inline Mode API](#inline-mode-api)
-  * [Game API](#game-api)
-  * [Others](#others)
-* [Test](#test)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  - [Webhook API](#webhook-api)
+  - [Send API](#send-api)
+  - [Get API](#get-api)
+  - [Updating API](#updating-api)
+  - [Group API](#group-api)
+  - [Payments API](#payments-api)
+  - [Inline Mode API](#inline-mode-api)
+  - [Game API](#game-api)
+  - [Others](#others)
+- [Test](#test)
 
 ## Installation
 
@@ -62,7 +62,15 @@ Gets current webhook status.
 Example:
 
 ```js
-client.getWebhookInfo();
+client.getWebhookInfo().then(info => {
+  console.log(info);
+  // {
+  //   url: 'https://4a16faff.ngrok.io/',
+  //   has_custom_certificate: false,
+  //   pending_update_count: 0,
+  //   max_connections: 40,
+  // }
+});
 ```
 
 <br />
@@ -82,8 +90,8 @@ client
   .getUpdates({
     limit: 10,
   })
-  .then(data => {
-    console.log(data.result);
+  .then(updates => {
+    console.log(updates);
     /*
       [
         {
@@ -452,12 +460,9 @@ Example:
 client.getMe().then(result => {
   console.log(result);
   // {
-  //   ok: true,
-  //   result: {
-  //     id: 313534466,
-  //     first_name: 'first',
-  //     username: 'a_bot'
-  //   }
+  //   id: 313534466,
+  //   first_name: 'first',
+  //   username: 'a_bot'
   // }
 });
 ```
@@ -476,7 +481,37 @@ Gets a list of profile pictures for a user.
 Example:
 
 ```js
-client.getUserProfilePhotos(USER_ID, { limit: 2 });
+client.getUserProfilePhotos(USER_ID, { limit: 1 }).then(result => {
+  console.log(result);
+  // {
+  //   total_count: 3,
+  //   photos: [
+  //     [
+  //       {
+  //         file_id:
+  //           'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+  //         file_size: 14650,
+  //         width: 160,
+  //         height: 160,
+  //       },
+  //       {
+  //         file_id:
+  //           'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+  //         file_size: 39019,
+  //         width: 320,
+  //         height: 320,
+  //       },
+  //       {
+  //         file_id:
+  //           'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+  //         file_size: 132470,
+  //         width: 640,
+  //         height: 640,
+  //       },
+  //     ],
+  //   ],
+  // }
+});
 ```
 
 <br />
@@ -492,7 +527,16 @@ Gets basic info about a file and prepare it for downloading.
 Example:
 
 ```js
-client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
+client
+  .getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
+  .then(file => {
+    console.log(file);
+    // {
+    //   file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+    //   file_size: 106356,
+    //   file_path: 'photos/1068230105874016297.jpg',
+    // }
+  });
 ```
 
 <br />
@@ -508,7 +552,12 @@ Gets link of the file.
 Example:
 
 ```js
-client.getFileLink('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2');
+client
+  .getFileLink('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
+  .then(link => {
+    console.log(link);
+    // 'https://api.telegram.org/file/bot<ACCESS_TOKEN>/photos/1068230105874016297.jpg'
+  });
 ```
 
 <br />
@@ -524,7 +573,16 @@ Gets up to date information about the chat (current name of the user for one-on-
 Example:
 
 ```js
-client.getChat(CHAT_ID);
+client.getChat(CHAT_ID).then(chat => {
+  console.log(chat);
+  // {
+  //   id: 313534466,
+  //   first_name: 'first',
+  //   last_name: 'last',
+  //   username: 'username',
+  //   type: 'private',
+  // }
+});
 ```
 
 <br />
@@ -540,7 +598,21 @@ Gets a list of administrators in a chat.
 Example:
 
 ```js
-client.getChatAdministrators(CHAT_ID);
+client.getChatAdministrators(CHAT_ID).then(admins => {
+  console.log(admins);
+  // [
+  //   {
+  //     user: {
+  //       id: 313534466,
+  //       first_name: 'first',
+  //       last_name: 'last',
+  //       username: 'username',
+  //       languange_code: 'zh-TW',
+  //     },
+  //     status: 'creator',
+  //   },
+  // ]
+});
 ```
 
 <br />
@@ -556,7 +628,9 @@ Gets the number of members in a chat.
 Example:
 
 ```js
-client.getChatMembersCount(CHAT_ID);
+client.getChatMembersCount(CHAT_ID).then(count => {
+  console.log(count); // '6'
+});
 ```
 
 <br />
@@ -573,7 +647,19 @@ Gets information about a member of a chat.
 Example:
 
 ```js
-client.getChatMember(CHAT_ID, USER_ID);
+client.getChatMember(CHAT_ID, USER_ID).then(member => {
+  console.log(member);
+  // {
+  //   user: {
+  //     id: 313534466,
+  //     first_name: 'first',
+  //     last_name: 'last',
+  //     username: 'username',
+  //     languange_code: 'zh-TW',
+  //   },
+  //   status: 'creator',
+  // }
+});
 ```
 
 <br />
@@ -1118,7 +1204,20 @@ Gets data for high score tables.
 Example:
 
 ```js
-client.getGameHighScores(USER_ID);
+client.getGameHighScores(USER_ID).then(scores => {
+  console.log(scores);
+  // [
+  //   {
+  //     position: 1,
+  //     user: {
+  //       id: 427770117,
+  //       is_bot: false,
+  //       first_name: 'first',
+  //     },
+  //     score: 999,
+  //   },
+  // ]
+});
 ```
 
 <br />
