@@ -143,7 +143,7 @@ You can include LINE original emoji in text messages using character codes. For 
 Example:
 
 ```js
-client.reply(REPLY_TOKEN, 'Hello!');
+client.replyText(REPLY_TOKEN, 'Hello!');
 ```
 
 <br />
