@@ -21,6 +21,10 @@ type Axios = {
   delete: Function,
 };
 
+type CommonOptions = {
+  token?: string,
+};
+
 type PostMessageOptions = {
   as_user?: boolean,
   attachments?: string,
@@ -33,9 +37,10 @@ type PostMessageOptions = {
   unfurl_links?: boolean,
   unfurl_media?: boolean,
   username?: string,
+  ...CommonOptions,
 };
 
-type postEphemeral = {
+type PostEphemeralOptions = {
   as_user?: boolean,
   attachments?: string,
   link_names?: boolean,
@@ -44,10 +49,12 @@ type postEphemeral = {
 
 type GetInfoOptions = {
   include_locale?: boolean,
+  ...CommonOptions,
 };
 
 type WithCursorOptions = {
   cursor?: string,
+  ...CommonOptions,
 };
 
 type ConversationListOptions = {
@@ -55,6 +62,7 @@ type ConversationListOptions = {
   exclude_archived?: boolean,
   limit?: number,
   types?: string,
+  ...CommonOptions,
 };
 
 type ClientConfig = {
@@ -148,8 +156,10 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/channels.list
    * FIXME: [breaking] support cursor, exclude_archived, exclude_members, limit
    */
-  getChannelList(): Promise<Array<SlackChannel>> {
-    return this.callMethod('channels.list').then(data => data.channels);
+  getChannelList(options: CommonOptions = {}): Promise<Array<SlackChannel>> {
+    return this.callMethod('channels.list', options).then(
+      data => data.channels
+    );
   }
 
   /**
@@ -188,7 +198,10 @@ export default class SlackOAuthClient {
     }));
   }
 
-  async getAllConversationMembers(channelId: string): Promise<Array<string>> {
+  async getAllConversationMembers(
+    channelId: string,
+    options: CommonOptions = {}
+  ): Promise<Array<string>> {
     let allMembers = [];
     let continuationCursor;
 
@@ -199,6 +212,7 @@ export default class SlackOAuthClient {
         // eslint-disable-next-line no-await-in-loop
       } = await this.getConversationMembers(channelId, {
         cursor: continuationCursor,
+        ...options,
       });
       allMembers = allMembers.concat(members);
       continuationCursor = next;
@@ -231,14 +245,14 @@ export default class SlackOAuthClient {
     let continuationCursor;
 
     do {
+      const _options = continuationCursor
+        ? { cursor: continuationCursor, ...options }
+        : options;
       const {
         channels,
         next,
         // eslint-disable-next-line no-await-in-loop
-      } = await this.getConversationList({
-        ...options,
-        cursor: continuationCursor,
-      });
+      } = await this.getConversationList(_options);
       allChannels = allChannels.concat(channels);
       continuationCursor = next;
     } while (continuationCursor);
@@ -296,7 +310,7 @@ export default class SlackOAuthClient {
     message:
       | { text?: string, attachments: Array<SlackAttachment> | string }
       | string,
-    options?: postEphemeral = {}
+    options?: PostEphemeralOptions = {}
   ): Promise<SlackOAuthAPIResponse> {
     if (options.attachments && typeof options.attachments !== 'string') {
       // A JSON-based array of structured attachments, presented as a URL-encoded string.
@@ -348,15 +362,26 @@ export default class SlackOAuthClient {
    * FIXME: [breaking] support include_locale, limit, presence
    */
   getUserList(
-    cursor?: string
+    cursorOrOptions?: string | WithCursorOptions
   ): Promise<{ members: Array<SlackUser>, next: ?string }> {
-    return this.callMethod('users.list', { cursor }).then(data => ({
+    if (typeof cursorOrOptions === 'string') {
+      // cursorOrOptions is cursor string
+      return this.callMethod('users.list', { cursor: cursorOrOptions }).then(
+        data => ({
+          members: data.members,
+          next: data.response_metadata && data.response_metadata.next_cursor,
+        })
+      );
+    }
+
+    // cursorOrOptions is options object
+    return this.callMethod('users.list', cursorOrOptions).then(data => ({
       members: data.members,
       next: data.response_metadata && data.response_metadata.next_cursor,
     }));
   }
 
-  async getAllUserList(): Promise<Array<SlackUser>> {
+  async getAllUserList(options: CommonOptions = {}): Promise<Array<SlackUser>> {
     let allUsers = [];
     let continuationCursor;
 
@@ -365,7 +390,7 @@ export default class SlackOAuthClient {
         members: users,
         next,
         // eslint-disable-next-line no-await-in-loop
-      } = await this.getUserList(continuationCursor);
+      } = await this.getUserList({ cursor: continuationCursor, ...options });
       allUsers = allUsers.concat(users);
       continuationCursor = next;
     } while (continuationCursor);
