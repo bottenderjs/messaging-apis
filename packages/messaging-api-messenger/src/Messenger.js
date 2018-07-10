@@ -130,7 +130,8 @@ function createAudio(
   if (typeof audio === 'string') {
     attachment.payload.url = audio;
     return createAttachment(attachment, options);
-  } else if (audio && isPlainObject(audio)) {
+  }
+  if (audio && isPlainObject(audio)) {
     attachment.payload = audio;
     return createAttachment(attachment, options);
   }
@@ -149,7 +150,8 @@ function createImage(
   if (typeof image === 'string') {
     attachment.payload.url = image;
     return createAttachment(attachment, options);
-  } else if (image && isPlainObject(image)) {
+  }
+  if (image && isPlainObject(image)) {
     attachment.payload = image;
     return createAttachment(attachment, options);
   }
@@ -168,7 +170,8 @@ function createVideo(
   if (typeof video === 'string') {
     attachment.payload.url = video;
     return createAttachment(attachment, options);
-  } else if (video && isPlainObject(video)) {
+  }
+  if (video && isPlainObject(video)) {
     attachment.payload = video;
     return createAttachment(attachment, options);
   }
@@ -187,7 +190,8 @@ function createFile(
   if (typeof file === 'string') {
     attachment.payload.url = file;
     return createAttachment(attachment, options);
-  } else if (file && isPlainObject(file)) {
+  }
+  if (file && isPlainObject(file)) {
     attachment.payload = file;
     return createAttachment(attachment, options);
   }

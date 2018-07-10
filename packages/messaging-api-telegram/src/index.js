@@ -2,6 +2,5 @@
 
 import TelegramClient from './TelegramClient';
 
-module.exports = {
-  TelegramClient,
-};
+export { TelegramClient };
+export default { TelegramClient };

@@ -41,7 +41,9 @@ export default class ViberClient {
   }
 
   _token: string;
+
   _sender: ViberSender;
+
   _axios: Axios;
 
   constructor(accessTokenOrConfig: string | ClientConfig, sender: ViberSender) {

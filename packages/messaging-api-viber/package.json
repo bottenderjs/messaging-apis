@@ -18,10 +18,10 @@
     "viber"
   ],
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.18.0",
     "axios-error": "^0.7.0"
   },
   "devDependencies": {
-    "axios-mock-adapter": "^1.9.0"
+    "axios-mock-adapter": "^1.15.0"
   }
 }

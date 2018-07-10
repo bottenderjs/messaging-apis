@@ -2,6 +2,5 @@
 
 import WechatClient from './WechatClient';
 
-module.exports = {
-  WechatClient,
-};
+export { WechatClient };
+export default { WechatClient };

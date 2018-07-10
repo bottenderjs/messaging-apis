@@ -25,6 +25,7 @@ export default class TelegramClient {
   }
 
   _token: string;
+
   _axios: Axios;
 
   constructor(accessTokenOrConfig: string | ClientConfig) {

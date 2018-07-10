@@ -49,10 +49,13 @@ export default class WechatClient {
   }
 
   _appId: string;
+
   _appSecret: string;
+
   _axios: Axios;
 
   _accessToken: string = '';
+
   _tokenExpiresAt: number = 0;
 
   constructor(appIdOrClientConfig: string | ClientConfig, appSecret: string) {

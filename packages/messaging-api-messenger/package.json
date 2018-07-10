@@ -20,15 +20,15 @@
   ],
   "dependencies": {
     "append-query": "^2.0.1",
-    "axios": "^0.17.0",
+    "axios": "^0.18.0",
     "axios-error": "^0.7.0",
-    "form-data": "^2.3.1",
-    "invariant": "^2.2.2",
+    "form-data": "^2.3.2",
+    "invariant": "^2.2.4",
     "is-plain-object": "^2.0.4",
     "lodash.omit": "^4.5.0",
-    "warning": "^3.0.0"
+    "warning": "^4.0.1"
   },
   "devDependencies": {
-    "axios-mock-adapter": "^1.9.0"
+    "axios-mock-adapter": "^1.15.0"
   }
 }

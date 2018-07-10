@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import AxiosError from '../';
+import AxiosError from '..';
 
 const mock = new MockAdapter(axios);
 

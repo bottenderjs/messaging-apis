@@ -34,6 +34,7 @@ describe('#callMethod', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -66,6 +67,7 @@ describe('#callMethod', () => {
           text: 'hello',
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -99,6 +101,7 @@ describe('#callMethod', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -135,6 +138,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -167,6 +171,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -240,6 +245,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -310,6 +316,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -340,6 +347,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -372,6 +380,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -408,6 +417,7 @@ describe('#postMessage', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -478,6 +488,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -511,6 +522,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -586,6 +598,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -658,6 +671,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -689,6 +703,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -724,6 +739,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -761,6 +777,7 @@ describe('#postEphemeral', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -902,6 +919,7 @@ describe('#getUserList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1000,6 +1018,7 @@ describe('#getUserList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1109,6 +1128,7 @@ describe('#getAllUserList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1120,6 +1140,7 @@ describe('#getAllUserList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1177,6 +1198,7 @@ describe('#getUserInfo', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1226,6 +1248,7 @@ describe('#getChannelList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1277,6 +1300,7 @@ describe('#getChannelInfo', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1342,6 +1366,7 @@ describe('#getConversationInfo', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1376,6 +1401,7 @@ describe('#getConversationMembers', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1405,6 +1431,7 @@ describe('#getConversationMembers', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1446,6 +1473,7 @@ describe('#getAllConversationMembers', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1458,6 +1486,7 @@ describe('#getAllConversationMembers', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1553,6 +1582,7 @@ describe('#getConversationList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1643,6 +1673,7 @@ describe('#getConversationList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1752,6 +1783,7 @@ describe('#getAllConversationList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
@@ -1763,6 +1795,7 @@ describe('#getAllConversationList', () => {
           token: TOKEN,
         }),
         {
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       )
