@@ -92,8 +92,11 @@ export default class MessengerClient {
   }
 
   _accessToken: string;
+
   _appSecret: ?string;
+
   _version: string;
+
   _axios: Axios;
 
   constructor(
@@ -1377,6 +1380,7 @@ export default class MessengerClient {
 
       args.push(form, {
         headers: form.getHeaders(),
+        maxContentLength: Infinity, // Facebook limit is 25MB, set a bigger value and let Facebook reject it
       });
     }
 
@@ -1392,12 +1396,15 @@ export default class MessengerClient {
   uploadAudio(attachment: string | FileData, options?: UploadOption) {
     return this.uploadAttachment('audio', attachment, options);
   }
+
   uploadImage(attachment: string | FileData, options?: UploadOption) {
     return this.uploadAttachment('image', attachment, options);
   }
+
   uploadVideo(attachment: string | FileData, options?: UploadOption) {
     return this.uploadAttachment('video', attachment, options);
   }
+
   uploadFile(attachment: string | FileData, options?: UploadOption) {
     return this.uploadAttachment('file', attachment, options);
   }

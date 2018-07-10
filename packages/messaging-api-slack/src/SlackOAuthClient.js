@@ -111,7 +111,6 @@ export default class SlackOAuthClient {
         method,
         querystring.stringify(body)
       );
-
       const { data, config, request } = response;
 
       if (!data.ok) {

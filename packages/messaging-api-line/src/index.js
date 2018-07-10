@@ -3,7 +3,5 @@
 import Line from './Line';
 import LineClient from './LineClient';
 
-module.exports = {
-  Line,
-  LineClient,
-};
+export { Line, LineClient };
+export default { Line, LineClient };

@@ -2,6 +2,5 @@
 
 import Line from './Line';
 
-module.exports = {
-  Line,
-};
+export { Line };
+export default { Line };

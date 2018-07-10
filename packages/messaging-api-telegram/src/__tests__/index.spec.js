@@ -1,4 +1,4 @@
-import { TelegramClient } from '../';
+import { TelegramClient } from '..';
 
 it('should export api correctly', () => {
   expect(TelegramClient).toBeDefined();

@@ -2,6 +2,5 @@
 
 import ViberClient from './ViberClient';
 
-module.exports = {
-  ViberClient,
-};
+export { ViberClient };
+export default { ViberClient };

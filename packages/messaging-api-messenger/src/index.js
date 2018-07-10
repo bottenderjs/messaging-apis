@@ -5,7 +5,8 @@ import MessengerBatch from './MessengerBatch';
 import MessengerClient from './MessengerClient';
 import MessengerBroadcast from './MessengerBroadcast';
 
-module.exports = {
+export { Messenger, MessengerBatch, MessengerClient, MessengerBroadcast };
+export default {
   Messenger,
   MessengerBatch,
   MessengerClient,

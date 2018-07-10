@@ -3,7 +3,7 @@ import {
   MessengerBatch,
   MessengerClient,
   MessengerBroadcast,
-} from '../';
+} from '..';
 
 it('should export api correctly', () => {
   expect(Messenger).toBeDefined();

@@ -3,7 +3,5 @@
 import SlackWebhookClient from './SlackWebhookClient';
 import SlackOAuthClient from './SlackOAuthClient';
 
-module.exports = {
-  SlackOAuthClient,
-  SlackWebhookClient,
-};
+export { SlackOAuthClient, SlackWebhookClient };
+export default { SlackOAuthClient, SlackWebhookClient };

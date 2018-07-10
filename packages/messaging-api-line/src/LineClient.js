@@ -61,7 +61,9 @@ export default class LineClient {
   }
 
   _accessToken: string;
+
   _channelSecret: string;
+
   _axios: Axios;
 
   constructor(
@@ -104,7 +106,8 @@ export default class LineClient {
   ): Promise<MutationSuccessResponse> {
     if (type === 'push') {
       return this.push(((target: any): UserId), ...args);
-    } else if (type === 'multicast') {
+    }
+    if (type === 'multicast') {
       return this.multicast(((target: any): Array<UserId>), ...args);
     }
     return this.reply(((target: any): ReplyToken), ...args);
