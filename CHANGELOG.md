@@ -1,3 +1,9 @@
+# 0.7.4 / 2018-07-12
+
+### messaging-api-messenger
+
+- [fix] set maxContentLength for Messenger uploadAttachment
+
 # 0.7.3 / 2018-06-19
 
 ### messaging-api-messenger
