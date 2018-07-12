@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-viber",
   "description": "Messaging API client for Viber",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "engines": {
     "node": ">=6"
   },
@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "axios": "^0.18.0",
-    "axios-error": "^0.7.0"
+    "axios-error": "^0.7.4"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0"
