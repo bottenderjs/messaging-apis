@@ -568,7 +568,7 @@ client.replyImageCarouselTemplate(
 
 ### Reply Flex Messages
 
-## `replyFlex(token, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+## `replyFlex(altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
 
 Responds flex message using specified reply token.
 
@@ -576,14 +576,13 @@ Responds flex message using specified reply token.
 
 | Param    | Type     | Description                                                                                             |
 | -------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| token    | `String` | `replyToken` received via webhook.                                                                      |
 | altText  | `String` | Alternative text.                                                                                       |
 | contents | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
 
 Example:
 
 ```js
-client.replyFlex(REPLY_TOKEN, 'this is a flex', {
+client.replyFlex('this is a flex', {
   type: 'bubble',
   header: {
     type: 'box',
