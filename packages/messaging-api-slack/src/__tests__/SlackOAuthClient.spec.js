@@ -62,9 +62,9 @@ describe('#callMethod', () => {
       .onPost(
         '/chat.postMessage',
         querystring.stringify({
-          token: 'custom token',
           channel: CHANNEL,
           text: 'hello',
+          token: 'custom token',
         }),
         {
           Accept: 'application/json, text/plain, */*',
@@ -75,6 +75,40 @@ describe('#callMethod', () => {
 
     const res = await client.callMethod('chat.postMessage', {
       token: 'custom token',
+      channel: CHANNEL,
+      text: 'hello',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call slack api with custom token using `accessToken` key', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.postMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          token: 'custom token',
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.callMethod('chat.postMessage', {
+      accessToken: 'custom token',
       channel: CHANNEL,
       text: 'hello',
     });
@@ -355,7 +389,7 @@ describe('#postMessage', () => {
 
     const res = await client.postMessage(CHANNEL, 'hello', {
       as_user: true,
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual(reply);
@@ -714,7 +748,7 @@ describe('#postEphemeral', () => {
 
     const res = await client.postEphemeral(CHANNEL, USER, 'hello', {
       as_user: true,
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual(reply);
@@ -1127,7 +1161,7 @@ describe('#getUserList', () => {
       )
       .reply(200, reply);
 
-    const res = await client.getUserList({ token: 'custom token' });
+    const res = await client.getUserList({ accessToken: 'custom token' });
 
     expect(res).toEqual({ members, next: 'dXNlcjpVMEc5V0ZYTlo=' });
   });
@@ -1231,7 +1265,7 @@ describe('#getUserList', () => {
 
     const res = await client.getUserList({
       cursor: 'cursor',
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual({ members, next: 'dXNlcjpVMEc5V0ZYTlo=' });
@@ -1474,7 +1508,7 @@ describe('#getAllUserList', () => {
       )
       .replyOnce(200, reply2);
 
-    const res = await client.getAllUserList({ token: 'custom token' });
+    const res = await client.getAllUserList({ accessToken: 'custom token' });
 
     expect(res).toEqual(members);
   });
@@ -1589,7 +1623,7 @@ describe('#getUserInfo', () => {
       .reply(200, reply);
 
     const res = await client.getUserInfo('U023BECGF', {
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual(user);
@@ -1688,7 +1722,7 @@ describe('#getChannelList', () => {
       )
       .reply(200, reply);
 
-    const res = await client.getChannelList({ token: 'custom token' });
+    const res = await client.getChannelList({ accessToken: 'custom token' });
 
     expect(res).toEqual(channels);
   });
@@ -1791,7 +1825,7 @@ describe('#getChannelInfo', () => {
       .reply(200, reply);
 
     const res = await client.getChannelInfo('C024BE91L', {
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual(channel);
@@ -1923,7 +1957,7 @@ describe('#getConversationInfo', () => {
       .reply(200, reply);
 
     const res = await client.getConversationInfo('C024BE91L', {
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual(channel);
@@ -2023,7 +2057,7 @@ describe('#getConversationMembers', () => {
       .reply(200, reply);
 
     const res = await client.getConversationMembers('C012AB3CD', {
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual({ members, next: 'e3VzZXJfaWQ6IFcxMjM0NTY3fQ==' });
@@ -2133,7 +2167,7 @@ describe('#getAllConversationMembers', () => {
       .replyOnce(200, reply2);
 
     const res = await client.getAllConversationMembers('C012AB3CD', {
-      token: 'custom token',
+      accessToken: 'custom token',
     });
 
     expect(res).toEqual(members);
@@ -2415,7 +2449,9 @@ describe('#getConversationList', () => {
       )
       .reply(200, reply);
 
-    const res = await client.getConversationList({ token: 'custom token' });
+    const res = await client.getConversationList({
+      accessToken: 'custom token',
+    });
 
     expect(res).toEqual({ channels, next: 'aW1faWQ6RDBCSDk1RExI' });
   });
@@ -2655,7 +2691,9 @@ describe('#getAllConversationList', () => {
       )
       .replyOnce(200, reply2);
 
-    const res = await client.getAllConversationList({ token: 'custom token' });
+    const res = await client.getAllConversationList({
+      accessToken: 'custom token',
+    });
 
     expect(res).toEqual(channels);
   });

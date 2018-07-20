@@ -92,12 +92,12 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 Sends a message to a channel.
 
-| Param         | Type                              | Description                                                                                |
-| ------------- | --------------------------------- | ------------------------------------------------------------------------------------------ |
-| channel       | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. |
-| message       | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                         |
-| options       | `Object`                          | Other optional parameters.                                                                 |
-| options.token | `String`                          | Custom token of the request.                                                               |
+| Param               | Type                              | Description                                                                                |
+| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------------ |
+| channel             | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. |
+| message             | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                         |
+| options             | `Object`                          | Other optional parameters.                                                                 |
+| options.accessToken | `String`                          | Custom access token of the request.                                                        |
 
 Example:
 
@@ -145,13 +145,13 @@ client.postMessage(
 
 Sends an ephemeral message to a user in a channel.
 
-| Param         | Type                              | Description                                                                                                                     |
-| ------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| channel       | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.                                      |
-| user          | `String`                          | `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument. |
-| message       | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                                                              |
-| options       | `Object`                          | Other optional parameters.                                                                                                      |
-| options.token | `String`                          | Custom token of the request.                                                                                                    |
+| Param               | Type                              | Description                                                                                                                     |
+| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| channel             | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.                                      |
+| user                | `String`                          | `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument. |
+| message             | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                                                              |
+| options             | `Object`                          | Other optional parameters.                                                                                                      |
+| options.accessToken | `String`                          | Custom access token of the request.                                                                                             |
 
 Example:
 
@@ -170,11 +170,11 @@ client.postEphemeral('C8763', 'U56781234', 'Hello!', { as_user: true });
 
 Lists all users in a Slack team.
 
-| Param          | Type     | Description                                                                                                                                               |
-| -------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| options        | `Object` | Other optional parameters.                                                                                                                                |
-| options.cursor | `String` | Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. |
-| options.token  | `String` | Custom token of the request.                                                                                                                              |
+| Param               | Type     | Description                                                                                                                                               |
+| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options             | `Object` | Other optional parameters.                                                                                                                                |
+| options.cursor      | `String` | Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. |
+| options.accessToken | `String` | Custom access token of the request.                                                                                                                       |
 
 Example:
 
@@ -197,10 +197,10 @@ client.getUserList({ cursor }).then(res => {
 
 Recursively lists all users in a Slack team using cursor.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| options       | `Object` | Other optional parameters.   |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| options             | `Object` | Other optional parameters.          |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -220,11 +220,11 @@ client.getAllUserList().then(res => {
 
 Gets information about an user.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| userId        | `String` | User to get info on.         |
-| options       | `Object` | Other optional parameters.   |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| userId              | `String` | User to get info on.                |
+| options             | `Object` | Other optional parameters.          |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -245,10 +245,10 @@ client.getUserInfo(userId).then(res => {
 
 ## `getChannelList(options?)` - [Official docs](https://api.slack.com/methods/channels.list)
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| options       | `Object` | Other optional parameters.   |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| options             | `Object` | Other optional parameters.          |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Lists all channels in a Slack team.
 
@@ -270,11 +270,11 @@ client.getChannelList().then(res => {
 
 Gets information about a channel.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| channelId     | `String` | Channel to get info on.      |
-| options       | `Object` | Other optional parameters.   |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| channelId           | `String` | Channel to get info on.             |
+| options             | `Object` | Other optional parameters.          |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -297,11 +297,11 @@ client.getChannelInfo(channelId).then(res => {
 
 Retrieve information about a conversation.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| channelId     | `String` | Channel to get info on.      |
-| options       | `Object` | Other optional parameters.   |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| channelId           | `String` | Channel to get info on.             |
+| options             | `Object` | Other optional parameters.          |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -322,11 +322,11 @@ client.getConversationInfo(channelId).then(res => {
 
 Retrieve members of a conversation.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| channelId     | `String` | Channel to get info on.      |
-| options       | `Object` | Optional arguments.          |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| channelId           | `String` | Channel to get info on.             |
+| options             | `Object` | Optional arguments.                 |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -347,11 +347,11 @@ client.getConversationMembers(channelId).then(res => {
 
 Recursively retrieve members of a conversation using cursor.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| channelId     | `String` | Channel to get info on.      |
-| options       | `Object` | Other optional parameters.   |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| channelId           | `String` | Channel to get info on.             |
+| options             | `Object` | Other optional parameters.          |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -368,10 +368,10 @@ client.getAllConversationMembers(channelId).then(res => {
 
 Lists all channels in a Slack team.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| options       | `Object` | Optional arguments.          |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| options             | `Object` | Optional arguments.                 |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
@@ -403,10 +403,10 @@ client.getConversationList().then(res => {
 
 Recursively lists all channels in a Slack team using cursor.
 
-| Param         | Type     | Description                  |
-| ------------- | -------- | ---------------------------- |
-| options       | `Object` | Optional arguments.          |
-| options.token | `String` | Custom token of the request. |
+| Param               | Type     | Description                         |
+| ------------------- | -------- | ----------------------------------- |
+| options             | `Object` | Optional arguments.                 |
+| options.accessToken | `String` | Custom access token of the request. |
 
 Example:
 
