@@ -6,40 +6,40 @@
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [API Reference](#api-reference)
-  * [Send API](#send-api)
-    * [Content Types](#content-types)
-    * [Templates](#templates)
-    * [Quick Replies](#quick-replies)
-    * [Sender Actions](#sender-actions)
-    * [Attachment Upload API](#attachment-upload-api)
-    * [Tags](#tags)
-    * [Message Batching](#message-batching)
-  * [Broadcast API](#broadcast-api)
-    * [Targeting Broadcast Messages](#targeting-broadcast-messages)
-    * [Estimating Broadcast Size](#estimating-broadcast-size)
-    * [Broadcast Metrics](#broadcast-metrics)
-    * [Scheduling Broadcasts](#scheduling-broadcasts)
-  * [User Profile API](#user-profile-api)
-  * [Messenger Profile API](#messenger-profile-api)
-    * [Persistent Menu](#persistent-menu)
-    * [Get Started Button](#get-started-button)
-    * [Greeting Text](#greeting-text)
-    * [Whitelisted Domains](#domain-whitelist)
-    * [Account Linking URL](#account-linking-url)
-    * [Payment Settings](#payment-settings)
-    * [Target Audience](#target-audience)
-    * [Chat Extension Home URL](#chat-extension-home-url)
-  * [Messenger Code API](#messenger-code-api)
-  * [Handover Protocol API](#handover-protocol-api)
-  * [Page Messaging Insights API](#page-messaging-insights-api)
-  * [Built-in NLP API](#built-in-nlp-api)
-  * [Event Logging API](#event-logging-api)
-  * [ID Matching API](#id-matching-api)
-  * [Others](#others)
-* [Test](#test)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  - [Send API](#send-api)
+    - [Content Types](#content-types)
+    - [Templates](#templates)
+    - [Quick Replies](#quick-replies)
+    - [Sender Actions](#sender-actions)
+    - [Attachment Upload API](#attachment-upload-api)
+    - [Tags](#tags)
+    - [Message Batching](#message-batching)
+  - [Broadcast API](#broadcast-api)
+    - [Targeting Broadcast Messages](#targeting-broadcast-messages)
+    - [Estimating Broadcast Size](#estimating-broadcast-size)
+    - [Broadcast Metrics](#broadcast-metrics)
+    - [Scheduling Broadcasts](#scheduling-broadcasts)
+  - [User Profile API](#user-profile-api)
+  - [Messenger Profile API](#messenger-profile-api)
+    - [Persistent Menu](#persistent-menu)
+    - [Get Started Button](#get-started-button)
+    - [Greeting Text](#greeting-text)
+    - [Whitelisted Domains](#domain-whitelist)
+    - [Account Linking URL](#account-linking-url)
+    - [Payment Settings](#payment-settings)
+    - [Target Audience](#target-audience)
+    - [Chat Extension Home URL](#chat-extension-home-url)
+  - [Messenger Code API](#messenger-code-api)
+  - [Handover Protocol API](#handover-protocol-api)
+  - [Page Messaging Insights API](#page-messaging-insights-api)
+  - [Built-in NLP API](#built-in-nlp-api)
+  - [Event Logging API](#event-logging-api)
+  - [ID Matching API](#id-matching-api)
+  - [Others](#others)
+- [Test](#test)
 
 ## Installation
 
@@ -85,6 +85,20 @@ If `appSecret` is provided, `MessengerClient` will enable this feature automatic
 const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
   appSecret: APP_SECRET,
+});
+```
+
+### Error Handling
+
+`messaging-api-messenger` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+
+```js
+client.sendRawBody(body).catch(error => {
+  console.log(error); // formatted error message
+  console.log(error.stack); // error stack trace
+  console.log(error.config); // axios request config
+  console.log(error.request); // HTTP request
+  console.log(error.response); // HTTP response
 });
 ```
 
@@ -159,9 +173,9 @@ client.sendMessage(
 
 Available messaging types:
 
-* `UPDATE` as default
-* `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
-* `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
+- `UPDATE` as default
+- `RESPONSE` using `{ messaging_type: 'RESPONSE' }` options
+- `MESSAGE_TAG` using `{ tag: 'ANY_TAG' }` options
 
 <br />
 
@@ -224,19 +238,19 @@ Send sounds to specified user by uploading them or sharing a URL using the [Send
 
 Example:
 
-* Send audio using url string:
+- Send audio using url string:
 
 ```js
 client.sendAudio(USER_ID, 'https://example.com/audio.mp3');
 ```
 
-* Use `AttachmentPayload` to send cached attachment:
+- Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendAudio(USER_ID, { attachment_id: '55688' });
 ```
 
-* Use `ReadStream` created from local file:
+- Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -244,7 +258,7 @@ const fs = require('fs');
 client.sendAudio(USER_ID, fs.createReadStream('audio.mp3'));
 ```
 
-* Use `Buffer` to send attachment:
+- Use `Buffer` to send attachment:
 
 ```js
 client.sendAudio(USER_ID, buffer, { filename: 'audio.mp3' });
@@ -265,19 +279,19 @@ Send images to specified user by uploading them or sharing a URL using the [Send
 
 Example:
 
-* Send image using url string:
+- Send image using url string:
 
 ```js
 client.sendImage(USER_ID, 'https://example.com/vr.jpg');
 ```
 
-* Use `AttachmentPayload` to send cached attachment:
+- Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendImage(USER_ID, { attachment_id: '55688' });
 ```
 
-* Use `ReadStream` created from local file:
+- Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -285,7 +299,7 @@ const fs = require('fs');
 client.sendImage(USER_ID, fs.createReadStream('vr.jpg'));
 ```
 
-* Use `Buffer` to send attachment:
+- Use `Buffer` to send attachment:
 
 ```js
 client.sendImage(USER_ID, buffer, { filename: 'vr.jpg' });
@@ -306,19 +320,19 @@ Send videos to specified user by uploading them or sharing a URL using the [Send
 
 Example:
 
-* Send video using url string:
+- Send video using url string:
 
 ```js
 client.sendVideo(USER_ID, 'https://example.com/video.mp4');
 ```
 
-* Use `AttachmentPayload` to send cached attachment:
+- Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendVideo(USER_ID, { attachment_id: '55688' });
 ```
 
-* Use `ReadStream` created from local file:
+- Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -326,7 +340,7 @@ const fs = require('fs');
 client.sendVideo(USER_ID, fs.createReadStream('video.mp4'));
 ```
 
-* Use `Buffer` to send attachment:
+- Use `Buffer` to send attachment:
 
 ```js
 client.sendVideo(USER_ID, buffer, { filename: 'video.mp4' });
@@ -347,19 +361,19 @@ Send files to specified user by uploading them or sharing a URL using the [Send 
 
 Example:
 
-* Send file using url string:
+- Send file using url string:
 
 ```js
 client.sendFile(USER_ID, 'https://example.com/receipt.pdf');
 ```
 
-* Use `AttachmentPayload` to send cached attachment:
+- Use `AttachmentPayload` to send cached attachment:
 
 ```js
 client.sendFile(USER_ID, { attachment_id: '55688' });
 ```
 
-* Use `ReadStream` created from local file:
+- Use `ReadStream` created from local file:
 
 ```js
 const fs = require('fs');
@@ -367,7 +381,7 @@ const fs = require('fs');
 client.sendFile(USER_ID, fs.createReadStream('receipt.pdf'));
 ```
 
-* Use `Buffer` to send attachment:
+- Use `Buffer` to send attachment:
 
 ```js
 client.sendFile(USER_ID, buffer, { filename: 'file.pdf' });
@@ -499,22 +513,22 @@ client.sendGenericTemplate(
 
 Available tags:
 
-* `COMMUNITY_ALERT`
-* `CONFIRMED_EVENT_REMINDER`
-* `NON_PROMOTIONAL_SUBSCRIPTION`
-* `PAIRING_UPDATE`
-* `APPLICATION_UPDATE`
-* `ACCOUNT_UPDATE`
-* `PAYMENT_UPDATE`
-* `PERSONAL_FINANCE_UPDATE`
-* `SHIPPING_UPDATE`
-* `RESERVATION_UPDATE`
-* `ISSUE_RESOLUTION`
-* `APPOINTMENT_UPDATE`
-* `GAME_EVENT`
-* `TRANSPORTATION_UPDATE`
-* `FEATURE_FUNCTIONALITY_UPDATE`
-* `TICKET_UPDATE`
+- `COMMUNITY_ALERT`
+- `CONFIRMED_EVENT_REMINDER`
+- `NON_PROMOTIONAL_SUBSCRIPTION`
+- `PAIRING_UPDATE`
+- `APPLICATION_UPDATE`
+- `ACCOUNT_UPDATE`
+- `PAYMENT_UPDATE`
+- `PERSONAL_FINANCE_UPDATE`
+- `SHIPPING_UPDATE`
+- `RESERVATION_UPDATE`
+- `ISSUE_RESOLUTION`
+- `APPOINTMENT_UPDATE`
+- `GAME_EVENT`
+- `TRANSPORTATION_UPDATE`
+- `FEATURE_FUNCTIONALITY_UPDATE`
+- `TICKET_UPDATE`
 
 <br />
 
@@ -1453,37 +1467,37 @@ client.sendBatch([
 
 There are a bunch of factory methods can be used to create batch messages:
 
-* `MessengerBatch.sendRequest`
-* `MessengerBatch.sendMessage`
-* `MessengerBatch.sendText`
-* `MessengerBatch.sendAttachment`
-* `MessengerBatch.sendAudio`
-* `MessengerBatch.sendImage`
-* `MessengerBatch.sendVideo`
-* `MessengerBatch.sendFile`
-* `MessengerBatch.sendTemplate`
-* `MessengerBatch.sendButtonTemplate`
-* `MessengerBatch.sendGenericTemplate`
-* `MessengerBatch.sendListTemplate`
-* `MessengerBatch.sendOpenGraphTemplate`
-* `MessengerBatch.sendReceiptTemplate`
-* `MessengerBatch.sendMediaTemplate`
-* `MessengerBatch.sendAirlineBoardingPassTemplate`
-* `MessengerBatch.sendAirlineCheckinTemplate`
-* `MessengerBatch.sendAirlineItineraryTemplate`
-* `MessengerBatch.sendAirlineUpdateTemplate`
-* `MessengerBatch.sendSenderAction`
-* `MessengerBatch.typingOn`
-* `MessengerBatch.typingOff`
-* `MessengerBatch.markSeen`
-* `MessengerBatch.getUserProfile`
-* `MessengerBatch.passThreadControl`
-* `MessengerBatch.passThreadControlToPageInbox`
-* `MessengerBatch.takeThreadControl`
-* `MessengerBatch.requestThreadControl`
-* `MessengerBatch.associateLabel`
-* `MessengerBatch.dissociateLabel`
-* `MessengerBatch.getAssociatedLabels`
+- `MessengerBatch.sendRequest`
+- `MessengerBatch.sendMessage`
+- `MessengerBatch.sendText`
+- `MessengerBatch.sendAttachment`
+- `MessengerBatch.sendAudio`
+- `MessengerBatch.sendImage`
+- `MessengerBatch.sendVideo`
+- `MessengerBatch.sendFile`
+- `MessengerBatch.sendTemplate`
+- `MessengerBatch.sendButtonTemplate`
+- `MessengerBatch.sendGenericTemplate`
+- `MessengerBatch.sendListTemplate`
+- `MessengerBatch.sendOpenGraphTemplate`
+- `MessengerBatch.sendReceiptTemplate`
+- `MessengerBatch.sendMediaTemplate`
+- `MessengerBatch.sendAirlineBoardingPassTemplate`
+- `MessengerBatch.sendAirlineCheckinTemplate`
+- `MessengerBatch.sendAirlineItineraryTemplate`
+- `MessengerBatch.sendAirlineUpdateTemplate`
+- `MessengerBatch.sendSenderAction`
+- `MessengerBatch.typingOn`
+- `MessengerBatch.typingOff`
+- `MessengerBatch.markSeen`
+- `MessengerBatch.getUserProfile`
+- `MessengerBatch.passThreadControl`
+- `MessengerBatch.passThreadControlToPageInbox`
+- `MessengerBatch.takeThreadControl`
+- `MessengerBatch.requestThreadControl`
+- `MessengerBatch.associateLabel`
+- `MessengerBatch.dissociateLabel`
+- `MessengerBatch.getAssociatedLabels`
 
 Those methods exactly have same argument signature with client methods.
 
@@ -1495,8 +1509,8 @@ Those methods exactly have same argument signature with client methods.
 
 To use the broadcast API, your Messenger bot must have the following permissions:
 
-* `pages_messaging`
-* `pages_messaging_subscriptions`
+- `pages_messaging`
+- `pages_messaging_subscriptions`
 
 ## `createMessageCreative(messages)`
 
@@ -1570,33 +1584,33 @@ client
   });
 ```
 
-* `Messenger.createMessage`
-* `Messenger.createText`
-* `Messenger.createAttachment`
-* `Messenger.createAudio`
-* `Messenger.createImage`
-* `Messenger.createVideo`
-* `Messenger.createFile`
-* `Messenger.createTemplate`
-* `Messenger.createButtonTemplate`
-* `Messenger.createGenericTemplate`
-* `Messenger.createListTemplate`
-* `Messenger.createOpenGraphTemplate`
-* `Messenger.createMediaTemplate`
-* `Messenger.createReceiptTemplate`
-* `Messenger.createAirlineBoardingPassTemplate`
-* `Messenger.createAirlineCheckinTemplate`
-* `Messenger.createAirlineItineraryTemplate`
-* `Messenger.createAirlineUpdateTemplate`
+- `Messenger.createMessage`
+- `Messenger.createText`
+- `Messenger.createAttachment`
+- `Messenger.createAudio`
+- `Messenger.createImage`
+- `Messenger.createVideo`
+- `Messenger.createFile`
+- `Messenger.createTemplate`
+- `Messenger.createButtonTemplate`
+- `Messenger.createGenericTemplate`
+- `Messenger.createListTemplate`
+- `Messenger.createOpenGraphTemplate`
+- `Messenger.createMediaTemplate`
+- `Messenger.createReceiptTemplate`
+- `Messenger.createAirlineBoardingPassTemplate`
+- `Messenger.createAirlineCheckinTemplate`
+- `Messenger.createAirlineItineraryTemplate`
+- `Messenger.createAirlineUpdateTemplate`
 
 The following message templates are not supported in broadcast API:
 
-* Airline boarding pass template
-* Airline check-in template
-* Airline itinerary template
-* Airline flight update template
-* Receipt template
-* Open graph template
+- Airline boarding pass template
+- Airline check-in template
+- Airline itinerary template
+- Airline flight update template
+- Receipt template
+- Open graph template
 
 <br />
 
@@ -1984,10 +1998,10 @@ client.getBroadcast('115517705935329').then(broadcast => {
 
 The API will respond with the time the broadcast is scheduled for, and one of the following statuses:
 
-* `SCHEDULED`: Broadcast is scheduled but has not been sent.
-* `IN_PROGRESS`: Broadcast has been initiated and is still in-progress.
-* `FINISHED`: Broadcast was completed successfully.
-* `CANCELED`: Broadcast was canceled by the developer.
+- `SCHEDULED`: Broadcast is scheduled but has not been sent.
+- `IN_PROGRESS`: Broadcast has been initiated and is still in-progress.
+- `FINISHED`: Broadcast was completed successfully.
+- `CANCELED`: Broadcast was canceled by the developer.
 
 <a id="user-profile-api" />
 
@@ -2783,8 +2797,8 @@ client.getSecondaryReceivers().then(receivers => {
 
 Requirements for insights API:
 
-* Page token must have `read_insights` permission.
-* Insights are only generated for a Facebook Page that has more than `30` people that like it.
+- Page token must have `read_insights` permission.
+- Insights are only generated for a Facebook Page that has more than `30` people that like it.
 
 ## `getInsights(metrics, options)`
 
@@ -3308,12 +3322,12 @@ client.createSubscription({
 
 Default Fields:
 
-* `messages`
-* `messaging_postbacks`
-* `messaging_optins`
-* `messaging_referrals`
-* `messaging_handovers`
-* `messaging_policy_enforcement`
+- `messages`
+- `messaging_postbacks`
+- `messaging_optins`
+- `messaging_referrals`
+- `messaging_handovers`
+- `messaging_policy_enforcement`
 
 <br />
 
