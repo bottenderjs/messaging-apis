@@ -4,6 +4,7 @@ import querystring from 'querystring';
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
+import omit from 'lodash.omit';
 
 import type {
   SlackAttachment,
@@ -111,10 +112,12 @@ export default class SlackOAuthClient {
 
   async callMethod(
     method: SlackAvailableMethod,
-    body: Object = {}
+    _body: Object = {}
   ): Promise<SlackOAuthAPIResponse> {
     try {
-      body.token = body.token || this._token; // eslint-disable-line no-param-reassign
+      const body = omit(_body, ['token', 'accessToken']);
+      body.token = _body.accessToken || _body.token || this._token;
+
       const response = await this._axios.post(
         method,
         querystring.stringify(body)
