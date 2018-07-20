@@ -45,6 +45,20 @@ const { TelegramClient } = require('messaging-api-telegram');
 const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
 ```
 
+### Error Handling
+
+`messaging-api-telegram` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+
+```js
+client.getWebhookInfo().catch(error => {
+  console.log(error); // formatted error message
+  console.log(error.stack); // error stack trace
+  console.log(error.config); // axios request config
+  console.log(error.request); // HTTP request
+  console.log(error.response); // HTTP response
+});
+```
+
 <br />
 
 ## API Reference

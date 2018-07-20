@@ -6,14 +6,14 @@
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [OAuth Client](#oauth-client)
-  * [Usage](#usage)
-  * [API Reference](#api-reference)
-* [Webhook Client](#webhook-client)
-  * [Usage](#usage-1)
-  * [API Reference](#api-reference-1)
-* [Test](#test)
+- [Installation](#installation)
+- [OAuth Client](#oauth-client)
+  - [Usage](#usage)
+  - [API Reference](#api-reference)
+- [Webhook Client](#webhook-client)
+  - [Usage](#usage-1)
+  - [API Reference](#api-reference-1)
+- [Test](#test)
 
 ## Installation
 
@@ -43,6 +43,20 @@ const { SlackOAuthClient } = require('messaging-api-slack');
 const client = SlackOAuthClient.connect(
   'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx'
 );
+```
+
+#### Error Handling
+
+`messaging-api-slack` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+
+```js
+client.callMethod(method, body).catch(error => {
+  console.log(error); // formatted error message
+  console.log(error.stack); // error stack trace
+  console.log(error.config); // axios request config
+  console.log(error.request); // HTTP request
+  console.log(error.response); // HTTP response
+});
 ```
 
 <br />

@@ -6,17 +6,17 @@
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [API Reference](#api-reference)
-  * [Webhook API](#webhook-api)
-  * [Send API](#send-api)
-  * [Keyboards](#keyboards)
-  * [Broadcast API](#broadcast-api)
-  * [Get Account Info](#get-account-info)
-  * [Get User Details](#get-user-details)
-  * [Get Online](#get-online)
-* [Test](#test)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  - [Webhook API](#webhook-api)
+  - [Send API](#send-api)
+  - [Keyboards](#keyboards)
+  - [Broadcast API](#broadcast-api)
+  - [Get Account Info](#get-account-info)
+  - [Get User Details](#get-user-details)
+  - [Get Online](#get-online)
+- [Test](#test)
 
 ## Installation
 
@@ -41,6 +41,20 @@ const { ViberClient } = require('messaging-api-viber');
 
 // get authToken from the "edit info" screen of your Public Account.
 const client = ViberClient.connect(authToken);
+```
+
+### Error Handling
+
+`messaging-api-viber` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+
+```js
+client.setWebhook(url).catch(error => {
+  console.log(error); // formatted error message
+  console.log(error.stack); // error stack trace
+  console.log(error.config); // axios request config
+  console.log(error.request); // HTTP request
+  console.log(error.response); // HTTP response
+});
 ```
 
 <br />
@@ -461,16 +475,16 @@ Which in turn will look like this:
 
 Those API methods use the same parameters as the send methods with a few variations described below. You should specify a list of receivers instead of a single receiver.
 
-* `broadcastMessage(broadcastList, message)`
-* `broadcastText(broadcastList, text [, options])`
-* `broadcastPicture(broadcastList, picture [, options])`
-* `broadcastVideo(broadcastList, video [, options])`
-* `broadcastFile(broadcastList, file [, options])`
-* `broadcastContact(broadcastList, contact [, options])`
-* `broadcastLocation(broadcastList, location [, options])`
-* `broadcastURL(broadcastList, url [, options])`
-* `broadcastSticker(broadcastList, stickerId [, options])`
-* `broadcastCarouselContent(broadcastList, richMedia [, options])`
+- `broadcastMessage(broadcastList, message)`
+- `broadcastText(broadcastList, text [, options])`
+- `broadcastPicture(broadcastList, picture [, options])`
+- `broadcastVideo(broadcastList, video [, options])`
+- `broadcastFile(broadcastList, file [, options])`
+- `broadcastContact(broadcastList, contact [, options])`
+- `broadcastLocation(broadcastList, location [, options])`
+- `broadcastURL(broadcastList, url [, options])`
+- `broadcastSticker(broadcastList, stickerId [, options])`
+- `broadcastCarouselContent(broadcastList, richMedia [, options])`
 
 | Param         | Type            | Description                                                                                                                                                        |
 | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

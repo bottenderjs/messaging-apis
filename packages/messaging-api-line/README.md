@@ -6,29 +6,29 @@
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [API Reference](#api-reference)
-  * [Reply API](#reply-api)
-    * [Imagemap Messages](#reply-imagemap-messages)
-    * [Template Messages](#reply-template-messages)
-    * [Flex Messages](#reply-flex-messages)
-  * [Push API](#push-api)
-    * [Imagemap Messages](#push-imagemap-messages)
-    * [Template Messages](#push-template-messages)
-    * [Flex Messages](#push-flex-messages)
-  * [Multicast API](#multicast-api)
-    * [Imagemap Messages](#multicast-imagemap-messages)
-    * [Template Messages](#multicast-template-messages)
-  * [Content API](#content-api)
-  * [Profile API](#profile-api)
-  * [Group/Room Member Profile API](#grouproom-member-profile-api)
-  * [Group/Room Member IDs API](#grouproom-member-ids-api)
-  * [Leave API](#leave-api)
-  * [Rich Menu API](#rich-menu-api)
-  * [Account Link API](#account-link-api)
-  * [LINE Front-end Framework API](#liff-api)
-* [Test](#test)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  - [Reply API](#reply-api)
+    - [Imagemap Messages](#reply-imagemap-messages)
+    - [Template Messages](#reply-template-messages)
+    - [Flex Messages](#reply-flex-messages)
+  - [Push API](#push-api)
+    - [Imagemap Messages](#push-imagemap-messages)
+    - [Template Messages](#push-template-messages)
+    - [Flex Messages](#push-flex-messages)
+  - [Multicast API](#multicast-api)
+    - [Imagemap Messages](#multicast-imagemap-messages)
+    - [Template Messages](#multicast-template-messages)
+  - [Content API](#content-api)
+  - [Profile API](#profile-api)
+  - [Group/Room Member Profile API](#grouproom-member-profile-api)
+  - [Group/Room Member IDs API](#grouproom-member-ids-api)
+  - [Leave API](#leave-api)
+  - [Rich Menu API](#rich-menu-api)
+  - [Account Link API](#account-link-api)
+  - [LINE Front-end Framework API](#liff-api)
+- [Test](#test)
 
 ## Installation
 
@@ -55,6 +55,20 @@ const { LineClient } = require('messaging-api-line');
 const client = LineClient.connect({
   accessToken: ACCESS_TOKEN,
   channelSecret: CHANNEL_SECRET,
+});
+```
+
+### Error Handling
+
+`messaging-api-line` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+
+```js
+client.replyText(token, text).catch(error => {
+  console.log(error); // formatted error message
+  console.log(error.stack); // error stack trace
+  console.log(error.config); // axios request config
+  console.log(error.request); // HTTP request
+  console.log(error.response); // HTTP response
 });
 ```
 
@@ -109,19 +123,19 @@ client.reply(REPLY_TOKEN, [
 
 There are a bunch of factory methods can be used to create messages:
 
-* `Line.createText(text)`
-* `Line.createImage(image)`
-* `Line.createVideo(video)`
-* `Line.createAudio(audio)`
-* `Line.createLocation(location)`
-* `Line.createSticker(sticker)`
-* `Line.createImagemap(altText, imagemap)`
-* `Line.createTemplate(altText, template)`
-* `Line.createButtonTemplate(altText, buttonTemplate)`
-* `Line.createConfirmTemplate(altText, confirmTemplate)`
-* `Line.createCarouselTemplate(altText, columns, options)`
-* `Line.createImageCarouselTemplate(altText, columns)`
-* `Line.createFlex(altText, contents)`
+- `Line.createText(text)`
+- `Line.createImage(image)`
+- `Line.createVideo(video)`
+- `Line.createAudio(audio)`
+- `Line.createLocation(location)`
+- `Line.createSticker(sticker)`
+- `Line.createImagemap(altText, imagemap)`
+- `Line.createTemplate(altText, template)`
+- `Line.createButtonTemplate(altText, buttonTemplate)`
+- `Line.createConfirmTemplate(altText, confirmTemplate)`
+- `Line.createCarouselTemplate(altText, columns, options)`
+- `Line.createImageCarouselTemplate(altText, columns)`
+- `Line.createFlex(altText, contents)`
 
 <br />
 
@@ -2171,9 +2185,9 @@ client.createLiffApp({
 
 View type can be specified one of the following values:
 
-* `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
-* `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
-* `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
+- `compact`: 50% of the screen height of the device. This size can be specified only for the chat screen.
+- `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
+- `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
 
 ## updateLiffApp(liffId, view)
 
