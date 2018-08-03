@@ -110,11 +110,46 @@ export type DatetimePickerAction = {
   min?: string,
 };
 
+export type CameraAction = {
+  type: 'camera',
+  label: string,
+};
+
+export type CameraRollAction = {
+  type: 'cameraRoll',
+  label: string,
+};
+
+export type LocationAction = {
+  type: 'location',
+  label: string,
+};
+
 export type TemplateAction =
   | PostbackAction
   | MessageAction
   | URIAction
   | DatetimePickerAction;
+
+export type QuickReplyAction =
+  | PostbackAction
+  | MessageAction
+  | DatetimePickerAction
+  | CameraAction
+  | CameraRollAction
+  | LocationAction;
+
+export type QuickReply = {
+  items: Array<{
+    type: 'action',
+    imageUrl?: string,
+    action: QuickReplyAction,
+  }>,
+};
+
+export type MessageOptions = {
+  quickReply?: QuickReply,
+};
 
 export type TemplateMessage<Template> = {
   type: 'template',
