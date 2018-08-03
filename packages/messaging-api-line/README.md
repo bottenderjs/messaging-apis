@@ -123,23 +123,23 @@ client.reply(REPLY_TOKEN, [
 
 There are a bunch of factory methods can be used to create messages:
 
-- `Line.createText(text)`
-- `Line.createImage(image)`
-- `Line.createVideo(video)`
-- `Line.createAudio(audio)`
-- `Line.createLocation(location)`
-- `Line.createSticker(sticker)`
-- `Line.createImagemap(altText, imagemap)`
-- `Line.createTemplate(altText, template)`
-- `Line.createButtonTemplate(altText, buttonTemplate)`
-- `Line.createConfirmTemplate(altText, confirmTemplate)`
+- `Line.createText(text, options)`
+- `Line.createImage(image, options)`
+- `Line.createVideo(video, options)`
+- `Line.createAudio(audio, options)`
+- `Line.createLocation(location, options)`
+- `Line.createSticker(sticker, options)`
+- `Line.createImagemap(altText, imagemap, options)`
+- `Line.createTemplate(altText, template, options)`
+- `Line.createButtonTemplate(altText, buttonTemplate, options)`
+- `Line.createConfirmTemplate(altText, confirmTemplate, options)`
 - `Line.createCarouselTemplate(altText, columns, options)`
-- `Line.createImageCarouselTemplate(altText, columns)`
-- `Line.createFlex(altText, contents)`
+- `Line.createImageCarouselTemplate(altText, columns, options)`
+- `Line.createFlex(altText, contents, options)`
 
 <br />
 
-## `replyText(token, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
+## `replyText(token, text, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
 
 Responds text message using specified reply token.
 
@@ -149,10 +149,13 @@ You can include LINE original emoji in text messages using character codes. For 
 
 <img src="https://developers.line.me/media/messaging-api/messages/emoji-b3285d27.png" width="250px" />
 
-| Param | Type     | Description                        |
-| ----- | -------- | ---------------------------------- |
-| token | `String` | `replyToken` received via webhook. |
-| text  | `String` | Text of the message to be sent.    |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| text                     | `String` | Text of the message to be sent.              |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -162,17 +165,20 @@ client.replyText(REPLY_TOKEN, 'Hello!');
 
 <br />
 
-## `replyImage(token, image)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
+## `replyImage(token, image, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Responds image message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
-| Param                    | Type     | Description                        |
-| ------------------------ | -------- | ---------------------------------- |
-| token                    | `String` | `replyToken` received via webhook. |
-| image.originalContentUrl | `String` | Image URL.                         |
-| image.previewImageUrl    | `String` | Preview image URL.                 |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| image.originalContentUrl | `String` | Image URL.                                   |
+| image.previewImageUrl    | `String` | Preview image URL.                           |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -185,17 +191,20 @@ client.replyImage(REPLY_TOKEN, {
 
 <br />
 
-## `replyVideo(token, video)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
+## `replyVideo(token, video, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Responds video message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
-| Param                    | Type     | Description                        |
-| ------------------------ | -------- | ---------------------------------- |
-| token                    | `String` | `replyToken` received via webhook. |
-| video.originalContentUrl | `String` | URL of video file.                 |
-| video.previewImageUrl    | `String` | URL of preview image.              |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| video.originalContentUrl | `String` | URL of video file.                           |
+| video.previewImageUrl    | `String` | URL of preview image.                        |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -208,17 +217,20 @@ client.replyVideo(REPLY_TOKEN, {
 
 <br />
 
-## `replyAudio(token, audio)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
+## `replyAudio(token, audio, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Responds audio message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
-| Param                    | Type     | Description                          |
-| ------------------------ | -------- | ------------------------------------ |
-| token                    | `String` | `replyToken` received via webhook.   |
-| audio.originalContentUrl | `String` | URL of audio file.                   |
-| audio.duration           | `Number` | Length of audio file (milliseconds). |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| audio.originalContentUrl | `String` | URL of audio file.                           |
+| audio.duration           | `Number` | Length of audio file (milliseconds).         |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -231,20 +243,23 @@ client.replyAudio(REPLY_TOKEN, {
 
 <br />
 
-## `replyLocation(token, location)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
+## `replyLocation(token, location, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
 
 Responds location message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/location-8f9b6b79.png" width="250px" />
 
-| Param              | Type     | Description                            |
-| ------------------ | -------- | -------------------------------------- |
-| token              | `String` | `replyToken` received via webhook.     |
-| location           | `Object` | Object contains location's parameters. |
-| location.title     | `String` | Title of the location.                 |
-| location.address   | `String` | Address of the location.               |
-| location.latitude  | `Number` | Latitude of the location.              |
-| location.longitude | `Number` | Longitude of the location.             |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| location                 | `Object` | Object contains location's parameters.       |
+| location.title           | `String` | Title of the location.                       |
+| location.address         | `String` | Address of the location.                     |
+| location.latitude        | `Number` | Latitude of the location.                    |
+| location.longitude       | `Number` | Longitude of the location.                   |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -259,18 +274,21 @@ client.replyLocation(REPLY_TOKEN, {
 
 <br />
 
-## `replySticker(token, sticker)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
+## `replySticker(token, sticker, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Responds sticker message using specified reply token.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
 <img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
-| Param             | Type     | Description                        |
-| ----------------- | -------- | ---------------------------------- |
-| token             | `String` | `replyToken` received via webhook. |
-| sticker.packageId | `String` | Package ID.                        |
-| sticker.stickerId | `String` | Sticker ID.                        |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| sticker.packageId        | `String` | Package ID.                                  |
+| sticker.stickerId        | `String` | Sticker ID.                                  |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -282,22 +300,25 @@ client.replySticker(REPLY_TOKEN, { packageId: '1', stickerId: '1' });
 
 ### Reply Imagemap Messages
 
-## `replyImagemap(token, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
+## `replyImagemap(token, altText, imagemap, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
 Responds imagemap message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-| Param                    | Type            | Description                            |
-| ------------------------ | --------------- | -------------------------------------- |
-| token                    | `String`        | `replyToken` received via webhook.     |
-| altText                  | `String`        | Alternative text.                      |
-| imagemap                 | `Object`        | Object contains imagemap's parameters. |
-| imagemap.baseUrl         | `String`        | Base URL of image.                     |
-| imagemap.baseSize        | `Object`        | Base size object.                      |
-| imagemap.baseSize.width  | `Number`        | Width of base image.                   |
-| imagemap.baseSize.height | `Number`        | Height of base image.                  |
-| imagemap.actions         | `Array<Object>` | Action when tapped.                    |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| token                    | `String`        | `replyToken` received via webhook.           |
+| altText                  | `String`        | Alternative text.                            |
+| imagemap                 | `Object`        | Object contains imagemap's parameters.       |
+| imagemap.baseUrl         | `String`        | Base URL of image.                           |
+| imagemap.baseSize        | `Object`        | Base size object.                            |
+| imagemap.baseSize.width  | `Number`        | Width of base image.                         |
+| imagemap.baseSize.height | `Number`        | Height of base image.                        |
+| imagemap.actions         | `Array<Object>` | Action when tapped.                          |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -337,15 +358,18 @@ client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
 
 ### Reply Template Messages
 
-## `replyTemplate(token, altText, template)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
+## `replyTemplate(token, altText, template, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
 
 Responds template message using specified reply token.
 
-| Param    | Type     | Description                               |
-| -------- | -------- | ----------------------------------------- |
-| token    | `String` | `replyToken` received via webhook.        |
-| altText  | `String` | Alternative text.                         |
-| template | `Object` | Object with the contents of the template. |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.           |
+| altText                  | `String` | Alternative text.                            |
+| template                 | `Object` | Object with the contents of the template.    |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -377,7 +401,7 @@ client.replyTemplate(REPLY_TOKEN, 'this is a template', {
 
 <br />
 
-## `replyButtonTemplate(token, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
+## `replyButtonTemplate(token, altText, buttonTemplate, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
 
 Alias: `replyButtonsTemplate`.
 
@@ -397,6 +421,9 @@ Responds button template message using specified reply token.
 | buttonTemplate.title                | `String`        | Title of buttonTemplate.                                                                      |
 | buttonTemplate.text                 | `String`        | Message text of buttonTemplate.                                                               |
 | buttonTemplate.actions              | `Array<Object>` | Action when tapped.                                                                           |
+| options                             | `Object`        | Optional options.                                                                             |
+| options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                  |
+| options.quickReply.items            | `Array`         | Quick reply items.                                                                            |
 
 Example:
 
@@ -427,19 +454,22 @@ client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
 
 <br />
 
-## `replyConfirmTemplate(token, altText, confirmTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
+## `replyConfirmTemplate(token, altText, confirmTemplate, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
 
 Responds confirm template message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/confirm-444aead5.png" width="250px" />
 
-| Param                   | Type            | Description                                   |
-| ----------------------- | --------------- | --------------------------------------------- |
-| token                   | `String`        | `replyToken` received via webhook.            |
-| altText                 | `String`        | Alternative text.                             |
-| confirmTemplate         | `Object`        | Object contains confirmTemplate's parameters. |
-| confirmTemplate.text    | `String`        | Message text of confirmTemplate.              |
-| confirmTemplate.actions | `Array<Object>` | Action when tapped.                           |
+| Param                    | Type            | Description                                   |
+| ------------------------ | --------------- | --------------------------------------------- |
+| token                    | `String`        | `replyToken` received via webhook.            |
+| altText                  | `String`        | Alternative text.                             |
+| confirmTemplate          | `Object`        | Object contains confirmTemplate's parameters. |
+| confirmTemplate.text     | `String`        | Message text of confirmTemplate.              |
+| confirmTemplate.actions  | `Array<Object>` | Action when tapped.                           |
+| options                  | `Object`        | Optional options.                             |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.  |
+| options.quickReply.items | `Array`         | Quick reply items.                            |
 
 Example:
 
@@ -477,6 +507,8 @@ Responds carousel template message using specified reply token.
 | options                  | `Object`        | Object contains options.                                                              |
 | options.imageAspectRatio | `String`        | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square` |
 | options.imageSize        | `String`        | Size of the image. Specify one of the following values: `cover`, `contain`            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.                                          |
+| options.quickReply.items | `Array`         | Quick reply items.                                                                    |
 
 Example:
 
@@ -531,17 +563,20 @@ client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
 
 <br />
 
-## `replyImageCarouselTemplate(token, altText, carouselItems)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
+## `replyImageCarouselTemplate(token, altText, carouselItems, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
 
 Responds image carousel template message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-carousel-301701f6.png" width="250px" />
 
-| Param         | Type            | Description                                                |
-| ------------- | --------------- | ---------------------------------------------------------- |
-| token         | `String`        | `replyToken` received via webhook.                         |
-| altText       | `String`        | Alternative text.                                          |
-| carouselItems | `Array<Object>` | Array of columns which contains object for image carousel. |
+| Param                    | Type            | Description                                                |
+| ------------------------ | --------------- | ---------------------------------------------------------- |
+| token                    | `String`        | `replyToken` received via webhook.                         |
+| altText                  | `String`        | Alternative text.                                          |
+| carouselItems            | `Array<Object>` | Array of columns which contains object for image carousel. |
+| options                  | `Object`        | Optional options.                                          |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.               |
+| options.quickReply.items | `Array`         | Quick reply items.                                         |
 
 Example:
 
@@ -582,17 +617,20 @@ client.replyImageCarouselTemplate(
 
 ### Reply Flex Messages
 
-## `replyFlex(token, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+## `replyFlex(token, altText, contents, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
 
 Responds flex message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/using-flex-messages/bubbleSample-77d825e6.png" />
 
-| Param    | Type     | Description                                                                                             |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| token    | `String` | `replyToken` received via webhook.                                                                      |
-| altText  | `String` | Alternative text.                                                                                       |
-| contents | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+| Param                    | Type     | Description                                                                                             |
+| ------------------------ | -------- | ------------------------------------------------------------------------------------------------------- |
+| token                    | `String` | `replyToken` received via webhook.                                                                      |
+| altText                  | `String` | Alternative text.                                                                                       |
+| contents                 | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+| options                  | `Object` | Optional options.                                                                                       |
+| options.quickReply       | `Object` | Quick reply object to attach to the message.                                                            |
+| options.quickReply.items | `Array`  | Quick reply items.                                                                                      |
 
 Example:
 
@@ -669,7 +707,7 @@ client.push(USER_ID, [
 
 <br />
 
-## `pushText(userId, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
+## `pushText(userId, text, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
 
 Sends text message using ID of the receiver.
 
@@ -679,10 +717,13 @@ You can include LINE original emoji in text messages using character codes. For 
 
 <img src="https://developers.line.me/media/messaging-api/messages/emoji-b3285d27.png" width="250px" />
 
-| Param  | Type     | Description                     |
-| ------ | -------- | ------------------------------- |
-| userId | `String` | ID of the receiver.             |
-| text   | `String` | Text of the message to be sent. |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| text                     | `String` | Text of the message to be sent.              |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -692,17 +733,20 @@ client.pushText(USER_ID, 'Hello!');
 
 <br />
 
-## `pushImage(userId, image)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
+## `pushImage(userId, image, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Sends image message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
-| Param                    | Type     | Description         |
-| ------------------------ | -------- | ------------------- |
-| userId                   | `String` | ID of the receiver. |
-| image.originalContentUrl | `String` | Image URL.          |
-| image.previewImageUrl    | `String` | Preview image URL.  |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| image.originalContentUrl | `String` | Image URL.                                   |
+| image.previewImageUrl    | `String` | Preview image URL.                           |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -715,17 +759,20 @@ client.pushImage(USER_ID, {
 
 <br />
 
-## `pushVideo(userId, video)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
+## `pushVideo(userId, video, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Sends video message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
-| Param                    | Type     | Description           |
-| ------------------------ | -------- | --------------------- |
-| userId                   | `String` | ID of the receiver.   |
-| video.originalContentUrl | `String` | URL of video file.    |
-| video.previewImageUrl    | `String` | URL of preview image. |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| video.originalContentUrl | `String` | URL of video file.                           |
+| video.previewImageUrl    | `String` | URL of preview image.                        |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -738,17 +785,20 @@ client.pushVideo(USER_ID, {
 
 <br />
 
-## `pushAudio(userId, audio)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
+## `pushAudio(userId, audio, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Sends audio message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
-| Param                    | Type     | Description                          |
-| ------------------------ | -------- | ------------------------------------ |
-| userId                   | `String` | ID of the receiver.                  |
-| audio.originalContentUrl | `String` | URL of audio file.                   |
-| audio.duration           | `Number` | Length of audio file (milliseconds). |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| audio.originalContentUrl | `String` | URL of audio file.                           |
+| audio.duration           | `Number` | Length of audio file (milliseconds).         |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -761,20 +811,23 @@ client.pushAudio(USER_ID, {
 
 <br />
 
-## `pushLocation(userId, location)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
+## `pushLocation(userId, location, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
 
 Sends location message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/location-8f9b6b79.png" width="250px" />
 
-| Param              | Type     | Description                            |
-| ------------------ | -------- | -------------------------------------- |
-| userId             | `String` | ID of the receiver.                    |
-| location           | `Object` | Object contains location's parameters. |
-| location.title     | `String` | Title of the location.                 |
-| location.address   | `String` | Address of the location.               |
-| location.latitude  | `Number` | Latitude of the location.              |
-| location.longitude | `Number` | Longitude of the location.             |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| location                 | `Object` | Object contains location's parameters.       |
+| location.title           | `String` | Title of the location.                       |
+| location.address         | `String` | Address of the location.                     |
+| location.latitude        | `Number` | Latitude of the location.                    |
+| location.longitude       | `Number` | Longitude of the location.                   |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -789,18 +842,21 @@ client.pushLocation(USER_ID, {
 
 <br />
 
-## `pushSticker(userId, sticker)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
+## `pushSticker(userId, sticker, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Sends sticker message using ID of the receiver.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
 <img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
-| Param             | Type     | Description         |
-| ----------------- | -------- | ------------------- |
-| userId            | `String` | ID of the receiver. |
-| sticker.packageId | `String` | Package ID.         |
-| sticker.stickerId | `String` | Sticker ID.         |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| sticker.packageId        | `String` | Package ID.                                  |
+| sticker.stickerId        | `String` | Sticker ID.                                  |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -812,22 +868,25 @@ client.pushSticker(USER_ID, { packageId: '1', stickerId: '1' });
 
 ### Push Imagemap Messages
 
-## `pushImagemap(userId, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
+## `pushImagemap(userId, altText, imagemap, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
 Sends imagemap message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-| Param                    | Type            | Description                            |
-| ------------------------ | --------------- | -------------------------------------- |
-| userId                   | `String`        | ID of the receiver.                    |
-| altText                  | `String`        | Alternative text.                      |
-| imagemap                 | `Object`        | Object contains imagemap's parameters. |
-| imagemap.baseUrl         | `String`        | Base URL of image.                     |
-| imagemap.baseSize        | `Object`        | Base size object.                      |
-| imagemap.baseSize.width  | `Number`        | Width of base image.                   |
-| imagemap.baseSize.height | `Number`        | Height of base image.                  |
-| imagemap.actions         | `Array<Object>` | Action when tapped.                    |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userId                   | `String`        | ID of the receiver.                          |
+| altText                  | `String`        | Alternative text.                            |
+| imagemap                 | `Object`        | Object contains imagemap's parameters.       |
+| imagemap.baseUrl         | `String`        | Base URL of image.                           |
+| imagemap.baseSize        | `Object`        | Base size object.                            |
+| imagemap.baseSize.width  | `Number`        | Width of base image.                         |
+| imagemap.baseSize.height | `Number`        | Height of base image.                        |
+| imagemap.actions         | `Array<Object>` | Action when tapped.                          |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -867,15 +926,18 @@ client.pushImagemap(USER_ID, 'this is an imagemap', {
 
 ### Push Template Messages
 
-## `pushTemplate(userId, altText, template)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
+## `pushTemplate(userId, altText, template, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
 
 Sends template message using ID of the receiver.
 
-| Param    | Type     | Description                               |
-| -------- | -------- | ----------------------------------------- |
-| userId   | `String` | ID of the receiver.                       |
-| altText  | `String` | Alternative text.                         |
-| template | `Object` | Object with the contents of the template. |
+| Param                    | Type     | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                          |
+| altText                  | `String` | Alternative text.                            |
+| template                 | `Object` | Object with the contents of the template.    |
+| options                  | `Object` | Optional options.                            |
+| options.quickReply       | `Object` | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`  | Quick reply items.                           |
 
 Example:
 
@@ -907,7 +969,7 @@ client.pushTemplate(USER_ID, 'this is a template', {
 
 <br />
 
-## `pushButtonTemplate(userId, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
+## `pushButtonTemplate(userId, altText, buttonTemplate, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
 
 Alias: `pushButtonsTemplate`.
 
@@ -927,6 +989,9 @@ Sends button template message using ID of the receiver.
 | buttonTemplate.title                | `String`        | Title of buttonTemplate.                                                                      |
 | buttonTemplate.text                 | `String`        | Message text of buttonTemplate.                                                               |
 | buttonTemplate.actions              | `Array<Object>` | Action when tapped.                                                                           |
+| options                             | `Object`        | Optional options.                                                                             |
+| options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                  |
+| options.quickReply.items            | `Array`         | Quick reply items.                                                                            |
 
 Example:
 
@@ -957,19 +1022,22 @@ client.pushButtonTemplate(USER_ID, 'this is a template', {
 
 <br />
 
-## `pushConfirmTemplate(userId, altText, confirmTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
+## `pushConfirmTemplate(userId, altText, confirmTemplate, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
 
 Sends confirm template message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/confirm-444aead5.png" width="250px" />
 
-| Param                   | Type            | Description                                   |
-| ----------------------- | --------------- | --------------------------------------------- |
-| userId                  | `String`        | ID of the receiver.                           |
-| altText                 | `String`        | Alternative text.                             |
-| confirmTemplate         | `Object`        | Object contains confirmTemplate's parameters. |
-| confirmTemplate.text    | `String`        | Message text of confirmTemplate.              |
-| confirmTemplate.actions | `Array<Object>` | Action when tapped.                           |
+| Param                    | Type            | Description                                   |
+| ------------------------ | --------------- | --------------------------------------------- |
+| userId                   | `String`        | ID of the receiver.                           |
+| altText                  | `String`        | Alternative text.                             |
+| confirmTemplate          | `Object`        | Object contains confirmTemplate's parameters. |
+| confirmTemplate.text     | `String`        | Message text of confirmTemplate.              |
+| confirmTemplate.actions  | `Array<Object>` | Action when tapped.                           |
+| options                  | `Object`        | Optional options.                             |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.  |
+| options.quickReply.items | `Array`         | Quick reply items.                            |
 
 Example:
 
@@ -1007,6 +1075,8 @@ Sends carousel template message using ID of the receiver.
 | options                  | `Object`        | Object contains options.                                                              |
 | options.imageAspectRatio | `String`        | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square` |
 | options.imageSize        | `String`        | Size of the image. Specify one of the following values: `cover`, `contain`            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.                                          |
+| options.quickReply.items | `Array`         | Quick reply items.                                                                    |
 
 Example:
 
@@ -1061,17 +1131,20 @@ client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
 
 <br />
 
-## `pushImageCarouselTemplate(userId, altText, carouselItems)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
+## `pushImageCarouselTemplate(userId, altText, carouselItems, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
 
 Sends image carousel template message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-carousel-301701f6.png" width="250px" />
 
-| Param         | Type            | Description                                                |
-| ------------- | --------------- | ---------------------------------------------------------- |
-| userId        | `String`        | ID of the receiver.                                        |
-| altText       | `String`        | Alternative text.                                          |
-| carouselItems | `Array<Object>` | Array of columns which contains object for image carousel. |
+| Param                    | Type            | Description                                                |
+| ------------------------ | --------------- | ---------------------------------------------------------- |
+| userId                   | `String`        | ID of the receiver.                                        |
+| altText                  | `String`        | Alternative text.                                          |
+| carouselItems            | `Array<Object>` | Array of columns which contains object for image carousel. |
+| options                  | `Object`        | Optional options.                                          |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.               |
+| options.quickReply.items | `Array`         | Quick reply items.                                         |
 
 Example:
 
@@ -1112,17 +1185,20 @@ client.pushImageCarouselTemplate(
 
 ### Push Flex Messages
 
-## `pushFlex(userId, altText, contents)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+## `pushFlex(userId, altText, contents, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
 
 Sends flex message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/using-flex-messages/bubbleSample-77d825e6.png" />
 
-| Param    | Type     | Description                                                                                             |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| userId   | `String` | ID of the receiver.                                                                                     |
-| altText  | `String` | Alternative text.                                                                                       |
-| contents | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+| Param                    | Type     | Description                                                                                             |
+| ------------------------ | -------- | ------------------------------------------------------------------------------------------------------- |
+| userId                   | `String` | ID of the receiver.                                                                                     |
+| altText                  | `String` | Alternative text.                                                                                       |
+| contents                 | `Object` | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+| options                  | `Object` | Optional options.                                                                                       |
+| options.quickReply       | `Object` | Quick reply object to attach to the message.                                                            |
+| options.quickReply.items | `Array`  | Quick reply items.                                                                                      |
 
 Example:
 
@@ -1202,7 +1278,7 @@ client.multicast(
 
 <br />
 
-## `multicastText(userIds, text)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
+## `multicastText(userIds, text, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#text-message)
 
 Sends text message to multiple users.
 
@@ -1212,10 +1288,13 @@ You can include LINE original emoji in text messages using character codes. For 
 
 <img src="https://developers.line.me/media/messaging-api/messages/emoji-b3285d27.png" width="250px" />
 
-| Param   | Type            | Description                     |
-| ------- | --------------- | ------------------------------- |
-| userIds | `Array<String>` | IDs of the receivers.           |
-| text    | `String`        | Text of the message to be sent. |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| text                     | `String`        | Text of the message to be sent.              |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1225,17 +1304,20 @@ client.multicastText([USER_ID], 'Hello!');
 
 <br />
 
-## `multicastImage(userIds, image)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
+## `multicastImage(userIds, image, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-message)
 
 Sends image message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-167efb33.png" width="250px" /><img src="https://developers.line.me/media/messaging-api/messages/image-full-04fbba55.png" width="250px" />
 
-| Param                    | Type            | Description           |
-| ------------------------ | --------------- | --------------------- |
-| userIds                  | `Array<String>` | IDs of the receivers. |
-| image.originalContentUrl | `String`        | Image URL.            |
-| image.previewImageUrl    | `String`        | Preview image URL.    |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| image.originalContentUrl | `String`        | Image URL.                                   |
+| image.previewImageUrl    | `String`        | Preview image URL.                           |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1248,17 +1330,20 @@ client.multicastImage([USER_ID], {
 
 <br />
 
-## `multicastVideo(userIds, video)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
+## `multicastVideo(userIds, video, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#video-message)
 
 Sends video message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/video-a1bc08a4.png" width="250px" />
 
-| Param                    | Type            | Description           |
-| ------------------------ | --------------- | --------------------- |
-| userIds                  | `Array<String>` | IDs of the receivers. |
-| video.originalContentUrl | `String`        | URL of video file.    |
-| video.previewImageUrl    | `String`        | URL of preview image. |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| video.originalContentUrl | `String`        | URL of video file.                           |
+| video.previewImageUrl    | `String`        | URL of preview image.                        |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1271,17 +1356,20 @@ client.multicastVideo([USER_ID], {
 
 <br />
 
-## `multicastAudio(userIds, audio)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
+## `multicastAudio(userIds, audio, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#audio-message)
 
 Sends audio message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/audio-6290d91b.png" width="250px" />
 
-| Param                    | Type            | Description                          |
-| ------------------------ | --------------- | ------------------------------------ |
-| userIds                  | `Array<String>` | IDs of the receivers.                |
-| audio.originalContentUrl | `String`        | URL of audio file.                   |
-| audio.duration           | `Number`        | Length of audio file (milliseconds). |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| audio.originalContentUrl | `String`        | URL of audio file.                           |
+| audio.duration           | `Number`        | Length of audio file (milliseconds).         |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1294,20 +1382,23 @@ client.multicastAudio([USER_ID], {
 
 <br />
 
-## `multicastLocation(userIds, location)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
+## `multicastLocation(userIds, location, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#location-message)
 
 Sends location message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/location-8f9b6b79.png" width="250px" />
 
-| Param              | Type            | Description                            |
-| ------------------ | --------------- | -------------------------------------- |
-| userIds            | `Array<String>` | IDs of the receivers.                  |
-| location           | `Object`        | Object contains location's parameters. |
-| location.title     | `String`        | Title of the location.                 |
-| location.address   | `String`        | Address of the location.               |
-| location.latitude  | `Number`        | Latitude of the location.              |
-| location.longitude | `Number`        | Longitude of the location.             |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| location                 | `Object`        | Object contains location's parameters.       |
+| location.title           | `String`        | Title of the location.                       |
+| location.address         | `String`        | Address of the location.                     |
+| location.latitude        | `Number`        | Latitude of the location.                    |
+| location.longitude       | `Number`        | Longitude of the location.                   |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1322,18 +1413,21 @@ client.multicastLocation([USER_ID], {
 
 <br />
 
-## `multicastSticker(userIds, sticker)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
+## `multicastSticker(userIds, sticker, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#sticker-message)
 
 Sends sticker message to multiple users.  
 For a list of stickers that can be sent with the Messaging API, see the [sticker list](https://developers.line.me/media/messaging-api/messages/sticker_list.pdf).
 
 <img src="https://developers.line.me/media/messaging-api/messages/sticker-cb1a6a3a.png" width="250px" />
 
-| Param             | Type            | Description           |
-| ----------------- | --------------- | --------------------- |
-| userIds           | `Array<String>` | IDs of the receivers. |
-| sticker.packageId | `String`        | Package ID.           |
-| sticker.stickerId | `String`        | Sticker ID.           |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| sticker.packageId        | `String`        | Package ID.                                  |
+| sticker.stickerId        | `String`        | Sticker ID.                                  |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1348,22 +1442,25 @@ client.multicastSticker([USER_ID], {
 
 ### Multicast Imagemap Messages
 
-## `multicastImagemap(userIds, altText, imagemap)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
+## `multicastImagemap(userIds, altText, imagemap, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message)
 
 Sends imagemap message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-| Param                    | Type            | Description                            |
-| ------------------------ | --------------- | -------------------------------------- |
-| userIds                  | `Array<String>` | IDs of the receivers.                  |
-| altText                  | `String`        | Alternative text.                      |
-| imagemap                 | `Object`        | Object contains imagemap's parameters. |
-| imagemap.baseUrl         | `String`        | Base URL of image.                     |
-| imagemap.baseSize        | `Object`        | Base size object.                      |
-| imagemap.baseSize.width  | `Number`        | Width of base image.                   |
-| imagemap.baseSize.height | `Number`        | Height of base image.                  |
-| imagemap.actions         | `Array<Object>` | Action when tapped.                    |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| altText                  | `String`        | Alternative text.                            |
+| imagemap                 | `Object`        | Object contains imagemap's parameters.       |
+| imagemap.baseUrl         | `String`        | Base URL of image.                           |
+| imagemap.baseSize        | `Object`        | Base size object.                            |
+| imagemap.baseSize.width  | `Number`        | Width of base image.                         |
+| imagemap.baseSize.height | `Number`        | Height of base image.                        |
+| imagemap.actions         | `Array<Object>` | Action when tapped.                          |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1403,15 +1500,18 @@ client.multicastImagemap([USER_ID], 'this is an imagemap', {
 
 ### Multicast Template Messages
 
-## `multicastTemplate(userIds, altText, template)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
+## `multicastTemplate(userIds, altText, template, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#template-messages)
 
 Sends template message to multiple users.
 
-| Param    | Type            | Description                               |
-| -------- | --------------- | ----------------------------------------- |
-| userIds  | `Array<String>` | IDs of the receivers.                     |
-| altText  | `String`        | Alternative text.                         |
-| template | `Object`        | Object with the contents of the template. |
+| Param                    | Type            | Description                                  |
+| ------------------------ | --------------- | -------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                        |
+| altText                  | `String`        | Alternative text.                            |
+| template                 | `Object`        | Object with the contents of the template.    |
+| options                  | `Object`        | Optional options.                            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
+| options.quickReply.items | `Array`         | Quick reply items.                           |
 
 Example:
 
@@ -1443,7 +1543,7 @@ client.multicastTemplate([USER_ID], 'this is a template', {
 
 <br />
 
-## `multicastButtonTemplate(userIds, altText, buttonTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
+## `multicastButtonTemplate(userIds, altText, buttonTemplate, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#buttons)
 
 Alias: `multicastButtonsTemplate`.
 
@@ -1463,6 +1563,9 @@ Sends button template message to multiple users.
 | buttonTemplate.title                | `String`        | Title of buttonTemplate.                                                                      |
 | buttonTemplate.text                 | `String`        | Message text of buttonTemplate.                                                               |
 | buttonTemplate.actions              | `Array<Object>` | Action when tapped.                                                                           |
+| options                             | `Object`        | Optional options.                                                                             |
+| options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                  |
+| options.quickReply.items            | `Array`         | Quick reply items.                                                                            |
 
 Example:
 
@@ -1493,19 +1596,22 @@ client.multicastButtonTemplate([USER_ID], 'this is a template', {
 
 <br />
 
-## `multicastConfirmTemplate(userIds, altText, confirmTemplate)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
+## `multicastConfirmTemplate(userIds, altText, confirmTemplate, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#confirm)
 
 Sends confirm template message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/confirm-444aead5.png" width="250px" />
 
-| Param                   | Type            | Description                                   |
-| ----------------------- | --------------- | --------------------------------------------- |
-| userIds                 | `Array<String>` | IDs of the receivers.                         |
-| altText                 | `String`        | Alternative text.                             |
-| confirmTemplate         | `Object`        | Object contains confirmTemplate's parameters. |
-| confirmTemplate.text    | `String`        | Message text of confirmTemplate.              |
-| confirmTemplate.actions | `Array<Object>` | Action when tapped.                           |
+| Param                    | Type            | Description                                   |
+| ------------------------ | --------------- | --------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                         |
+| altText                  | `String`        | Alternative text.                             |
+| confirmTemplate          | `Object`        | Object contains confirmTemplate's parameters. |
+| confirmTemplate.text     | `String`        | Message text of confirmTemplate.              |
+| confirmTemplate.actions  | `Array<Object>` | Action when tapped.                           |
+| options                  | `Object`        | Optional options.                             |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.  |
+| options.quickReply.items | `Array`         | Quick reply items.                            |
 
 Example:
 
@@ -1543,6 +1649,8 @@ Sends carousel template message to multiple users.
 | options                  | `Object`        | Object contains options.                                                              |
 | options.imageAspectRatio | `String`        | Aspect ratio of the image. Specify one of the following values: `rectangle`, `square` |
 | options.imageSize        | `String`        | Size of the image. Specify one of the following values: `cover`, `contain`            |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.                                          |
+| options.quickReply.items | `Array`         | Quick reply items.                                                                    |
 
 Example:
 
@@ -1597,17 +1705,20 @@ client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
 
 <br />
 
-## `multicastImageCarouselTemplate(userIds, altText, carouselItems)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
+## `multicastImageCarouselTemplate(userIds, altText, carouselItems, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#image-carousel)
 
 Sends image carousel template message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/image-carousel-301701f6.png" width="250px" />
 
-| Param         | Type            | Description                                                |
-| ------------- | --------------- | ---------------------------------------------------------- |
-| userIds       | `Array<String>` | IDs of the receivers.                                      |
-| altText       | `String`        | Alternative text.                                          |
-| carouselItems | `Array<Object>` | Array of columns which contains object for image carousel. |
+| Param                    | Type            | Description                                                |
+| ------------------------ | --------------- | ---------------------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                                      |
+| altText                  | `String`        | Alternative text.                                          |
+| carouselItems            | `Array<Object>` | Array of columns which contains object for image carousel. |
+| options                  | `Object`        | Optional options.                                          |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.               |
+| options.quickReply.items | `Array`         | Quick reply items.                                         |
 
 Example:
 
