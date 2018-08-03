@@ -1,124 +1,198 @@
 /* @flow */
+import invariant from 'invariant';
 
-import type {
-  TextMessage,
-  ImageMessage,
-  VideoMessage,
-  AudioMessage,
-  Location,
-  LocationMessage,
-  StickerMessage,
-  Template,
-  TemplateAction,
-  TemplateMessage,
-  ButtonsTemplate,
-  ConfirmTemplate,
-  ColumnObject,
-  CarouselTemplate,
-  ImageCarouselColumnObject,
-  ImageCarouselTemplate,
-  ImageMapAction,
-  ImageMapMessage,
-  FlexContainer,
-  FlexMessage,
+import {
+  type TextMessage,
+  type ImageMessage,
+  type VideoMessage,
+  type AudioMessage,
+  type Location,
+  type LocationMessage,
+  type StickerMessage,
+  type Template,
+  type TemplateAction,
+  type TemplateMessage,
+  type ButtonsTemplate,
+  type ConfirmTemplate,
+  type ColumnObject,
+  type CarouselTemplate,
+  type ImageCarouselColumnObject,
+  type ImageCarouselTemplate,
+  type ImageMapAction,
+  type ImageMapMessage,
+  type QuickReply,
+  type MessageOptions,
+  type FlexContainer,
+  type FlexMessage,
 } from './LineTypes';
 
-function createText(text: string): TextMessage {
+function createText(text: string, options: MessageOptions = {}): TextMessage {
   return {
     type: 'text',
     text,
+    ...options,
   };
 }
 
 function createImage(
   contentUrlOrImage: string | Object,
-  previewUrl: ?string
+  previewUrlOrOptions?: string | MessageOptions
 ): ImageMessage {
-  if (typeof contentUrlOrImage === 'object') {
-    const image = contentUrlOrImage;
-    return {
-      type: 'image',
-      originalContentUrl: image.originalContentUrl,
-      previewImageUrl: image.previewImageUrl || image.originalContentUrl,
-    };
+  if (previewUrlOrOptions) {
+    if (
+      typeof contentUrlOrImage === 'object' &&
+      typeof previewUrlOrOptions === 'object'
+    ) {
+      const image = contentUrlOrImage;
+      const options = previewUrlOrOptions;
+      return {
+        type: 'image',
+        originalContentUrl: image.originalContentUrl,
+        previewImageUrl: image.previewImageUrl || image.originalContentUrl,
+        ...options,
+      };
+    }
+
+    if (
+      typeof contentUrlOrImage === 'string' &&
+      typeof previewUrlOrOptions === 'string'
+    ) {
+      return {
+        type: 'image',
+        originalContentUrl: contentUrlOrImage,
+        previewImageUrl: previewUrlOrOptions,
+      };
+    }
+  } else {
+    if (typeof contentUrlOrImage === 'object') {
+      const image = contentUrlOrImage;
+      return {
+        type: 'image',
+        originalContentUrl: image.originalContentUrl,
+        previewImageUrl: image.previewImageUrl || image.originalContentUrl,
+      };
+    }
+
+    if (typeof contentUrlOrImage === 'string') {
+      return {
+        type: 'image',
+        originalContentUrl: contentUrlOrImage,
+        previewImageUrl: contentUrlOrImage,
+      };
+    }
   }
-  return {
-    type: 'image',
-    originalContentUrl: contentUrlOrImage,
-    previewImageUrl: previewUrl || contentUrlOrImage,
-  };
+
+  invariant(false, 'Line#createImage: Wrong type of arguments.');
 }
 
 function createVideo(
   contentUrlOrVideo: string | Object,
-  previewImageUrl: ?string
+  previewImageUrlOrOptions?: string | MessageOptions
 ): VideoMessage {
-  if (typeof contentUrlOrVideo === 'object') {
+  if (
+    typeof contentUrlOrVideo === 'string' &&
+    typeof previewImageUrlOrOptions === 'string'
+  ) {
+    return {
+      type: 'video',
+      originalContentUrl: contentUrlOrVideo,
+      previewImageUrl: previewImageUrlOrOptions,
+    };
+  }
+
+  if (
+    typeof contentUrlOrVideo === 'object' &&
+    (!previewImageUrlOrOptions || typeof previewImageUrlOrOptions === 'object')
+  ) {
     const video = contentUrlOrVideo;
+    const options = previewImageUrlOrOptions || {};
     return {
       type: 'video',
       originalContentUrl: video.originalContentUrl,
       previewImageUrl: video.previewImageUrl,
+      ...options,
     };
   }
-  return {
-    type: 'video',
-    originalContentUrl: contentUrlOrVideo,
-    previewImageUrl: ((previewImageUrl: any): string),
-  };
+
+  invariant(false, 'Line#createVideo: Wrong type of arguments.');
 }
 
 function createAudio(
   contentUrlOrAudio: string | Object,
-  duration: ?number
+  durationOrOptions: number | MessageOptions
 ): AudioMessage {
-  if (typeof contentUrlOrAudio === 'object') {
+  if (
+    typeof contentUrlOrAudio === 'string' &&
+    typeof durationOrOptions === 'number'
+  ) {
+    return {
+      type: 'audio',
+      originalContentUrl: contentUrlOrAudio,
+      duration: durationOrOptions,
+    };
+  }
+
+  if (
+    typeof contentUrlOrAudio === 'object' &&
+    (!durationOrOptions || typeof durationOrOptions === 'object')
+  ) {
     const audio = contentUrlOrAudio;
+    const options = durationOrOptions || {};
     return {
       type: 'audio',
       originalContentUrl: audio.originalContentUrl,
       duration: audio.duration,
+      ...options,
     };
   }
-  return {
-    type: 'audio',
-    originalContentUrl: contentUrlOrAudio,
-    duration: ((duration: any): number),
-  };
+
+  invariant(false, 'Line#createAudio: Wrong type of arguments.');
 }
 
-function createLocation({
-  title,
-  address,
-  latitude,
-  longitude,
-}: Location): LocationMessage {
+function createLocation(
+  { title, address, latitude, longitude }: Location,
+  options?: MessageOptions = {}
+): LocationMessage {
   return {
     type: 'location',
     title,
     address,
     latitude,
     longitude,
+    ...options,
   };
 }
 
 function createSticker(
   packageIdOrSticker: string | Object,
-  stickerId: ?string
+  stickerIdOrOptions: string | MessageOptions
 ): StickerMessage {
-  if (typeof packageIdOrSticker === 'object') {
+  if (
+    typeof packageIdOrSticker === 'string' &&
+    typeof stickerIdOrOptions === 'string'
+  ) {
+    return {
+      type: 'sticker',
+      packageId: packageIdOrSticker,
+      stickerId: stickerIdOrOptions,
+    };
+  }
+
+  if (
+    typeof packageIdOrSticker === 'object' &&
+    (!stickerIdOrOptions || typeof stickerIdOrOptions === 'object')
+  ) {
     const sticker = packageIdOrSticker;
+    const options = stickerIdOrOptions || {};
     return {
       type: 'sticker',
       packageId: sticker.packageId,
       stickerId: sticker.stickerId,
+      ...options,
     };
   }
-  return {
-    type: 'sticker',
-    packageId: packageIdOrSticker,
-    stickerId: ((stickerId: any): string),
-  };
+
+  invariant(false, 'Line#createSticker: Wrong type of arguments.');
 }
 
 function createImagemap(
@@ -138,7 +212,8 @@ function createImagemap(
     baseHeight: number,
     baseWidth: number,
     actions: Array<ImageMapAction>,
-  }
+  },
+  options?: MessageOptions = {}
 ): ImageMapMessage {
   return {
     type: 'imagemap',
@@ -149,17 +224,20 @@ function createImagemap(
       width: baseWidth,
     },
     actions,
+    ...options,
   };
 }
 
 function createTemplate(
   altText: string,
-  template: Template
+  template: Template,
+  options?: MessageOptions = {}
 ): TemplateMessage<any> {
   return {
     type: 'template',
     altText,
     template,
+    ...options,
   };
 }
 
@@ -181,18 +259,23 @@ function createButtonTemplate(
     title?: string,
     text: string,
     actions: Array<TemplateAction>,
-  }
+  },
+  options: MessageOptions = {}
 ): TemplateMessage<ButtonsTemplate> {
-  return createTemplate(altText, {
-    type: 'buttons',
-    thumbnailImageUrl,
-    imageAspectRatio,
-    imageSize,
-    imageBackgroundColor,
-    title,
-    text,
-    actions,
-  });
+  return createTemplate(
+    altText,
+    {
+      type: 'buttons',
+      thumbnailImageUrl,
+      imageAspectRatio,
+      imageSize,
+      imageBackgroundColor,
+      title,
+      text,
+      actions,
+    },
+    options
+  );
 }
 
 function createConfirmTemplate(
@@ -203,13 +286,18 @@ function createConfirmTemplate(
   }: {
     text: string,
     actions: Array<TemplateAction>,
-  }
+  },
+  options?: MessageOptions = {}
 ): TemplateMessage<ConfirmTemplate> {
-  return createTemplate(altText, {
-    type: 'confirm',
-    text,
-    actions,
-  });
+  return createTemplate(
+    altText,
+    {
+      type: 'confirm',
+      text,
+      actions,
+    },
+    options
+  );
 }
 
 function createCarouselTemplate(
@@ -218,34 +306,50 @@ function createCarouselTemplate(
   {
     imageAspectRatio,
     imageSize,
+    quickReply,
   }: {
     imageAspectRatio?: 'rectangle' | 'square',
     imageSize?: 'cover' | 'contain',
+    quickReply?: QuickReply,
   } = {}
 ): TemplateMessage<CarouselTemplate> {
-  return createTemplate(altText, {
-    type: 'carousel',
-    columns,
-    imageAspectRatio,
-    imageSize,
-  });
+  return createTemplate(
+    altText,
+    {
+      type: 'carousel',
+      columns,
+      imageAspectRatio,
+      imageSize,
+    },
+    { quickReply }
+  );
 }
 
 function createImageCarouselTemplate(
   altText: string,
-  columns: Array<ImageCarouselColumnObject>
+  columns: Array<ImageCarouselColumnObject>,
+  options?: MessageOptions = {}
 ): TemplateMessage<ImageCarouselTemplate> {
-  return createTemplate(altText, {
-    type: 'image_carousel',
-    columns,
-  });
+  return createTemplate(
+    altText,
+    {
+      type: 'image_carousel',
+      columns,
+    },
+    options
+  );
 }
 
-function createFlex(altText: string, contents: FlexContainer): FlexMessage {
+function createFlex(
+  altText: string,
+  contents: FlexContainer,
+  options?: MessageOptions = {}
+): FlexMessage {
   return {
     type: 'flex',
     altText,
     contents,
+    ...options,
   };
 }
 

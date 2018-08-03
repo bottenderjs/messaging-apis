@@ -5,23 +5,24 @@ import invariant from 'invariant';
 import imageType from 'image-type';
 
 import Line from './Line';
-import type {
-  SendType,
-  ReplyToken,
-  UserId,
-  SendTarget,
-  User,
-  Message,
-  Location,
-  Template,
-  TemplateAction,
-  ImageMapAction,
-  FlexContainer,
-  ColumnObject,
-  ImageCarouselColumnObject,
-  RichMenu,
-  LiffView,
-  MutationSuccessResponse,
+import {
+  type SendType,
+  type ReplyToken,
+  type UserId,
+  type SendTarget,
+  type User,
+  type Message,
+  type Location,
+  type MessageOptions,
+  type Template,
+  type TemplateAction,
+  type ImageMapAction,
+  type FlexContainer,
+  type ColumnObject,
+  type ImageCarouselColumnObject,
+  type RichMenu,
+  type LiffView,
+  type MutationSuccessResponse,
 } from './LineTypes';
 
 type Axios = {
@@ -116,19 +117,20 @@ export default class LineClient {
   _sendText(
     type: SendType,
     target: SendTarget,
-    text: string
+    text: string,
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [Line.createText(text)]);
+    return this._send(type, target, [Line.createText(text, options || {})]);
   }
 
   _sendImage(
     type: SendType,
     target: SendTarget,
     contentUrlOrImage: string | Object,
-    previewUrl: ?string
+    previewUrlOrOptions?: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createImage(contentUrlOrImage, previewUrl),
+      Line.createImage(contentUrlOrImage, previewUrlOrOptions),
     ]);
   }
 
@@ -136,10 +138,10 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     contentUrlOrVideo: string | Object,
-    previewUrl: string
+    previewUrlOrOptions?: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createVideo(contentUrlOrVideo, previewUrl),
+      Line.createVideo(contentUrlOrVideo, previewUrlOrOptions || {}),
     ]);
   }
 
@@ -147,25 +149,29 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     contentUrlOrAudio: string | Object,
-    duration: ?number
+    durationOrOptions?: number | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createAudio(contentUrlOrAudio, duration),
+      Line.createAudio(contentUrlOrAudio, durationOrOptions || {}),
     ]);
   }
 
   _sendLocation(
     type: SendType,
     target: SendTarget,
-    { title, address, latitude, longitude }: Location
+    { title, address, latitude, longitude }: Location,
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createLocation({
-        title,
-        address,
-        latitude,
-        longitude,
-      }),
+      Line.createLocation(
+        {
+          title,
+          address,
+          latitude,
+          longitude,
+        },
+        options || {}
+      ),
     ]);
   }
 
@@ -173,10 +179,10 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     packageIdOrSticker: string | Object,
-    stickerId: ?string
+    stickerIdOrOptions?: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createSticker(packageIdOrSticker, stickerId),
+      Line.createSticker(packageIdOrSticker, stickerIdOrOptions || {}),
     ]);
   }
 
@@ -204,16 +210,21 @@ export default class LineClient {
       baseHeight: number,
       baseWidth: number,
       actions: Array<ImageMapAction>,
-    }
+    },
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createImagemap(altText, {
-        baseUrl,
-        baseSize,
-        baseHeight,
-        baseWidth,
-        actions,
-      }),
+      Line.createImagemap(
+        altText,
+        {
+          baseUrl,
+          baseSize,
+          baseHeight,
+          baseWidth,
+          actions,
+        },
+        options || {}
+      ),
     ]);
   }
 
@@ -226,9 +237,12 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     altText: string,
-    contents: FlexContainer
+    contents: FlexContainer,
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [Line.createFlex(altText, contents)]);
+    return this._send(type, target, [
+      Line.createFlex(altText, contents, options || {}),
+    ]);
   }
 
   /**
@@ -240,9 +254,12 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     altText: string,
-    template: Template
+    template: Template,
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [Line.createTemplate(altText, template)]);
+    return this._send(type, target, [
+      Line.createTemplate(altText, template, options || {}),
+    ]);
   }
 
   _sendButtonTemplate(
@@ -265,18 +282,23 @@ export default class LineClient {
       title?: string,
       text: string,
       actions: Array<TemplateAction>,
-    }
+    },
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createButtonTemplate(altText, {
-        thumbnailImageUrl,
-        imageAspectRatio,
-        imageSize,
-        imageBackgroundColor,
-        title,
-        text,
-        actions,
-      }),
+      Line.createButtonTemplate(
+        altText,
+        {
+          thumbnailImageUrl,
+          imageAspectRatio,
+          imageSize,
+          imageBackgroundColor,
+          title,
+          text,
+          actions,
+        },
+        options || {}
+      ),
     ]);
   }
 
@@ -290,13 +312,18 @@ export default class LineClient {
     }: {
       text: string,
       actions: Array<TemplateAction>,
-    }
+    },
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createConfirmTemplate(altText, {
-        text,
-        actions,
-      }),
+      Line.createConfirmTemplate(
+        altText,
+        {
+          text,
+          actions,
+        },
+        options || {}
+      ),
     ]);
   }
 
@@ -308,15 +335,18 @@ export default class LineClient {
     {
       imageAspectRatio,
       imageSize,
+      ...options
     }: {
       imageAspectRatio?: 'rectangle' | 'square',
       imageSize?: 'cover' | 'contain',
+      options?: MessageOptions,
     } = {}
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
       Line.createCarouselTemplate(altText, columns, {
         imageAspectRatio,
         imageSize,
+        ...options,
       }),
     ]);
   }
@@ -325,10 +355,11 @@ export default class LineClient {
     type: SendType,
     target: SendTarget,
     altText: string,
-    columns: Array<ImageCarouselColumnObject>
+    columns: Array<ImageCarouselColumnObject>,
+    options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(type, target, [
-      Line.createImageCarouselTemplate(altText, columns),
+      Line.createImageCarouselTemplate(altText, columns, options || {}),
     ]);
   }
 
