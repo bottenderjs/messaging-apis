@@ -1,3 +1,32 @@
+# 0.7.5 / 2018-08-04
+
+### messaging-api-line
+
+- [new] add `quickReply` support:
+
+```js
+client.replyText(REPLY_TOKEN, 'Hello!', {
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'cameraRoll',
+          label: 'Send photo',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'camera',
+          label: 'Open camera',
+        },
+      },
+    ],
+  },
+});
+```
+
 # 0.7.4 / 2018-07-12
 
 ### messaging-api-messenger
