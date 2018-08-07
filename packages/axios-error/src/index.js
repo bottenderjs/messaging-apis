@@ -10,8 +10,15 @@ function json(data) {
 }
 
 module.exports = class AxiosError extends Error {
-  constructor(message, err = {}) {
-    super(message);
+  constructor(messageOrErr, _err = {}) {
+    let err;
+    if (messageOrErr instanceof Error) {
+      super(messageOrErr.message);
+      err = messageOrErr;
+    } else {
+      super(messageOrErr);
+      err = _err;
+    }
     const { config, request, response } = err;
 
     this.config = config;
