@@ -33,6 +33,22 @@ it('should work', async () => {
   }
 });
 
+it('should work with construct using error instance only', async () => {
+  try {
+    await axios.post('/', { x: 1 });
+  } catch (err) {
+    // overwrite because axios-mock-adapter set it to undefined
+    err.response.statusText = 'Bad Request';
+
+    const error = new AxiosError(err);
+
+    // overwrite stack to test it
+    error.stack = stack;
+
+    expect(error.inspect()).toMatchSnapshot();
+  }
+});
+
 it('should work with undefined response', async () => {
   try {
     await axios.post('/', { x: 1 });
