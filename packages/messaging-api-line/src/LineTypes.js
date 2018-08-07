@@ -314,8 +314,10 @@ type FlexText = {
   align?: 'start' | 'end' | 'center',
   gravity?: 'top' | 'bottom' | 'center',
   wrap?: boolean,
+  maxLines?: number,
   weight?: 'regular' | 'bold',
   color?: string,
+  action?: TemplateAction,
 };
 
 type FlexBoxContent =
@@ -336,6 +338,7 @@ type FlexBox = {
   flex?: number,
   spacing?: Size,
   margin?: Size,
+  action?: TemplateAction,
 };
 
 type FlexBubbleContainer = {
