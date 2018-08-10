@@ -9,6 +9,7 @@ import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import invariant from 'invariant';
 import warning from 'warning';
+import get from 'lodash.get';
 import omit from 'lodash.omit';
 import isPlainObject from 'is-plain-object';
 import appendQuery from 'append-query';
@@ -69,7 +70,7 @@ function extractVersion(version) {
 
 function handleError(err) {
   if (err.response && err.response.data) {
-    const { error } = err.response.data;
+    const error = get(err, 'response.data.error', {});
     const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
     throw new AxiosError(msg, err);
   }
