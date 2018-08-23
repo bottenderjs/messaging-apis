@@ -1,3 +1,13 @@
+# 0.7.6 / 2018-08-23
+
+### messaging-api-slack
+
+- [new] add custom token support to all `SlackOAuthClient` methods
+
+### axios-error
+
+- [new] support creating AxiosError with Error instance only
+
 # 0.7.5 / 2018-08-04
 
 ### messaging-api-line
