@@ -113,10 +113,10 @@ const { Line } = require('messaging-api-line');
 
 client.reply(REPLY_TOKEN, [
   Line.createText('Hello'),
-  Line.createImage(
-    'https://example.com/original.jpg',
-    'https://example.com/preview.jpg'
-  ),
+  Line.createImage({
+    originalContentUrl: 'https://example.com/original.jpg',
+    previewImageUrl: 'https://example.com/preview.jpg',
+  }),
   Line.createText('End'),
 ]);
 ```
