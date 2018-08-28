@@ -20,6 +20,7 @@
   - [Multicast API](#multicast-api)
     - [Imagemap Messages](#multicast-imagemap-messages)
     - [Template Messages](#multicast-template-messages)
+  - [Quick Replies](#quick-replies)
   - [Content API](#content-api)
   - [Profile API](#profile-api)
   - [Group/Room Member Profile API](#grouproom-member-profile-api)
@@ -1752,6 +1753,54 @@ client.multicastImageCarouselTemplate(
       },
     },
   ]
+);
+```
+
+<br />
+
+<a id="quick-replies" />
+
+### Quick Replies - [Official Docs](https://developers.line.me/en/reference/messaging-api/#quick-reply)
+
+Sends message with buttons appear at the bottom of the chat screen.
+
+<img src="https://developers.line.me/media/messaging-api/using-quick-reply/quickReplySample2-b0da8a03.png" width="250px" />
+
+```js
+context.replyText(
+  REPLY_TOKEN,
+  'Select your favorite food category or send me your location!',
+  {
+    quickReply: {
+      items: [
+        {
+          type: 'action',
+          imageUrl: 'https://example.com/sushi.png',
+          action: {
+            type: 'message',
+            label: 'Sushi',
+            text: 'Sushi',
+          },
+        },
+        {
+          type: 'action',
+          imageUrl: 'https://example.com/tempura.png',
+          action: {
+            type: 'message',
+            label: 'Tempura',
+            text: 'Tempura',
+          },
+        },
+        {
+          type: 'action',
+          action: {
+            type: 'location',
+            label: 'Send location',
+          },
+        },
+      ],
+    },
+  }
 );
 ```
 
