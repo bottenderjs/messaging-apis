@@ -1,18 +1,18 @@
 /* @flow */
 /* eslint-disable camelcase */
 
-import axios from 'axios';
 import AxiosError from 'axios-error';
+import axios from 'axios';
 
 import type {
-  ViberEventType,
   ViberContact,
+  ViberEventType,
+  ViberFile,
   ViberLocation,
+  ViberPicture,
   ViberRichMedia,
   ViberSender,
-  ViberPicture,
   ViberVideo,
-  ViberFile,
 } from './ViberTypes';
 
 type Axios = {

@@ -1,57 +1,57 @@
 /* @flow */
 /* eslint-disable camelcase */
 
-import querystring from 'querystring';
 import crypto from 'crypto';
+import querystring from 'querystring';
 import url from 'url';
 
-import axios from 'axios';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
-import invariant from 'invariant';
-import warning from 'warning';
-import get from 'lodash.get';
-import omit from 'lodash.omit';
-import isPlainObject from 'is-plain-object';
 import appendQuery from 'append-query';
+import axios from 'axios';
+import get from 'lodash.get';
+import invariant from 'invariant';
+import isPlainObject from 'is-plain-object';
+import omit from 'lodash.omit';
+import warning from 'warning';
 
 import Messenger from './Messenger';
 import type {
-  UserID,
-  Recipient,
-  AttachmentPayload,
-  Attachment,
-  Message,
-  SendOption,
-  UploadOption,
-  TemplateButton,
-  MenuItem,
-  GreetingConfig,
-  TemplateElement,
-  SenderAction,
-  User,
-  OpenGraphElement,
-  MediaElement,
-  ReceiptAttributes,
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
-  PersistentMenu,
+  Attachment,
+  AttachmentPayload,
   AudienceType,
+  BatchItem,
+  FileData,
+  GreetingConfig,
+  InsightMetric,
+  InsightOptions,
+  MediaElement,
+  MenuItem,
+  Message,
+  MessageTagResponse,
+  MessagingFeatureReview,
+  MessengerNLPConfig,
   MessengerProfile,
   MessengerProfileResponse,
   MutationSuccessResponse,
-  SendMessageSucessResponse,
-  SendSenderActionResponse,
-  MessageTagResponse,
-  FileData,
-  BatchItem,
-  MessengerNLPConfig,
-  InsightMetric,
-  InsightOptions,
+  OpenGraphElement,
   PageInfo,
-  MessagingFeatureReview,
+  PersistentMenu,
+  ReceiptAttributes,
+  Recipient,
+  SendMessageSucessResponse,
+  SendOption,
+  SendSenderActionResponse,
+  SenderAction,
+  TemplateButton,
+  TemplateElement,
+  UploadOption,
+  User,
+  UserID,
 } from './MessengerTypes';
 
 type Axios = {

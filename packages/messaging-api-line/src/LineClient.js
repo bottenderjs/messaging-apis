@@ -1,28 +1,28 @@
 /* @flow */
-import axios from 'axios';
 import AxiosError from 'axios-error';
-import invariant from 'invariant';
+import axios from 'axios';
 import imageType from 'image-type';
+import invariant from 'invariant';
 
 import Line from './Line';
 import {
-  type SendType,
-  type ReplyToken,
-  type UserId,
-  type SendTarget,
-  type User,
-  type Message,
+  type ColumnObject,
+  type FlexContainer,
+  type ImageCarouselColumnObject,
+  type ImageMapAction,
+  type LiffView,
   type Location,
+  type Message,
   type MessageOptions,
+  type MutationSuccessResponse,
+  type ReplyToken,
+  type RichMenu,
+  type SendTarget,
+  type SendType,
   type Template,
   type TemplateAction,
-  type ImageMapAction,
-  type FlexContainer,
-  type ColumnObject,
-  type ImageCarouselColumnObject,
-  type RichMenu,
-  type LiffView,
-  type MutationSuccessResponse,
+  type User,
+  type UserId,
 } from './LineTypes';
 
 type Axios = {

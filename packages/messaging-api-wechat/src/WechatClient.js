@@ -2,17 +2,17 @@
 
 import fs from 'fs';
 
-import axios from 'axios';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
+import axios from 'axios';
 
 import type {
   AccessToken,
-  Video,
+  MediaType,
+  MiniProgramPage,
   Music,
   News,
-  MiniProgramPage,
-  MediaType,
+  Video,
 } from './WechatTypes';
 
 type Axios = {

@@ -4,24 +4,24 @@ import warning from 'warning';
 
 import Messenger from './Messenger';
 import type {
-  UserID,
-  Recipient,
-  SendOption,
-  Message,
-  Attachment,
-  FileData,
-  AttachmentPayload,
-  BatchItem,
-  TemplateButton,
-  TemplateElement,
-  OpenGraphElement,
-  ReceiptAttributes,
-  MediaElement,
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
+  Attachment,
+  AttachmentPayload,
+  BatchItem,
+  FileData,
+  MediaElement,
+  Message,
+  OpenGraphElement,
+  ReceiptAttributes,
+  Recipient,
+  SendOption,
   SenderAction,
+  TemplateButton,
+  TemplateElement,
+  UserID,
 } from './MessengerTypes';
 
 function omitUndefinedFields(obj) {

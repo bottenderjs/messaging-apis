@@ -1,8 +1,8 @@
 import {
   Messenger,
   MessengerBatch,
-  MessengerClient,
   MessengerBroadcast,
+  MessengerClient,
 } from '..';
 
 it('should export api correctly', () => {

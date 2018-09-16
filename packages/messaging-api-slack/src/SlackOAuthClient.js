@@ -2,16 +2,16 @@
 
 import querystring from 'querystring';
 
-import axios from 'axios';
 import AxiosError from 'axios-error';
+import axios from 'axios';
 import omit from 'lodash.omit';
 
 import type {
   SlackAttachment,
-  SlackOAuthAPIResponse,
   SlackAvailableMethod,
-  SlackUser,
   SlackChannel,
+  SlackOAuthAPIResponse,
+  SlackUser,
 } from './SlackTypes';
 
 type Axios = {

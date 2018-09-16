@@ -2,8 +2,8 @@
 
 import Messenger from './Messenger';
 import MessengerBatch from './MessengerBatch';
-import MessengerClient from './MessengerClient';
 import MessengerBroadcast from './MessengerBroadcast';
+import MessengerClient from './MessengerClient';
 
 export { Messenger, MessengerBatch, MessengerClient, MessengerBroadcast };
 export default {
