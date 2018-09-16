@@ -1,3 +1,13 @@
+# 0.7.7 / 2018-09-16
+
+### axios-error
+
+- [new] use util.inspect.custom instead of Object.inspect
+
+### messaging-api-messenger
+
+- [fix] add custom token support to appsecret_proof [#392](https://github.com/Yoctol/messaging-apis/pull/392)
+
 # 0.7.6 / 2018-08-23
 
 ### messaging-api-slack
