@@ -1,3 +1,5 @@
+import util from 'util';
+
 function indent(str) {
   return str
     .split('\n')
@@ -26,7 +28,12 @@ module.exports = class AxiosError extends Error {
     this.response = response;
   }
 
-  inspect() {
+  // TODO: remove inspect until we drop node < 6.6
+  inspect(...args) {
+    return this[util.inspect.custom](...args);
+  }
+
+  [util.inspect.custom]() {
     let requestMessage = '';
 
     if (this.config) {
