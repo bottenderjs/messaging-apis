@@ -3,6 +3,7 @@
 
 import querystring from 'querystring';
 import crypto from 'crypto';
+import url from 'url';
 
 import axios from 'axios';
 import AxiosError from 'axios-error';
@@ -134,9 +135,16 @@ export default class MessengerClient {
     if (this._appSecret != null) {
       const appSecret = this._appSecret;
       this._axios.interceptors.request.use(config => {
+        const urlParts = url.parse(config.url, true);
+        const accessToken = get(
+          urlParts,
+          'query.access_token',
+          this._accessToken
+        );
+
         const appSecretProof = crypto
           .createHmac('sha256', appSecret)
-          .update(this._accessToken, 'utf8')
+          .update(accessToken, 'utf8')
           .digest('hex');
 
         // eslint-disable-next-line no-param-reassign
@@ -465,12 +473,12 @@ export default class MessengerClient {
   }
 
   setAccountLinkingURL(
-    url: string,
+    linkingURL: string,
     options?: Object = {}
   ): Promise<MutationSuccessResponse> {
     return this.setMessengerProfile(
       {
-        account_linking_url: url,
+        account_linking_url: linkingURL,
       },
       options
     );
@@ -496,13 +504,13 @@ export default class MessengerClient {
   }
 
   setPaymentPrivacyPolicyURL(
-    url: string,
+    privacyURL: string,
     options?: Object = {}
   ): Promise<MutationSuccessResponse> {
     return this.setMessengerProfile(
       {
         payment_settings: {
-          privacy_url: url,
+          privacy_url: privacyURL,
         },
       },
       options
@@ -594,7 +602,7 @@ export default class MessengerClient {
   }
 
   setHomeURL(
-    url: string,
+    homeURL: string,
     {
       webview_share_button,
       in_test,
@@ -607,7 +615,7 @@ export default class MessengerClient {
     return this.setMessengerProfile(
       {
         home_url: {
-          url,
+          url: homeURL,
           webview_height_ratio: 'tall',
           in_test,
           webview_share_button,
