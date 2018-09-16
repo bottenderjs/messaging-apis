@@ -1,7 +1,7 @@
 import fs from 'fs';
 
-import MockAdapter from 'axios-mock-adapter';
 import FormData from 'form-data';
+import MockAdapter from 'axios-mock-adapter';
 
 import MessengerClient from '../MessengerClient';
 

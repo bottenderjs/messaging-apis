@@ -1,8 +1,8 @@
 /* @flow */
 /* eslint-disable camelcase */
 
-import axios from 'axios';
 import AxiosError from 'axios-error';
+import axios from 'axios';
 
 import type { ChatAction } from './TelegramTypes';
 

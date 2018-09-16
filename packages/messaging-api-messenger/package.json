@@ -27,7 +27,7 @@
     "is-plain-object": "^2.0.4",
     "lodash.get": "^4.4.2",
     "lodash.omit": "^4.5.0",
-    "warning": "^4.0.1"
+    "warning": "^4.0.2"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0"

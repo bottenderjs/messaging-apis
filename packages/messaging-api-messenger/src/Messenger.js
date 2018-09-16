@@ -1,26 +1,26 @@
 /* @flow */
 
 import FormData from 'form-data';
-import warning from 'warning';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
 import omit from 'lodash.omit';
+import warning from 'warning';
 
 import type {
-  AttachmentPayload,
-  Attachment,
-  FileData,
-  Message,
-  TemplateButton,
-  TemplateElement,
-  QuickReply,
-  OpenGraphElement,
-  MediaElement,
-  ReceiptAttributes,
   AirlineBoardingPassAttributes,
   AirlineCheckinAttributes,
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
+  Attachment,
+  AttachmentPayload,
+  FileData,
+  MediaElement,
+  Message,
+  OpenGraphElement,
+  QuickReply,
+  ReceiptAttributes,
+  TemplateButton,
+  TemplateElement,
 } from './MessengerTypes';
 
 function validateQuickReplies(quickReplies: Array<QuickReply>): void {

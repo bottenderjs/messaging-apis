@@ -1,4 +1,4 @@
-import { SlackWebhookClient, SlackOAuthClient } from '..';
+import { SlackOAuthClient, SlackWebhookClient } from '..';
 
 it('should export api correctly', () => {
   expect(SlackWebhookClient).toBeDefined();

@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-import type { SlackAttachment, SendMessageSucessResponse } from './SlackTypes';
+import type { SendMessageSucessResponse, SlackAttachment } from './SlackTypes';
 
 type Axios = {
   get: Function,
