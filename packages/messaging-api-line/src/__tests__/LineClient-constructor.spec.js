@@ -1,3 +1,5 @@
+import MockAdapter from 'axios-mock-adapter';
+
 import LineClient from '../LineClient';
 
 const ACCESS_TOKEN = '1234567890';
@@ -17,7 +19,13 @@ describe('connect', () => {
 
   describe('create axios with Line API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       LineClient.connect(
         ACCESS_TOKEN,
         CHANNEL_SECRET
@@ -33,7 +41,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       LineClient.connect({
         accessToken: ACCESS_TOKEN,
         channelSecret: CHANNEL_SECRET,
@@ -50,7 +64,13 @@ describe('connect', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     LineClient.connect({
       accessToken: ACCESS_TOKEN,
       channelSecret: CHANNEL_SECRET,
@@ -81,7 +101,13 @@ describe('constructor', () => {
 
   describe('create axios with Line API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new LineClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -94,7 +120,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       // eslint-disable-next-line no-new
       new LineClient({
         accessToken: ACCESS_TOKEN,
@@ -112,7 +144,13 @@ describe('constructor', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     // eslint-disable-next-line no-new
     new LineClient({
       accessToken: ACCESS_TOKEN,
@@ -159,6 +197,36 @@ describe('#accessToken', () => {
       channelSecret: CHANNEL_SECRET,
     });
     expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
+describe('#onRequest', () => {
+  it('should call onRequest when calling any API', async () => {
+    const onRequest = jest.fn();
+    const client = new LineClient({
+      accessToken: ACCESS_TOKEN,
+      channelSecret: CHANNEL_SECRET,
+      onRequest,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    mock.onPost('/path').reply(200, {});
+
+    await client.axios.post('/path', { x: 1 });
+
+    expect(onRequest).toBeCalledWith({
+      method: 'post',
+      url: 'https://api.line.me/path',
+      body: {
+        x: 1,
+      },
+      headers: {
+        Authorization: 'Bearer 1234567890',
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain, */*',
+      },
+    });
   });
 });
 

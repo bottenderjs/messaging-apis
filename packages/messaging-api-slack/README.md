@@ -13,6 +13,7 @@
 - [Webhook Client](#webhook-client)
   - [Usage](#usage-1)
   - [API Reference](#api-reference-1)
+- [Debug Tips](#debug-tips)
 - [Test](#test)
 
 ## Installation
@@ -551,6 +552,36 @@ client.sendAttachment({
 ```
 
 <br />
+
+## Debug Tips
+
+### Log requests details
+
+To enable default request debugger, use following `DEBUG` env variable:
+
+```sh
+DEBUG=messaging-api-slack
+```
+
+If you want to use custom request logging function, just define your own `onRequest`:
+
+```js
+// for SlackOAuthClient
+const client = SlackOAuthClient.connect({
+  accessToken: ACCESS_TOKEN,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
+});
+
+// for SlackWebhookClient
+const client = SlackWebhookClient.connect({
+  url: URL,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
+});
+```
 
 ## Test
 

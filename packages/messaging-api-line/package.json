@@ -21,8 +21,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "axios-error": "^0.7.7",
+    "debug": "^4.0.1",
     "image-type": "^3.0.0",
-    "invariant": "^2.2.4"
+    "invariant": "^2.2.4",
+    "lodash.omit": "^4.5.0",
+    "url-join": "^4.0.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0"

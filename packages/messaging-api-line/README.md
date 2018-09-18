@@ -29,6 +29,7 @@
   - [Rich Menu API](#rich-menu-api)
   - [Account Link API](#account-link-api)
   - [LINE Front-end Framework API](#liff-api)
+- [Debug Tips](#debug-tips)
 - [Test](#test)
 
 ## Installation
@@ -2408,6 +2409,28 @@ Example:
 
 ```js
 client.deleteLiffApp(LIFF_ID);
+```
+
+## Debug Tips
+
+### Log requests details
+
+To enable default request debugger, use following `DEBUG` env variable:
+
+```sh
+DEBUG=messaging-api-line
+```
+
+If you want to use custom request logging function, just define your own `onRequest`:
+
+```js
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  channelSecret: CHANNEL_SECRET,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
+});
 ```
 
 ## Test

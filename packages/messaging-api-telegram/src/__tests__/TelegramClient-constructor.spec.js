@@ -24,7 +24,13 @@ describe('connect', () => {
 
   describe('create axios with Telegram API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       TelegramClient.connect(ACCESS_TOKEN);
 
       expect(axios.create).toBeCalledWith({
@@ -37,7 +43,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       TelegramClient.connect({ accessToken: ACCESS_TOKEN });
 
       expect(axios.create).toBeCalledWith({
@@ -51,7 +63,13 @@ describe('connect', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     TelegramClient.connect({
       accessToken: ACCESS_TOKEN,
       origin: 'https://mydummytestserver.com',
@@ -81,7 +99,13 @@ describe('constructor', () => {
 
   describe('create axios with Telegram API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new TelegramClient(ACCESS_TOKEN); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -94,7 +118,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new TelegramClient({ accessToken: ACCESS_TOKEN }); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -108,7 +138,13 @@ describe('constructor', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     // eslint-disable-next-line no-new
     new TelegramClient({
       accessToken: ACCESS_TOKEN,
@@ -160,5 +196,34 @@ describe('#accessToken', () => {
 
     client = new TelegramClient({ accessToken: ACCESS_TOKEN });
     expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
+describe('#onRequest', () => {
+  it('should call onRequest when calling any API', async () => {
+    const onRequest = jest.fn();
+    const client = new TelegramClient({
+      accessToken: ACCESS_TOKEN,
+      onRequest,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    mock.onPost('/path').reply(200, {});
+
+    await client.axios.post('/path', { x: 1 });
+
+    expect(onRequest).toBeCalledWith({
+      method: 'post',
+      url:
+        'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/path',
+      body: {
+        x: 1,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain, */*',
+      },
+    });
   });
 });

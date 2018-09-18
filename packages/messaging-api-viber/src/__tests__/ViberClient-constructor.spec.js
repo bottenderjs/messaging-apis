@@ -1,3 +1,5 @@
+import MockAdapter from 'axios-mock-adapter';
+
 import ViberClient from '../ViberClient';
 
 const AUTH_TOKEN = '445da6az1s345z78-dazcczb2542zv51a-e0vc5fva17480im9';
@@ -21,7 +23,13 @@ describe('connect', () => {
 
   describe('create axios with Viber API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       ViberClient.connect(
         AUTH_TOKEN,
         SENDER
@@ -37,7 +45,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       ViberClient.connect({ accessToken: AUTH_TOKEN, sender: SENDER });
 
       expect(axios.create).toBeCalledWith({
@@ -51,7 +65,13 @@ describe('connect', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     ViberClient.connect({
       accessToken: AUTH_TOKEN,
       sender: SENDER,
@@ -82,7 +102,13 @@ describe('constructor', () => {
 
   describe('create axios with Viber API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new ViberClient(AUTH_TOKEN, SENDER); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -95,7 +121,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER }); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -109,7 +141,13 @@ describe('constructor', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     // eslint-disable-next-line no-new
     new ViberClient({
       accessToken: AUTH_TOKEN,
@@ -150,5 +188,36 @@ describe('#accessToken', () => {
 
     client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
     expect(client.accessToken).toBe(AUTH_TOKEN);
+  });
+});
+
+describe('#onRequest', () => {
+  it('should call onRequest when calling any API', async () => {
+    const onRequest = jest.fn();
+    const client = new ViberClient({
+      accessToken: AUTH_TOKEN,
+      sender: SENDER,
+      onRequest,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    mock.onPost('/path').reply(200, {});
+
+    await client.axios.post('/path', { x: 1 });
+
+    expect(onRequest).toBeCalledWith({
+      method: 'post',
+      url: 'https://chatapi.viber.com/pa/path',
+      body: {
+        x: 1,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain, */*',
+        'X-Viber-Auth-Token':
+          '445da6az1s345z78-dazcczb2542zv51a-e0vc5fva17480im9',
+      },
+    });
   });
 });

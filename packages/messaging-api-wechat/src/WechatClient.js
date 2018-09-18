@@ -5,6 +5,9 @@ import fs from 'fs';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios from 'axios';
+import debug from 'debug';
+import omit from 'lodash.omit';
+import urlJoin from 'url-join';
 
 import type {
   AccessToken,
@@ -23,6 +26,13 @@ type Axios = {
   delete: Function,
 };
 
+type ClientConfig = {
+  appId: string,
+  appSecret: string,
+  origin?: string,
+  onRequest?: Function,
+};
+
 function throwErrorIfAny(response) {
   const { errcode, errmsg } = response.data;
   if (!errcode || errcode === 0) return response;
@@ -34,11 +44,13 @@ function throwErrorIfAny(response) {
   });
 }
 
-type ClientConfig = {
-  appId: string,
-  appSecret: string,
-  origin?: string,
-};
+const debugRequest = debug('messaging-api-wechat');
+
+function onRequest({ method, url, body }) {
+  debugRequest(`${method} ${url}`);
+  debugRequest('Outgoing request body:');
+  debugRequest(JSON.stringify(body, null, 2));
+}
 
 export default class WechatClient {
   static connect(
@@ -51,6 +63,8 @@ export default class WechatClient {
   _appId: string;
 
   _appSecret: string;
+
+  _onRequest: Function;
 
   _axios: Axios;
 
@@ -65,10 +79,12 @@ export default class WechatClient {
 
       this._appId = config.appId;
       this._appSecret = config.appSecret;
+      this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
     } else {
       this._appId = appIdOrClientConfig;
       this._appSecret = appSecret;
+      this._onRequest = onRequest;
     }
 
     this._axios = axios.create({
@@ -76,6 +92,28 @@ export default class WechatClient {
       headers: {
         'Content-Type': 'application/json',
       },
+    });
+
+    this._axios.interceptors.request.use(config => {
+      this._onRequest({
+        method: config.method,
+        url: urlJoin(config.baseURL, config.url),
+        headers: {
+          ...config.headers.common,
+          ...config.headers[config.method],
+          ...omit(config.headers, [
+            'common',
+            'get',
+            'post',
+            'put',
+            'patch',
+            'delete',
+            'head',
+          ]),
+        },
+        body: config.data,
+      });
+      return config;
     });
   }
 

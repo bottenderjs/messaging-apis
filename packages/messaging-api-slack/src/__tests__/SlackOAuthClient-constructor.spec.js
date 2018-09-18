@@ -1,3 +1,5 @@
+import MockAdapter from 'axios-mock-adapter';
+
 import SlackOAuthClient from '../SlackOAuthClient';
 
 const TOKEN = 'xxxx-xxxxxxxxx-xxxx';
@@ -16,7 +18,13 @@ describe('connect', () => {
 
   describe('create axios with slack api url', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       SlackOAuthClient.connect(TOKEN);
 
       expect(axios.create).toBeCalledWith({
@@ -26,7 +34,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       SlackOAuthClient.connect({ accessToken: TOKEN });
 
       expect(axios.create).toBeCalledWith({
@@ -37,7 +51,13 @@ describe('connect', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     SlackOAuthClient.connect({
       accessToken: TOKEN,
       origin: 'https://mydummytestserver.com',
@@ -64,7 +84,13 @@ describe('constructor', () => {
 
   describe('create axios with with slack api url', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new SlackOAuthClient(TOKEN); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -74,7 +100,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new SlackOAuthClient({ accessToken: TOKEN }); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -85,7 +117,13 @@ describe('constructor', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     // eslint-disable-next-line no-new
     new SlackOAuthClient({
       accessToken: TOKEN,
@@ -122,5 +160,33 @@ describe('#accessToken', () => {
 
     client = new SlackOAuthClient({ accessToken: TOKEN });
     expect(client.accessToken).toBe(TOKEN);
+  });
+});
+
+describe('#onRequest', () => {
+  it('should call onRequest when calling any API', async () => {
+    const onRequest = jest.fn();
+    const client = new SlackOAuthClient({
+      accessToken: TOKEN,
+      onRequest,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    mock.onPost('/path').reply(200, {});
+
+    await client.axios.post('/path', { x: 1 });
+
+    expect(onRequest).toBeCalledWith({
+      method: 'post',
+      url: 'https://slack.com/api/path',
+      body: {
+        x: 1,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json, text/plain, */*',
+      },
+    });
   });
 });

@@ -3,6 +3,9 @@
 
 import AxiosError from 'axios-error';
 import axios from 'axios';
+import debug from 'debug';
+import omit from 'lodash.omit';
+import urlJoin from 'url-join';
 
 import type { ChatAction } from './TelegramTypes';
 
@@ -17,7 +20,16 @@ type Axios = {
 type ClientConfig = {
   accessToken: string,
   origin?: string,
+  onRequest?: Function,
 };
+
+const debugRequest = debug('messaging-api-telegram');
+
+function onRequest({ method, url, body }) {
+  debugRequest(`${method} ${url}`);
+  debugRequest('Outgoing request body:');
+  debugRequest(JSON.stringify(body, null, 2));
+}
 
 export default class TelegramClient {
   static connect(accessTokenOrConfig: string | ClientConfig): TelegramClient {
@@ -25,6 +37,8 @@ export default class TelegramClient {
   }
 
   _token: string;
+
+  _onRequest: Function;
 
   _axios: Axios;
 
@@ -34,9 +48,11 @@ export default class TelegramClient {
       const config = accessTokenOrConfig;
 
       this._token = config.accessToken;
+      this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
     } else {
       this._token = accessTokenOrConfig;
+      this._onRequest = onRequest;
     }
 
     this._axios = axios.create({
@@ -44,6 +60,28 @@ export default class TelegramClient {
       headers: {
         'Content-Type': 'application/json',
       },
+    });
+
+    this._axios.interceptors.request.use(config => {
+      this._onRequest({
+        method: config.method,
+        url: urlJoin(config.baseURL, config.url),
+        headers: {
+          ...config.headers.common,
+          ...config.headers[config.method],
+          ...omit(config.headers, [
+            'common',
+            'get',
+            'post',
+            'put',
+            'patch',
+            'delete',
+            'head',
+          ]),
+        },
+        body: config.data,
+      });
+      return config;
     });
   }
 

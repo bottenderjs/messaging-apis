@@ -9,6 +9,7 @@
 - [API Reference](#api-reference)
   - [Send API](#send-api)
   - [Medai API](#media-api)
+- [Debug Tips](#debug-tips)
 - [Test](#test)
 
 ## Installation
@@ -248,6 +249,28 @@ client.getMedia(MEDIA_ID).then(media => {
   // {
   //   video_url: "..."
   // }
+});
+```
+
+## Debug Tips
+
+### Log requests details
+
+To enable default request debugger, use following `DEBUG` env variable:
+
+```sh
+DEBUG=messaging-api-wechat
+```
+
+If you want to use custom request logging function, just define your own `onRequest`:
+
+```js
+const client = WechatClient.connect({
+  appId: APP_ID,
+  appSecret: APP_SECRET,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
 });
 ```
 

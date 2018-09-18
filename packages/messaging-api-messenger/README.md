@@ -39,6 +39,7 @@
   - [Event Logging API](#event-logging-api)
   - [ID Matching API](#id-matching-api)
   - [Others](#others)
+- [Debug Tips](#debug-tips)
 - [Test](#test)
 
 ## Installation
@@ -3362,6 +3363,27 @@ client.getMessagingFeatureReview().then(data => {
   //     "status": "<pending|rejected|approved|limited>"
   //   }
   // ]
+});
+```
+
+## Debug Tips
+
+### Log requests details
+
+To enable default request debugger, use following `DEBUG` env variable:
+
+```sh
+DEBUG=messaging-api-messenger
+```
+
+If you want to use custom request logging function, just define your own `onRequest`:
+
+```js
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
 });
 ```
 
