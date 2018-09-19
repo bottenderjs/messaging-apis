@@ -1,3 +1,13 @@
+# 0.7.8 / 2018-09-19
+
+- [new] add request deubg hook, so now we can use `DEBUG` env variable to enable request debugger:
+
+```
+DEBUG=messaging-api*
+```
+
+- [deps] upgrade all of dependencies and migrate to lerna v3
+
 # 0.7.7 / 2018-09-16
 
 ### axios-error
