@@ -20,7 +20,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "axios-error": "^0.7.7",
-    "lodash.omit": "^4.5.0"
+    "lodash.omit": "^4.5.0",
+    "url-join": "^4.0.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0"

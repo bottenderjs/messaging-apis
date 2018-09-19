@@ -9,10 +9,12 @@ import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
 import axios from 'axios';
+import debug from 'debug';
 import get from 'lodash.get';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
 import omit from 'lodash.omit';
+import urlJoin from 'url-join';
 import warning from 'warning';
 
 import Messenger from './Messenger';
@@ -62,6 +64,14 @@ type Axios = {
   delete: Function,
 };
 
+type ClientConfig = {
+  accessToken: string,
+  appSecret?: string,
+  version?: string,
+  origin?: string,
+  onRequest?: Function,
+};
+
 function extractVersion(version) {
   if (version.startsWith('v')) {
     return version.slice(1);
@@ -78,12 +88,13 @@ function handleError(err) {
   throw new AxiosError(err.message, err);
 }
 
-type ClientConfig = {
-  accessToken: string,
-  appSecret?: string,
-  version?: string,
-  origin?: string,
-};
+const debugRequest = debug('messaging-api-messenger');
+
+function onRequest(request) {
+  debugRequest(`${request.method} ${request.url}`);
+  debugRequest('Outgoing request body:');
+  debugRequest(JSON.stringify(request.body, null, 2));
+}
 
 export default class MessengerClient {
   static connect(
@@ -98,6 +109,8 @@ export default class MessengerClient {
   _appSecret: ?string;
 
   _version: string;
+
+  _onRequest: Function;
 
   _axios: Axios;
 
@@ -116,6 +129,7 @@ export default class MessengerClient {
       );
       this._appSecret = config.appSecret;
       this._version = extractVersion(config.version || '3.0');
+      this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
     } else {
       this._accessToken = accessTokenOrConfig;
@@ -124,6 +138,7 @@ export default class MessengerClient {
         'Type of `version` must be string.'
       );
       this._version = extractVersion(version);
+      this._onRequest = onRequest;
     }
 
     this._axios = axios.create({
@@ -155,6 +170,28 @@ export default class MessengerClient {
         return config;
       });
     }
+
+    this._axios.interceptors.request.use(config => {
+      this._onRequest({
+        method: config.method,
+        url: urlJoin(config.baseURL, config.url),
+        headers: {
+          ...config.headers.common,
+          ...config.headers[config.method],
+          ...omit(config.headers, [
+            'common',
+            'get',
+            'post',
+            'put',
+            'patch',
+            'delete',
+            'head',
+          ]),
+        },
+        body: config.data,
+      });
+      return config;
+    });
   }
 
   get version(): string {

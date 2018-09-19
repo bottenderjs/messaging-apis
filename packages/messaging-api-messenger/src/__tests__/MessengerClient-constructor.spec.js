@@ -19,7 +19,13 @@ afterEach(() => {
 describe('connect', () => {
   describe('create axios with default graphAPI version', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       MessengerClient.connect(ACCESS_TOKEN);
 
       expect(axios.create).toBeCalledWith({
@@ -29,7 +35,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       MessengerClient.connect({ accessToken: ACCESS_TOKEN });
 
       expect(axios.create).toBeCalledWith({
@@ -41,7 +53,13 @@ describe('connect', () => {
 
   describe('create axios with custom graphAPI version', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       MessengerClient.connect(
         ACCESS_TOKEN,
         '2.6'
@@ -54,7 +72,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       MessengerClient.connect({ accessToken: ACCESS_TOKEN, version: '2.6' });
 
       expect(axios.create).toBeCalledWith({
@@ -65,7 +89,13 @@ describe('connect', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     MessengerClient.connect({
       accessToken: ACCESS_TOKEN,
       origin: 'https://mydummytestserver.com',
@@ -81,7 +111,13 @@ describe('connect', () => {
 describe('constructor', () => {
   describe('create axios with default graphAPI version', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new MessengerClient(ACCESS_TOKEN); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -91,7 +127,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new MessengerClient({ accessToken: ACCESS_TOKEN }); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -103,7 +145,13 @@ describe('constructor', () => {
 
   describe('create axios with custom graphAPI version', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new MessengerClient(ACCESS_TOKEN, '2.6'); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -113,7 +161,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new MessengerClient({ accessToken: ACCESS_TOKEN, version: '2.6' }); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -124,7 +178,13 @@ describe('constructor', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     // eslint-disable-next-line no-new
     new MessengerClient({
       accessToken: ACCESS_TOKEN,
@@ -188,6 +248,34 @@ describe('#accessToken', () => {
 
     client = new MessengerClient({ accessToken: ACCESS_TOKEN });
     expect(client.accessToken).toBe(ACCESS_TOKEN);
+  });
+});
+
+describe('#onRequest', () => {
+  it('should call onRequest when calling any API', async () => {
+    const onRequest = jest.fn();
+    const client = new MessengerClient({
+      accessToken: ACCESS_TOKEN,
+      onRequest,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    mock.onPost('/path').reply(200, {});
+
+    await client.axios.post('/path', { x: 1 });
+
+    expect(onRequest).toBeCalledWith({
+      method: 'post',
+      url: 'https://graph.facebook.com/v3.0/path',
+      body: {
+        x: 1,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain, */*',
+      },
+    });
   });
 });
 

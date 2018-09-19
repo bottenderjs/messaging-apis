@@ -18,6 +18,7 @@
   - [Inline Mode API](#inline-mode-api)
   - [Game API](#game-api)
   - [Others](#others)
+- [Debug Tips](#debug-tips)
 - [Test](#test)
 
 ## Installation
@@ -1254,6 +1255,27 @@ Example:
 ```js
 client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
   disable_notification: true,
+});
+```
+
+## Debug Tips
+
+### Log requests details
+
+To enable default request debugger, use following `DEBUG` env variable:
+
+```sh
+DEBUG=messaging-api-telegram
+```
+
+If you want to use custom request logging function, just define your own `onRequest`:
+
+```js
+const client = TelegramClient.connect({
+  accessToken: ACCESS_TOKEN,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
 });
 ```
 

@@ -16,6 +16,7 @@
   - [Get Account Info](#get-account-info)
   - [Get User Details](#get-user-details)
   - [Get Online](#get-online)
+- [Debug Tips](#debug-tips)
 - [Test](#test)
 
 ## Installation
@@ -639,6 +640,27 @@ client
     //   },
     // ];
   });
+```
+
+## Debug Tips
+
+### Log requests details
+
+To enable default request debugger, use following `DEBUG` env variable:
+
+```sh
+DEBUG=messaging-api-viber
+```
+
+If you want to use custom request logging function, just define your own `onRequest`:
+
+```js
+const client = ViberClient.connect({
+  accessToken: ACCESS_TOKEN,
+  onRequest: ({ method, url, headers, body }) => {
+    /* */
+  },
+});
 ```
 
 ## Test

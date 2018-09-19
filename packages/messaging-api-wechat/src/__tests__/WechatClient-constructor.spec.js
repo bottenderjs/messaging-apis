@@ -1,3 +1,5 @@
+import MockAdapter from 'axios-mock-adapter';
+
 import WechatClient from '../WechatClient';
 
 const APP_ID = 'APP_ID';
@@ -17,7 +19,13 @@ describe('connect', () => {
 
   describe('create axios with WeChat API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       WechatClient.connect(
         APP_ID,
         APP_SECRET
@@ -32,7 +40,13 @@ describe('connect', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       WechatClient.connect({ appId: APP_ID, appSecret: APP_SECRET });
 
       expect(axios.create).toBeCalledWith({
@@ -45,7 +59,13 @@ describe('connect', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     WechatClient.connect({
       appId: APP_ID,
       appSecret: APP_SECRET,
@@ -75,7 +95,13 @@ describe('constructor', () => {
 
   describe('create axios with WeChat API', () => {
     it('with args', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new WechatClient(APP_ID, APP_SECRET); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -87,7 +113,13 @@ describe('constructor', () => {
     });
 
     it('with config', () => {
-      axios.create = jest.fn();
+      axios.create = jest.fn().mockReturnValue({
+        interceptors: {
+          request: {
+            use: jest.fn(),
+          },
+        },
+      });
       new WechatClient({ appId: APP_ID, appSecret: APP_SECRET }); // eslint-disable-line no-new
 
       expect(axios.create).toBeCalledWith({
@@ -100,7 +132,13 @@ describe('constructor', () => {
   });
 
   it('support origin', () => {
-    axios.create = jest.fn();
+    axios.create = jest.fn().mockReturnValue({
+      interceptors: {
+        request: {
+          use: jest.fn(),
+        },
+      },
+    });
     // eslint-disable-next-line no-new
     new WechatClient({
       appId: APP_ID,
@@ -140,5 +178,34 @@ describe('#accessToken', () => {
 
     client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
     expect(typeof client.accessToken).toBe('string');
+  });
+});
+
+describe('#onRequest', () => {
+  it('should call onRequest when calling any API', async () => {
+    const onRequest = jest.fn();
+    const client = new WechatClient({
+      appId: APP_ID,
+      appSecret: APP_SECRET,
+      onRequest,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    mock.onPost('/path').reply(200, {});
+
+    await client.axios.post('/path', { x: 1 });
+
+    expect(onRequest).toBeCalledWith({
+      method: 'post',
+      url: 'https://api.weixin.qq.com/cgi-bin/path',
+      body: {
+        x: 1,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain, */*',
+      },
+    });
   });
 });
