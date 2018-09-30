@@ -1,3 +1,32 @@
+# 0.7.9 / 2018-09-30
+
+### messaging-api-line
+
+- [new] add apis for default rich menu:
+
+- `getDefaultRichMenu()`:
+
+```js
+client.getDefaultRichMenu().then(richMenu => {
+  console.log(richMenu);
+  // {
+  //   "richMenuId": "{richMenuId}"
+  // }
+});
+```
+
+- `setDefaultRichMenu(richMenuId)`:
+
+```js
+client.setDefaultRichMenu('{richMenuId}');
+```
+
+- `deleteDefaultRichMenu()`:
+
+```js
+client.deleteDefaultRichMenu();
+```
+
 # 0.7.8 / 2018-09-19
 
 - [new] add request deubg hook, so now we can use `DEBUG` env variable to enable request debugger:
