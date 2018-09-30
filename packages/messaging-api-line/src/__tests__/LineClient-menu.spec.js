@@ -276,4 +276,54 @@ describe('Rich Menu', () => {
       expect(res).toEqual(reply);
     });
   });
+
+  describe('#getDefaultRichMenu', () => {
+    it('should call api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+      };
+
+      mock.onGet('/v2/bot/user/all/richmenu').reply(200, reply, headers);
+
+      const res = await client.getDefaultRichMenu();
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#setDefaultRichMenu', () => {
+    it('should call api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost(
+          '/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+        )
+        .reply(200, reply, headers);
+
+      const res = await client.setDefaultRichMenu(
+        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+      );
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteDefaultRichMenu', () => {
+    it('should call api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock.onDelete('/v2/bot/user/all/richmenu').reply(200, reply, headers);
+
+      const res = await client.deleteDefaultRichMenu();
+
+      expect(res).toEqual(reply);
+    });
+  });
 });

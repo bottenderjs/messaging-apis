@@ -643,6 +643,24 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
+  getDefaultRichMenu() {
+    return this._axios
+      .get(`/v2/bot/user/all/richmenu`)
+      .then(res => res.data, handleError);
+  }
+
+  setDefaultRichMenu(richMenuId: string) {
+    return this._axios
+      .post(`/v2/bot/user/all/richmenu/${richMenuId}`)
+      .then(res => res.data, handleError);
+  }
+
+  deleteDefaultRichMenu() {
+    return this._axios
+      .delete(`/v2/bot/user/all/richmenu`)
+      .then(res => res.data, handleError);
+  }
+
   /**
    * - Images must have one of the following resolutions: 2500x1686, 2500x843.
    * - You cannot replace an image attached to a rich menu.

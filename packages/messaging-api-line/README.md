@@ -2299,6 +2299,53 @@ client.uploadRichMenuImage(RICH_MENU_ID, fs.readFileSync('image.png'));
 
 <br />
 
+## `getDefaultRichMenu()` - [Official Docs](https://developers.line.me/en/reference/messaging-api/#get-default-rich-menu-id)
+
+Gets the ID of the default rich menu set with the Messaging API.
+
+Example:
+
+```js
+client.getDefaultRichMenu().then(richMenu => {
+  console.log(richMenu);
+  // {
+  //   "richMenuId": "{richMenuId}"
+  // }
+});
+```
+
+<br />
+
+## `setDefaultRichMenu(richMenuId)` - [Official Docs](https://developers.line.me/en/reference/messaging-api/#set-default-rich-menu)
+
+Sets the default rich menu. The default rich menu is displayed to all users who have added your bot as a friend and are not linked to any per-user rich menu.
+
+| Param      | Type     | Description                  |
+| ---------- | -------- | ---------------------------- |
+| richMenuId | `String` | ID of an uploaded rich menu. |
+
+Example:
+
+```js
+client.setDefaultRichMenu('{richMenuId}');
+```
+
+> The rich menu is displayed in the following order of priority (highest to lowest): The per-user rich menu set with the Messaging API, the default rich menu set with the Messaging API, and the default rich menu set with LINE@ Manager.
+
+<br />
+
+## `deleteDefaultRichMenu()` - [Official Docs](https://developers.line.me/en/reference/messaging-api/#cancel-default-rich-menu)
+
+Cancels the default rich menu set with the Messaging API.
+
+Example:
+
+```js
+client.deleteDefaultRichMenu();
+```
+
+<br />
+
 <a id="account-link-api" />
 
 ### Account Link API - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#account-link)
