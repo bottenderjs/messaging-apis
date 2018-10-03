@@ -13,7 +13,6 @@
     "bootstrap": "lerna bootstrap",
     "build": "node ./scripts/build.js",
     "clean": "rimraf ./packages/*/lib",
-    "precommit": "lint-staged",
     "postinstall": "yarn run build",
     "lint": "eslint packages examples",
     "lint:fix": "yarn run lint:fix:md && yarn run lint --fix",
@@ -28,32 +27,37 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chalk": "^2.4.1",
-    "eslint": "^5.6.0",
-    "eslint-config-prettier": "^3.0.1",
+    "eslint": "^5.6.1",
+    "eslint-config-prettier": "^3.1.0",
     "eslint-config-yoctol-base": "^0.17.2",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
-    "flow-bin": "^0.81.0",
-    "husky": "^0.14.3",
+    "flow-bin": "^0.82.0",
+    "husky": "^1.1.0",
     "jest": "^23.6.0",
     "lerna": "^3.4.0",
-    "lint-staged": "^7.2.2",
+    "lint-staged": "^7.3.0",
     "micromatch": "^3.1.10",
     "mkdir": "^0.0.2",
-    "prettier": "^1.14.2",
-    "prettier-package-json": "^2.0.0",
+    "prettier": "^1.14.3",
+    "prettier-package-json": "^2.0.1",
     "rimraf": "^2.6.2"
   },
   "engines": {
     "node": ">=6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "jest": {
     "coverageDirectory": "./coverage/",
