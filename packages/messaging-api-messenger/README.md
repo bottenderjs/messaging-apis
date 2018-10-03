@@ -38,6 +38,7 @@
   - [Built-in NLP API](#built-in-nlp-api)
   - [Event Logging API](#event-logging-api)
   - [ID Matching API](#id-matching-api)
+  - [Persona API](#persona-api)
   - [Others](#others)
 - [Debug Tips](#debug-tips)
 - [Test](#test)
@@ -3278,6 +3279,128 @@ client
     //   },
     // };
   });
+```
+
+<br />
+
+<a id="persona-api" />
+
+### Persona API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/personas)
+
+## `createPersona(persona)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#create)
+
+Creates a persona.
+
+| Param                       | Type                | Description                     |
+| --------------------------- | ------------------- | ------------------------------- |
+| persona.name                | <code>String</code> | name of the persona.            |
+| persona.profile_picture_url | <code>String</code> | profile picture of the persona. |
+
+```js
+createPersona({
+  name: 'John Mathew',
+  profile_picture_url: 'https://facebook.com/john_image.jpg',
+}).then(persona => {
+  console.log(persona);
+  // {
+  //  "id": "<PERSONA_ID>"
+  // }
+});
+```
+
+<br />
+
+## `getPersona(personaId)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#get)
+
+Retrieves the name and profile picture of a persona.
+
+| Param     | Type                | Description        |
+| --------- | ------------------- | ------------------ |
+| personaId | <code>String</code> | ID of the persona. |
+
+```js
+getPersona(personaId).then(persona => {
+  console.log(persona);
+  // {
+  //   "name": "John Mathew",
+  //   "profile_picture_url": "https://facebook.com/john_image.jpg",
+  //   "id": "<PERSONA_ID>"
+  // }
+});
+```
+
+<br />
+
+## `getPersonas(cursor?: string)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#retrieve_all)
+
+Retrieves personas associated with a Page using the cursor.
+
+| Param  | Type                | Description        |
+| ------ | ------------------- | ------------------ |
+| cursor | <code>String</code> | pagination cursor. |
+
+```js
+getPersonas(cursor).then(personas => {
+  console.log(personas);
+  // {
+  //   "data": [
+  //     {
+  //       "name": "John Mathew",
+  //       "profile_picture_url": "https://facebook.com/john_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     },
+  //     {
+  //       "name": "David Mark",
+  //       "profile_picture_url": "https://facebook.com/david_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     }
+  //   ],
+  //   "paging": {
+  //     "cursors": {
+  //       "before": "QVFIUlMtR2ZATQlRtVUZALUlloV1",
+  //       "after": "QVFIUkpnMGx0aTNvUjJNVmJUT0Yw"
+  //     }
+  //   }
+  // }
+});
+```
+
+<br />
+
+## `getAllPersonas()` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#retrieve_all)
+
+Retrieves all the personas associated with a Page.
+
+```js
+getAllPersonas().then(personas => {
+  console.log(personas);
+  //   [
+  //     {
+  //       "name": "John Mathew",
+  //       "profile_picture_url": "https://facebook.com/john_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     },
+  //     {
+  //       "name": "David Mark",
+  //       "profile_picture_url": "https://facebook.com/david_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     }
+  //   ]
+});
+```
+
+<br />
+
+## `deletePersona(personaId)` - [Official Docs](https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#remove)
+
+Deletes a persona.
+
+| Param     | Type                | Description        |
+| --------- | ------------------- | ------------------ |
+| personaId | <code>String</code> | ID of the persona. |
+
+```js
+deletePersona(personaId);
 ```
 
 <br />

@@ -43,6 +43,7 @@ import type {
   OpenGraphElement,
   PageInfo,
   PersistentMenu,
+  Persona,
   ReceiptAttributes,
   Recipient,
   SendMessageSucessResponse,
@@ -1813,5 +1814,97 @@ export default class MessengerClient {
       page,
       access_token,
     });
+  }
+
+  /**
+   * Personas API
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/personas
+   */
+
+  /**
+   * Creating a Persona
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#create
+   */
+  createPersona(
+    persona: Persona,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) {
+    return this._axios
+      .post(
+        `/me/personas?access_token=${customAccessToken || this._accessToken}`,
+        persona
+      )
+      .then(res => res.data, handleError);
+  }
+
+  /**
+   * Retrieving a Persona
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#get
+   */
+  getPersona(
+    personaId: string,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) {
+    return this._axios
+      .get(
+        `/${personaId}?access_token=${customAccessToken || this._accessToken}`
+      )
+      .then(res => res.data, handleError);
+  }
+
+  /**
+   * Retrieving All Available Personas
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#retrieve_all
+   */
+
+  getPersonas(
+    cursor: ?string,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ): Promise<Object> {
+    return this._axios
+      .get(
+        `/me/personas?access_token=${customAccessToken || this._accessToken}${
+          cursor ? `&after=${cursor}` : ''
+        }`
+      )
+      .then(res => res.data, handleError);
+  }
+
+  async getAllPersonas({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<Array<Object>> {
+    let allPersonas: Array<Object> = [];
+    let cursor;
+
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const { data, paging } = await this.getPersonas(cursor, {
+        access_token: customAccessToken,
+      });
+      allPersonas = allPersonas.concat(data);
+      cursor = paging ? paging.cursors.after : null;
+    } while (cursor);
+
+    return allPersonas;
+  }
+
+  /**
+   * Deleting a Persona
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#remove
+   */
+  deletePersona(
+    personaId: string,
+    { access_token: customAccessToken }: { access_token?: string } = {}
+  ) {
+    return this._axios
+      .delete(
+        `/${personaId}?access_token=${customAccessToken || this._accessToken}`
+      )
+      .then(res => res.data, handleError);
   }
 }

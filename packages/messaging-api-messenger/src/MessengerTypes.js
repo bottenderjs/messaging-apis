@@ -373,3 +373,8 @@ export type MessagingFeatureReview = {
   feature: string,
   status: 'pending' | 'rejected' | 'approved' | 'limited',
 };
+
+export type Persona = {
+  name: string,
+  profile_picture_url: string,
+};
