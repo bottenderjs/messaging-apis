@@ -1271,11 +1271,12 @@ export default class MessengerClient {
    */
   getAssociatedLabels(
     userId: UserID,
-    { access_token: customAccessToken }: { access_token: ?string } = {}
+    options?: { access_token?: ?string, fields?: ?Array<string> } = {}
   ) {
+    const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
       .get(
-        `/${userId}/custom_labels?access_token=${customAccessToken ||
+        `/${userId}/custom_labels?fields=${fields}&access_token=${options.access_token ||
           this._accessToken}`
       )
       .then(res => res.data, handleError);
@@ -1286,7 +1287,10 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_label_details
    */
-  getLabelDetails(labelId: number, options?: Object = {}) {
+  getLabelDetails(
+    labelId: number,
+    options?: { access_token?: ?string, fields?: ?Array<string> } = {}
+  ) {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
       .get(
@@ -1301,7 +1305,9 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_all_labels
    */
-  getLabelList(options?: Object = {}) {
+  getLabelList(
+    options?: { access_token?: ?string, fields?: ?Array<string> } = {}
+  ) {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
       .get(

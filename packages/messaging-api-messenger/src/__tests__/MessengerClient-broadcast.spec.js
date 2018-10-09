@@ -494,7 +494,9 @@ describe('label api', () => {
       };
 
       mock
-        .onGet(`/${USER_ID}/custom_labels?access_token=${ACCESS_TOKEN}`)
+        .onGet(
+          `/${USER_ID}/custom_labels?fields=name&access_token=${ACCESS_TOKEN}`
+        )
         .reply(200, reply);
 
       const res = await client.getAssociatedLabels(USER_ID);
@@ -502,7 +504,7 @@ describe('label api', () => {
       expect(res).toEqual(reply);
     });
 
-    it('should call messages api to get associated label with custom access token', async () => {
+    it('should call messages api to get associated label with custom access token and custom options', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -526,11 +528,16 @@ describe('label api', () => {
         },
       };
       const options = {
+        fields: ['name', 'id'],
         access_token: '0987654321',
       };
 
       mock
-        .onGet(`/${USER_ID}/custom_labels?access_token=${options.access_token}`)
+        .onGet(
+          `/${USER_ID}/custom_labels?fields=name,id&access_token=${
+            options.access_token
+          }`
+        )
         .reply(200, reply);
 
       const res = await client.getAssociatedLabels(USER_ID, options);
