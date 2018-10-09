@@ -1,3 +1,92 @@
+# 0.7.10 / 2018-10-09
+
+### messaging-api-messenger
+
+- [new] Implement persona apis:
+
+- `createPersona()`:
+
+```js
+createPersona({
+  name: 'John Mathew',
+  profile_picture_url: 'https://facebook.com/john_image.jpg',
+}).then(persona => {
+  console.log(persona);
+  // {
+  //  "id": "<PERSONA_ID>"
+  // }
+});
+```
+
+- `getPersona(personaId)`:
+
+```js
+getPersona(personaId).then(persona => {
+  console.log(persona);
+  // {
+  //   "name": "John Mathew",
+  //   "profile_picture_url": "https://facebook.com/john_image.jpg",
+  //   "id": "<PERSONA_ID>"
+  // }
+});
+```
+
+- `getPersonas(cursor?: string)`:
+
+```js
+getPersonas(cursor).then(personas => {
+  console.log(personas);
+  // {
+  //   "data": [
+  //     {
+  //       "name": "John Mathew",
+  //       "profile_picture_url": "https://facebook.com/john_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     },
+  //     {
+  //       "name": "David Mark",
+  //       "profile_picture_url": "https://facebook.com/david_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     }
+  //   ],
+  //   "paging": {
+  //     "cursors": {
+  //       "before": "QVFIUlMtR2ZATQlRtVUZALUlloV1",
+  //       "after": "QVFIUkpnMGx0aTNvUjJNVmJUT0Yw"
+  //     }
+  //   }
+  // }
+});
+```
+
+- `getAllPersonas()`:
+
+```js
+getAllPersonas().then(personas => {
+  console.log(personas);
+  //   [
+  //     {
+  //       "name": "John Mathew",
+  //       "profile_picture_url": "https://facebook.com/john_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     },
+  //     {
+  //       "name": "David Mark",
+  //       "profile_picture_url": "https://facebook.com/david_image.jpg",
+  //       "id": "<PERSONA_ID>"
+  //     }
+  //   ]
+});
+```
+
+- `deletePersona(personaId)`:
+
+```js
+deletePersona(personaId);
+```
+
+- [fix] `getAssociatedLabels`: get name field by default and add options for fields.
+
 # 0.7.9 / 2018-09-30
 
 ### messaging-api-line
