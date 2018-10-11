@@ -26,6 +26,9 @@ module.exports = class AxiosError extends Error {
     this.config = config;
     this.request = request;
     this.response = response;
+    if (response && response.status) {
+      this.status = response.status;
+    }
   }
 
   // TODO: remove inspect until we drop node < 6.6
