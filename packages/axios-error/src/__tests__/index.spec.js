@@ -1,3 +1,5 @@
+import util from 'util';
+
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 
@@ -29,7 +31,20 @@ it('should work', async () => {
     // overwrite stack to test it
     error.stack = stack;
 
-    expect(error.inspect()).toMatchSnapshot();
+    expect(error[util.inspect.custom]()).toMatchSnapshot();
+  }
+});
+
+it('should set `.status` property', async () => {
+  try {
+    await axios.post('/', { x: 1 });
+  } catch (err) {
+    // overwrite because axios-mock-adapter set it to undefined
+    err.response.statusText = 'Bad Request';
+
+    const error = new AxiosError(err);
+
+    expect(error.status).toBe(400);
   }
 });
 
@@ -45,7 +60,7 @@ it('should work with construct using error instance only', async () => {
     // overwrite stack to test it
     error.stack = stack;
 
-    expect(error.inspect()).toMatchSnapshot();
+    expect(error[util.inspect.custom]()).toMatchSnapshot();
   }
 });
 
@@ -62,7 +77,7 @@ it('should work with undefined response', async () => {
     // overwrite stack to test it
     error.stack = stack;
 
-    expect(error.inspect()).toMatchSnapshot();
+    expect(error[util.inspect.custom]()).toMatchSnapshot();
   }
 });
 
@@ -70,5 +85,5 @@ it('should support error without axios data', () => {
   const error = new AxiosError('custom error');
   error.stack = stack;
 
-  expect(error.inspect()).toMatchSnapshot();
+  expect(error[util.inspect.custom]()).toMatchSnapshot();
 });
