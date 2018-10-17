@@ -162,6 +162,7 @@ export type ButtonsTemplate = {
   thumbnailImageUrl?: string,
   title?: string,
   text: string,
+  defaultAction?: TemplateAction,
   actions: Array<TemplateAction>,
 };
 
@@ -175,6 +176,7 @@ export type ColumnObject = {
   thumbnailImageUrl?: string,
   title?: string,
   text: string,
+  defaultAction?: TemplateAction,
   actions: Array<TemplateAction>,
 };
 

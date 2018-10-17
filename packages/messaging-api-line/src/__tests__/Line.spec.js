@@ -739,6 +739,11 @@ describe('#createButtonTemplate', () => {
         thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
         title: 'Menu',
         text: 'Please select',
+        defaultAction: {
+          type: 'uri',
+          label: 'View detail',
+          uri: 'http://example.com/page/123',
+        },
         actions: [
           {
             type: 'postback',
@@ -765,6 +770,11 @@ describe('#createButtonTemplate', () => {
         thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
         title: 'Menu',
         text: 'Please select',
+        defaultAction: {
+          type: 'uri',
+          label: 'View detail',
+          uri: 'http://example.com/page/123',
+        },
         actions: [
           {
             type: 'postback',

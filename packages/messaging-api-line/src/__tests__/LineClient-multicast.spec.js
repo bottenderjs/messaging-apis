@@ -620,6 +620,11 @@ describe('Multicast', () => {
                 imageBackgroundColor: '#FFFFFF',
                 title: 'Menu',
                 text: 'Please select',
+                defaultAction: {
+                  type: 'uri',
+                  label: 'View detail',
+                  uri: 'http://example.com/page/123',
+                },
                 actions: [
                   {
                     type: 'postback',
@@ -653,6 +658,11 @@ describe('Multicast', () => {
           imageBackgroundColor: '#FFFFFF',
           title: 'Menu',
           text: 'Please select',
+          defaultAction: {
+            type: 'uri',
+            label: 'View detail',
+            uri: 'http://example.com/page/123',
+          },
           actions: [
             {
               type: 'postback',

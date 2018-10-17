@@ -422,6 +422,7 @@ Responds button template message using specified reply token.
 | buttonTemplate.imageBackgroundColor | `String`        | Background color of image. Specify a RGB color value. The default value is `#FFFFFF` (white). |
 | buttonTemplate.title                | `String`        | Title of buttonTemplate.                                                                      |
 | buttonTemplate.text                 | `String`        | Message text of buttonTemplate.                                                               |
+| buttonTemplate.defaultAction        | `Object`        | Action when image is tapped; set for the entire image, title, and text area.                  |
 | buttonTemplate.actions              | `Array<Object>` | Action when tapped.                                                                           |
 | options                             | `Object`        | Optional options.                                                                             |
 | options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                  |
@@ -990,6 +991,7 @@ Sends button template message using ID of the receiver.
 | buttonTemplate.imageBackgroundColor | `String`        | Background color of image. Specify a RGB color value. The default value is `#FFFFFF` (white). |
 | buttonTemplate.title                | `String`        | Title of buttonTemplate.                                                                      |
 | buttonTemplate.text                 | `String`        | Message text of buttonTemplate.                                                               |
+| buttonTemplate.defaultAction        | `Object`        | Action when image is tapped; set for the entire image, title, and text area.                  |
 | buttonTemplate.actions              | `Array<Object>` | Action when tapped.                                                                           |
 | options                             | `Object`        | Optional options.                                                                             |
 | options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                  |
@@ -1564,6 +1566,7 @@ Sends button template message to multiple users.
 | buttonTemplate.imageBackgroundColor | `String`        | Background color of image. Specify a RGB color value. The default value is `#FFFFFF` (white). |
 | buttonTemplate.title                | `String`        | Title of buttonTemplate.                                                                      |
 | buttonTemplate.text                 | `String`        | Message text of buttonTemplate.                                                               |
+| buttonTemplate.defaultAction        | `Object`        | Action when image is tapped; set for the entire image, title, and text area.                  |
 | buttonTemplate.actions              | `Array<Object>` | Action when tapped.                                                                           |
 | options                             | `Object`        | Optional options.                                                                             |
 | options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                  |
