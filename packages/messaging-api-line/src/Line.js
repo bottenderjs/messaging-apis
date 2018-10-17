@@ -250,6 +250,7 @@ function createButtonTemplate(
     imageBackgroundColor,
     title,
     text,
+    defaultAction,
     actions,
   }: {
     thumbnailImageUrl?: string,
@@ -258,6 +259,7 @@ function createButtonTemplate(
     imageBackgroundColor?: string,
     title?: string,
     text: string,
+    defaultAction?: TemplateAction,
     actions: Array<TemplateAction>,
   },
   options: MessageOptions = {}
@@ -272,6 +274,7 @@ function createButtonTemplate(
       imageBackgroundColor,
       title,
       text,
+      defaultAction,
       actions,
     },
     options

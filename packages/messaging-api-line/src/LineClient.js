@@ -311,6 +311,7 @@ export default class LineClient {
       imageBackgroundColor,
       title,
       text,
+      defaultAction,
       actions,
     }: {
       thumbnailImageUrl?: string,
@@ -319,6 +320,7 @@ export default class LineClient {
       imageBackgroundColor?: string,
       title?: string,
       text: string,
+      defaultAction?: TemplateAction,
       actions: Array<TemplateAction>,
     },
     options?: MessageOptions
@@ -333,6 +335,7 @@ export default class LineClient {
           imageBackgroundColor,
           title,
           text,
+          defaultAction,
           actions,
         },
         options || {}
