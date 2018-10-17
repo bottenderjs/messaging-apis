@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-messenger",
   "description": "Messaging API client for Messenger",
-  "version": "0.7.10",
+  "version": "0.7.11",
   "engines": {
     "node": ">=6"
   },
@@ -21,7 +21,7 @@
   "dependencies": {
     "append-query": "^2.0.1",
     "axios": "^0.18.0",
-    "axios-error": "^0.7.8",
+    "axios-error": "^0.7.11",
     "debug": "^4.0.1",
     "form-data": "^2.3.2",
     "invariant": "^2.2.4",

@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-wechat",
   "description": "Messaging API client for WeChat",
-  "version": "0.7.8",
+  "version": "0.7.11",
   "engines": {
     "node": ">=6"
   },
@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "axios": "^0.18.0",
-    "axios-error": "^0.7.8",
+    "axios-error": "^0.7.11",
     "debug": "^4.0.1",
     "form-data": "^2.3.2",
     "lodash.omit": "^4.5.0",
