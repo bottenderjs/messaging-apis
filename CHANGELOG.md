@@ -1,3 +1,13 @@
+# 0.7.11 / 2018-10-17
+
+### messaging-api-line
+
+- [fix] fix LINE buttonsTemplate defaultAction support
+
+### axios-error
+
+- [new] add `.status` property
+
 # 0.7.10 / 2018-10-09
 
 ### messaging-api-messenger
