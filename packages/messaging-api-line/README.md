@@ -2474,7 +2474,7 @@ DEBUG=messaging-api-line
 If you want to use custom request logging function, just define your own `onRequest`:
 
 ```js
-const client = MessengerClient.connect({
+const client = LineClient.connect({
   accessToken: ACCESS_TOKEN,
   channelSecret: CHANNEL_SECRET,
   onRequest: ({ method, url, headers, body }) => {
