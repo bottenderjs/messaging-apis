@@ -1,4 +1,6 @@
 /* @flow */
+import querystring from 'querystring';
+
 import AxiosError from 'axios-error';
 import axios from 'axios';
 import invariant from 'invariant';
@@ -17,6 +19,8 @@ type LinePayConfig = {
   sandbox: boolean,
   origin?: string,
 };
+
+type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
 
 function handleError(err) {
   if (err.response && err.response.data) {
@@ -70,18 +74,18 @@ export default class LinePay {
       'getPayments: One of `transactionId` or `orderId` must be provided'
     );
 
-    let qs = '';
+    const query = {};
 
     if (transactionId) {
-      qs += `transactionId=${transactionId}`;
+      query.transactionId = transactionId;
     }
 
     if (orderId) {
-      qs += `${qs ? '&' : ''}orderId=${orderId}`;
+      query.orderId = orderId;
     }
 
     return this._axios
-      .get(`/payments?${qs}`)
+      .get(`/payments?${querystring.stringify(query)}`)
       .then(res => res.data, handleError);
   }
 
@@ -97,18 +101,18 @@ export default class LinePay {
       'getAuthorizations: One of `transactionId` or `orderId` must be provided'
     );
 
-    let qs = '';
+    const query = {};
 
     if (transactionId) {
-      qs += `transactionId=${transactionId}`;
+      query.transactionId = transactionId;
     }
 
     if (orderId) {
-      qs += `${qs ? '&' : ''}orderId=${orderId}`;
+      query.orderId = orderId;
     }
 
     return this._axios
-      .get(`/payments/authorizations?${qs}`)
+      .get(`/payments/authorizations?${querystring.stringify(query)}`)
       .then(res => res.data, handleError);
   }
 
@@ -120,7 +124,23 @@ export default class LinePay {
     orderId,
     ...options
   }: {
-    // FIXME
+    productName: string,
+    amount: number,
+    currency: LinePayCurrency,
+    confirmUrl: string,
+    orderId: string,
+    productImageUrl?: string,
+    mid?: string,
+    oneTimeKey?: string,
+    confirmUrlType?: 'CLIENT' | 'SERVER',
+    checkConfirmUrlBrowser?: boolean,
+    cancelUrl?: string,
+    packageName?: string,
+    deliveryPlacePhone?: string,
+    payType?: 'NORMAL' | 'PREAPPROVED',
+    langCd?: 'ja' | 'ko' | 'en' | 'zh-Hans' | 'zh-Hant' | 'th',
+    capture?: boolean,
+    extras?: Object,
   }) {
     return this._axios
       .post('/payments/request', {
@@ -136,7 +156,13 @@ export default class LinePay {
 
   confirm(
     transactionId: string,
-    { amount, currency }: { amount: number, currency: string }
+    {
+      amount,
+      currency,
+    }: {
+      amount: number,
+      currency: LinePayCurrency,
+    }
   ) {
     return this._axios
       .post(`/payments/${transactionId}/confirm`, {
@@ -148,7 +174,13 @@ export default class LinePay {
 
   capture(
     transactionId: string,
-    { amount, currency }: { amount: number, currency: string }
+    {
+      amount,
+      currency,
+    }: {
+      amount: number,
+      currency: LinePayCurrency,
+    }
   ) {
     return this._axios
       .post(`/payments/authorizations/${transactionId}/capture`, {
