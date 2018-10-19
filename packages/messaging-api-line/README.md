@@ -29,6 +29,7 @@
   - [Rich Menu API](#rich-menu-api)
   - [Account Link API](#account-link-api)
   - [LINE Front-end Framework API](#liff-api)
+  - [LINE Pay](#line-pay)
 - [Debug Tips](#debug-tips)
 - [Test](#test)
 
@@ -2400,6 +2401,8 @@ View type can be specified one of the following values:
 - `tall`: 80% of the screen height of the device. This size can be specified only for the chat screen.
 - `full`: 100% of the screen height of the device. This size can be specified for any screens in the LINE app.
 
+<br />
+
 ## updateLiffApp(liffId, view)
 
 Updates LIFF app settings.
@@ -2418,6 +2421,8 @@ client.updateLiffApp(LIFF_ID, {
   url: 'https://example.com/liff-app',
 });
 ```
+
+<br />
 
 ## getLiffAppList
 
@@ -2447,6 +2452,8 @@ client.getLiffApps().then(apps => {
 });
 ```
 
+<br />
+
 ## deleteLiffApp(liffId)
 
 Deletes a LIFF app.
@@ -2460,6 +2467,129 @@ Example:
 ```js
 client.deleteLiffApp(LIFF_ID);
 ```
+
+<br />
+
+## Line Pay
+
+## Initialize
+
+```js
+const { LinePay } = require('messaging-api-line');
+
+const linePay = LinePay.connect({
+  channelId: CHANNEL_ID,
+  channelSecret: CHANNEL_SECRET,
+  sandbox: true, // default false
+});
+```
+
+## reserve(payment)
+
+Reserves payment information in LINE Pay.
+
+| Param                          | Type      | Description                                                |
+| ------------------------------ | --------- | ---------------------------------------------------------- |
+| payment.productName            | `Number`  | Product name.                                              |
+| payment.amount                 | `Number`  | Payment amount.                                            |
+| payment.currency               | `String`  | Payment currency (ISO 4217). Supported: USD, JPY, TWD, THB |
+| payment.confirmUrl             | `String`  | Merchant's URL that buyer is redirected to.                |
+| payment.orderId                | `String`  | A unique number managed by a Merchant.                     |
+| payment.productImageUrl        | `String`  | Product image URL. 84 x 84. Optional.                      |
+| payment.mid                    | `String`  | LINE member ID. Optional.                                  |
+| payment.oneTimeKey             | `String`  | One time key. Optional.                                    |
+| payment.confirmUrlType         | `String`  | confirmUrl type. Optional.                                 |
+| payment.checkConfirmUrlBrowser | `Boolean` | Whether to check browser or not. Optional.                 |
+| payment.cancelUrl              | `String`  | Payment cancellation page URL. Optional.                   |
+| payment.packageName            | `String`  | Information to avoid phishing in Android. Optional.        |
+| payment.deliveryPlacePhone     | `String`  | Recipient contact. Optional.                               |
+| payment.payType                | `String`  | Payment types. Optional.                                   |
+| payment.langCd                 | `String`  | Language code. Optional.                                   |
+| payment.capture                | `String`  | Whether to capture or not. Optional.                       |
+| payment.extras                 | `String`  | Optional.                                                  |
+
+Example:
+
+```js
+linePay.reserve();
+```
+
+<br />
+
+## confirm(transactionId, payment)
+
+Completes the payment when `capture` parameter is `false` on payment reservation. Otherwise, authorize the payment.
+
+| Param            | Type     | Description                                                |
+| ---------------- | -------- | ---------------------------------------------------------- |
+| transactionId    | `String` | ID of the transaction.                                     |
+| payment.amount   | `Number` | Payment amount.                                            |
+| payment.currency | `String` | Payment currency (ISO 4217). Supported: USD, JPY, TWD, THB |
+
+Example:
+
+```js
+linePay.confirm(TRANSACTION_ID, {
+  amount: 1000,
+  currency: 'TWD',
+});
+```
+
+<br />
+
+## capture(transactionId, payment)
+
+Completes a payment that was only authorized by calling confirm API.
+
+| Param            | Type     | Description                                                |
+| ---------------- | -------- | ---------------------------------------------------------- |
+| transactionId    | `String` | ID of the transaction.                                     |
+| payment.amount   | `Number` | Payment amount.                                            |
+| payment.currency | `String` | Payment currency (ISO 4217). Supported: USD, JPY, TWD, THB |
+
+Example:
+
+```js
+linePay.capture(TRANSACTION_ID, {
+  amount: 1000,
+  currency: 'TWD',
+});
+```
+
+<br />
+
+## void(transactionId)
+
+Voids an authorized transaction.
+
+| Param         | Type     | Description            |
+| ------------- | -------- | ---------------------- |
+| transactionId | `String` | ID of the transaction. |
+
+Example:
+
+```js
+linePay.void(TRANSACTION_ID);
+```
+
+<br />
+
+## refund(transactionId, options)
+
+Requests refund of the payment.
+
+| Param                | Type     | Description            |
+| -------------------- | -------- | ---------------------- |
+| transactionId        | `String` | ID of the transaction. |
+| options.refundAmount | `Number` | Refund amount.         |
+
+Example:
+
+```js
+linePay.refund(TRANSACTION_ID);
+```
+
+<br />
 
 ## Debug Tips
 
