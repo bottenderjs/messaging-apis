@@ -25,10 +25,19 @@ type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
 function handleError(err) {
   if (err.response && err.response.data) {
     const { returnCode, returnMessage } = err.response.data;
-    const msg = `LINE API - ${returnCode} ${returnMessage}`;
+    const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
     throw new AxiosError(msg, err);
   }
   throw new AxiosError(err.message, err);
+}
+
+function throwWhenNotSuccess(res) {
+  if (res.data.returnCode !== '0000') {
+    const { returnCode, returnMessage } = res.data;
+    const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
+    throw new AxiosError(msg);
+  }
+  return res.data.info;
 }
 
 export default class LinePay {
@@ -86,7 +95,7 @@ export default class LinePay {
 
     return this._axios
       .get(`/payments?${querystring.stringify(query)}`)
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 
   getAuthorizations({
@@ -113,7 +122,7 @@ export default class LinePay {
 
     return this._axios
       .get(`/payments/authorizations?${querystring.stringify(query)}`)
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 
   reserve({
@@ -151,7 +160,7 @@ export default class LinePay {
         orderId,
         ...options,
       })
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 
   confirm(
@@ -169,7 +178,7 @@ export default class LinePay {
         amount,
         currency,
       })
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 
   capture(
@@ -187,18 +196,18 @@ export default class LinePay {
         amount,
         currency,
       })
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 
   void(transactionId: string) {
     return this._axios
       .post(`/payments/authorizations/${transactionId}/void`)
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 
   refund(transactionId: string, options?: { refundAmount?: number } = {}) {
     return this._axios
       .post(`/payments/${transactionId}/refund`, options)
-      .then(res => res.data, handleError);
+      .then(throwWhenNotSuccess, handleError);
   }
 }
