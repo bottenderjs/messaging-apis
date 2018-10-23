@@ -2377,7 +2377,7 @@ client.issueLinkToken(USER_ID).then(result => {
 
 ### LINE Front-end Framework API - [Official Docs](https://developers.line.me/en/docs/liff/reference/)
 
-## createLiffApp(view)
+## `createLiffApp(view)`
 
 Adds an app to LIFF. You can add up to 10 LIFF apps on one channel.
 
@@ -2403,7 +2403,7 @@ View type can be specified one of the following values:
 
 <br />
 
-## updateLiffApp(liffId, view)
+## `updateLiffApp(liffId, view)`
 
 Updates LIFF app settings.
 
@@ -2424,7 +2424,7 @@ client.updateLiffApp(LIFF_ID, {
 
 <br />
 
-## getLiffAppList
+## `getLiffAppList`
 
 Gets information on all the LIFF apps registered in the channel.
 
@@ -2454,7 +2454,7 @@ client.getLiffApps().then(apps => {
 
 <br />
 
-## deleteLiffApp(liffId)
+## `deleteLiffApp(liffId)`
 
 Deletes a LIFF app.
 
@@ -2484,7 +2484,7 @@ const linePay = LinePay.connect({
 });
 ```
 
-## getPayments(options)
+## `getPayments(options)`
 
 Gets payment information from LINE Pay.
 
@@ -2520,7 +2520,7 @@ linePay
 
 <br />
 
-## getAuthorizations(options)
+## `getAuthorizations(options)`
 
 Gets authorization information from LINE Pay.
 
@@ -2567,7 +2567,7 @@ linePay
 
 <br />
 
-## reserve(payment)
+## `reserve(payment)`
 
 Reserves payment information in LINE Pay.
 
@@ -2618,7 +2618,7 @@ linePay
 
 <br />
 
-## confirm(transactionId, payment)
+## `confirm(transactionId, payment)`
 
 Completes the payment when `capture` parameter is `false` on payment reservation. Otherwise, authorize the payment.
 
@@ -2657,7 +2657,7 @@ linePay
 
 <br />
 
-## capture(transactionId, payment)
+## `capture(transactionId, payment)`
 
 Completes a payment that was only authorized by calling confirm API.
 
@@ -2696,7 +2696,7 @@ linePay
 
 <br />
 
-## void(transactionId)
+## `void(transactionId)`
 
 Voids an authorized transaction.
 
@@ -2712,7 +2712,7 @@ linePay.void(TRANSACTION_ID);
 
 <br />
 
-## refund(transactionId, options)
+## `refund(transactionId, options)`
 
 Requests refund of the payment.
 

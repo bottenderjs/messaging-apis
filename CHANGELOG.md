@@ -1,3 +1,179 @@
+# 0.7.12 / 2018-10-23
+
+### messaging-api-line
+
+- [new] Add Line Pay APIs:
+
+## Initialize
+
+```js
+const { LinePay } = require('messaging-api-line');
+
+const linePay = LinePay.connect({
+  channelId: CHANNEL_ID,
+  channelSecret: CHANNEL_SECRET,
+  sandbox: true, // default false
+});
+```
+
+- `getPayments(options)`:
+
+```js
+linePay
+  .getPayments({
+    transactionId: '20140101123123123',
+    orderId: '1002045572',
+  })
+  .then(result => {
+    console.log(result);
+    // [
+    //   {
+    //     transactionId: 1020140728100001997,
+    //     transactionDate: '2014-07-28T09:48:43Z',
+    //     transactionType: 'PARTIAL_REFUND',
+    //     amount: -5,
+    //     productName: '',
+    //     currency: 'USD',
+    //     orderId: '20140101123123123',
+    //     originalTransactionId: 1020140728100001999,
+    //   },
+    // ]
+  });
+```
+
+- `getAuthorizations(options)`:
+
+```js
+linePay
+  .getAuthorizations({
+    transactionId: '20140101123123123',
+    orderId: '1002045572',
+  })
+  .then(result => {
+    console.log(result);
+    // [
+    //   {
+    //     transactionId: 201612312312333401,
+    //     transactionDate: '2014-07-28T09:48:43Z',
+    //     transactionType: 'PAYMENT',
+    //     payInfo: [
+    //       {
+    //         method: 'BALANCE',
+    //         amount: 10,
+    //       },
+    //       {
+    //         method: 'DISCOUNT',
+    //         amount: 10,
+    //       },
+    //     ],
+
+    //     productName: 'tes production',
+    //     currency: 'USD',
+    //     orderId: '20140101123123123',
+    //     payStatus: 'AUTHORIZATION',
+    //     authorizationExpireDate: '2014-07-28T09:48:43Z',
+    //   },
+    // ]
+  });
+```
+
+- `reserve(payment)`:
+
+```js
+linePay
+  .reserve({
+    productName: 'test product',
+    amount: 10,
+    currency: 'USD',
+    orderId: '20140101123456789',
+    confirmUrl:
+      'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   transactionId: 123123123123,
+    //   paymentUrl: {
+    //     web: 'http://web-pay.line.me/web/wait?transactionReserveId=blahblah',
+    //     app: 'line://pay/payment/blahblah',
+    //   },
+    //   paymentAccessToken: '187568751124',
+    // }
+  });
+```
+
+- `confirm(transactionId, payment)`:
+
+```js
+linePay
+  .confirm(TRANSACTION_ID, {
+    amount: 1000,
+    currency: 'TWD',
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   orderId: 'order_210124213',
+    //   transactionId: 20140101123123123,
+    //   payInfo: [
+    //     {
+    //       method: 'BALANCE',
+    //       amount: 10,
+    //     },
+    //     {
+    //       method: 'DISCOUNT',
+    //       amount: 10,
+    //     },
+    //   ],
+    // }
+  });
+```
+
+- `capture(transactionId, payment)`:
+
+```js
+linePay
+  .capture(TRANSACTION_ID, {
+    amount: 1000,
+    currency: 'TWD',
+  })
+  .then(result => {
+    console.log(result);
+    // {
+    //   transactionId: 20140101123123123,
+    //   orderId: 'order_210124213',
+    //   payInfo: [
+    //     {
+    //       method: 'BALANCE',
+    //       amount: 10,
+    //     },
+    //     {
+    //       method: 'DISCOUNT',
+    //       amount: 10,
+    //     },
+    //   ],
+    // }
+  });
+```
+
+- `void(transactionId)`:
+
+```js
+linePay.void(TRANSACTION_ID);
+```
+
+- `refund(transactionId, options)`:
+
+```js
+linePay.refund(TRANSACTION_ID).then(result => {
+  console.log(result);
+  // {
+  //   refundTransactionId: 123123123123,
+  //   refundTransactionDate: '2014-01-01T06:17:41Z',
+  // }
+});
+```
+
 # 0.7.11 / 2018-10-17
 
 ### messaging-api-line
