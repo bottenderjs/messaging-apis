@@ -251,6 +251,16 @@ describe('#accessToken', () => {
   });
 });
 
+describe('#appSecret', () => {
+  it('should return underlying appSecret', () => {
+    const client = new MessengerClient({
+      appSecret: APP_SECRET,
+    });
+
+    expect(client.appSecret).toEqual(APP_SECRET);
+  });
+});
+
 describe('#onRequest', () => {
   it('should call onRequest when calling any API', async () => {
     const onRequest = jest.fn();

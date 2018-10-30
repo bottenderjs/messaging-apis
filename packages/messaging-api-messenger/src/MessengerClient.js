@@ -207,6 +207,10 @@ export default class MessengerClient {
     return this._accessToken;
   }
 
+  get appSecret(): ?string {
+    return this._appSecret;
+  }
+
   /**
    * Get Page Info
    *
