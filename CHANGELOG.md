@@ -1,3 +1,17 @@
+# 0.7.13 / 2018-10-30
+
+### messaging-api-messenger
+
+- [new] Add `MessengerClient.appSecret` getter:
+
+```js
+const client = new MessengerClient({
+  appSecret: 'APP_SECRET',
+});
+
+client.appSecret; // 'APP_SECRET'
+```
+
 # 0.7.12 / 2018-10-23
 
 ### messaging-api-line
