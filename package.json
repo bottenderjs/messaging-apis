@@ -64,7 +64,9 @@
     "transformIgnorePatterns": [
       "/node_modules/"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "timers": "fake",
+    "resetMocks": true
   },
   "lint-staged": {
     "*.js": [

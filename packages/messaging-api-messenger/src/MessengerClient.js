@@ -71,6 +71,7 @@ type ClientConfig = {
   version?: string,
   origin?: string,
   onRequest?: Function,
+  skipAppSecretProof?: ?boolean,
 };
 
 function extractVersion(version) {
@@ -120,6 +121,7 @@ export default class MessengerClient {
     version?: string = '3.0'
   ) {
     let origin;
+    let skipAppSecretProof;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
 
@@ -132,6 +134,12 @@ export default class MessengerClient {
       this._version = extractVersion(config.version || '3.0');
       this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
+
+      if (typeof config.skipAppSecretProof === 'boolean') {
+        skipAppSecretProof = config.skipAppSecretProof;
+      } else {
+        skipAppSecretProof = this._appSecret == null;
+      }
     } else {
       this._accessToken = accessTokenOrConfig;
       invariant(
@@ -140,6 +148,8 @@ export default class MessengerClient {
       );
       this._version = extractVersion(version);
       this._onRequest = onRequest;
+
+      skipAppSecretProof = true;
     }
 
     this._axios = axios.create({
@@ -147,9 +157,14 @@ export default class MessengerClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    // add appsecret_proof to request if appSecret exists
-    if (this._appSecret != null) {
-      const appSecret = this._appSecret;
+    // add appsecret_proof to request
+    if (!skipAppSecretProof) {
+      invariant(
+        this._appSecret,
+        'Must provide appSecret when skipAppSecretProof is false'
+      );
+      const appSecret = ((this._appSecret: any): string);
+
       this._axios.interceptors.request.use(config => {
         const urlParts = url.parse(config.url, true);
         const accessToken = get(

@@ -316,4 +316,30 @@ describe('appsecret proof', () => {
 
     await client.sendText(USER_ID, 'Hello!');
   });
+
+  it('should not add appsecret proof to requests if skipAppSecretProof: true', async () => {
+    expect.assertions(1);
+
+    const client = new MessengerClient({
+      accessToken: ACCESS_TOKEN,
+      appSecret: APP_SECRET,
+      skipAppSecretProof: true,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    const USER_ID = 'USER_ID';
+
+    const reply = {
+      recipient_id: USER_ID,
+      message_id: 'mid.1489394984387:3dd22de509',
+    };
+
+    mock.onPost().reply(config => {
+      expect(config.url).toBe('me/messages?access_token=foo_token');
+      return [200, reply];
+    });
+
+    await client.sendText(USER_ID, 'Hello!');
+  });
 });
