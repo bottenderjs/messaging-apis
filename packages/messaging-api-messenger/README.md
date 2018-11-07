@@ -90,6 +90,16 @@ const client = MessengerClient.connect({
 });
 ```
 
+To skip it, set `skipAppSecretProof` to `true`:
+
+```js
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  appSecret: APP_SECRET,
+  skipAppSecretProof: true,
+});
+```
+
 ### Error Handling
 
 `messaging-api-messenger` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
