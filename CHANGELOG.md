@@ -1,3 +1,17 @@
+# 0.7.14 / 2018-11-07
+
+### messaging-api-messenger
+
+- [new] Add `skipAppSecretProof` option to `MessengerClient`:
+
+```js
+const client = MessengerClient.connect({
+  accessToken: ACCESS_TOKEN,
+  appSecret: APP_SECRET,
+  skipAppSecretProof: true,
+});
+```
+
 # 0.7.13 / 2018-10-30
 
 ### messaging-api-messenger
@@ -5,7 +19,7 @@
 - [new] Add `MessengerClient.appSecret` getter:
 
 ```js
-const client = new MessengerClient({
+const client = MessengerClient.connect({
   appSecret: 'APP_SECRET',
 });
 
