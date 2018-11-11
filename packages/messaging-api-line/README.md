@@ -20,6 +20,7 @@
   - [Multicast API](#multicast-api)
     - [Imagemap Messages](#multicast-imagemap-messages)
     - [Template Messages](#multicast-template-messages)
+    - [Flex Messages](#multicast-flex-messages)
   - [Quick Replies](#quick-replies)
   - [Content API](#content-api)
   - [Profile API](#profile-api)
@@ -1759,6 +1760,70 @@ client.multicastImageCarouselTemplate(
     },
   ]
 );
+```
+
+<br />
+
+### Multicast Flex Messages
+
+## `multicastFlex(userIds, altText, contents, options)` - [Official Docs](https://developers.line.me/en/docs/messaging-api/reference/#flex-message)
+
+Sends flex message to multiple users.
+
+<img src="https://developers.line.me/media/messaging-api/using-flex-messages/bubbleSample-77d825e6.png" />
+
+| Param                    | Type            | Description                                                                                             |
+| ------------------------ | --------------- | ------------------------------------------------------------------------------------------------------- |
+| userIds                  | `Array<String>` | IDs of the receivers.                                                                                   |
+| altText                  | `String`        | Alternative text.                                                                                       |
+| contents                 | `Object`        | Flex Message [container](https://developers.line.me/en/docs/messaging-api/reference/#container) object. |
+| options                  | `Object`        | Optional options.                                                                                       |
+| options.quickReply       | `Object`        | Quick reply object to attach to the message.                                                            |
+| options.quickReply.items | `Array`         | Quick reply items.                                                                                      |
+
+Example:
+
+```js
+client.multicastFlex([USER_ID], 'this is a flex', {
+  type: 'bubble',
+  header: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Header text',
+      },
+    ],
+  },
+  hero: {
+    type: 'image',
+    url: 'https://example.com/flex/images/image.jpg',
+  },
+  body: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Body text',
+      },
+    ],
+  },
+  footer: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Footer text',
+      },
+    ],
+  },
+  styles: {
+    comment: 'See the example of a bubble style object',
+  },
+});
 ```
 
 <br />
