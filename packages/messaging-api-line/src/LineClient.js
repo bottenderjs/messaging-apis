@@ -739,7 +739,6 @@ const sendTypes = ['reply', 'push', 'multicast'];
 const messageTypes: Array<{
   name: string,
   aliases?: Array<string>,
-  allowSendTypes?: Array<string>,
 }> = [
   { name: 'Text' },
   { name: 'Image' },
@@ -748,7 +747,7 @@ const messageTypes: Array<{
   { name: 'Location' },
   { name: 'Sticker' },
   { name: 'Imagemap' },
-  { name: 'Flex', allowSendTypes: ['reply', 'push'] },
+  { name: 'Flex' },
   { name: 'Template' },
   { name: 'ButtonTemplate', aliases: ['ButtonsTemplate'] },
   { name: 'ConfirmTemplate' },
@@ -756,12 +755,8 @@ const messageTypes: Array<{
   { name: 'ImageCarouselTemplate' },
 ];
 
-messageTypes.forEach(({ name, aliases, allowSendTypes }) => {
+messageTypes.forEach(({ name, aliases }) => {
   sendTypes.forEach(sendType => {
-    if (allowSendTypes && !allowSendTypes.includes(sendType)) {
-      return;
-    }
-
     [name].concat(aliases || []).forEach(type => {
       Object.defineProperty(LineClient.prototype, `${sendType}${type}`, {
         enumerable: false,
