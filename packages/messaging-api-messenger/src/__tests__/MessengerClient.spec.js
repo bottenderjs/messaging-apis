@@ -7,6 +7,7 @@ import MessengerClient from '../MessengerClient';
 
 const USER_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
+const APP_ID = '987654321';
 const APP_SECRET = '1WDVGY78';
 
 let axios;
@@ -21,7 +22,12 @@ afterEach(() => {
 });
 
 const createMock = () => {
-  const client = new MessengerClient(ACCESS_TOKEN);
+  const client = new MessengerClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
+    accessToken: ACCESS_TOKEN,
+    skipAppSecretProof: true,
+  });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
@@ -40,6 +46,43 @@ describe('page info', () => {
       const res = await client.getPageInfo();
 
       expect(res).toEqual(reply);
+    });
+  });
+});
+
+describe('token', () => {
+  describe('#debugToken', () => {
+    it('should response token info', async () => {
+      expect.assertions(3);
+
+      const { client, mock } = createMock();
+      const tokenInfo = {
+        app_id: '000000000000000',
+        application: 'Social Cafe',
+        expires_at: 1352419328,
+        is_valid: true,
+        issued_at: 1347235328,
+        scopes: ['email', 'user_location'],
+        user_id: 1207059,
+      };
+      const body = {
+        data: tokenInfo,
+      };
+
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://graph.facebook.com/v3.0/debug_token'
+        );
+        expect(config.params).toEqual({
+          input_token: ACCESS_TOKEN,
+          access_token: `${APP_ID}|${APP_SECRET}`,
+        });
+        return [200, body];
+      });
+
+      const res = await client.debugToken();
+
+      expect(res).toEqual(tokenInfo);
     });
   });
 });

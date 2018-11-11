@@ -369,6 +369,21 @@ export type PageInfo = {
   id: string,
 };
 
+type Scope = string;
+
+export type TokenInfo = {
+  app_id: string,
+  type: 'PAGE' | 'APP' | 'USER',
+  application: string,
+  data_access_expires_at: number,
+  expires_at: number,
+  is_valid: true,
+  issued_at?: number,
+  profile_id: string,
+  scopes: Array<Scope>,
+  user_id: string,
+};
+
 export type MessagingFeatureReview = {
   feature: string,
   status: 'pending' | 'rejected' | 'approved' | 'limited',
