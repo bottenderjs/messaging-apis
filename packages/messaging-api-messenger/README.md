@@ -73,6 +73,8 @@ You can specify version of Facebook Graph API using second argument:
 ```js
 const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
+  appId: APP_ID,
+  appSecret: APP_SECRET,
   version: '2.12',
 });
 ```
@@ -81,20 +83,12 @@ If it is not specified, version `3.0` will be used as default.
 
 ### Verifying Graph API Calls with appsecret_proof
 
-If `appSecret` is provided, `MessengerClient` will enable this feature automatically and include `appsecret_proof` in every Graph API requests.
+If `appSecret` is provided, `MessengerClient` will enable this feature automatically and include `appsecret_proof` in every Graph API requests. To skip it, set `skipAppSecretProof` to `true`:
 
 ```js
 const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
-  appSecret: APP_SECRET,
-});
-```
-
-To skip it, set `skipAppSecretProof` to `true`:
-
-```js
-const client = MessengerClient.connect({
-  accessToken: ACCESS_TOKEN,
+  appId: APP_ID,
   appSecret: APP_SECRET,
   skipAppSecretProof: true,
 });
@@ -3417,13 +3411,33 @@ deletePersona(personaId);
 
 ### Others
 
+## `debugToken` - [Official Docs](https://developers.facebook.com/docs/facebook-login/access-tokens/debugging-and-error-handling)
+
+Gets token information.
+
+Example:
+
+```js
+client.debugToken().then(pageInfo => {
+  console.log(pageInfo);
+  // {
+  //    app_id: '000000000000000',
+  //    application: 'Social Cafe',
+  //    expires_at: 1352419328,
+  //    is_valid: true,
+  //    issued_at: 1347235328,
+  //    scopes: ['email', 'user_location'],
+  //    user_id: 1207059,
+  //  }
+});
+```
+
 ## `createSubscription`
 
 Create new Webhooks subscriptions.
 
 | Param          | Type            | Description                                                                                                                       |
 | -------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| app_id         | `String`        | ID of the app.                                                                                                                    |
 | access_token   | `String`        | App access token.                                                                                                                 |
 | callback_url   | `String`        | The URL that will receive the POST request when an update is triggered, and a GET request when attempting this publish operation. |
 | verify_token   | `String`        | An arbitrary string that can be used to confirm to your server that the request is valid.                                         |
@@ -3435,7 +3449,6 @@ Example:
 
 ```js
 client.createSubscription({
-  app_id: APP_ID,
   access_token: APP_ACCESS_TOKEN,
   callback_url: 'https://mycallback.com',
   fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
@@ -3447,7 +3460,6 @@ Or provide app id and app secret instead of app access token:
 
 ```js
 client.createSubscription({
-  app_id: APP_ID,
   access_token: `${APP_ID}|${APP_SECRET}`,
   callback_url: 'https://mycallback.com',
   fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],

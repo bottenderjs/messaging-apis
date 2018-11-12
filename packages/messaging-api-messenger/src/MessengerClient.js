@@ -411,8 +411,8 @@ export default class MessengerClient {
   getGetStarted(
     options?: Object = {}
   ): Promise<MessengerProfileResponse | null> {
-    return this.getMessengerProfile(['get_started'], options).then(res =>
-      res[0] ? res[0].get_started : null
+    return this.getMessengerProfile(['get_started'], options).then(
+      res => (res[0] ? res[0].get_started : null)
     );
   }
 
@@ -442,8 +442,8 @@ export default class MessengerClient {
   getPersistentMenu(
     options?: Object = {}
   ): Promise<MessengerProfileResponse | null> {
-    return this.getMessengerProfile(['persistent_menu'], options).then(res =>
-      res[0] ? res[0].persistent_menu : null
+    return this.getMessengerProfile(['persistent_menu'], options).then(
+      res => (res[0] ? res[0].persistent_menu : null)
     );
   }
 
@@ -494,8 +494,8 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/greeting
    */
   getGreeting(options?: Object = {}): Promise<MessengerProfileResponse | null> {
-    return this.getMessengerProfile(['greeting'], options).then(res =>
-      res[0] ? res[0].greeting : null
+    return this.getMessengerProfile(['greeting'], options).then(
+      res => (res[0] ? res[0].greeting : null)
     );
   }
 
@@ -599,8 +599,8 @@ export default class MessengerClient {
   getPaymentSettings(
     options?: Object = {}
   ): Promise<MessengerProfileResponse | null> {
-    return this.getMessengerProfile(['payment_settings'], options).then(res =>
-      res[0] ? res[0] : null
+    return this.getMessengerProfile(['payment_settings'], options).then(
+      res => (res[0] ? res[0] : null)
     );
   }
 
@@ -660,8 +660,8 @@ export default class MessengerClient {
   getTargetAudience(
     options?: Object = {}
   ): Promise<MessengerProfileResponse | null> {
-    return this.getMessengerProfile(['target_audience'], options).then(res =>
-      res[0] ? res[0] : null
+    return this.getMessengerProfile(['target_audience'], options).then(
+      res => (res[0] ? res[0] : null)
     );
   }
 
@@ -697,8 +697,8 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/home-url
    */
   getHomeURL(options?: Object = {}): Promise<MessengerProfileResponse | null> {
-    return this.getMessengerProfile(['home_url'], options).then(res =>
-      res[0] ? res[0] : null
+    return this.getMessengerProfile(['home_url'], options).then(
+      res => (res[0] ? res[0] : null)
     );
   }
 
