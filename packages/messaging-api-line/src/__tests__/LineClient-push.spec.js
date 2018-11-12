@@ -521,6 +521,115 @@ describe('Push Message', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should support video', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {};
+
+      mock
+        .onPost('/v2/bot/message/push', {
+          to: RECIPIENT_ID,
+          messages: [
+            {
+              type: 'imagemap',
+              baseUrl: 'https://example.com/bot/images/rm001',
+              altText: 'this is an imagemap',
+              baseSize: {
+                height: 1040,
+                width: 1040,
+              },
+              video: {
+                originalContentUrl: 'https://example.com/video.mp4',
+                previewImageUrl: 'https://example.com/video_preview.jpg',
+                area: {
+                  x: 0,
+                  y: 0,
+                  width: 1040,
+                  height: 585,
+                },
+                externalLink: {
+                  linkUri: 'https://example.com/see_more.html',
+                  label: 'See More',
+                },
+              },
+              actions: [
+                {
+                  type: 'uri',
+                  linkUri: 'https://example.com/',
+                  area: {
+                    x: 0,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+                {
+                  type: 'message',
+                  text: 'hello',
+                  area: {
+                    x: 520,
+                    y: 0,
+                    width: 520,
+                    height: 1040,
+                  },
+                },
+              ],
+            },
+          ],
+        })
+        .reply(200, reply, headers);
+
+      const res = await client.pushImagemap(
+        RECIPIENT_ID,
+        'this is an imagemap',
+        {
+          baseUrl: 'https://example.com/bot/images/rm001',
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
+          video: {
+            originalContentUrl: 'https://example.com/video.mp4',
+            previewImageUrl: 'https://example.com/video_preview.jpg',
+            area: {
+              x: 0,
+              y: 0,
+              width: 1040,
+              height: 585,
+            },
+            externalLink: {
+              linkUri: 'https://example.com/see_more.html',
+              label: 'See More',
+            },
+          },
+          actions: [
+            {
+              type: 'uri',
+              linkUri: 'https://example.com/',
+              area: {
+                x: 0,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+            {
+              type: 'message',
+              text: 'hello',
+              area: {
+                x: 520,
+                y: 0,
+                width: 520,
+                height: 1040,
+              },
+            },
+          ],
+        }
+      );
+
+      expect(res).toEqual(reply);
+    });
   });
 
   describe('#pushTemplate', () => {
