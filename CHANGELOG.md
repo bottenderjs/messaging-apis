@@ -1,3 +1,119 @@
+# 0.7.15 / 2018-11-12
+
+### messaging-api-messenger
+
+- [new] implement `client.debugToken`:
+
+```js
+client.debugToken().then(pageInfo => {
+  console.log(pageInfo);
+  // {
+  //    app_id: '000000000000000',
+  //    application: 'Social Cafe',
+  //    expires_at: 1352419328,
+  //    is_valid: true,
+  //    issued_at: 1347235328,
+  //    scopes: ['email', 'user_location'],
+  //    user_id: 1207059,
+  //  }
+});
+```
+
+### messaging-api-line
+
+- [new] add `client.multicastFlex`:
+
+```js
+client.multicastFlex([USER_ID], 'this is a flex', {
+  type: 'bubble',
+  header: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Header text',
+      },
+    ],
+  },
+  hero: {
+    type: 'image',
+    url: 'https://example.com/flex/images/image.jpg',
+  },
+  body: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Body text',
+      },
+    ],
+  },
+  footer: {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: 'Footer text',
+      },
+    ],
+  },
+  styles: {
+    comment: 'See the example of a bubble style object',
+  },
+});
+```
+
+- [new] support `video` for imagemap:
+
+```js
+const res = await client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
+  baseUrl: 'https://example.com/bot/images/rm001',
+  baseSize: {
+    height: 1040,
+    width: 1040,
+  },
+  video: {
+    originalContentUrl: 'https://example.com/video.mp4',
+    previewImageUrl: 'https://example.com/video_preview.jpg',
+    area: {
+      x: 0,
+      y: 0,
+      width: 1040,
+      height: 585,
+    },
+    externalLink: {
+      linkUri: 'https://example.com/see_more.html',
+      label: 'See More',
+    },
+  },
+  actions: [
+    {
+      type: 'uri',
+      linkUri: 'https://example.com/',
+      area: {
+        x: 0,
+        y: 0,
+        width: 520,
+        height: 1040,
+      },
+    },
+    {
+      type: 'message',
+      text: 'hello',
+      area: {
+        x: 520,
+        y: 0,
+        width: 520,
+        height: 1040,
+      },
+    },
+  ],
+});
+```
+
 # 0.7.14 / 2018-11-07
 
 ### messaging-api-messenger
