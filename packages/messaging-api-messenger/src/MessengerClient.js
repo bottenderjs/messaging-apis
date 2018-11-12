@@ -52,6 +52,7 @@ import type {
   SenderAction,
   TemplateButton,
   TemplateElement,
+  TokenInfo,
   UploadOption,
   User,
   UserID,
@@ -67,6 +68,7 @@ type Axios = {
 
 type ClientConfig = {
   accessToken: string,
+  appId?: string,
   appSecret?: string,
   version?: string,
   origin?: string,
@@ -108,6 +110,8 @@ export default class MessengerClient {
 
   _accessToken: string;
 
+  _appId: ?string;
+
   _appSecret: ?string;
 
   _version: string;
@@ -130,6 +134,7 @@ export default class MessengerClient {
         !config.version || typeof config.version === 'string',
         'Type of `version` must be string.'
       );
+      this._appId = config.appId;
       this._appSecret = config.appSecret;
       this._version = extractVersion(config.version || '3.0');
       this._onRequest = config.onRequest || onRequest;
@@ -241,12 +246,35 @@ export default class MessengerClient {
   }
 
   /**
+   * Debug Token
+   *
+   * https://developers.facebook.com/docs/facebook-login/access-tokens/debugging-and-error-handling
+   */
+  debugToken({
+    access_token: customAccessToken,
+  }: { access_token?: string } = {}): Promise<TokenInfo> {
+    invariant(this._appId, 'App ID is required to debug token');
+    invariant(this._appSecret, 'App Secret is required to debug token');
+
+    const accessToken = `${this._appId}|${this._appSecret}`;
+
+    return this._axios
+      .get(`/debug_token`, {
+        params: {
+          input_token: customAccessToken || this._accessToken,
+          access_token: accessToken,
+        },
+      })
+      .then(res => res.data.data, handleError);
+  }
+
+  /**
    * Create Subscription
    *
    * https://developers.facebook.com/docs/graph-api/reference/app/subscriptions
    */
   createSubscription({
-    app_id: appId,
+    app_id,
     object = 'page',
     callback_url,
     fields = [
@@ -261,7 +289,7 @@ export default class MessengerClient {
     verify_token,
     access_token: appAccessToken,
   }: {
-    app_id: number,
+    app_id?: string,
     object?: 'user' | 'page' | 'permissions' | 'payments',
     callback_url: string,
     fields?: Array<string>,
@@ -269,8 +297,24 @@ export default class MessengerClient {
     verify_token: string,
     access_token: string,
   }): Promise<{ success: boolean }> {
+    warning(
+      !app_id,
+      'Provide App ID in the function is deprecated. Provide it in `MessengerClient.connect({ appId, ... })` instead'
+    );
+
+    const appId = app_id || this._appId;
+
+    invariant(appId, 'App ID is required to create subscription');
+    invariant(
+      this._appSecret || appAccessToken,
+      'App Secret or App Token is required to create subscription'
+    );
+
+    const accessToken =
+      appAccessToken || `${appId}|${((this._appSecret: any): string)}`;
+
     return this._axios
-      .post(`/${appId}/subscriptions?access_token=${appAccessToken}`, {
+      .post(`/${appId}/subscriptions?access_token=${accessToken}`, {
         object,
         callback_url,
         fields: fields.join(','),
