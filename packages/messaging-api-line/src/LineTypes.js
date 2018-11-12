@@ -25,6 +25,21 @@ export type ImageMessage = {
   previewImageUrl: string,
 };
 
+export type ImageMapVideo = {
+  originalContentUrl: string,
+  previewImageUrl: string,
+  area: {
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  },
+  externalLink: {
+    linkUri: string,
+    label: string,
+  },
+};
+
 export type ImageMapAction = {
   type: string,
   linkUri: string,

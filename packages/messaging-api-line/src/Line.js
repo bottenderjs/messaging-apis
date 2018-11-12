@@ -13,6 +13,7 @@ import {
   type ImageCarouselTemplate,
   type ImageMapAction,
   type ImageMapMessage,
+  type ImageMapVideo,
   type ImageMessage,
   type Location,
   type LocationMessage,
@@ -202,6 +203,7 @@ function createImagemap(
     baseSize,
     baseHeight,
     baseWidth,
+    video,
     actions,
   }: {
     baseUrl: string,
@@ -211,6 +213,7 @@ function createImagemap(
     },
     baseHeight: number,
     baseWidth: number,
+    video?: ImageMapVideo,
     actions: Array<ImageMapAction>,
   },
   options?: MessageOptions = {}
@@ -223,6 +226,7 @@ function createImagemap(
       height: baseHeight,
       width: baseWidth,
     },
+    video,
     actions,
     ...options,
   };

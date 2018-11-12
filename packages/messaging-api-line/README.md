@@ -309,19 +309,28 @@ Responds imagemap message using specified reply token.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-| Param                    | Type            | Description                                  |
-| ------------------------ | --------------- | -------------------------------------------- |
-| token                    | `String`        | `replyToken` received via webhook.           |
-| altText                  | `String`        | Alternative text.                            |
-| imagemap                 | `Object`        | Object contains imagemap's parameters.       |
-| imagemap.baseUrl         | `String`        | Base URL of image.                           |
-| imagemap.baseSize        | `Object`        | Base size object.                            |
-| imagemap.baseSize.width  | `Number`        | Width of base image.                         |
-| imagemap.baseSize.height | `Number`        | Height of base image.                        |
-| imagemap.actions         | `Array<Object>` | Action when tapped.                          |
-| options                  | `Object`        | Optional options.                            |
-| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
-| options.quickReply.items | `Array`         | Quick reply items.                           |
+| Param                               | Type            | Description                                                                                 |
+| ----------------------------------- | --------------- | ------------------------------------------------------------------------------------------- |
+| token                               | `String`        | `replyToken` received via webhook.                                                          |
+| altText                             | `String`        | Alternative text.                                                                           |
+| imagemap                            | `Object`        | Object contains imagemap's parameters.                                                      |
+| imagemap.baseUrl                    | `String`        | Base URL of image.                                                                          |
+| imagemap.baseSize                   | `Object`        | Base size object.                                                                           |
+| imagemap.baseSize.width             | `Number`        | Width of base image.                                                                        |
+| imagemap.baseSize.height            | `Number`        | Height of base image.                                                                       |
+| imagemap.video                      | `Object`        | Video object.                                                                               |
+| imagemap.video.originalContentUrl   | `String`        | URL of the video file (Max: 1000 characters).                                               |
+| imagemap.video.previewImageUrl      | `String`        | URL of the preview image (Max: 1000 characters).                                            |
+| imagemap.video.area.x               | `Number`        | Horizontal position of the video area relative to the top-left corner of the imagemap area. |
+| imagemap.video.area.y               | `Number`        | Vertical position of the video area relative to the top-left corner of the imagemap area.   |
+| imagemap.video.area.width           | `Number`        | Width of the video area.                                                                    |
+| imagemap.video.area.height          | `Number`        | Height of the video area.                                                                   |
+| imagemap.video.externalLink.linkUri | `String`        | Webpage URL. Called when the label displayed after the video is tapped.                     |
+| imagemap.video.externalLink.label   | `String`        | Label. Displayed after the video is finished.                                               |
+| imagemap.actions                    | `Array<Object>` | Action when tapped.                                                                         |
+| options                             | `Object`        | Optional options.                                                                           |
+| options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                |
+| options.quickReply.items            | `Array`         | Quick reply items.                                                                          |
 
 Example:
 
@@ -878,19 +887,28 @@ Sends imagemap message using ID of the receiver.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-| Param                    | Type            | Description                                  |
-| ------------------------ | --------------- | -------------------------------------------- |
-| userId                   | `String`        | ID of the receiver.                          |
-| altText                  | `String`        | Alternative text.                            |
-| imagemap                 | `Object`        | Object contains imagemap's parameters.       |
-| imagemap.baseUrl         | `String`        | Base URL of image.                           |
-| imagemap.baseSize        | `Object`        | Base size object.                            |
-| imagemap.baseSize.width  | `Number`        | Width of base image.                         |
-| imagemap.baseSize.height | `Number`        | Height of base image.                        |
-| imagemap.actions         | `Array<Object>` | Action when tapped.                          |
-| options                  | `Object`        | Optional options.                            |
-| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
-| options.quickReply.items | `Array`         | Quick reply items.                           |
+| Param                               | Type            | Description                                                                                 |
+| ----------------------------------- | --------------- | ------------------------------------------------------------------------------------------- |
+| userId                              | `String`        | ID of the receiver.                                                                         |
+| altText                             | `String`        | Alternative text.                                                                           |
+| imagemap                            | `Object`        | Object contains imagemap's parameters.                                                      |
+| imagemap.baseUrl                    | `String`        | Base URL of image.                                                                          |
+| imagemap.baseSize                   | `Object`        | Base size object.                                                                           |
+| imagemap.baseSize.width             | `Number`        | Width of base image.                                                                        |
+| imagemap.baseSize.height            | `Number`        | Height of base image.                                                                       |
+| imagemap.video                      | `Object`        | Video object.                                                                               |
+| imagemap.video.originalContentUrl   | `String`        | URL of the video file (Max: 1000 characters).                                               |
+| imagemap.video.previewImageUrl      | `String`        | URL of the preview image (Max: 1000 characters).                                            |
+| imagemap.video.area.x               | `Number`        | Horizontal position of the video area relative to the top-left corner of the imagemap area. |
+| imagemap.video.area.y               | `Number`        | Vertical position of the video area relative to the top-left corner of the imagemap area.   |
+| imagemap.video.area.width           | `Number`        | Width of the video area.                                                                    |
+| imagemap.video.area.height          | `Number`        | Height of the video area.                                                                   |
+| imagemap.video.externalLink.linkUri | `String`        | Webpage URL. Called when the label displayed after the video is tapped.                     |
+| imagemap.video.externalLink.label   | `String`        | Label. Displayed after the video is finished.                                               |
+| imagemap.actions                    | `Array<Object>` | Action when tapped.                                                                         |
+| options                             | `Object`        | Optional options.                                                                           |
+| options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                |
+| options.quickReply.items            | `Array`         | Quick reply items.                                                                          |
 
 Example:
 
@@ -1453,19 +1471,28 @@ Sends imagemap message to multiple users.
 
 <img src="https://developers.line.me/media/messaging-api/messages/imagemap-dd854fa7.png" width="250px" />
 
-| Param                    | Type            | Description                                  |
-| ------------------------ | --------------- | -------------------------------------------- |
-| userIds                  | `Array<String>` | IDs of the receivers.                        |
-| altText                  | `String`        | Alternative text.                            |
-| imagemap                 | `Object`        | Object contains imagemap's parameters.       |
-| imagemap.baseUrl         | `String`        | Base URL of image.                           |
-| imagemap.baseSize        | `Object`        | Base size object.                            |
-| imagemap.baseSize.width  | `Number`        | Width of base image.                         |
-| imagemap.baseSize.height | `Number`        | Height of base image.                        |
-| imagemap.actions         | `Array<Object>` | Action when tapped.                          |
-| options                  | `Object`        | Optional options.                            |
-| options.quickReply       | `Object`        | Quick reply object to attach to the message. |
-| options.quickReply.items | `Array`         | Quick reply items.                           |
+| Param                               | Type            | Description                                                                                 |
+| ----------------------------------- | --------------- | ------------------------------------------------------------------------------------------- |
+| userIds                             | `Array<String>` | IDs of the receivers.                                                                       |
+| altText                             | `String`        | Alternative text.                                                                           |
+| imagemap                            | `Object`        | Object contains imagemap's parameters.                                                      |
+| imagemap.baseUrl                    | `String`        | Base URL of image.                                                                          |
+| imagemap.baseSize                   | `Object`        | Base size object.                                                                           |
+| imagemap.baseSize.width             | `Number`        | Width of base image.                                                                        |
+| imagemap.baseSize.height            | `Number`        | Height of base image.                                                                       |
+| imagemap.video                      | `Object`        | Video object.                                                                               |
+| imagemap.video.originalContentUrl   | `String`        | URL of the video file (Max: 1000 characters).                                               |
+| imagemap.video.previewImageUrl      | `String`        | URL of the preview image (Max: 1000 characters).                                            |
+| imagemap.video.area.x               | `Number`        | Horizontal position of the video area relative to the top-left corner of the imagemap area. |
+| imagemap.video.area.y               | `Number`        | Vertical position of the video area relative to the top-left corner of the imagemap area.   |
+| imagemap.video.area.width           | `Number`        | Width of the video area.                                                                    |
+| imagemap.video.area.height          | `Number`        | Height of the video area.                                                                   |
+| imagemap.video.externalLink.linkUri | `String`        | Webpage URL. Called when the label displayed after the video is tapped.                     |
+| imagemap.video.externalLink.label   | `String`        | Label. Displayed after the video is finished.                                               |
+| imagemap.actions                    | `Array<Object>` | Action when tapped.                                                                         |
+| options                             | `Object`        | Optional options.                                                                           |
+| options.quickReply                  | `Object`        | Quick reply object to attach to the message.                                                |
+| options.quickReply.items            | `Array`         | Quick reply items.                                                                          |
 
 Example:
 

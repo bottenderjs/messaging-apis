@@ -13,6 +13,7 @@ import {
   type FlexContainer,
   type ImageCarouselColumnObject,
   type ImageMapAction,
+  type ImageMapVideo,
   type LiffView,
   type Location,
   type Message,
@@ -238,6 +239,7 @@ export default class LineClient {
       baseSize,
       baseHeight,
       baseWidth,
+      video,
       actions,
     }: {
       baseUrl: string,
@@ -247,6 +249,7 @@ export default class LineClient {
       },
       baseHeight: number,
       baseWidth: number,
+      video?: ImageMapVideo,
       actions: Array<ImageMapAction>,
     },
     options?: MessageOptions
@@ -259,6 +262,7 @@ export default class LineClient {
           baseSize,
           baseHeight,
           baseWidth,
+          video,
           actions,
         },
         options || {}
