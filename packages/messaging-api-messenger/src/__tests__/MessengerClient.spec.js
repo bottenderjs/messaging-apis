@@ -148,7 +148,7 @@ describe('subscription', () => {
   });
 
   describe('#getSubscriptions', () => {
-    it('should set other optional parameters', async () => {
+    it('should get current subscriptions', async () => {
       const { client, mock } = createMock();
       const reply = {
         data: [
@@ -184,6 +184,55 @@ describe('subscription', () => {
           ],
         },
       ]);
+    });
+  });
+
+  describe('#getPageSubscription', () => {
+    it('should get current page subscription', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        data: [
+          {
+            object: 'page',
+            callback_url: 'https://mycallback.com',
+            active: true,
+            fields: [
+              {
+                name: 'messages',
+                version: 'v2.12',
+              },
+            ],
+          },
+          {
+            object: 'user',
+            callback_url: 'https://mycallback.com',
+            active: true,
+            fields: [
+              {
+                name: 'feed',
+                version: 'v2.12',
+              },
+            ],
+          },
+        ],
+      };
+
+      mock
+        .onGet(`/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`)
+        .reply(200, reply);
+
+      const res = await client.getPageSubscription();
+      expect(res).toEqual({
+        object: 'page',
+        callback_url: 'https://mycallback.com',
+        active: true,
+        fields: [
+          {
+            name: 'messages',
+            version: 'v2.12',
+          },
+        ],
+      });
     });
   });
 });

@@ -343,10 +343,10 @@ export default class MessengerClient {
     );
 
     const appId = app_id || this._appId;
-    invariant(appId, 'App ID is required to create subscription');
+    invariant(appId, 'App ID is required to get subscriptions');
     invariant(
       this._appSecret || appAccessToken,
-      'App Secret or App Token is required to create subscription'
+      'App Secret or App Token is required to get subscriptions'
     );
 
     const accessToken =
@@ -355,6 +355,44 @@ export default class MessengerClient {
     return this._axios
       .get(`/${appId}/subscriptions?access_token=${accessToken}`)
       .then(res => res.data.data, handleError);
+  }
+
+  /**
+   * Extract page subscription from subscriptions
+   *
+   * https://developers.facebook.com/docs/graph-api/reference/app/subscriptions
+   */
+  getPageSubscription({
+    app_id,
+    access_token: appAccessToken,
+  }: {
+    app_id?: string,
+    access_token?: string,
+  } = {}): Promise<MessengerSubscription> {
+    warning(
+      !app_id,
+      'Provide App ID in the function is deprecated. Provide it in `MessengerClient.connect({ appId, ... })` instead'
+    );
+
+    const appId = app_id || this._appId;
+    invariant(appId, 'App ID is required to get subscription');
+    invariant(
+      this._appSecret || appAccessToken,
+      'App Secret or App Token is required to get subscription'
+    );
+
+    const accessToken =
+      appAccessToken || `${appId}|${((this._appSecret: any): string)}`;
+
+    return this.getSubscriptions({
+      app_id: appId,
+      access_token: accessToken,
+    }).then(
+      subscriptions =>
+        subscriptions.filter(
+          subscription => subscription.object === 'page'
+        )[0] || null
+    );
   }
 
   /**
