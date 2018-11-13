@@ -393,3 +393,15 @@ export type Persona = {
   name: string,
   profile_picture_url: string,
 };
+
+export type SubscriptionFields = {
+  name: string,
+  version: string,
+};
+
+export type MessengerSubscription = {
+  object: string,
+  callback_url: string,
+  active: boolean,
+  fields: Array<SubscriptionFields>,
+};
