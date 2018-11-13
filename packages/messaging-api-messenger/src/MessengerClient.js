@@ -39,6 +39,7 @@ import type {
   MessengerNLPConfig,
   MessengerProfile,
   MessengerProfileResponse,
+  MessengerSubscription,
   MutationSuccessResponse,
   OpenGraphElement,
   PageInfo,
@@ -322,6 +323,38 @@ export default class MessengerClient {
         verify_token,
       })
       .then(res => res.data, handleError);
+  }
+
+  /**
+   * Get Subscriptions
+   *
+   * https://developers.facebook.com/docs/graph-api/reference/app/subscriptions
+   */
+  getSubscriptions({
+    app_id,
+    access_token: appAccessToken,
+  }: {
+    app_id?: string,
+    access_token?: string,
+  } = {}): Promise<Array<MessengerSubscription>> {
+    warning(
+      !app_id,
+      'Provide App ID in the function is deprecated. Provide it in `MessengerClient.connect({ appId, ... })` instead'
+    );
+
+    const appId = app_id || this._appId;
+    invariant(appId, 'App ID is required to create subscription');
+    invariant(
+      this._appSecret || appAccessToken,
+      'App Secret or App Token is required to create subscription'
+    );
+
+    const accessToken =
+      appAccessToken || `${appId}|${((this._appSecret: any): string)}`;
+
+    return this._axios
+      .get(`/${appId}/subscriptions?access_token=${accessToken}`)
+      .then(res => res.data.data, handleError);
   }
 
   /**
