@@ -3478,7 +3478,7 @@ Default Fields:
 
 ## `getSubscriptions`
 
-Get the current Webhook subscriptions setted up on your app.
+Get the current Webhook subscriptions set up on your app.
 
 | Param        | Type     | Description       |
 | ------------ | -------- | ----------------- |
@@ -3496,6 +3496,30 @@ Or provide app id and app secret instead of app access token:
 
 ```js
 client.getSubscriptions({
+  access_token: `${APP_ID}|${APP_SECRET}`,
+});
+```
+
+## `getPageSubscription`
+
+Get the current page subscriptions set up on your app.
+
+| Param        | Type     | Description       |
+| ------------ | -------- | ----------------- |
+| access_token | `String` | App access token. |
+
+Example:
+
+```js
+client.getPageSubscription({
+  access_token: APP_ACCESS_TOKEN,
+});
+```
+
+Or provide app id and app secret instead of app access token:
+
+```js
+client.getPageSubscription({
   access_token: `${APP_ID}|${APP_SECRET}`,
 });
 ```
