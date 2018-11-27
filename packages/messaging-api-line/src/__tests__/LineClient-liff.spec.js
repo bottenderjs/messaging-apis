@@ -6,6 +6,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -39,7 +41,7 @@ describe('LINE Front-end Framework', () => {
         ],
       };
 
-      mock.onGet('/liff/v1/apps').reply(200, reply, headers);
+      mock.onGet('/liff/v1/apps', undefined, headers).reply(200, reply);
 
       const res = await client.getLiffAppList();
 
@@ -71,11 +73,16 @@ describe('LINE Front-end Framework', () => {
       };
 
       mock
-        .onPost('/liff/v1/apps', {
-          type: 'tall',
-          url: 'https://example.com/myservice',
-        })
-        .reply(200, reply, headers);
+        .onPost(
+          '/liff/v1/apps',
+          {
+            type: 'tall',
+            url: 'https://example.com/myservice',
+          },
+
+          headers
+        )
+        .reply(200, reply);
 
       const res = await client.createLiffApp({
         type: 'tall',
@@ -95,11 +102,16 @@ describe('LINE Front-end Framework', () => {
       const reply = {};
 
       mock
-        .onPut('/liff/v1/apps/liff-12345/view', {
-          type: 'tall',
-          url: 'https://example.com/myservice',
-        })
-        .reply(200, reply, headers);
+        .onPut(
+          '/liff/v1/apps/liff-12345/view',
+          {
+            type: 'tall',
+            url: 'https://example.com/myservice',
+          },
+          undefined,
+          headers
+        )
+        .reply(200, reply);
 
       const res = await client.updateLiffApp('liff-12345', {
         type: 'tall',
@@ -116,7 +128,9 @@ describe('LINE Front-end Framework', () => {
 
       const reply = {};
 
-      mock.onDelete('/liff/v1/apps/liff-12345').reply(200, reply, headers);
+      mock
+        .onDelete('/liff/v1/apps/liff-12345', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.deleteLiffApp('liff-12345');
 

@@ -8,6 +8,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -26,7 +28,9 @@ describe('Content', () => {
 
       const MESSAGE_ID = '1234567890';
 
-      mock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
+      mock
+        .onGet(`/v2/bot/message/${MESSAGE_ID}/content`, undefined, headers)
+        .reply(200, reply);
 
       const res = await client.retrieveMessageContent(MESSAGE_ID);
 
@@ -46,7 +50,9 @@ describe('Profile', () => {
         statusMessage: 'Hello, LINE!',
       };
 
-      mock.onGet(`/v2/bot/profile/${RECIPIENT_ID}`).reply(200, reply, headers);
+      mock
+        .onGet(`/v2/bot/profile/${RECIPIENT_ID}`, undefined, headers)
+        .reply(200, reply);
 
       const res = await client.getUserProfile(RECIPIENT_ID);
 
@@ -64,8 +70,8 @@ describe('Account link', () => {
       };
 
       mock
-        .onPost(`/v2/bot/user/${RECIPIENT_ID}/linkToken`)
-        .reply(200, reply, headers);
+        .onPost(`/v2/bot/user/${RECIPIENT_ID}/linkToken`, undefined, headers)
+        .reply(200, reply);
 
       const res = await client.issueLinkToken(RECIPIENT_ID);
 

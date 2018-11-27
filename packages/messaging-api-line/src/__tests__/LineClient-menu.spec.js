@@ -9,6 +9,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -52,7 +54,7 @@ describe('Rich Menu', () => {
         ],
       };
 
-      mock.onGet('/v2/bot/richmenu/list').reply(200, reply, headers);
+      mock.onGet('/v2/bot/richmenu/list', undefined, headers).reply(200, reply);
 
       const res = await client.getRichMenuList();
 
@@ -115,8 +117,12 @@ describe('Rich Menu', () => {
       };
 
       mock
-        .onGet('/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5')
-        .reply(200, reply, headers);
+        .onGet(
+          '/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+          undefined,
+          headers
+        )
+        .reply(200, reply);
 
       const res = await client.getRichMenu(
         'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
@@ -134,7 +140,7 @@ describe('Rich Menu', () => {
         richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
-      mock.onPost('/v2/bot/richmenu').reply(200, reply, headers);
+      mock.onPost('/v2/bot/richmenu', undefined, headers).reply(200, reply);
 
       const res = await client.createRichMenu({
         size: {
@@ -170,7 +176,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onDelete('/v2/bot/richmenu/1').reply(200, reply, headers);
+      mock.onDelete('/v2/bot/richmenu/1', undefined, headers).reply(200, reply);
 
       const res = await client.deleteRichMenu('1');
 
@@ -186,7 +192,9 @@ describe('Rich Menu', () => {
         richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
-      mock.onGet('/v2/bot/user/1/richmenu').reply(200, reply, headers);
+      mock
+        .onGet('/v2/bot/user/1/richmenu', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.getLinkedRichMenu('1');
 
@@ -200,7 +208,9 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onPost('/v2/bot/user/1/richmenu/2').reply(200, reply, headers);
+      mock
+        .onPost('/v2/bot/user/1/richmenu/2', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.linkRichMenu('1', '2');
 
@@ -214,7 +224,9 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onDelete('/v2/bot/user/1/richmenu').reply(200, reply, headers);
+      mock
+        .onDelete('/v2/bot/user/1/richmenu', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.unlinkRichMenu('1');
 
@@ -228,7 +240,12 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
+      mock
+        .onPost('/v2/bot/richmenu/1/content', undefined, {
+          ...headers,
+          'Content-Type': 'image/png',
+        })
+        .reply(200, reply);
 
       const buffer = await new Promise((resolve, reject) => {
         fs.readFile(path.join(__dirname, 'fixture.png'), (err, buf) => {
@@ -250,7 +267,9 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
+      mock
+        .onPost('/v2/bot/richmenu/1/content', undefined, headers)
+        .reply(200, reply);
 
       let error;
       try {
@@ -269,7 +288,9 @@ describe('Rich Menu', () => {
 
       const reply = Buffer.from('a content buffer');
 
-      mock.onGet('/v2/bot/richmenu/1/content').reply(200, reply);
+      mock
+        .onGet('/v2/bot/richmenu/1/content', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.downloadRichMenuImage('1');
 
@@ -285,7 +306,9 @@ describe('Rich Menu', () => {
         richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
       };
 
-      mock.onGet('/v2/bot/user/all/richmenu').reply(200, reply, headers);
+      mock
+        .onGet('/v2/bot/user/all/richmenu', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.getDefaultRichMenu();
 
@@ -301,9 +324,11 @@ describe('Rich Menu', () => {
 
       mock
         .onPost(
-          '/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+          '/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+          undefined,
+          headers
         )
-        .reply(200, reply, headers);
+        .reply(200, reply);
 
       const res = await client.setDefaultRichMenu(
         'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
@@ -319,7 +344,9 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      mock.onDelete('/v2/bot/user/all/richmenu').reply(200, reply, headers);
+      mock
+        .onDelete('/v2/bot/user/all/richmenu', undefined, headers)
+        .reply(200, reply);
 
       const res = await client.deleteDefaultRichMenu();
 
