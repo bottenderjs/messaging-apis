@@ -4,19 +4,19 @@ import LineClient from '../LineClient';
 
 const RECIPIENT_ID = '1QAZ2WSX';
 const REPLY_TOKEN = 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA';
+const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const headers = {
-  Accept: 'application/json, text/plain, */*',
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${ACCESS_TOKEN}`,
-};
-
-const createMock = () => {
+const createMock = ({ customAccessToken } = {}) => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
-  return { client, mock };
+  const headers = {
+    Accept: 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${customAccessToken || ACCESS_TOKEN}`,
+  };
+  return { client, mock, headers };
 };
 
 describe('Content', () => {
@@ -42,7 +42,7 @@ describe('Profile', () => {
     it('should response user profile', async () => {
       expect.assertions(4);
 
-      const { client, mock } = createMock();
+      const { client, mock, headers } = createMock();
       const reply = {
         displayName: 'LINE taro',
         userId: RECIPIENT_ID,
@@ -63,6 +63,35 @@ describe('Profile', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should work with custom access token', async () => {
+      expect.assertions(4);
+
+      const { client, mock, headers } = createMock({
+        customAccessToken: CUSTOM_ACCESS_TOKEN,
+      });
+      const reply = {
+        displayName: 'LINE taro',
+        userId: RECIPIENT_ID,
+        pictureUrl: 'http://obs.line-apps.com/...',
+        statusMessage: 'Hello, LINE!',
+      };
+
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/profile/${RECIPIENT_ID}`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
+
+      const res = await client.getUserProfile(RECIPIENT_ID, {
+        accessToken: CUSTOM_ACCESS_TOKEN,
+      });
+
+      expect(res).toEqual(reply);
+    });
   });
 });
 
@@ -71,7 +100,7 @@ describe('Account link', () => {
     it('should response data with link token', async () => {
       expect.assertions(4);
 
-      const { client, mock } = createMock();
+      const { client, mock, headers } = createMock();
       const reply = {
         linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
       };
@@ -80,12 +109,38 @@ describe('Account link', () => {
         expect(config.baseURL + config.url).toEqual(
           `https://api.line.me/v2/bot/user/${RECIPIENT_ID}/linkToken`
         );
-        expect(config.data).toEqual(undefined);
+        expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
 
       const res = await client.issueLinkToken(RECIPIENT_ID);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should work with custom access token', async () => {
+      expect.assertions(4);
+
+      const { client, mock, headers } = createMock({
+        customAccessToken: CUSTOM_ACCESS_TOKEN,
+      });
+      const reply = {
+        linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
+      };
+
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/user/${RECIPIENT_ID}/linkToken`
+        );
+        expect(config.data).toEqual(null);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
+
+      const res = await client.issueLinkToken(RECIPIENT_ID, {
+        accessToken: CUSTOM_ACCESS_TOKEN,
+      });
 
       expect(res).toEqual(reply);
     });

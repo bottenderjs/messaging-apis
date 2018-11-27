@@ -1,5 +1,6 @@
 /* @flow */
 import invariant from 'invariant';
+import omit from 'lodash.omit';
 
 import {
   type AudioMessage,
@@ -31,7 +32,7 @@ function createText(text: string, options: MessageOptions = {}): TextMessage {
   return {
     type: 'text',
     text,
-    ...options,
+    ...omit(options, 'accessToken'),
   };
 }
 
@@ -50,7 +51,7 @@ function createImage(
         type: 'image',
         originalContentUrl: image.originalContentUrl,
         previewImageUrl: image.previewImageUrl || image.originalContentUrl,
-        ...options,
+        ...omit(options, 'accessToken'),
       };
     }
 
@@ -111,7 +112,7 @@ function createVideo(
       type: 'video',
       originalContentUrl: video.originalContentUrl,
       previewImageUrl: video.previewImageUrl,
-      ...options,
+      ...omit(options, 'accessToken'),
     };
   }
 
@@ -143,7 +144,7 @@ function createAudio(
       type: 'audio',
       originalContentUrl: audio.originalContentUrl,
       duration: audio.duration,
-      ...options,
+      ...omit(options, 'accessToken'),
     };
   }
 
@@ -160,7 +161,7 @@ function createLocation(
     address,
     latitude,
     longitude,
-    ...options,
+    ...omit(options, 'accessToken'),
   };
 }
 
@@ -189,7 +190,7 @@ function createSticker(
       type: 'sticker',
       packageId: sticker.packageId,
       stickerId: sticker.stickerId,
-      ...options,
+      ...omit(options, 'accessToken'),
     };
   }
 
@@ -228,7 +229,7 @@ function createImagemap(
     },
     video,
     actions,
-    ...options,
+    ...omit(options, 'accessToken'),
   };
 }
 
@@ -241,7 +242,7 @@ function createTemplate(
     type: 'template',
     altText,
     template,
-    ...options,
+    ...omit(options, 'accessToken'),
   };
 }
 
@@ -281,7 +282,7 @@ function createButtonTemplate(
       defaultAction,
       actions,
     },
-    options
+    omit(options, 'accessToken')
   );
 }
 
@@ -303,7 +304,7 @@ function createConfirmTemplate(
       text,
       actions,
     },
-    options
+    omit(options, 'accessToken')
   );
 }
 
@@ -343,7 +344,7 @@ function createImageCarouselTemplate(
       type: 'image_carousel',
       columns,
     },
-    options
+    omit(options, 'accessToken')
   );
 }
 
@@ -356,7 +357,7 @@ function createFlex(
     type: 'flex',
     altText,
     contents,
-    ...options,
+    ...omit(options, 'accessToken'),
   };
 }
 
