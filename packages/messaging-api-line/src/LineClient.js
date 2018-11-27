@@ -159,7 +159,12 @@ export default class LineClient {
     text: string,
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [Line.createText(text, options || {})]);
+    return this._send(
+      type,
+      target,
+      [Line.createText(text, options || {})],
+      options
+    );
   }
 
   _sendImage(
@@ -168,9 +173,12 @@ export default class LineClient {
     contentUrlOrImage: string | Object,
     previewUrlOrOptions?: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createImage(contentUrlOrImage, previewUrlOrOptions),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createImage(contentUrlOrImage, previewUrlOrOptions)],
+      typeof previewUrlOrOptions === 'string' ? undefined : previewUrlOrOptions
+    );
   }
 
   _sendVideo(
@@ -179,9 +187,12 @@ export default class LineClient {
     contentUrlOrVideo: string | Object,
     previewUrlOrOptions?: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createVideo(contentUrlOrVideo, previewUrlOrOptions || {}),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createVideo(contentUrlOrVideo, previewUrlOrOptions || {})],
+      typeof previewUrlOrOptions === 'string' ? undefined : previewUrlOrOptions
+    );
   }
 
   _sendAudio(
@@ -190,9 +201,12 @@ export default class LineClient {
     contentUrlOrAudio: string | Object,
     durationOrOptions?: number | MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createAudio(contentUrlOrAudio, durationOrOptions || {}),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createAudio(contentUrlOrAudio, durationOrOptions || {})],
+      typeof durationOrOptions === 'number' ? undefined : durationOrOptions
+    );
   }
 
   _sendLocation(
@@ -201,17 +215,22 @@ export default class LineClient {
     { title, address, latitude, longitude }: Location,
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createLocation(
-        {
-          title,
-          address,
-          latitude,
-          longitude,
-        },
-        options || {}
-      ),
-    ]);
+    return this._send(
+      type,
+      target,
+      [
+        Line.createLocation(
+          {
+            title,
+            address,
+            latitude,
+            longitude,
+          },
+          options || {}
+        ),
+      ],
+      options
+    );
   }
 
   _sendSticker(
@@ -220,9 +239,12 @@ export default class LineClient {
     packageIdOrSticker: string | Object,
     stickerIdOrOptions?: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createSticker(packageIdOrSticker, stickerIdOrOptions || {}),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createSticker(packageIdOrSticker, stickerIdOrOptions || {})],
+      typeof stickerIdOrOptions === 'string' ? undefined : stickerIdOrOptions
+    );
   }
 
   /**
@@ -254,20 +276,25 @@ export default class LineClient {
     },
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createImagemap(
-        altText,
-        {
-          baseUrl,
-          baseSize,
-          baseHeight,
-          baseWidth,
-          video,
-          actions,
-        },
-        options || {}
-      ),
-    ]);
+    return this._send(
+      type,
+      target,
+      [
+        Line.createImagemap(
+          altText,
+          {
+            baseUrl,
+            baseSize,
+            baseHeight,
+            baseWidth,
+            video,
+            actions,
+          },
+          options || {}
+        ),
+      ],
+      options
+    );
   }
 
   /**
@@ -282,9 +309,12 @@ export default class LineClient {
     contents: FlexContainer,
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createFlex(altText, contents, options || {}),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createFlex(altText, contents, options || {})],
+      options
+    );
   }
 
   /**
@@ -299,9 +329,12 @@ export default class LineClient {
     template: Template,
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createTemplate(altText, template, options || {}),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createTemplate(altText, template, options || {})],
+      options
+    );
   }
 
   _sendButtonTemplate(
@@ -329,22 +362,27 @@ export default class LineClient {
     },
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createButtonTemplate(
-        altText,
-        {
-          thumbnailImageUrl,
-          imageAspectRatio,
-          imageSize,
-          imageBackgroundColor,
-          title,
-          text,
-          defaultAction,
-          actions,
-        },
-        options || {}
-      ),
-    ]);
+    return this._send(
+      type,
+      target,
+      [
+        Line.createButtonTemplate(
+          altText,
+          {
+            thumbnailImageUrl,
+            imageAspectRatio,
+            imageSize,
+            imageBackgroundColor,
+            title,
+            text,
+            defaultAction,
+            actions,
+          },
+          options || {}
+        ),
+      ],
+      options
+    );
   }
 
   _sendConfirmTemplate(
@@ -360,16 +398,21 @@ export default class LineClient {
     },
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createConfirmTemplate(
-        altText,
-        {
-          text,
-          actions,
-        },
-        options || {}
-      ),
-    ]);
+    return this._send(
+      type,
+      target,
+      [
+        Line.createConfirmTemplate(
+          altText,
+          {
+            text,
+            actions,
+          },
+          options || {}
+        ),
+      ],
+      options
+    );
   }
 
   _sendCarouselTemplate(
@@ -387,13 +430,18 @@ export default class LineClient {
       options?: MessageOptions,
     } = {}
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createCarouselTemplate(altText, columns, {
-        imageAspectRatio,
-        imageSize,
-        ...options,
-      }),
-    ]);
+    return this._send(
+      type,
+      target,
+      [
+        Line.createCarouselTemplate(altText, columns, {
+          imageAspectRatio,
+          imageSize,
+          ...options,
+        }),
+      ],
+      options
+    );
   }
 
   _sendImageCarouselTemplate(
@@ -403,9 +451,12 @@ export default class LineClient {
     columns: Array<ImageCarouselColumnObject>,
     options?: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._send(type, target, [
-      Line.createImageCarouselTemplate(altText, columns, options || {}),
-    ]);
+    return this._send(
+      type,
+      target,
+      [Line.createImageCarouselTemplate(altText, columns, options || {})],
+      options
+    );
   }
 
   /**
@@ -413,20 +464,30 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#send-reply-message
    */
-  replyRawBody(body: {
-    replyToken: ReplyToken,
-    messages: Array<Message>,
-  }): Promise<MutationSuccessResponse> {
+  replyRawBody(
+    body: {
+      replyToken: ReplyToken,
+      messages: Array<Message>,
+    },
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
-      .post('/v2/bot/message/reply', body)
+      .post(
+        '/v2/bot/message/reply',
+        body,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
   reply(
     replyToken: ReplyToken,
-    messages: Array<Message>
+    messages: Array<Message>,
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> {
-    return this.replyRawBody({ replyToken, messages });
+    return this.replyRawBody({ replyToken, messages }, options);
   }
 
   /**
@@ -434,17 +495,30 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#send-push-message
    */
-  pushRawBody(body: {
-    to: string,
-    messages: Array<Message>,
-  }): Promise<MutationSuccessResponse> {
+  pushRawBody(
+    body: {
+      to: string,
+      messages: Array<Message>,
+    },
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
-      .post('/v2/bot/message/push', body)
+      .post(
+        '/v2/bot/message/push',
+        body,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  push(to: string, messages: Array<Message>): Promise<MutationSuccessResponse> {
-    return this.pushRawBody({ to, messages });
+  push(
+    to: string,
+    messages: Array<Message>,
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> {
+    return this.pushRawBody({ to, messages }, options);
   }
 
   /**
@@ -452,20 +526,30 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#send-multicast-messages
    */
-  multicastRawBody(body: {
-    to: Array<UserId>,
-    messages: Array<Message>,
-  }): Promise<MutationSuccessResponse> {
+  multicastRawBody(
+    body: {
+      to: Array<UserId>,
+      messages: Array<Message>,
+    },
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
-      .post('/v2/bot/message/multicast', body)
+      .post(
+        '/v2/bot/message/multicast',
+        body,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
   multicast(
     to: Array<UserId>,
-    messages: Array<Message>
+    messages: Array<Message>,
+    options?: Object = {}
   ): Promise<MutationSuccessResponse> {
-    return this.multicastRawBody({ to, messages });
+    return this.multicastRawBody({ to, messages }, options);
   }
 
   /**
@@ -473,11 +557,18 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-content
    */
-  retrieveMessageContent(messageId: string): Promise<Buffer> {
+  retrieveMessageContent(
+    messageId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<Buffer> {
     return this._axios
-      .get(`/v2/bot/message/${messageId}/content`, {
-        responseType: 'arraybuffer',
-      })
+      .get(
+        `/v2/bot/message/${messageId}/content`,
+        customAccessToken && {
+          responseType: 'arraybuffer',
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => Buffer.from(res.data), handleError);
   }
 
@@ -487,9 +578,17 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-profile
    * displayName, userId, pictureUrl, statusMessage
    */
-  getUserProfile(userId: UserId): Promise<User> {
+  getUserProfile(
+    userId: UserId,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<User> {
     return this._axios
-      .get(`/v2/bot/profile/${userId}`)
+      .get(
+        `/v2/bot/profile/${userId}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -498,9 +597,18 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-profile
    */
-  getGroupMemberProfile(groupId: string, userId: UserId) {
+  getGroupMemberProfile(
+    groupId: string,
+    userId: UserId,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .get(`/v2/bot/group/${groupId}/member/${userId}`)
+      .get(
+        `/v2/bot/group/${groupId}/member/${userId}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -509,9 +617,18 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-profile
    */
-  getRoomMemberProfile(roomId: string, userId: UserId) {
+  getRoomMemberProfile(
+    roomId: string,
+    userId: UserId,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .get(`/v2/bot/room/${roomId}/member/${userId}`)
+      .get(
+        `/v2/bot/room/${roomId}/member/${userId}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -522,16 +639,23 @@ export default class LineClient {
    */
   getGroupMemberIds(
     groupId: string,
-    start?: string
+    start?: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ memberIds: Array<string>, next?: ?string }> {
     return this._axios
       .get(
-        `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`
+        `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
       )
       .then(res => res.data, handleError);
   }
 
-  async getAllGroupMemberIds(groupId: string): Promise<Array<string>> {
+  async getAllGroupMemberIds(
+    groupId: string,
+    options?: Object = {}
+  ): Promise<Array<string>> {
     let allMemberIds: Array<string> = [];
     let continuationToken;
 
@@ -539,7 +663,8 @@ export default class LineClient {
       // eslint-disable-next-line no-await-in-loop
       const { memberIds, next } = await this.getGroupMemberIds(
         groupId,
-        continuationToken
+        continuationToken,
+        options
       );
       allMemberIds = allMemberIds.concat(memberIds);
       continuationToken = next;
@@ -555,16 +680,23 @@ export default class LineClient {
    */
   getRoomMemberIds(
     roomId: string,
-    start?: string
+    start?: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ memberIds: Array<string>, next?: ?string }> {
     return this._axios
       .get(
-        `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`
+        `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
       )
       .then(res => res.data, handleError);
   }
 
-  async getAllRoomMemberIds(roomId: string): Promise<Array<string>> {
+  async getAllRoomMemberIds(
+    roomId: string,
+    options?: Object = {}
+  ): Promise<Array<string>> {
     let allMemberIds: Array<string> = [];
     let continuationToken;
 
@@ -572,7 +704,8 @@ export default class LineClient {
       // eslint-disable-next-line no-await-in-loop
       const { memberIds, next } = await this.getRoomMemberIds(
         roomId,
-        continuationToken
+        continuationToken,
+        options
       );
       allMemberIds = allMemberIds.concat(memberIds);
       continuationToken = next;
@@ -586,9 +719,18 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#leave-group
    */
-  leaveGroup(groupId: string): Promise<MutationSuccessResponse> {
+  leaveGroup(
+    groupId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
-      .post(`/v2/bot/group/${groupId}/leave`)
+      .post(
+        `/v2/bot/group/${groupId}/leave`,
+        null,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -597,9 +739,18 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#leave-room
    */
-  leaveRoom(roomId: string): Promise<MutationSuccessResponse> {
+  leaveRoom(
+    roomId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
-      .post(`/v2/bot/room/${roomId}/leave`)
+      .post(
+        `/v2/bot/room/${roomId}/leave`,
+        null,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -608,63 +759,144 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#rich-menu
    */
-  getRichMenuList() {
+  getRichMenuList({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}) {
     return this._axios
-      .get('/v2/bot/richmenu/list')
+      .get(
+        '/v2/bot/richmenu/list',
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data.richmenus, handleError);
   }
 
-  getRichMenu(richMenuId: string) {
+  getRichMenu(
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .get(`/v2/bot/richmenu/${richMenuId}`)
+      .get(
+        `/v2/bot/richmenu/${richMenuId}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  createRichMenu(richMenu: RichMenu) {
+  createRichMenu(
+    richMenu: RichMenu,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .post('/v2/bot/richmenu', richMenu)
+      .post(
+        '/v2/bot/richmenu',
+        richMenu,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  deleteRichMenu(richMenuId: string) {
+  deleteRichMenu(
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .delete(`/v2/bot/richmenu/${richMenuId}`)
+      .delete(
+        `/v2/bot/richmenu/${richMenuId}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  getLinkedRichMenu(userId: string) {
+  getLinkedRichMenu(
+    userId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .get(`/v2/bot/user/${userId}/richmenu`)
+      .get(
+        `/v2/bot/user/${userId}/richmenu`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  linkRichMenu(userId: string, richMenuId: string) {
+  linkRichMenu(
+    userId: string,
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .post(`/v2/bot/user/${userId}/richmenu/${richMenuId}`)
+      .post(
+        `/v2/bot/user/${userId}/richmenu/${richMenuId}`,
+        null,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  unlinkRichMenu(userId: string) {
+  unlinkRichMenu(
+    userId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .delete(`/v2/bot/user/${userId}/richmenu`)
+      .delete(
+        `/v2/bot/user/${userId}/richmenu`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  getDefaultRichMenu() {
+  getDefaultRichMenu({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}) {
     return this._axios
-      .get(`/v2/bot/user/all/richmenu`)
+      .get(
+        `/v2/bot/user/all/richmenu`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  setDefaultRichMenu(richMenuId: string) {
+  setDefaultRichMenu(
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .post(`/v2/bot/user/all/richmenu/${richMenuId}`)
+      .post(
+        `/v2/bot/user/all/richmenu/${richMenuId}`,
+        null,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  deleteDefaultRichMenu() {
+  deleteDefaultRichMenu({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}) {
     return this._axios
-      .delete(`/v2/bot/user/all/richmenu`)
+      .delete(
+        `/v2/bot/user/all/richmenu`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -673,7 +905,11 @@ export default class LineClient {
    * - You cannot replace an image attached to a rich menu.
    *   To update your rich menu image, create a new rich menu object and upload another image.
    */
-  uploadRichMenuImage(richMenuId: string, image: Buffer) {
+  uploadRichMenuImage(
+    richMenuId: string,
+    image: Buffer,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     const type = imageType(image);
     invariant(
       type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
@@ -681,18 +917,36 @@ export default class LineClient {
     );
     return this._axios
       .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
-        headers: {
-          'Content-Type': type.mime,
-        },
+        headers: customAccessToken
+          ? {
+              'Content-Type': type.mime,
+              Authorization: `Bearer ${customAccessToken}`,
+            }
+          : {
+              'Content-Type': type.mime,
+            },
       })
       .then(res => res.data, handleError);
   }
 
-  downloadRichMenuImage(richMenuId: string) {
+  downloadRichMenuImage(
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ) {
     return this._axios
-      .get(`/v2/bot/richmenu/${richMenuId}/content`, {
-        responseType: 'arraybuffer',
-      })
+      .get(
+        `/v2/bot/richmenu/${richMenuId}/content`,
+        customAccessToken
+          ? {
+              responseType: 'arraybuffer',
+              headers: {
+                Authorization: `Bearer ${customAccessToken}`,
+              },
+            }
+          : {
+              responseType: 'arraybuffer',
+            }
+      )
       .then(res => Buffer.from(res.data), handleError);
   }
 
@@ -702,9 +956,18 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#account-link
    */
 
-  issueLinkToken(userId: string): Promise<{ issueToken: string }> {
+  issueLinkToken(
+    userId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<{ issueToken: string }> {
     return this._axios
-      .post(`/v2/bot/user/${userId}/linkToken`)
+      .post(
+        `/v2/bot/user/${userId}/linkToken`,
+        null,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -713,27 +976,64 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/liff/reference/#add-liff-app
    */
-  getLiffAppList(): Promise<{ liffId: string, view: LiffView }> {
+  getLiffAppList({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}): Promise<{
+    liffId: string,
+    view: LiffView,
+  }> {
     return this._axios
-      .get('/liff/v1/apps')
+      .get(
+        '/liff/v1/apps',
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data.apps, handleError);
   }
 
-  createLiffApp(view: LiffView): Promise<{ liffId: string }> {
+  createLiffApp(
+    view: LiffView,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<{ liffId: string }> {
     return this._axios
-      .post('/liff/v1/apps', view)
+      .post(
+        '/liff/v1/apps',
+        view,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  updateLiffApp(liffId: string, view: LiffView): Promise<void> {
+  updateLiffApp(
+    liffId: string,
+    view: LiffView,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<void> {
     return this._axios
-      .put(`/liff/v1/apps/${liffId}/view`, view)
+      .put(
+        `/liff/v1/apps/${liffId}/view`,
+        view,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 
-  deleteLiffApp(liffId: string): Promise<void> {
+  deleteLiffApp(
+    liffId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<void> {
     return this._axios
-      .delete(`/liff/v1/apps/${liffId}`)
+      .delete(
+        `/liff/v1/apps/${liffId}`,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
       .then(res => res.data, handleError);
   }
 }
