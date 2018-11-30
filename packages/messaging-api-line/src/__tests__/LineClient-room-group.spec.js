@@ -9,9 +9,10 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
-
 const createMock = () => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
@@ -21,6 +22,8 @@ const createMock = () => {
 describe('Group/Room Member', () => {
   describe('#getGroupMemberProfile', () => {
     it('should response group member profile', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         displayName: 'LINE taro',
@@ -28,9 +31,14 @@ describe('Group/Room Member', () => {
         pictureUrl: 'http://obs.line-apps.com/...',
       };
 
-      mock
-        .onGet(`/v2/bot/group/${GROUP_ID}/member/${RECIPIENT_ID}`)
-        .reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/group/${GROUP_ID}/member/${RECIPIENT_ID}`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getGroupMemberProfile(GROUP_ID, RECIPIENT_ID);
 
@@ -40,6 +48,8 @@ describe('Group/Room Member', () => {
 
   describe('#getRoomMemberProfile', () => {
     it('should response room member profile', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         displayName: 'LINE taro',
@@ -47,9 +57,14 @@ describe('Group/Room Member', () => {
         pictureUrl: 'http://obs.line-apps.com/...',
       };
 
-      mock
-        .onGet(`/v2/bot/room/${ROOM_ID}/member/${RECIPIENT_ID}`)
-        .reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/room/${ROOM_ID}/member/${RECIPIENT_ID}`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getRoomMemberProfile(ROOM_ID, RECIPIENT_ID);
 
@@ -59,6 +74,8 @@ describe('Group/Room Member', () => {
 
   describe('#getGroupMemberIds', () => {
     it('should response group member ids', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         memberIds: [
@@ -68,9 +85,14 @@ describe('Group/Room Member', () => {
         ],
       };
 
-      mock
-        .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
-        .reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getGroupMemberIds(GROUP_ID);
 
@@ -78,6 +100,8 @@ describe('Group/Room Member', () => {
     });
 
     it('should call api with provided continuationToken', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         memberIds: [
@@ -89,11 +113,14 @@ describe('Group/Room Member', () => {
 
       const continuationToken = 'TOKEN';
 
-      mock
-        .onGet(
-          `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
-        )
-        .reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getGroupMemberIds(GROUP_ID, continuationToken);
 
@@ -103,6 +130,8 @@ describe('Group/Room Member', () => {
 
   describe('#getAllGroupMemberIds', () => {
     it('should fetch all member ids until it is finished', async () => {
+      expect.assertions(7);
+
       const { client, mock } = createMock();
       const continuationToken = 'TOKEN';
       const reply1 = {
@@ -123,11 +152,25 @@ describe('Group/Room Member', () => {
 
       mock
         .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
-        .replyOnce(200, reply1, headers)
+        .replyOnce(config => {
+          expect(config.baseURL + config.url).toEqual(
+            `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
+          );
+          expect(config.data).toEqual(undefined);
+          expect(config.headers).toEqual(headers);
+          return [200, reply1];
+        })
         .onGet(
           `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
         )
-        .replyOnce(200, reply2, headers);
+        .replyOnce(config => {
+          expect(config.baseURL + config.url).toEqual(
+            `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
+          );
+          expect(config.data).toEqual(undefined);
+          expect(config.headers).toEqual(headers);
+          return [200, reply2];
+        });
 
       const res = await client.getAllGroupMemberIds(GROUP_ID);
 
@@ -144,6 +187,8 @@ describe('Group/Room Member', () => {
 
   describe('#getRoomMemberIds', () => {
     it('should response room member ids', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         memberIds: [
@@ -153,9 +198,14 @@ describe('Group/Room Member', () => {
         ],
       };
 
-      mock
-        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids`)
-        .reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getRoomMemberIds(ROOM_ID);
 
@@ -163,6 +213,8 @@ describe('Group/Room Member', () => {
     });
 
     it('should call api with provided continuationToken', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         memberIds: [
@@ -174,9 +226,14 @@ describe('Group/Room Member', () => {
 
       const continuationToken = 'TOKEN';
 
-      mock
-        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
-        .reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getRoomMemberIds(ROOM_ID, continuationToken);
 
@@ -186,6 +243,8 @@ describe('Group/Room Member', () => {
 
   describe('#getAllRoomMemberIds', () => {
     it('should fetch all member ids until it is finished', async () => {
+      expect.assertions(7);
+
       const { client, mock } = createMock();
       const continuationToken = 'TOKEN';
       const reply1 = {
@@ -205,10 +264,24 @@ describe('Group/Room Member', () => {
       };
 
       mock
-        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids`)
-        .replyOnce(200, reply1, headers)
-        .onGet(`/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`)
-        .replyOnce(200, reply2, headers);
+        .onGet()
+        .replyOnce(config => {
+          expect(config.baseURL + config.url).toEqual(
+            `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
+          );
+          expect(config.data).toEqual(undefined);
+          expect(config.headers).toEqual(headers);
+          return [200, reply1];
+        })
+        .onGet()
+        .replyOnce(config => {
+          expect(config.baseURL + config.url).toEqual(
+            `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
+          );
+          expect(config.data).toEqual(undefined);
+          expect(config.headers).toEqual(headers);
+          return [200, reply2];
+        });
 
       const res = await client.getAllRoomMemberIds(ROOM_ID);
 
@@ -227,11 +300,20 @@ describe('Group/Room Member', () => {
 describe('Leave', () => {
   describe('#leaveGroup', () => {
     it('should call leave api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock.onPost(`/v2/bot/group/${GROUP_ID}/leave`).reply(200, reply, headers);
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/group/${GROUP_ID}/leave`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.leaveGroup(GROUP_ID);
 
@@ -241,11 +323,20 @@ describe('Leave', () => {
 
   describe('#leaveRoom', () => {
     it('should call leave api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock.onPost(`/v2/bot/room/${ROOM_ID}/leave`).reply(200, reply, headers);
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/room/${ROOM_ID}/leave`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.leaveRoom(ROOM_ID);
 

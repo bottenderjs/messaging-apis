@@ -7,6 +7,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -19,16 +21,23 @@ const createMock = () => {
 describe('Push Message', () => {
   describe('#pushRawBody', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushRawBody({
         to: RECIPIENT_ID,
@@ -46,16 +55,23 @@ describe('Push Message', () => {
 
   describe('#push', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.push(RECIPIENT_ID, [
         {
@@ -70,16 +86,23 @@ describe('Push Message', () => {
 
   describe('#pushText', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushText(RECIPIENT_ID, 'Hello!');
 
@@ -89,12 +112,17 @@ describe('Push Message', () => {
 
   describe('#pushImage', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -103,8 +131,10 @@ describe('Push Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImage(
         RECIPIENT_ID,
@@ -116,12 +146,17 @@ describe('Push Message', () => {
     });
 
     it('should use contentUrl as fallback', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -130,8 +165,10 @@ describe('Push Message', () => {
               previewImageUrl: 'https://example.com/original.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImage(
         RECIPIENT_ID,
@@ -142,12 +179,17 @@ describe('Push Message', () => {
     });
 
     it('should call push api with object image arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -156,8 +198,10 @@ describe('Push Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImage(RECIPIENT_ID, {
         originalContentUrl: 'https://example.com/original.jpg',
@@ -170,12 +214,17 @@ describe('Push Message', () => {
 
   describe('#pushVideo', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -184,8 +233,10 @@ describe('Push Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushVideo(
         RECIPIENT_ID,
@@ -197,12 +248,17 @@ describe('Push Message', () => {
     });
 
     it('should call push api with object video arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -211,8 +267,10 @@ describe('Push Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushVideo(RECIPIENT_ID, {
         originalContentUrl: 'https://example.com/original.mp4',
@@ -225,12 +283,17 @@ describe('Push Message', () => {
 
   describe('#pushAudio', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -239,8 +302,10 @@ describe('Push Message', () => {
               duration: 240000,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushAudio(
         RECIPIENT_ID,
@@ -252,12 +317,17 @@ describe('Push Message', () => {
     });
 
     it('should call push api with object audio arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -266,8 +336,10 @@ describe('Push Message', () => {
               duration: 240000,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushAudio(RECIPIENT_ID, {
         originalContentUrl: 'https://example.com/original.m4a',
@@ -280,12 +352,17 @@ describe('Push Message', () => {
 
   describe('#pushLocation', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -296,8 +373,10 @@ describe('Push Message', () => {
               longitude: 139.70372892916203,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushLocation(RECIPIENT_ID, {
         title: 'my location',
@@ -312,12 +391,17 @@ describe('Push Message', () => {
 
   describe('#pushSticker', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -326,8 +410,10 @@ describe('Push Message', () => {
               stickerId: '1',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushSticker(RECIPIENT_ID, '1', '1');
 
@@ -335,12 +421,17 @@ describe('Push Message', () => {
     });
 
     it('should call push api with object sticker arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -349,8 +440,10 @@ describe('Push Message', () => {
               stickerId: '1',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushSticker(RECIPIENT_ID, {
         packageId: '1',
@@ -363,12 +456,17 @@ describe('Push Message', () => {
 
   describe('#pushImagemap', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -403,8 +501,10 @@ describe('Push Message', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImagemap(
         RECIPIENT_ID,
@@ -442,12 +542,17 @@ describe('Push Message', () => {
     });
 
     it('should support baseSize argument', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -482,8 +587,10 @@ describe('Push Message', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImagemap(
         RECIPIENT_ID,
@@ -523,12 +630,17 @@ describe('Push Message', () => {
     });
 
     it('should support video', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -577,8 +689,10 @@ describe('Push Message', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImagemap(
         RECIPIENT_ID,
@@ -634,12 +748,17 @@ describe('Push Message', () => {
 
   describe('#pushTemplate', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -670,8 +789,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushTemplate(
         RECIPIENT_ID,
@@ -707,12 +828,17 @@ describe('Push Message', () => {
 
   describe('#pushButtonTemplate', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -751,8 +877,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushButtonTemplate(
         RECIPIENT_ID,
@@ -793,12 +921,17 @@ describe('Push Message', () => {
     });
 
     it('should support pushButtonsTemplate alias', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -832,8 +965,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushButtonsTemplate(
         RECIPIENT_ID,
@@ -871,12 +1006,17 @@ describe('Push Message', () => {
 
   describe('#pushConfirmTemplate', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -900,8 +1040,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushConfirmTemplate(
         RECIPIENT_ID,
@@ -929,12 +1071,17 @@ describe('Push Message', () => {
 
   describe('#pushCarouselTemplate', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -995,8 +1142,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushCarouselTemplate(
         RECIPIENT_ID,
@@ -1057,12 +1206,17 @@ describe('Push Message', () => {
     });
 
     it('should work without option', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -1121,8 +1275,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushCarouselTemplate(
         RECIPIENT_ID,
@@ -1181,12 +1337,17 @@ describe('Push Message', () => {
 
   describe('#pushImageCarouselTemplate', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -1223,8 +1384,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushImageCarouselTemplate(
         RECIPIENT_ID,
@@ -1263,12 +1426,17 @@ describe('Push Message', () => {
 
   describe('#pushFlex', () => {
     it('should call push api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/push', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/push'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: RECIPIENT_ID,
           messages: [
             {
@@ -1316,8 +1484,10 @@ describe('Push Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.pushFlex(
         RECIPIENT_ID,
