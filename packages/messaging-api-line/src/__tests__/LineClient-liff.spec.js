@@ -6,6 +6,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -18,6 +20,8 @@ const createMock = () => {
 describe('LINE Front-end Framework', () => {
   describe('#getLiffAppList', () => {
     it('should call api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {
@@ -39,7 +43,14 @@ describe('LINE Front-end Framework', () => {
         ],
       };
 
-      mock.onGet('/liff/v1/apps').reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/liff/v1/apps'
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getLiffAppList();
 
@@ -64,18 +75,25 @@ describe('LINE Front-end Framework', () => {
 
   describe('#createLiffApp', () => {
     it('should call api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {
         liffId: 'liff-12345',
       };
 
-      mock
-        .onPost('/liff/v1/apps', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/liff/v1/apps'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           type: 'tall',
           url: 'https://example.com/myservice',
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.createLiffApp({
         type: 'tall',
@@ -90,16 +108,23 @@ describe('LINE Front-end Framework', () => {
 
   describe('#updateLiffApp', () => {
     it('should call api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPut('/liff/v1/apps/liff-12345/view', {
+      mock.onPut().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/liff/v1/apps/liff-12345/view'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           type: 'tall',
           url: 'https://example.com/myservice',
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.updateLiffApp('liff-12345', {
         type: 'tall',
@@ -112,11 +137,20 @@ describe('LINE Front-end Framework', () => {
 
   describe('#deleteLiffApp', () => {
     it('should call api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock.onDelete('/liff/v1/apps/liff-12345').reply(200, reply, headers);
+      mock.onDelete().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/liff/v1/apps/liff-12345'
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.deleteLiffApp('liff-12345');
 

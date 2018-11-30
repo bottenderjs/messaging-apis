@@ -7,6 +7,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -19,16 +21,23 @@ const createMock = () => {
 describe('Multicast', () => {
   describe('#multicastRawBody', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastRawBody({
         to: [RECIPIENT_ID],
@@ -46,16 +55,23 @@ describe('Multicast', () => {
 
   describe('#multicast', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicast(
         [RECIPIENT_ID],
@@ -73,16 +89,23 @@ describe('Multicast', () => {
 
   describe('#multicastText', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastText([RECIPIENT_ID], 'Hello!');
 
@@ -92,12 +115,17 @@ describe('Multicast', () => {
 
   describe('#multicastImage', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -106,8 +134,10 @@ describe('Multicast', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImage(
         [RECIPIENT_ID],
@@ -119,12 +149,17 @@ describe('Multicast', () => {
     });
 
     it('should use contentUrl as fallback', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -133,8 +168,10 @@ describe('Multicast', () => {
               previewImageUrl: 'https://example.com/original.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImage(
         [RECIPIENT_ID],
@@ -145,12 +182,17 @@ describe('Multicast', () => {
     });
 
     it('should call multicast api with object image arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -159,8 +201,10 @@ describe('Multicast', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImage([RECIPIENT_ID], {
         originalContentUrl: 'https://example.com/original.jpg',
@@ -173,12 +217,17 @@ describe('Multicast', () => {
 
   describe('#multicastVideo', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -187,8 +236,10 @@ describe('Multicast', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastVideo(
         [RECIPIENT_ID],
@@ -200,12 +251,17 @@ describe('Multicast', () => {
     });
 
     it('should call multicast api with object video arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -214,8 +270,10 @@ describe('Multicast', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastVideo([RECIPIENT_ID], {
         originalContentUrl: 'https://example.com/original.mp4',
@@ -228,12 +286,17 @@ describe('Multicast', () => {
 
   describe('#multicastAudio', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -242,8 +305,10 @@ describe('Multicast', () => {
               duration: 240000,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastAudio(
         [RECIPIENT_ID],
@@ -255,12 +320,17 @@ describe('Multicast', () => {
     });
 
     it('should call multicast api with object audio arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -269,8 +339,10 @@ describe('Multicast', () => {
               duration: 240000,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastAudio([RECIPIENT_ID], {
         originalContentUrl: 'https://example.com/original.m4a',
@@ -283,12 +355,17 @@ describe('Multicast', () => {
 
   describe('#multicastLocation', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -299,8 +376,10 @@ describe('Multicast', () => {
               longitude: 139.70372892916203,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastLocation([RECIPIENT_ID], {
         title: 'my location',
@@ -315,12 +394,17 @@ describe('Multicast', () => {
 
   describe('#multicastSticker', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -329,8 +413,10 @@ describe('Multicast', () => {
               stickerId: '1',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastSticker([RECIPIENT_ID], '1', '1');
 
@@ -338,12 +424,17 @@ describe('Multicast', () => {
     });
 
     it('should call multicast api with object sticker arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -352,8 +443,10 @@ describe('Multicast', () => {
               stickerId: '1',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastSticker([RECIPIENT_ID], {
         packageId: '1',
@@ -366,12 +459,17 @@ describe('Multicast', () => {
 
   describe('#multicastImagemap', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -406,8 +504,10 @@ describe('Multicast', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImagemap(
         [RECIPIENT_ID],
@@ -445,12 +545,17 @@ describe('Multicast', () => {
     });
 
     it('should support baseSize argument', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -485,8 +590,10 @@ describe('Multicast', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImagemap(
         [RECIPIENT_ID],
@@ -526,12 +633,17 @@ describe('Multicast', () => {
     });
 
     it('should support video', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -580,8 +692,10 @@ describe('Multicast', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImagemap(
         [RECIPIENT_ID],
@@ -637,12 +751,17 @@ describe('Multicast', () => {
 
   describe('#multicastTemplate', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -673,8 +792,11 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastTemplate(
         [RECIPIENT_ID],
@@ -710,12 +832,17 @@ describe('Multicast', () => {
 
   describe('#multicastButtonTemplate', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -754,8 +881,10 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastButtonTemplate(
         [RECIPIENT_ID],
@@ -798,12 +927,17 @@ describe('Multicast', () => {
 
   describe('#multicastConfirmTemplate', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -827,8 +961,10 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastConfirmTemplate(
         [RECIPIENT_ID],
@@ -856,12 +992,17 @@ describe('Multicast', () => {
 
   describe('#multicastCarouselTemplate', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -922,8 +1063,10 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastCarouselTemplate(
         [RECIPIENT_ID],
@@ -984,12 +1127,17 @@ describe('Multicast', () => {
     });
 
     it('should work without option', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -1048,8 +1196,10 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastCarouselTemplate(
         [RECIPIENT_ID],
@@ -1108,12 +1258,17 @@ describe('Multicast', () => {
 
   describe('#multicastImageCarouselTemplate', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -1150,8 +1305,10 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastImageCarouselTemplate(
         [RECIPIENT_ID],
@@ -1190,12 +1347,17 @@ describe('Multicast', () => {
 
   describe('#multicastFlex', () => {
     it('should call multicast api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/multicast', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/multicast'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
             {
@@ -1243,8 +1405,10 @@ describe('Multicast', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.multicastFlex(
         [RECIPIENT_ID],
