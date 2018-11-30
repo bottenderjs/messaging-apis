@@ -7,6 +7,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -19,16 +21,23 @@ const createMock = () => {
 describe('Reply Message', () => {
   describe('#replyRawBody', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyRawBody({
         replyToken: REPLY_TOKEN,
@@ -46,16 +55,23 @@ describe('Reply Message', () => {
 
   describe('#reply', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.reply(REPLY_TOKEN, [
         {
@@ -70,16 +86,23 @@ describe('Reply Message', () => {
 
   describe('#replyText', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyText(REPLY_TOKEN, 'Hello!');
 
@@ -89,12 +112,17 @@ describe('Reply Message', () => {
 
   describe('#replyImage', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -103,8 +131,10 @@ describe('Reply Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImage(
         REPLY_TOKEN,
@@ -116,12 +146,17 @@ describe('Reply Message', () => {
     });
 
     it('should use contentUrl as fallback', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -130,8 +165,10 @@ describe('Reply Message', () => {
               previewImageUrl: 'https://example.com/original.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImage(
         REPLY_TOKEN,
@@ -142,12 +179,17 @@ describe('Reply Message', () => {
     });
 
     it('should call reply api with object image arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -156,8 +198,10 @@ describe('Reply Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImage(REPLY_TOKEN, {
         originalContentUrl: 'https://example.com/original.jpg',
@@ -170,12 +214,17 @@ describe('Reply Message', () => {
 
   describe('#replyVideo', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -184,8 +233,10 @@ describe('Reply Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyVideo(
         REPLY_TOKEN,
@@ -197,12 +248,17 @@ describe('Reply Message', () => {
     });
 
     it('should call reply api with object video arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -211,8 +267,10 @@ describe('Reply Message', () => {
               previewImageUrl: 'https://example.com/preview.jpg',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyVideo(REPLY_TOKEN, {
         originalContentUrl: 'https://example.com/original.mp4',
@@ -225,12 +283,17 @@ describe('Reply Message', () => {
 
   describe('#replyAudio', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -239,8 +302,10 @@ describe('Reply Message', () => {
               duration: 240000,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyAudio(
         REPLY_TOKEN,
@@ -252,12 +317,17 @@ describe('Reply Message', () => {
     });
 
     it('should call reply api with object audio arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -266,8 +336,10 @@ describe('Reply Message', () => {
               duration: 240000,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyAudio(REPLY_TOKEN, {
         originalContentUrl: 'https://example.com/original.m4a',
@@ -280,12 +352,17 @@ describe('Reply Message', () => {
 
   describe('#replyLocation', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -296,8 +373,10 @@ describe('Reply Message', () => {
               longitude: 139.70372892916203,
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyLocation(REPLY_TOKEN, {
         title: 'my location',
@@ -312,12 +391,17 @@ describe('Reply Message', () => {
 
   describe('#replySticker', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -326,8 +410,10 @@ describe('Reply Message', () => {
               stickerId: '1',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replySticker(REPLY_TOKEN, '1', '1');
 
@@ -335,12 +421,17 @@ describe('Reply Message', () => {
     });
 
     it('should call reply api with object sticker arg', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -349,8 +440,10 @@ describe('Reply Message', () => {
               stickerId: '1',
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replySticker(REPLY_TOKEN, {
         packageId: '1',
@@ -363,12 +456,17 @@ describe('Reply Message', () => {
 
   describe('#replyImagemap', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -403,8 +501,10 @@ describe('Reply Message', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImagemap(
         REPLY_TOKEN,
@@ -442,12 +542,17 @@ describe('Reply Message', () => {
     });
 
     it('should support baseSize argument', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -482,8 +587,10 @@ describe('Reply Message', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImagemap(
         REPLY_TOKEN,
@@ -523,12 +630,17 @@ describe('Reply Message', () => {
     });
 
     it('should support video', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -577,8 +689,10 @@ describe('Reply Message', () => {
               ],
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImagemap(
         REPLY_TOKEN,
@@ -634,12 +748,17 @@ describe('Reply Message', () => {
 
   describe('#replyTemplate', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -670,8 +789,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyTemplate(
         REPLY_TOKEN,
@@ -707,12 +828,17 @@ describe('Reply Message', () => {
 
   describe('#replyButtonTemplate', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -751,8 +877,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyButtonTemplate(
         REPLY_TOKEN,
@@ -793,12 +921,17 @@ describe('Reply Message', () => {
     });
 
     it('should support replyButtonsTemplate alias', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -832,8 +965,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyButtonsTemplate(
         REPLY_TOKEN,
@@ -871,12 +1006,17 @@ describe('Reply Message', () => {
 
   describe('#replyConfirmTemplate', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -900,8 +1040,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyConfirmTemplate(
         REPLY_TOKEN,
@@ -929,12 +1071,17 @@ describe('Reply Message', () => {
 
   describe('#replyCarouselTemplate', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -995,8 +1142,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyCarouselTemplate(
         REPLY_TOKEN,
@@ -1057,12 +1206,17 @@ describe('Reply Message', () => {
     });
 
     it('should work without option', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -1121,8 +1275,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyCarouselTemplate(
         REPLY_TOKEN,
@@ -1181,12 +1337,17 @@ describe('Reply Message', () => {
 
   describe('#replyImageCarouselTemplate', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -1223,8 +1384,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyImageCarouselTemplate(
         REPLY_TOKEN,
@@ -1263,12 +1426,17 @@ describe('Reply Message', () => {
 
   describe('#replyFlex', () => {
     it('should call reply api', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
 
       const reply = {};
 
-      mock
-        .onPost('/v2/bot/message/reply', {
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          'https://api.line.me/v2/bot/message/reply'
+        );
+        expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
             {
@@ -1316,8 +1484,10 @@ describe('Reply Message', () => {
               },
             },
           ],
-        })
-        .reply(200, reply, headers);
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.replyFlex(
         REPLY_TOKEN,

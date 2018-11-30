@@ -8,6 +8,8 @@ const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
 const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${ACCESS_TOKEN}`,
 };
 
@@ -38,6 +40,8 @@ describe('Content', () => {
 describe('Profile', () => {
   describe('#getUserProfile', () => {
     it('should response user profile', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         displayName: 'LINE taro',
@@ -46,7 +50,14 @@ describe('Profile', () => {
         statusMessage: 'Hello, LINE!',
       };
 
-      mock.onGet(`/v2/bot/profile/${RECIPIENT_ID}`).reply(200, reply, headers);
+      mock.onGet().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/profile/${RECIPIENT_ID}`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.getUserProfile(RECIPIENT_ID);
 
@@ -58,14 +69,21 @@ describe('Profile', () => {
 describe('Account link', () => {
   describe('#issueLinkToken', () => {
     it('should response data with link token', async () => {
+      expect.assertions(4);
+
       const { client, mock } = createMock();
       const reply = {
         linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
       };
 
-      mock
-        .onPost(`/v2/bot/user/${RECIPIENT_ID}/linkToken`)
-        .reply(200, reply, headers);
+      mock.onPost().reply(config => {
+        expect(config.baseURL + config.url).toEqual(
+          `https://api.line.me/v2/bot/user/${RECIPIENT_ID}/linkToken`
+        );
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
 
       const res = await client.issueLinkToken(RECIPIENT_ID);
 
