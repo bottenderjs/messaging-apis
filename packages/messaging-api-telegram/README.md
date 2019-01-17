@@ -180,7 +180,7 @@ Sends text messages.
 | text    | `String`                          | Text of the message to be sent.                                          |
 | options | `Object`                          | Other optional parameters.                                               |
 
-Exmaple:
+Example:
 
 ```js
 client.sendMessage(CHAT_ID, 'hi', {
