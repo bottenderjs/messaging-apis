@@ -266,9 +266,30 @@ describe('#getMessagingFeatureReview', () => {
 
 describe('user profile', () => {
   describe('#getUserProfile', () => {
-    it('should response user profile', async () => {
+    it('should get user profile with default fields', async () => {
       const { client, mock } = createMock();
       const reply = {
+        id: '1',
+        first_name: 'Kevin',
+        last_name: 'Durant',
+        profile_pic: 'https://example.com/pic.png',
+      };
+
+      mock
+        .onGet(
+          `/1?fields=id,name,first_name,last_name,profile_pic&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
+
+      const res = await client.getUserProfile('1');
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should get user profile with given fields', async () => {
+      const { client, mock } = createMock();
+      const reply = {
+        id: '1',
         first_name: 'Kevin',
         last_name: 'Durant',
         profile_pic: 'https://example.com/pic.png',
@@ -277,9 +298,24 @@ describe('user profile', () => {
         gender: 'male',
       };
 
-      mock.onGet(`/1?access_token=${ACCESS_TOKEN}`).reply(200, reply);
+      mock
+        .onGet(
+          `/1?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender&access_token=${ACCESS_TOKEN}`
+        )
+        .reply(200, reply);
 
-      const res = await client.getUserProfile('1');
+      const res = await client.getUserProfile('1', {
+        fields: [
+          'id',
+          'name',
+          'first_name',
+          'last_name',
+          'profile_pic',
+          'locale',
+          'timezone',
+          'gender',
+        ],
+      });
 
       expect(res).toEqual(reply);
     });
