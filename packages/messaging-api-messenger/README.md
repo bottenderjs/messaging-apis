@@ -2014,13 +2014,14 @@ The API will respond with the time the broadcast is scheduled for, and one of th
 
 ### User Profile API - [Official Docs](https://developers.facebook.com/docs/messenger-platform/user-profile)
 
-## `getUserProfile(userId)`
+## `getUserProfile(userId, options)`
 
 Retrieving a Person's Profile.
 
-| Param  | Type     | Description                           |
-| ------ | -------- | ------------------------------------- |
-| userId | `String` | Page-scoped user ID of the recipient. |
+| Param          | Type            | Description                                                                                                                                                                      |
+| -------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId         | `String`        | Page-scoped user ID of the recipient.                                                                                                                                            |
+| options.fields | `Array<String>` | Value must be among `id`, `name`, `first_name`, `last_name`, `profile_pic`, `locale`, `timezone`, `gender`, default with `id`, `name`, `first_name`, `last_name`, `profile_pic`, |
 
 Example:
 
@@ -2028,12 +2029,10 @@ Example:
 client.getUserProfile(USER_ID).then(user => {
   console.log(user);
   // {
+  //   id: '5566'
   //   first_name: 'Johnathan',
   //   last_name: 'Jackson',
   //   profile_pic: 'https://example.com/pic.png',
-  //   locale: 'en_US',
-  //   timezone: 8,
-  //   gender: 'male',
   // }
 });
 ```

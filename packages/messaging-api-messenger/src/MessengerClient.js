@@ -348,10 +348,17 @@ export default class MessengerClient {
    */
   getUserProfile(
     userId: string,
-    { access_token: customAccessToken }: { access_token?: string } = {}
+    {
+      access_token: customAccessToken,
+      fields = ['id', 'name', 'first_name', 'last_name', 'profile_pic'],
+    }: { access_token?: string, fields?: Array<string> } = {}
   ): Promise<User> {
     return this._axios
-      .get(`/${userId}?access_token=${customAccessToken || this._accessToken}`)
+      .get(
+        `/${userId}?fields=${fields.join(
+          ','
+        )}&access_token=${customAccessToken || this._accessToken}`
+      )
       .then(res => res.data, handleError);
   }
 
