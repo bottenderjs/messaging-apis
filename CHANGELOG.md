@@ -1,3 +1,65 @@
+# 0.7.16 / 2019-01-29
+
+### messaging-api-messenger
+
+- [new] add `options.fields` to `getUserProfile`:
+
+```js
+client
+  .getUserProfile(USER_ID, {
+    fields: [
+      `id`,
+      `name`,
+      `first_name`,
+      `last_name`,
+      `profile_pic`,
+      `locale`,
+      `timezone`,
+      `gender`,
+    ],
+  })
+  .then(user => {
+    console.log(user);
+    // {
+    //   id: '5566'
+    //   first_name: 'Johnathan',
+    //   last_name: 'Jackson',
+    //   profile_pic: 'https://example.com/pic.png',
+    //   locale: 'en_US',
+    //   timezone: 8,
+    //   gender: 'male',
+    // }
+  });
+```
+
+- [new] implement `client.getSubscriptions`:
+
+```js
+client.getSubscriptions({
+  access_token: APP_ACCESS_TOKEN,
+});
+
+// or
+
+client.getSubscriptions({
+  access_token: `${APP_ID}|${APP_SECRET}`,
+});
+```
+
+- [new] implement `client.getPageSubscription`:
+
+```js
+client.getPageSubscription({
+  access_token: APP_ACCESS_TOKEN,
+});
+
+// or
+
+client.getPageSubscription({
+  access_token: `${APP_ID}|${APP_SECRET}`,
+});
+```
+
 # 0.7.15 / 2018-11-12
 
 ### messaging-api-messenger
