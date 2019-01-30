@@ -1,7 +1,7 @@
 {
   "name": "messaging-api-telegram",
   "description": "Messaging API client for Telegram",
-  "version": "0.7.11",
+  "version": "0.8.0-alpha.1",
   "engines": {
     "node": ">=6"
   },
