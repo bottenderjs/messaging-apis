@@ -24,7 +24,7 @@ import type {
   UserID,
 } from './MessengerTypes';
 
-function omitUndefinedFields(obj) {
+function omitUndefinedFields(obj = {}) {
   return JSON.parse(JSON.stringify(obj));
 }
 
@@ -267,16 +267,22 @@ function sendAirlineUpdateTemplate(
   );
 }
 
-function getUserProfile(userId: string) {
+function getUserProfile(
+  userId: string,
+  options?: { access_token?: string } = {}
+) {
   return {
     method: 'GET',
-    relative_url: `${userId}`,
+    relative_url: `${userId}`.concat(
+      options.access_token ? `?access_token=${options.access_token}` : ''
+    ),
   };
 }
 
 function sendSenderAction(
   idOrRecipient: UserID | Recipient,
-  action: SenderAction
+  action: SenderAction,
+  options?: SendOption
 ) {
   const recipient =
     typeof idOrRecipient === 'string'
@@ -288,25 +294,27 @@ function sendSenderAction(
   return sendRequest({
     recipient,
     sender_action: action,
+    ...omitUndefinedFields(options),
   });
 }
 
-function typingOn(idOrRecipient: UserID | Recipient) {
-  return sendSenderAction(idOrRecipient, 'typing_on');
+function typingOn(idOrRecipient: UserID | Recipient, options?: SendOption) {
+  return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
-function typingOff(idOrRecipient: UserID | Recipient) {
-  return sendSenderAction(idOrRecipient, 'typing_off');
+function typingOff(idOrRecipient: UserID | Recipient, options?: SendOption) {
+  return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
-function markSeen(idOrRecipient: UserID | Recipient) {
-  return sendSenderAction(idOrRecipient, 'mark_seen');
+function markSeen(idOrRecipient: UserID | Recipient, options?: SendOption) {
+  return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
 
 function passThreadControl(
   recipientId: string,
   targetAppId: number,
-  metadata?: string
+  metadata?: string,
+  options?: { access_token?: string }
 ) {
   return {
     method: 'POST',
@@ -315,60 +323,90 @@ function passThreadControl(
       recipient: { id: recipientId },
       target_app_id: targetAppId,
       metadata,
+      ...omitUndefinedFields(options),
     },
   };
 }
 
-function passThreadControlToPageInbox(recipientId: string, metadata?: string) {
-  return passThreadControl(recipientId, 263902037430900, metadata);
+function passThreadControlToPageInbox(
+  recipientId: string,
+  metadata?: string,
+  options?: { access_token?: string }
+) {
+  return passThreadControl(recipientId, 263902037430900, metadata, options);
 }
 
-function takeThreadControl(recipientId: string, metadata?: string) {
+function takeThreadControl(
+  recipientId: string,
+  metadata?: string,
+  options?: { access_token?: string }
+) {
   return {
     method: 'POST',
     relative_url: 'me/take_thread_control',
     body: {
       recipient: { id: recipientId },
       metadata,
+      ...omitUndefinedFields(options),
     },
   };
 }
 
-function requestThreadControl(recipientId: string, metadata?: string) {
+function requestThreadControl(
+  recipientId: string,
+  metadata?: string,
+  options?: { access_token?: string }
+) {
   return {
     method: 'POST',
     relative_url: 'me/request_thread_control',
     body: {
       recipient: { id: recipientId },
       metadata,
+      ...omitUndefinedFields(options),
     },
   };
 }
 
-function associateLabel(userId: UserID, labelId: number) {
+function associateLabel(
+  userId: UserID,
+  labelId: number,
+  options?: { access_token?: string }
+) {
   return {
     method: 'POST',
     relative_url: `${labelId}/label`,
     body: {
       user: userId,
+      ...omitUndefinedFields(options),
     },
   };
 }
 
-function dissociateLabel(userId: UserID, labelId: number) {
+function dissociateLabel(
+  userId: UserID,
+  labelId: number,
+  options?: { access_token?: string }
+) {
   return {
     method: 'DELETE',
     relative_url: `${labelId}/label`,
     body: {
       user: userId,
+      ...omitUndefinedFields(options),
     },
   };
 }
 
-function getAssociatedLabels(userId: UserID) {
+function getAssociatedLabels(
+  userId: UserID,
+  options?: { access_token?: string } = {}
+) {
   return {
     method: 'GET',
-    relative_url: `${userId}/custom_labels`,
+    relative_url: `${userId}/custom_labels`.concat(
+      options.access_token ? `?access_token=${options.access_token}` : ''
+    ),
   };
 }
 
