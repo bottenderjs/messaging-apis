@@ -783,7 +783,13 @@ export default class LineClient {
           headers: { Authorization: `Bearer ${customAccessToken}` },
         }
       )
-      .then(res => res.data, handleError);
+      .then(res => res.data)
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          return null;
+        }
+        handleError(err);
+      });
   }
 
   createRichMenu(
@@ -826,7 +832,13 @@ export default class LineClient {
           headers: { Authorization: `Bearer ${customAccessToken}` },
         }
       )
-      .then(res => res.data, handleError);
+      .then(res => res.data)
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          return null;
+        }
+        handleError(err);
+      });
   }
 
   linkRichMenu(
@@ -869,7 +881,13 @@ export default class LineClient {
           headers: { Authorization: `Bearer ${customAccessToken}` },
         }
       )
-      .then(res => res.data, handleError);
+      .then(res => res.data)
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          return null;
+        }
+        handleError(err);
+      });
   }
 
   setDefaultRichMenu(
@@ -947,7 +965,13 @@ export default class LineClient {
               responseType: 'arraybuffer',
             }
       )
-      .then(res => Buffer.from(res.data), handleError);
+      .then(res => Buffer.from(res.data))
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          return null;
+        }
+        handleError(err);
+      });
   }
 
   /**
