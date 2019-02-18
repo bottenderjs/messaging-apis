@@ -268,6 +268,21 @@ describe('Rich Menu', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should return null when no rich menu found', async () => {
+      const { client, mock } = createMock();
+
+      mock.onGet().reply(404, {
+        message: 'richmenu not found',
+        details: [],
+      });
+
+      const res = await client.getRichMenu(
+        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+      );
+
+      expect(res).toEqual(null);
+    });
   });
 
   describe('#createRichMenu', () => {
@@ -467,6 +482,21 @@ describe('Rich Menu', () => {
       });
 
       expect(res).toEqual(reply);
+    });
+
+    it('should return null when no rich menu found', async () => {
+      const { client, mock } = createMock();
+
+      mock.onGet().reply(404, {
+        message: 'the user has no richmenu',
+        details: [],
+      });
+
+      const res = await client.getLinkedRichMenu(
+        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+      );
+
+      expect(res).toEqual(null);
     });
   });
 
@@ -711,6 +741,18 @@ describe('Rich Menu', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should return null when no rich menu image found', async () => {
+      const { client, mock } = createMock();
+
+      mock.onGet().reply(404, Buffer.from('{"message":"Not found"}'));
+
+      const res = await client.downloadRichMenuImage(
+        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+      );
+
+      expect(res).toEqual(null);
+    });
   });
 
   describe('#getDefaultRichMenu', () => {
@@ -762,6 +804,21 @@ describe('Rich Menu', () => {
       });
 
       expect(res).toEqual(reply);
+    });
+
+    it('should return null when no default rich menu found', async () => {
+      const { client, mock } = createMock();
+
+      mock.onGet().reply(404, {
+        message: 'no default richmenu',
+        details: [],
+      });
+
+      const res = await client.getDefaultRichMenu(
+        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+      );
+
+      expect(res).toEqual(null);
     });
   });
 
