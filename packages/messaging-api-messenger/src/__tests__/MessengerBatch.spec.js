@@ -1168,6 +1168,18 @@ describe('requestThreadControl', () => {
   });
 });
 
+describe('getThreadOwner', () => {
+  it('should create get thread owner request', () => {
+    expect(MessengerBatch.getThreadOwner(RECIPIENT_ID)).toEqual({
+      method: 'GET',
+      relative_url: 'me/thread_owner',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+      },
+    });
+  });
+});
+
 describe('associateLabel', () => {
   it('should create associate label request', () => {
     expect(MessengerBatch.associateLabel(RECIPIENT_ID, LABEL_ID)).toEqual({

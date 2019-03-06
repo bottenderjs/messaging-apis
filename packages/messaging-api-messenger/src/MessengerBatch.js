@@ -368,6 +368,20 @@ function requestThreadControl(
   };
 }
 
+function getThreadOwner(
+  recipientId: string,
+  options?: { access_token: ?string }
+) {
+  return {
+    method: 'GET',
+    relative_url: 'me/thread_owner',
+    body: {
+      recipient: { id: recipientId },
+      ...omitUndefinedFields(options),
+    },
+  };
+}
+
 function associateLabel(
   userId: UserID,
   labelId: number,
@@ -501,6 +515,7 @@ const MessengerBatch = {
   passThreadControlToPageInbox,
   takeThreadControl,
   requestThreadControl,
+  getThreadOwner,
 
   associateLabel,
   dissociateLabel,
