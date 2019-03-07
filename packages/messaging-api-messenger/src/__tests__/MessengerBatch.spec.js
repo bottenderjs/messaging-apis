@@ -1173,6 +1173,7 @@ describe('getThreadOwner', () => {
     expect(MessengerBatch.getThreadOwner(RECIPIENT_ID)).toEqual({
       method: 'GET',
       relative_url: 'me/thread_owner?recipient=1QAZ2WSX',
+      responseAccessPath: 'data[0].thread_owner',
     });
   });
 });

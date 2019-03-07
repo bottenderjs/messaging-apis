@@ -878,6 +878,42 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
+    it('should get correct data according to responseAccessPath', async () => {
+      const { client, mock } = createMock();
+
+      const reply = [
+        {
+          body: {
+            data: [
+              {
+                thread_owner: {
+                  app_id: '501514720355337',
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      const batch = [MessengerBatch.getThreadOwner(USER_ID)];
+
+      mock
+        .onPost('/', {
+          access_token: ACCESS_TOKEN,
+          batch: [
+            {
+              method: 'GET',
+              relative_url: `me/thread_owner?recipient=${USER_ID}`,
+            },
+          ],
+        })
+        .reply(200, reply);
+
+      const res = await client.sendBatch(batch);
+
+      expect(res).toEqual([{ body: { app_id: '501514720355337' } }]);
+    });
+
     it('should throw if item length > 50', async () => {
       const { client } = createMock();
 

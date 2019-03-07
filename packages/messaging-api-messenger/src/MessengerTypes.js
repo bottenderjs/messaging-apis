@@ -332,6 +332,7 @@ export type BatchItem = {
   relative_url: string,
   name?: string,
   body?: Object,
+  responseAccessPath?: string,
 };
 
 export type Model =
