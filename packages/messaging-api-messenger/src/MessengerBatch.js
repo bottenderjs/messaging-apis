@@ -377,6 +377,7 @@ function getThreadOwner(
     relative_url: `me/thread_owner?recipient=${recipientId}`.concat(
       options.access_token ? `&access_token=${options.access_token}` : ''
     ),
+    responseAccessPath: 'data[0].thread_owner',
   };
 }
 

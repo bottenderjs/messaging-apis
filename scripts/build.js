@@ -46,7 +46,10 @@ const fixedWidth = str => {
   if (lastString.length < WIDTH) {
     lastString += Array(WIDTH - lastString.length).join(chalk.dim('.'));
   }
-  return strs.slice(0, -1).concat(lastString).join('\n');
+  return strs
+    .slice(0, -1)
+    .concat(lastString)
+    .join('\n');
 };
 
 function getPackageName(file) {
@@ -68,14 +71,23 @@ function buildFile(file, silent) {
   if (micromatch.isMatch(file, IGNORE_PATTERN)) {
     if (!silent) {
       process.stdout.write(
-        `${chalk.dim('  \u2022 ')}${path.relative(PACKAGES_DIR, file)} (ignore)\n`
+        `${chalk.dim('  \u2022 ')}${path.relative(
+          PACKAGES_DIR,
+          file
+        )} (ignore)\n`
       );
     }
   } else if (!micromatch.isMatch(file, JS_FILES_PATTERN)) {
     fs.createReadStream(file).pipe(fs.createWriteStream(destPath));
     if (!silent) {
       process.stdout.write(
-        `${chalk.red('  \u2022 ')}${path.relative(PACKAGES_DIR, file)}${chalk.red(' \u21D2 ')}${path.relative(PACKAGES_DIR, destPath)} (copy)\n`
+        `${chalk.red('  \u2022 ')}${path.relative(
+          PACKAGES_DIR,
+          file
+        )}${chalk.red(' \u21D2 ')}${path.relative(
+          PACKAGES_DIR,
+          destPath
+        )} (copy)\n`
       );
     }
   } else {
@@ -83,7 +95,10 @@ function buildFile(file, silent) {
     fs.writeFileSync(destPath, transformed);
     if (!silent) {
       process.stdout.write(
-        `${chalk.green('  \u2022 ')}${path.relative(PACKAGES_DIR, file)}${chalk.green(' \u21D2 ')}${path.relative(PACKAGES_DIR, destPath)}\n`
+        `${chalk.green('  \u2022 ')}${path.relative(
+          PACKAGES_DIR,
+          file
+        )}${chalk.green(' \u21D2 ')}${path.relative(PACKAGES_DIR, destPath)}\n`
       );
     }
   }

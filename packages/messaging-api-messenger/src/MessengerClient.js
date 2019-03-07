@@ -1231,10 +1231,13 @@ export default class MessengerClient {
       'limit the number of requests which can be in a batch to 50'
     );
 
+    const responseAccessPaths = batch.map(item => item.responseAccessPath);
+
     const bodyEncodedbatch = batch.map(item => {
       if (item.body) {
         return {
-          ...item,
+          ...omit(item, 'responseAccessPath'),
+          // $FlowFixMe item.body should not possible as undefined.
           body: Object.keys(item.body)
             .map(key => {
               // $FlowFixMe item.body should not possible as undefined.
@@ -1246,14 +1249,27 @@ export default class MessengerClient {
             .join('&'),
         };
       }
-      return item;
+      return omit(item, 'responseAccessPath');
     });
+
     return this._axios
       .post('/', {
         access_token: customAccessToken || this._accessToken,
         batch: bodyEncodedbatch,
       })
-      .then(res => res.data, handleError);
+      .then(
+        res =>
+          res.data.map((datum, index) => {
+            if (responseAccessPaths[index] && datum.body) {
+              return {
+                ...datum,
+                body: get(datum.body, responseAccessPaths[index]),
+              };
+            }
+            return datum;
+          }),
+        handleError
+      );
   }
 
   /**
