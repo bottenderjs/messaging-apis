@@ -1172,10 +1172,7 @@ describe('getThreadOwner', () => {
   it('should create get thread owner request', () => {
     expect(MessengerBatch.getThreadOwner(RECIPIENT_ID)).toEqual({
       method: 'GET',
-      relative_url: 'me/thread_owner',
-      body: {
-        recipient: { id: RECIPIENT_ID },
-      },
+      relative_url: 'me/thread_owner?recipient=1QAZ2WSX',
     });
   });
 });
