@@ -370,15 +370,13 @@ function requestThreadControl(
 
 function getThreadOwner(
   recipientId: string,
-  options?: { access_token: ?string }
+  options?: { access_token?: string } = {}
 ) {
   return {
     method: 'GET',
-    relative_url: 'me/thread_owner',
-    body: {
-      recipient: { id: recipientId },
-      ...omitUndefinedFields(options),
-    },
+    relative_url: `me/thread_owner?recipient=${recipientId}`.concat(
+      options.access_token ? `&access_token=${options.access_token}` : ''
+    ),
   };
 }
 
