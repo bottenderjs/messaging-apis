@@ -882,17 +882,7 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = [
-        {
-          body: {
-            data: [
-              {
-                thread_owner: {
-                  app_id: '501514720355337',
-                },
-              },
-            ],
-          },
-        },
+        { body: '{"data":[{"thread_owner":{"app_id":"501514720355337"}}]}' },
       ];
 
       const batch = [MessengerBatch.getThreadOwner(USER_ID)];
@@ -911,7 +901,7 @@ describe('send api', () => {
 
       const res = await client.sendBatch(batch);
 
-      expect(res).toEqual([{ body: { app_id: '501514720355337' } }]);
+      expect(res).toEqual([{ body: '{"app_id":"501514720355337"}' }]);
     });
 
     it('should throw if item length > 50', async () => {
