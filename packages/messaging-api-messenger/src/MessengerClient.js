@@ -1263,7 +1263,9 @@ export default class MessengerClient {
             if (responseAccessPaths[index] && datum.body) {
               return {
                 ...datum,
-                body: get(datum.body, responseAccessPaths[index]),
+                body: JSON.stringify(
+                  get(JSON.parse(datum.body), responseAccessPaths[index])
+                ),
               };
             }
             return datum;
