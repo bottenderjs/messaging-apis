@@ -589,7 +589,13 @@ export default class LineClient {
           headers: { Authorization: `Bearer ${customAccessToken}` },
         }
       )
-      .then(res => res.data, handleError);
+      .then(res => res.data, handleError)
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          return null;
+        }
+        handleError(err);
+      });
   }
 
   /**

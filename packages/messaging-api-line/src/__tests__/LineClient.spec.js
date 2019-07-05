@@ -92,6 +92,18 @@ describe('Profile', () => {
 
       expect(res).toEqual(reply);
     });
+
+    it('should return null when no user found', async () => {
+      const { client, mock } = createMock();
+
+      mock.onGet().reply(404, {
+        message: 'Not found',
+      });
+
+      const res = await client.getUserProfile(RECIPIENT_ID);
+
+      expect(res).toEqual(null);
+    });
   });
 });
 
