@@ -1464,11 +1464,11 @@ Example
 const { MessengerBatch } = require('messaging-api-messenger');
 
 client.sendBatch([
-  MessengerBatch.createText(USER_ID, '1'),
-  MessengerBatch.createText(USER_ID, '2'),
-  MessengerBatch.createText(USER_ID, '3'),
-  MessengerBatch.createText(USER_ID, '4'),
-  MessengerBatch.createText(USER_ID, '5'),
+  MessengerBatch.sendText(USER_ID, '1'),
+  MessengerBatch.sendText(USER_ID, '2'),
+  MessengerBatch.sendText(USER_ID, '3'),
+  MessengerBatch.sendText(USER_ID, '4'),
+  MessengerBatch.sendText(USER_ID, '5'),
 ]);
 ```
 

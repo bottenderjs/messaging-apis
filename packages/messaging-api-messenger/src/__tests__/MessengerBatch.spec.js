@@ -3,10 +3,10 @@ import MessengerBatch from '../MessengerBatch';
 const RECIPIENT_ID = '1QAZ2WSX';
 const LABEL_ID = 123456;
 
-describe('createRequest', () => {
+describe('sendRequest', () => {
   it('should create send text request', () => {
     expect(
-      MessengerBatch.createRequest({
+      MessengerBatch.sendRequest({
         messaging_type: 'UPDATE',
         message: {
           text: 'Hello',
@@ -31,28 +31,28 @@ describe('createRequest', () => {
   });
 });
 
-describe('createMessage', () => {
+describe('sendMessage', () => {
   it('should create send text request', () => {
-    expect(
-      MessengerBatch.createMessage(RECIPIENT_ID, { text: 'Hello' })
-    ).toEqual({
-      method: 'POST',
-      relative_url: 'me/messages',
-      body: {
-        messaging_type: 'UPDATE',
-        message: {
-          text: 'Hello',
+    expect(MessengerBatch.sendMessage(RECIPIENT_ID, { text: 'Hello' })).toEqual(
+      {
+        method: 'POST',
+        relative_url: 'me/messages',
+        body: {
+          messaging_type: 'UPDATE',
+          message: {
+            text: 'Hello',
+          },
+          recipient: {
+            id: RECIPIENT_ID,
+          },
         },
-        recipient: {
-          id: RECIPIENT_ID,
-        },
-      },
-    });
+      }
+    );
   });
 
   it('should create send text with RESPONSE type', () => {
     expect(
-      MessengerBatch.createMessage(
+      MessengerBatch.sendMessage(
         RECIPIENT_ID,
         { text: 'Hello' },
         { messaging_type: 'RESPONSE' }
@@ -74,7 +74,7 @@ describe('createMessage', () => {
 
   it('can create request with phone_number', () => {
     expect(
-      MessengerBatch.createMessage(
+      MessengerBatch.sendMessage(
         {
           phone_number: '+1(212)555-2368',
           name: { first_name: 'John', last_name: 'Doe' },
@@ -99,7 +99,7 @@ describe('createMessage', () => {
 
   it('should omit options with undefined value', () => {
     expect(
-      MessengerBatch.createMessage(
+      MessengerBatch.sendMessage(
         RECIPIENT_ID,
         { text: 'Hello' },
         {
@@ -111,9 +111,9 @@ describe('createMessage', () => {
   });
 });
 
-describe('createText', () => {
+describe('sendText', () => {
   it('should create send text request', () => {
-    expect(MessengerBatch.createText(RECIPIENT_ID, 'Hello')).toEqual({
+    expect(MessengerBatch.sendText(RECIPIENT_ID, 'Hello')).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
       body: {
@@ -129,10 +129,10 @@ describe('createText', () => {
   });
 });
 
-describe('createAttachment', () => {
+describe('sendAttachment', () => {
   it('should create send attachment request', () => {
     expect(
-      MessengerBatch.createAttachment(RECIPIENT_ID, {
+      MessengerBatch.sendAttachment(RECIPIENT_ID, {
         type: 'image',
         payload: {
           url: 'https://example.com/pic.png',
@@ -159,7 +159,7 @@ describe('createAttachment', () => {
   });
 });
 
-describe('createAudio', () => {
+describe('sendAudio', () => {
   const request = {
     method: 'POST',
     relative_url: 'me/messages',
@@ -180,20 +180,20 @@ describe('createAudio', () => {
   };
   it('should create send audio request with url', () => {
     expect(
-      MessengerBatch.createAudio(RECIPIENT_ID, 'https://example.com/audio.mp3')
+      MessengerBatch.sendAudio(RECIPIENT_ID, 'https://example.com/audio.mp3')
     ).toEqual(request);
   });
 
   it('should create send audio request with payload', () => {
     expect(
-      MessengerBatch.createAudio(RECIPIENT_ID, {
+      MessengerBatch.sendAudio(RECIPIENT_ID, {
         url: 'https://example.com/audio.mp3',
       })
     ).toEqual(request);
   });
 });
 
-describe('createImage', () => {
+describe('sendImage', () => {
   const request = {
     method: 'POST',
     relative_url: 'me/messages',
@@ -214,20 +214,20 @@ describe('createImage', () => {
   };
   it('should create send image request with url', () => {
     expect(
-      MessengerBatch.createImage(RECIPIENT_ID, 'https://example.com/pic.png')
+      MessengerBatch.sendImage(RECIPIENT_ID, 'https://example.com/pic.png')
     ).toEqual(request);
   });
 
   it('should create send image request with payload', () => {
     expect(
-      MessengerBatch.createImage(RECIPIENT_ID, {
+      MessengerBatch.sendImage(RECIPIENT_ID, {
         url: 'https://example.com/pic.png',
       })
     ).toEqual(request);
   });
 });
 
-describe('createVideo', () => {
+describe('sendVideo', () => {
   const request = {
     method: 'POST',
     relative_url: 'me/messages',
@@ -248,20 +248,20 @@ describe('createVideo', () => {
   };
   it('should create send video request with url', () => {
     expect(
-      MessengerBatch.createVideo(RECIPIENT_ID, 'https://example.com/video.mp4')
+      MessengerBatch.sendVideo(RECIPIENT_ID, 'https://example.com/video.mp4')
     ).toEqual(request);
   });
 
   it('should create send video request with payload', () => {
     expect(
-      MessengerBatch.createVideo(RECIPIENT_ID, {
+      MessengerBatch.sendVideo(RECIPIENT_ID, {
         url: 'https://example.com/video.mp4',
       })
     ).toEqual(request);
   });
 });
 
-describe('createFile', () => {
+describe('sendFile', () => {
   const request = {
     method: 'POST',
     relative_url: 'me/messages',
@@ -282,23 +282,23 @@ describe('createFile', () => {
   };
   it('should create send file request with url', () => {
     expect(
-      MessengerBatch.createFile(RECIPIENT_ID, 'https://example.com/file.pdf')
+      MessengerBatch.sendFile(RECIPIENT_ID, 'https://example.com/file.pdf')
     ).toEqual(request);
   });
 
   it('should create send file request with payload', () => {
     expect(
-      MessengerBatch.createFile(RECIPIENT_ID, {
+      MessengerBatch.sendFile(RECIPIENT_ID, {
         url: 'https://example.com/file.pdf',
       })
     ).toEqual(request);
   });
 });
 
-describe('createTemplate', () => {
+describe('sendTemplate', () => {
   it('should create send template request', () => {
     expect(
-      MessengerBatch.createTemplate(RECIPIENT_ID, {
+      MessengerBatch.sendTemplate(RECIPIENT_ID, {
         template_type: 'button',
         text: 'title',
         buttons: [
@@ -338,10 +338,10 @@ describe('createTemplate', () => {
   });
 });
 
-describe('createButtonTemplate', () => {
+describe('sendButtonTemplate', () => {
   it('should create send button template request', () => {
     expect(
-      MessengerBatch.createButtonTemplate(RECIPIENT_ID, 'title', [
+      MessengerBatch.sendButtonTemplate(RECIPIENT_ID, 'title', [
         {
           type: 'postback',
           title: 'Start Chatting',
@@ -377,7 +377,7 @@ describe('createButtonTemplate', () => {
   });
 });
 
-describe('createGenericTemplate', () => {
+describe('sendGenericTemplate', () => {
   const elements = [
     {
       title: "Welcome to Peter's Hats",
@@ -400,9 +400,7 @@ describe('createGenericTemplate', () => {
     },
   ];
   it('should create send generic template request', () => {
-    expect(
-      MessengerBatch.createGenericTemplate(RECIPIENT_ID, elements)
-    ).toEqual({
+    expect(MessengerBatch.sendGenericTemplate(RECIPIENT_ID, elements)).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
       body: {
@@ -425,7 +423,7 @@ describe('createGenericTemplate', () => {
   });
 });
 
-describe('createListTemplate', () => {
+describe('sendListTemplate', () => {
   const elements = [
     {
       title: 'Classic T-Shirt Collection',
@@ -459,7 +457,7 @@ describe('createListTemplate', () => {
   ];
   it('should create send list template request', () => {
     expect(
-      MessengerBatch.createListTemplate(RECIPIENT_ID, elements, buttons, {
+      MessengerBatch.sendListTemplate(RECIPIENT_ID, elements, buttons, {
         top_element_style: 'compact',
       })
     ).toEqual({
@@ -486,7 +484,7 @@ describe('createListTemplate', () => {
   });
 });
 
-describe('createOpenGraphTemplate', () => {
+describe('sendOpenGraphTemplate', () => {
   const elements = [
     {
       url: 'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb',
@@ -501,7 +499,7 @@ describe('createOpenGraphTemplate', () => {
   ];
   it('should create send open graph template request', () => {
     expect(
-      MessengerBatch.createOpenGraphTemplate(RECIPIENT_ID, elements)
+      MessengerBatch.sendOpenGraphTemplate(RECIPIENT_ID, elements)
     ).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
@@ -524,7 +522,7 @@ describe('createOpenGraphTemplate', () => {
   });
 });
 
-describe('createReceiptTemplate', () => {
+describe('sendReceiptTemplate', () => {
   const receipt = {
     recipient_name: 'Stephane Crozatier',
     order_number: '12345678902',
@@ -576,31 +574,29 @@ describe('createReceiptTemplate', () => {
     ],
   };
   it('should create send receipt template request', () => {
-    expect(MessengerBatch.createReceiptTemplate(RECIPIENT_ID, receipt)).toEqual(
-      {
-        method: 'POST',
-        relative_url: 'me/messages',
-        body: {
-          messaging_type: 'UPDATE',
-          message: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'receipt',
-                ...receipt,
-              },
+    expect(MessengerBatch.sendReceiptTemplate(RECIPIENT_ID, receipt)).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        messaging_type: 'UPDATE',
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'receipt',
+              ...receipt,
             },
           },
-          recipient: {
-            id: RECIPIENT_ID,
-          },
         },
-      }
-    );
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+      },
+    });
   });
 });
 
-describe('createMediaTemplate', () => {
+describe('sendMediaTemplate', () => {
   const elements = [
     {
       media_type: 'image',
@@ -615,7 +611,7 @@ describe('createMediaTemplate', () => {
     },
   ];
   it('should create send media template request', () => {
-    expect(MessengerBatch.createMediaTemplate(RECIPIENT_ID, elements)).toEqual({
+    expect(MessengerBatch.sendMediaTemplate(RECIPIENT_ID, elements)).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
       body: {
@@ -637,7 +633,7 @@ describe('createMediaTemplate', () => {
   });
 });
 
-describe('createAirlineBoardingPassTemplate', () => {
+describe('sendAirlineBoardingPassTemplate', () => {
   const attrs = {
     intro_message: 'You are checked in.',
     locale: 'en_US',
@@ -756,7 +752,7 @@ describe('createAirlineBoardingPassTemplate', () => {
   };
   it('should create send airline boarding pass template request', () => {
     expect(
-      MessengerBatch.createAirlineBoardingPassTemplate(RECIPIENT_ID, attrs)
+      MessengerBatch.sendAirlineBoardingPassTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
@@ -779,7 +775,7 @@ describe('createAirlineBoardingPassTemplate', () => {
   });
 });
 
-describe('createAirlineCheckinTemplate', () => {
+describe('sendAirlineCheckinTemplate', () => {
   const attrs = {
     intro_message: 'Check-in is available now.',
     locale: 'en_US',
@@ -810,7 +806,7 @@ describe('createAirlineCheckinTemplate', () => {
   };
   it('should create send airline checkin template request', () => {
     expect(
-      MessengerBatch.createAirlineCheckinTemplate(RECIPIENT_ID, attrs)
+      MessengerBatch.sendAirlineCheckinTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
@@ -833,7 +829,7 @@ describe('createAirlineCheckinTemplate', () => {
   });
 });
 
-describe('createAirlineItineraryTemplate', () => {
+describe('sendAirlineItineraryTemplate', () => {
   const attrs = {
     intro_message: "Here's your flight itinerary.",
     locale: 'en_US',
@@ -958,7 +954,7 @@ describe('createAirlineItineraryTemplate', () => {
   };
   it('should create send airline itinerary template request', () => {
     expect(
-      MessengerBatch.createAirlineItineraryTemplate(RECIPIENT_ID, attrs)
+      MessengerBatch.sendAirlineItineraryTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
@@ -981,7 +977,7 @@ describe('createAirlineItineraryTemplate', () => {
   });
 });
 
-describe('createAirlineFlightUpdateTemplate', () => {
+describe('sendAirlineUpdateTemplate', () => {
   const attrs = {
     intro_message: 'Your flight is delayed',
     update_type: 'delay',
@@ -1010,7 +1006,7 @@ describe('createAirlineFlightUpdateTemplate', () => {
   };
   it('should create send airline flight update template request', () => {
     expect(
-      MessengerBatch.createAirlineFlightUpdateTemplate(RECIPIENT_ID, attrs)
+      MessengerBatch.sendAirlineUpdateTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
       relative_url: 'me/messages',
