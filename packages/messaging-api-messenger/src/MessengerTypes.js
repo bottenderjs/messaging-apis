@@ -65,10 +65,8 @@ export type MessageTag =
   | 'TICKET_UPDATE';
 
 export type InsightMetric =
-  | 'page_messages_active_threads_unique'
   | 'page_messages_blocked_conversations_unique'
   | 'page_messages_reported_conversations_unique'
-  | 'page_messages_reported_conversations_by_report_type_unique'
   | 'page_messages_total_messaging_connections'
   | 'page_messages_new_conversations_unique';
 
