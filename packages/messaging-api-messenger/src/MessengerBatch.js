@@ -1,7 +1,5 @@
 /* @flow */
 /* eslint-disable camelcase */
-import warning from 'warning';
-
 import Messenger from './Messenger';
 import type {
   AirlineBoardingPassAttributes,
@@ -423,66 +421,7 @@ function getAssociatedLabels(
   };
 }
 
-function deprecated(name, fn) {
-  return (...args: any) => {
-    warning(
-      false,
-      `\`MessengerBatch.${name}\` is deprecated. Use \`MessengerBatch.${
-        fn.name
-      }\` instead.`
-    );
-    return fn(...args);
-  };
-}
-
 const MessengerBatch = {
-  // TODO: Remove in v0.8
-  createRequest: deprecated('createRequest', sendRequest),
-  createMessage: deprecated('createMessage', sendMessage),
-  createText: deprecated('createText', sendText),
-  createAttachment: deprecated('createAttachment', sendAttachment),
-  createAudio: deprecated('createAudio', sendAudio),
-  createImage: deprecated('createImage', sendImage),
-  createVideo: deprecated('createVideo', sendVideo),
-  createFile: deprecated('createFile', sendFile),
-  createTemplate: deprecated('createTemplate', sendTemplate),
-  createButtonTemplate: deprecated('createButtonTemplate', sendButtonTemplate),
-  createGenericTemplate: deprecated(
-    'createGenericTemplate',
-    sendGenericTemplate
-  ),
-  createListTemplate: deprecated('createListTemplate', sendListTemplate),
-  createOpenGraphTemplate: deprecated(
-    'createOpenGraphTemplate',
-    sendOpenGraphTemplate
-  ),
-  createReceiptTemplate: deprecated(
-    'createReceiptTemplate',
-    sendReceiptTemplate
-  ),
-  createMediaTemplate: deprecated('createMediaTemplate', sendMediaTemplate),
-  createAirlineBoardingPassTemplate: deprecated(
-    'createAirlineBoardingPassTemplate',
-    sendAirlineBoardingPassTemplate
-  ),
-  createAirlineCheckinTemplate: deprecated(
-    'createAirlineCheckinTemplate',
-    sendAirlineCheckinTemplate
-  ),
-  createAirlineItineraryTemplate: deprecated(
-    'createAirlineItineraryTemplate',
-    sendAirlineItineraryTemplate
-  ),
-  createAirlineFlightUpdateTemplate: deprecated(
-    'createAirlineFlightUpdateTemplate',
-    sendAirlineUpdateTemplate
-  ),
-
-  sendAirlineFlightUpdateTemplate: deprecated(
-    'sendAirlineFlightUpdateTemplate',
-    sendAirlineUpdateTemplate
-  ),
-
   sendRequest,
   sendMessage,
   sendText,

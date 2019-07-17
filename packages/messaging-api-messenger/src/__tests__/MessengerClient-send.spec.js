@@ -858,7 +858,7 @@ describe('send api', () => {
         },
       ];
 
-      const batch = [MessengerBatch.createText(USER_ID, 'Hello')];
+      const batch = [MessengerBatch.sendText(USER_ID, 'Hello')];
 
       mock
         .onPost('/', {
@@ -908,7 +908,7 @@ describe('send api', () => {
       const { client } = createMock();
 
       const bigBatch = new Array(51).fill(
-        MessengerBatch.createText(USER_ID, 'Hello')
+        MessengerBatch.sendText(USER_ID, 'Hello')
       );
 
       expect(() => {

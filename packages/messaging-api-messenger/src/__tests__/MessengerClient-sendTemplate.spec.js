@@ -1297,7 +1297,7 @@ describe('#sendAirlineItineraryTemplate', () => {
   });
 });
 
-describe('#sendAirlineFlightUpdateTemplate', () => {
+describe('#sendAirlineUpdateTemplate', () => {
   it('should call messages api with airline flight update template', async () => {
     const { client, mock } = createMock();
 
@@ -1347,7 +1347,7 @@ describe('#sendAirlineFlightUpdateTemplate', () => {
       })
       .reply(200, reply);
 
-    const res = await client.sendAirlineFlightUpdateTemplate(USER_ID, {
+    const res = await client.sendAirlineUpdateTemplate(USER_ID, {
       intro_message: 'Your flight is delayed',
       update_type: 'delay',
       locale: 'en_US',

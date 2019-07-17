@@ -1161,18 +1161,6 @@ export default class MessengerClient {
     );
   }
 
-  sendAirlineFlightUpdateTemplate(
-    recipient: UserID | Recipient,
-    attrs: AirlineUpdateAttributes,
-    options?: SendOption
-  ): Promise<SendMessageSucessResponse> {
-    warning(
-      false,
-      '`MessengerClient.sendAirlineFlightUpdateTemplate` is deprecated. Use `MessengerClient.sendAirlineUpdateTemplate` instead.'
-    );
-    return this.sendAirlineUpdateTemplate(recipient, attrs, options);
-  }
-
   /**
    * Typing
    *
