@@ -75,11 +75,11 @@ const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
   appId: APP_ID,
   appSecret: APP_SECRET,
-  version: '2.12',
+  version: '3.3',
 });
 ```
 
-If it is not specified, version `3.0` will be used as default.
+If it is not specified, version `3.3` will be used as default.
 
 ### Verifying Graph API Calls with appsecret_proof
 
@@ -2820,66 +2820,27 @@ Retrieves the insights of your Facebook Page.
 Example:
 
 ```js
-client.getInsights(['page_messages_active_threads_unique']).then(counts => {
-  console.log(counts);
-  // [
-  //   {
-  //     "name": "<METRIC>",
-  //     "period": "day",
-  //     "values": [
-  //       {
-  //         "value": "<VALUE>",
-  //         "end_time": "<UTC_TIMESTAMP>"
-  //       },
-  //       {
-  //         "value": "<VALUE>",
-  //         "end_time": "<UTC_TIMESTAMP>"
-  //       }
-  //     ]
-  //   }
-  // ]
-});
-```
-
-<br />
-
-## `getActiveThreads(options)`
-
-Retrieves a count of the unique active threads your app participated in per day.
-
-| Param         | Type     | Description                                                       |
-| ------------- | -------- | ----------------------------------------------------------------- |
-| options       | `Object` | Optional arguments.                                               |
-| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
-| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
-
-Example:
-
-```js
-client.getActiveThreads().then(counts => {
-  console.log(counts);
-  //   {
-  //     "name": "page_messages_active_threads_unique",
-  //     "period": "day",
-  //     "values": [
-  //       {
-  //         "value": 83111,
-  //         "end_time": "2017-02-02T08:00:00+0000"
-  //       },
-  //       {
-  //         "value": 85215,
-  //         "end_time": "2017-02-03T08:00:00+0000"
-  //       },
-  //       {
-  //         "value": 87175,
-  //         "end_time": "2017-02-04T08:00:00+0000"
-  //       }
-  //    ],
-  //    "title": "Daily unique active threads count by thread fbid",
-  //    "description": "Daily: total unique active threads created between users and page.",
-  //    "id": "1234567/insights/page_messages_active_threads_unique/day"
-  //   }
-});
+client
+  .getInsights(['page_messages_reported_conversations_unique'])
+  .then(counts => {
+    console.log(counts);
+    // [
+    //   {
+    //     "name": "page_messages_reported_conversations_unique",
+    //     "period": "day",
+    //     "values": [
+    //       {
+    //         "value": "<VALUE>",
+    //         "end_time": "<UTC_TIMESTAMP>"
+    //       },
+    //       {
+    //         "value": "<VALUE>",
+    //         "end_time": "<UTC_TIMESTAMP>"
+    //       }
+    //     ]
+    //   }
+    // ]
+  });
 ```
 
 <br />
@@ -2947,48 +2908,6 @@ client.getReportedConversations().then(counts => {
   //       }
   //     ]
   //   }
-});
-```
-
-<br />
-
-## `getReportedConversationsByReportType(options)`
-
-Retrieves the number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.
-
-| Param         | Type     | Description                                                       |
-| ------------- | -------- | ----------------------------------------------------------------- |
-| options       | `Object` | Optional arguments.                                               |
-| options.since | `number` | Optional. UNIX timestamp of the start time to get the metric for. |
-| options.until | `number` | Optional. UNIX timestamp of the end time to get the metric for.   |
-
-Example:
-
-```js
-client.getReportedConversationsByReportType().then(counts => {
-  console.log(counts);
-  //   {
-  //     name: 'page_messages_reported_conversations_by_report_type_unique',
-  //     period: 'day',
-  //     values: [
-  //       {
-  //         value: {
-  //           spam: 0,
-  //           inappropriate: 0,
-  //           other: 0,
-  //         },
-  //         end_time: '2018-03-11T08:00:00+0000',
-  //       },
-  //       {
-  //         value: {
-  //           spam: 0,
-  //           inappropriate: 0,
-  //           other: 0,
-  //         },
-  //         end_time: '2018-03-12T07:00:00+0000',
-  //       },
-  //     ],
-  //   },
 });
 ```
 

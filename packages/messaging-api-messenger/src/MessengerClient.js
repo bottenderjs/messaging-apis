@@ -104,7 +104,7 @@ function onRequest(request) {
 export default class MessengerClient {
   static connect(
     accessTokenOrConfig: string | ClientConfig,
-    version?: string = '3.0'
+    version?: string = '3.3'
   ): MessengerClient {
     return new MessengerClient(accessTokenOrConfig, version);
   }
@@ -123,7 +123,7 @@ export default class MessengerClient {
 
   constructor(
     accessTokenOrConfig: string | ClientConfig,
-    version?: string = '3.0'
+    version?: string = '3.3'
   ) {
     let origin;
     let skipAppSecretProof;
@@ -137,7 +137,7 @@ export default class MessengerClient {
       );
       this._appId = config.appId;
       this._appSecret = config.appSecret;
-      this._version = extractVersion(config.version || '3.0');
+      this._version = extractVersion(config.version || '3.3');
       this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
 
@@ -1780,13 +1780,6 @@ export default class MessengerClient {
       .then(res => res.data.data, handleError);
   }
 
-  getActiveThreads(options?: Object = {}) {
-    return this.getInsights(
-      ['page_messages_active_threads_unique'],
-      options
-    ).then(result => result[0]);
-  }
-
   getBlockedConversations(options?: Object = {}) {
     return this.getInsights(
       ['page_messages_blocked_conversations_unique'],
@@ -1797,13 +1790,6 @@ export default class MessengerClient {
   getReportedConversations(options?: Object = {}) {
     return this.getInsights(
       ['page_messages_reported_conversations_unique'],
-      options
-    ).then(result => result[0]);
-  }
-
-  getReportedConversationsByReportType(options?: Object = {}) {
-    return this.getInsights(
-      ['page_messages_reported_conversations_by_report_type_unique'],
       options
     ).then(result => result[0]);
   }
