@@ -1,5 +1,7 @@
 /* @flow */
 /* eslint-disable camelcase */
+import warning from 'warning';
+
 import Messenger from './Messenger';
 import type {
   AirlineBoardingPassAttributes,
@@ -421,6 +423,18 @@ function getAssociatedLabels(
   };
 }
 
+function deprecated(name, fn) {
+  return (...args: any) => {
+    warning(
+      false,
+      `\`MessengerBatch.${name}\` is deprecated. Use \`MessengerBatch.${
+        fn.name
+      }\` instead.`
+    );
+    return fn(...args);
+  };
+}
+
 const MessengerBatch = {
   sendRequest,
   sendMessage,
@@ -433,8 +447,11 @@ const MessengerBatch = {
   sendTemplate,
   sendButtonTemplate,
   sendGenericTemplate,
-  sendListTemplate,
-  sendOpenGraphTemplate,
+  sendListTemplate: deprecated('sendListTemplate', sendListTemplate),
+  sendOpenGraphTemplate: deprecated(
+    'sendOpenGraphTemplate',
+    sendOpenGraphTemplate
+  ),
   sendReceiptTemplate,
   sendMediaTemplate,
   sendAirlineBoardingPassTemplate,

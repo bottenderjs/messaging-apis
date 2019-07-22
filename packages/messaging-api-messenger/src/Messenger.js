@@ -377,18 +377,17 @@ const Messenger = {
   createTemplate,
   createButtonTemplate,
   createGenericTemplate,
-  createListTemplate,
-  createOpenGraphTemplate,
+  createListTemplate: deprecated('createListTemplate', createListTemplate),
+  createOpenGraphTemplate: deprecated(
+    'createOpenGraphTemplate',
+    createOpenGraphTemplate
+  ),
   createMediaTemplate,
   createReceiptTemplate,
   createAirlineBoardingPassTemplate,
   createAirlineCheckinTemplate,
   createAirlineItineraryTemplate,
   createAirlineUpdateTemplate,
-  createAirlineFlightUpdateTemplate: deprecated(
-    'createAirlineFlightUpdateTemplate',
-    createAirlineUpdateTemplate
-  ),
 };
 
 export default Messenger;
