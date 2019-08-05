@@ -104,7 +104,7 @@ function onRequest(request) {
 export default class MessengerClient {
   static connect(
     accessTokenOrConfig: string | ClientConfig,
-    version?: string = '3.3'
+    version?: string = '4.0'
   ): MessengerClient {
     return new MessengerClient(accessTokenOrConfig, version);
   }
@@ -123,7 +123,7 @@ export default class MessengerClient {
 
   constructor(
     accessTokenOrConfig: string | ClientConfig,
-    version?: string = '3.3'
+    version?: string = '4.0'
   ) {
     let origin;
     let skipAppSecretProof;
@@ -137,7 +137,7 @@ export default class MessengerClient {
       );
       this._appId = config.appId;
       this._appSecret = config.appSecret;
-      this._version = extractVersion(config.version || '3.3');
+      this._version = extractVersion(config.version || '4.0');
       this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
 
@@ -1277,6 +1277,8 @@ export default class MessengerClient {
     messages: Array<Object> = [],
     { access_token: customAccessToken }: { access_token?: string } = {}
   ) {
+    warning(false, 'createMessageCreative: Broadcast API is deprecated.');
+
     return this._axios
       .post(
         `/me/message_creatives?access_token=${customAccessToken ||
@@ -1294,6 +1296,8 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages#sending
    */
   sendBroadcastMessage(messageCreativeId: number, options?: Object = {}) {
+    warning(false, 'sendBroadcastMessage: Broadcast API is deprecated.');
+
     return this._axios
       .post(
         `/me/broadcast_messages?access_token=${options.access_token ||
@@ -1307,6 +1311,8 @@ export default class MessengerClient {
   }
 
   cancelBroadcast(broadcastId: number, options?: Object = {}) {
+    warning(false, 'cancelBroadcast: Broadcast API is deprecated.');
+
     return this._axios
       .post(
         `/${broadcastId}?access_token=${options.access_token ||
@@ -1319,6 +1325,8 @@ export default class MessengerClient {
   }
 
   getBroadcast(broadcastId: number, options?: Object = {}) {
+    warning(false, 'getBroadcast: Broadcast API is deprecated.');
+
     return this._axios
       .get(
         `/${broadcastId}?fields=scheduled_time,status&access_token=${options.access_token ||
@@ -1489,6 +1497,8 @@ export default class MessengerClient {
     customLabelId: number,
     { access_token: customAccessToken }: { access_token?: string } = {}
   ) {
+    warning(false, 'startReachEstimation: Broadcast API is deprecated.');
+
     return this._axios
       .post(
         `/me/broadcast_reach_estimations?access_token=${customAccessToken ||
@@ -1509,6 +1519,8 @@ export default class MessengerClient {
     reachEstimationId: number,
     { access_token: customAccessToken }: { access_token?: string } = {}
   ) {
+    warning(false, 'getReachEstimate: Broadcast API is deprecated.');
+
     return this._axios
       .get(
         `/${reachEstimationId}?access_token=${customAccessToken ||
@@ -1527,6 +1539,8 @@ export default class MessengerClient {
     broadcastId: number,
     { access_token: customAccessToken }: { access_token?: string } = {}
   ) {
+    warning(false, 'getBroadcastMessagesSent: Broadcast API is deprecated.');
+
     return this._axios
       .post(
         `/${broadcastId}/insights/messages_sent?access_token=${customAccessToken ||
@@ -1615,6 +1629,8 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/discovery/messenger-codes
    */
   generateMessengerCode(options: Object = {}) {
+    warning(false, 'generateMessengerCode: Messenger Code is deprecated.');
+
     return this._axios
       .post(
         `/me/messenger_codes?access_token=${options.access_token ||

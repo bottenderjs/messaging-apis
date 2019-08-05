@@ -71,7 +71,7 @@ describe('token', () => {
 
       mock.onGet().reply(config => {
         expect(config.baseURL + config.url).toEqual(
-          'https://graph.facebook.com/v3.3/debug_token'
+          'https://graph.facebook.com/v4.0/debug_token'
         );
         expect(config.params).toEqual({
           input_token: ACCESS_TOKEN,

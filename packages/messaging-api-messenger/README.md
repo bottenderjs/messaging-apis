@@ -75,11 +75,11 @@ const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
   appId: APP_ID,
   appSecret: APP_SECRET,
-  version: '3.3',
+  version: '4.0',
 });
 ```
 
-If it is not specified, version `3.3` will be used as default.
+If it is not specified, version `4.0` will be used as default.
 
 ### Verifying Graph API Calls with appsecret_proof
 
