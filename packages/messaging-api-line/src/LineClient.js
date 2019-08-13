@@ -150,6 +150,9 @@ export default class LineClient {
     if (type === 'multicast') {
       return this.multicast(((target: any): Array<UserId>), ...args);
     }
+    if (type === 'broadcast') {
+      return this.broadcast(...args);
+    }
     return this.reply(((target: any): ReplyToken), ...args);
   }
 
@@ -550,6 +553,33 @@ export default class LineClient {
     options?: Object = {}
   ): Promise<MutationSuccessResponse> {
     return this.multicastRawBody({ to, messages }, options);
+  }
+
+  /**
+   * Broadcast
+   *
+   * https://developers.line.biz/en/reference/messaging-api/#send-broadcast-message
+   */
+  broadcastRawBody(
+    body: { messages: Array<Message> },
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
+    return this._axios
+      .post(
+        '/v2/bot/message/broadcast',
+        body,
+        customAccessToken && {
+          headers: { Authorization: `Bearer ${customAccessToken}` },
+        }
+      )
+      .then(res => res.data, handleError);
+  }
+
+  broadcast(
+    messages: Array<Message>,
+    options?: Object = {}
+  ): Promise<MutationSuccessResponse> {
+    return this.broadcastRawBody({ messages }, options);
   }
 
   /**
@@ -1068,7 +1098,7 @@ export default class LineClient {
   }
 }
 
-const sendTypes = ['reply', 'push', 'multicast'];
+const sendTypes = ['reply', 'push', 'multicast', 'broadcast'];
 
 const messageTypes: Array<{
   name: string,
@@ -1092,14 +1122,25 @@ const messageTypes: Array<{
 messageTypes.forEach(({ name, aliases }) => {
   sendTypes.forEach(sendType => {
     [name].concat(aliases || []).forEach(type => {
-      Object.defineProperty(LineClient.prototype, `${sendType}${type}`, {
-        enumerable: false,
-        configurable: true,
-        writable: true,
-        value(target: SendTarget, ...args) {
-          return this[`_send${name}`](sendType, target, ...args);
-        },
-      });
+      if (sendType === 'broadcast') {
+        Object.defineProperty(LineClient.prototype, `${sendType}${type}`, {
+          enumerable: false,
+          configurable: true,
+          writable: true,
+          value(...args) {
+            return this[`_send${name}`](sendType, [], ...args);
+          },
+        });
+      } else {
+        Object.defineProperty(LineClient.prototype, `${sendType}${type}`, {
+          enumerable: false,
+          configurable: true,
+          writable: true,
+          value(target: SendTarget, ...args) {
+            return this[`_send${name}`](sendType, target, ...args);
+          },
+        });
+      }
     });
   });
 });
