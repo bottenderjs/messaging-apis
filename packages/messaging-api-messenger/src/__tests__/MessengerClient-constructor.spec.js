@@ -60,10 +60,7 @@ describe('connect', () => {
           },
         },
       });
-      MessengerClient.connect(
-        ACCESS_TOKEN,
-        '2.6'
-      );
+      MessengerClient.connect(ACCESS_TOKEN, '2.6');
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://graph.facebook.com/v2.6/',

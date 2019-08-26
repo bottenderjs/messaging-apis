@@ -30,10 +30,7 @@ describe('connect', () => {
           },
         },
       });
-      ViberClient.connect(
-        AUTH_TOKEN,
-        SENDER
-      );
+      ViberClient.connect(AUTH_TOKEN, SENDER);
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://chatapi.viber.com/pa/',

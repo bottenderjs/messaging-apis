@@ -26,10 +26,7 @@ describe('connect', () => {
           },
         },
       });
-      LineClient.connect(
-        ACCESS_TOKEN,
-        CHANNEL_SECRET
-      );
+      LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://api.line.me/',

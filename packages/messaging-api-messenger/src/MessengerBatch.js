@@ -427,9 +427,7 @@ function deprecated(name, fn) {
   return (...args: any) => {
     warning(
       false,
-      `\`MessengerBatch.${name}\` is deprecated. Use \`MessengerBatch.${
-        fn.name
-      }\` instead.`
+      `\`MessengerBatch.${name}\` is deprecated. Use \`MessengerBatch.${fn.name}\` instead.`
     );
     return fn(...args);
   };

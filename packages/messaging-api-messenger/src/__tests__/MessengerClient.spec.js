@@ -1004,9 +1004,7 @@ describe('#getThreadOwner', () => {
 
     mock
       .onGet(
-        `/me/thread_owner?recipient=${USER_ID}&access_token=${
-          options.access_token
-        }`
+        `/me/thread_owner?recipient=${USER_ID}&access_token=${options.access_token}`
       )
       .reply(200, reply);
 

@@ -534,9 +534,7 @@ describe('label api', () => {
 
       mock
         .onGet(
-          `/${USER_ID}/custom_labels?fields=name,id&access_token=${
-            options.access_token
-          }`
+          `/${USER_ID}/custom_labels?fields=name,id&access_token=${options.access_token}`
         )
         .reply(200, reply);
 

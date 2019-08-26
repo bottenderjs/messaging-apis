@@ -26,10 +26,7 @@ describe('connect', () => {
           },
         },
       });
-      WechatClient.connect(
-        APP_ID,
-        APP_SECRET
-      );
+      WechatClient.connect(APP_ID, APP_SECRET);
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://api.weixin.qq.com/cgi-bin/',

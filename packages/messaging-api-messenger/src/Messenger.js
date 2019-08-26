@@ -358,9 +358,7 @@ function deprecated(name, fn) {
   return (...args: any) => {
     warning(
       false,
-      `\`Messenger.${name}\` is deprecated. Use \`Messenger.${
-        fn.name
-      }\` instead.`
+      `\`Messenger.${name}\` is deprecated. Use \`Messenger.${fn.name}\` instead.`
     );
     return fn(...args);
   };
