@@ -1,3 +1,22 @@
+# 0.8.0 / 2019-08-26
+
+### messaging-api-messenger
+
+- [breaking] remove deprecated `sendAirlineFlightUpdateTemplate`
+- [breaking] remove deprecated createXxxx methods on `MessengerBatch`
+- [breaking] remove deprecated insight methods `getActiveThreads` and `getReportedConversationsByReportType`
+- [new] update default graph api version to `v4`
+- [new] add `getThreadOwner` in `MessengerBatch`
+- [deprecated] add warning for `createListTemplate` and `createOpenGraphTemplate`
+- [deprecated] add waning to broadcast methods `createMessageCreative`, `sendBroadcastMessage`, `cancelBroadcast`, `getBroadcast`, `startReachEstimation`, `getReachEstimate`, `getBroadcastMessagesSent` and `generateMessengerCode`.
+- [fix] add missing `options` to messenger batch functions [047db83](https://github.com/Yoctol/messaging-apis/commit/047db83cccab8a52f2b606ea8aa3ad70eeff18d1)
+- [fix] parse batch response body
+
+### messaging-api-line
+
+- [breaking] refine rich menu getter functions error handling when getting 404
+- [breaking] return null when no user found (#445)
+
 # 0.7.16 / 2019-01-29
 
 ### messaging-api-messenger
