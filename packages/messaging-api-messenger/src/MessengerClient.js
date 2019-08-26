@@ -1343,9 +1343,7 @@ export default class MessengerClient {
   sendSponsoredMessage(adAccountId: string, message: Object) {
     return this._axios
       .post(
-        `/act_${adAccountId}/sponsored_message_ads?access_token=${
-          this._accessToken
-        }`,
+        `/act_${adAccountId}/sponsored_message_ads?access_token=${this._accessToken}`,
         message
       )
       .then(res => res.data, handleError);

@@ -1,30 +1,30 @@
 {
   "name": "messaging-api-telegram",
   "description": "Messaging API client for Telegram",
-  "version": "0.8.0",
-  "engines": {
-    "node": ">=6"
-  },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "license": "MIT",
+  "version": "0.8.0",
   "main": "lib/index.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "axios-error": "^0.8.0",
+    "debug": "^4.1.1",
+    "lodash.omit": "^4.5.0",
+    "url-join": "^4.0.1"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.17.0"
+  },
   "keywords": [
     "bot",
     "chatbot",
     "messaging-apis",
     "telegram"
   ],
-  "dependencies": {
-    "axios": "^0.19.0",
-    "axios-error": "^0.8.0",
-    "debug": "^4.0.1",
-    "lodash.omit": "^4.5.0",
-    "url-join": "^4.0.0"
-  },
-  "devDependencies": {
-    "axios-mock-adapter": "^1.15.0"
+  "engines": {
+    "node": ">=6"
   }
 }

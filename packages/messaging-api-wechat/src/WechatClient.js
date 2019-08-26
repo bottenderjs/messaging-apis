@@ -149,9 +149,7 @@ export default class WechatClient {
   getAccessToken(): Promise<AccessToken> {
     return this._axios
       .get(
-        `/token?grant_type=client_credential&appid=${this._appId}&secret=${
-          this._appSecret
-        }`
+        `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
       )
       .then(res => res.data);
   }

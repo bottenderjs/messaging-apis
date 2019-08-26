@@ -79,10 +79,7 @@ Then, create a `LineClient` to call LINE APIs:
 const { LineClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
-const client = LineClient.connect(
-  accessToken,
-  channelSecret
-);
+const client = LineClient.connect(accessToken, channelSecret);
 
 client.pushText(userId, 'Hello World').then(() => {
   console.log('pushed');
@@ -223,10 +220,7 @@ Then, create a `WechatClient` to call Wechat APIs:
 const { WechatClient } = require('messaging-api-wechat');
 
 // get appId, appSecret from「微信公众平台-开发-基本配置」page
-const client = WechatClient.connect(
-  appId,
-  appSecret
-);
+const client = WechatClient.connect(appId, appSecret);
 
 client.sendText(userId, 'Hello World').then(() => {
   console.log('sent');
