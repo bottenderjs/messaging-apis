@@ -33,7 +33,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/member/${RECIPIENT_ID}`
         );
         expect(config.data).toEqual(undefined);
@@ -59,7 +59,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/member/${RECIPIENT_ID}`
         );
         expect(config.data).toEqual(undefined);
@@ -87,7 +87,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/member/${RECIPIENT_ID}`
         );
         expect(config.data).toEqual(undefined);
@@ -113,7 +113,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/member/${RECIPIENT_ID}`
         );
         expect(config.data).toEqual(undefined);
@@ -143,7 +143,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
         );
         expect(config.data).toEqual(undefined);
@@ -171,7 +171,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
         );
         expect(config.data).toEqual(undefined);
@@ -201,7 +201,7 @@ describe('Group/Room Member', () => {
       const continuationToken = 'TOKEN';
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
         );
         expect(config.data).toEqual(undefined);
@@ -240,7 +240,7 @@ describe('Group/Room Member', () => {
       mock
         .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
           );
           expect(config.data).toEqual(undefined);
@@ -251,7 +251,7 @@ describe('Group/Room Member', () => {
           `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
         )
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
           );
           expect(config.data).toEqual(undefined);
@@ -297,7 +297,7 @@ describe('Group/Room Member', () => {
       mock
         .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
           );
           expect(config.data).toEqual(undefined);
@@ -308,7 +308,7 @@ describe('Group/Room Member', () => {
           `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
         )
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
           );
           expect(config.data).toEqual(undefined);
@@ -345,7 +345,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
         );
         expect(config.data).toEqual(undefined);
@@ -373,7 +373,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
         );
         expect(config.data).toEqual(undefined);
@@ -403,7 +403,7 @@ describe('Group/Room Member', () => {
       const continuationToken = 'TOKEN';
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
         );
         expect(config.data).toEqual(undefined);
@@ -442,7 +442,7 @@ describe('Group/Room Member', () => {
       mock
         .onGet()
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
           );
           expect(config.data).toEqual(undefined);
@@ -451,7 +451,7 @@ describe('Group/Room Member', () => {
         })
         .onGet()
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
           );
           expect(config.data).toEqual(undefined);
@@ -497,7 +497,7 @@ describe('Group/Room Member', () => {
       mock
         .onGet()
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
           );
           expect(config.data).toEqual(undefined);
@@ -506,7 +506,7 @@ describe('Group/Room Member', () => {
         })
         .onGet()
         .replyOnce(config => {
-          expect(config.baseURL + config.url).toEqual(
+          expect(config.url).toEqual(
             `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
           );
           expect(config.data).toEqual(undefined);
@@ -540,7 +540,7 @@ describe('Leave', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/leave`
         );
         expect(config.data).toEqual(null);
@@ -563,7 +563,7 @@ describe('Leave', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/group/${GROUP_ID}/leave`
         );
         expect(config.data).toEqual(null);
@@ -588,7 +588,7 @@ describe('Leave', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/leave`
         );
         expect(config.data).toEqual(null);
@@ -611,7 +611,7 @@ describe('Leave', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           `https://api.line.me/v2/bot/room/${ROOM_ID}/leave`
         );
         expect(config.data).toEqual(null);
