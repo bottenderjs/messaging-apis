@@ -306,7 +306,7 @@ describe('appsecret proof', () => {
 
     mock.onPost().reply(config => {
       expect(config.url).toBe(
-        'me/messages?access_token=foo_token&appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
+        'https://graph.facebook.com/v4.0/me/messages?access_token=foo_token&appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
       );
       return [200, reply];
     });
@@ -333,7 +333,9 @@ describe('appsecret proof', () => {
     };
 
     mock.onPost().reply(config => {
-      expect(config.url).toBe('me/messages?access_token=foo_token');
+      expect(config.url).toBe(
+        'https://graph.facebook.com/v4.0/me/messages?access_token=foo_token'
+      );
       return [200, reply];
     });
 

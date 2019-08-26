@@ -28,9 +28,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -62,9 +60,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -99,9 +95,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -130,9 +124,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -165,9 +157,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -191,9 +181,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -219,9 +207,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -253,9 +239,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -286,9 +270,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -321,9 +303,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -360,9 +340,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -394,9 +372,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -429,9 +405,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -468,9 +442,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -502,9 +474,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -537,9 +507,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -576,9 +544,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -615,9 +581,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -658,9 +622,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -688,9 +650,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -723,9 +683,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -762,9 +720,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -850,9 +806,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -937,9 +891,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1025,9 +977,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1143,9 +1093,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1223,9 +1171,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1304,9 +1250,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1399,9 +1343,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1493,9 +1435,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1578,9 +1518,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1664,9 +1602,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1729,9 +1665,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1795,9 +1729,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -1932,9 +1864,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -2068,9 +1998,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -2199,9 +2127,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -2288,9 +2214,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -2378,9 +2302,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [
@@ -2491,9 +2413,7 @@ describe('Reply Message', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
-          'https://api.line.me/v2/bot/message/reply'
-        );
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
           messages: [

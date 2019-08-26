@@ -70,7 +70,7 @@ describe('token', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://graph.facebook.com/v4.0/debug_token'
         );
         expect(config.params).toEqual({

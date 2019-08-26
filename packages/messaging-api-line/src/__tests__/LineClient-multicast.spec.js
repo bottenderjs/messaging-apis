@@ -28,7 +28,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -62,7 +62,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -99,7 +99,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -133,7 +133,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -168,7 +168,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -194,7 +194,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -222,7 +222,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -256,7 +256,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -289,7 +289,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -324,7 +324,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -363,7 +363,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -397,7 +397,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -432,7 +432,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -471,7 +471,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -505,7 +505,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -540,7 +540,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -581,7 +581,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -620,7 +620,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -663,7 +663,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -693,7 +693,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -728,7 +728,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -767,7 +767,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -855,7 +855,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -942,7 +942,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1030,7 +1030,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1148,7 +1148,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1229,7 +1229,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1311,7 +1311,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1406,7 +1406,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1502,7 +1502,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1567,7 +1567,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1633,7 +1633,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1770,7 +1770,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -1906,7 +1906,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -2037,7 +2037,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -2126,7 +2126,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -2216,7 +2216,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({
@@ -2330,7 +2330,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.baseURL + config.url).toEqual(
+        expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/multicast'
         );
         expect(JSON.parse(config.data)).toEqual({

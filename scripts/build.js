@@ -22,9 +22,11 @@ const path = require('path');
 
 const glob = require('glob');
 const mkdirp = require('mkdirp');
-const babel = require('babel-core');
+const babel = require('@babel/core');
 const chalk = require('chalk');
 const micromatch = require('micromatch');
+
+const transformOptions = require('../babel.config.js');
 
 const getPackages = require('./_getPackages');
 
@@ -33,11 +35,6 @@ const BUILD_DIR = 'lib';
 const JS_FILES_PATTERN = '**/*.js';
 const IGNORE_PATTERN = '**/__tests__/**';
 const PACKAGES_DIR = path.resolve(__dirname, '../packages');
-
-const babelNodeOptions = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '..', '.babelrc'), 'utf8')
-);
-babelNodeOptions.babelrc = false;
 
 const fixedWidth = str => {
   const WIDTH = 80;
@@ -91,7 +88,7 @@ function buildFile(file, silent) {
       );
     }
   } else {
-    const transformed = babel.transformFileSync(file, babelNodeOptions).code;
+    const transformed = babel.transformFileSync(file, transformOptions).code;
     fs.writeFileSync(destPath, transformed);
     if (!silent) {
       process.stdout.write(
