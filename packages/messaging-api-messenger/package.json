@@ -6,13 +6,13 @@
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "lib/index.js",
   "browser": "lib/browser.js",
   "dependencies": {
     "append-query": "^2.1.0",
     "axios": "^0.19.0",
-    "axios-error": "^0.8.0",
+    "axios-error": "^0.8.1",
     "debug": "^4.1.1",
     "form-data": "^2.5.0",
     "invariant": "^2.2.4",
