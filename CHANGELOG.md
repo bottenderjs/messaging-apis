@@ -1,3 +1,8 @@
+# 0.8.1 / 2019-08-27
+
+- [deps] update packages
+- [deps] use babel 7 instead of babel 6 internally
+
 # 0.8.0 / 2019-08-26
 
 ### messaging-api-messenger
