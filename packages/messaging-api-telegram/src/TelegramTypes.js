@@ -1,6 +1,4 @@
-/* @flow */
-
-export type ChatAction =
+/*:: export type ChatAction =
   | 'typing'
   | 'upload_photo'
   | 'record_video'
@@ -10,4 +8,4 @@ export type ChatAction =
   | 'upload_document'
   | 'find_location'
   | 'record_video_note'
-  | 'upload_video_note';
+  | 'upload_video_note'; */

@@ -2,33 +2,32 @@
 /* eslint-disable camelcase */
 import warning from 'warning';
 
-import Messenger from './Messenger';
-import type {
-  AirlineBoardingPassAttributes,
-  AirlineCheckinAttributes,
-  AirlineItineraryAttributes,
-  AirlineUpdateAttributes,
-  Attachment,
-  AttachmentPayload,
-  BatchItem,
-  FileData,
-  MediaElement,
-  Message,
-  OpenGraphElement,
-  ReceiptAttributes,
-  Recipient,
-  SendOption,
-  SenderAction,
-  TemplateButton,
-  TemplateElement,
-  UserID,
-} from './MessengerTypes';
+import Messenger from './Messenger'; /*:: import type {
+                                       AirlineBoardingPassAttributes,
+                                       AirlineCheckinAttributes,
+                                       AirlineItineraryAttributes,
+                                       AirlineUpdateAttributes,
+                                       Attachment,
+                                       AttachmentPayload,
+                                       BatchItem,
+                                       FileData,
+                                       MediaElement,
+                                       Message,
+                                       OpenGraphElement,
+                                       ReceiptAttributes,
+                                       Recipient,
+                                       SendOption,
+                                       SenderAction,
+                                       TemplateButton,
+                                       TemplateElement,
+                                       UserID,
+                                     } from './MessengerTypes'; */
 
 function omitUndefinedFields(obj = {}) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function sendRequest(body: Object): BatchItem {
+function sendRequest(body /*: Object */) /*: BatchItem */ {
   return {
     method: 'POST',
     relative_url: 'me/messages',
@@ -37,10 +36,11 @@ function sendRequest(body: Object): BatchItem {
 }
 
 function sendMessage(
-  idOrRecipient: UserID | Recipient,
-  msg: Message,
-  options?: SendOption = {}
-): BatchItem {
+  idOrRecipient /*: UserID | Recipient */,
+  msg /*: Message */,
+  options /*:: ?: SendOption */ = {}
+) {
+  /*: BatchItem */
   const recipient =
     typeof idOrRecipient === 'string'
       ? {
@@ -63,18 +63,20 @@ function sendMessage(
 }
 
 function sendText(
-  recipient: UserID | Recipient,
-  text: string,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  text /*: string */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(recipient, Messenger.createText(text, options), options);
 }
 
 function sendAttachment(
-  recipient: UserID | Recipient,
-  attachment: Attachment,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  attachment /*: Attachment */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createAttachment(attachment, options),
@@ -82,42 +84,47 @@ function sendAttachment(
   );
 }
 function sendAudio(
-  recipient: UserID | Recipient,
-  audio: string | FileData | AttachmentPayload,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  audio /*: string | FileData | AttachmentPayload */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(recipient, Messenger.createAudio(audio, options), options);
 }
 
 function sendImage(
-  recipient: UserID | Recipient,
-  image: string | FileData | AttachmentPayload,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  image /*: string | FileData | AttachmentPayload */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(recipient, Messenger.createImage(image, options), options);
 }
 
 function sendVideo(
-  recipient: UserID | Recipient,
-  video: string | FileData | AttachmentPayload,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  video /*: string | FileData | AttachmentPayload */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(recipient, Messenger.createVideo(video, options), options);
 }
 
 function sendFile(
-  recipient: UserID | Recipient,
-  file: string | FileData | AttachmentPayload,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  file /*: string | FileData | AttachmentPayload */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(recipient, Messenger.createFile(file, options), options);
 }
 
 function sendTemplate(
-  recipient: UserID | Recipient,
-  payload: AttachmentPayload,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  payload /*: AttachmentPayload */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createTemplate(payload, options),
@@ -126,11 +133,12 @@ function sendTemplate(
 }
 
 function sendButtonTemplate(
-  recipient: UserID | Recipient,
-  text: string,
-  buttons: Array<TemplateButton>,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  text /*: string */,
+  buttons /*: Array<TemplateButton> */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createButtonTemplate(text, buttons, options),
@@ -139,55 +147,60 @@ function sendButtonTemplate(
 }
 
 function sendGenericTemplate(
-  recipient: UserID | Recipient,
-  elements: Array<TemplateElement>,
+  recipient /*: UserID | Recipient */,
+  elements /*: Array<TemplateElement> */,
   {
     // $FlowFixMe
     image_aspect_ratio = 'horizontal',
     ...options
-  }: {
-    image_aspect_ratio: 'horizontal' | 'square',
-    ...SendOption,
-  } = {}
-): BatchItem {
+  } /*: {
+                   image_aspect_ratio: 'horizontal' | 'square',
+                   ...SendOption,
+                 } */ = {}
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createGenericTemplate(elements, {
       ...options,
       image_aspect_ratio,
     }),
+
     options
   );
 }
 
 function sendListTemplate(
-  recipient: UserID | Recipient,
-  elements: Array<TemplateElement>,
-  buttons: Array<TemplateButton>,
+  recipient /*: UserID | Recipient */,
+  elements /*: Array<TemplateElement> */,
+  buttons /*: Array<TemplateButton> */,
   {
     // $FlowFixMe
     top_element_style = 'large',
     ...options
-  }: {
-    top_element_style: 'large' | 'compact',
-    ...SendOption,
-  } = {}
-): BatchItem {
+  } /*: {
+                   top_element_style: 'large' | 'compact',
+                   ...SendOption,
+                 } */ = {}
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createListTemplate(elements, buttons, {
       ...options,
       top_element_style,
     }),
+
     options
   );
 }
 
 function sendOpenGraphTemplate(
-  recipient: UserID | Recipient,
-  elements: Array<OpenGraphElement>,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  elements /*: Array<OpenGraphElement> */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createOpenGraphTemplate(elements, options),
@@ -196,10 +209,11 @@ function sendOpenGraphTemplate(
 }
 
 function sendReceiptTemplate(
-  recipient: UserID | Recipient,
-  attrs: ReceiptAttributes,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  attrs /*: ReceiptAttributes */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createReceiptTemplate(attrs, options),
@@ -208,10 +222,11 @@ function sendReceiptTemplate(
 }
 
 function sendMediaTemplate(
-  recipient: UserID | Recipient,
-  elements: Array<MediaElement>,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  elements /*: Array<MediaElement> */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createMediaTemplate(elements, options),
@@ -220,10 +235,11 @@ function sendMediaTemplate(
 }
 
 function sendAirlineBoardingPassTemplate(
-  recipient: UserID | Recipient,
-  attrs: AirlineBoardingPassAttributes,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  attrs /*: AirlineBoardingPassAttributes */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createAirlineBoardingPassTemplate(attrs, options),
@@ -232,10 +248,11 @@ function sendAirlineBoardingPassTemplate(
 }
 
 function sendAirlineCheckinTemplate(
-  recipient: UserID | Recipient,
-  attrs: AirlineCheckinAttributes,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  attrs /*: AirlineCheckinAttributes */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createAirlineCheckinTemplate(attrs, options),
@@ -244,10 +261,11 @@ function sendAirlineCheckinTemplate(
 }
 
 function sendAirlineItineraryTemplate(
-  recipient: UserID | Recipient,
-  attrs: AirlineItineraryAttributes,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  attrs /*: AirlineItineraryAttributes */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createAirlineItineraryTemplate(attrs, options),
@@ -256,10 +274,11 @@ function sendAirlineItineraryTemplate(
 }
 
 function sendAirlineUpdateTemplate(
-  recipient: UserID | Recipient,
-  attrs: AirlineUpdateAttributes,
-  options?: SendOption
-): BatchItem {
+  recipient /*: UserID | Recipient */,
+  attrs /*: AirlineUpdateAttributes */,
+  options /*:: ?: SendOption */
+) {
+  /*: BatchItem */
   return sendMessage(
     recipient,
     Messenger.createAirlineUpdateTemplate(attrs, options),
@@ -268,8 +287,8 @@ function sendAirlineUpdateTemplate(
 }
 
 function getUserProfile(
-  userId: string,
-  options?: { access_token?: string } = {}
+  userId /*: string */,
+  options /*:: ?: { access_token?: string } */ = {}
 ) {
   return {
     method: 'GET',
@@ -280,9 +299,9 @@ function getUserProfile(
 }
 
 function sendSenderAction(
-  idOrRecipient: UserID | Recipient,
-  action: SenderAction,
-  options?: SendOption
+  idOrRecipient /*: UserID | Recipient */,
+  action /*: SenderAction */,
+  options /*:: ?: SendOption */
 ) {
   const recipient =
     typeof idOrRecipient === 'string'
@@ -298,23 +317,32 @@ function sendSenderAction(
   });
 }
 
-function typingOn(idOrRecipient: UserID | Recipient, options?: SendOption) {
+function typingOn(
+  idOrRecipient /*: UserID | Recipient */,
+  options /*:: ?: SendOption */
+) {
   return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
-function typingOff(idOrRecipient: UserID | Recipient, options?: SendOption) {
+function typingOff(
+  idOrRecipient /*: UserID | Recipient */,
+  options /*:: ?: SendOption */
+) {
   return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
-function markSeen(idOrRecipient: UserID | Recipient, options?: SendOption) {
+function markSeen(
+  idOrRecipient /*: UserID | Recipient */,
+  options /*:: ?: SendOption */
+) {
   return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
 
 function passThreadControl(
-  recipientId: string,
-  targetAppId: number,
-  metadata?: string,
-  options?: { access_token?: string }
+  recipientId /*: string */,
+  targetAppId /*: number */,
+  metadata /*:: ?: string */,
+  options /*:: ?: { access_token?: string } */
 ) {
   return {
     method: 'POST',
@@ -329,17 +357,17 @@ function passThreadControl(
 }
 
 function passThreadControlToPageInbox(
-  recipientId: string,
-  metadata?: string,
-  options?: { access_token?: string }
+  recipientId /*: string */,
+  metadata /*:: ?: string */,
+  options /*:: ?: { access_token?: string } */
 ) {
   return passThreadControl(recipientId, 263902037430900, metadata, options);
 }
 
 function takeThreadControl(
-  recipientId: string,
-  metadata?: string,
-  options?: { access_token?: string }
+  recipientId /*: string */,
+  metadata /*:: ?: string */,
+  options /*:: ?: { access_token?: string } */
 ) {
   return {
     method: 'POST',
@@ -353,9 +381,9 @@ function takeThreadControl(
 }
 
 function requestThreadControl(
-  recipientId: string,
-  metadata?: string,
-  options?: { access_token?: string }
+  recipientId /*: string */,
+  metadata /*:: ?: string */,
+  options /*:: ?: { access_token?: string } */
 ) {
   return {
     method: 'POST',
@@ -369,22 +397,23 @@ function requestThreadControl(
 }
 
 function getThreadOwner(
-  recipientId: string,
-  options?: { access_token?: string } = {}
+  recipientId /*: string */,
+  options /*:: ?: { access_token?: string } */ = {}
 ) {
   return {
     method: 'GET',
     relative_url: `me/thread_owner?recipient=${recipientId}`.concat(
       options.access_token ? `&access_token=${options.access_token}` : ''
     ),
+
     responseAccessPath: 'data[0].thread_owner',
   };
 }
 
 function associateLabel(
-  userId: UserID,
-  labelId: number,
-  options?: { access_token?: string }
+  userId /*: UserID */,
+  labelId /*: number */,
+  options /*:: ?: { access_token?: string } */
 ) {
   return {
     method: 'POST',
@@ -397,9 +426,9 @@ function associateLabel(
 }
 
 function dissociateLabel(
-  userId: UserID,
-  labelId: number,
-  options?: { access_token?: string }
+  userId /*: UserID */,
+  labelId /*: number */,
+  options /*:: ?: { access_token?: string } */
 ) {
   return {
     method: 'DELETE',
@@ -412,8 +441,8 @@ function dissociateLabel(
 }
 
 function getAssociatedLabels(
-  userId: UserID,
-  options?: { access_token?: string } = {}
+  userId /*: UserID */,
+  options /*:: ?: { access_token?: string } */ = {}
 ) {
   return {
     method: 'GET',
@@ -424,11 +453,12 @@ function getAssociatedLabels(
 }
 
 function deprecated(name, fn) {
-  return (...args: any) => {
+  return (...args) => {
     warning(
       false,
       `\`MessengerBatch.${name}\` is deprecated. Use \`MessengerBatch.${fn.name}\` instead.`
     );
+
     return fn(...args);
   };
 }
@@ -450,6 +480,7 @@ const MessengerBatch = {
     'sendOpenGraphTemplate',
     sendOpenGraphTemplate
   ),
+
   sendReceiptTemplate,
   sendMediaTemplate,
   sendAirlineBoardingPassTemplate,

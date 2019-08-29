@@ -3,24 +3,16 @@
 import axios from 'axios';
 import debug from 'debug';
 import omit from 'lodash.omit';
-import urlJoin from 'url-join';
-
-import type { SendMessageSucessResponse, SlackAttachment } from './SlackTypes';
-
-type Axios = {
-  get: Function,
-  post: Function,
-  put: Function,
-  path: Function,
-  delete: Function,
-};
-
-type URL = string;
-
-type ClientConfig = {
-  url: URL,
-  onRequest?: Function,
-};
+import urlJoin from 'url-join'; /*:: type ClientConfig = {
+                                                                                                                                                        url: URL,
+                                                                                                                                                        onRequest?: Function,
+                                                                                                                                                      };*/ /*:: import type { SendMessageSucessResponse, SlackAttachment } from './SlackTypes';*/ /*:: type Axios = {
+                                                                                                                         get: Function,
+                                                                                                                         post: Function,
+                                                                                                                         put: Function,
+                                                                                                                         path: Function,
+                                                                                                                         delete: Function,
+                                                                                                                       };*/ /*:: type URL = string;*/
 
 const debugRequest = debug('messaging-api-slack');
 
@@ -31,15 +23,13 @@ function onRequest({ method, url, body }) {
 }
 
 export default class SlackWebhookClient {
-  static connect(urlOrConfig: URL | ClientConfig): SlackWebhookClient {
+  static connect(
+    urlOrConfig /*: URL | ClientConfig*/
+  ) /*: SlackWebhookClient*/ {
     return new SlackWebhookClient(urlOrConfig);
-  }
+  } /*:: _axios: Axios;*/ /*:: _onRequest: Function;*/
 
-  _onRequest: Function;
-
-  _axios: Axios;
-
-  constructor(urlOrConfig: URL | ClientConfig) {
+  constructor(urlOrConfig /*: URL | ClientConfig */) {
     let url;
     if (urlOrConfig && typeof urlOrConfig === 'object') {
       const config = urlOrConfig;
@@ -75,21 +65,23 @@ export default class SlackWebhookClient {
             'head',
           ]),
         },
+
         body: config.data,
       });
+
       return config;
     });
   }
 
-  get axios(): Axios {
+  get axios() /*: Axios */ {
     return this._axios;
   }
 
-  sendRawBody(body: Object): Promise<SendMessageSucessResponse> {
+  sendRawBody(body /*: Object */) /*: Promise<SendMessageSucessResponse> */ {
     return this._axios.post('', body).then(res => res.data);
   }
 
-  sendText(text: string): Promise<SendMessageSucessResponse> {
+  sendText(text /*: string */) /*: Promise<SendMessageSucessResponse> */ {
     return this.sendRawBody({ text });
   }
 
@@ -100,14 +92,14 @@ export default class SlackWebhookClient {
    */
 
   sendAttachments(
-    attachments: Array<SlackAttachment>
-  ): Promise<SendMessageSucessResponse> {
+    attachments /*: Promise<SendMessageSucessResponse>*/ /*: Array<SlackAttachment>*/
+  ) {
     return this.sendRawBody({ attachments });
   }
 
   sendAttachment(
-    attachment: SlackAttachment
-  ): Promise<SendMessageSucessResponse> {
+    attachment /*: Promise<SendMessageSucessResponse>*/ /*: SlackAttachment*/
+  ) {
     return this.sendAttachments([attachment]);
   }
 }

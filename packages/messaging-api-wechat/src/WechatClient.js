@@ -7,31 +7,25 @@ import FormData from 'form-data';
 import axios from 'axios';
 import debug from 'debug';
 import omit from 'lodash.omit';
-import urlJoin from 'url-join';
-
-import type {
-  AccessToken,
-  MediaType,
-  MiniProgramPage,
-  Music,
-  News,
-  Video,
-} from './WechatTypes';
-
-type Axios = {
-  get: Function,
-  post: Function,
-  put: Function,
-  path: Function,
-  delete: Function,
-};
-
-type ClientConfig = {
-  appId: string,
-  appSecret: string,
-  origin?: string,
-  onRequest?: Function,
-};
+import urlJoin from 'url-join'; /*:: type ClientConfig = {
+                                                                 appId: string,
+                                                                 appSecret: string,
+                                                                 origin?: string,
+                                                                 onRequest?: Function,
+                                                               };*/ /*:: import type {
+                                  AccessToken,
+                                  MediaType,
+                                  MiniProgramPage,
+                                  Music,
+                                  News,
+                                  Video,
+                                } from './WechatTypes'; */ /*:: type Axios = {
+                                                            get: Function,
+                                                            post: Function,
+                                                            put: Function,
+                                                            path: Function,
+                                                            delete: Function,
+                                                          }; */
 
 function throwErrorIfAny(response) {
   const { errcode, errmsg } = response.data;
@@ -54,25 +48,20 @@ function onRequest({ method, url, body }) {
 
 export default class WechatClient {
   static connect(
-    appIdOrClientConfig: string | ClientConfig,
-    appSecret: string
-  ): WechatClient {
+    appIdOrClientConfig /*: string | ClientConfig */,
+    appSecret /*: WechatClient*/ /*: string */
+  ) {
     return new WechatClient(appIdOrClientConfig, appSecret);
-  }
+  } /*:: _axios: Axios;*/ /*:: _appId: string;*/ /*:: _appSecret: string;*/ /*:: _onRequest: Function;*/
 
-  _appId: string;
+  _accessToken /*: string */ = '';
 
-  _appSecret: string;
+  _tokenExpiresAt /*: number */ = 0;
 
-  _onRequest: Function;
-
-  _axios: Axios;
-
-  _accessToken: string = '';
-
-  _tokenExpiresAt: number = 0;
-
-  constructor(appIdOrClientConfig: string | ClientConfig, appSecret: string) {
+  constructor(
+    appIdOrClientConfig /*: string | ClientConfig*/,
+    appSecret /*: string*/
+  ) {
     let origin;
     if (appIdOrClientConfig && typeof appIdOrClientConfig === 'object') {
       const config = appIdOrClientConfig;
@@ -111,17 +100,19 @@ export default class WechatClient {
             'head',
           ]),
         },
+
         body: config.data,
       });
+
       return config;
     });
   }
 
-  get axios(): Axios {
+  get axios() /*: Axios */ {
     return this._axios;
   }
 
-  get accessToken(): string {
+  get accessToken() /*: string */ {
     return this._accessToken;
   }
 
@@ -146,7 +137,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
-  getAccessToken(): Promise<AccessToken> {
+  getAccessToken() /*: Promise<AccessToken> */ {
     return this._axios
       .get(
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
@@ -170,7 +161,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
    */
-  async uploadMedia(type: MediaType, media: Buffer | fs.ReadStream) {
+  async uploadMedia(type /*: MediaType */, media /*: Buffer | fs.ReadStream */) {
     await this._refreshTokenWhenExpired();
 
     const form = new FormData();
@@ -194,7 +185,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
    */
-  async getMedia(mediaId: string) {
+  async getMedia(mediaId /*: string */) {
     await this._refreshTokenWhenExpired();
 
     return this._axios
@@ -208,7 +199,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
    */
-  async sendRawBody(body: Object) {
+  async sendRawBody(body /*: Object */) {
     await this._refreshTokenWhenExpired();
 
     return this._axios
@@ -220,13 +211,14 @@ export default class WechatClient {
   /**
    * 发送文本消息
    */
-  sendText(userId: string, text: string, options: Object) {
+  sendText(userId /*: string */, text /*: string */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'text',
       text: {
         content: text,
       },
+
       ...options,
     });
   }
@@ -234,13 +226,14 @@ export default class WechatClient {
   /**
    * 发送图片消息
    */
-  sendImage(userId: string, mediaId: string, options: Object) {
+  sendImage(userId /*: string */, mediaId /*: string */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'image',
       image: {
         media_id: mediaId,
       },
+
       ...options,
     });
   }
@@ -248,13 +241,14 @@ export default class WechatClient {
   /**
    * 发送语音消息
    */
-  sendVoice(userId: string, mediaId: string, options: Object) {
+  sendVoice(userId /*: string */, mediaId /*: string */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'voice',
       voice: {
         media_id: mediaId,
       },
+
       ...options,
     });
   }
@@ -262,7 +256,7 @@ export default class WechatClient {
   /**
    * 发送视频消息
    */
-  sendVideo(userId: string, video: Video, options: Object) {
+  sendVideo(userId /*: string */, video /*: Video */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'video',
@@ -274,7 +268,7 @@ export default class WechatClient {
   /**
    * 发送音乐消息
    */
-  sendMusic(userId: string, music: Music, options: Object) {
+  sendMusic(userId /*: string */, music /*: Music */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'music',
@@ -288,7 +282,7 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendNews(userId: string, news: News, options: Object) {
+  sendNews(userId /*: string */, news /*: News */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'news',
@@ -302,13 +296,14 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendMPNews(userId: string, mediaId: string, options: Object) {
+  sendMPNews(userId /*: string */, mediaId /*: string */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'mpnews',
       mpnews: {
         media_id: mediaId,
       },
+
       ...options,
     });
   }
@@ -316,13 +311,14 @@ export default class WechatClient {
   /**
    * 发送卡券
    */
-  sendWXCard(userId: string, cardId: string, options: Object) {
+  sendWXCard(userId /*: string */, cardId /*: string */, options /*: Object */) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'wxcard',
       wxcard: {
         card_id: cardId,
       },
+
       ...options,
     });
   }
@@ -331,9 +327,9 @@ export default class WechatClient {
    * 发送小程序卡片（要求小程序与公众号已关联）
    */
   sendMiniProgramPage(
-    userId: string,
-    miniProgramPage: MiniProgramPage,
-    options: Object
+    userId /*: string */,
+    miniProgramPage /*: MiniProgramPage */,
+    options /*: Object*/
   ) {
     return this.sendRawBody({
       touser: userId,
