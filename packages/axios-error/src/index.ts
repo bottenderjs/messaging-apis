@@ -1,18 +1,32 @@
 import util from 'util';
 
-function indent(str) {
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError as BaseAxiosError,
+} from 'axios';
+
+function indent(str: string): string {
   return str
     .split('\n')
     .map(s => (s ? `  ${s}` : ''))
     .join('\n');
 }
 
-function json(data) {
+function json(data: Record<string, any>): string {
   return JSON.stringify(data, null, 2);
 }
 
-module.exports = class AxiosError extends Error {
-  constructor(messageOrErr, _err = {}) {
+export default class AxiosError extends Error {
+  config: AxiosRequestConfig;
+
+  request?: any;
+
+  response?: AxiosResponse;
+
+  status?: number;
+
+  constructor(messageOrErr: any, _err: any = {}) {
     let err;
     if (messageOrErr instanceof Error) {
       super(messageOrErr.message);
@@ -21,7 +35,7 @@ module.exports = class AxiosError extends Error {
       super(messageOrErr);
       err = _err;
     }
-    const { config, request, response } = err;
+    const { config, request, response } = err as BaseAxiosError;
 
     this.config = config;
     this.request = request;
@@ -31,12 +45,7 @@ module.exports = class AxiosError extends Error {
     }
   }
 
-  // TODO: remove inspect until we drop node < 6.6
-  inspect(...args) {
-    return this[util.inspect.custom](...args);
-  }
-
-  [util.inspect.custom]() {
+  [util.inspect.custom](): string {
     let requestMessage = '';
 
     if (this.config) {
@@ -56,7 +65,9 @@ ${indent(json(data))}`;
 
       requestMessage = `
 Request -
-  ${this.config.method.toUpperCase()} ${this.config.url}
+  ${this.config.method ? this.config.method.toUpperCase() : ''} ${
+        this.config.url
+      }
 ${requestData}`;
     }
 
@@ -86,4 +97,4 @@ ${requestMessage}
 ${responseMessage}
 `;
   }
-};
+}

@@ -4,26 +4,26 @@ import FormData from 'form-data';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
 import omit from 'lodash.omit';
-import warning from 'warning'; /*:: import type {
-                                 AirlineBoardingPassAttributes,
-                                 AirlineCheckinAttributes,
-                                 AirlineItineraryAttributes,
-                                 AirlineUpdateAttributes,
-                                 Attachment,
-                                 AttachmentPayload,
-                                 FileData,
-                                 MediaElement,
-                                 Message,
-                                 OpenGraphElement,
-                                 QuickReply,
-                                 ReceiptAttributes,
-                                 TemplateButton,
-                                 TemplateElement,
-                               } from './MessengerTypes'; */
+import warning from 'warning';
 
-function validateQuickReplies(
-  quickReplies /*: Array<QuickReply> */
-) /*: void */ {
+import {
+  AirlineBoardingPassAttributes,
+  AirlineCheckinAttributes,
+  AirlineItineraryAttributes,
+  AirlineUpdateAttributes,
+  Attachment,
+  AttachmentPayload,
+  FileData,
+  MediaElement,
+  Message,
+  OpenGraphElement,
+  QuickReply,
+  ReceiptAttributes,
+  TemplateButton,
+  TemplateElement,
+} from './MessengerTypes';
+
+function validateQuickReplies(quickReplies: QuickReply[]): void {
   // quick_replies is limited to 11
   invariant(
     Array.isArray(quickReplies) && quickReplies.length <= 11,
@@ -34,14 +34,13 @@ function validateQuickReplies(
     if (quickReply.content_type === 'text') {
       // title has a 20 character limit, after that it gets truncated
       invariant(
-        (quickReply.title /*: any */)
-          .trim().length <= 20,
+        quickReply.title && quickReply.title.trim().length <= 20,
         'title of quick reply has a 20 character limit, after that it gets truncated'
       );
 
       // payload has a 1000 character limit
       invariant(
-        (quickReply.payload /*: any */).length <= 1000,
+        quickReply.payload && quickReply.payload.length <= 1000,
         'payload of quick reply has a 1000 character limit'
       );
     }
@@ -49,10 +48,9 @@ function validateQuickReplies(
 }
 
 function createMessage(
-  msg /*: Message */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  /*: Message */
+  msg: Message,
+  options: { quick_replies?: QuickReply[] } = {}
+): Message {
   const message = {
     ...msg,
   };
@@ -70,19 +68,18 @@ function createMessage(
 }
 
 function createText(
-  text /*: string */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  /*: Message */
+  text: string,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createMessage({ text }, options);
 }
 
 function createMessageFormData(
-  payload /*: AttachmentPayload */,
-  filedata /*: FileData */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  const message /*: { ...AttachmentPayload, quick_replies?: Array<QuickReply> } */ = {
+  payload: AttachmentPayload,
+  filedata: FileData,
+  options: { quick_replies?: QuickReply[] } = {}
+): FormData {
+  const message: AttachmentPayload & { quick_replies?: QuickReply[] } = {
     ...payload,
   };
 
@@ -100,9 +97,9 @@ function createMessageFormData(
 }
 
 function createAttachment(
-  attachment /*: Attachment */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  attachment: Attachment,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createMessage(
     {
       attachment,
@@ -112,7 +109,12 @@ function createAttachment(
   );
 }
 
-function createAttachmentFormData(attachment, filedata, options) {
+// FIXME: type
+function createAttachmentFormData(
+  attachment: Attachment,
+  filedata,
+  options
+): FormData {
   return createMessageFormData(
     {
       attachment,
@@ -125,10 +127,10 @@ function createAttachmentFormData(attachment, filedata, options) {
 }
 
 function createAudio(
-  audio /*: string | FileData | AttachmentPayload */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  const attachment = {
+  audio: string | FileData | AttachmentPayload,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message | FormData {
+  const attachment: Attachment = {
     type: 'audio',
     payload: {},
   };

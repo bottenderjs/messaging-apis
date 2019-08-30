@@ -1,14 +1,28 @@
 module.exports = {
-  parser: 'babel-eslint',
-  extends: ['yoctol-base', 'prettier'],
+  root: true,
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'yoctol-base',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+  ],
   env: {
     node: true,
     jest: true,
     jasmine: true,
   },
-  plugins: ['import', 'prettier'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'import/no-extraneous-dependencies': 'off',
-    'prettier/prettier': ['error'],
+
+    '@typescript-eslint/camelcase': 'off',
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  }
 };
