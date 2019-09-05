@@ -95,10 +95,12 @@ function handleError(err) {
 
 const debugRequest = debug('messaging-api-messenger');
 
-function onRequest(request) {
-  debugRequest(`${request.method} ${request.url}`);
-  debugRequest('Outgoing request body:');
-  debugRequest(JSON.stringify(request.body, null, 2));
+function onRequest({ method, url: _url, body }) {
+  debugRequest(`${method} ${_url}`);
+  if (body) {
+    debugRequest('Outgoing request body:');
+    debugRequest(JSON.stringify(body, null, 2));
+  }
 }
 
 export default class MessengerClient {
