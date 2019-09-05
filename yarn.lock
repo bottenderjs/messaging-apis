@@ -1135,6 +1135,11 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@types/append-query@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/append-query/-/append-query-2.0.0.tgz#ed93e5adb9d865a1896ccdff8a2a32f28ef313de"
+  integrity sha512-0YlmQr+wOjsHrt4cXEWY2Ef8pLPyz4jTQqv/mSiGzdf+q0ZymH7VoI7kvmXV6T31JLvlQwGo2b3B9FgR+qn19g==
+
 "@types/babel__core@^7.1.0":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.2.tgz#608c74f55928033fce18b99b213c16be4b3d114f"
@@ -1233,6 +1238,13 @@
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
+
+"@types/lodash.get@^4.4.6":
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.get/-/lodash.get-4.4.6.tgz#0c7ac56243dae0f9f09ab6f75b29471e2e777240"
+  integrity sha512-E6zzjR3GtNig8UJG/yodBeJeIOtgPkMgsLjDU3CbgCAPC++vJ0eCMnJhVpRZb/ENqEFlov1+3K9TKtY4UdWKtQ==
+  dependencies:
+    "@types/lodash" "*"
 
 "@types/lodash.omit@^4.5.6":
   version "4.5.6"

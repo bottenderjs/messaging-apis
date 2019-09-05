@@ -308,7 +308,7 @@ export type MutationSuccessResponse = {
   result: string;
 };
 
-export type SendMessageSucessResponse = {
+export type SendMessageSuccessResponse = {
   recipient_id: string;
   message_id: string;
 };

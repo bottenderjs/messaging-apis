@@ -1,5 +1,3 @@
-/* @flow */
-
 import FormData from 'form-data';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
@@ -104,23 +102,20 @@ function createAttachment(
     {
       attachment,
     },
-
     options
   );
 }
 
-// FIXME: type
 function createAttachmentFormData(
   attachment: Attachment,
-  filedata,
-  options
+  // FIXME: [type]
+  filedata: any,
+  options = {}
 ): FormData {
   return createMessageFormData(
     {
       attachment,
-    },
-
-    // $FlowFixMe
+    } as any,
     filedata,
     options
   );
@@ -139,8 +134,9 @@ function createAudio(
     attachment.payload.url = audio;
     return createAttachment(attachment, options);
   }
+
   if (audio && isPlainObject(audio)) {
-    attachment.payload = audio;
+    attachment.payload = audio as AttachmentPayload;
     return createAttachment(attachment, options);
   }
 
@@ -148,10 +144,10 @@ function createAudio(
 }
 
 function createImage(
-  image /*: string | FileData | AttachmentPayload */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  const attachment = {
+  image: string | FileData | AttachmentPayload,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message | FormData {
+  const attachment: Attachment = {
     type: 'image',
     payload: {},
   };
@@ -160,8 +156,9 @@ function createImage(
     attachment.payload.url = image;
     return createAttachment(attachment, options);
   }
+
   if (image && isPlainObject(image)) {
-    attachment.payload = image;
+    attachment.payload = image as AttachmentPayload;
     return createAttachment(attachment, options);
   }
 
@@ -169,10 +166,10 @@ function createImage(
 }
 
 function createVideo(
-  video /*: string | FileData | AttachmentPayload */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  const attachment = {
+  video: string | FileData | AttachmentPayload,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message | FormData {
+  const attachment: Attachment = {
     type: 'video',
     payload: {},
   };
@@ -181,8 +178,9 @@ function createVideo(
     attachment.payload.url = video;
     return createAttachment(attachment, options);
   }
+
   if (video && isPlainObject(video)) {
-    attachment.payload = video;
+    attachment.payload = video as AttachmentPayload;
     return createAttachment(attachment, options);
   }
 
@@ -190,10 +188,10 @@ function createVideo(
 }
 
 function createFile(
-  file /*: string | FileData | AttachmentPayload */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
-  const attachment = {
+  file: string | FileData | AttachmentPayload,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message | FormData {
+  const attachment: Attachment = {
     type: 'file',
     payload: {},
   };
@@ -202,8 +200,9 @@ function createFile(
     attachment.payload.url = file;
     return createAttachment(attachment, options);
   }
+
   if (file && isPlainObject(file)) {
-    attachment.payload = file;
+    attachment.payload = file as AttachmentPayload;
     return createAttachment(attachment, options);
   }
 
@@ -211,61 +210,58 @@ function createFile(
 }
 
 function createTemplate(
-  payload /*: AttachmentPayload */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  payload: AttachmentPayload,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createAttachment(
     {
       type: 'template',
       payload,
     },
-
     options
   );
 }
 
 function createButtonTemplate(
-  text /*: string */,
-  buttons /*: Array<TemplateButton> */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  text: string,
+  buttons: TemplateButton[],
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'button',
       text,
       buttons,
     },
-
     options
   );
 }
 
 function createGenericTemplate(
-  elements /*: Array<TemplateElement> */,
-  options /*:: ?: {
-            image_aspect_ratio?: 'horizontal' | 'square',
-            quick_replies?: Array<QuickReply>,
-          } */ = {}
-) {
+  elements: TemplateElement[],
+  options: {
+    image_aspect_ratio?: 'horizontal' | 'square';
+    quick_replies?: QuickReply[];
+  } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'generic',
       elements,
       image_aspect_ratio: options.image_aspect_ratio || 'horizontal',
     },
-
     options
   );
 }
 
 function createListTemplate(
-  elements /*: Array<TemplateElement> */,
-  buttons /*: Array<TemplateButton> */,
-  options /*:: ?: {
-            top_element_style?: 'large' | 'compact',
-            quick_replies?: Array<QuickReply>,
-          } */ = {}
-) {
+  elements: TemplateElement[],
+  buttons: TemplateButton[],
+  options: {
+    top_element_style?: 'large' | 'compact';
+    quick_replies?: Array<QuickReply>;
+  } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'list',
@@ -273,111 +269,103 @@ function createListTemplate(
       buttons,
       top_element_style: options.top_element_style || 'large',
     },
-
     options
   );
 }
 
 function createOpenGraphTemplate(
-  elements /*: Array<OpenGraphElement> */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  elements: OpenGraphElement[],
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'open_graph',
       elements,
     },
-
     options
   );
 }
 
 function createMediaTemplate(
-  elements /*: Array<MediaElement> */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  elements: MediaElement[],
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'media',
       elements,
     },
-
     options
   );
 }
 
 function createReceiptTemplate(
-  attrs /*: ReceiptAttributes */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  attrs: ReceiptAttributes,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'receipt',
       ...attrs,
     },
-
     options
   );
 }
 
 function createAirlineBoardingPassTemplate(
-  attrs /*: AirlineBoardingPassAttributes */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  attrs: AirlineBoardingPassAttributes,
+  options: { quick_replies?: QuickReply[] } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'airline_boardingpass',
       ...attrs,
     },
-
     options
   );
 }
 
 function createAirlineCheckinTemplate(
-  attrs /*: AirlineCheckinAttributes */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  attrs: AirlineCheckinAttributes,
+  options: { quick_replies?: QuickReply[] } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'airline_checkin',
       ...attrs,
     },
-
     options
   );
 }
 
 function createAirlineItineraryTemplate(
-  attrs /*: AirlineItineraryAttributes */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  attrs: AirlineItineraryAttributes,
+  options: { quick_replies?: QuickReply[] } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'airline_itinerary',
       ...attrs,
     },
-
     options
   );
 }
 
 function createAirlineUpdateTemplate(
-  attrs /*: AirlineUpdateAttributes */,
-  options /*:: ?: { quick_replies?: Array<QuickReply> } */ = {}
-) {
+  attrs: AirlineUpdateAttributes,
+  options: { quick_replies?: QuickReply[] } = {}
+): Message {
   return createTemplate(
     {
       template_type: 'airline_update',
       ...attrs,
     },
-
     options
   );
 }
 
-function deprecated(name, fn) {
-  return (...args) => {
+function deprecated(name: string, fn: Function): (...args: any[]) => any {
+  return (...args): any => {
     warning(
       false,
       `\`Messenger.${name}\` is deprecated. Use \`Messenger.${fn.name}\` instead.`
