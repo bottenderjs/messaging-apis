@@ -1,3 +1,7 @@
+# 0.8.2 / 2019-09-05
+
+- [fix] avoid printing undefined outgoing request body in `onRequest`.
+
 # 0.8.1 / 2019-08-27
 
 - [deps] update packages
