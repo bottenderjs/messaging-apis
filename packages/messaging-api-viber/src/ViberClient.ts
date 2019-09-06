@@ -1,35 +1,40 @@
-/* @flow */
 /* eslint-disable camelcase */
 
 import AxiosError from 'axios-error';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import debug from 'debug';
 import omit from 'lodash.omit';
-import urlJoin from 'url-join'; /*:: type ClientConfig = {
-                                                                accessToken: string,
-                                                                sender: ViberSender,
-                                                                origin?: string,
-                                                                onRequest?: Function,
-                                                              };*/ /*:: import type {
-                                  ViberContact,
-                                  ViberEventType,
-                                  ViberFile,
-                                  ViberLocation,
-                                  ViberPicture,
-                                  ViberRichMedia,
-                                  ViberSender,
-                                  ViberVideo,
-                                } from './ViberTypes'; */ /*:: type Axios = {
-                                                           get: Function,
-                                                           post: Function,
-                                                           put: Function,
-                                                           path: Function,
-                                                           delete: Function,
-                                                         }; */
+import urlJoin from 'url-join';
+
+import {
+  ViberContact,
+  ViberEventType,
+  ViberFile,
+  ViberLocation,
+  ViberPicture,
+  ViberRichMedia,
+  ViberSender,
+  ViberVideo,
+} from './ViberTypes';
+
+type ClientConfig = {
+  accessToken: string;
+  sender: ViberSender;
+  origin?: string;
+  onRequest?: Function;
+};
 
 const debugRequest = debug('messaging-api-viber');
 
-function onRequest({ method, url, body }) {
+function onRequest({
+  method,
+  url,
+  body,
+}: {
+  method: string;
+  url: string;
+  body: Record<string, any>;
+}): void {
   debugRequest(`${method} ${url}`);
   debugRequest('Outgoing request body:');
   debugRequest(JSON.stringify(body, null, 2));
@@ -40,16 +45,21 @@ function onRequest({ method, url, body }) {
  */
 export default class ViberClient {
   static connect(
-    accessTokenOrConfig /*: string | ClientConfig */,
-    sender /*: ViberClient*/ /*: ViberSender */
-  ) {
+    accessTokenOrConfig: string | ClientConfig,
+    sender: ViberSender
+  ): ViberClient {
     return new ViberClient(accessTokenOrConfig, sender);
-  } /*:: _axios: Axios;*/ /*:: _token: string;*/ /*:: _sender: ViberSender;*/ /*:: _onRequest: Function;*/
+  }
 
-  constructor(
-    accessTokenOrConfig /*: string | ClientConfig*/,
-    sender /*: ViberSender*/
-  ) {
+  _token: string;
+
+  _sender: ViberSender;
+
+  _onRequest: Function;
+
+  _axios: AxiosInstance;
+
+  constructor(accessTokenOrConfig: string | ClientConfig, sender: ViberSender) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
@@ -75,10 +85,10 @@ export default class ViberClient {
     this._axios.interceptors.request.use(config => {
       this._onRequest({
         method: config.method,
-        url: urlJoin(config.baseURL, config.url),
+        url: urlJoin(config.baseURL || '', config.url || '/'),
         headers: {
           ...config.headers.common,
-          ...config.headers[config.method],
+          ...(config.method ? config.headers[config.method] : {}),
           ...omit(config.headers, [
             'common',
             'get',
@@ -97,11 +107,11 @@ export default class ViberClient {
     });
   }
 
-  get axios() /*: Axios */ {
+  get axios(): AxiosInstance {
     return this._axios;
   }
 
-  get accessToken() /*: string */ {
+  get accessToken(): string {
     return this._token;
   }
 
@@ -136,8 +146,8 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#setting-a-webhook
    */
-  setWebhook(url /*: string */, eventTypes /*:: ?: Array<ViberEventType> */) {
-    const body /*: { url: string, event_types?: Array<ViberEventType> } */ = {
+  setWebhook(url: string, eventTypes?: ViberEventType[]) {
+    const body: { url: string; event_types?: ViberEventType[] } = {
       url,
     };
 
@@ -161,7 +171,7 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#send-message
    */
-  sendMessage(receiver /*: string */, { type, ...options } /*: Object */) {
+  sendMessage(receiver: string, { type, ...options }: Record<string, any>) {
     return this._callAPI('/send_message', {
       receiver,
       type,
@@ -173,11 +183,7 @@ export default class ViberClient {
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#text-message
    */
-  sendText(
-    receiver /*: string*/,
-    text /*: string*/,
-    options /*:: ?: Object*/ = {}
-  ) {
+  sendText(receiver: string, text: string, options: Record<string, any> = {}) {
     return this.sendMessage(receiver, {
       type: 'text',
       text,
@@ -189,9 +195,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#picture-message
    */
   sendPicture(
-    receiver /*: string */,
-    { text, media, thumbnail } /*: ViberPicture */,
-    options /*: Object*/ = {}
+    receiver: string,
+    { text, media, thumbnail }: ViberPicture,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'picture',
@@ -206,9 +212,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#video-message
    */
   sendVideo(
-    receiver /*: string */,
-    { media, size, thumbnail, duration } /*: ViberVideo */,
-    options /*: Object*/ = {}
+    receiver: string,
+    { media, size, thumbnail, duration }: ViberVideo,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'video',
@@ -224,9 +230,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#file-message
    */
   sendFile(
-    receiver /*: string */,
-    { media, size, file_name } /*: ViberFile */,
-    options /*: Object*/ = {}
+    receiver: string,
+    { media, size, file_name }: ViberFile,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'file',
@@ -241,9 +247,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#contact-message
    */
   sendContact(
-    receiver /*: string */,
-    { name, phone_number } /*: ViberContact */,
-    options /*: Object*/ = {}
+    receiver: string,
+    { name, phone_number }: ViberContact,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'contact',
@@ -256,9 +262,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#location-message
    */
   sendLocation(
-    receiver /*: string */,
-    { lat, lon } /*: ViberLocation */,
-    options /*: Object*/ = {}
+    receiver: string,
+    { lat, lon }: ViberLocation,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'location',
@@ -270,7 +276,7 @@ export default class ViberClient {
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#url-message
    */
-  sendURL(receiver /*: string */, url /*: string */, options /*: Object */ = {}) {
+  sendURL(receiver: string, url: string, options: Record<string, any> = {}) {
     return this.sendMessage(receiver, {
       type: 'url',
       media: url,
@@ -282,9 +288,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#sticker-message
    */
   sendSticker(
-    receiver /*: string*/,
-    stickerId /*: string*/,
-    options /*: Object*/ = {}
+    receiver: string,
+    stickerId: string,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'sticker',
@@ -297,9 +303,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message
    */
   sendCarouselContent(
-    receiver /*: string */,
-    richMedia /*: ViberRichMedia */,
-    options /*: Object*/ = {}
+    receiver: string,
+    richMedia: ViberRichMedia,
+    options: Record<string, any> = {}
   ) {
     return this.sendMessage(receiver, {
       type: 'rich_media',
@@ -315,8 +321,8 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#broadcast-message
    */
   broadcastMessage(
-    broadcastList /*: Array<string>*/,
-    { type, ...options } /*: Object*/
+    broadcastList: string[],
+    { type, ...options }: Record<string, any>
   ) {
     return this._callAPI('/broadcast_message', {
       broadcast_list: broadcastList,
@@ -330,9 +336,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#text-message
    */
   broadcastText(
-    broadcastList /*: Array<string> */,
-    text /*: string */,
-    options /*:: ?: Object*/ = {}
+    broadcastList: string[],
+    text: string,
+    options?: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'text',
@@ -345,9 +351,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#picture-message
    */
   broadcastPicture(
-    broadcastList /*: Array<string> */,
-    { text, media, thumbnail } /*: ViberPicture */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    { text, media, thumbnail }: ViberPicture,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'picture',
@@ -362,9 +368,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#video-message
    */
   broadcastVideo(
-    broadcastList /*: Array<string> */,
-    { media, size, thumbnail, duration } /*: ViberVideo */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    { media, size, thumbnail, duration }: ViberVideo,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'video',
@@ -380,9 +386,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#file-message
    */
   broadcastFile(
-    broadcastList /*: Array<string> */,
-    { media, size, file_name } /*: ViberFile */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    { media, size, file_name }: ViberFile,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'file',
@@ -397,9 +403,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#contact-message
    */
   broadcastContact(
-    broadcastList /*: Array<string> */,
-    { name, phone_number } /*: ViberContact */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    { name, phone_number }: ViberContact,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'contact',
@@ -412,9 +418,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#location-message
    */
   broadcastLocation(
-    broadcastList /*: Array<string> */,
-    { lat, lon } /*: ViberLocation */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    { lat, lon }: ViberLocation,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'location',
@@ -427,9 +433,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#url-message
    */
   broadcastURL(
-    broadcastList /*: Array<string> */,
-    url /*: string */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    url: string,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'url',
@@ -442,9 +448,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#sticker-message
    */
   broadcastSticker(
-    broadcastList /*: Array<string> */,
-    stickerId /*: string */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    stickerId: string,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'sticker',
@@ -457,9 +463,9 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message
    */
   broadcastCarouselContent(
-    broadcastList /*: Array<string> */,
-    richMedia /*: ViberRichMedia */,
-    options /*: Object*/ = {}
+    broadcastList: string[],
+    richMedia: ViberRichMedia,
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'rich_media',
@@ -483,7 +489,7 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-user-details
    */
-  async getUserDetails(id /*: string */) {
+  async getUserDetails(id: string) {
     const data = await this._callAPI('/get_user_details', { id });
     return data.user;
   }
@@ -493,7 +499,7 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-online
    */
-  async getOnlineStatus(ids /*: Array<string> */) {
+  async getOnlineStatus(ids: string[]) {
     const data = await this._callAPI('/get_online', { ids });
     return data.users;
   }
