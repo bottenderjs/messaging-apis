@@ -1,24 +1,20 @@
-/* @flow */
 import AxiosError from 'axios-error';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import debug from 'debug';
 import imageType from 'image-type';
 import invariant from 'invariant';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 
-import Line from './Line'; /*:: type ClientConfig = {
-                                                                                                                                                                                                                                                                                                                                                                                                                  accessToken: string,
-                                                                                                                                                                                                                                                                                                                                                                                                                  channelSecret: string,
-                                                                                                                                                                                                                                                                                                                                                                                                                  origin?: string,
-                                                                                                                                                                                                                                                                                                                                                                                                                  onRequest?: Function,
-                                                                                                                                                                                                                                                                                                                                                                                                                };*/ /*:: import { type ColumnObject, type FlexContainer, type ImageCarouselColumnObject, type ImageMapAction, type ImageMapVideo, type LiffView, type Location, type Message, type MessageOptions, type MutationSuccessResponse, type ReplyToken, type RichMenu, type SendTarget, type SendType, type Template, type TemplateAction, type User, type UserId } from './LineTypes';*/ /*:: type Axios = {
-                                                                                                                                                                                                                                                                                                                                                                                                             get: Function,
-                                                                                                                                                                                                                                                                                                                                                                                                             post: Function,
-                                                                                                                                                                                                                                                                                                                                                                                                             put: Function,
-                                                                                                                                                                                                                                                                                                                                                                                                             path: Function,
-                                                                                                                                                                                                                                                                                                                                                                                                             delete: Function,
-                                                                                                                                                                                                                                                                                                                                                                                                           }; */
+import Line from './Line';
+import { ColumnObject, FlexContainer, ImageCarouselColumnObject, ImageMapAction, ImageMapVideo, LiffView, Location, Message, MessageOptions, MutationSuccessResponse, ReplyToken, RichMenu, SendTarget, SendType, Template, TemplateAction, User, UserId } from './LineTypes';
+
+type ClientConfig = {
+  accessToken: string;
+  channelSecret: string;
+  origin?: string;
+  onRequest?: Function;
+};
 
 function handleError(err) {
   if (err.response && err.response.data) {
@@ -36,7 +32,7 @@ function handleError(err) {
 
 const debugRequest = debug('messaging-api-line');
 
-function onRequest({ method, url, body }) {
+function onRequest({ method, url, body }: any): void {
   debugRequest(`${method} ${url}`);
   if (body) {
     debugRequest('Outgoing request body:');
@@ -46,15 +42,23 @@ function onRequest({ method, url, body }) {
 
 export default class LineClient {
   static connect(
-    accessTokenOrConfig /*: string | ClientConfig */,
-    channelSecret /*: LineClient*/ /*: string */
-  ) {
+    accessTokenOrConfig: string | ClientConfig,
+    channelSecret: string
+  ) : LineClient {
     return new LineClient(accessTokenOrConfig, channelSecret);
-  } /*:: _axios: Axios;*/ /*:: _accessToken: string;*/ /*:: _channelSecret: string;*/ /*:: _onRequest: Function;*/
+  }
+
+  _channelSecret: string;
+
+  _onRequest: Function;
+
+  _axios: AxiosInstance;
+
+  _accessToken: string;
 
   constructor(
-    accessTokenOrConfig /*: string | ClientConfig */,
-    channelSecret /*: string*/
+    accessTokenOrConfig: string | ClientConfig,
+    channelSecret: string
   ) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
@@ -81,10 +85,10 @@ export default class LineClient {
     this._axios.interceptors.request.use(config => {
       this._onRequest({
         method: config.method,
-        url: urlJoin(config.baseURL, config.url),
+        url: urlJoin(config.baseURL || '', config.url || '/'),
         headers: {
           ...config.headers.common,
-          ...config.headers[config.method],
+          ...(config.method ? config.headers[config.method] : {}),
           ...omit(config.headers, [
             'common',
             'get',
@@ -103,34 +107,34 @@ export default class LineClient {
     });
   }
 
-  get axios() /*: Axios */ {
+  get axios(): AxiosInstance {
     return this._axios;
   }
 
-  get accessToken() /*: string */ {
+  get accessToken(): string {
     return this._accessToken;
   }
 
   _send(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    ...args /*: Promise<MutationSuccessResponse> */
-  ) {
+    type: SendType,
+    target: SendTarget,
+    ...args: any
+  ): Promise<MutationSuccessResponse> {
     if (type === 'push') {
-      return this.push(target /*: any) UserId */, ...args);
+      return this.push(target as UserId , ...args);
     }
     if (type === 'multicast') {
-      return this.multicast(target /*: any): Array<UserId> */, ...args);
+      return this.multicast(target as UserId[] , ...args);
     }
-    return this.reply(target /*: any): ReplyToken */, ...args);
+    return this.reply(target as ReplyToken , ...args);
   }
 
   _sendText(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    text /*: string */,
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    text: string,
+    options: MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -140,11 +144,11 @@ export default class LineClient {
   }
 
   _sendImage(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    contentUrlOrImage /*: string | Object */,
-    previewUrlOrOptions /*: Promise<MutationSuccessResponse>*/ /*:: ?: string | MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    contentUrlOrImage: string | Object,
+    previewUrlOrOptions: string | MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -154,11 +158,11 @@ export default class LineClient {
   }
 
   _sendVideo(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    contentUrlOrVideo /*: string | Object */,
-    previewUrlOrOptions /*: Promise<MutationSuccessResponse>*/ /*:: ?: string | MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    contentUrlOrVideo: string | Object,
+    previewUrlOrOptions: string | MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -168,11 +172,11 @@ export default class LineClient {
   }
 
   _sendAudio(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    contentUrlOrAudio /*: string | Object */,
-    durationOrOptions /*: Promise<MutationSuccessResponse>*/ /*:: ?: number | MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    contentUrlOrAudio: string | Object,
+    durationOrOptions: number | MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -182,11 +186,11 @@ export default class LineClient {
   }
 
   _sendLocation(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    { title, address, latitude, longitude } /*: Location */,
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    { title, address, latitude, longitude }: Location,
+    options: MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -208,11 +212,11 @@ export default class LineClient {
   }
 
   _sendSticker(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    packageIdOrSticker /*: string | Object */,
-    stickerIdOrOptions /*: Promise<MutationSuccessResponse>*/ /*:: ?: string | MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    packageIdOrSticker: string | Object,
+    stickerIdOrOptions: string | MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -227,9 +231,9 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message
    */
   _sendImagemap(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
+    type: SendType,
+    target: SendTarget,
+    altText: string,
     {
       baseUrl,
       baseSize,
@@ -237,20 +241,19 @@ export default class LineClient {
       baseWidth,
       video,
       actions,
-    } /*: {
-                    baseUrl: string,
-                    baseSize: {
-                      height: number,
-                      width: number,
-                    },
-                    baseHeight: number,
-                    baseWidth: number,
-                    video?: ImageMapVideo,
-                    actions: Array<ImageMapAction>,
-                  } */,
-
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    }: {
+      baseUrl: string;
+      baseSize: {
+        height: number;
+        width: number;
+      };
+      baseHeight: number;
+      baseWidth: number;
+      video?: ImageMapVideo;
+      actions: ImageMapAction[];
+    },
+    options: MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -280,11 +283,11 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#flex-message
    */
   _sendFlex(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
-    contents /*: FlexContainer */,
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    contents: FlexContainer,
+    options: MessageOptions
   ) {
     return this._send(
       type,
@@ -300,12 +303,12 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#template-messages
    */
   _sendTemplate(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
-    template /*: Template */,
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    template: Template,
+    options: MessageOptions
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -315,9 +318,9 @@ export default class LineClient {
   }
 
   _sendButtonTemplate(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
+    type: SendType,
+    target: SendTarget,
+    altText: string,
     {
       thumbnailImageUrl,
       imageAspectRatio,
@@ -327,19 +330,18 @@ export default class LineClient {
       text,
       defaultAction,
       actions,
-    } /*: {
-                    thumbnailImageUrl?: string,
-                    imageAspectRatio?: 'rectangle' | 'square',
-                    imageSize?: 'cover' | 'contain',
-                    imageBackgroundColor?: string,
-                    title?: string,
-                    text: string,
-                    defaultAction?: TemplateAction,
-                    actions: Array<TemplateAction>,
-                  } */,
-
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    }: {
+      thumbnailImageUrl?: string;
+      imageAspectRatio?: 'rectangle' | 'square';
+      imageSize?: 'cover' | 'contain';
+      imageBackgroundColor?: string;
+      title?: string;
+      text: string;
+      defaultAction?: TemplateAction;
+      actions: TemplateAction[];
+    },
+    options: MessageOptions
+  ) : Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -366,19 +368,18 @@ export default class LineClient {
   }
 
   _sendConfirmTemplate(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
+    type: SendType,
+    target: SendTarget,
+    altText: string,
     {
       text,
       actions,
-    } /*: {
-                    text: string,
-                    actions: Array<TemplateAction>,
-                  } */,
-
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    }: {
+      text: string,
+      actions: Array<TemplateAction>,
+    },
+    options: MessageOptions
+  ) : Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -399,20 +400,20 @@ export default class LineClient {
   }
 
   _sendCarouselTemplate(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
-    columns /*: Array<ColumnObject> */,
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    columns: Array<ColumnObject>,
     {
       imageAspectRatio,
       imageSize,
       ...options
-    } /*: {
-                       imageAspectRatio?: 'rectangle' | 'square',
-                       imageSize?: 'cover' | 'contain',
-                       options?: MessageOptions,
-                     } */ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    } : {
+      imageAspectRatio?: 'rectangle' | 'square';
+      imageSize?: 'cover' | 'contain';
+      options?: MessageOptions;
+    } = {}
+  ) : Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -429,12 +430,12 @@ export default class LineClient {
   }
 
   _sendImageCarouselTemplate(
-    type /*: SendType */,
-    target /*: SendTarget */,
-    altText /*: string */,
-    columns /*: Array<ImageCarouselColumnObject> */,
-    options /*: Promise<MutationSuccessResponse>*/ /*:: ?: MessageOptions*/
-  ) {
+    type: SendType,
+    target: SendTarget,
+    altText: string,
+    columns: ImageCarouselColumnObject[],
+    options: MessageOptions
+  ) : Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -449,14 +450,14 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#send-reply-message
    */
   replyRawBody(
-    body /*: {
-             replyToken: ReplyToken,
-             messages: Array<Message>,
-           } */,
+    body: {
+      replyToken: ReplyToken;
+      messages: Message[];
+    },
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    }: { accessToken?: string } = {}
+  ) : Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/reply',
@@ -469,10 +470,10 @@ export default class LineClient {
   }
 
   reply(
-    replyToken /*: ReplyToken */,
-    messages /*: Array<Message> */,
-    options /*:: ?: Object*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    replyToken: ReplyToken,
+    messages: Message[],
+    options: Object = {}
+  ) : Promise<MutationSuccessResponse> {
     return this.replyRawBody({ replyToken, messages }, options);
   }
 
@@ -482,14 +483,14 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#send-push-message
    */
   pushRawBody(
-    body /*: {
-             to: string,
-             messages: Array<Message>,
-           } */,
+    body: {
+      to: string;
+      messages: Message[];
+    },
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    }: { accessToken?: string } = {}
+  ) : Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/push',
@@ -502,10 +503,10 @@ export default class LineClient {
   }
 
   push(
-    to /*: string */,
-    messages /*: Array<Message> */,
-    options /*:: ?: Object*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    to: string,
+    messages: Message[],
+    options: Object = {}
+  ): Promise<MutationSuccessResponse> {
     return this.pushRawBody({ to, messages }, options);
   }
 
@@ -515,14 +516,14 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#send-multicast-messages
    */
   multicastRawBody(
-    body /*: {
-             to: Array<UserId>,
-             messages: Array<Message>,
-           } */,
+    body: {
+      to: UserId[],
+      messages: Message[],
+    },
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/multicast',
@@ -535,10 +536,10 @@ export default class LineClient {
   }
 
   multicast(
-    to /*: Array<UserId> */,
-    messages /*: Array<Message> */,
-    options /*:: ?: Object*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    to: UserId[],
+    messages: Message[],
+    options: Object = {}
+  ): Promise<MutationSuccessResponse> {
     return this.multicastRawBody({ to, messages }, options);
   }
 
@@ -548,11 +549,11 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-content
    */
   retrieveMessageContent(
-    messageId /*: string */,
+    messageId: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<Buffer> */
-  ) {
+    }: { accessToken?: string } = {}
+  ): Promise<Buffer> {
     return this._axios
       .get(
         `/v2/bot/message/${messageId}/content`,
@@ -571,11 +572,11 @@ export default class LineClient {
    * displayName, userId, pictureUrl, statusMessage
    */
   getUserProfile(
-    userId /*: UserId */,
+    userId: UserId,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<User> */
-  ) {
+    } : { accessToken?: string } = {}
+  ) : Promise<User> {
     return this._axios
       .get(
         `/v2/bot/profile/${userId}`,
@@ -598,9 +599,9 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-profile
    */
   getGroupMemberProfile(
-    groupId /*: string */,
-    userId /*: UserId */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    groupId: string,
+    userId: UserId,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .get(
@@ -618,9 +619,9 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-profile
    */
   getRoomMemberProfile(
-    roomId /*: string */,
-    userId /*: UserId */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    roomId: string,
+    userId: UserId,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .get(
@@ -638,12 +639,12 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-user-ids
    */
   getGroupMemberIds(
-    groupId /*: string */,
-    start /*:: ?: string */,
+    groupId: string,
+    start: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<{ memberIds: Array<string>, next?: ?string }> */
-  ) {
+    }: { accessToken?: string } = {}
+  ): Promise<{ memberIds: string[], next?: string }> {
     return this._axios
       .get(
         `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`,
@@ -655,10 +656,10 @@ export default class LineClient {
   }
 
   async getAllGroupMemberIds(
-    groupId /*: string */,
-    options /*:: ?: Object*/ = {} /*: Promise<Array<string>> */
-  ) {
-    let allMemberIds /*: Array<string> */ = [];
+    groupId: string,
+    options: Object = {}
+  ) : Promise<string[]> {
+    let allMemberIds: string[] = [];
     let continuationToken;
 
     do {
@@ -682,12 +683,12 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-user-ids
    */
   getRoomMemberIds(
-    roomId /*: string */,
-    start /*:: ?: string */,
+    roomId: string,
+    start: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<{ memberIds: Array<string>, next?: ?string }> */
-  ) {
+    }: { accessToken?: string } = {}
+  ): Promise<{ memberIds: string[], next?: string }> {
     return this._axios
       .get(
         `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`,
@@ -699,10 +700,10 @@ export default class LineClient {
   }
 
   async getAllRoomMemberIds(
-    roomId /*: string */,
-    options /*:: ?: Object*/ = {} /*: Promise<Array<string>> */
-  ) {
-    let allMemberIds /*: Array<string> */ = [];
+    roomId: string,
+    options: Object = {}
+  ): Promise<string[]> {
+    let allMemberIds: string[] = [];
     let continuationToken;
 
     do {
@@ -726,11 +727,11 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#leave-group
    */
   leaveGroup(
-    groupId /*: string */,
+    groupId: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         `/v2/bot/group/${groupId}/leave`,
@@ -748,11 +749,11 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#leave-room
    */
   leaveRoom(
-    roomId /*: string */,
+    roomId: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<MutationSuccessResponse> */
-  ) {
+    }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         `/v2/bot/room/${roomId}/leave`,
@@ -771,7 +772,7 @@ export default class LineClient {
    */
   getRichMenuList({
     accessToken: customAccessToken,
-  } /*: { accessToken?: string }*/ = {}) {
+  }: { accessToken?: string } = {}) {
     return this._axios
       .get(
         '/v2/bot/richmenu/list',
@@ -783,8 +784,8 @@ export default class LineClient {
   }
 
   getRichMenu(
-    richMenuId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .get(
@@ -803,8 +804,8 @@ export default class LineClient {
   }
 
   createRichMenu(
-    richMenu /*: RichMenu */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    richMenu: RichMenu,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .post(
@@ -818,8 +819,8 @@ export default class LineClient {
   }
 
   deleteRichMenu(
-    richMenuId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .delete(
@@ -832,8 +833,8 @@ export default class LineClient {
   }
 
   getLinkedRichMenu(
-    userId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    userId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .get(
@@ -852,9 +853,9 @@ export default class LineClient {
   }
 
   linkRichMenu(
-    userId /*: string */,
-    richMenuId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    userId: string,
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .post(
@@ -868,8 +869,8 @@ export default class LineClient {
   }
 
   unlinkRichMenu(
-    userId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    userId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .delete(
@@ -883,7 +884,7 @@ export default class LineClient {
 
   getDefaultRichMenu({
     accessToken: customAccessToken,
-  } /*: { accessToken?: string }*/ = {}) {
+  }: { accessToken?: string } = {}) {
     return this._axios
       .get(
         `/v2/bot/user/all/richmenu`,
@@ -901,8 +902,8 @@ export default class LineClient {
   }
 
   setDefaultRichMenu(
-    richMenuId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .post(
@@ -917,7 +918,7 @@ export default class LineClient {
 
   deleteDefaultRichMenu({
     accessToken: customAccessToken,
-  } /*: { accessToken?: string }*/ = {}) {
+  }: { accessToken?: string } = {}) {
     return this._axios
       .delete(
         `/v2/bot/user/all/richmenu`,
@@ -934,9 +935,9 @@ export default class LineClient {
    *   To update your rich menu image, create a new rich menu object and upload another image.
    */
   uploadRichMenuImage(
-    richMenuId /*: string */,
-    image /*: Buffer */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    richMenuId: string,
+    image: Buffer,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     const type = imageType(image);
     invariant(
@@ -959,8 +960,8 @@ export default class LineClient {
   }
 
   downloadRichMenuImage(
-    richMenuId /*: string */,
-    { accessToken: customAccessToken } /*: { accessToken?: string }*/ = {}
+    richMenuId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
       .get(
@@ -992,11 +993,11 @@ export default class LineClient {
    */
 
   issueLinkToken(
-    userId /*: string */,
+    userId: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<{ issueToken: string }> */
-  ) {
+    }: { accessToken?: string } = {}
+  ) : Promise<{ issueToken: string }> {
     return this._axios
       .post(
         `/v2/bot/user/${userId}/linkToken`,
@@ -1015,10 +1016,10 @@ export default class LineClient {
    */
   getLiffAppList({
     accessToken: customAccessToken,
-  } /*: { accessToken?: string }*/ = {}) /*: Promise<{
-          liffId: string,
-          view: LiffView,
-        }> */ {
+  }: { accessToken?: string } = {}): Promise<{
+    liffId: string;
+    view: LiffView;
+  }> {
     return this._axios
       .get(
         '/liff/v1/apps',
@@ -1030,11 +1031,11 @@ export default class LineClient {
   }
 
   createLiffApp(
-    view /*: LiffView */,
+    view: LiffView,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<{ liffId: string }> */
-  ) {
+    } : { accessToken?: string } = {}
+  ) : Promise<{ liffId: string } {
     return this._axios
       .post(
         '/liff/v1/apps',
@@ -1047,12 +1048,12 @@ export default class LineClient {
   }
 
   updateLiffApp(
-    liffId /*: string */,
-    view /*: LiffView */,
+    liffId: string,
+    view: LiffView,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<void> */
-  ) {
+    } : { accessToken?: string } = {}
+  ) : Promise<void> {
     return this._axios
       .put(
         `/liff/v1/apps/${liffId}/view`,
@@ -1065,11 +1066,11 @@ export default class LineClient {
   }
 
   deleteLiffApp(
-    liffId /*: string */,
+    liffId: string,
     {
       accessToken: customAccessToken,
-    } /*: { accessToken?: string }*/ = {} /*: Promise<void> */
-  ) {
+    } : { accessToken?: string } = {}
+  ) : Promise<void> {
     return this._axios
       .delete(
         `/liff/v1/apps/${liffId}`,
@@ -1083,10 +1084,10 @@ export default class LineClient {
 
 const sendTypes = ['reply', 'push', 'multicast'];
 
-const messageTypes /*: Array<{
-                     name: string,
-                     aliases?: Array<string>,
-                   }> */ = [
+const messageTypes: {
+  name: string;
+  aliases?: string[];
+}[] = [
   { name: 'Text' },
   { name: 'Image' },
   { name: 'Video' },
@@ -1109,7 +1110,7 @@ messageTypes.forEach(({ name, aliases }) => {
         enumerable: false,
         configurable: true,
         writable: true,
-        value(target /*: SendTarget */, ...args) {
+        value(target: SendTarget, ...args: any) {
           return this[`_send${name}`](sendType, target, ...args);
         },
       });

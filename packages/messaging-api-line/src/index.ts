@@ -1,5 +1,3 @@
-/* @flow */
-
 import Line from './Line';
 import LineClient from './LineClient';
 import LinePay from './LinePay';
