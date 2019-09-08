@@ -1,11 +1,36 @@
-/* @flow */
 import invariant from 'invariant';
-import omit from 'lodash.omit'; /*:: import { type AudioMessage, type ButtonsTemplate, type CarouselTemplate, type ColumnObject, type ConfirmTemplate, type FlexContainer, type FlexMessage, type ImageCarouselColumnObject, type ImageCarouselTemplate, type ImageMapAction, type ImageMapMessage, type ImageMapVideo, type ImageMessage, type Location, type LocationMessage, type MessageOptions, type QuickReply, type StickerMessage, type Template, type TemplateAction, type TemplateMessage, type TextMessage, type VideoMessage } from './LineTypes'; */
+import omit from 'lodash.omit';
+
+
+import { AudioMessage,
+  ButtonsTemplate,
+  CarouselTemplate,
+  ColumnObject,
+  ConfirmTemplate,
+  FlexContainer,
+  FlexMessage,
+  ImageCarouselColumnObject,
+  ImageCarouselTemplate,
+  ImageMapAction,
+  ImageMapMessage,
+  ImageMapVideo,
+  ImageMessage,
+  Location,
+  LocationMessage,
+  MessageOptions,
+  QuickReply,
+  StickerMessage,
+  Template,
+  TemplateAction,
+  TemplateMessage,
+  TextMessage,
+  VideoMessage,
+} from './LineTypes';
 
 function createText(
-  text /*: string*/,
-  options /*: MessageOptions*/ = {}
-) /*: TextMessage*/ {
+  text: string,
+  options: MessageOptions = {}
+): TextMessage {
   return {
     type: 'text',
     text,
@@ -14,10 +39,9 @@ function createText(
 }
 
 function createImage(
-  contentUrlOrImage /*: string | Object */,
-  previewUrlOrOptions /*:: ?: string | MessageOptions*/
-) {
-  /*: ImageMessage */
+  contentUrlOrImage: string | Object,
+  previewUrlOrOptions: string | MessageOptions
+): ImageMessage {
   if (previewUrlOrOptions) {
     if (
       typeof contentUrlOrImage === 'object' &&
@@ -66,10 +90,9 @@ function createImage(
 }
 
 function createVideo(
-  contentUrlOrVideo /*: string | Object */,
-  previewImageUrlOrOptions /*:: ?: string | MessageOptions*/
-) {
-  /*: VideoMessage */
+  contentUrlOrVideo: string | Object,
+  previewImageUrlOrOptions: string | MessageOptions
+): VideoMessage {
   if (
     typeof contentUrlOrVideo === 'string' &&
     typeof previewImageUrlOrOptions === 'string'
@@ -99,10 +122,9 @@ function createVideo(
 }
 
 function createAudio(
-  contentUrlOrAudio /*: string | Object */,
-  durationOrOptions /*: number | MessageOptions*/
-) {
-  /*: AudioMessage */
+  contentUrlOrAudio: string | Object,
+  durationOrOptions: number | MessageOptions
+): AudioMessage {
   if (
     typeof contentUrlOrAudio === 'string' &&
     typeof durationOrOptions === 'number'
@@ -132,10 +154,10 @@ function createAudio(
 }
 
 function createLocation(
-  { title, address, latitude, longitude } /*: Location */,
-  options /*:: ?: MessageOptions*/ = {}
-) {
-  /*: LocationMessage */
+  { title, address, latitude, longitude }: Location,
+  options: MessageOptions = {}
+): LocationMessage {
+
   return {
     type: 'location',
     title,
@@ -147,10 +169,10 @@ function createLocation(
 }
 
 function createSticker(
-  packageIdOrSticker /*: string | Object */,
-  stickerIdOrOptions /*: string | MessageOptions*/
-) {
-  /*: StickerMessage*/
+  packageIdOrSticker: string | Object,
+  stickerIdOrOptions: string | MessageOptions
+): StickerMessage {
+
   if (
     typeof packageIdOrSticker === 'string' &&
     typeof stickerIdOrOptions === 'string'
@@ -180,7 +202,7 @@ function createSticker(
 }
 
 function createImagemap(
-  altText /*: string */,
+  altText: string,
   {
     baseUrl,
     baseSize,
@@ -188,21 +210,19 @@ function createImagemap(
     baseWidth,
     video,
     actions,
-  } /*: {
-                baseUrl: string,
-                baseSize: {
-                  height: number,
-                  width: number,
-                },
-                baseHeight: number,
-                baseWidth: number,
-                video?: ImageMapVideo,
-                actions: Array<ImageMapAction>,
-              } */,
-
-  options /*:: ?: MessageOptions*/ = {}
-) {
-  /*: ImageMapMessage*/
+  }: {
+    baseUrl: string;
+    baseSize: {
+      height: number;
+      width: number;
+    };
+    baseHeight: number;
+    baseWidth: number;
+    video?: ImageMapVideo;
+    actions: ImageMapAction[];
+  },
+  options: MessageOptions = {}
+): ImageMapMessage {
   return {
     type: 'imagemap',
     baseUrl,
@@ -211,7 +231,6 @@ function createImagemap(
       height: baseHeight,
       width: baseWidth,
     },
-
     video,
     actions,
     ...omit(options, 'accessToken'),
@@ -219,11 +238,10 @@ function createImagemap(
 }
 
 function createTemplate(
-  altText /*: string */,
-  template /*: Template */,
-  options /*:: ?: MessageOptions*/ = {}
-) {
-  /*: TemplateMessage<any>*/
+  altText: string,
+  template: Template,
+  options: MessageOptions = {}
+): TemplateMessage<any> {
   return {
     type: 'template',
     altText,
@@ -233,7 +251,7 @@ function createTemplate(
 }
 
 function createButtonTemplate(
-  altText /*: string */,
+  altText: string,
   {
     thumbnailImageUrl,
     imageAspectRatio,
@@ -243,20 +261,18 @@ function createButtonTemplate(
     text,
     defaultAction,
     actions,
-  } /*: {
-                thumbnailImageUrl?: string,
-                imageAspectRatio?: 'rectangle' | 'square',
-                imageSize?: 'cover' | 'contain',
-                imageBackgroundColor?: string,
-                title?: string,
-                text: string,
-                defaultAction?: TemplateAction,
-                actions: Array<TemplateAction>,
-              } */,
-
-  options /*: MessageOptions*/ = {}
-) {
-  /*: TemplateMessage<ButtonsTemplate> */
+  }: {
+    thumbnailImageUrl?: string,
+    imageAspectRatio?: 'rectangle' | 'square',
+    imageSize?: 'cover' | 'contain',
+    imageBackgroundColor?: string,
+    title?: string,
+    text: string,
+    defaultAction?: TemplateAction,
+    actions: TemplateAction[],
+  },
+  options: MessageOptions = {}
+): TemplateMessage<ButtonsTemplate> {
   return createTemplate(
     altText,
     {
@@ -276,18 +292,16 @@ function createButtonTemplate(
 }
 
 function createConfirmTemplate(
-  altText /*: string */,
+  altText: string,
   {
     text,
     actions,
-  } /*: {
-                text: string,
-                actions: Array<TemplateAction>,
-              } */,
-
-  options /*:: ?: MessageOptions*/ = {}
-) {
-  /*: TemplateMessage<ConfirmTemplate> */
+  }: {
+    text: string,
+    actions: TemplateAction[],
+  },
+  options: MessageOptions = {}
+): TemplateMessage<ConfirmTemplate> {
   return createTemplate(
     altText,
     {
@@ -301,19 +315,18 @@ function createConfirmTemplate(
 }
 
 function createCarouselTemplate(
-  altText /*: string */,
-  columns /*: Array<ColumnObject> */,
+  altText: string,
+  columns: ColumnObject[],
   {
     imageAspectRatio,
     imageSize,
     quickReply,
-  } /*: {
-                   imageAspectRatio?: 'rectangle' | 'square',
-                   imageSize?: 'cover' | 'contain',
-                   quickReply?: QuickReply,
-                 } */ = {}
-) {
-  /*: TemplateMessage<CarouselTemplate>*/
+  }: {
+    imageAspectRatio?: 'rectangle' | 'square';
+    imageSize?: 'cover' | 'contain';
+    quickReply?: QuickReply;
+  } = {}
+): TemplateMessage<CarouselTemplate> {
   return createTemplate(
     altText,
     {
@@ -328,11 +341,10 @@ function createCarouselTemplate(
 }
 
 function createImageCarouselTemplate(
-  altText /*: string */,
-  columns /*: Array<ImageCarouselColumnObject> */,
-  options /*:: ?: MessageOptions*/ = {}
-) {
-  /*: TemplateMessage<ImageCarouselTemplate> */
+  altText: string,
+  columns: ImageCarouselColumnObject[],
+  options: MessageOptions = {}
+): TemplateMessage<ImageCarouselTemplate> {
   return createTemplate(
     altText,
     {
@@ -345,11 +357,10 @@ function createImageCarouselTemplate(
 }
 
 function createFlex(
-  altText /*: string */,
-  contents /*: FlexContainer */,
-  options /*:: ?: MessageOptions*/ = {}
-) {
-  /*: FlexMessage*/
+  altText: string,
+  contents: FlexContainer,
+  options: MessageOptions = {}
+): FlexMessage {
   return {
     type: 'flex',
     altText,

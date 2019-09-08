@@ -1,4 +1,3 @@
-/* @flow */
 /* eslint-disable camelcase */
 import warning from 'warning';
 
