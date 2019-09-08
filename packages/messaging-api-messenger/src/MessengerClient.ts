@@ -87,8 +87,10 @@ const debugRequest = debug('messaging-api-messenger');
 
 function onRequest(request: any): void {
   debugRequest(`${request.method} ${request.url}`);
-  debugRequest('Outgoing request body:');
-  debugRequest(JSON.stringify(request.body, null, 2));
+  if (request.body) {
+    debugRequest('Outgoing request body:');
+    debugRequest(JSON.stringify(request.body, null, 2));
+  }
 }
 
 export default class MessengerClient {

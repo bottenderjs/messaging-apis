@@ -73,8 +73,10 @@ function onRequest({
   body: Record<string, any>;
 }): void {
   debugRequest(`${method} ${url}`);
-  debugRequest('Outgoing request body:');
-  debugRequest(JSON.stringify(body, null, 2));
+  if (body) {
+    debugRequest('Outgoing request body:');
+    debugRequest(JSON.stringify(body, null, 2));
+  }
 }
 
 export default class SlackOAuthClient {

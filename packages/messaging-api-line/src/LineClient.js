@@ -38,8 +38,10 @@ const debugRequest = debug('messaging-api-line');
 
 function onRequest({ method, url, body }) {
   debugRequest(`${method} ${url}`);
-  debugRequest('Outgoing request body:');
-  debugRequest(JSON.stringify(body, null, 2));
+  if (body) {
+    debugRequest('Outgoing request body:');
+    debugRequest(JSON.stringify(body, null, 2));
+  }
 }
 
 export default class LineClient {
