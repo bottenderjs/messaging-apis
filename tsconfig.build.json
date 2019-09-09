@@ -6,6 +6,7 @@
   "include": [],
   "references": [
     { "path": "./packages/axios-error" },
+    { "path": "./packages/messaging-api-common" },
     { "path": "./packages/messaging-api-line" },
     { "path": "./packages/messaging-api-messenger" },
     { "path": "./packages/messaging-api-slack" },

@@ -2,9 +2,9 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import debug from 'debug';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
+import { onRequest } from 'messaging-api-common';
 
 import {
   ViberContact,
@@ -23,24 +23,6 @@ type ClientConfig = {
   origin?: string;
   onRequest?: Function;
 };
-
-const debugRequest = debug('messaging-api-viber');
-
-function onRequest({
-  method,
-  url,
-  body,
-}: {
-  method: string;
-  url: string;
-  body: Record<string, any>;
-}): void {
-  debugRequest(`${method} ${url}`);
-  if (body) {
-    debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(body, null, 2));
-  }
-}
 
 /**
  * https://developers.viber.com/docs/api/rest-bot-api/#viber-rest-api

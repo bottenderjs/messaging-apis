@@ -3,9 +3,9 @@ import fs from 'fs';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import debug from 'debug';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
+import { onRequest } from 'messaging-api-common';
 
 import {
   AccessToken,
@@ -32,16 +32,6 @@ function throwErrorIfAny(response: AxiosResponse): AxiosResponse | void {
     config: response.config,
     request: response.request,
   });
-}
-
-const debugRequest = debug('messaging-api-wechat');
-
-function onRequest({ method, url, body }: any): void {
-  debugRequest(`${method} ${url}`);
-  if (body) {
-    debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(body, null, 2));
-  }
 }
 
 export default class WechatClient {

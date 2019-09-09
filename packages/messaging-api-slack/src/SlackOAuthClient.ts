@@ -2,9 +2,9 @@ import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import debug from 'debug';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
+import { onRequest } from 'messaging-api-common';
 
 import {
   SlackAttachment,
@@ -59,24 +59,6 @@ interface PostMessageOptions extends CommonOptions {
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   username?: string;
-}
-
-const debugRequest = debug('messaging-api-slack');
-
-function onRequest({
-  method,
-  url,
-  body,
-}: {
-  method: string;
-  url: string;
-  body: Record<string, any>;
-}): void {
-  debugRequest(`${method} ${url}`);
-  if (body) {
-    debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(body, null, 2));
-  }
 }
 
 export default class SlackOAuthClient {
