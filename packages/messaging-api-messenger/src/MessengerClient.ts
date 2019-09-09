@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import crypto from 'crypto';
 import querystring from 'querystring';
 import url from 'url';
@@ -6,10 +5,9 @@ import url from 'url';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import get from 'lodash.get';
 import invariant from 'invariant';
-import isPlainObject from 'is-plain-object';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import warning from 'warning';
@@ -36,7 +34,6 @@ import {
   MessagingFeatureReview,
   MessengerNLPConfig,
   MessengerProfile,
-  MessengerProfileResponse,
   MessengerSubscription,
   MutationSuccessResponse,
   OpenGraphElement,
@@ -976,13 +973,11 @@ export default class MessengerClient {
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createAudio(audio, options);
 
-    if (message && isPlainObject(message)) {
-      // FIXME: [type]
-      return this.sendMessage(recipient, message, options);
+    if (message instanceof FormData) {
+      return this.sendMessageFormData(recipient, message, options);
     }
 
-    // FIXME: [type]
-    return this.sendMessageFormData(recipient, message, options);
+    return this.sendMessage(recipient, message, options);
   }
 
   sendImage(
@@ -992,13 +987,11 @@ export default class MessengerClient {
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createImage(image, options);
 
-    if (message && isPlainObject(message)) {
-      // FIXME: [type]
-      return this.sendMessage(recipient, message, options);
+    if (message instanceof FormData) {
+      return this.sendMessageFormData(recipient, message, options);
     }
 
-    // FIXME: [type]
-    return this.sendMessageFormData(recipient, message, options);
+    return this.sendMessage(recipient, message, options);
   }
 
   sendVideo(
@@ -1008,13 +1001,11 @@ export default class MessengerClient {
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createVideo(video, options);
 
-    if (message && isPlainObject(message)) {
-      // FIXME: [type]
-      return this.sendMessage(recipient, message, options);
+    if (message instanceof FormData) {
+      return this.sendMessageFormData(recipient, message, options);
     }
 
-    // FIXME: [type]
-    return this.sendMessageFormData(recipient, message, options);
+    return this.sendMessage(recipient, message, options);
   }
 
   sendFile(
@@ -1024,13 +1015,11 @@ export default class MessengerClient {
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createFile(file, options);
 
-    if (message && isPlainObject(message)) {
-      // FIXME: [type]
-      return this.sendMessage(recipient, message, options);
+    if (message instanceof FormData) {
+      return this.sendMessageFormData(recipient, message, options);
     }
 
-    // FIXME: [type]
-    return this.sendMessageFormData(recipient, message, options);
+    return this.sendMessage(recipient, message, options);
   }
 
   /**
