@@ -68,13 +68,11 @@ export type LocationMessage = {
   longitude: number;
 };
 
-
 export type StickerMessage = {
   type: 'sticker';
   packageId: string;
   stickerId: string;
 };
-
 
 export type PostbackAction = {
   type: 'postback';
@@ -83,7 +81,6 @@ export type PostbackAction = {
   text?: string;
   displayText?: string;
 };
-
 
 export type MessageAction = {
   type: 'message';
@@ -97,7 +94,6 @@ export type URIAction = {
   uri: string;
 };
 
-
 export type DatetimePickerAction = {
   type: 'datetimepicker';
   label?: string;
@@ -108,31 +104,26 @@ export type DatetimePickerAction = {
   min?: string;
 };
 
-
 export type CameraAction = {
   type: 'camera';
   label: string;
 };
-
 
 export type CameraRollAction = {
   type: 'cameraRoll';
   label: string;
 };
 
-
 export type LocationAction = {
   type: 'location';
   label: string;
 };
-
 
 export type TemplateAction =
   | PostbackAction
   | MessageAction
   | URIAction
   | DatetimePickerAction;
-
 
 export type QuickReplyAction =
   | PostbackAction
@@ -204,7 +195,6 @@ export type Template =
   | CarouselTemplate
   | ImageCarouselTemplate;
 
-
 type Size = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 type FlexBlockStyle = {
@@ -230,7 +220,6 @@ type FlexButton = {
   color?: string;
   gravity?: string;
 };
-
 
 type FlexFiller = {
   type: 'filler';
@@ -410,7 +399,6 @@ export type LiffView = {
   type: 'compact' | 'tall' | 'full';
   url: string;
 };
-
 
 export type MutationSuccessResponse = {};
 

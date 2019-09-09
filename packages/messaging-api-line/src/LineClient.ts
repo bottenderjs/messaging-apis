@@ -7,7 +7,26 @@ import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 
 import Line from './Line';
-import { ColumnObject, FlexContainer, ImageCarouselColumnObject, ImageMapAction, ImageMapVideo, LiffView, Location, Message, MessageOptions, MutationSuccessResponse, ReplyToken, RichMenu, SendTarget, SendType, Template, TemplateAction, User, UserId } from './LineTypes';
+import {
+  ColumnObject,
+  FlexContainer,
+  ImageCarouselColumnObject,
+  ImageMapAction,
+  ImageMapVideo,
+  LiffView,
+  Location,
+  Message,
+  MessageOptions,
+  MutationSuccessResponse,
+  ReplyToken,
+  RichMenu,
+  SendTarget,
+  SendType,
+  Template,
+  TemplateAction,
+  User,
+  UserId,
+} from './LineTypes';
 
 type ClientConfig = {
   accessToken: string;
@@ -44,7 +63,7 @@ export default class LineClient {
   static connect(
     accessTokenOrConfig: string | ClientConfig,
     channelSecret: string
-  ) : LineClient {
+  ): LineClient {
     return new LineClient(accessTokenOrConfig, channelSecret);
   }
 
@@ -121,12 +140,12 @@ export default class LineClient {
     ...args: any
   ): Promise<MutationSuccessResponse> {
     if (type === 'push') {
-      return this.push(target as UserId , ...args);
+      return this.push(target as UserId, ...args);
     }
     if (type === 'multicast') {
-      return this.multicast(target as UserId[] , ...args);
+      return this.multicast(target as UserId[], ...args);
     }
-    return this.reply(target as ReplyToken , ...args);
+    return this.reply(target as ReplyToken, ...args);
   }
 
   _sendText(
@@ -146,7 +165,7 @@ export default class LineClient {
   _sendImage(
     type: SendType,
     target: SendTarget,
-    contentUrlOrImage: string | Object,
+    contentUrlOrImage: string | Record<string, any>,
     previewUrlOrOptions: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(
@@ -160,7 +179,7 @@ export default class LineClient {
   _sendVideo(
     type: SendType,
     target: SendTarget,
-    contentUrlOrVideo: string | Object,
+    contentUrlOrVideo: string | Record<string, any>,
     previewUrlOrOptions: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(
@@ -174,7 +193,7 @@ export default class LineClient {
   _sendAudio(
     type: SendType,
     target: SendTarget,
-    contentUrlOrAudio: string | Object,
+    contentUrlOrAudio: string | Record<string, any>,
     durationOrOptions: number | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(
@@ -214,7 +233,7 @@ export default class LineClient {
   _sendSticker(
     type: SendType,
     target: SendTarget,
-    packageIdOrSticker: string | Object,
+    packageIdOrSticker: string | Record<string, any>,
     stickerIdOrOptions: string | MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(
@@ -341,7 +360,7 @@ export default class LineClient {
       actions: TemplateAction[];
     },
     options: MessageOptions
-  ) : Promise<MutationSuccessResponse> {
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -375,11 +394,11 @@ export default class LineClient {
       text,
       actions,
     }: {
-      text: string,
-      actions: Array<TemplateAction>,
+      text: string;
+      actions: Array<TemplateAction>;
     },
     options: MessageOptions
-  ) : Promise<MutationSuccessResponse> {
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -394,7 +413,6 @@ export default class LineClient {
           options || {}
         ),
       ],
-
       options
     );
   }
@@ -408,12 +426,12 @@ export default class LineClient {
       imageAspectRatio,
       imageSize,
       ...options
-    } : {
+    }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
       options?: MessageOptions;
     } = {}
-  ) : Promise<MutationSuccessResponse> {
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -424,7 +442,6 @@ export default class LineClient {
           ...options,
         }),
       ],
-
       options
     );
   }
@@ -435,7 +452,7 @@ export default class LineClient {
     altText: string,
     columns: ImageCarouselColumnObject[],
     options: MessageOptions
-  ) : Promise<MutationSuccessResponse> {
+  ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
@@ -454,17 +471,17 @@ export default class LineClient {
       replyToken: ReplyToken;
       messages: Message[];
     },
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
-  ) : Promise<MutationSuccessResponse> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/reply',
         body,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -472,8 +489,8 @@ export default class LineClient {
   reply(
     replyToken: ReplyToken,
     messages: Message[],
-    options: Object = {}
-  ) : Promise<MutationSuccessResponse> {
+    options: Record<string, any> = {}
+  ): Promise<MutationSuccessResponse> {
     return this.replyRawBody({ replyToken, messages }, options);
   }
 
@@ -487,17 +504,17 @@ export default class LineClient {
       to: string;
       messages: Message[];
     },
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
-  ) : Promise<MutationSuccessResponse> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/push',
         body,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -505,7 +522,7 @@ export default class LineClient {
   push(
     to: string,
     messages: Message[],
-    options: Object = {}
+    options: Record<string, any> = {}
   ): Promise<MutationSuccessResponse> {
     return this.pushRawBody({ to, messages }, options);
   }
@@ -517,20 +534,20 @@ export default class LineClient {
    */
   multicastRawBody(
     body: {
-      to: UserId[],
-      messages: Message[],
+      to: UserId[];
+      messages: Message[];
     },
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/multicast',
         body,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -538,7 +555,7 @@ export default class LineClient {
   multicast(
     to: UserId[],
     messages: Message[],
-    options: Object = {}
+    options: Record<string, any> = {}
   ): Promise<MutationSuccessResponse> {
     return this.multicastRawBody({ to, messages }, options);
   }
@@ -550,17 +567,17 @@ export default class LineClient {
    */
   retrieveMessageContent(
     messageId: string,
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<Buffer> {
     return this._axios
       .get(
         `/v2/bot/message/${messageId}/content`,
-        customAccessToken && {
-          responseType: 'arraybuffer',
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              responseType: 'arraybuffer',
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => Buffer.from(res.data), handleError);
   }
@@ -573,16 +590,16 @@ export default class LineClient {
    */
   getUserProfile(
     userId: UserId,
-    {
-      accessToken: customAccessToken,
-    } : { accessToken?: string } = {}
-  ) : Promise<User> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<User> {
     return this._axios
       .get(
         `/v2/bot/profile/${userId}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError)
       .catch(err => {
@@ -606,9 +623,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/group/${groupId}/member/${userId}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -626,9 +645,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/room/${roomId}/member/${userId}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -641,24 +662,24 @@ export default class LineClient {
   getGroupMemberIds(
     groupId: string,
     start: string,
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
-  ): Promise<{ memberIds: string[], next?: string }> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
       .get(
         `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
 
   async getAllGroupMemberIds(
     groupId: string,
-    options: Object = {}
-  ) : Promise<string[]> {
+    options: Record<string, any> = {}
+  ): Promise<string[]> {
     let allMemberIds: string[] = [];
     let continuationToken;
 
@@ -685,23 +706,23 @@ export default class LineClient {
   getRoomMemberIds(
     roomId: string,
     start: string,
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
-  ): Promise<{ memberIds: string[], next?: string }> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
       .get(
         `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
 
   async getAllRoomMemberIds(
     roomId: string,
-    options: Object = {}
+    options: Record<string, any> = {}
   ): Promise<string[]> {
     let allMemberIds: string[] = [];
     let continuationToken;
@@ -728,17 +749,17 @@ export default class LineClient {
    */
   leaveGroup(
     groupId: string,
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         `/v2/bot/group/${groupId}/leave`,
         null,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -750,17 +771,17 @@ export default class LineClient {
    */
   leaveRoom(
     roomId: string,
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<MutationSuccessResponse> {
     return this._axios
       .post(
         `/v2/bot/room/${roomId}/leave`,
         null,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -776,9 +797,11 @@ export default class LineClient {
     return this._axios
       .get(
         '/v2/bot/richmenu/list',
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data.richmenus, handleError);
   }
@@ -790,9 +813,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/richmenu/${richMenuId}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data)
       .catch(err => {
@@ -811,9 +836,11 @@ export default class LineClient {
       .post(
         '/v2/bot/richmenu',
         richMenu,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -825,9 +852,11 @@ export default class LineClient {
     return this._axios
       .delete(
         `/v2/bot/richmenu/${richMenuId}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -839,9 +868,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/user/${userId}/richmenu`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data)
       .catch(err => {
@@ -861,9 +892,11 @@ export default class LineClient {
       .post(
         `/v2/bot/user/${userId}/richmenu/${richMenuId}`,
         null,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -875,9 +908,11 @@ export default class LineClient {
     return this._axios
       .delete(
         `/v2/bot/user/${userId}/richmenu`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -888,9 +923,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/user/all/richmenu`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data)
       .catch(err => {
@@ -909,9 +946,11 @@ export default class LineClient {
       .post(
         `/v2/bot/user/all/richmenu/${richMenuId}`,
         null,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -922,9 +961,11 @@ export default class LineClient {
     return this._axios
       .delete(
         `/v2/bot/user/all/richmenu`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -994,17 +1035,17 @@ export default class LineClient {
 
   issueLinkToken(
     userId: string,
-    {
-      accessToken: customAccessToken,
-    }: { accessToken?: string } = {}
-  ) : Promise<{ issueToken: string }> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<{ issueToken: string }> {
     return this._axios
       .post(
         `/v2/bot/user/${userId}/linkToken`,
         null,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -1023,26 +1064,28 @@ export default class LineClient {
     return this._axios
       .get(
         '/liff/v1/apps',
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data.apps, handleError);
   }
 
   createLiffApp(
     view: LiffView,
-    {
-      accessToken: customAccessToken,
-    } : { accessToken?: string } = {}
-  ) : Promise<{ liffId: string } {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<{ liffId: string }> {
     return this._axios
       .post(
         '/liff/v1/apps',
         view,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
@@ -1050,33 +1093,33 @@ export default class LineClient {
   updateLiffApp(
     liffId: string,
     view: LiffView,
-    {
-      accessToken: customAccessToken,
-    } : { accessToken?: string } = {}
-  ) : Promise<void> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<void> {
     return this._axios
       .put(
         `/liff/v1/apps/${liffId}/view`,
         view,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }
 
   deleteLiffApp(
     liffId: string,
-    {
-      accessToken: customAccessToken,
-    } : { accessToken?: string } = {}
-  ) : Promise<void> {
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<void> {
     return this._axios
       .delete(
         `/liff/v1/apps/${liffId}`,
-        customAccessToken && {
-          headers: { Authorization: `Bearer ${customAccessToken}` },
-        }
+        customAccessToken === undefined
+          ? undefined
+          : {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
       )
       .then(res => res.data, handleError);
   }

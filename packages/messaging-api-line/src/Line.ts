@@ -1,8 +1,8 @@
 import invariant from 'invariant';
 import omit from 'lodash.omit';
 
-
-import { AudioMessage,
+import {
+  AudioMessage,
   ButtonsTemplate,
   CarouselTemplate,
   ColumnObject,
@@ -27,10 +27,7 @@ import { AudioMessage,
   VideoMessage,
 } from './LineTypes';
 
-function createText(
-  text: string,
-  options: MessageOptions = {}
-): TextMessage {
+function createText(text: string, options: MessageOptions = {}): TextMessage {
   return {
     type: 'text',
     text,
@@ -39,7 +36,7 @@ function createText(
 }
 
 function createImage(
-  contentUrlOrImage: string | Object,
+  contentUrlOrImage: string | Record<string, any>,
   previewUrlOrOptions: string | MessageOptions
 ): ImageMessage {
   if (previewUrlOrOptions) {
@@ -90,7 +87,7 @@ function createImage(
 }
 
 function createVideo(
-  contentUrlOrVideo: string | Object,
+  contentUrlOrVideo: string | Record<string, any>,
   previewImageUrlOrOptions: string | MessageOptions
 ): VideoMessage {
   if (
@@ -122,7 +119,7 @@ function createVideo(
 }
 
 function createAudio(
-  contentUrlOrAudio: string | Object,
+  contentUrlOrAudio: string | Record<string, any>,
   durationOrOptions: number | MessageOptions
 ): AudioMessage {
   if (
@@ -138,7 +135,7 @@ function createAudio(
 
   if (
     typeof contentUrlOrAudio === 'object' &&
-    (!durationOrOptions || typeof durationOrOptions === 'object')
+    (!durationOrOptions || typeof durationOrOptions !== 'number')
   ) {
     const audio = contentUrlOrAudio;
     const options = durationOrOptions || {};
@@ -157,7 +154,6 @@ function createLocation(
   { title, address, latitude, longitude }: Location,
   options: MessageOptions = {}
 ): LocationMessage {
-
   return {
     type: 'location',
     title,
@@ -169,10 +165,9 @@ function createLocation(
 }
 
 function createSticker(
-  packageIdOrSticker: string | Object,
+  packageIdOrSticker: string | Record<string, any>,
   stickerIdOrOptions: string | MessageOptions
 ): StickerMessage {
-
   if (
     typeof packageIdOrSticker === 'string' &&
     typeof stickerIdOrOptions === 'string'
@@ -262,14 +257,14 @@ function createButtonTemplate(
     defaultAction,
     actions,
   }: {
-    thumbnailImageUrl?: string,
-    imageAspectRatio?: 'rectangle' | 'square',
-    imageSize?: 'cover' | 'contain',
-    imageBackgroundColor?: string,
-    title?: string,
-    text: string,
-    defaultAction?: TemplateAction,
-    actions: TemplateAction[],
+    thumbnailImageUrl?: string;
+    imageAspectRatio?: 'rectangle' | 'square';
+    imageSize?: 'cover' | 'contain';
+    imageBackgroundColor?: string;
+    title?: string;
+    text: string;
+    defaultAction?: TemplateAction;
+    actions: TemplateAction[];
   },
   options: MessageOptions = {}
 ): TemplateMessage<ButtonsTemplate> {
@@ -286,7 +281,6 @@ function createButtonTemplate(
       defaultAction,
       actions,
     },
-
     omit(options, 'accessToken')
   );
 }
@@ -297,8 +291,8 @@ function createConfirmTemplate(
     text,
     actions,
   }: {
-    text: string,
-    actions: TemplateAction[],
+    text: string;
+    actions: TemplateAction[];
   },
   options: MessageOptions = {}
 ): TemplateMessage<ConfirmTemplate> {
@@ -309,7 +303,6 @@ function createConfirmTemplate(
       text,
       actions,
     },
-
     omit(options, 'accessToken')
   );
 }
@@ -335,7 +328,6 @@ function createCarouselTemplate(
       imageAspectRatio,
       imageSize,
     },
-
     { quickReply }
   );
 }
@@ -351,7 +343,6 @@ function createImageCarouselTemplate(
       type: 'image_carousel',
       columns,
     },
-
     omit(options, 'accessToken')
   );
 }
