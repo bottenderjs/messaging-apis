@@ -18,6 +18,16 @@ module.exports = {
 
     '@typescript-eslint/camelcase': 'off',
   },
+  overrides: [
+    {
+      files: [
+        'examples/**/*.js',
+      ],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+  ],
   settings: {
     'import/resolver': {
       node: {

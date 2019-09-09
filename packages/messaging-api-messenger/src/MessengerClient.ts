@@ -877,7 +877,6 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/send-api
    */
-  // TODO: body flowtype
   sendRawBody(body: Record<string, any>): Promise<SendMessageSuccessResponse> {
     const { access_token: customAccessToken } = body;
 
