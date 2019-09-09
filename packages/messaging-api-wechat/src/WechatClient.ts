@@ -1,33 +1,29 @@
-/* @flow */
-
 import fs from 'fs';
 
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import debug from 'debug';
 import omit from 'lodash.omit';
-import urlJoin from 'url-join'; /*:: type ClientConfig = {
-                                                                 appId: string,
-                                                                 appSecret: string,
-                                                                 origin?: string,
-                                                                 onRequest?: Function,
-                                                               };*/ /*:: import type {
-                                  AccessToken,
-                                  MediaType,
-                                  MiniProgramPage,
-                                  Music,
-                                  News,
-                                  Video,
-                                } from './WechatTypes'; */ /*:: type Axios = {
-                                                            get: Function,
-                                                            post: Function,
-                                                            put: Function,
-                                                            path: Function,
-                                                            delete: Function,
-                                                          }; */
+import urlJoin from 'url-join';
 
-function throwErrorIfAny(response) {
+import {
+  AccessToken,
+  MediaType,
+  MiniProgramPage,
+  Music,
+  News,
+  Video,
+} from './WechatTypes';
+
+type ClientConfig = {
+  appId: string;
+  appSecret: string;
+  origin?: string;
+  onRequest?: Function;
+};
+
+function throwErrorIfAny(response: AxiosResponse): AxiosResponse | void {
   const { errcode, errmsg } = response.data;
   if (!errcode || errcode === 0) return response;
   const msg = `WeChat API - ${errcode} ${errmsg}`;
@@ -40,7 +36,7 @@ function throwErrorIfAny(response) {
 
 const debugRequest = debug('messaging-api-wechat');
 
-function onRequest({ method, url, body }) {
+function onRequest({ method, url, body }: any): void {
   debugRequest(`${method} ${url}`);
   if (body) {
     debugRequest('Outgoing request body:');
@@ -50,20 +46,25 @@ function onRequest({ method, url, body }) {
 
 export default class WechatClient {
   static connect(
-    appIdOrClientConfig /*: string | ClientConfig */,
-    appSecret /*: WechatClient*/ /*: string */
-  ) {
+    appIdOrClientConfig: string | ClientConfig,
+    appSecret: string
+  ): WechatClient {
     return new WechatClient(appIdOrClientConfig, appSecret);
-  } /*:: _axios: Axios;*/ /*:: _appId: string;*/ /*:: _appSecret: string;*/ /*:: _onRequest: Function;*/
+  }
 
-  _accessToken /*: string */ = '';
+  _axios: AxiosInstance;
 
-  _tokenExpiresAt /*: number */ = 0;
+  _appId: string;
 
-  constructor(
-    appIdOrClientConfig /*: string | ClientConfig*/,
-    appSecret /*: string*/
-  ) {
+  _appSecret: string;
+
+  _onRequest: Function;
+
+  _accessToken = '';
+
+  _tokenExpiresAt = 0;
+
+  constructor(appIdOrClientConfig: string | ClientConfig, appSecret: string) {
     let origin;
     if (appIdOrClientConfig && typeof appIdOrClientConfig === 'object') {
       const config = appIdOrClientConfig;
@@ -88,10 +89,10 @@ export default class WechatClient {
     this._axios.interceptors.request.use(config => {
       this._onRequest({
         method: config.method,
-        url: urlJoin(config.baseURL, config.url),
+        url: urlJoin(config.baseURL || '', config.url || '/'),
         headers: {
           ...config.headers.common,
-          ...config.headers[config.method],
+          ...(config.method ? config.headers[config.method] : {}),
           ...omit(config.headers, [
             'common',
             'get',
@@ -110,15 +111,15 @@ export default class WechatClient {
     });
   }
 
-  get axios() /*: Axios */ {
+  get axios(): AxiosInstance {
     return this._axios;
   }
 
-  get accessToken() /*: string */ {
+  get accessToken(): string {
     return this._accessToken;
   }
 
-  async _refreshToken() {
+  async _refreshToken(): Promise<void> {
     const {
       access_token: accessToken,
       expires_in: expiresIn,
@@ -128,7 +129,7 @@ export default class WechatClient {
     this._tokenExpiresAt = Date.now() + expiresIn * 1000;
   }
 
-  async _refreshTokenWhenExpired() {
+  async _refreshTokenWhenExpired(): Promise<void> {
     if (Date.now() > this._tokenExpiresAt) {
       await this._refreshToken();
     }
@@ -139,7 +140,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
-  getAccessToken() /*: Promise<AccessToken> */ {
+  getAccessToken(): Promise<AccessToken> {
     return this._axios
       .get(
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
@@ -163,7 +164,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
    */
-  async uploadMedia(type /*: MediaType */, media /*: Buffer | fs.ReadStream */) {
+  async uploadMedia(type: MediaType, media: Buffer | fs.ReadStream) {
     await this._refreshTokenWhenExpired();
 
     const form = new FormData();
@@ -187,7 +188,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
    */
-  async getMedia(mediaId /*: string */) {
+  async getMedia(mediaId: string) {
     await this._refreshTokenWhenExpired();
 
     return this._axios
@@ -201,7 +202,7 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
    */
-  async sendRawBody(body /*: Object */) {
+  async sendRawBody(body: Record<string, any>) {
     await this._refreshTokenWhenExpired();
 
     return this._axios
@@ -213,14 +214,13 @@ export default class WechatClient {
   /**
    * 发送文本消息
    */
-  sendText(userId /*: string */, text /*: string */, options /*: Object */) {
+  sendText(userId: string, text: string, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'text',
       text: {
         content: text,
       },
-
       ...options,
     });
   }
@@ -228,14 +228,13 @@ export default class WechatClient {
   /**
    * 发送图片消息
    */
-  sendImage(userId /*: string */, mediaId /*: string */, options /*: Object */) {
+  sendImage(userId: string, mediaId: string, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'image',
       image: {
         media_id: mediaId,
       },
-
       ...options,
     });
   }
@@ -243,7 +242,7 @@ export default class WechatClient {
   /**
    * 发送语音消息
    */
-  sendVoice(userId /*: string */, mediaId /*: string */, options /*: Object */) {
+  sendVoice(userId: string, mediaId: string, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'voice',
@@ -258,7 +257,7 @@ export default class WechatClient {
   /**
    * 发送视频消息
    */
-  sendVideo(userId /*: string */, video /*: Video */, options /*: Object */) {
+  sendVideo(userId: string, video: Video, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'video',
@@ -270,7 +269,7 @@ export default class WechatClient {
   /**
    * 发送音乐消息
    */
-  sendMusic(userId /*: string */, music /*: Music */, options /*: Object */) {
+  sendMusic(userId: string, music: Music, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'music',
@@ -284,7 +283,7 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendNews(userId /*: string */, news /*: News */, options /*: Object */) {
+  sendNews(userId: string, news: News, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'news',
@@ -298,14 +297,13 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendMPNews(userId /*: string */, mediaId /*: string */, options /*: Object */) {
+  sendMPNews(userId: string, mediaId: string, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'mpnews',
       mpnews: {
         media_id: mediaId,
       },
-
       ...options,
     });
   }
@@ -313,14 +311,13 @@ export default class WechatClient {
   /**
    * 发送卡券
    */
-  sendWXCard(userId /*: string */, cardId /*: string */, options /*: Object */) {
+  sendWXCard(userId: string, cardId: string, options: Record<string, any>) {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'wxcard',
       wxcard: {
         card_id: cardId,
       },
-
       ...options,
     });
   }
@@ -329,9 +326,9 @@ export default class WechatClient {
    * 发送小程序卡片（要求小程序与公众号已关联）
    */
   sendMiniProgramPage(
-    userId /*: string */,
-    miniProgramPage /*: MiniProgramPage */,
-    options /*: Object*/
+    userId: string,
+    miniProgramPage: MiniProgramPage,
+    options: Record<string, any>
   ) {
     return this.sendRawBody({
       touser: userId,
