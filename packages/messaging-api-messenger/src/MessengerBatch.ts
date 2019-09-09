@@ -80,6 +80,7 @@ function sendAttachment(
     options
   );
 }
+
 function sendAudio(
   recipient: UserID | Recipient,
   audio: string | FileData | AttachmentPayload,
