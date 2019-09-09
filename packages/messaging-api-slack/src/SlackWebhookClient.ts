@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
-import debug from 'debug';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
+import { onRequest } from 'messaging-api-common';
 
 import { SendMessageSuccessResponse, SlackAttachment } from './SlackTypes';
 
@@ -10,24 +10,6 @@ type URL = string;
 interface ClientConfig {
   url: URL;
   onRequest?: Function;
-}
-
-const debugRequest = debug('messaging-api-slack');
-
-function onRequest({
-  method,
-  url,
-  body,
-}: {
-  method: string;
-  url: string;
-  body: Record<string, any>;
-}): void {
-  debugRequest(`${method} ${url}`);
-  if (body) {
-    debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(body, null, 2));
-  }
 }
 
 export default class SlackWebhookClient {

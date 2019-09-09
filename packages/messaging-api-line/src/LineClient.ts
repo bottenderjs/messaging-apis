@@ -1,10 +1,10 @@
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import debug from 'debug';
 import imageType from 'image-type';
 import invariant from 'invariant';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
+import { onRequest } from 'messaging-api-common';
 
 import Line from './Line';
 import {
@@ -47,16 +47,6 @@ function handleError(err) {
     throw new AxiosError(msg, err);
   }
   throw new AxiosError(err.message, err);
-}
-
-const debugRequest = debug('messaging-api-line');
-
-function onRequest({ method, url, body }: any): void {
-  debugRequest(`${method} ${url}`);
-  if (body) {
-    debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(body, null, 2));
-  }
 }
 
 export default class LineClient {

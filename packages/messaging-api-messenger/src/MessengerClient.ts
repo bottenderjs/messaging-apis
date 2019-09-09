@@ -7,13 +7,13 @@ import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import debug from 'debug';
 import get from 'lodash.get';
 import invariant from 'invariant';
 import isPlainObject from 'is-plain-object';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import warning from 'warning';
+import { onRequest } from 'messaging-api-common';
 
 import Messenger from './Messenger';
 import {
@@ -81,16 +81,6 @@ function handleError(err: AxiosError): void {
     throw new AxiosError(msg, err);
   }
   throw new AxiosError(err.message, err);
-}
-
-const debugRequest = debug('messaging-api-messenger');
-
-function onRequest(request: any): void {
-  debugRequest(`${request.method} ${request.url}`);
-  if (request.body) {
-    debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(request.body, null, 2));
-  }
 }
 
 export default class MessengerClient {
