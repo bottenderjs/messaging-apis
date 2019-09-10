@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import querystring from 'querystring';
 import url from 'url';
+import fs from 'fs';
 
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
@@ -46,6 +47,7 @@ import {
   SendOption,
   SendSenderActionResponse,
   SenderAction,
+  TemplateAttachmentPayload,
   TemplateButton,
   TemplateElement,
   TokenInfo,
@@ -971,12 +973,12 @@ export default class MessengerClient {
     audio: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
-    const message = Messenger.createAudio(audio, options);
-
-    if (message instanceof FormData) {
+    if (Buffer.isBuffer(audio) || audio instanceof fs.ReadStream) {
+      const message = Messenger.createAudioFormData(audio, options);
       return this.sendMessageFormData(recipient, message, options);
     }
 
+    const message = Messenger.createAudio(audio, options);
     return this.sendMessage(recipient, message, options);
   }
 
@@ -985,12 +987,12 @@ export default class MessengerClient {
     image: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
-    const message = Messenger.createImage(image, options);
-
-    if (message instanceof FormData) {
+    if (Buffer.isBuffer(image) || image instanceof fs.ReadStream) {
+      const message = Messenger.createImageFormData(image, options);
       return this.sendMessageFormData(recipient, message, options);
     }
 
+    const message = Messenger.createImage(image, options);
     return this.sendMessage(recipient, message, options);
   }
 
@@ -999,12 +1001,12 @@ export default class MessengerClient {
     video: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
-    const message = Messenger.createVideo(video, options);
-
-    if (message instanceof FormData) {
+    if (Buffer.isBuffer(video) || video instanceof fs.ReadStream) {
+      const message = Messenger.createVideoFormData(video, options);
       return this.sendMessageFormData(recipient, message, options);
     }
 
+    const message = Messenger.createVideo(video, options);
     return this.sendMessage(recipient, message, options);
   }
 
@@ -1013,12 +1015,12 @@ export default class MessengerClient {
     file: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
-    const message = Messenger.createFile(file, options);
-
-    if (message instanceof FormData) {
+    if (Buffer.isBuffer(file) || file instanceof fs.ReadStream) {
+      const message = Messenger.createFileFormData(file, options);
       return this.sendMessageFormData(recipient, message, options);
     }
 
+    const message = Messenger.createFile(file, options);
     return this.sendMessage(recipient, message, options);
   }
 
@@ -1029,7 +1031,7 @@ export default class MessengerClient {
    */
   sendTemplate(
     recipient: UserID | Recipient,
-    payload: MediaAttachmentPayload,
+    payload: TemplateAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
     return this.sendMessage(
@@ -1272,18 +1274,20 @@ export default class MessengerClient {
       })
       .then(
         res =>
-          res.data.map((datum: { code: number; body: string }, index: number) => {
-            const responseAccessPath = responseAccessPaths[index];
-            if (responseAccessPath && datum.body) {
-              return {
-                ...datum,
-                body: JSON.stringify(
-                  get(JSON.parse(datum.body), responseAccessPath)
-                ),
-              };
+          res.data.map(
+            (datum: { code: number; body: string }, index: number) => {
+              const responseAccessPath = responseAccessPaths[index];
+              if (responseAccessPath && datum.body) {
+                return {
+                  ...datum,
+                  body: JSON.stringify(
+                    get(JSON.parse(datum.body), responseAccessPath)
+                  ),
+                };
+              }
+              return datum;
             }
-            return datum;
-          }),
+          ),
         handleError
       );
   }
@@ -2088,7 +2092,14 @@ export default class MessengerClient {
   getPersonas(
     cursor?: string,
     { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<{ data: any; paging: any }> {
+  ): Promise<{
+    data: {
+      id: string;
+      name: string;
+      profile_picture_url: string;
+    }[];
+    paging: { cursors: { before: string; after: string } };
+  }> {
     return this._axios
       .get(
         `/me/personas?access_token=${customAccessToken || this._accessToken}${
@@ -2105,9 +2116,18 @@ export default class MessengerClient {
     let cursor;
 
     do {
-      // FIXME: [type]
       // eslint-disable-next-line no-await-in-loop
-      const { data, paging } = await this.getPersonas(cursor, {
+      const {
+        data,
+        paging,
+      }: {
+        data: {
+          id: string;
+          name: string;
+          profile_picture_url: string;
+        }[];
+        paging: { cursors: { before: string; after: string } };
+      } = await this.getPersonas(cursor, {
         access_token: customAccessToken,
       });
 
