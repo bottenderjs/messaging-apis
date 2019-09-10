@@ -23,7 +23,7 @@ type ClientConfig = {
   onRequest?: Function;
 };
 
-function throwErrorIfAny(response: AxiosResponse): AxiosResponse | void {
+function throwErrorIfAny(response: AxiosResponse): AxiosResponse | never {
   const { errcode, errmsg } = response.data;
   if (!errcode || errcode === 0) return response;
   const msg = `WeChat API - ${errcode} ${errmsg}`;
@@ -163,7 +163,7 @@ export default class WechatClient {
 
     return this._axios
       .post(
-        `/media/upload?access_token=${this._accessToken}&type=image`,
+        `/media/upload?access_token=${this._accessToken}&type=${type}`,
         form,
         {
           headers: form.getHeaders(),
