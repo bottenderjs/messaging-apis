@@ -24,9 +24,24 @@ export type AttachmentIdAttachmentPayload = {
 
 export type MediaAttachmentPayload = UrlMediaAttachmentPayload | AttachmentIdAttachmentPayload;
 
-// FIXME: payload can be form data?
+export type MediaAttachmentType = 'audio' | 'video' | 'image' | 'file';
+
+export type FileDataAttachmentPayload = {
+  is_reusable?: boolean;
+};
+
+export type FileDataMediaAttachment = {
+  type: MediaAttachmentType;
+  payload: FileDataAttachmentPayload;
+};
+
+export type FileDataMediaAttachmentMessage = {
+  attachment: FileDataMediaAttachment;
+  quick_replies?: QuickReply[];
+};
+
 export type MediaAttachment = {
-  type: 'audio' | 'video' | 'image' | 'file';
+  type: MediaAttachmentType;
   payload: MediaAttachmentPayload;
 };
 

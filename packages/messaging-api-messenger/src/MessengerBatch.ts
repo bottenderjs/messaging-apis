@@ -10,7 +10,6 @@ import {
   Attachment,
   MediaAttachmentPayload,
   BatchItem,
-  FileData,
   MediaElement,
   Message,
   OpenGraphElement,
@@ -18,6 +17,7 @@ import {
   Recipient,
   SendOption,
   SenderAction,
+  TemplateAttachmentPayload,
   TemplateButton,
   TemplateElement,
   UserID,
@@ -83,43 +83,39 @@ function sendAttachment(
 
 function sendAudio(
   recipient: UserID | Recipient,
-  audio: string | FileData | MediaAttachmentPayload,
+  audio: string | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
-  // FIXME: [type]
   return sendMessage(recipient, Messenger.createAudio(audio, options), options);
 }
 
 function sendImage(
   recipient: UserID | Recipient,
-  image: string | FileData | MediaAttachmentPayload,
+  image: string | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
-  // FIXME: [type]
   return sendMessage(recipient, Messenger.createImage(image, options), options);
 }
 
 function sendVideo(
   recipient: UserID | Recipient,
-  video: string | FileData | MediaAttachmentPayload,
+  video: string | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
-  // FIXME: [type]
   return sendMessage(recipient, Messenger.createVideo(video, options), options);
 }
 
 function sendFile(
   recipient: UserID | Recipient,
-  file: string | FileData | MediaAttachmentPayload,
+  file: string | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
-  // FIXME: [type]
   return sendMessage(recipient, Messenger.createFile(file, options), options);
 }
 
 function sendTemplate(
   recipient: UserID | Recipient,
-  payload: MediaAttachmentPayload,
+  payload: TemplateAttachmentPayload,
   options: SendOption
 ): BatchItem {
   return sendMessage(

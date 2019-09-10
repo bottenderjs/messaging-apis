@@ -1,6 +1,5 @@
 import FormData from 'form-data';
 import invariant from 'invariant';
-import isPlainObject from 'is-plain-object';
 import omit from 'lodash.omit';
 import warning from 'warning';
 
@@ -13,6 +12,8 @@ import {
   MediaAttachmentPayload,
   TemplateAttachmentPayload,
   FileData,
+  FileDataMediaAttachment,
+  FileDataMediaAttachmentMessage,
   MediaElement,
   Message,
   OpenGraphElement,
@@ -74,11 +75,11 @@ function createText(
 }
 
 function createMessageFormData(
-  payload: MediaAttachmentPayload,
+  payload: FileDataMediaAttachmentMessage,
   filedata: FileData,
   options: { quick_replies?: QuickReply[] } = {}
 ): FormData {
-  const message: MediaAttachmentPayload & { quick_replies?: QuickReply[] } = {
+  const message: FileDataMediaAttachmentMessage = {
     ...payload,
   };
 
@@ -108,24 +109,23 @@ function createAttachment(
 }
 
 function createAttachmentFormData(
-  attachment: Attachment,
-  // FIXME: [type]
-  filedata: any,
+  attachment: FileDataMediaAttachment,
+  filedata: FileData,
   options = {}
 ): FormData {
   return createMessageFormData(
     {
       attachment,
-    } as any,
+    },
     filedata,
     options
   );
 }
 
 function createAudio(
-  audio: string | FileData | MediaAttachmentPayload,
+  audio: string | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
-): Message | FormData {
+): Message {
   if (typeof audio === 'string') {
     const attachment: Attachment = {
       type: 'audio',
@@ -136,15 +136,18 @@ function createAudio(
     return createAttachment(attachment, options);
   }
 
-  if (audio && isPlainObject(audio)) {
-    const attachment: Attachment = {
-      type: 'audio',
-      payload: audio as MediaAttachmentPayload,
-    };
-    return createAttachment(attachment, options);
-  }
-
   const attachment: Attachment = {
+    type: 'audio',
+    payload: audio as MediaAttachmentPayload,
+  };
+  return createAttachment(attachment, options);
+}
+
+function createAudioFormData(
+  audio: FileData,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): FormData {
+  const attachment: FileDataMediaAttachment = {
     type: 'audio',
     payload: {},
   };
@@ -153,10 +156,9 @@ function createAudio(
 }
 
 function createImage(
-  image: string | FileData | MediaAttachmentPayload,
+  image: string | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
-): Message | FormData {
-
+): Message {
   if (typeof image === 'string') {
     const attachment: Attachment = {
       type: 'image',
@@ -167,15 +169,18 @@ function createImage(
     return createAttachment(attachment, options);
   }
 
-  if (image && isPlainObject(image)) {
-    const attachment: Attachment = {
-      type: 'image',
-      payload: image as MediaAttachmentPayload,
-    };
-    return createAttachment(attachment, options);
-  }
-
   const attachment: Attachment = {
+    type: 'image',
+    payload: image as MediaAttachmentPayload,
+  };
+  return createAttachment(attachment, options);
+}
+
+function createImageFormData(
+  image: FileData,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): FormData {
+  const attachment: FileDataMediaAttachment = {
     type: 'image',
     payload: {},
   };
@@ -184,9 +189,9 @@ function createImage(
 }
 
 function createVideo(
-  video: string | FileData | MediaAttachmentPayload,
+  video: string | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
-): Message | FormData {
+): Message {
   if (typeof video === 'string') {
     const attachment: Attachment = {
       type: 'video',
@@ -197,15 +202,18 @@ function createVideo(
     return createAttachment(attachment, options);
   }
 
-  if (video && isPlainObject(video)) {
-    const attachment: Attachment = {
-      type: 'video',
-      payload: video as MediaAttachmentPayload
-    };
-    return createAttachment(attachment, options);
-  }
-
   const attachment: Attachment = {
+    type: 'video',
+    payload: video as MediaAttachmentPayload,
+  };
+  return createAttachment(attachment, options);
+}
+
+function createVideoFormData(
+  video: FileData,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): FormData {
+  const attachment: FileDataMediaAttachment = {
     type: 'video',
     payload: {},
   };
@@ -214,9 +222,9 @@ function createVideo(
 }
 
 function createFile(
-  file: string | FileData | MediaAttachmentPayload,
+  file: string | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
-): Message | FormData {
+): Message {
   if (typeof file === 'string') {
     const attachment: Attachment = {
       type: 'file',
@@ -227,15 +235,18 @@ function createFile(
     return createAttachment(attachment, options);
   }
 
-  if (file && isPlainObject(file)) {
-    const attachment: Attachment = {
-      type: 'file',
-      payload: file as MediaAttachmentPayload,
-    };
-    return createAttachment(attachment, options);
-  }
-
   const attachment: Attachment = {
+    type: 'file',
+    payload: file as MediaAttachmentPayload,
+  };
+  return createAttachment(attachment, options);
+}
+
+function createFileFormData(
+  file: FileData,
+  options: { quick_replies?: Array<QuickReply> } = {}
+): FormData {
+  const attachment: FileDataMediaAttachment = {
     type: 'file',
     payload: {},
   };
@@ -414,9 +425,13 @@ const Messenger = {
   createText,
   createAttachment,
   createAudio,
+  createAudioFormData,
   createImage,
+  createImageFormData,
   createVideo,
+  createVideoFormData,
   createFile,
+  createFileFormData,
   createTemplate,
   createButtonTemplate,
   createGenericTemplate,
