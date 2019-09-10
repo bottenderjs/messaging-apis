@@ -13,7 +13,15 @@ type LinePayConfig = {
 
 type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
 
-function handleError(err) {
+function handleError(err: {
+  message: string;
+  response: {
+    data: {
+      returnCode: string;
+      returnMessage: string;
+    };
+  };
+}): never {
   if (err.response && err.response.data) {
     const { returnCode, returnMessage } = err.response.data;
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
@@ -22,7 +30,13 @@ function handleError(err) {
   throw new AxiosError(err.message, err);
 }
 
-function throwWhenNotSuccess(res) {
+function throwWhenNotSuccess(res: {
+  data: {
+    returnCode: string;
+    returnMessage: string;
+    info?: any;
+  };
+}): any | never {
   if (res.data.returnCode !== '0000') {
     const { returnCode, returnMessage } = res.data;
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;

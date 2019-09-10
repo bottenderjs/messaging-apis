@@ -1,4 +1,3 @@
-import invariant from 'invariant';
 import omit from 'lodash.omit';
 
 import {
@@ -12,7 +11,7 @@ import {
   ImageCarouselColumnObject,
   ImageCarouselTemplate,
   ImageMapAction,
-  ImageMapMessage,
+  ImagemapMessage,
   ImageMapVideo,
   ImageMessage,
   Location,
@@ -36,118 +35,48 @@ function createText(text: string, options: MessageOptions = {}): TextMessage {
 }
 
 function createImage(
-  contentUrlOrImage: string | Record<string, any>,
-  previewUrlOrOptions: string | MessageOptions
+  image: {
+    originalContentUrl: string;
+    previewImageUrl?: string;
+  },
+  options: MessageOptions = {}
 ): ImageMessage {
-  if (previewUrlOrOptions) {
-    if (
-      typeof contentUrlOrImage === 'object' &&
-      typeof previewUrlOrOptions === 'object'
-    ) {
-      const image = contentUrlOrImage;
-      const options = previewUrlOrOptions;
-      return {
-        type: 'image',
-        originalContentUrl: image.originalContentUrl,
-        previewImageUrl: image.previewImageUrl || image.originalContentUrl,
-        ...omit(options, 'accessToken'),
-      };
-    }
-
-    if (
-      typeof contentUrlOrImage === 'string' &&
-      typeof previewUrlOrOptions === 'string'
-    ) {
-      return {
-        type: 'image',
-        originalContentUrl: contentUrlOrImage,
-        previewImageUrl: previewUrlOrOptions,
-      };
-    }
-  } else {
-    if (typeof contentUrlOrImage === 'object') {
-      const image = contentUrlOrImage;
-      return {
-        type: 'image',
-        originalContentUrl: image.originalContentUrl,
-        previewImageUrl: image.previewImageUrl || image.originalContentUrl,
-      };
-    }
-
-    if (typeof contentUrlOrImage === 'string') {
-      return {
-        type: 'image',
-        originalContentUrl: contentUrlOrImage,
-        previewImageUrl: contentUrlOrImage,
-      };
-    }
-  }
-
-  invariant(false, 'Line#createImage: Wrong type of arguments.');
+  return {
+    type: 'image',
+    originalContentUrl: image.originalContentUrl,
+    previewImageUrl: image.previewImageUrl || image.originalContentUrl,
+    ...omit(options, 'accessToken'),
+  };
 }
 
 function createVideo(
-  contentUrlOrVideo: string | Record<string, any>,
-  previewImageUrlOrOptions: string | MessageOptions
+  video: {
+    originalContentUrl: string;
+    previewImageUrl: string;
+  },
+  options: MessageOptions = {}
 ): VideoMessage {
-  if (
-    typeof contentUrlOrVideo === 'string' &&
-    typeof previewImageUrlOrOptions === 'string'
-  ) {
-    return {
-      type: 'video',
-      originalContentUrl: contentUrlOrVideo,
-      previewImageUrl: previewImageUrlOrOptions,
-    };
-  }
-
-  if (
-    typeof contentUrlOrVideo === 'object' &&
-    (!previewImageUrlOrOptions || typeof previewImageUrlOrOptions === 'object')
-  ) {
-    const video = contentUrlOrVideo;
-    const options = previewImageUrlOrOptions || {};
-    return {
-      type: 'video',
-      originalContentUrl: video.originalContentUrl,
-      previewImageUrl: video.previewImageUrl,
-      ...omit(options, 'accessToken'),
-    };
-  }
-
-  invariant(false, 'Line#createVideo: Wrong type of arguments.');
+  return {
+    type: 'video',
+    originalContentUrl: video.originalContentUrl,
+    previewImageUrl: video.previewImageUrl,
+    ...omit(options, 'accessToken'),
+  };
 }
 
 function createAudio(
-  contentUrlOrAudio: string | Record<string, any>,
-  durationOrOptions: number | MessageOptions
+  audio: {
+    originalContentUrl: string;
+    duration: number;
+  },
+  options: MessageOptions = {}
 ): AudioMessage {
-  if (
-    typeof contentUrlOrAudio === 'string' &&
-    typeof durationOrOptions === 'number'
-  ) {
-    return {
-      type: 'audio',
-      originalContentUrl: contentUrlOrAudio,
-      duration: durationOrOptions,
-    };
-  }
-
-  if (
-    typeof contentUrlOrAudio === 'object' &&
-    (!durationOrOptions || typeof durationOrOptions !== 'number')
-  ) {
-    const audio = contentUrlOrAudio;
-    const options = durationOrOptions || {};
-    return {
-      type: 'audio',
-      originalContentUrl: audio.originalContentUrl,
-      duration: audio.duration,
-      ...omit(options, 'accessToken'),
-    };
-  }
-
-  invariant(false, 'Line#createAudio: Wrong type of arguments.');
+  return {
+    type: 'audio',
+    originalContentUrl: audio.originalContentUrl,
+    duration: audio.duration,
+    ...omit(options, 'accessToken'),
+  };
 }
 
 function createLocation(
@@ -165,35 +94,15 @@ function createLocation(
 }
 
 function createSticker(
-  packageIdOrSticker: string | Record<string, any>,
-  stickerIdOrOptions: string | MessageOptions
+  sticker: Record<string, any>,
+  options: MessageOptions = {}
 ): StickerMessage {
-  if (
-    typeof packageIdOrSticker === 'string' &&
-    typeof stickerIdOrOptions === 'string'
-  ) {
-    return {
-      type: 'sticker',
-      packageId: packageIdOrSticker,
-      stickerId: stickerIdOrOptions,
-    };
-  }
-
-  if (
-    typeof packageIdOrSticker === 'object' &&
-    (!stickerIdOrOptions || typeof stickerIdOrOptions === 'object')
-  ) {
-    const sticker = packageIdOrSticker;
-    const options = stickerIdOrOptions || {};
-    return {
-      type: 'sticker',
-      packageId: sticker.packageId,
-      stickerId: sticker.stickerId,
-      ...omit(options, 'accessToken'),
-    };
-  }
-
-  invariant(false, 'Line#createSticker: Wrong type of arguments.');
+  return {
+    type: 'sticker',
+    packageId: sticker.packageId,
+    stickerId: sticker.stickerId,
+    ...omit(options, 'accessToken'),
+  };
 }
 
 function createImagemap(
@@ -217,7 +126,7 @@ function createImagemap(
     actions: ImageMapAction[];
   },
   options: MessageOptions = {}
-): ImageMapMessage {
+): ImagemapMessage {
   return {
     type: 'imagemap',
     baseUrl,

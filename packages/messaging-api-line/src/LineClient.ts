@@ -35,7 +35,18 @@ type ClientConfig = {
   onRequest?: Function;
 };
 
-function handleError(err) {
+function handleError(err: {
+  message: string;
+  response: {
+    data: {
+      message: string;
+      details: {
+        property: string;
+        message: string;
+      }[];
+    };
+  };
+}): never {
   if (err.response && err.response.data) {
     const { message, details } = err.response.data;
     let msg = `LINE API - ${message}`;
@@ -127,15 +138,16 @@ export default class LineClient {
   _send(
     type: SendType,
     target: SendTarget,
-    ...args: any
+    messages: Message[],
+    options: Record<string, any> = {}
   ): Promise<MutationSuccessResponse> {
     if (type === 'push') {
-      return this.push(target as UserId, ...args);
+      return this.push(target as UserId, messages, options);
     }
     if (type === 'multicast') {
-      return this.multicast(target as UserId[], ...args);
+      return this.multicast(target as UserId[], messages, options);
     }
-    return this.reply(target as ReplyToken, ...args);
+    return this.reply(target as ReplyToken, messages, options);
   }
 
   _sendText(
@@ -155,67 +167,64 @@ export default class LineClient {
   _sendImage(
     type: SendType,
     target: SendTarget,
-    contentUrlOrImage: string | Record<string, any>,
-    previewUrlOrOptions: string | MessageOptions
+    image: {
+      originalContentUrl: string;
+      previewImageUrl?: string;
+    },
+    options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
-      [Line.createImage(contentUrlOrImage, previewUrlOrOptions)],
-      typeof previewUrlOrOptions === 'string' ? undefined : previewUrlOrOptions
+      [Line.createImage(image, options)],
+      options
     );
   }
 
   _sendVideo(
     type: SendType,
     target: SendTarget,
-    contentUrlOrVideo: string | Record<string, any>,
-    previewUrlOrOptions: string | MessageOptions
+    video: {
+      originalContentUrl: string;
+      previewImageUrl: string;
+    },
+    options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
-      [Line.createVideo(contentUrlOrVideo, previewUrlOrOptions || {})],
-      typeof previewUrlOrOptions === 'string' ? undefined : previewUrlOrOptions
+      [Line.createVideo(video, options || {})],
+      options
     );
   }
 
   _sendAudio(
     type: SendType,
     target: SendTarget,
-    contentUrlOrAudio: string | Record<string, any>,
-    durationOrOptions: number | MessageOptions
+    audio: {
+      originalContentUrl: string;
+      duration: number;
+    },
+    options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
-      [Line.createAudio(contentUrlOrAudio, durationOrOptions || {})],
-      typeof durationOrOptions === 'number' ? undefined : durationOrOptions
+      [Line.createAudio(audio, options)],
+      options
     );
   }
 
   _sendLocation(
     type: SendType,
     target: SendTarget,
-    { title, address, latitude, longitude }: Location,
-    options: MessageOptions
+    location: Location,
+    options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
-      [
-        Line.createLocation(
-          {
-            title,
-            address,
-            latitude,
-            longitude,
-          },
-
-          options || {}
-        ),
-      ],
-
+      [Line.createLocation(location, options)],
       options
     );
   }
@@ -223,14 +232,14 @@ export default class LineClient {
   _sendSticker(
     type: SendType,
     target: SendTarget,
-    packageIdOrSticker: string | Record<string, any>,
-    stickerIdOrOptions: string | MessageOptions
+    sticker: Record<string, any>,
+    options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
     return this._send(
       type,
       target,
-      [Line.createSticker(packageIdOrSticker, stickerIdOrOptions || {})],
-      typeof stickerIdOrOptions === 'string' ? undefined : stickerIdOrOptions
+      [Line.createSticker(sticker, options)],
+      options
     );
   }
 
@@ -596,7 +605,7 @@ export default class LineClient {
         if (err.response && err.response.status === 404) {
           return null;
         }
-        handleError(err);
+        return handleError(err);
       });
   }
 
@@ -651,7 +660,7 @@ export default class LineClient {
    */
   getGroupMemberIds(
     groupId: string,
-    start: string,
+    start: string | undefined,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
@@ -675,7 +684,10 @@ export default class LineClient {
 
     do {
       // eslint-disable-next-line no-await-in-loop
-      const { memberIds, next } = await this.getGroupMemberIds(
+      const {
+        memberIds,
+        next,
+      }: { memberIds: string[]; next?: string } = await this.getGroupMemberIds(
         groupId,
         continuationToken,
         options
@@ -695,7 +707,7 @@ export default class LineClient {
    */
   getRoomMemberIds(
     roomId: string,
-    start: string,
+    start: string | undefined,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
@@ -719,7 +731,10 @@ export default class LineClient {
 
     do {
       // eslint-disable-next-line no-await-in-loop
-      const { memberIds, next } = await this.getRoomMemberIds(
+      const {
+        memberIds,
+        next,
+      }: { memberIds: string[]; next?: string } = await this.getRoomMemberIds(
         roomId,
         continuationToken,
         options
@@ -814,7 +829,7 @@ export default class LineClient {
         if (err.response && err.response.status === 404) {
           return null;
         }
-        handleError(err);
+        return handleError(err);
       });
   }
 
@@ -869,7 +884,7 @@ export default class LineClient {
         if (err.response && err.response.status === 404) {
           return null;
         }
-        handleError(err);
+        return handleError(err);
       });
   }
 
@@ -924,7 +939,7 @@ export default class LineClient {
         if (err.response && err.response.status === 404) {
           return null;
         }
-        handleError(err);
+        return handleError(err);
       });
   }
 
@@ -978,14 +993,12 @@ export default class LineClient {
 
     return this._axios
       .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
-        headers: customAccessToken
-          ? {
-              'Content-Type': type.mime,
-              Authorization: `Bearer ${customAccessToken}`,
-            }
-          : {
-              'Content-Type': type.mime,
-            },
+        headers: {
+          'Content-Type': (type as { mime: string }).mime,
+          ...(customAccessToken && {
+            Authorization: `Bearer ${customAccessToken}`,
+          }),
+        },
       })
       .then(res => res.data, handleError);
   }
@@ -995,25 +1008,20 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
-      .get(
-        `/v2/bot/richmenu/${richMenuId}/content`,
-        customAccessToken
-          ? {
-              responseType: 'arraybuffer',
-              headers: {
-                Authorization: `Bearer ${customAccessToken}`,
-              },
-            }
-          : {
-              responseType: 'arraybuffer',
-            }
-      )
+      .get(`/v2/bot/richmenu/${richMenuId}/content`, {
+        responseType: 'arraybuffer',
+        headers: {
+          ...(customAccessToken && {
+            Authorization: `Bearer ${customAccessToken}`,
+          }),
+        },
+      })
       .then(res => Buffer.from(res.data))
       .catch(err => {
         if (err.response && err.response.status === 404) {
           return null;
         }
-        handleError(err);
+        return handleError(err);
       });
   }
 
