@@ -99,9 +99,9 @@ export default class ViberClient {
     return this._token;
   }
 
-  async _callAPI(...args) {
+  async _callAPI(path: string, body: Record<string, any>) {
     try {
-      const response = await this._axios.post(...args);
+      const response = await this._axios.post(path, body);
 
       const { data, config, request } = response;
 
@@ -322,7 +322,7 @@ export default class ViberClient {
   broadcastText(
     broadcastList: string[],
     text: string,
-    options?: Record<string, any> = {}
+    options: Record<string, any> = {}
   ) {
     return this.broadcastMessage(broadcastList, {
       type: 'text',
