@@ -30,7 +30,7 @@ export type ImageMapAction = {
   };
 };
 
-export type ImageMapMessage = {
+export type ImagemapMessage = {
   type: 'imagemap';
   baseUrl: string;
   altText: string;
@@ -38,6 +38,7 @@ export type ImageMapMessage = {
     height: number;
     width: number;
   };
+  video?: ImageMapVideo;
   actions: ImageMapAction[];
 };
 
@@ -154,6 +155,9 @@ export type TemplateMessage<Template> = {
 export type ButtonsTemplate = {
   type: 'buttons';
   thumbnailImageUrl?: string;
+  imageAspectRatio?: 'rectangle' | 'square';
+  imageSize?: 'cover' | 'contain';
+  imageBackgroundColor?: string;
   title?: string;
   text: string;
   defaultAction?: TemplateAction;
@@ -177,6 +181,8 @@ export type ColumnObject = {
 export type CarouselTemplate = {
   type: 'carousel';
   columns: ColumnObject[];
+  imageAspectRatio?: 'rectangle' | 'square';
+  imageSize?: 'cover' | 'contain';
 };
 
 export type ImageCarouselColumnObject = {
@@ -363,7 +369,7 @@ export type FlexMessage = {
 export type Message =
   | TextMessage
   | ImageMessage
-  | ImageMapMessage
+  | ImagemapMessage
   | VideoMessage
   | AudioMessage
   | LocationMessage
