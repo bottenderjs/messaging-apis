@@ -43,8 +43,8 @@ client
       `profile_pic`,
       `locale`,
       `timezone`,
-      `gender`
-    ]
+      `gender`,
+    ],
   })
   .then(user => {
     console.log(user);
@@ -64,13 +64,13 @@ client
 
 ```js
 client.getSubscriptions({
-  access_token: APP_ACCESS_TOKEN
+  access_token: APP_ACCESS_TOKEN,
 });
 
 // or
 
 client.getSubscriptions({
-  access_token: `${APP_ID}|${APP_SECRET}`
+  access_token: `${APP_ID}|${APP_SECRET}`,
 });
 ```
 
@@ -78,13 +78,13 @@ client.getSubscriptions({
 
 ```js
 client.getPageSubscription({
-  access_token: APP_ACCESS_TOKEN
+  access_token: APP_ACCESS_TOKEN,
 });
 
 // or
 
 client.getPageSubscription({
-  access_token: `${APP_ID}|${APP_SECRET}`
+  access_token: `${APP_ID}|${APP_SECRET}`,
 });
 ```
 
@@ -114,93 +114,93 @@ client.debugToken().then(pageInfo => {
 - [new] add `client.multicastFlex`:
 
 ```js
-client.multicastFlex([USER_ID], "this is a flex", {
-  type: "bubble",
+client.multicastFlex([USER_ID], 'this is a flex', {
+  type: 'bubble',
   header: {
-    type: "box",
-    layout: "vertical",
+    type: 'box',
+    layout: 'vertical',
     contents: [
       {
-        type: "text",
-        text: "Header text"
-      }
-    ]
+        type: 'text',
+        text: 'Header text',
+      },
+    ],
   },
   hero: {
-    type: "image",
-    url: "https://example.com/flex/images/image.jpg"
+    type: 'image',
+    url: 'https://example.com/flex/images/image.jpg',
   },
   body: {
-    type: "box",
-    layout: "vertical",
+    type: 'box',
+    layout: 'vertical',
     contents: [
       {
-        type: "text",
-        text: "Body text"
-      }
-    ]
+        type: 'text',
+        text: 'Body text',
+      },
+    ],
   },
   footer: {
-    type: "box",
-    layout: "vertical",
+    type: 'box',
+    layout: 'vertical',
     contents: [
       {
-        type: "text",
-        text: "Footer text"
-      }
-    ]
+        type: 'text',
+        text: 'Footer text',
+      },
+    ],
   },
   styles: {
-    comment: "See the example of a bubble style object"
-  }
+    comment: 'See the example of a bubble style object',
+  },
 });
 ```
 
 - [new] support `video` for imagemap:
 
 ```js
-const res = await client.replyImagemap(REPLY_TOKEN, "this is an imagemap", {
-  baseUrl: "https://example.com/bot/images/rm001",
+const res = await client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
+  baseUrl: 'https://example.com/bot/images/rm001',
   baseSize: {
     height: 1040,
-    width: 1040
+    width: 1040,
   },
   video: {
-    originalContentUrl: "https://example.com/video.mp4",
-    previewImageUrl: "https://example.com/video_preview.jpg",
+    originalContentUrl: 'https://example.com/video.mp4',
+    previewImageUrl: 'https://example.com/video_preview.jpg',
     area: {
       x: 0,
       y: 0,
       width: 1040,
-      height: 585
+      height: 585,
     },
     externalLink: {
-      linkUri: "https://example.com/see_more.html",
-      label: "See More"
-    }
+      linkUri: 'https://example.com/see_more.html',
+      label: 'See More',
+    },
   },
   actions: [
     {
-      type: "uri",
-      linkUri: "https://example.com/",
+      type: 'uri',
+      linkUri: 'https://example.com/',
       area: {
         x: 0,
         y: 0,
         width: 520,
-        height: 1040
-      }
+        height: 1040,
+      },
     },
     {
-      type: "message",
-      text: "hello",
+      type: 'message',
+      text: 'hello',
       area: {
         x: 520,
         y: 0,
         width: 520,
-        height: 1040
-      }
-    }
-  ]
+        height: 1040,
+      },
+    },
+  ],
 });
 ```
 
@@ -214,7 +214,7 @@ const res = await client.replyImagemap(REPLY_TOKEN, "this is an imagemap", {
 const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
   appSecret: APP_SECRET,
-  skipAppSecretProof: true
+  skipAppSecretProof: true,
 });
 ```
 
@@ -226,7 +226,7 @@ const client = MessengerClient.connect({
 
 ```js
 const client = MessengerClient.connect({
-  appSecret: "APP_SECRET"
+  appSecret: 'APP_SECRET',
 });
 
 client.appSecret; // 'APP_SECRET'
@@ -241,12 +241,12 @@ client.appSecret; // 'APP_SECRET'
 ## Initialize
 
 ```js
-const { LinePay } = require("messaging-api-line");
+const { LinePay } = require('messaging-api-line');
 
 const linePay = LinePay.connect({
   channelId: CHANNEL_ID,
   channelSecret: CHANNEL_SECRET,
-  sandbox: true // default false
+  sandbox: true, // default false
 });
 ```
 
@@ -255,8 +255,8 @@ const linePay = LinePay.connect({
 ```js
 linePay
   .getPayments({
-    transactionId: "20140101123123123",
-    orderId: "1002045572"
+    transactionId: '20140101123123123',
+    orderId: '1002045572',
   })
   .then(result => {
     console.log(result);
@@ -280,8 +280,8 @@ linePay
 ```js
 linePay
   .getAuthorizations({
-    transactionId: "20140101123123123",
-    orderId: "1002045572"
+    transactionId: '20140101123123123',
+    orderId: '1002045572',
   })
   .then(result => {
     console.log(result);
@@ -316,12 +316,12 @@ linePay
 ```js
 linePay
   .reserve({
-    productName: "test product",
+    productName: 'test product',
     amount: 10,
-    currency: "USD",
-    orderId: "20140101123456789",
+    currency: 'USD',
+    orderId: '20140101123456789',
     confirmUrl:
-      "naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789"
+      'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
   })
   .then(result => {
     console.log(result);
@@ -342,7 +342,7 @@ linePay
 linePay
   .confirm(TRANSACTION_ID, {
     amount: 1000,
-    currency: "TWD"
+    currency: 'TWD',
   })
   .then(result => {
     console.log(result);
@@ -369,7 +369,7 @@ linePay
 linePay
   .capture(TRANSACTION_ID, {
     amount: 1000,
-    currency: "TWD"
+    currency: 'TWD',
   })
   .then(result => {
     console.log(result);
@@ -428,8 +428,8 @@ linePay.refund(TRANSACTION_ID).then(result => {
 
 ```js
 createPersona({
-  name: "John Mathew",
-  profile_picture_url: "https://facebook.com/john_image.jpg"
+  name: 'John Mathew',
+  profile_picture_url: 'https://facebook.com/john_image.jpg',
 }).then(persona => {
   console.log(persona);
   // {
@@ -527,7 +527,7 @@ client.getDefaultRichMenu().then(richMenu => {
 - `setDefaultRichMenu(richMenuId)`:
 
 ```js
-client.setDefaultRichMenu("{richMenuId}");
+client.setDefaultRichMenu('{richMenuId}');
 ```
 
 - `deleteDefaultRichMenu()`:
@@ -573,25 +573,25 @@ DEBUG=messaging-api*
 - [new] add `quickReply` support:
 
 ```js
-client.replyText(REPLY_TOKEN, "Hello!", {
+client.replyText(REPLY_TOKEN, 'Hello!', {
   quickReply: {
     items: [
       {
-        type: "action",
+        type: 'action',
         action: {
-          type: "cameraRoll",
-          label: "Send photo"
-        }
+          type: 'cameraRoll',
+          label: 'Send photo',
+        },
       },
       {
-        type: "action",
+        type: 'action',
         action: {
-          type: "camera",
-          label: "Open camera"
-        }
-      }
-    ]
-  }
+          type: 'camera',
+          label: 'Open camera',
+        },
+      },
+    ],
+  },
 });
 ```
 
@@ -626,11 +626,11 @@ client.replyText(REPLY_TOKEN, "Hello!", {
 * [new] export `Line` from browser entry, so it can be used in the browser with module bundler:
 
 ```js
-const { Line } = require("messaging-api-line");
+const { Line } = require('messaging-api-line');
 
 liff.sendMessages([
-  Line.createText("hello~~~~~~"),
-  Line.createText("world~~~~~~")
+  Line.createText('hello~~~~~~'),
+  Line.createText('world~~~~~~'),
 ]);
 ```
 
@@ -645,7 +645,7 @@ If `appSecret` is provided, `MessengerClient` will enable this feature automatic
 ```js
 const client = MessengerClient.connect({
   accessToken,
-  appSecret
+  appSecret,
 });
 ```
 
@@ -664,7 +664,7 @@ To schedule a broadcast, specify the `schedule_time` property when you call the 
 ```js
 client
   .sendBroadcastMessage(938461089, {
-    schedule_time: "2018-04-05T20:39:13+00:00"
+    schedule_time: '2018-04-05T20:39:13+00:00',
   })
   .then(result => {
     console.log(result);
@@ -677,13 +677,13 @@ client
 To cancel a scheduled broadcast:
 
 ```js
-client.cancelBroadcast("115517705935329");
+client.cancelBroadcast('115517705935329');
 ```
 
 To check on broadcast status.
 
 ```js
-client.getBroadcast("115517705935329").then(broadcast => {
+client.getBroadcast('115517705935329').then(broadcast => {
   console.log(broadcast);
   // {
   //   scheduled_time: '2018-04-05T20:39:13+00:00',
@@ -963,20 +963,20 @@ client.issueLinkToken(USER_ID).then(result => {
 
 ```js
 client.pushImage(RECIPIENT_ID, {
-  originalContentUrl: "https://example.com/original.jpg",
-  previewImageUrl: "https://example.com/preview.jpg"
+  originalContentUrl: 'https://example.com/original.jpg',
+  previewImageUrl: 'https://example.com/preview.jpg',
 });
 client.pushVideo(RECIPIENT_ID, {
-  originalContentUrl: "https://example.com/original.mp4",
-  previewImageUrl: "https://example.com/preview.jpg"
+  originalContentUrl: 'https://example.com/original.mp4',
+  previewImageUrl: 'https://example.com/preview.jpg',
 });
 client.pushAudio(RECIPIENT_ID, {
-  originalContentUrl: "https://example.com/original.m4a",
-  duration: 240000
+  originalContentUrl: 'https://example.com/original.m4a',
+  duration: 240000,
 });
 client.pushSticker(RECIPIENT_ID, {
-  packageId: "1",
-  stickerId: "1"
+  packageId: '1',
+  stickerId: '1',
 });
 ```
 
@@ -1038,7 +1038,7 @@ Make it easier to access result and consist with other platforms.
 - [new] implement `requestThreadControl`:
 
 ```js
-client.requestThreadControl(USER_ID, "free formed text for primary app");
+client.requestThreadControl(USER_ID, 'free formed text for primary app');
 ```
 
 - [fix] handle axios error in batch
@@ -1056,11 +1056,11 @@ client.requestThreadControl(USER_ID, "free formed text for primary app");
 - [new] Support `origin` for test:
 
 ```js
-const { MessengerClient } = require("messaging-api-messenger");
+const { MessengerClient } = require('messaging-api-messenger');
 
 const client = MessengerClient.connect({
   accessToken: ACCESS_TOKEN,
-  origin: "https://mydummytestserver.com"
+  origin: 'https://mydummytestserver.com',
 });
 ```
 
@@ -1094,16 +1094,16 @@ const client = MessengerClient.connect({
 - [new] add Slack `postEphemeral` method:
 
 ```js
-client.postEphemeral("C8763", "U56781234", { attachments: [someAttachments] });
+client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
 ```
 
 - [new] add SlackOAuthClient custom token support:
 
 ```js
-client.callMethod("chat.postMessage", {
-  token: "custom token",
+client.callMethod('chat.postMessage', {
+  token: 'custom token',
   channel: CHANNEL,
-  text: "hello"
+  text: 'hello',
 });
 ```
 
@@ -1122,7 +1122,7 @@ client.callMethod("chat.postMessage", {
 ```js
 client
   .getUpdates({
-    limit: 10
+    limit: 10,
   })
   .then(data => {
     console.log(data.result);
@@ -1174,9 +1174,9 @@ client
 - [new] Add `sendVideoNote`:
 
 ```js
-client.sendVideoNote(CHAT_ID, "https://example.com/video_note.mp4", {
+client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
   duration: 40,
-  disable_notification: true
+  disable_notification: true,
 });
 ```
 
@@ -1199,11 +1199,11 @@ client.logCustomEvents({
   page_scoped_user_id: USER_ID,
   events: [
     {
-      _eventName: "fb_mobile_purchase",
+      _eventName: 'fb_mobile_purchase',
       _valueToSum: 55.22,
-      _fb_currency: "USD"
-    }
-  ]
+      _fb_currency: 'USD',
+    },
+  ],
 });
 ```
 
@@ -1212,14 +1212,14 @@ Original keys (`appId`, `pageId`, `userId`) will be removed when `v0.7` or `v0.8
 - [changed] Rename `Messenger` to `MessengerBatch`:
 
 ```js
-const { MessengerBatch } = require("messaging-api-messenger");
+const { MessengerBatch } = require('messaging-api-messenger');
 
 client.sendBatch([
-  MessengerBatch.createText(USER_ID, "1"),
-  MessengerBatch.createText(USER_ID, "2"),
-  MessengerBatch.createText(USER_ID, "3"),
-  MessengerBatch.createText(USER_ID, "4"),
-  MessengerBatch.createText(USER_ID, "5")
+  MessengerBatch.createText(USER_ID, '1'),
+  MessengerBatch.createText(USER_ID, '2'),
+  MessengerBatch.createText(USER_ID, '3'),
+  MessengerBatch.createText(USER_ID, '4'),
+  MessengerBatch.createText(USER_ID, '5'),
 ]);
 ```
 
@@ -1230,9 +1230,9 @@ Original APIs on `Messenger` will be changed when `v0.7` release.
 ```js
 client.createSubscription({
   app_id: APP_ID,
-  callback_url: "https://mycallback.com",
-  fields: ["messages", "messaging_postbacks", "messaging_referrals"],
-  verify_token: VERIFY_TOKEN
+  callback_url: 'https://mycallback.com',
+  fields: ['messages', 'messaging_postbacks', 'messaging_referrals'],
+  verify_token: VERIFY_TOKEN,
 });
 ```
 
@@ -1244,7 +1244,7 @@ Given a user ID for an app, retrieve the IDs for other apps owned by the same bu
 client
   .getIdsForApps({
     user_id: USER_ID,
-    app_secret: APP_SECRET
+    app_secret: APP_SECRET,
   })
   .then(result => {
     console.log(result);
@@ -1257,7 +1257,7 @@ Given a user ID for a Page (associated with a bot), retrieve the IDs for other P
 client
   .getIdsForPages({
     user_id: USER_ID,
-    app_secret: APP_SECRET
+    app_secret: APP_SECRET,
   })
   .then(result => {
     console.log(result);
@@ -1279,8 +1279,8 @@ Support Game APIs!
 - `sendGame`:
 
 ```js
-client.sendGame(CHAT_ID, "Mario Bros.", {
-  disable_notification: true
+client.sendGame(CHAT_ID, 'Mario Bros.', {
+  disable_notification: true,
 });
 ```
 
@@ -1306,17 +1306,17 @@ client.getGameHighScores(USER_ID);
 client.replyButtonTemplate(REPLY_TOKEN, altText, {
   thumbnailImageUrl,
   title,
-  imageAspectRatio: "rectangle",
-  imageSize: "cover",
-  imageBackgroundColor: "#FFFFFF",
-  actions
+  imageAspectRatio: 'rectangle',
+  imageSize: 'cover',
+  imageBackgroundColor: '#FFFFFF',
+  actions,
 });
 ```
 
 ```js
 client.replyCarouselTemplate(REPLY_TOKEN, altText, columns, {
-  imageAspectRatio: "rectangle",
-  imageSize: "cover"
+  imageAspectRatio: 'rectangle',
+  imageSize: 'cover',
 });
 ```
 
@@ -1326,7 +1326,7 @@ client.replyCarouselTemplate(REPLY_TOKEN, altText, columns, {
 
 ```js
 client.sendMediaGroup(CHAT_ID, [
-  { type: "photo", media: "BQADBAADApYAAgcZZAfj2-xeidueWwI" }
+  { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
 ]);
 ```
 
@@ -1366,23 +1366,23 @@ deleteChatExtensionHomeURL -> deleteHomeURL
 
 ```js
 client.answerInlineQuery(
-  "INLINE_QUERY_ID",
+  'INLINE_QUERY_ID',
   [
     {
-      type: "photo",
-      id: "UNIQUE_ID",
-      photo_file_id: "FILE_ID",
-      title: "PHOTO_TITLE"
+      type: 'photo',
+      id: 'UNIQUE_ID',
+      photo_file_id: 'FILE_ID',
+      title: 'PHOTO_TITLE',
     },
     {
-      type: "audio",
-      id: "UNIQUE_ID",
-      audio_file_id: "FILE_ID",
-      caption: "AUDIO_TITLE"
-    }
+      type: 'audio',
+      id: 'UNIQUE_ID',
+      audio_file_id: 'FILE_ID',
+      caption: 'AUDIO_TITLE',
+    },
   ],
   {
-    cache_time: 1000
+    cache_time: 1000,
   }
 );
 ```
@@ -1398,9 +1398,9 @@ client.answerInlineQuery(
 - [new] Support pass message object to `postMessage`:
 
 ```js
-client.postMessage("C8763", { text: "Hello!" });
-client.postMessage("C8763", { attachments: [someAttachments] });
-client.postMessage("C8763", { text: "Hello!" }, { as_user: true });
+client.postMessage('C8763', { text: 'Hello!' });
+client.postMessage('C8763', { attachments: [someAttachments] });
+client.postMessage('C8763', { text: 'Hello!' }, { as_user: true });
 ```
 
 # 0.5.14 / 2017-11-29
@@ -1416,7 +1416,7 @@ client.postMessage("C8763", { text: "Hello!" }, { as_user: true });
 - [fix] Fixed `uploadAttachment` with buffer data using a `filename` option pass in:
 
 ```js
-client.uploadAttachment("image", buffer, { filename: "image.jpg" });
+client.uploadAttachment('image', buffer, { filename: 'image.jpg' });
 ```
 
 # 0.5.12 / 2017-11-23
@@ -1426,14 +1426,14 @@ client.uploadAttachment("image", buffer, { filename: "image.jpg" });
 - [new] Support pass `options.quick_replies` to send message with quick replies: [#216](https://github.com/Yoctol/messaging-apis/issues/216)
 
 ```js
-client.sendText(USER_ID, "Pick a color:", {
+client.sendText(USER_ID, 'Pick a color:', {
   quick_replies: [
     {
-      content_type: "text",
-      title: "Red",
-      payload: "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-    }
-  ]
+      content_type: 'text',
+      title: 'Red',
+      payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+    },
+  ],
 });
 ```
 
@@ -1443,7 +1443,7 @@ For example:
 
 ```js
 client.uploadImage(buffer);
-client.uploadImage(fs.creatReadStream("xxx.jpg"));
+client.uploadImage(fs.creatReadStream('xxx.jpg'));
 ```
 
 - [docs] update docs and type for nlp config model [#222](https://github.com/Yoctol/messaging-apis/pull/222)
@@ -1491,7 +1491,7 @@ A large update to support [Messenger Platform 2.2](https://messenger.fb.com/blog
 Messenger Team has created a `messaging_type` property which is required in all requests to the send API. You can send it with `messaging_type` option:
 
 ```js
-client.sendText(USER_ID, "Awesome!", { messaging_type: "RESPONSE" });
+client.sendText(USER_ID, 'Awesome!', { messaging_type: 'RESPONSE' });
 ```
 
 Available messaging types:
@@ -1513,18 +1513,18 @@ client.sendGenericTemplate(
   [
     {
       //...
-    }
+    },
   ],
-  { tag: "PAIRING_UPDATE" }
+  { tag: 'PAIRING_UPDATE' }
 );
 client.sendGenericTemplate(
   USER_ID,
   [
     {
       //...
-    }
+    },
   ],
-  { tag: "APPLICATION_UPDATE" }
+  { tag: 'APPLICATION_UPDATE' }
 );
 ```
 
@@ -1537,16 +1537,16 @@ In order to make image and video sharing more interactive, you can attach a CTA 
 ```js
 client.sendMediaTemplate(USER_ID, [
   {
-    media_type: "image",
-    attachment_id: "1854626884821032",
+    media_type: 'image',
+    attachment_id: '1854626884821032',
     buttons: [
       {
-        type: "web_url",
-        url: "https://en.wikipedia.org/wiki/Rickrolling",
-        title: "View Website"
-      }
-    ]
-  }
+        type: 'web_url',
+        url: 'https://en.wikipedia.org/wiki/Rickrolling',
+        title: 'View Website',
+      },
+    ],
+  },
 ]);
 ```
 
@@ -1563,26 +1563,26 @@ client
   .createMessageCreative([
     {
       attachment: {
-        type: "template",
+        type: 'template',
         payload: {
-          template_type: "generic",
+          template_type: 'generic',
           elements: [
             {
-              title: "Welcome to Our Marketplace!",
-              image_url: "https://www.facebook.com/jaspers.png",
-              subtitle: "Fresh fruits and vegetables. Yum.",
+              title: 'Welcome to Our Marketplace!',
+              image_url: 'https://www.facebook.com/jaspers.png',
+              subtitle: 'Fresh fruits and vegetables. Yum.',
               buttons: [
                 {
-                  type: "web_url",
-                  url: "https://www.jaspersmarket.com",
-                  title: "View Website"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    }
+                  type: 'web_url',
+                  url: 'https://www.jaspersmarket.com',
+                  title: 'View Website',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
   ])
   .then(({ message_creative_id }) => {
     // ...
@@ -1604,7 +1604,7 @@ client.sendSponsoredMessage(message_creative_id, {
   message_creative_id: 938461089,
   daily_budget: 100,
   bid_amount: 400,
-  targeting: "{'geo_locations': {'countries':['US']}}"
+  targeting: "{'geo_locations': {'countries':['US']}}",
 });
 ```
 
@@ -1644,10 +1644,10 @@ We have more parameters are supported now:
 ```js
 client.setNLPConfigs({
   nlp_enabled: true,
-  model: "custom",
-  custom_token: "your_token",
+  model: 'custom',
+  custom_token: 'your_token',
   verbose: true,
-  n_best: 8
+  n_best: 8,
 });
 ```
 
@@ -1678,11 +1678,11 @@ client.logCustomEvents({
   userId: USER_ID,
   events: [
     {
-      _eventName: "fb_mobile_purchase",
+      _eventName: 'fb_mobile_purchase',
       _valueToSum: 55.22,
-      _fb_currency: "USD"
-    }
-  ]
+      _fb_currency: 'USD',
+    },
+  ],
 });
 ```
 
@@ -1885,7 +1885,7 @@ See more details in [Telegram October 11, 2017 changelog](https://core.telegram.
 - [new] Export version of Graph API:
 
 ```js
-const { MessengerClient } = require("messaging-api-messenger");
+const { MessengerClient } = require('messaging-api-messenger');
 
 const client = MessengerClient.connect(accessToken);
 
@@ -1911,7 +1911,7 @@ client.version; // "v2.10"
 Example:
 
 ```js
-const { Line, LineClient } = require("messaging-api-line");
+const { Line, LineClient } = require('messaging-api-line');
 ```
 
 # 0.3.5 / 2017-09-15
@@ -1939,15 +1939,15 @@ const { Line, LineClient } = require("messaging-api-line");
 For example:
 
 ```js
-const { LINE } = require("messaging-api-line");
+const { LINE } = require('messaging-api-line');
 
 client.reply(REPLY_TOKEN, [
-  LINE.createText("Hello"),
+  LINE.createText('Hello'),
   LINE.createImage(
-    "https://example.com/original.jpg",
-    "https://example.com/preview.jpg"
+    'https://example.com/original.jpg',
+    'https://example.com/preview.jpg'
   ),
-  LINE.createText("End")
+  LINE.createText('End'),
 ]);
 ```
 
@@ -1960,14 +1960,14 @@ client.reply(REPLY_TOKEN, [
 - [new] Support message batching via `sendBatch`:
 
 ```js
-const { Messenger } = require("messaging-api-messenger");
+const { Messenger } = require('messaging-api-messenger');
 
 client.sendBatch([
-  Messenger.createText(USER_ID, "1"),
-  Messenger.createText(USER_ID, "2"),
-  Messenger.createText(USER_ID, "3"),
-  Messenger.createText(USER_ID, "4"),
-  Messenger.createText(USER_ID, "5")
+  Messenger.createText(USER_ID, '1'),
+  Messenger.createText(USER_ID, '2'),
+  Messenger.createText(USER_ID, '3'),
+  Messenger.createText(USER_ID, '4'),
+  Messenger.createText(USER_ID, '5'),
 ]);
 ```
 
@@ -1992,10 +1992,10 @@ client.sendBatch([
 - [new] using `AttachmentPayload` to send cached attachment:
 
 ```js
-client.sendImage(USER_ID, { attachment_id: "55688" });
-client.sendAudio(USER_ID, { attachment_id: "55688" });
-client.sendVideo(USER_ID, { attachment_id: "55688" });
-client.sendFile(USER_ID, { attachment_id: "55688" });
+client.sendImage(USER_ID, { attachment_id: '55688' });
+client.sendAudio(USER_ID, { attachment_id: '55688' });
+client.sendVideo(USER_ID, { attachment_id: '55688' });
+client.sendFile(USER_ID, { attachment_id: '55688' });
 ```
 
 # 0.3.0 / 2017-08-29
@@ -2025,16 +2025,16 @@ turnTypingIndicatorsOff => typingOff
 Use `tag` option instead:
 
 ```js
-client.sendText(USER_ID, "Hello!", { tag: "ISSUE_RESOLUTION" });
+client.sendText(USER_ID, 'Hello!', { tag: 'ISSUE_RESOLUTION' });
 
 client.sendGenericTemplate(
   USER_ID,
   [
     {
       // ...
-    }
+    },
   ],
-  { tag: "ISSUE_RESOLUTION" }
+  { tag: 'ISSUE_RESOLUTION' }
 );
 ```
 
@@ -2087,10 +2087,10 @@ client.markSeen(USER_ID);
 ```js
 client.sendText(
   {
-    phone_number: "+1(212)555-2368",
-    name: { first_name: "John", last_name: "Doe" }
+    phone_number: '+1(212)555-2368',
+    name: { first_name: 'John', last_name: 'Doe' },
   },
-  "Hello World"
+  'Hello World'
 );
 ```
 
@@ -2098,7 +2098,7 @@ client.sendText(
 
 ```js
 client.sendImage(USER_ID, buffer);
-client.sendFile(USER_ID, fs.createReadStream("LookGreatToMe.pdf"));
+client.sendFile(USER_ID, fs.createReadStream('LookGreatToMe.pdf'));
 ```
 
 ### messaging-api-slack

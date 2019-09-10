@@ -8,7 +8,7 @@ import {
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
   Attachment,
-  AttachmentPayload,
+  MediaAttachmentPayload,
   BatchItem,
   FileData,
   MediaElement,
@@ -83,7 +83,7 @@ function sendAttachment(
 
 function sendAudio(
   recipient: UserID | Recipient,
-  audio: string | FileData | AttachmentPayload,
+  audio: string | FileData | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
   // FIXME: [type]
@@ -92,7 +92,7 @@ function sendAudio(
 
 function sendImage(
   recipient: UserID | Recipient,
-  image: string | FileData | AttachmentPayload,
+  image: string | FileData | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
   // FIXME: [type]
@@ -101,7 +101,7 @@ function sendImage(
 
 function sendVideo(
   recipient: UserID | Recipient,
-  video: string | FileData | AttachmentPayload,
+  video: string | FileData | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
   // FIXME: [type]
@@ -110,7 +110,7 @@ function sendVideo(
 
 function sendFile(
   recipient: UserID | Recipient,
-  file: string | FileData | AttachmentPayload,
+  file: string | FileData | MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
   // FIXME: [type]
@@ -119,7 +119,7 @@ function sendFile(
 
 function sendTemplate(
   recipient: UserID | Recipient,
-  payload: AttachmentPayload,
+  payload: MediaAttachmentPayload,
   options: SendOption
 ): BatchItem {
   return sendMessage(

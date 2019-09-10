@@ -20,7 +20,7 @@ import {
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
   Attachment,
-  AttachmentPayload,
+  MediaAttachmentPayload,
   AudienceType,
   BatchItem,
   FileData,
@@ -968,7 +968,7 @@ export default class MessengerClient {
 
   sendAudio(
     recipient: UserID | Recipient,
-    audio: string | FileData | AttachmentPayload,
+    audio: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createAudio(audio, options);
@@ -982,7 +982,7 @@ export default class MessengerClient {
 
   sendImage(
     recipient: UserID | Recipient,
-    image: string | FileData | AttachmentPayload,
+    image: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createImage(image, options);
@@ -996,7 +996,7 @@ export default class MessengerClient {
 
   sendVideo(
     recipient: UserID | Recipient,
-    video: string | FileData | AttachmentPayload,
+    video: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createVideo(video, options);
@@ -1010,7 +1010,7 @@ export default class MessengerClient {
 
   sendFile(
     recipient: UserID | Recipient,
-    file: string | FileData | AttachmentPayload,
+    file: string | FileData | MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
     const message = Messenger.createFile(file, options);
@@ -1029,7 +1029,7 @@ export default class MessengerClient {
    */
   sendTemplate(
     recipient: UserID | Recipient,
-    payload: AttachmentPayload,
+    payload: MediaAttachmentPayload,
     options?: SendOption
   ): Promise<SendMessageSuccessResponse> {
     return this.sendMessage(
@@ -1249,13 +1249,12 @@ export default class MessengerClient {
 
     const bodyEncodedbatch = batch.map(item => {
       if (item.body) {
+        const body = item.body;
         return {
           ...omit(item, 'responseAccessPath'),
-          // FIXME: [type] item.body should not possible as undefined.
-          body: Object.keys(item.body)
+          body: Object.keys(body)
             .map(key => {
-              // FIXME: [type] item.body should not possible as undefined.
-              const val = item.body[key];
+              const val = body[key];
               return `${encodeURIComponent(key)}=${encodeURIComponent(
                 typeof val === 'object' ? JSON.stringify(val) : val
               )}`;
@@ -1273,14 +1272,13 @@ export default class MessengerClient {
       })
       .then(
         res =>
-          // FIXME: [type]
-          res.data.map((datum, index) => {
-            if (responseAccessPaths[index] && datum.body) {
+          res.data.map((datum: { code: number; body: string }, index: number) => {
+            const responseAccessPath = responseAccessPaths[index];
+            if (responseAccessPath && datum.body) {
               return {
                 ...datum,
                 body: JSON.stringify(
-                  // FIXME: [type]
-                  get(JSON.parse(datum.body), responseAccessPaths[index])
+                  get(JSON.parse(datum.body), responseAccessPath)
                 ),
               };
             }
@@ -2090,7 +2088,7 @@ export default class MessengerClient {
   getPersonas(
     cursor?: string,
     { access_token: customAccessToken }: { access_token?: string } = {}
-  ): Promise<Record<string, any>> {
+  ): Promise<{ data: any; paging: any }> {
     return this._axios
       .get(
         `/me/personas?access_token=${customAccessToken || this._accessToken}${
