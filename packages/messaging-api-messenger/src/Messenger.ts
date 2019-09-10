@@ -10,7 +10,8 @@ import {
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
   Attachment,
-  AttachmentPayload,
+  MediaAttachmentPayload,
+  TemplateAttachmentPayload,
   FileData,
   MediaElement,
   Message,
@@ -73,11 +74,11 @@ function createText(
 }
 
 function createMessageFormData(
-  payload: AttachmentPayload,
+  payload: MediaAttachmentPayload,
   filedata: FileData,
   options: { quick_replies?: QuickReply[] } = {}
 ): FormData {
-  const message: AttachmentPayload & { quick_replies?: QuickReply[] } = {
+  const message: MediaAttachmentPayload & { quick_replies?: QuickReply[] } = {
     ...payload,
   };
 
@@ -122,95 +123,128 @@ function createAttachmentFormData(
 }
 
 function createAudio(
-  audio: string | FileData | AttachmentPayload,
+  audio: string | FileData | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
 ): Message | FormData {
+  if (typeof audio === 'string') {
+    const attachment: Attachment = {
+      type: 'audio',
+      payload: {
+        url: audio,
+      },
+    };
+    return createAttachment(attachment, options);
+  }
+
+  if (audio && isPlainObject(audio)) {
+    const attachment: Attachment = {
+      type: 'audio',
+      payload: audio as MediaAttachmentPayload,
+    };
+    return createAttachment(attachment, options);
+  }
+
   const attachment: Attachment = {
     type: 'audio',
     payload: {},
   };
 
-  if (typeof audio === 'string') {
-    attachment.payload.url = audio;
-    return createAttachment(attachment, options);
-  }
-
-  if (audio && isPlainObject(audio)) {
-    attachment.payload = audio as AttachmentPayload;
-    return createAttachment(attachment, options);
-  }
-
   return createAttachmentFormData(attachment, audio, options);
 }
 
 function createImage(
-  image: string | FileData | AttachmentPayload,
+  image: string | FileData | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
 ): Message | FormData {
+
+  if (typeof image === 'string') {
+    const attachment: Attachment = {
+      type: 'image',
+      payload: {
+        url: image,
+      },
+    };
+    return createAttachment(attachment, options);
+  }
+
+  if (image && isPlainObject(image)) {
+    const attachment: Attachment = {
+      type: 'image',
+      payload: image as MediaAttachmentPayload,
+    };
+    return createAttachment(attachment, options);
+  }
+
   const attachment: Attachment = {
     type: 'image',
     payload: {},
   };
 
-  if (typeof image === 'string') {
-    attachment.payload.url = image;
-    return createAttachment(attachment, options);
-  }
-
-  if (image && isPlainObject(image)) {
-    attachment.payload = image as AttachmentPayload;
-    return createAttachment(attachment, options);
-  }
-
   return createAttachmentFormData(attachment, image, options);
 }
 
 function createVideo(
-  video: string | FileData | AttachmentPayload,
+  video: string | FileData | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
 ): Message | FormData {
+  if (typeof video === 'string') {
+    const attachment: Attachment = {
+      type: 'video',
+      payload: {
+        url: video,
+      },
+    };
+    return createAttachment(attachment, options);
+  }
+
+  if (video && isPlainObject(video)) {
+    const attachment: Attachment = {
+      type: 'video',
+      payload: video as MediaAttachmentPayload
+    };
+    return createAttachment(attachment, options);
+  }
+
   const attachment: Attachment = {
     type: 'video',
     payload: {},
   };
 
-  if (typeof video === 'string') {
-    attachment.payload.url = video;
-    return createAttachment(attachment, options);
-  }
-
-  if (video && isPlainObject(video)) {
-    attachment.payload = video as AttachmentPayload;
-    return createAttachment(attachment, options);
-  }
-
   return createAttachmentFormData(attachment, video, options);
 }
 
 function createFile(
-  file: string | FileData | AttachmentPayload,
+  file: string | FileData | MediaAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
 ): Message | FormData {
+  if (typeof file === 'string') {
+    const attachment: Attachment = {
+      type: 'file',
+      payload: {
+        url: file,
+      },
+    };
+    return createAttachment(attachment, options);
+  }
+
+  if (file && isPlainObject(file)) {
+    const attachment: Attachment = {
+      type: 'file',
+      payload: file as MediaAttachmentPayload,
+    };
+    return createAttachment(attachment, options);
+  }
+
   const attachment: Attachment = {
     type: 'file',
     payload: {},
   };
 
-  if (typeof file === 'string') {
-    attachment.payload.url = file;
-    return createAttachment(attachment, options);
-  }
-
-  if (file && isPlainObject(file)) {
-    attachment.payload = file as AttachmentPayload;
-    return createAttachment(attachment, options);
-  }
-
   return createAttachmentFormData(attachment, file, options);
 }
 
 function createTemplate(
-  payload: AttachmentPayload,
+  payload: TemplateAttachmentPayload,
   options: { quick_replies?: Array<QuickReply> } = {}
 ): Message {
   return createAttachment(

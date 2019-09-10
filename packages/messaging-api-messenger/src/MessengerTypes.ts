@@ -13,30 +13,63 @@ export type RecipientWithPhoneNumber = {
 
 export type Recipient = RecipientWithID | RecipientWithPhoneNumber;
 
-export type AttachmentPayload = {
-  url?: string;
+export type UrlMediaAttachmentPayload = {
+  url: string;
   is_reusable?: boolean;
-  attachment_id?: string;
 };
 
-export type Attachment = {
-  type: string;
-  // FIXME: payload can be form data?
-  payload: AttachmentPayload;
+export type AttachmentIdAttachmentPayload = {
+  attachment_id: string;
 };
 
-export type QuickReply = {
-  content_type: 'text' | 'location';
-  title?: string;
-  payload?: string;
+export type MediaAttachmentPayload = UrlMediaAttachmentPayload | AttachmentIdAttachmentPayload;
+
+// FIXME: payload can be form data?
+export type MediaAttachment = {
+  type: 'audio' | 'video' | 'image' | 'file';
+  payload: MediaAttachmentPayload;
+};
+
+export type TemplateAttachmentPayload = {
+  template_type: 'button' | 'generic' | 'list' | 'open_graph' | 'media' | 'receipt' | 'airline_boardingpass' | 'airline_checkin' | 'airline_itinerary' | 'airline_update';
+  [key: string]: any; // FIXME: list all of templates
+};
+
+export type TemplateAttachment = {
+  type: 'template';
+  payload: TemplateAttachmentPayload;
+};
+
+export type Attachment = MediaAttachment | TemplateAttachment;
+
+export type TextQuickReply = {
+  content_type: 'text';
+  title: string;
+  payload: string;
   image_url?: string;
 };
 
-export type Message = {
-  text?: string;
-  attachment?: Attachment;
-  quick_replies?: Array<QuickReply>;
+export type UserPhoneNumberQuickReply = {
+  content_type: 'user_phone_number';
 };
+
+export type UserEmailQuickReply = {
+  content_type: 'user_email';
+};
+
+export type QuickReply = TextQuickReply | UserPhoneNumberQuickReply | UserEmailQuickReply;
+
+export type TextMessage = {
+  text?: string;
+  quick_replies?: QuickReply[];
+};
+
+export type AttachmentMessage = {
+  attachment?: Attachment;
+  quick_replies?: QuickReply[];
+}
+
+export type Message = TextMessage | AttachmentMessage;
 
 export type MessagingType =
   | 'RESPONSE'
