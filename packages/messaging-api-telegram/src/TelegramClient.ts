@@ -6,7 +6,7 @@ import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
-import { ChatAction } from './TelegramTypes';
+import { ChatAction, User, File } from './TelegramTypes';
 
 type ClientConfig = {
   accessToken: string;
@@ -78,9 +78,9 @@ export default class TelegramClient {
     return this._token;
   }
 
-  async _request(...args) {
+  async _request(path: string, body?: Record<string, any>) {
     try {
-      const response = await this._axios.post(...args);
+      const response = await this._axios.post(path, body);
 
       const { data, config, request } = response;
 
@@ -139,7 +139,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#getme
    */
-  getMe() {
+  getMe(): Promise<User> {
     return this._request('/getMe');
   }
 
@@ -156,7 +156,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#getfile
    */
-  getFile(fileId: string): Record<string, any> {
+  getFile(fileId: string): Promise<File> {
     return this._request('/getFile', {
       file_id: fileId,
     });
@@ -165,7 +165,7 @@ export default class TelegramClient {
   /**
    * Get link for file. This is extension method of getFile()
    */
-  getFileLink(fileId: string) {
+  getFileLink(fileId: string): Promise<string> {
     return this.getFile(fileId).then(
       result =>
         `https://api.telegram.org/file/bot${this._token}/${result.file_path}`
