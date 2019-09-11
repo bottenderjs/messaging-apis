@@ -6,7 +6,18 @@ import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
-import { ChatAction, File, User } from './TelegramTypes';
+import {
+  Chat,
+  ChatAction,
+  ChatMember,
+  File,
+  GameHighScore,
+  Message,
+  User,
+  UserProfilePhotos,
+  WebhookInfo,
+  Update,
+} from './TelegramTypes';
 
 type ClientConfig = {
   accessToken: string;
@@ -107,7 +118,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#getupdates
    */
-  getUpdates(options?: Record<string, any>) {
+  getUpdates(options?: Record<string, any>): Promise<Update[]> {
     return this._request('/getUpdates', {
       ...options,
     });
@@ -116,14 +127,14 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#getwebhookinfo
    */
-  getWebhookInfo() {
+  getWebhookInfo(): Promise<WebhookInfo> {
     return this._request('/getWebhookInfo');
   }
 
   /**
    * https://core.telegram.org/bots/api#setwebhook
    */
-  setWebhook(url: string) {
+  setWebhook(url: string): Promise<boolean> {
     return this._request('/setWebhook', {
       url,
     });
@@ -132,7 +143,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#deletewebhook
    */
-  deleteWebhook() {
+  deleteWebhook(): Promise<boolean> {
     return this._request('/deleteWebhook');
   }
 
@@ -144,9 +155,254 @@ export default class TelegramClient {
   }
 
   /**
+   * https://core.telegram.org/bots/api#sendmessage
+   */
+  sendMessage(
+    chatId: string,
+    text: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendMessage', {
+      chat_id: chatId,
+      text,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  forwardMessage(
+    chatId: string,
+    fromChatId: string,
+    messageId: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/forwardMessage', {
+      chat_id: chatId,
+      from_chat_id: fromChatId,
+      message_id: messageId,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendphoto
+   */
+  sendPhoto(
+    chatId: string,
+    photo: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendPhoto', {
+      chat_id: chatId,
+      photo,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendaudio
+   */
+  sendAudio(
+    chatId: string,
+    audio: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendAudio', {
+      chat_id: chatId,
+      audio,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#senddocument
+   */
+  sendDocument(
+    chatId: string,
+    document: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendDocument', {
+      chat_id: chatId,
+      document,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendvideo
+   */
+  sendVideo(
+    chatId: string,
+    video: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendVideo', {
+      chat_id: chatId,
+      video,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendanimation
+   */
+  // TODO: implement sendAnimation
+
+  /**
+   * https://core.telegram.org/bots/api#sendvoice
+   */
+  sendVoice(
+    chatId: string,
+    voice: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendVoice', {
+      chat_id: chatId,
+      voice,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendvideonote
+   */
+  sendVideoNote(
+    chatId: string,
+    videoNote: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendVideoNote', {
+      chat_id: chatId,
+      video_note: videoNote,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendmediagroup
+   */
+  sendMediaGroup(
+    chatId: string,
+    media: Record<string, any>[],
+    options?: Record<string, any>
+  ): Promise<Message[]> {
+    return this._request('/sendMediaGroup', {
+      chat_id: chatId,
+      media,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendlocation
+   */
+  sendLocation(
+    chatId: string,
+    { latitude, longitude }: { latitude: number; longitude: number },
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendLocation', {
+      chat_id: chatId,
+      latitude,
+      longitude,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#editmessagelivelocation
+   */
+  editMessageLiveLocation(
+    { latitude, longitude }: { latitude: number; longitude: number },
+    options?: Record<string, any>
+  ): Promise<Message | boolean> {
+    return this._request('/editMessageLiveLocation', {
+      latitude,
+      longitude,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#stopmessagelivelocation
+   */
+  stopMessageLiveLocation(
+    identifier: Record<string, any>
+  ): Promise<Message | boolean> {
+    return this._request('/stopMessageLiveLocation', {
+      ...identifier,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendvenue
+   */
+  sendVenue(
+    chatId: string,
+    {
+      latitude,
+      longitude,
+      title,
+      address,
+    }: {
+      latitude: number;
+      longitude: number;
+      title: string;
+      address: string;
+    },
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendVenue', {
+      chat_id: chatId,
+      latitude,
+      longitude,
+      title,
+      address,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendcontact
+   */
+  sendContact(
+    chatId: string,
+    { phone_number, first_name }: { phone_number: string; first_name: string },
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendContact', {
+      chat_id: chatId,
+      phone_number,
+      first_name,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendpoll
+   */
+  // TODO: implement sendPoll
+
+  /**
+   * https://core.telegram.org/bots/api#sendchataction
+   */
+  sendChatAction(chatId: string, action: ChatAction): Promise<boolean> {
+    return this._request('/sendChatAction', {
+      chat_id: chatId,
+      action,
+    });
+  }
+
+  /**
    * https://core.telegram.org/bots/api#getuserprofilephotos
    */
-  getUserProfilePhotos(userId: string, options?: Record<string, any>) {
+  getUserProfilePhotos(
+    userId: string,
+    options?: Record<string, any>
+  ): Promise<UserProfilePhotos> {
     return this._request('/getUserProfilePhotos', {
       user_id: userId,
       ...options,
@@ -173,298 +429,13 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchat
-   */
-  getChat(chatId: string) {
-    return this._request('/getChat', {
-      chat_id: chatId,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
-   */
-  getChatAdministrators(chatId: string) {
-    return this._request('/getChatAdministrators', {
-      chat_id: chatId,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
-   */
-  getChatMembersCount(chatId: string) {
-    return this._request('/getChatMembersCount', {
-      chat_id: chatId,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
-   */
-  getChatMember(chatId: string, userId: string) {
-    return this._request('/getChatMember', {
-      chat_id: chatId,
-      user_id: userId,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendmessage
-   */
-  sendMessage(chatId: string, text: string, options?: Record<string, any>) {
-    return this._request('/sendMessage', {
-      chat_id: chatId,
-      text,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendphoto
-   */
-  sendPhoto(chatId: string, photo: string, options?: Record<string, any>) {
-    return this._request('/sendPhoto', {
-      chat_id: chatId,
-      photo,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendaudio
-   */
-  sendAudio(chatId: string, audio: string, options?: Record<string, any>) {
-    return this._request('/sendAudio', {
-      chat_id: chatId,
-      audio,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#senddocument
-   */
-  sendDocument(
-    chatId: string,
-    document: string,
-    options?: Record<string, any>
-  ) {
-    return this._request('/sendDocument', {
-      chat_id: chatId,
-      document,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendsticker
-   */
-  sendSticker(chatId: string, sticker: string, options?: Record<string, any>) {
-    return this._request('/sendSticker', {
-      chat_id: chatId,
-      sticker,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendvideo
-   */
-  sendVideo(chatId: string, video: string, options?: Record<string, any>) {
-    return this._request('/sendVideo', {
-      chat_id: chatId,
-      video,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendvoice
-   */
-  sendVoice(chatId: string, voice: string, options?: Record<string, any>) {
-    return this._request('/sendVoice', {
-      chat_id: chatId,
-      voice,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendvideonote
-   */
-  sendVideoNote(
-    chatId: string,
-    videoNote: string,
-    options?: Record<string, any>
-  ) {
-    return this._request('/sendVideoNote', {
-      chat_id: chatId,
-      video_note: videoNote,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendmediagroup
-   */
-  sendMediaGroup(
-    chatId: string,
-    media: Record<string, any>[],
-    options?: Record<string, any>
-  ) {
-    return this._request('/sendMediaGroup', {
-      chat_id: chatId,
-      media,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendlocation
-   */
-  sendLocation(
-    chatId: string,
-    { latitude, longitude }: { latitude: number; longitude: number },
-    options?: Record<string, any>
-  ) {
-    return this._request('/sendLocation', {
-      chat_id: chatId,
-      latitude,
-      longitude,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#editmessagelivelocation
-   */
-  editMessageLiveLocation(
-    { latitude, longitude }: { latitude: number; longitude: number },
-    options?: Record<string, any>
-  ) {
-    return this._request('/editMessageLiveLocation', {
-      latitude,
-      longitude,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#stopmessagelivelocation
-   */
-  stopMessageLiveLocation(identifier: Record<string, any>) {
-    return this._request('/stopMessageLiveLocation', {
-      ...identifier,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendvenue
-   */
-  sendVenue(
-    chatId: string,
-    {
-      latitude,
-      longitude,
-      title,
-      address,
-    }: {
-      latitude: number;
-      longitude: number;
-      title: string;
-      address: string;
-    },
-    options?: Record<string, any>
-  ) {
-    return this._request('/sendVenue', {
-      chat_id: chatId,
-      latitude,
-      longitude,
-      title,
-      address,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendcontact
-   */
-  sendContact(
-    chatId: string,
-    { phone_number, first_name }: { phone_number: string; first_name: string },
-
-    options?: Record<string, any>
-  ) {
-    return this._request('/sendContact', {
-      chat_id: chatId,
-      phone_number,
-      first_name,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#sendchataction
-   */
-  sendChatAction(chatId: string, action: ChatAction) {
-    return this._request('/sendChatAction', {
-      chat_id: chatId,
-      action,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#editmessagetext
-   */
-  editMessageText(text: string, options?: Record<string, any>) {
-    return this._request('/editMessageText', {
-      text,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#editmessagecaption
-   */
-  editMessageCaption(caption: string, options?: Record<string, any>) {
-    return this._request('/editMessageCaption', {
-      caption,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#editmessagereplymarkup
-   */
-  editMessageReplyMarkup(
-    replyMarkup: Record<string, any>,
-    options?: Record<string, any>
-  ) {
-    return this._request('/editMessageReplyMarkup', {
-      reply_markup: replyMarkup,
-      ...options,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#deletemessage
-   */
-  deleteMessage(chatId: string, messageId: string) {
-    return this._request('/deleteMessage', {
-      chat_id: chatId,
-      message_id: messageId,
-    });
-  }
-
-  /**
    * https://core.telegram.org/bots/api#kickchatmember
    */
   kickChatMember(
     chatId: string,
     userId: string,
     options?: Record<string, any>
-  ) {
+  ): Promise<boolean> {
     return this._request('/kickChatMember', {
       chat_id: chatId,
       user_id: userId,
@@ -475,7 +446,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#unbanChatMember
    */
-  unbanChatMember(chatId: string, userId: string) {
+  unbanChatMember(chatId: string, userId: string): Promise<boolean> {
     return this._request('/unbanChatMember', {
       chat_id: chatId,
       user_id: userId,
@@ -489,7 +460,7 @@ export default class TelegramClient {
     chatId: string,
     userId: string,
     options?: Record<string, any>
-  ) {
+  ): Promise<boolean> {
     return this._request('/restrictChatMember', {
       chat_id: chatId,
       user_id: userId,
@@ -504,7 +475,7 @@ export default class TelegramClient {
     chatId: string,
     userId: string,
     options?: Record<string, any>
-  ) {
+  ): Promise<boolean> {
     return this._request('/promoteChatMember', {
       chat_id: chatId,
       user_id: userId,
@@ -513,9 +484,14 @@ export default class TelegramClient {
   }
 
   /**
+   * https://core.telegram.org/bots/api#setchatpermissions
+   */
+  // TODO: implement setChatPermissions
+
+  /**
    * https://core.telegram.org/bots/api#exportChatInviteLink
    */
-  exportChatInviteLink(chatId: string) {
+  exportChatInviteLink(chatId: string): Promise<string> {
     return this._request('/exportChatInviteLink', {
       chat_id: chatId,
     });
@@ -524,7 +500,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#setChatPhoto
    */
-  setChatPhoto(chatId: string, photo: string) {
+  setChatPhoto(chatId: string, photo: string): Promise<boolean> {
     return this._request('/setChatPhoto', {
       chat_id: chatId,
       photo,
@@ -534,7 +510,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#deleteChatPhoto
    */
-  deleteChatPhoto(chatId: string) {
+  deleteChatPhoto(chatId: string): Promise<boolean> {
     return this._request('/deleteChatPhoto', {
       chat_id: chatId,
     });
@@ -543,7 +519,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#setChatTitle
    */
-  setChatTitle(chatId: string, title: string) {
+  setChatTitle(chatId: string, title: string): Promise<boolean> {
     return this._request('/setChatTitle', {
       chat_id: chatId,
       title,
@@ -553,29 +529,10 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#setChatDescription
    */
-  setChatDescription(chatId: string, description: string) {
+  setChatDescription(chatId: string, description: string): Promise<boolean> {
     return this._request('/setChatDescription', {
       chat_id: chatId,
       description,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#setchatstickerset
-   */
-  setChatStickerSet(chatId: string, stickerSetName: string) {
-    return this._request('/setChatStickerSet', {
-      chat_id: chatId,
-      sticker_set_name: stickerSetName,
-    });
-  }
-
-  /**
-   * https://core.telegram.org/bots/api#deletechatstickerset
-   */
-  deleteChatStickerSet(chatId: string) {
-    return this._request('/deleteChatStickerSet', {
-      chat_id: chatId,
     });
   }
 
@@ -586,7 +543,7 @@ export default class TelegramClient {
     chatId: string,
     messageId: number,
     options?: Record<string, any>
-  ) {
+  ): Promise<boolean> {
     return this._request('/pinChatMessage', {
       chat_id: chatId,
       messsage_id: messageId,
@@ -597,7 +554,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#unpinChatMessage
    */
-  unpinChatMessage(chatId: string) {
+  unpinChatMessage(chatId: string): Promise<boolean> {
     return this._request('/unpinChatMessage', {
       chat_id: chatId,
     });
@@ -606,8 +563,17 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#leaveChat
    */
-  leaveChat(chatId: string) {
+  leaveChat(chatId: string): Promise<boolean> {
     return this._request('/leaveChat', {
+      chat_id: chatId,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#getchat
+   */
+  getChat(chatId: string): Promise<Chat> {
+    return this._request('/getChat', {
       chat_id: chatId,
     });
   }
@@ -615,16 +581,170 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#getchatmemberscount
    */
-  forwardMessage(
-    chatId: string,
-    fromChatId: string,
-    messageId: string,
-    options?: Record<string, any>
-  ) {
-    return this._request('/forwardMessage', {
+  getChatAdministrators(chatId: string): Promise<ChatMember[]> {
+    return this._request('/getChatAdministrators', {
       chat_id: chatId,
-      from_chat_id: fromChatId,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatMembersCount(chatId: string): Promise<number> {
+    return this._request('/getChatMembersCount', {
+      chat_id: chatId,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#getchatmemberscount
+   */
+  getChatMember(chatId: string, userId: string): Promise<ChatMember> {
+    return this._request('/getChatMember', {
+      chat_id: chatId,
+      user_id: userId,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#setchatstickerset
+   */
+  setChatStickerSet(chatId: string, stickerSetName: string): Promise<boolean> {
+    return this._request('/setChatStickerSet', {
+      chat_id: chatId,
+      sticker_set_name: stickerSetName,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#deletechatstickerset
+   */
+  deleteChatStickerSet(chatId: string): Promise<boolean> {
+    return this._request('/deleteChatStickerSet', {
+      chat_id: chatId,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#answercallbackquery
+   */
+  // TODO: implement answerCallbackQuery
+
+  /**
+   * https://core.telegram.org/bots/api#editmessagetext
+   */
+  editMessageText(
+    text: string,
+    options?: Record<string, any>
+  ): Promise<Message | boolean> {
+    return this._request('/editMessageText', {
+      text,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#editmessagecaption
+   */
+  editMessageCaption(
+    caption: string,
+    options?: Record<string, any>
+  ): Promise<Message | boolean> {
+    return this._request('/editMessageCaption', {
+      caption,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#editmessagemedia
+   */
+  // TODO: implement editMessageMedia
+
+  /**
+   * https://core.telegram.org/bots/api#editmessagereplymarkup
+   */
+  editMessageReplyMarkup(
+    replyMarkup: Record<string, any>,
+    options?: Record<string, any>
+  ): Promise<Message | boolean> {
+    return this._request('/editMessageReplyMarkup', {
+      reply_markup: replyMarkup,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#stoppoll
+   */
+  // TODO: implement stopPoll
+
+  /**
+   * https://core.telegram.org/bots/api#deletemessage
+   */
+  deleteMessage(chatId: string, messageId: string): Promise<boolean> {
+    return this._request('/deleteMessage', {
+      chat_id: chatId,
       message_id: messageId,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#sendsticker
+   */
+  sendSticker(
+    chatId: string,
+    sticker: string,
+    options?: Record<string, any>
+  ): Promise<Message> {
+    return this._request('/sendSticker', {
+      chat_id: chatId,
+      sticker,
+      ...options,
+    });
+  }
+
+  /**
+   * https://core.telegram.org/bots/api#getstickerset
+   */
+  // TODO: implement getStickerSet
+
+  /**
+   * https://core.telegram.org/bots/api#uploadstickerfile
+   */
+  // TODO: implement uploadStickerFile
+
+  /**
+   * https://core.telegram.org/bots/api#createnewstickerset
+   */
+  // TODO: implement createNewStickerSet
+
+  /**
+   * https://core.telegram.org/bots/api#addstickertoset
+   */
+  // TODO: implement addStickerToSet
+
+  /**
+   * https://core.telegram.org/bots/api#setstickerpositioninset
+   */
+  // TODO: implement setStickerPositionInSet
+
+  /**
+   * https://core.telegram.org/bots/api#deletestickerfromset
+   */
+  // TODO: implement deleteStickerFromSet
+
+  /**
+   * https://core.telegram.org/bots/api#answerinlinequery
+   */
+  answerInlineQuery(
+    inlineQueryId: string,
+    results: Record<string, any>[],
+    options?: Record<string, any>
+  ): Promise<boolean> {
+    return this._request('/answerInlineQuery', {
+      inline_query_id: inlineQueryId,
+      results,
       ...options,
     });
   }
@@ -644,7 +764,7 @@ export default class TelegramClient {
       prices: Record<string, any>[];
     },
     options?: Record<string, any>
-  ) {
+  ): Promise<Message> {
     return this._request('/sendInvoice', {
       chat_id: chatId,
       ...product,
@@ -659,7 +779,7 @@ export default class TelegramClient {
     shippingQueryId: string,
     ok: boolean,
     options?: Record<string, any>
-  ) {
+  ): Promise<boolean> {
     return this._request('/answerShippingQuery', {
       shipping_query_id: shippingQueryId,
       ok,
@@ -674,7 +794,7 @@ export default class TelegramClient {
     preCheckoutQueryId: string,
     ok: boolean,
     options?: Record<string, any>
-  ) {
+  ): Promise<boolean> {
     return this._request('/answerPreCheckoutQuery', {
       pre_checkout_query_id: preCheckoutQueryId,
       ok,
@@ -683,19 +803,9 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#answerinlinequery
+   * https://core.telegram.org/bots/api#setpassportdataerrors
    */
-  answerInlineQuery(
-    inlineQueryId: string,
-    results: Record<string, any>[],
-    options?: Record<string, any>
-  ) {
-    return this._request('/answerInlineQuery', {
-      inline_query_id: inlineQueryId,
-      results,
-      ...options,
-    });
-  }
+  // TODO: implement setPassportDataErrors
 
   /**
    * https://core.telegram.org/bots/api#sendgame
@@ -704,7 +814,7 @@ export default class TelegramClient {
     chatId: string,
     gameShortName: string,
     options?: Record<string, any>
-  ) {
+  ): Promise<Message> {
     return this._request('/sendGame', {
       chat_id: chatId,
       game_short_name: gameShortName,
@@ -715,7 +825,11 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#setgamescore
    */
-  setGameScore(userId: string, score: number, options?: Record<string, any>) {
+  setGameScore(
+    userId: string,
+    score: number,
+    options?: Record<string, any>
+  ): Promise<Message | boolean> {
     return this._request('/setGameScore', {
       user_id: userId,
       score,
@@ -726,7 +840,10 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#getgamehighscores
    */
-  getGameHighScores(userId: string, options?: Record<string, any>) {
+  getGameHighScores(
+    userId: string,
+    options?: Record<string, any>
+  ): Promise<GameHighScore[]> {
     return this._request('/getGameHighScores', {
       user_id: userId,
       ...options,

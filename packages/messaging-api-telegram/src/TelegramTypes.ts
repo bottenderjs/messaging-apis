@@ -1,3 +1,27 @@
+export type Update = {
+  update_id: string;
+  message?: Message;
+  edited_message?: Message;
+  channel_post?: Message;
+  edited_channel_post?: Message;
+  inline_query?: InlineQuery;
+  chosen_inline_result?: ChosenInlineResult;
+  callback_query?: CallbackQuery;
+  shipping_query?: ShippingQuery;
+  pre_checkout_query?: PreCheckoutQuery;
+  poll?: Poll;
+};
+
+export type WebhookInfo = {
+  url: string;
+  has_custom_certificate: boolean;
+  pending_update_count: number;
+  last_error_date?: number;
+  last_error_message?: string;
+  max_connections?: number;
+  allowed_updates?: string[];
+};
+
 export type User = {
   chat_id: number | string;
   text: string;
