@@ -13,10 +13,10 @@ import {
   File,
   GameHighScore,
   Message,
+  Update,
   User,
   UserProfilePhotos,
   WebhookInfo,
-  Update,
 } from './TelegramTypes';
 
 type ClientConfig = {

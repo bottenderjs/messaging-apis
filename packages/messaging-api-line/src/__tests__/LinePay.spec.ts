@@ -335,7 +335,7 @@ describe('#reserve', () => {
           'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
         cancelUrl:
           'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2ForderSheet.nhn%3ForderId%3D20140101123456789',
-        capture: 'true',
+        capture: true,
         confirmUrlType: 'CLIENT',
         extras: {
           addFriends: [
@@ -411,7 +411,7 @@ describe('#reserve', () => {
           'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
         cancelUrl:
           'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2ForderSheet.nhn%3ForderId%3D20140101123456789',
-        capture: 'true',
+        capture: true,
         confirmUrlType: 'CLIENT',
         extras: {
           addFriends: [

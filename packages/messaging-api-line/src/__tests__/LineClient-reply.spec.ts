@@ -7,7 +7,17 @@ const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = ({ customAccessToken } = {}) => {
+const createMock = ({
+  customAccessToken,
+}: { customAccessToken?: string } = {}): {
+  client: LineClient;
+  mock: MockAdapter;
+  headers: {
+    Accept: string;
+    'Content-Type': string;
+    Authorization: string;
+  };
+} => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
   const headers = {
@@ -222,11 +232,10 @@ describe('Reply Message', () => {
         return [200, reply];
       });
 
-      const res = await client.replyImage(
-        REPLY_TOKEN,
-        'https://example.com/original.jpg',
-        'https://example.com/preview.jpg'
-      );
+      const res = await client.replyImage(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.jpg',
+        previewImageUrl: 'https://example.com/preview.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -254,10 +263,9 @@ describe('Reply Message', () => {
         return [200, reply];
       });
 
-      const res = await client.replyImage(
-        REPLY_TOKEN,
-        'https://example.com/original.jpg'
-      );
+      const res = await client.replyImage(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -355,11 +363,10 @@ describe('Reply Message', () => {
         return [200, reply];
       });
 
-      const res = await client.replyVideo(
-        REPLY_TOKEN,
-        'https://example.com/original.mp4',
-        'https://example.com/preview.jpg'
-      );
+      const res = await client.replyVideo(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.mp4',
+        previewImageUrl: 'https://example.com/preview.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -457,11 +464,10 @@ describe('Reply Message', () => {
         return [200, reply];
       });
 
-      const res = await client.replyAudio(
-        REPLY_TOKEN,
-        'https://example.com/original.m4a',
-        240000
-      );
+      const res = await client.replyAudio(REPLY_TOKEN, {
+        originalContentUrl: 'https://example.com/original.m4a',
+        duration: 240000,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -637,7 +643,10 @@ describe('Reply Message', () => {
         return [200, reply];
       });
 
-      const res = await client.replySticker(REPLY_TOKEN, '1', '1');
+      const res = await client.replySticker(REPLY_TOKEN, {
+        packageId: '1',
+        stickerId: '1',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -766,8 +775,10 @@ describe('Reply Message', () => {
         'this is an imagemap',
         {
           baseUrl: 'https://example.com/bot/images/rm001',
-          baseHeight: 1040,
-          baseWidth: 1040,
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
           actions: [
             {
               type: 'uri',
@@ -852,8 +863,10 @@ describe('Reply Message', () => {
         'this is an imagemap',
         {
           baseUrl: 'https://example.com/bot/images/rm001',
-          baseHeight: 1040,
-          baseWidth: 1040,
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
           actions: [
             {
               type: 'uri',

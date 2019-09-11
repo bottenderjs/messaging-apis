@@ -249,11 +249,10 @@ describe('Multicast', () => {
         return [200, reply];
       });
 
-      const res = await client.multicastImage(
-        [RECIPIENT_ID],
-        'https://example.com/original.jpg',
-        'https://example.com/preview.jpg'
-      );
+      const res = await client.multicastImage([RECIPIENT_ID], {
+        originalContentUrl: 'https://example.com/original.jpg',
+        previewImageUrl: 'https://example.com/preview.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -283,10 +282,9 @@ describe('Multicast', () => {
         return [200, reply];
       });
 
-      const res = await client.multicastImage(
-        [RECIPIENT_ID],
-        'https://example.com/original.jpg'
-      );
+      const res = await client.multicastImage([RECIPIENT_ID], {
+        originalContentUrl: 'https://example.com/original.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -390,11 +388,10 @@ describe('Multicast', () => {
         return [200, reply];
       });
 
-      const res = await client.multicastVideo(
-        [RECIPIENT_ID],
-        'https://example.com/original.mp4',
-        'https://example.com/preview.jpg'
-      );
+      const res = await client.multicastVideo([RECIPIENT_ID], {
+        originalContentUrl: 'https://example.com/original.mp4',
+        previewImageUrl: 'https://example.com/preview.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -498,11 +495,10 @@ describe('Multicast', () => {
         return [200, reply];
       });
 
-      const res = await client.multicastAudio(
-        [RECIPIENT_ID],
-        'https://example.com/original.m4a',
-        240000
-      );
+      const res = await client.multicastAudio([RECIPIENT_ID], {
+        originalContentUrl: 'https://example.com/original.m4a',
+        duration: 240000,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -690,7 +686,10 @@ describe('Multicast', () => {
         return [200, reply];
       });
 
-      const res = await client.multicastSticker([RECIPIENT_ID], '1', '1');
+      const res = await client.multicastSticker([RECIPIENT_ID], {
+        packageId: '1',
+        stickerId: '1',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -825,8 +824,10 @@ describe('Multicast', () => {
         'this is an imagemap',
         {
           baseUrl: 'https://example.com/bot/images/rm001',
-          baseHeight: 1040,
-          baseWidth: 1040,
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
           actions: [
             {
               type: 'uri',
@@ -913,8 +914,10 @@ describe('Multicast', () => {
         'this is an imagemap',
         {
           baseUrl: 'https://example.com/bot/images/rm001',
-          baseHeight: 1040,
-          baseWidth: 1040,
+          baseSize: {
+            height: 1040,
+            width: 1040,
+          },
           actions: [
             {
               type: 'uri',
