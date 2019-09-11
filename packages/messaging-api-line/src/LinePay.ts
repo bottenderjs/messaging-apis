@@ -7,7 +7,7 @@ import invariant from 'invariant';
 type LinePayConfig = {
   channelId: string;
   channelSecret: string;
-  sandbox: boolean;
+  sandbox?: boolean;
   origin?: string;
 };
 

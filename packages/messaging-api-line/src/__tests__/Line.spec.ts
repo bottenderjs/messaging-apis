@@ -8,16 +8,16 @@ const quickReplyOptions = {
   quickReply: {
     items: [
       {
-        type: 'action',
+        type: 'action' as 'action',
         action: {
-          type: 'cameraRoll',
+          type: 'cameraRoll' as 'cameraRoll',
           label: 'Send photo',
         },
       },
       {
-        type: 'action',
+        type: 'action' as 'action',
         action: {
-          type: 'camera',
+          type: 'camera' as 'camera',
           label: 'Open camera',
         },
       },
@@ -37,25 +37,6 @@ describe('#createText', () => {
 });
 
 describe('#createImage', () => {
-  it('should return image message object', () => {
-    expect(Line.createImage('http://example.com/img1.jpg')).toEqual({
-      type: 'image',
-      originalContentUrl: 'http://example.com/img1.jpg',
-      previewImageUrl: 'http://example.com/img1.jpg',
-    });
-
-    expect(
-      Line.createImage(
-        'http://example.com/img1.jpg',
-        'http://example.com/img2.jpg'
-      )
-    ).toEqual({
-      type: 'image',
-      originalContentUrl: 'http://example.com/img1.jpg',
-      previewImageUrl: 'http://example.com/img2.jpg',
-    });
-  });
-
   it('should work with object', () => {
     expect(
       Line.createImage({
@@ -109,32 +90,19 @@ describe('#createImage', () => {
   });
 
   it('call invariant if wrong argument type #1', () => {
-    Line.createImage('http://example.com/img1.jpg', {});
+    Line.createImage('http://example.com/img1.jpg' as any, {});
 
     expect(invariant).toBeCalled();
   });
 
   it('call invariant if wrong argument type #2', () => {
-    Line.createImage(123);
+    Line.createImage(123 as any);
 
     expect(invariant).toBeCalled();
   });
 });
 
 describe('#createVideo', () => {
-  it('should return video message object', () => {
-    expect(
-      Line.createVideo(
-        'http://example.com/video.mp4',
-        'http://example.com/img.jpg'
-      )
-    ).toEqual({
-      type: 'video',
-      originalContentUrl: 'http://example.com/video.mp4',
-      previewImageUrl: 'http://example.com/img.jpg',
-    });
-  });
-
   it('should work with object', () => {
     expect(
       Line.createVideo({
@@ -164,21 +132,13 @@ describe('#createVideo', () => {
   });
 
   it('call invariant if wrong argument type', () => {
-    Line.createVideo('http://example.com/video.mp4', {});
+    Line.createVideo('http://example.com/video.mp4' as any, {});
 
     expect(invariant).toBeCalled();
   });
 });
 
 describe('#createAudio', () => {
-  it('should return audio message object', () => {
-    expect(Line.createAudio('http://example.com/audio.mp3', 240000)).toEqual({
-      type: 'audio',
-      originalContentUrl: 'http://example.com/audio.mp3',
-      duration: 240000,
-    });
-  });
-
   it('should work with object', () => {
     expect(
       Line.createAudio({
@@ -208,7 +168,7 @@ describe('#createAudio', () => {
   });
 
   it('call invariant if wrong argument type', () => {
-    Line.createAudio('http://example.com/audio.mp3', {});
+    Line.createAudio('http://example.com/audio.mp3' as any, {});
 
     expect(invariant).toBeCalled();
   });
@@ -253,14 +213,6 @@ describe('#createLocation', () => {
 });
 
 describe('#createSticker', () => {
-  it('should return sticker message object', () => {
-    expect(Line.createSticker('1', '1')).toEqual({
-      type: 'sticker',
-      packageId: '1',
-      stickerId: '1',
-    });
-  });
-
   it('should work with object', () => {
     expect(
       Line.createSticker({
@@ -290,7 +242,7 @@ describe('#createSticker', () => {
   });
 
   it('call invariant if wrong argument type', () => {
-    Line.createSticker('1', {});
+    Line.createSticker('1' as any, {});
 
     expect(invariant).toBeCalled();
   });
@@ -307,7 +259,7 @@ describe('#createImagemap', () => {
         },
         actions: [
           {
-            type: 'uri',
+            type: 'uri' as 'uri',
             linkUri: 'https://example.com/',
             area: {
               x: 0,
@@ -317,7 +269,7 @@ describe('#createImagemap', () => {
             },
           },
           {
-            type: 'message',
+            type: 'message' as 'message',
             text: 'hello',
             area: {
               x: 520,
@@ -1371,7 +1323,9 @@ describe('#createFlex', () => {
           ],
         },
         styles: {
-          comment: 'See the example of a bubble style object',
+          header: {
+            separator: true,
+          },
         },
       })
     ).toEqual({
@@ -1414,7 +1368,9 @@ describe('#createFlex', () => {
           ],
         },
         styles: {
-          comment: 'See the example of a bubble style object',
+          header: {
+            separator: true,
+          },
         },
       },
     });
@@ -1459,7 +1415,9 @@ describe('#createFlex', () => {
             ],
           },
           styles: {
-            comment: 'See the example of a bubble style object',
+            header: {
+              separator: true,
+            },
           },
         },
         quickReplyOptions
@@ -1504,7 +1462,9 @@ describe('#createFlex', () => {
           ],
         },
         styles: {
-          comment: 'See the example of a bubble style object',
+          header: {
+            separator: true,
+          },
         },
       },
       ...quickReplyOptions,

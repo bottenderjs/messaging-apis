@@ -5,7 +5,10 @@ import LinePay from '../LinePay';
 const CHANNEL_ID = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = () => {
+const createMock = (): {
+  client: LinePay;
+  mock: MockAdapter;
+} => {
   const client = new LinePay({
     channelId: CHANNEL_ID,
     channelSecret: CHANNEL_SECRET,
@@ -357,7 +360,7 @@ describe('#reserve', () => {
         'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
       cancelUrl:
         'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2ForderSheet.nhn%3ForderId%3D20140101123456789',
-      capture: 'true',
+      capture: true,
       confirmUrlType: 'CLIENT',
       extras: {
         addFriends: [
@@ -434,7 +437,7 @@ describe('#reserve', () => {
           'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
         cancelUrl:
           'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2ForderSheet.nhn%3ForderId%3D20140101123456789',
-        capture: 'true',
+        capture: true,
         confirmUrlType: 'CLIENT',
         extras: {
           addFriends: [

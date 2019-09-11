@@ -11,8 +11,7 @@ import {
   ColumnObject,
   FlexContainer,
   ImageCarouselColumnObject,
-  ImageMapAction,
-  ImageMapVideo,
+  ImagemapMessage,
   LiffView,
   Location,
   Message,
@@ -63,7 +62,7 @@ function handleError(err: {
 export default class LineClient {
   static connect(
     accessTokenOrConfig: string | ClientConfig,
-    channelSecret: string
+    channelSecret?: string
   ): LineClient {
     return new LineClient(accessTokenOrConfig, channelSecret);
   }
@@ -78,7 +77,7 @@ export default class LineClient {
 
   constructor(
     accessTokenOrConfig: string | ClientConfig,
-    channelSecret: string
+    channelSecret?: string
   ) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
@@ -90,7 +89,7 @@ export default class LineClient {
       origin = config.origin;
     } else {
       this._accessToken = accessTokenOrConfig;
-      this._channelSecret = channelSecret;
+      this._channelSecret = channelSecret as string;
       this._onRequest = onRequest;
     }
 
@@ -255,21 +254,9 @@ export default class LineClient {
     {
       baseUrl,
       baseSize,
-      baseHeight,
-      baseWidth,
       video,
       actions,
-    }: {
-      baseUrl: string;
-      baseSize: {
-        height: number;
-        width: number;
-      };
-      baseHeight: number;
-      baseWidth: number;
-      video?: ImageMapVideo;
-      actions: ImageMapAction[];
-    },
+    }: Omit<ImagemapMessage, 'type' | 'altText'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this._send(
@@ -281,8 +268,6 @@ export default class LineClient {
           {
             baseUrl,
             baseSize,
-            baseHeight,
-            baseWidth,
             video,
             actions,
           },
@@ -660,7 +645,7 @@ export default class LineClient {
    */
   getGroupMemberIds(
     groupId: string,
-    start: string | undefined,
+    start?: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
@@ -707,7 +692,7 @@ export default class LineClient {
    */
   getRoomMemberIds(
     roomId: string,
-    start: string | undefined,
+    start?: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
