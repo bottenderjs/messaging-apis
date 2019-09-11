@@ -88,18 +88,6 @@ describe('#createImage', () => {
       ...quickReplyOptions,
     });
   });
-
-  it('call invariant if wrong argument type #1', () => {
-    Line.createImage('http://example.com/img1.jpg' as any, {});
-
-    expect(invariant).toBeCalled();
-  });
-
-  it('call invariant if wrong argument type #2', () => {
-    Line.createImage(123 as any);
-
-    expect(invariant).toBeCalled();
-  });
 });
 
 describe('#createVideo', () => {
@@ -130,12 +118,6 @@ describe('#createVideo', () => {
       ...quickReplyOptions,
     });
   });
-
-  it('call invariant if wrong argument type', () => {
-    Line.createVideo('http://example.com/video.mp4' as any, {});
-
-    expect(invariant).toBeCalled();
-  });
 });
 
 describe('#createAudio', () => {
@@ -165,12 +147,6 @@ describe('#createAudio', () => {
       duration: 240000,
       ...quickReplyOptions,
     });
-  });
-
-  it('call invariant if wrong argument type', () => {
-    Line.createAudio('http://example.com/audio.mp3' as any, {});
-
-    expect(invariant).toBeCalled();
   });
 });
 
@@ -239,12 +215,6 @@ describe('#createSticker', () => {
       stickerId: '1',
       ...quickReplyOptions,
     });
-  });
-
-  it('call invariant if wrong argument type', () => {
-    Line.createSticker('1' as any, {});
-
-    expect(invariant).toBeCalled();
   });
 });
 
