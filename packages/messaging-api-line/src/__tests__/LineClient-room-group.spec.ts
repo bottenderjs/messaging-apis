@@ -9,7 +9,17 @@ const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = ({ customAccessToken } = {}) => {
+const createMock = ({
+  customAccessToken,
+}: { customAccessToken?: string } = {}): {
+  client: LineClient;
+  mock: MockAdapter;
+  headers: {
+    Accept: string;
+    'Content-Type': string;
+    Authorization: string;
+  };
+} => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
   const headers = {

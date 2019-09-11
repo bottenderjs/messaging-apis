@@ -9,7 +9,17 @@ const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = ({ customAccessToken } = {}) => {
+const createMock = ({
+  customAccessToken,
+}: { customAccessToken?: string } = {}): {
+  client: LineClient;
+  mock: MockAdapter;
+  headers: {
+    Accept: string;
+    'Content-Type': string;
+    Authorization: string;
+  };
+} => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
   const headers = {
@@ -293,8 +303,8 @@ describe('Rich Menu', () => {
 
       const richMenuObject = {
         size: {
-          width: 2500,
-          height: 1686,
+          width: 2500 as 2500,
+          height: 1686 as 1686,
         },
         selected: false,
         name: 'Nice richmenu',
@@ -340,8 +350,8 @@ describe('Rich Menu', () => {
 
       const richMenuObject = {
         size: {
-          width: 2500,
-          height: 1686,
+          width: 2500 as 2500,
+          height: 1686 as 1686,
         },
         selected: false,
         name: 'Nice richmenu',
@@ -592,7 +602,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      const buffer = await new Promise((resolve, reject) => {
+      const buffer = await new Promise<Buffer>((resolve, reject): void => {
         fs.readFile(path.join(__dirname, 'fixture.png'), (err, buf) => {
           if (err) {
             reject(err);
@@ -628,7 +638,7 @@ describe('Rich Menu', () => {
 
       const reply = {};
 
-      const buffer = await new Promise((resolve, reject) => {
+      const buffer = await new Promise<Buffer>((resolve, reject): void => {
         fs.readFile(path.join(__dirname, 'fixture.png'), (err, buf) => {
           if (err) {
             reject(err);
@@ -802,9 +812,9 @@ describe('Rich Menu', () => {
         details: [],
       });
 
-      const res = await client.getDefaultRichMenu(
-        'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
-      );
+      const res = await client.getDefaultRichMenu({
+        accessToken: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+      });
 
       expect(res).toEqual(null);
     });

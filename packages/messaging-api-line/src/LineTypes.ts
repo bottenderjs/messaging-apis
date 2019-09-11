@@ -19,15 +19,25 @@ export type ImageMessage = {
   previewImageUrl: string;
 };
 
-export type ImageMapAction = {
-  type: string;
+export type ImageMapArea = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type ImageMapUriAction = {
+  type: 'uri';
+  label?: string;
   linkUri: string;
-  area: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
+  area: ImageMapArea;
+};
+
+export type ImageMapMessageAction = {
+  type: 'message';
+  label?: string;
+  text: string;
+  area: ImageMapArea;
 };
 
 export type ImagemapMessage = {
@@ -39,7 +49,7 @@ export type ImagemapMessage = {
     width: number;
   };
   video?: ImageMapVideo;
-  actions: ImageMapAction[];
+  actions: (ImageMapUriAction | ImageMapMessageAction)[];
 };
 
 export type VideoMessage = {

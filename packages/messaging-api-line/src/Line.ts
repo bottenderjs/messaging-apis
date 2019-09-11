@@ -10,8 +10,6 @@ import {
   FlexMessage,
   ImageCarouselColumnObject,
   ImageCarouselTemplate,
-  ImageMapAction,
-  ImageMapVideo,
   ImageMessage,
   ImagemapMessage,
   Location,
@@ -110,31 +108,16 @@ function createImagemap(
   {
     baseUrl,
     baseSize,
-    baseHeight,
-    baseWidth,
     video,
     actions,
-  }: {
-    baseUrl: string;
-    baseSize: {
-      height: number;
-      width: number;
-    };
-    baseHeight: number;
-    baseWidth: number;
-    video?: ImageMapVideo;
-    actions: ImageMapAction[];
-  },
+  }: Omit<ImagemapMessage, 'type' | 'altText'>,
   options: MessageOptions = {}
 ): ImagemapMessage {
   return {
     type: 'imagemap',
     baseUrl,
     altText,
-    baseSize: baseSize || {
-      height: baseHeight,
-      width: baseWidth,
-    },
+    baseSize,
     video,
     actions,
     ...omit(options, 'accessToken'),
