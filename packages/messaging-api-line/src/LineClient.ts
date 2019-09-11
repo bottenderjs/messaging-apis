@@ -683,11 +683,11 @@ export default class LineClient {
     let continuationToken;
 
     do {
-      // eslint-disable-next-line no-await-in-loop
       const {
         memberIds,
         next,
-      }: { memberIds: string[]; next?: string } = await this.getGroupMemberIds(
+      }: // eslint-disable-next-line no-await-in-loop
+      { memberIds: string[]; next?: string } = await this.getGroupMemberIds(
         groupId,
         continuationToken,
         options
@@ -730,11 +730,11 @@ export default class LineClient {
     let continuationToken;
 
     do {
-      // eslint-disable-next-line no-await-in-loop
       const {
         memberIds,
         next,
-      }: { memberIds: string[]; next?: string } = await this.getRoomMemberIds(
+      }: // eslint-disable-next-line no-await-in-loop
+      { memberIds: string[]; next?: string } = await this.getRoomMemberIds(
         roomId,
         continuationToken,
         options
