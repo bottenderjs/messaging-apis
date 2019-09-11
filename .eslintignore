@@ -2,6 +2,5 @@
 **/node_modules/**
 bin/
 docs/
-flow-typed/**
-packages/*/lib/**
+dist
 types/**

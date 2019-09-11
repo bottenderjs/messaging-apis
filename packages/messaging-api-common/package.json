@@ -1,0 +1,23 @@
+{
+  "name": "messaging-api-common",
+  "description": "Messaging API client for common usage",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "version": "0.8.2",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
+  "keywords": [
+    "bot",
+    "chatbot",
+    "messaging-apis"
+  ],
+  "engines": {
+    "node": ">=8"
+  }
+}

@@ -9,7 +9,8 @@ install:
 # already yarn v1.2.1
 # - choco install yarn
   - yarn --version
-  - yarn install
+  - yarn
+  - npm run bootstrap
 
 cache:
   - node_modules
@@ -17,7 +18,7 @@ cache:
 
 test_script:
   - npm run lint -- --color
-  - npm run typecheck
+  - npm run compile
   - npm run testonly -- --coverage --colors
 
 # Don't actually build.

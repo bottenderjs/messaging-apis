@@ -11,28 +11,32 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "node ./scripts/build.js",
-    "clean": "rimraf ./packages/*/lib",
-    "postinstall": "yarn run build",
-    "lint": "eslint packages examples",
+    "clean": "git clean -dfqX -- ./node_modules **/{dist,node_modules}/ ./packages/*/tsconfig*tsbuildinfo",
+    "compile": "tsc --build tsconfig.build.json",
+    "compile:clean": "tsc --build tsconfig.build.json --clean",
+    "postinstall": "lerna run prepare && npm run compile",
+    "lint": "eslint packages examples --ext=js,ts",
     "lint:fix": "yarn run lint:fix:md && yarn run lint --fix",
     "lint:fix:md": "prettier --write **/*.md",
     "lint:staged": "lint-staged",
     "publish": "yarn run clean && yarn run build && lerna publish",
     "test": "yarn run typecheck && yarn run lint && yarn run testonly",
-    "testonly": "jest",
-    "testonly:cov": "jest --coverage --runInBand --forceExit --no-cache",
-    "testonly:watch": "jest --watch",
-    "typecheck": "flow check"
+    "testonly": "jest --verbose",
+    "testonly:cov": "jest --verbose --coverage --runInBand --forceExit --no-cache",
+    "testonly:watch": "jest --verbose --watchAll",
+    "watch": "tsc --build tsconfig.build.json --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
-    "@babel/preset-env": "^7.5.5",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^24.9.0",
+    "@types/append-query": "^2.0.0",
+    "@types/debug": "^4.1.5",
+    "@types/invariant": "^2.2.30",
+    "@types/jest": "^24.0.18",
+    "@types/lodash.get": "^4.4.6",
+    "@types/lodash.omit": "^4.5.6",
+    "@types/url-join": "^4.0.0",
+    "@types/warning": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "chalk": "^2.4.2",
     "eslint": "^6.2.2",
     "eslint-config-prettier": "^6.1.0",
@@ -40,7 +44,6 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.4.0",
-    "flow-bin": "^0.86.0",
     "husky": "^3.0.4",
     "jest": "^24.9.0",
     "lerna": "^3.16.4",
@@ -49,7 +52,9 @@
     "mkdir": "^0.0.2",
     "prettier": "^1.18.2",
     "prettier-package-json": "^2.1.0",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.6.2"
   },
   "engines": {
     "node": ">=8"
@@ -58,32 +63,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "jest": {
-    "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "testEnvironment": "node",
-    "timers": "fake",
-    "resetMocks": true
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.md": [
-      "prettier --write",
-      "git add"
-    ],
-    "package.json": [
-      "prettier-package-json --write",
-      "git add"
-    ]
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "singleQuote": true
   }
 }
