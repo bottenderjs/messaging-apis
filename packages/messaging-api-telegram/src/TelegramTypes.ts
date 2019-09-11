@@ -64,7 +64,11 @@ export type User = {
   disable_web_page_preview?: boolean;
   disable_notification?: boolean;
   reply_to_message_id?: number;
-  reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
+  reply_markup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
 };
 
 export type File = {

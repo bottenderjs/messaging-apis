@@ -6,7 +6,7 @@ import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
-import { ChatAction, User, File } from './TelegramTypes';
+import { ChatAction, File, User } from './TelegramTypes';
 
 type ClientConfig = {
   accessToken: string;

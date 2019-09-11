@@ -1,7 +1,7 @@
 import crypto from 'crypto';
+import fs from 'fs';
 import querystring from 'querystring';
 import url from 'url';
-import fs from 'fs';
 
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
@@ -21,13 +21,13 @@ import {
   AirlineItineraryAttributes,
   AirlineUpdateAttributes,
   Attachment,
-  MediaAttachmentPayload,
   AudienceType,
   BatchItem,
   FileData,
   GreetingConfig,
   InsightMetric,
   InsightOptions,
+  MediaAttachmentPayload,
   MediaElement,
   MenuItem,
   Message,
@@ -1251,7 +1251,7 @@ export default class MessengerClient {
 
     const bodyEncodedbatch = batch.map(item => {
       if (item.body) {
-        const body = item.body;
+        const { body } = item;
         return {
           ...omit(item, 'responseAccessPath'),
           body: Object.keys(body)
@@ -2127,6 +2127,7 @@ export default class MessengerClient {
           profile_picture_url: string;
         }[];
         paging: { cursors: { before: string; after: string } };
+        // eslint-disable-next-line no-await-in-loop
       } = await this.getPersonas(cursor, {
         access_token: customAccessToken,
       });

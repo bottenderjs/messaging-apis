@@ -22,7 +22,9 @@ export type AttachmentIdAttachmentPayload = {
   attachment_id: string;
 };
 
-export type MediaAttachmentPayload = UrlMediaAttachmentPayload | AttachmentIdAttachmentPayload;
+export type MediaAttachmentPayload =
+  | UrlMediaAttachmentPayload
+  | AttachmentIdAttachmentPayload;
 
 export type MediaAttachmentType = 'audio' | 'video' | 'image' | 'file';
 
@@ -46,7 +48,17 @@ export type MediaAttachment = {
 };
 
 export type TemplateAttachmentPayload = {
-  template_type: 'button' | 'generic' | 'list' | 'open_graph' | 'media' | 'receipt' | 'airline_boardingpass' | 'airline_checkin' | 'airline_itinerary' | 'airline_update';
+  template_type:
+    | 'button'
+    | 'generic'
+    | 'list'
+    | 'open_graph'
+    | 'media'
+    | 'receipt'
+    | 'airline_boardingpass'
+    | 'airline_checkin'
+    | 'airline_itinerary'
+    | 'airline_update';
   [key: string]: any; // FIXME: list all of templates
 };
 
@@ -72,7 +84,10 @@ export type UserEmailQuickReply = {
   content_type: 'user_email';
 };
 
-export type QuickReply = TextQuickReply | UserPhoneNumberQuickReply | UserEmailQuickReply;
+export type QuickReply =
+  | TextQuickReply
+  | UserPhoneNumberQuickReply
+  | UserEmailQuickReply;
 
 export type TextMessage = {
   text?: string;
@@ -82,7 +97,7 @@ export type TextMessage = {
 export type AttachmentMessage = {
   attachment?: Attachment;
   quick_replies?: QuickReply[];
-}
+};
 
 export type Message = TextMessage | AttachmentMessage;
 
