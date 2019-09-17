@@ -132,6 +132,10 @@ export type InsightMetric =
   | 'page_messages_total_messaging_connections'
   | 'page_messages_new_conversations_unique';
 
+export type AccessTokenOptions = {
+  access_token?: string;
+};
+
 export type InsightOptions = {
   since?: number;
   until?: number;
