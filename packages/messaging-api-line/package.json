@@ -17,6 +17,7 @@
     "invariant": "^2.2.4",
     "lodash.omit": "^4.5.0",
     "messaging-api-common": "file:../messaging-api-common",
+    "node-fetch": "^2.6.0",
     "url-join": "^4.0.1"
   },
   "devDependencies": {
