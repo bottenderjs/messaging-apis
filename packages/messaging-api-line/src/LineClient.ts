@@ -5,7 +5,7 @@ import invariant from 'invariant';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
-import fetch = from 'node-fetch';
+import fetch from 'node-fetch';
 
 import Line from './Line';
 import {
