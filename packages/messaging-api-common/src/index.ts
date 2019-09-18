@@ -10,7 +10,11 @@ function onRequest(request: {
 }): void {
   if (request.body) {
     debugRequest('Outgoing request body:');
-    debugRequest(JSON.stringify(request.body, null, 2));
+    if (Buffer.isBuffer(request.body)) {
+      debugRequest(request.body);
+    } else {
+      debugRequest(JSON.stringify(request.body, null, 2));
+    }
   }
 }
 
