@@ -5,6 +5,7 @@ import invariant from 'invariant';
 import omit from 'lodash.omit';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
+import fetch = from 'node-fetch';
 
 import Line from './Line';
 import {
@@ -553,17 +554,16 @@ export default class LineClient {
     messageId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<Buffer> {
-    return this._axios
-      .get(
-        `/v2/bot/message/${messageId}/content`,
-        customAccessToken === undefined
-          ? undefined
-          : {
-              responseType: 'arraybuffer',
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-      )
-      .then(res => Buffer.from(res.data), handleError);
+    const options = { method: 'GET', headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this._accessToken
+    }};
+    return 
+      fetch(`https://api.line.me/v2/bot/message/${messageId}/content`, options)
+      .then(res => res.buffer()).then((buffer) => {
+        return buffer;
+    });
   }
 
   /**
