@@ -1,5 +1,4 @@
 import ViberClient from './ViberClient';
+import * as ViberTypes from './ViberTypes';
 
-export * from './ViberTypes';
-
-export { ViberClient };
+export { ViberClient, ViberTypes };
