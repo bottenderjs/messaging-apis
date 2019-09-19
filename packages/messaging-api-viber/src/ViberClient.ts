@@ -2,27 +2,67 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import camelcaseKeys from 'camelcase-keys';
+import mapObj from 'map-obj';
 import omit from 'lodash.omit';
+import pascalCase from 'pascal-case';
+import snakecaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
 import {
-  ViberContact,
-  ViberEventType,
-  ViberFile,
-  ViberLocation,
-  ViberPicture,
-  ViberRichMedia,
-  ViberSender,
-  ViberVideo,
+  AccountInfo,
+  BroadcastResponseData,
+  Contact,
+  EventType,
+  File,
+  Location,
+  Message,
+  MessageOptions,
+  Picture,
+  ResponseData,
+  RichMedia,
+  Sender,
+  SucceededResponseData,
+  UserDetails,
+  UserOnlineStatus,
+  Video,
 } from './ViberTypes';
 
 type ClientConfig = {
   accessToken: string;
-  sender: ViberSender;
+  sender: Sender;
   origin?: string;
   onRequest?: Function;
 };
+
+function pascalcaseKeysDeep(input: any): any {
+  if (Array.isArray(input)) {
+    return input.map(item => pascalcaseKeysDeep(item));
+  }
+
+  if (input && typeof input === 'object') {
+    return mapObj(input, (key, val) => {
+      return [pascalCase(key as string), pascalcaseKeysDeep(val)];
+    });
+  }
+
+  return input;
+}
+
+function transformMessageCase(message: Message): any {
+  const { keyboard, richMedia, ...others } = message as any;
+
+  return {
+    ...snakecaseKeys(others, { deep: true }),
+    ...(keyboard ? { keyboard: pascalcaseKeysDeep(keyboard) } : undefined),
+    ...(richMedia
+      ? {
+          richMedia: pascalcaseKeysDeep(richMedia),
+        }
+      : undefined),
+  } as any;
+}
 
 /**
  * https://developers.viber.com/docs/api/rest-bot-api/#viber-rest-api
@@ -30,20 +70,20 @@ type ClientConfig = {
 export default class ViberClient {
   static connect(
     accessTokenOrConfig: string | ClientConfig,
-    sender: ViberSender
+    sender?: Sender
   ): ViberClient {
     return new ViberClient(accessTokenOrConfig, sender);
   }
 
   _token: string;
 
-  _sender: ViberSender;
+  _sender: Sender;
 
   _onRequest: Function;
 
   _axios: AxiosInstance;
 
-  constructor(accessTokenOrConfig: string | ClientConfig, sender: ViberSender) {
+  constructor(accessTokenOrConfig: string | ClientConfig, sender?: Sender) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
@@ -54,7 +94,7 @@ export default class ViberClient {
       origin = config.origin;
     } else {
       this._token = accessTokenOrConfig;
-      this._sender = sender;
+      this._sender = sender as Sender;
       this._onRequest = onRequest;
     }
 
@@ -99,14 +139,28 @@ export default class ViberClient {
     return this._token;
   }
 
-  async _callAPI(path: string, body: Record<string, any>) {
+  async _callAPI<R extends object>(
+    path: string,
+    body: Record<string, any> = {}
+  ): Promise<SucceededResponseData<R> | never> {
     try {
-      const response = await this._axios.post(path, body);
+      console.log(snakecaseKeys(body, { deep: false }));
+      const response = await this._axios.post(
+        path,
 
-      const { data, config, request } = response;
+        // we can't apply a deep snake_case transform here
+        // because it accept only PascalCase for keyboard and rich media
+        snakecaseKeys(body, { deep: false })
+      );
+
+      const { config, request } = response;
+
+      const data = (camelcaseKeys(response.data, {
+        deep: true,
+      }) as any) as ResponseData<R>;
 
       if (data.status !== 0) {
-        throw new AxiosError(`Viber API - ${data.status_message}`, {
+        throw new AxiosError(`Viber API - ${data.statusMessage}`, {
           config,
           request,
           response,
@@ -130,15 +184,31 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#setting-a-webhook
    */
-  setWebhook(url: string, eventTypes?: ViberEventType[]) {
-    const body: { url: string; event_types?: ViberEventType[] } = {
-      url,
-    };
+  setWebhook(
+    url: string,
+    optionsOrEventTypes:
+      | EventType[]
+      | {
+          eventTypes?: EventType[];
+          sendName?: boolean;
+          sendPhoto?: boolean;
+        } = {}
+  ): Promise<
+    | SucceededResponseData<{
+        eventTypes: EventType[];
+      }>
+    | never
+  > {
+    const options = Array.isArray(optionsOrEventTypes)
+      ? { eventTypes: optionsOrEventTypes }
+      : optionsOrEventTypes;
 
-    if (eventTypes) {
-      body.event_types = eventTypes;
-    }
-    return this._callAPI('/set_webhook', body);
+    return this._callAPI<{
+      eventTypes: EventType[];
+    }>('/set_webhook', {
+      url,
+      ...options,
+    });
   }
 
   /**
@@ -146,7 +216,12 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#removing-your-webhook
    */
-  removeWebhook() {
+  removeWebhook(): Promise<
+    | SucceededResponseData<{
+        eventTypes: EventType[];
+      }>
+    | never
+  > {
     return this.setWebhook('');
   }
 
@@ -155,19 +230,25 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#send-message
    */
-  sendMessage(receiver: string, { type, ...options }: Record<string, any>) {
+  sendMessage(
+    receiver: string,
+    message: Message
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this._callAPI('/send_message', {
       receiver,
-      type,
       sender: this._sender,
-      ...options,
+      ...transformMessageCase(message),
     });
   }
 
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#text-message
    */
-  sendText(receiver: string, text: string, options: Record<string, any> = {}) {
+  sendText(
+    receiver: string,
+    text: string,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'text',
       text,
@@ -180,9 +261,9 @@ export default class ViberClient {
    */
   sendPicture(
     receiver: string,
-    { text, media, thumbnail }: ViberPicture,
-    options: Record<string, any> = {}
-  ) {
+    { text, media, thumbnail }: Picture,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'picture',
       text,
@@ -197,9 +278,9 @@ export default class ViberClient {
    */
   sendVideo(
     receiver: string,
-    { media, size, thumbnail, duration }: ViberVideo,
-    options: Record<string, any> = {}
-  ) {
+    { media, size, thumbnail, duration }: Video,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'video',
       media,
@@ -215,14 +296,12 @@ export default class ViberClient {
    */
   sendFile(
     receiver: string,
-    { media, size, file_name }: ViberFile,
-    options: Record<string, any> = {}
-  ) {
+    file: File,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'file',
-      media,
-      size,
-      file_name,
+      ...file,
       ...options,
     });
   }
@@ -232,12 +311,12 @@ export default class ViberClient {
    */
   sendContact(
     receiver: string,
-    { name, phone_number }: ViberContact,
-    options: Record<string, any> = {}
-  ) {
+    contact: Contact,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'contact',
-      contact: { name, phone_number },
+      contact,
       ...options,
     });
   }
@@ -247,9 +326,9 @@ export default class ViberClient {
    */
   sendLocation(
     receiver: string,
-    { lat, lon }: ViberLocation,
-    options: Record<string, any> = {}
-  ) {
+    { lat, lon }: Location,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'location',
       location: { lat, lon },
@@ -260,7 +339,11 @@ export default class ViberClient {
   /**
    * https://developers.viber.com/docs/api/rest-bot-api/#url-message
    */
-  sendURL(receiver: string, url: string, options: Record<string, any> = {}) {
+  sendURL(
+    receiver: string,
+    url: string,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'url',
       media: url,
@@ -273,12 +356,12 @@ export default class ViberClient {
    */
   sendSticker(
     receiver: string,
-    stickerId: string,
-    options: Record<string, any> = {}
-  ) {
+    stickerId: number,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'sticker',
-      sticker_id: stickerId,
+      stickerId,
       ...options,
     });
   }
@@ -288,13 +371,13 @@ export default class ViberClient {
    */
   sendCarouselContent(
     receiver: string,
-    richMedia: ViberRichMedia,
-    options: Record<string, any> = {}
-  ) {
+    richMedia: RichMedia,
+    options?: MessageOptions
+  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'rich_media',
-      min_api_version: 2,
-      rich_media: richMedia,
+      minApiVersion: 2,
+      richMedia,
       ...options,
     });
   }
@@ -306,13 +389,12 @@ export default class ViberClient {
    */
   broadcastMessage(
     broadcastList: string[],
-    { type, ...options }: Record<string, any>
-  ) {
+    message: Message
+  ): Promise<BroadcastResponseData | never> {
     return this._callAPI('/broadcast_message', {
-      broadcast_list: broadcastList,
-      type,
+      broadcastList,
       sender: this._sender,
-      ...options,
+      ...transformMessageCase(message),
     });
   }
 
@@ -322,8 +404,8 @@ export default class ViberClient {
   broadcastText(
     broadcastList: string[],
     text: string,
-    options: Record<string, any> = {}
-  ) {
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'text',
       text,
@@ -336,9 +418,9 @@ export default class ViberClient {
    */
   broadcastPicture(
     broadcastList: string[],
-    { text, media, thumbnail }: ViberPicture,
-    options: Record<string, any> = {}
-  ) {
+    { text, media, thumbnail }: Picture,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'picture',
       text,
@@ -353,9 +435,9 @@ export default class ViberClient {
    */
   broadcastVideo(
     broadcastList: string[],
-    { media, size, thumbnail, duration }: ViberVideo,
-    options: Record<string, any> = {}
-  ) {
+    { media, size, thumbnail, duration }: Video,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'video',
       media,
@@ -371,14 +453,12 @@ export default class ViberClient {
    */
   broadcastFile(
     broadcastList: string[],
-    { media, size, file_name }: ViberFile,
-    options: Record<string, any> = {}
-  ) {
+    file: File,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'file',
-      media,
-      size,
-      file_name,
+      ...file,
       ...options,
     });
   }
@@ -388,12 +468,12 @@ export default class ViberClient {
    */
   broadcastContact(
     broadcastList: string[],
-    { name, phone_number }: ViberContact,
-    options: Record<string, any> = {}
-  ) {
+    contact: Contact,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'contact',
-      contact: { name, phone_number },
+      contact,
       ...options,
     });
   }
@@ -403,9 +483,9 @@ export default class ViberClient {
    */
   broadcastLocation(
     broadcastList: string[],
-    { lat, lon }: ViberLocation,
-    options: Record<string, any> = {}
-  ) {
+    { lat, lon }: Location,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'location',
       location: { lat, lon },
@@ -419,8 +499,8 @@ export default class ViberClient {
   broadcastURL(
     broadcastList: string[],
     url: string,
-    options: Record<string, any> = {}
-  ) {
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'url',
       media: url,
@@ -433,12 +513,12 @@ export default class ViberClient {
    */
   broadcastSticker(
     broadcastList: string[],
-    stickerId: string,
-    options: Record<string, any> = {}
-  ) {
+    stickerId: number,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'sticker',
-      sticker_id: stickerId,
+      stickerId,
       ...options,
     });
   }
@@ -448,13 +528,13 @@ export default class ViberClient {
    */
   broadcastCarouselContent(
     broadcastList: string[],
-    richMedia: ViberRichMedia,
-    options: Record<string, any> = {}
-  ) {
+    richMedia: RichMedia,
+    options?: MessageOptions
+  ): Promise<BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'rich_media',
-      min_api_version: 2,
-      rich_media: richMedia,
+      minApiVersion: 2,
+      richMedia,
       ...options,
     });
   }
@@ -464,8 +544,8 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-account-info
    */
-  getAccountInfo() {
-    return this._callAPI('/get_account_info', {});
+  getAccountInfo(): Promise<SucceededResponseData<AccountInfo> | never> {
+    return this._callAPI<AccountInfo>('/get_account_info');
   }
 
   /**
@@ -473,9 +553,12 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-user-details
    */
-  async getUserDetails(id: string) {
-    const data = await this._callAPI('/get_user_details', { id });
-    return data.user;
+  async getUserDetails(id: string): Promise<UserDetails | never> {
+    const { user } = await this._callAPI<{
+      user: UserDetails;
+    }>('/get_user_details', { id });
+
+    return user;
   }
 
   /**
@@ -483,8 +566,11 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-online
    */
-  async getOnlineStatus(ids: string[]) {
-    const data = await this._callAPI('/get_online', { ids });
+  async getOnlineStatus(ids: string[]): Promise<UserOnlineStatus[] | never> {
+    const data = await this._callAPI<{
+      users: UserOnlineStatus[];
+    }>('/get_online', { ids });
+
     return data.users;
   }
 }

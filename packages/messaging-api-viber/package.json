@@ -12,8 +12,12 @@
   "dependencies": {
     "axios": "^0.19.0",
     "axios-error": "file:../axios-error",
+    "camelcase-keys": "^6.0.1",
     "lodash.omit": "^4.5.0",
+    "map-obj": "^4.1.0",
     "messaging-api-common": "file:../messaging-api-common",
+    "pascal-case": "^2.0.1",
+    "snakecase-keys": "^3.1.0",
     "url-join": "^4.0.1"
   },
   "devDependencies": {
