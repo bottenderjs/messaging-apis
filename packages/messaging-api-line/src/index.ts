@@ -1,7 +1,6 @@
 import Line from './Line';
 import LineClient from './LineClient';
 import LinePay from './LinePay';
+import * as LineTypes from './LineTypes';
 
-export * from './LineTypes';
-
-export { Line, LineClient, LinePay };
+export { Line, LineClient, LinePay, LineTypes };

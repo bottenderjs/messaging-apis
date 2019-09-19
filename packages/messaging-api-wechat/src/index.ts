@@ -1,5 +1,4 @@
 import WechatClient from './WechatClient';
+import * as WechatTypes from './WechatTypes';
 
-export * from './WechatTypes';
-
-export { WechatClient };
+export { WechatClient, WechatTypes };

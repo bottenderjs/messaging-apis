@@ -1,6 +1,5 @@
 import SlackOAuthClient from './SlackOAuthClient';
 import SlackWebhookClient from './SlackWebhookClient';
+import * as SlackTypes from './SlackTypes';
 
-export * from './SlackTypes';
-
-export { SlackOAuthClient, SlackWebhookClient };
+export { SlackOAuthClient, SlackWebhookClient, SlackTypes };
