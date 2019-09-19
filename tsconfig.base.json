@@ -8,7 +8,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "removeComments": true,
+    "removeComments": false,
     "strict": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
