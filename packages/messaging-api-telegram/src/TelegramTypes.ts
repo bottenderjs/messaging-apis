@@ -967,3 +967,9 @@ export type GameHighScore = {
   user: User;
   score: number;
 };
+
+export type SetWebhookOption = {
+  certificate?: string;
+  maxConnections?: number;
+  allowedUpdates?: string[];
+};
