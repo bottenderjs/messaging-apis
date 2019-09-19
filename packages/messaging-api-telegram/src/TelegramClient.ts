@@ -3,6 +3,7 @@
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import omit from 'lodash.omit';
+import snakeCaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
@@ -13,6 +14,7 @@ import {
   File,
   GameHighScore,
   Message,
+  SetWebhookOption,
   Update,
   User,
   UserProfilePhotos,
@@ -134,9 +136,10 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#setwebhook
    */
-  setWebhook(url: string): Promise<boolean> {
+  setWebhook(url: string, options: SetWebhookOption = {}): Promise<boolean> {
     return this._request('/setWebhook', {
       url,
+      ...snakeCaseKeys(options),
     });
   }
 
