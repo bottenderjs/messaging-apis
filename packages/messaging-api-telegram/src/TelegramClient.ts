@@ -127,6 +127,8 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
+   *
    * https://core.telegram.org/bots/api#getwebhookinfo
    */
   getWebhookInfo(): Promise<WebhookInfo> {
@@ -134,7 +136,17 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
+   *
+   * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
+   *
    * https://core.telegram.org/bots/api#setwebhook
+   *
+   * @param url HTTPS url to send updates to. Use an empty string to remove webhook integration.
+   * @param options.certificate not supported yet.
+   * @param options.maxConnections Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40.
+   * @param options.allowedUpdates List the types of updates you want your bot to receive.
+   * @returns True on success.
    */
   setWebhook(url: string, options: SetWebhookOption = {}): Promise<boolean> {
     return this._request('/setWebhook', {
@@ -144,6 +156,8 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success. Requires no parameters.
+   *
    * https://core.telegram.org/bots/api#deletewebhook
    */
   deleteWebhook(): Promise<boolean> {
