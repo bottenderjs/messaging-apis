@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import ViberClient from '../ViberClient';
+import { EventType } from '../ViberTypes';
 
 const AUTH_TOKEN = '445da6az1s345z78-dazcczb2542zv51a-e0vc5fva17480im9';
 
@@ -19,12 +20,12 @@ const createMock = () => {
 
 describe('webhooks', () => {
   describe('#setWebhook', () => {
-    it('should response event_types was set', async () => {
+    it('should response eventTypes was set', async () => {
       const { client, mock } = createMock();
       const reply = {
         status: 0,
-        status_message: 'ok',
-        event_types: [
+        statusMessage: 'ok',
+        eventTypes: [
           'delivered',
           'seen',
           'failed',
@@ -47,8 +48,8 @@ describe('webhooks', () => {
       const { client, mock } = createMock();
       const reply = {
         status: 0,
-        status_message: 'ok',
-        event_types: ['delivered', 'seen', 'conversation_started'],
+        statusMessage: 'ok',
+        eventTypes: ['delivered', 'seen', 'conversation_started'],
       };
 
       mock
@@ -59,9 +60,9 @@ describe('webhooks', () => {
         .reply(200, reply);
 
       const res = await client.setWebhook('https://4a16faff.ngrok.io/', [
-        'delivered',
-        'seen',
-        'conversation_started',
+        EventType.Delivered,
+        EventType.Seen,
+        EventType.ConversationStarted,
       ]);
 
       expect(res).toEqual(reply);
@@ -73,7 +74,7 @@ describe('webhooks', () => {
       const { client, mock } = createMock();
       const reply = {
         status: 0,
-        status_message: 'ok',
+        statusMessage: 'ok',
       };
 
       mock.onPost('/set_webhook', { url: '' }).reply(200, reply);
@@ -92,8 +93,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -123,8 +124,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -151,8 +152,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -185,8 +186,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -221,8 +222,40 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
+      };
+
+      mock
+        .onPost(`/send_message`, {
+          receiver: RECEIVER,
+          sender: {
+            name: 'John McClane',
+            avatar: 'http://avatar.example.com',
+          },
+          type: 'file',
+          media: 'http://www.images.com/file.doc',
+          size: 10000,
+          file_name: 'name_of_file.doc',
+        })
+        .reply(200, reply);
+
+      const res = await client.sendFile(RECEIVER, {
+        media: 'http://www.images.com/file.doc',
+        size: 10000,
+        fileName: 'name_of_file.doc',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support snakecase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        status: 0,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -243,7 +276,7 @@ describe('send message', () => {
         media: 'http://www.images.com/file.doc',
         size: 10000,
         file_name: 'name_of_file.doc',
-      });
+      } as any);
 
       expect(res).toEqual(reply);
     });
@@ -255,8 +288,40 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
+      };
+
+      mock
+        .onPost(`/send_message`, {
+          receiver: RECEIVER,
+          sender: {
+            name: 'John McClane',
+            avatar: 'http://avatar.example.com',
+          },
+          type: 'contact',
+          contact: {
+            name: 'Itamar',
+            phone_number: '+972511123123',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendContact(RECEIVER, {
+        name: 'Itamar',
+        phoneNumber: '+972511123123',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support snakecase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        status: 0,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -277,7 +342,7 @@ describe('send message', () => {
       const res = await client.sendContact(RECEIVER, {
         name: 'Itamar',
         phone_number: '+972511123123',
-      });
+      } as any);
 
       expect(res).toEqual(reply);
     });
@@ -289,8 +354,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -323,8 +388,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -351,8 +416,8 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       mock
@@ -379,8 +444,209 @@ describe('send message', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
-        message_token: 5098034272017990000,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
+      };
+
+      const richMedia = {
+        type: 'rich_media',
+        buttonsGroupColumns: 6,
+        buttonsGroupRows: 7,
+        bgColor: '#FFFFFF',
+        buttons: [
+          {
+            columns: 6,
+            rows: 3,
+            actionType: 'open-url',
+            actionBody: 'https://www.google.com',
+            image: 'http://html-test:8080/myweb/guy/assets/imageRMsmall2.png',
+          },
+          {
+            columns: 6,
+            rows: 2,
+            text:
+              '<font color=#323232><b>Headphones with Microphone, On-ear Wired earphones</b></font><font color=#777777><br>Sound Intone </font><font color=#6fc133>$17.99</font>',
+            actionType: 'open-url',
+            actionBody: 'https://www.google.com',
+            textSize: 'medium',
+            textVAlign: 'middle',
+            textHAlign: 'left',
+          },
+          {
+            columns: 6,
+            rows: 1,
+            actionType: 'reply',
+            actionBody: 'https://www.google.com',
+            text: '<font color=#ffffff>Buy</font>',
+            textSize: 'large',
+            textVAlign: 'middle',
+            textHAlign: 'middle',
+            image: 'https://s14.postimg.org/4mmt4rw1t/Button.png',
+          },
+          {
+            columns: 6,
+            rows: 1,
+            actionType: 'reply',
+            actionBody: 'https://www.google.com',
+            text: '<font color=#8367db>MORE DETAILS</font>',
+            textSize: 'small',
+            textVAlign: 'middle',
+            textHAlign: 'middle',
+          },
+          {
+            columns: 6,
+            rows: 3,
+            ActionType: 'open-url',
+            ActionBody: 'https://www.google.com',
+            Image: 'https://s16.postimg.org/wi8jx20wl/image_RMsmall2.png',
+          },
+          {
+            columns: 6,
+            rows: 2,
+            text:
+              "<font color=#323232><b>Hanes Men's Humor Graphic T-Shirt</b></font><font color=#777777><br>Hanes</font><font color=#6fc133>$10.99</font>",
+            actionType: 'open-url',
+            actionBody: 'https://www.google.com',
+            textSize: 'medium',
+            textVAlign: 'middle',
+            textHAlign: 'left',
+          },
+          {
+            columns: 6,
+            rows: 1,
+            actionType: 'reply',
+            actionBody: 'https://www.google.com',
+            text: '<font color=#ffffff>Buy</font>',
+            textSize: 'large',
+            textVAlign: 'middle',
+            textHAlign: 'middle',
+            image: 'https://s14.postimg.org/4mmt4rw1t/Button.png',
+          },
+          {
+            columns: 6,
+            rows: 1,
+            actionType: 'reply',
+            actionBody: 'https://www.google.com',
+            text: '<font color=#8367db>MORE DETAILS</font>',
+            textSize: 'small',
+            textVAlign: 'middle',
+            textHAlign: 'middle',
+          },
+        ],
+      };
+
+      const pascalcaseRichMedia = {
+        Type: 'rich_media',
+        ButtonsGroupColumns: 6,
+        ButtonsGroupRows: 7,
+        BgColor: '#FFFFFF',
+        Buttons: [
+          {
+            Columns: 6,
+            Rows: 3,
+            ActionType: 'open-url',
+            ActionBody: 'https://www.google.com',
+            Image: 'http://html-test:8080/myweb/guy/assets/imageRMsmall2.png',
+          },
+          {
+            Columns: 6,
+            Rows: 2,
+            Text:
+              '<font color=#323232><b>Headphones with Microphone, On-ear Wired earphones</b></font><font color=#777777><br>Sound Intone </font><font color=#6fc133>$17.99</font>',
+            ActionType: 'open-url',
+            ActionBody: 'https://www.google.com',
+            TextSize: 'medium',
+            TextVAlign: 'middle',
+            TextHAlign: 'left',
+          },
+          {
+            Columns: 6,
+            Rows: 1,
+            ActionType: 'reply',
+            ActionBody: 'https://www.google.com',
+            Text: '<font color=#ffffff>Buy</font>',
+            TextSize: 'large',
+            TextVAlign: 'middle',
+            TextHAlign: 'middle',
+            Image: 'https://s14.postimg.org/4mmt4rw1t/Button.png',
+          },
+          {
+            Columns: 6,
+            Rows: 1,
+            ActionType: 'reply',
+            ActionBody: 'https://www.google.com',
+            Text: '<font color=#8367db>MORE DETAILS</font>',
+            TextSize: 'small',
+            TextVAlign: 'middle',
+            TextHAlign: 'middle',
+          },
+          {
+            Columns: 6,
+            Rows: 3,
+            ActionType: 'open-url',
+            ActionBody: 'https://www.google.com',
+            Image: 'https://s16.postimg.org/wi8jx20wl/image_RMsmall2.png',
+          },
+          {
+            Columns: 6,
+            Rows: 2,
+            Text:
+              "<font color=#323232><b>Hanes Men's Humor Graphic T-Shirt</b></font><font color=#777777><br>Hanes</font><font color=#6fc133>$10.99</font>",
+            ActionType: 'open-url',
+            ActionBody: 'https://www.google.com',
+            TextSize: 'medium',
+            TextVAlign: 'middle',
+            TextHAlign: 'left',
+          },
+          {
+            Columns: 6,
+            Rows: 1,
+            ActionType: 'reply',
+            ActionBody: 'https://www.google.com',
+            Text: '<font color=#ffffff>Buy</font>',
+            TextSize: 'large',
+            TextVAlign: 'middle',
+            TextHAlign: 'middle',
+            Image: 'https://s14.postimg.org/4mmt4rw1t/Button.png',
+          },
+          {
+            Columns: 6,
+            Rows: 1,
+            ActionType: 'reply',
+            ActionBody: 'https://www.google.com',
+            Text: '<font color=#8367db>MORE DETAILS</font>',
+            TextSize: 'small',
+            TextVAlign: 'middle',
+            TextHAlign: 'middle',
+          },
+        ],
+      };
+
+      mock
+        .onPost(`/send_message`, {
+          receiver: RECEIVER,
+          sender: {
+            name: 'John McClane',
+            avatar: 'http://avatar.example.com',
+          },
+          type: 'rich_media',
+          min_api_version: 2,
+          rich_media: pascalcaseRichMedia,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendCarouselContent(RECEIVER, richMedia);
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support pascalcase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        status: 0,
+        statusMessage: 'ok',
+        messageToken: 5098034272017990000,
       };
 
       const richMedia = {
@@ -483,7 +749,7 @@ describe('send message', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendCarouselContent(RECEIVER, richMedia);
+      const res = await client.sendCarouselContent(RECEIVER, richMedia as any);
 
       expect(res).toEqual(reply);
     });
@@ -496,8 +762,63 @@ describe('keyboards', () => {
 
     const reply = {
       status: 0,
-      status_message: 'ok',
-      message_token: 5098034272017990000,
+      statusMessage: 'ok',
+      messageToken: 5098034272017990000,
+    };
+
+    const keyboard = {
+      type: 'keyboard',
+      defaultHeight: true,
+      buttons: [
+        {
+          actionType: 'reply',
+          actionBody: 'reply to me',
+          text: 'Key text',
+          textSize: 'regular',
+        },
+      ],
+    };
+
+    const pascalcaseKeyboard = {
+      Type: 'keyboard',
+      DefaultHeight: true,
+      Buttons: [
+        {
+          ActionType: 'reply',
+          ActionBody: 'reply to me',
+          Text: 'Key text',
+          TextSize: 'regular',
+        },
+      ],
+    };
+
+    mock
+      .onPost(`/send_message`, {
+        receiver: RECEIVER,
+        sender: {
+          name: 'John McClane',
+          avatar: 'http://avatar.example.com',
+        },
+        type: 'text',
+        text: 'Hello',
+        keyboard: pascalcaseKeyboard,
+      })
+      .reply(200, reply);
+
+    const res = await client.sendText(RECEIVER, 'Hello', {
+      keyboard,
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should support pascalcase', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      status: 0,
+      statusMessage: 'ok',
+      messageToken: 5098034272017990000,
     };
 
     const keyboard = {
@@ -528,7 +849,7 @@ describe('keyboards', () => {
 
     const res = await client.sendText(RECEIVER, 'Hello', {
       keyboard,
-    });
+    } as any);
 
     expect(res).toEqual(reply);
   });
@@ -541,7 +862,7 @@ describe('get account info', () => {
 
       const reply = {
         status: 0,
-        status_message: 'ok',
+        statusMessage: 'ok',
         id: 'pa:75346594275468546724',
         name: 'account name',
         uri: 'accountUri',
@@ -555,8 +876,8 @@ describe('get account info', () => {
         },
         country: 'UK',
         webhook: 'https://my.site.com',
-        event_types: ['delivered', 'seen'],
-        subscribers_count: 35,
+        eventTypes: ['delivered', 'seen'],
+        subscribersCount: 35,
         members: [
           {
             id: '01234567890A=',
@@ -587,12 +908,12 @@ describe('get user details', () => {
         avatar: 'http://avatar.example.com',
         country: 'UK',
         language: 'en',
-        primary_device_os: 'android 7.1',
-        api_version: 1,
-        viber_version: '6.5.0',
+        primaryDeviceOs: 'android 7.1',
+        apiVersion: 1,
+        viberVersion: '6.5.0',
         mcc: 1,
         mnc: 1,
-        device_type: 'iPhone9,4',
+        deviceType: 'iPhone9,4',
       };
 
       const reply = {
@@ -623,19 +944,19 @@ describe('get online', () => {
       const users = [
         {
           id: '01234567890=',
-          online_status: 0,
-          online_status_message: 'online',
+          onlineStatus: 0,
+          onlineStatusMessage: 'online',
         },
         {
           id: '01234567891=',
-          online_status: 1,
-          online_status_message: 'offline',
-          last_online: 1457764197627,
+          onlineStatus: 1,
+          onlineStatusMessage: 'offline',
+          lastOnline: 1457764197627,
         },
         {
           id: '01234567893=',
-          online_status: 3,
-          online_status_message: 'tryLater',
+          onlineStatus: 3,
+          onlineStatusMessage: 'tryLater',
         },
       ];
 
