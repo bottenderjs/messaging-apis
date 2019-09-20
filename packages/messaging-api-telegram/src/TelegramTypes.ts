@@ -259,44 +259,191 @@ export type File = {
   file_path: string;
 };
 
+/**
+ * This object represents a custom keyboard with reply options.
+ *
+ * - https://core.telegram.org/bots#keyboards
+ * - https://core.telegram.org/bots/api#replykeyboardmarkup
+ */
 export type ReplyKeyboardMarkup = {
+  /**
+   * Array of button rows, each represented by an Array of KeyboardButton objects
+   *
+   * - https://core.telegram.org/bots/api#keyboardbutton
+   */
   keyboard: KeyboardButton[][];
-  resize_keyboard?: boolean;
-  one_time_keyboard?: boolean;
+
+  /**
+   * Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+   */
+  resizeKeyboard?: boolean;
+
+  /**
+   * Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat – the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
+   */
+  oneTimeKeyboard?: boolean;
+
+  /**
+   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   *
+   * Example: A user requests to change the bot‘s language, bot replies to the request with a keyboard to select the new language. Other users in the group don’t see the keyboard.
+   */
   selective?: boolean;
 };
 
+/**
+ * This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button. Optional fields are mutually exclusive.
+ *
+ * - https://core.telegram.org/bots/api#keyboardbutton
+ */
 export type KeyboardButton = {
+  /**
+   * Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed
+   */
   text: string;
-  request_contact?: boolean;
-  request_location?: boolean;
+
+  /**
+   * Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
+   */
+  requestContact?: boolean;
+
+  /**
+   * Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only
+   */
+  requestLocation?: boolean;
 };
 
+/**
+ * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup).
+ *
+ * - https://core.telegram.org/bots/api#replykeyboardremove
+ * - https://core.telegram.org/bots/api#replykeyboardmarkup
+ */
 export type ReplyKeyboardRemove = {
-  remove_keyboard: boolean;
+  /**
+   * Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
+   */
+  removeKeyboard: true;
+
+  /**
+   * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets:
+   * 1. users that are @mentioned in the text of the Message object
+   * 2. if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   *
+   * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
+   */
   selective?: boolean;
 };
 
+/**
+ * This object represents an inline keyboard that appears right next to the message it belongs to.
+ *
+ * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+ */
 export type InlineKeyboardMarkup = {
-  inline_keyboard: InlineKeyboardButton[][];
+  /**
+   * Array of button rows, each represented by an Array of InlineKeyboardButton objects
+   *
+   * - https://core.telegram.org/bots/api#inlinekeyboardbutton
+   */
+  inlineKeyboard: InlineKeyboardButton[][];
 };
 
+/**
+ * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
+ *
+ * - https://core.telegram.org/bots/api#inlinekeyboardbutton
+ */
 export type InlineKeyboardButton = {
+  /**
+   * Label text on the button
+   */
   text: string;
+
+  /**
+   * Optional. HTTP or tg:// url to be opened when button is pressed
+   */
   url?: string;
-  login_url?: LoginUrl;
-  callback_data?: string;
-  switch_inline_query?: string;
-  switch_inline_query_current_chat?: string;
-  callback_game?: CallbackGame;
+
+  /**
+   * Optional. An HTTP URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget.
+   *
+   * - https://core.telegram.org/bots/api#loginurl
+   * - https://core.telegram.org/widgets/login
+   */
+  loginUrl?: LoginUrl;
+
+  /**
+   * Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
+   */
+  callbackData?: string;
+
+  /**
+   * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.
+   *
+   * Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switch_pm… actions – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
+   */
+  switchInlineQuery?: string;
+
+  /**
+   * Optional. If set, pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted.
+   *
+   * This offers a quick way for the user to open your bot in inline mode in the same chat – good for selecting something from multiple options.
+   */
+  switchInlineQueryCurrentChat?: string;
+
+  /**
+   * Optional. Description of the game that will be launched when the user presses the button.
+   *
+   * NOTE: This type of button must always be the first button in the first row.
+   *
+   * - https://core.telegram.org/bots/api#callbackgame
+   */
+  callbackGame?: CallbackGame;
+
+  /**
+   * Optional. Specify True, to send a Pay button.
+   *
+   * NOTE: This type of button must always be the first button in the first row.
+   *
+   * - https://core.telegram.org/bots/api#payments
+   */
   pay?: boolean;
 };
 
+/**
+ * This object represents a parameter of the inline keyboard button used to automatically authorize a user. Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in:
+ *
+ * - https://core.telegram.org/bots/api#loginurl
+ */
 export type LoginUrl = {
+  /**
+   * An HTTP URL to be opened with user authorization data added to the query string when the button is pressed. If the user refuses to provide authorization data, the original URL without information about the user will be opened. The data added is the same as described in Receiving authorization data.
+   *
+   * NOTE: You must always check the hash of the received data to verify the authentication and the integrity of the data as described in Checking authorization.
+   *
+   * - https://core.telegram.org/widgets/login#receiving-authorization-data
+   * - https://core.telegram.org/widgets/login#checking-authorization
+   */
   url: string;
-  forward_text?: string;
-  bot_username?: string;
-  request_write_access?: boolean;
+
+  /**
+   * Optional. New text of the button in forwarded messages.
+   */
+  forwardText?: string;
+
+  /**
+   * Optional. Username of a bot, which will be used for user authorization. See Setting up a bot for more details. If not specified, the current bot's username will be assumed. The url's domain must be the same as the domain linked with the bot. See Linking your domain to the bot for more details.
+   *
+   * - https://core.telegram.org/widgets/login#setting-up-a-bot
+   * - https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot
+   */
+  botUsername?: string;
+
+  /**
+   * Optional. Pass True to request the permission for your bot to send messages to the user.
+   */
+  requestWriteAccess?: boolean;
 };
 
 export type CallbackQuery = {
@@ -309,8 +456,23 @@ export type CallbackQuery = {
   game_short_name?: string;
 };
 
+/**
+ * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot‘s message and tapped ’Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode.
+ *
+ * - https://core.telegram.org/bots/api#forcereply
+ * - https://core.telegram.org/bots#privacy-mode
+ */
 export type ForceReply = {
-  force_reply: boolean;
+  /**
+   * Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
+   */
+  forceReply: boolean;
+
+  /**
+   * Optional. Use this parameter if you want to force reply from specific users only. Targets:
+   * 1. users that are @mentioned in the text of the Message object;
+   * 2. if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   */
   selective?: boolean;
 };
 
@@ -990,6 +1152,11 @@ export type Game = {
   animation?: Animation;
 };
 
+/**
+ * A placeholder, currently holds no information. Use BotFather to set up your game.
+ *
+ * - https://core.telegram.org/bots/api#callbackgame
+ */
 export type CallbackGame = any;
 
 export type GameHighScore = {
@@ -1040,3 +1207,52 @@ export type GetUpdatesOption = {
    */
   allowedUpdates?: string[];
 };
+
+export type SendMessageOption = {
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Disables link previews for links in this message
+   */
+  disableWebPagePreview?: boolean;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export enum ParseMode {
+  Markdown = 'Markdown',
+  HTML = 'HTML',
+}

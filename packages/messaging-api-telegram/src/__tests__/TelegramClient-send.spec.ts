@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import TelegramClient from '../TelegramClient';
+import { ParseMode } from '../TelegramTypes';
 
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
@@ -12,41 +13,248 @@ const createMock = () => {
 
 describe('send api', () => {
   describe('#sendMessage', () => {
-    it('should send text message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499402829,
-        text: 'hi',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      text: 'hi',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send text message to user with snakecase options', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendMessage', {
           chat_id: 427770117,
           text: 'hi',
+          parse_mode: 'Markdown',
           disable_web_page_preview: true,
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
       const res = await client.sendMessage(427770117, 'hi', {
+        parse_mode: 'Markdown',
         disable_web_page_preview: true,
         disable_notification: true,
+        reply_to_message_id: 9527,
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send text message to user with camelcase options', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendMessage', {
+          chat_id: 427770117,
+          text: 'hi',
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(427770117, 'hi', {
+        parseMode: ParseMode.Markdown,
+        disableWebPagePreview: true,
+        disableNotification: true,
+        replyToMessageId: 9527,
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send text message to user with InlineKeyboardMarkup', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendMessage', {
+          chat_id: 427770117,
+          text: 'hi',
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: 'text',
+                  url: 'http://url.com/',
+                  login_url: {
+                    url: 'http://login_url.com/',
+                    forward_text: 'forwardText',
+                    bot_username: 'botUsername',
+                    request_write_access: true,
+                  },
+                  callback_data: 'callback_data',
+                  switch_inline_query: 'switch_inline_query',
+                  switch_inline_query_current_chat:
+                    'switch_inline_query_current_chat',
+                  callback_game: {},
+                  pay: true,
+                },
+              ],
+            ],
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(427770117, 'hi', {
+        parseMode: ParseMode.Markdown,
+        disableWebPagePreview: true,
+        disableNotification: true,
+        replyToMessageId: 9527,
+        replyMarkup: {
+          inlineKeyboard: [
+            [
+              {
+                text: 'text',
+                url: 'http://url.com/',
+                loginUrl: {
+                  url: 'http://login_url.com/',
+                  forwardText: 'forwardText',
+                  botUsername: 'botUsername',
+                  requestWriteAccess: true,
+                },
+                callbackData: 'callback_data',
+                switchInlineQuery: 'switch_inline_query',
+                switchInlineQueryCurrentChat:
+                  'switch_inline_query_current_chat',
+                callbackGame: {},
+                pay: true,
+              },
+            ],
+          ],
+        },
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send text message to user with ReplyKeyboardMarkup', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendMessage', {
+          chat_id: 427770117,
+          text: 'hi',
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+          reply_markup: {
+            keyboard: [
+              [
+                {
+                  text: 'text',
+                  request_contact: true,
+                  request_location: true,
+                },
+              ],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+            selective: true,
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(427770117, 'hi', {
+        parseMode: ParseMode.Markdown,
+        disableWebPagePreview: true,
+        disableNotification: true,
+        replyToMessageId: 9527,
+        replyMarkup: {
+          keyboard: [
+            [
+              {
+                text: 'text',
+                requestContact: true,
+                requestLocation: true,
+              },
+            ],
+          ],
+          resizeKeyboard: true,
+          oneTimeKeyboard: true,
+          selective: true,
+        },
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send text message to user with ReplyKeyboardRemove', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendMessage', {
+          chat_id: 427770117,
+          text: 'hi',
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+          reply_markup: {
+            remove_keyboard: true,
+            selective: true,
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(427770117, 'hi', {
+        parseMode: ParseMode.Markdown,
+        disableWebPagePreview: true,
+        disableNotification: true,
+        replyToMessageId: 9527,
+        replyMarkup: {
+          removeKeyboard: true,
+          selective: true,
+        },
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send text message to user with ForceReply', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendMessage', {
+          chat_id: 427770117,
+          text: 'hi',
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+          reply_markup: {
+            force_reply: true,
+            selective: true,
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMessage(427770117, 'hi', {
+        parseMode: ParseMode.Markdown,
+        disableWebPagePreview: true,
+        disableNotification: true,
+        replyToMessageId: 9527,
+        replyMarkup: {
+          forceReply: true,
+          selective: true,
+        },
       });
 
       expect(res).toEqual(result);

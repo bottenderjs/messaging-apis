@@ -16,6 +16,7 @@ import {
   GameHighScore,
   GetUpdatesOption,
   Message,
+  SendMessageOption,
   SetWebhookOption,
   Update,
   User,
@@ -184,15 +185,17 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendmessage
+   * Use this method to send text messages. On success, the sent Message is returned.
+   *
+   * - https://core.telegram.org/bots/api#sendmessage
    */
   sendMessage(
-    chatId: string,
+    chatId: string | number,
     text: string,
-    options?: Record<string, any>
+    options?: SendMessageOption
   ): Promise<Message> {
     return this._request('/sendMessage', {
-      chat_id: chatId,
+      chatId,
       text,
       ...options,
     });
