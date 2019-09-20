@@ -514,36 +514,36 @@ describe('inline mode api', () => {
 
 describe('other api', () => {
   describe('#forwardMessage', () => {
-    it('should forward messages of any kind', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499402829,
-        forward_from: {
-          id: 357830311,
-          first_name: 'first_2',
-          last_name: 'last_2',
-          language_code: 'zh-TW',
-        },
-        forward_date: 1499849644,
-        text: 'hi',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      forward_from: {
+        id: 357830311,
+        first_name: 'first_2',
+        last_name: 'last_2',
+        language_code: 'zh-TW',
+      },
+      forward_date: 1499849644,
+      text: 'hi',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should forward messages of any kind with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/forwardMessage', {
           chat_id: 427770117,
@@ -555,6 +555,23 @@ describe('other api', () => {
 
       const res = await client.forwardMessage(427770117, 313534466, 203, {
         disable_notification: true,
+      });
+
+      expect(res).toEqual(result);
+    });
+    it('should forward messages of any kind with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/forwardMessage', {
+          chat_id: 427770117,
+          from_chat_id: 313534466,
+          message_id: 203,
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.forwardMessage(427770117, 313534466, 203, {
+        disableNotification: true,
       });
 
       expect(res).toEqual(result);

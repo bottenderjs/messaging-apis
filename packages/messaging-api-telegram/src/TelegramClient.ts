@@ -13,6 +13,7 @@ import {
   ChatAction,
   ChatMember,
   File,
+  ForwardMessageOption,
   GameHighScore,
   GetUpdatesOption,
   Message,
@@ -205,18 +206,24 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
+   * Use this method to forward messages of any kind. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param fromChatId Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+   * @param messageId Message identifier in the chat specified in from_chat_id
+   * @param options.disableNotification Sends the message silently. Users will receive a notification with no sound
+   * https://core.telegram.org/bots/api#forwardmessage
    */
   forwardMessage(
-    chatId: string,
-    fromChatId: string,
+    chatId: string | number,
+    fromChatId: string | number,
     messageId: number,
-    options?: Record<string, any>
+    options?: ForwardMessageOption
   ): Promise<Message> {
     return this._request('/forwardMessage', {
-      chat_id: chatId,
-      from_chat_id: fromChatId,
-      message_id: messageId,
+      chatId,
+      fromChatId,
+      messageId,
       ...options,
     });
   }
