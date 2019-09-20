@@ -92,9 +92,9 @@ export default class TelegramClient {
     return this._token;
   }
 
-  async _request(path: string, body?: Record<string, any>) {
+  async _request(path: string, body: Record<string, any> = {}) {
     try {
-      const response = await this._axios.post(path, body);
+      const response = await this._axios.post(path, snakeCaseKeys(body));
 
       const { data, config, request } = response;
 
@@ -150,10 +150,11 @@ export default class TelegramClient {
    * @returns True on success.
    */
   setWebhook(url: string, options: SetWebhookOption = {}): Promise<boolean> {
-    const snakecaseOptions = snakeCaseKeys(options);
-    const optionsWithoutCertificate = pick(snakecaseOptions, [
+    const optionsWithoutCertificate = pick(options, [
       'max_connections',
       'allowed_updates',
+      'maxConnections',
+      'allowedUpdates',
     ]);
     return this._request('/setWebhook', {
       url,
