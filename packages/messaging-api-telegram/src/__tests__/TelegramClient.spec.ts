@@ -112,15 +112,15 @@ describe('webhooks', () => {
   });
 
   describe('#setWebhook', () => {
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+      description: 'Webhook was set',
+    };
+
     it('should response webhook was set', async () => {
       const { client, mock } = createMock();
-      const result = true;
-      const reply = {
-        ok: true,
-        result,
-        description: 'Webhook was set',
-      };
-
       mock.onPost('/setWebhook').reply(200, reply);
 
       const res = await client.setWebhook('https://4a16faff.ngrok.io/');
@@ -130,13 +130,6 @@ describe('webhooks', () => {
 
     it('should ignore certificate options and transform all options to snakecase', async () => {
       const { client, mock } = createMock();
-      const result = true;
-      const reply = {
-        ok: true,
-        result,
-        description: 'Webhook was set',
-      };
-
       mock
         .onPost('/setWebhook', {
           url: 'https://4a16faff.ngrok.io/',
@@ -149,6 +142,25 @@ describe('webhooks', () => {
         certificate: 'qq',
         maxConnections: 40,
         allowedUpdates: [],
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should work well with snakecase options', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/setWebhook', {
+          url: 'https://4a16faff.ngrok.io/',
+          max_connections: 40,
+          allowed_updates: [],
+        })
+        .reply(200, reply);
+
+      const res = await client.setWebhook('https://4a16faff.ngrok.io/', {
+        certificate: 'qq',
+        max_connections: 40,
+        allowed_updates: [],
       });
 
       expect(res).toEqual(result);
