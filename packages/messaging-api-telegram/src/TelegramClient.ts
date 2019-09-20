@@ -150,14 +150,14 @@ export default class TelegramClient {
    * @returns True on success.
    */
   setWebhook(url: string, options: SetWebhookOption = {}): Promise<boolean> {
-    const optionsWithoutCertificate = pick(options, [
-      'maxConnections',
-      'allowedUpdates',
+    const snakecaseOptions = snakeCaseKeys(options);
+    const optionsWithoutCertificate = pick(snakecaseOptions, [
+      'max_connections',
+      'allowed_updates',
     ]);
-    const snakecaseOptions = snakeCaseKeys(optionsWithoutCertificate);
     return this._request('/setWebhook', {
       url,
-      ...snakecaseOptions,
+      ...optionsWithoutCertificate,
     });
   }
 
