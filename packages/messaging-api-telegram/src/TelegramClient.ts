@@ -3,10 +3,10 @@
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import omit from 'lodash.omit';
+import pick from 'lodash/pick';
 import snakeCaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
-import { pick } from 'lodash';
 
 import {
   Chat,
