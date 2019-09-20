@@ -6,6 +6,7 @@ import omit from 'lodash.omit';
 import snakeCaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
+import { pick } from 'lodash';
 
 import {
   Chat,
@@ -149,9 +150,14 @@ export default class TelegramClient {
    * @returns True on success.
    */
   setWebhook(url: string, options: SetWebhookOption = {}): Promise<boolean> {
+    const optionsWithoutCertificate = pick(options, [
+      'maxConnections',
+      'allowedUpdates',
+    ]);
+    const snakecaseOptions = snakeCaseKeys(optionsWithoutCertificate);
     return this._request('/setWebhook', {
       url,
-      ...snakeCaseKeys(options),
+      ...snakecaseOptions,
     });
   }
 
