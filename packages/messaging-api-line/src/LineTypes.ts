@@ -1,11 +1,3 @@
-export type SendType = 'reply' | 'push' | 'multicast';
-
-export type ReplyToken = string;
-
-export type UserId = string;
-
-export type SendTarget = ReplyToken | UserId | UserId[];
-
 export type User = {
   displayName: string;
   userId: string;

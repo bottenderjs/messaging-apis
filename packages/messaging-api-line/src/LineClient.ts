@@ -8,7 +8,9 @@ import { onRequest } from 'messaging-api-common';
 
 import Line from './Line';
 import {
+  ButtonsTemplate,
   ColumnObject,
+  ConfirmTemplate,
   FlexContainer,
   ImageCarouselColumnObject,
   ImagemapMessage,
@@ -17,14 +19,10 @@ import {
   Message,
   MessageOptions,
   MutationSuccessResponse,
-  ReplyToken,
   RichMenu,
-  SendTarget,
-  SendType,
+  StickerMessage,
   Template,
-  TemplateAction,
   User,
-  UserId,
 } from './LineTypes';
 
 type ClientConfig = {
@@ -134,317 +132,6 @@ export default class LineClient {
     return this._accessToken;
   }
 
-  _send(
-    type: SendType,
-    target: SendTarget,
-    messages: Message[],
-    options: Record<string, any> = {}
-  ): Promise<MutationSuccessResponse> {
-    if (type === 'push') {
-      return this.push(target as UserId, messages, options);
-    }
-    if (type === 'multicast') {
-      return this.multicast(target as UserId[], messages, options);
-    }
-    return this.reply(target as ReplyToken, messages, options);
-  }
-
-  _sendText(
-    type: SendType,
-    target: SendTarget,
-    text: string,
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createText(text, options || {})],
-      options
-    );
-  }
-
-  _sendImage(
-    type: SendType,
-    target: SendTarget,
-    image: {
-      originalContentUrl: string;
-      previewImageUrl?: string;
-    },
-    options: MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createImage(image, options)],
-      options
-    );
-  }
-
-  _sendVideo(
-    type: SendType,
-    target: SendTarget,
-    video: {
-      originalContentUrl: string;
-      previewImageUrl: string;
-    },
-    options: MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createVideo(video, options || {})],
-      options
-    );
-  }
-
-  _sendAudio(
-    type: SendType,
-    target: SendTarget,
-    audio: {
-      originalContentUrl: string;
-      duration: number;
-    },
-    options: MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createAudio(audio, options)],
-      options
-    );
-  }
-
-  _sendLocation(
-    type: SendType,
-    target: SendTarget,
-    location: Location,
-    options: MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createLocation(location, options)],
-      options
-    );
-  }
-
-  _sendSticker(
-    type: SendType,
-    target: SendTarget,
-    sticker: Record<string, any>,
-    options: MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createSticker(sticker, options)],
-      options
-    );
-  }
-
-  /**
-   * Imagemap Message
-   *
-   * https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message
-   */
-  _sendImagemap(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    {
-      baseUrl,
-      baseSize,
-      video,
-      actions,
-    }: Omit<ImagemapMessage, 'type' | 'altText'>,
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [
-        Line.createImagemap(
-          altText,
-          {
-            baseUrl,
-            baseSize,
-            video,
-            actions,
-          },
-
-          options || {}
-        ),
-      ],
-
-      options
-    );
-  }
-
-  /**
-   * Flex Message
-   *
-   * https://developers.line.me/en/docs/messaging-api/reference/#flex-message
-   */
-  _sendFlex(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    flex: FlexContainer,
-    options: MessageOptions
-  ) {
-    return this._send(
-      type,
-      target,
-      [Line.createFlex(altText, flex, options || {})],
-      options
-    );
-  }
-
-  /**
-   * Template Messages
-   *
-   * https://developers.line.me/en/docs/messaging-api/reference/#template-messages
-   */
-  _sendTemplate(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    template: Template,
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createTemplate(altText, template, options || {})],
-      options
-    );
-  }
-
-  _sendButtonTemplate(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    {
-      thumbnailImageUrl,
-      imageAspectRatio,
-      imageSize,
-      imageBackgroundColor,
-      title,
-      text,
-      defaultAction,
-      actions,
-    }: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [
-        Line.createButtonTemplate(
-          altText,
-          {
-            thumbnailImageUrl,
-            imageAspectRatio,
-            imageSize,
-            imageBackgroundColor,
-            title,
-            text,
-            defaultAction,
-            actions,
-          },
-
-          options || {}
-        ),
-      ],
-
-      options
-    );
-  }
-
-  _sendConfirmTemplate(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    {
-      text,
-      actions,
-    }: {
-      text: string;
-      actions: Array<TemplateAction>;
-    },
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [
-        Line.createConfirmTemplate(
-          altText,
-          {
-            text,
-            actions,
-          },
-
-          options || {}
-        ),
-      ],
-      options
-    );
-  }
-
-  _sendCarouselTemplate(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    columns: Array<ColumnObject>,
-    {
-      imageAspectRatio,
-      imageSize,
-      ...options
-    }: {
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      options?: MessageOptions;
-    } = {}
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [
-        Line.createCarouselTemplate(altText, columns, {
-          imageAspectRatio,
-          imageSize,
-          ...options,
-        }),
-      ],
-      options
-    );
-  }
-
-  _sendImageCarouselTemplate(
-    type: SendType,
-    target: SendTarget,
-    altText: string,
-    columns: ImageCarouselColumnObject[],
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
-    return this._send(
-      type,
-      target,
-      [Line.createImageCarouselTemplate(altText, columns, options || {})],
-      options
-    );
-  }
-
   /**
    * Reply Message
    *
@@ -452,7 +139,7 @@ export default class LineClient {
    */
   replyRawBody(
     body: {
-      replyToken: ReplyToken;
+      replyToken: string;
       messages: Message[];
     },
     { accessToken: customAccessToken }: { accessToken?: string } = {}
@@ -471,7 +158,7 @@ export default class LineClient {
   }
 
   reply(
-    replyToken: ReplyToken,
+    replyToken: string,
     messages: Message[],
     options: Record<string, any> = {}
   ): Promise<MutationSuccessResponse> {
@@ -479,7 +166,7 @@ export default class LineClient {
   }
 
   replyMessages(
-    replyToken: ReplyToken,
+    replyToken: string,
     messages: Message[],
     options: Record<string, any> = {}
   ): Promise<MutationSuccessResponse> {
@@ -487,126 +174,141 @@ export default class LineClient {
   }
 
   replyText(
-    replyToken: ReplyToken,
+    replyToken: string,
     text: string,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendText('reply', replyToken, text, options);
+    return this.reply(replyToken, [Line.createText(text, options)], options);
   }
 
   replyImage(
-    replyToken: ReplyToken,
+    replyToken: string,
     image: {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImage('reply', replyToken, image, options);
+    return this.reply(replyToken, [Line.createImage(image, options)], options);
   }
 
   replyVideo(
-    replyToken: ReplyToken,
+    replyToken: string,
     video: {
       originalContentUrl: string;
       previewImageUrl: string;
     },
     options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendVideo('reply', replyToken, video, options);
+    return this.reply(replyToken, [Line.createVideo(video, options)], options);
   }
 
   replyAudio(
-    replyToken: ReplyToken,
+    replyToken: string,
     audio: {
       originalContentUrl: string;
       duration: number;
     },
     options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendAudio('reply', replyToken, audio, options);
+    return this.reply(replyToken, [Line.createAudio(audio, options)], options);
   }
 
   replyLocation(
-    replyToken: ReplyToken,
+    replyToken: string,
     location: Location,
     options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendLocation('reply', replyToken, location, options);
+    return this.reply(
+      replyToken,
+      [Line.createLocation(location, options)],
+      options
+    );
   }
 
   replySticker(
-    replyToken: ReplyToken,
-    sticker: Record<string, any>,
+    replyToken: string,
+    sticker: Omit<StickerMessage, 'type'>,
     options: MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendSticker('reply', replyToken, sticker, options);
+    return this.reply(
+      replyToken,
+      [Line.createSticker(sticker, options)],
+      options
+    );
   }
 
+  /**
+   * Imagemap Message
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message
+   */
   replyImagemap(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
     imagemap: Omit<ImagemapMessage, 'type' | 'altText'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImagemap('reply', replyToken, altText, imagemap, options);
+    return this.reply(
+      replyToken,
+      [Line.createImagemap(altText, imagemap, options)],
+      options
+    );
   }
 
+  /**
+   * Flex Message
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#flex-message
+   */
   replyFlex(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
     flex: FlexContainer,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendFlex('reply', replyToken, altText, flex, options);
+    return this.reply(
+      replyToken,
+      [Line.createFlex(altText, flex, options)],
+      options
+    );
   }
 
+  /**
+   * Template Messages
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#template-messages
+   */
   replyTemplate(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
     template: Template,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendTemplate('reply', replyToken, altText, template, options);
+    return this.reply(
+      replyToken,
+      [Line.createTemplate(altText, template, options)],
+      options
+    );
   }
 
   replyButtonTemplate(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
-    buttonTemplate: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
+    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendButtonTemplate(
-      'reply',
+    return this.reply(
       replyToken,
-      altText,
-      buttonTemplate,
+      [Line.createButtonTemplate(altText, buttonTemplate, options)],
       options
     );
   }
 
   replyButtonsTemplate(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
-    buttonTemplate: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
+    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this.replyButtonTemplate(
@@ -618,27 +320,22 @@ export default class LineClient {
   }
 
   replyConfirmTemplate(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
-    confirmTemplate: {
-      text: string;
-      actions: Array<TemplateAction>;
-    },
+    confirmTemplate: Omit<ConfirmTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendConfirmTemplate(
-      'reply',
+    return this.reply(
       replyToken,
-      altText,
-      confirmTemplate,
+      [Line.createConfirmTemplate(altText, confirmTemplate, options)],
       options
     );
   }
 
   replyCarouselTemplate(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
-    columns: Array<ColumnObject>,
+    columns: ColumnObject[],
     {
       imageAspectRatio,
       imageSize,
@@ -646,27 +343,30 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-      options?: MessageOptions;
-    } = {}
+    } & MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendCarouselTemplate('reply', replyToken, altText, columns, {
-      imageAspectRatio,
-      imageSize,
-      ...options,
-    });
+    return this.reply(
+      replyToken,
+      [
+        Line.createCarouselTemplate(altText, columns, {
+          imageAspectRatio,
+          imageSize,
+          ...options,
+        }),
+      ],
+      options
+    );
   }
 
   replyImageCarouselTemplate(
-    replyToken: ReplyToken,
+    replyToken: string,
     altText: string,
     columns: ImageCarouselColumnObject[],
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImageCarouselTemplate(
-      'reply',
+    return this.reply(
       replyToken,
-      altText,
-      columns,
+      [Line.createImageCarouselTemplate(altText, columns, options)],
       options
     );
   }
@@ -699,7 +399,7 @@ export default class LineClient {
   push(
     to: string,
     messages: Message[],
-    options: Record<string, any> = {}
+    options: Record<string, any>
   ): Promise<MutationSuccessResponse> {
     return this.pushRawBody({ to, messages }, options);
   }
@@ -707,7 +407,7 @@ export default class LineClient {
   pushMessages(
     to: string,
     messages: Message[],
-    options: Record<string, any> = {}
+    options: Record<string, any>
   ): Promise<MutationSuccessResponse> {
     return this.push(to, messages, options);
   }
@@ -717,7 +417,7 @@ export default class LineClient {
     text: string,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendText('push', to, text, options);
+    return this.push(to, [Line.createText(text, options)], options);
   }
 
   pushImage(
@@ -728,7 +428,7 @@ export default class LineClient {
     },
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImage('push', to, image, options);
+    return this.push(to, [Line.createImage(image, options)], options);
   }
 
   pushVideo(
@@ -737,9 +437,9 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options: MessageOptions = {}
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendVideo('push', to, video, options);
+    return this.push(to, [Line.createVideo(video, options)], options);
   }
 
   pushAudio(
@@ -748,74 +448,86 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options: MessageOptions = {}
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendAudio('push', to, audio, options);
+    return this.push(to, [Line.createAudio(audio, options)], options);
   }
 
   pushLocation(
     to: string,
     location: Location,
-    options: MessageOptions = {}
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendLocation('push', to, location, options);
+    return this.push(to, [Line.createLocation(location, options)], options);
   }
 
   pushSticker(
     to: string,
-    sticker: Record<string, any>,
-    options: MessageOptions = {}
+    sticker: Omit<StickerMessage, 'type'>,
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendSticker('push', to, sticker, options);
+    return this.push(to, [Line.createSticker(sticker, options)], options);
   }
 
+  /**
+   * Imagemap Message
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message
+   */
   pushImagemap(
     to: string,
     altText: string,
     imagemap: Omit<ImagemapMessage, 'type' | 'altText'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImagemap('push', to, altText, imagemap, options);
+    return this.push(
+      to,
+      [Line.createImagemap(altText, imagemap, options)],
+      options
+    );
   }
 
+  /**
+   * Flex Message
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#flex-message
+   */
   pushFlex(
     to: string,
     altText: string,
     flex: FlexContainer,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendFlex('push', to, altText, flex, options);
+    return this.push(to, [Line.createFlex(altText, flex, options)], options);
   }
 
+  /**
+   * Template Messages
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#template-messages
+   */
   pushTemplate(
     to: string,
     altText: string,
     template: Template,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendTemplate('push', to, altText, template, options);
+    return this.push(
+      to,
+      [Line.createTemplate(altText, template, options)],
+      options
+    );
   }
 
   pushButtonTemplate(
     to: string,
     altText: string,
-    buttonTemplate: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
+    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendButtonTemplate(
-      'push',
+    return this.push(
       to,
-      altText,
-      buttonTemplate,
+      [Line.createButtonTemplate(altText, buttonTemplate, options)],
       options
     );
   }
@@ -823,16 +535,7 @@ export default class LineClient {
   pushButtonsTemplate(
     to: string,
     altText: string,
-    buttonTemplate: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
+    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this.pushButtonTemplate(to, altText, buttonTemplate, options);
@@ -841,17 +544,12 @@ export default class LineClient {
   pushConfirmTemplate(
     to: string,
     altText: string,
-    confirmTemplate: {
-      text: string;
-      actions: Array<TemplateAction>;
-    },
+    confirmTemplate: Omit<ConfirmTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendConfirmTemplate(
-      'push',
+    return this.push(
       to,
-      altText,
-      confirmTemplate,
+      [Line.createConfirmTemplate(altText, confirmTemplate, options)],
       options
     );
   }
@@ -859,7 +557,7 @@ export default class LineClient {
   pushCarouselTemplate(
     to: string,
     altText: string,
-    columns: Array<ColumnObject>,
+    columns: ColumnObject[],
     {
       imageAspectRatio,
       imageSize,
@@ -867,14 +565,19 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-      options?: MessageOptions;
-    } = {}
+    } & MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendCarouselTemplate('push', to, altText, columns, {
-      imageAspectRatio,
-      imageSize,
-      ...options,
-    });
+    return this.push(
+      to,
+      [
+        Line.createCarouselTemplate(altText, columns, {
+          imageAspectRatio,
+          imageSize,
+          ...options,
+        }),
+      ],
+      options
+    );
   }
 
   pushImageCarouselTemplate(
@@ -883,11 +586,9 @@ export default class LineClient {
     columns: ImageCarouselColumnObject[],
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImageCarouselTemplate(
-      'push',
+    return this.push(
       to,
-      altText,
-      columns,
+      [Line.createImageCarouselTemplate(altText, columns, options)],
       options
     );
   }
@@ -899,7 +600,7 @@ export default class LineClient {
    */
   multicastRawBody(
     body: {
-      to: UserId[];
+      to: string[];
       messages: Message[];
     },
     { accessToken: customAccessToken }: { accessToken?: string } = {}
@@ -918,169 +619,175 @@ export default class LineClient {
   }
 
   multicast(
-    to: UserId[],
+    to: string[],
     messages: Message[],
-    options: Record<string, any> = {}
+    options: Record<string, any>
   ): Promise<MutationSuccessResponse> {
     return this.multicastRawBody({ to, messages }, options);
   }
 
   multicastMessages(
-    to: UserId[],
+    to: string[],
     messages: Message[],
-    options: Record<string, any> = {}
+    options: Record<string, any>
   ): Promise<MutationSuccessResponse> {
     return this.multicast(to, messages, options);
   }
 
   multicastText(
-    to: UserId[],
+    to: string[],
     text: string,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendText('multicast', to, text, options);
+    return this.multicast(to, [Line.createText(text, options)], options);
   }
 
   multicastImage(
-    to: UserId[],
+    to: string[],
     image: {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImage('multicast', to, image, options);
+    return this.multicast(to, [Line.createImage(image, options)], options);
   }
 
   multicastVideo(
-    to: UserId[],
+    to: string[],
     video: {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options: MessageOptions = {}
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendVideo('multicast', to, video, options);
+    return this.multicast(to, [Line.createVideo(video, options)], options);
   }
 
   multicastAudio(
-    to: UserId[],
+    to: string[],
     audio: {
       originalContentUrl: string;
       duration: number;
     },
-    options: MessageOptions = {}
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendAudio('multicast', to, audio, options);
+    return this.multicast(to, [Line.createAudio(audio, options)], options);
   }
 
   multicastLocation(
-    to: UserId[],
+    to: string[],
     location: Location,
-    options: MessageOptions = {}
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendLocation('multicast', to, location, options);
+    return this.multicast(
+      to,
+      [Line.createLocation(location, options)],
+      options
+    );
   }
 
   multicastSticker(
-    to: UserId[],
-    sticker: Record<string, any>,
-    options: MessageOptions = {}
+    to: string[],
+    sticker: Omit<StickerMessage, 'type'>,
+    options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendSticker('multicast', to, sticker, options);
+    return this.multicast(to, [Line.createSticker(sticker, options)], options);
   }
 
+  /**
+   * Imagemap Message
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#imagemap-message
+   */
   multicastImagemap(
-    to: UserId[],
+    to: string[],
     altText: string,
     imagemap: Omit<ImagemapMessage, 'type' | 'altText'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImagemap('multicast', to, altText, imagemap, options);
+    return this.multicast(
+      to,
+      [Line.createImagemap(altText, imagemap, options)],
+      options
+    );
   }
 
+  /**
+   * Flex Message
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#flex-message
+   */
   multicastFlex(
-    to: UserId[],
+    to: string[],
     altText: string,
     flex: FlexContainer,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendFlex('multicast', to, altText, flex, options);
+    return this.multicast(
+      to,
+      [Line.createFlex(altText, flex, options)],
+      options
+    );
   }
 
+  /**
+   * Template Messages
+   *
+   * https://developers.line.me/en/docs/messaging-api/reference/#template-messages
+   */
   multicastTemplate(
-    to: UserId[],
+    to: string[],
     altText: string,
     template: Template,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendTemplate('multicast', to, altText, template, options);
+    return this.multicast(
+      to,
+      [Line.createTemplate(altText, template, options)],
+      options
+    );
   }
 
   multicastButtonTemplate(
-    to: UserId[],
+    to: string[],
     altText: string,
-    buttonTemplate: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
+    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendButtonTemplate(
-      'multicast',
+    return this.multicast(
       to,
-      altText,
-      buttonTemplate,
+      [Line.createButtonTemplate(altText, buttonTemplate, options)],
       options
     );
   }
 
   multicastButtonsTemplate(
-    to: UserId[],
+    to: string[],
     altText: string,
-    buttonTemplate: {
-      thumbnailImageUrl?: string;
-      imageAspectRatio?: 'rectangle' | 'square';
-      imageSize?: 'cover' | 'contain';
-      imageBackgroundColor?: string;
-      title?: string;
-      text: string;
-      defaultAction?: TemplateAction;
-      actions: TemplateAction[];
-    },
+    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
     return this.multicastButtonTemplate(to, altText, buttonTemplate, options);
   }
 
   multicastConfirmTemplate(
-    to: UserId[],
+    to: string[],
     altText: string,
-    confirmTemplate: {
-      text: string;
-      actions: Array<TemplateAction>;
-    },
+    confirmTemplate: Omit<ConfirmTemplate, 'type'>,
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendConfirmTemplate(
-      'multicast',
+    return this.multicast(
       to,
-      altText,
-      confirmTemplate,
+      [Line.createConfirmTemplate(altText, confirmTemplate, options)],
       options
     );
   }
 
   multicastCarouselTemplate(
-    to: UserId[],
+    to: string[],
     altText: string,
-    columns: Array<ColumnObject>,
+    columns: ColumnObject[],
     {
       imageAspectRatio,
       imageSize,
@@ -1088,27 +795,30 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-      options?: MessageOptions;
-    } = {}
+    } & MessageOptions = {}
   ): Promise<MutationSuccessResponse> {
-    return this._sendCarouselTemplate('multicast', to, altText, columns, {
-      imageAspectRatio,
-      imageSize,
-      ...options,
-    });
+    return this.multicast(
+      to,
+      [
+        Line.createCarouselTemplate(altText, columns, {
+          imageAspectRatio,
+          imageSize,
+          ...options,
+        }),
+      ],
+      options
+    );
   }
 
   multicastImageCarouselTemplate(
-    to: UserId[],
+    to: string[],
     altText: string,
     columns: ImageCarouselColumnObject[],
     options: MessageOptions
   ): Promise<MutationSuccessResponse> {
-    return this._sendImageCarouselTemplate(
-      'multicast',
+    return this.multicast(
       to,
-      altText,
-      columns,
+      [Line.createImageCarouselTemplate(altText, columns, options)],
       options
     );
   }
@@ -1142,7 +852,7 @@ export default class LineClient {
    * displayName, userId, pictureUrl, statusMessage
    */
   getUserProfile(
-    userId: UserId,
+    userId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<User> {
     return this._axios
@@ -1170,7 +880,7 @@ export default class LineClient {
    */
   getGroupMemberProfile(
     groupId: string,
-    userId: UserId,
+    userId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
@@ -1192,7 +902,7 @@ export default class LineClient {
    */
   getRoomMemberProfile(
     roomId: string,
-    userId: UserId,
+    userId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
