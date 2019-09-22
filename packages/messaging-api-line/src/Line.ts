@@ -92,7 +92,7 @@ function createLocation(
 }
 
 function createSticker(
-  sticker: Record<string, any>,
+  sticker: Omit<StickerMessage, 'type'>,
   options: MessageOptions = {}
 ): StickerMessage {
   return {
