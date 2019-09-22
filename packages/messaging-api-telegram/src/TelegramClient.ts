@@ -192,7 +192,7 @@ export default class TelegramClient {
   forwardMessage(
     chatId: string,
     fromChatId: string,
-    messageId: string,
+    messageId: number,
     options?: Record<string, any>
   ): Promise<Message> {
     return this._request('/forwardMessage', {
@@ -614,9 +614,9 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
+   * https://core.telegram.org/bots/api#getchatmember
    */
-  getChatMember(chatId: string, userId: string): Promise<ChatMember> {
+  getChatMember(chatId: string, userId: number): Promise<ChatMember> {
     return this._request('/getChatMember', {
       chat_id: chatId,
       user_id: userId,
@@ -699,7 +699,7 @@ export default class TelegramClient {
   /**
    * https://core.telegram.org/bots/api#deletemessage
    */
-  deleteMessage(chatId: string, messageId: string): Promise<boolean> {
+  deleteMessage(chatId: string, messageId: number): Promise<boolean> {
     return this._request('/deleteMessage', {
       chat_id: chatId,
       message_id: messageId,
