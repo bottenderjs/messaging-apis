@@ -262,55 +262,57 @@ describe('send api', () => {
   });
 
   describe('#sendPhoto', () => {
-    it('should send photo message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403191,
+      photo: [
+        {
+          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
+          file_size: 1611,
+          width: 90,
+          height: 80,
         },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
+        {
+          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
+          file_size: 17218,
+          width: 320,
+          height: 285,
         },
-        date: 1499403191,
-        photo: [
-          {
-            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
-            file_size: 1611,
-            width: 90,
-            height: 80,
-          },
-          {
-            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
-            file_size: 17218,
-            width: 320,
-            height: 285,
-          },
-          {
-            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
-            file_size: 16209,
-            width: 374,
-            height: 333,
-          },
-        ],
-        caption: 'gooooooodPhoto',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+        {
+          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
+          file_size: 16209,
+          width: 374,
+          height: 333,
+        },
+      ],
+      caption: 'gooooooodPhoto',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send photo message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendPhoto', {
           chat_id: 427770117,
           photo: 'https://example.com/image.png',
           caption: 'gooooooodPhoto',
+          parse_mode: 'Markdown',
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -319,7 +321,36 @@ describe('send api', () => {
         'https://example.com/image.png',
         {
           caption: 'gooooooodPhoto',
+          parse_mode: 'Markdown',
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send photo message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendPhoto', {
+          chat_id: 427770117,
+          photo: 'https://example.com/image.png',
+          caption: 'gooooooodPhoto',
+          parse_mode: 'Markdown',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendPhoto(
+        427770117,
+        'https://example.com/image.png',
+        {
+          caption: 'gooooooodPhoto',
+          parse_mode: ParseMode.Markdown,
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 

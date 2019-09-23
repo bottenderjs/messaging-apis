@@ -18,6 +18,7 @@ import {
   GetUpdatesOption,
   Message,
   SendMessageOption,
+  SendPhotoOption,
   SetWebhookOption,
   Update,
   User,
@@ -229,15 +230,21 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendphoto
+   * Use this method to send photos. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a photo from the Internet. upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
+   * - https://core.telegram.org/bots/api#sendphoto
    */
   sendPhoto(
-    chatId: string,
+    chatId: string | number,
     photo: string,
-    options?: Record<string, any>
+    options?: SendPhotoOption
   ): Promise<Message> {
     return this._request('/sendPhoto', {
-      chat_id: chatId,
+      chatId,
       photo,
       ...options,
     });
