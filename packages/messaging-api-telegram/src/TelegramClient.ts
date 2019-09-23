@@ -14,6 +14,7 @@ import {
   ChatMember,
   File,
   GameHighScore,
+  GetUpdatesOption,
   Message,
   SetWebhookOption,
   Update,
@@ -119,9 +120,13 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to receive incoming updates using long polling. An Array of Update objects is returned.
+   * - This method will not work if an outgoing webhook is set up.
+   * - In order to avoid getting duplicate updates, recalculate offset after each server response.
+   *
    * https://core.telegram.org/bots/api#getupdates
    */
-  getUpdates(options?: Record<string, any>): Promise<Update[]> {
+  getUpdates(options?: GetUpdatesOption): Promise<Update[]> {
     return this._request('/getUpdates', {
       ...options,
     });

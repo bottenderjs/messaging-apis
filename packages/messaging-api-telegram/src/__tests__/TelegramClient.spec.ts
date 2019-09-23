@@ -77,12 +77,18 @@ describe('webhooks', () => {
 
       mock
         .onPost('/getUpdates', {
+          offset: 9527,
           limit: 10,
+          timeout: 0,
+          allowed_updates: [],
         })
         .reply(200, reply);
 
       const res = await client.getUpdates({
+        offset: 9527,
         limit: 10,
+        timeout: 0,
+        allowedUpdates: [],
       });
 
       expect(res).toEqual(result);
