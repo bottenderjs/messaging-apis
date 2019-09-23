@@ -187,6 +187,9 @@ export default class TelegramClient {
   /**
    * Use this method to send text messages. On success, the sent Message is returned.
    *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param text Text of the message to be sent
+   * @param options Options for other optional parameters.
    * - https://core.telegram.org/bots/api#sendmessage
    */
   sendMessage(
