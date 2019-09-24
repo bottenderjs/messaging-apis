@@ -1256,3 +1256,944 @@ export enum ParseMode {
   Markdown = 'Markdown',
   HTML = 'HTML',
 }
+
+export type ForwardMessageOption = {
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   */
+  disableNotification?: boolean;
+};
+
+export type SendPhotoOption = {
+  /**
+   * Photo caption (may also be used when resending photos by file_id), 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendAudioOption = {
+  /**
+   * Audio caption, 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Duration of the audio in seconds
+   */
+  duration?: number;
+
+  /**
+   * Performer
+   */
+  performer?: string;
+
+  /**
+   * Track name
+   */
+  title?: string;
+
+  /**
+   * Thumb is not supported yet.
+   */
+  thumb?: string;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendDocumentOption = {
+  /**
+   * Thumb is not supported yet.
+   */
+  thumb?: string;
+
+  /**
+   * Document caption (may also be used when resending documents by file_id), 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendVideoOption = {
+  /**
+   * Duration of sent video in seconds
+   */
+  duration?: number;
+
+  /**
+   * Video width
+   */
+  width?: number;
+
+  /**
+   * Video height
+   */
+  height?: number;
+
+  /**
+   * Thumb is not supported yet.
+   */
+  thumb?: string;
+
+  /**
+   * Video caption (may also be used when resending videos by file_id), 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Pass True, if the uploaded video is suitable for streaming
+   */
+  supportsStreaming?: boolean;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendAnimationOption = {
+  /**
+   * Duration of sent animation in seconds
+   */
+  duration?: number;
+
+  /**
+   * Animation width
+   */
+  width?: number;
+
+  /**
+   * Animation height
+   */
+  height?: number;
+
+  /**
+   * Thumb is not supported yet.
+   */
+  thumb?: string;
+
+  /**
+   * Animation caption (may also be used when resending animation by file_id), 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendVoiceOption = {
+  /**
+   * Voice message caption, 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Duration of the voice message in seconds
+   */
+  duration?: number;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendVideoNoteOption = {
+  /**
+   * Duration of sent video in seconds
+   */
+  duration?: number;
+
+  /**
+   * Video width and height, i.e. diameter of the video message
+   */
+  length?: number;
+
+  /**
+   * Thumb is not supported yet.
+   */
+  thumb?: string;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendMediaGroupOption = {
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+};
+
+export type SendLocationOption = {
+  /**
+   * Period in seconds for which the location will be updated (see Live Locations, should be between 60 and 86400.
+   *
+   * - https://telegram.org/blog/live-locations
+   */
+  livePeriod?: number;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type EditOption =
+  | {
+      /**
+       * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+       */
+      chatId: number | string;
+
+      /**
+       * Required if inline_message_id is not specified. Identifier of the message to edit
+       */
+      messageId: number;
+    }
+  | {
+      /**
+       * Required if chat_id and message_id are not specified. Identifier of the inline message
+       */
+      inlineMessageId: string;
+    };
+
+export type EditMessageLiveLocationOption = EditOption & {
+  /**
+   * A JSON-serialized object for a new inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type StopMessageLiveLocationOption = EditOption & {
+  /**
+   * A JSON-serialized object for a new inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type SendVenueOption = {
+  /**
+   * Foursquare identifier of the venue
+   */
+  foursquareId?: string;
+
+  /**
+   * Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+   */
+  foursquareType?: string;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendContactOption = {
+  /**
+   * Contact's last name
+   */
+  lastName?: string;
+
+  /**
+   * Additional data about the contact in the form of a vCard, 0-2048 bytes
+   *
+   * - https://en.wikipedia.org/wiki/VCard
+   */
+  vacrd?: string;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendPollOption = {
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type GetUserProfilePhotosOption = {
+  /**
+   * Sequential number of the first photo to be returned. By default, all photos are returned.
+   */
+  offset?: number;
+
+  /**
+   * Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
+   */
+  limit?: number;
+};
+
+export type KickChatMemberOption = {
+  /**
+   * Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
+   */
+  untilDate?: number;
+};
+
+export type RestrictChatMemberOption = {
+  /**
+   * Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
+   */
+  untilDate?: number;
+};
+
+export type PromoteChatMemberOption = {
+  /**
+   * Pass True, if the administrator can change chat title, photo and other settings
+   */
+  canChangeInfo?: boolean;
+
+  /**
+   * Pass True, if the administrator can create channel posts, channels only
+   */
+  canPostMessages?: boolean;
+
+  /**
+   * Pass True, if the administrator can edit messages of other users and can pin messages, channels only
+   */
+  canEditMessages?: boolean;
+
+  /**
+   * Pass True, if the administrator can delete messages of other users
+   */
+  canDeleteMessages?: boolean;
+
+  /**
+   * Pass True, if the administrator can invite new users to the chat
+   */
+  canInviteUsers?: boolean;
+
+  /**
+   * Pass True, if the administrator can restrict, ban or unban chat members
+   */
+  canRestrictMembers?: boolean;
+
+  /**
+   * Pass True, if the administrator can pin messages, supergroups only
+   */
+  canPinMessages?: boolean;
+
+  /**
+   * Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
+   */
+  canPromoteMembers?: boolean;
+};
+
+export type PinChatMessageOption = {
+  /**
+   * Pass True, if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels.
+   */
+  disableNotification?: boolean;
+};
+
+export type EditMessageTextOption = EditOption & {
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Disables link previews for links in this message
+   */
+  disableWebPagePreview?: boolean;
+
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type EditMessageCaptionOption = EditOption & {
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+   *
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type EditMessageMediaOption = EditOption & {
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type EditMessageReplyMarkupOption = EditOption & {
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type StopPollOption = {
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type SendStickerOption = {
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type AnswerInlineQueryOption = {
+  /**
+   * The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
+   */
+  cacheTime?: number;
+
+  /**
+   * Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
+   */
+  isPersonal?: boolean;
+
+  /**
+   * Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.
+   */
+  nextOffset?: string;
+
+  /**
+   * If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switchPmParameter
+   */
+  switchPmText?: string;
+
+  /**
+   * Deep-linking parameter for the /start message sent to the bot when user presses the switch button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
+   *
+   * Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a ‘Connect your YouTube account’ button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an oauth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
+   *
+   * - https://core.telegram.org/bots#deep-linking
+   */
+  switchPmParameter?: string;
+};
+
+export type SendInvoiceOption = {
+  /**
+   * JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
+   */
+  providerData?: string;
+
+  /**
+   * URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+   */
+  photoUrl?: string;
+
+  /**
+   * Photo size
+   */
+  photoSize?: number;
+
+  /**
+   * Photo width
+   */
+  photoWidth?: number;
+
+  /**
+   * Photo height
+   */
+  photoHeight?: number;
+
+  /**
+   * Pass True, if you require the user's full name to complete the order
+   */
+  needName?: boolean;
+
+  /**
+   * Pass True, if you require the user's phone number to complete the order
+   */
+  needPhoneNumber?: boolean;
+
+  /**
+   * Pass True, if you require the user's email address to complete the order
+   */
+  needEmail?: boolean;
+
+  /**
+   * Pass True, if you require the user's shipping address to complete the order
+   */
+  needShippingAddress?: boolean;
+
+  /**
+   * Pass True, if user's phone number should be sent to provider
+   */
+  sendPhoneNumberToProvider?: boolean;
+
+  /**
+   * Pass True, if user's email address should be sent to provider
+   */
+  sendEmailToProvider?: boolean;
+
+  /**
+   * Pass True, if the final price depends on the shipping method
+   */
+  isFlexible?: boolean;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type AnswerShippingQueryOption =
+  | {
+      /**
+       * Required if ok is True. A JSON-serialized array of available shipping options.
+       */
+      shippingOptions?: ShippingOption[];
+    }
+  | {
+      /**
+       * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
+       */
+      errorMessage?: string;
+    };
+
+export type AnswerPreCheckoutQueryOption = {
+  /**
+   * Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
+   */
+  errorMessage?: string;
+};
+
+export type SendGameOption = {
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * A JSON-serialized object for an inline keyboard. If empty, one ‘Play game_title’ button will be shown. If not empty, the first button must launch the game.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type SetGameScoreOption = EditOption & {
+  /**
+   * Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
+   */
+  force?: boolean;
+
+  /**
+   * Pass True, if the game message should not be automatically edited to include the current scoreboard
+   */
+  disableEditMessage?: boolean;
+};
+
+export type GetGameHighScoresOption = EditOption;
