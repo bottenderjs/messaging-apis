@@ -359,43 +359,49 @@ describe('send api', () => {
   });
 
   describe('#sendAudio', () => {
-    it('should send audio message to user', async () => {
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      audio: {
+        duration: 108,
+        mime_type: 'audio/mpeg',
+        title: 'Song_Title',
+        performer: 'Song_Performer',
+        file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+        file_size: 1739320,
+      },
+      caption: 'gooooooodAudio',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    it('should send audio message to user with snakecase', async () => {
       const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        audio: {
-          duration: 108,
-          mime_type: 'audio/mpeg',
-          title: 'Song_Title',
-          performer: 'Song_Performer',
-          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-          file_size: 1739320,
-        },
-        caption: 'gooooooodAudio',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
 
       mock
         .onPost('/sendAudio', {
           chat_id: 427770117,
           audio: 'https://example.com/audio.mp3',
           caption: 'gooooooodAudio',
+          parse_mode: 'Markdown',
+          duration: 1,
+          performer: 'performer',
+          title: 'title',
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -404,7 +410,48 @@ describe('send api', () => {
         'https://example.com/audio.mp3',
         {
           caption: 'gooooooodAudio',
+          parse_mode: 'Markdown',
+          duration: 1,
+          performer: 'performer',
+          title: 'title',
+          thumb: 'thumb',
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send audio message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+
+      mock
+        .onPost('/sendAudio', {
+          chat_id: 427770117,
+          audio: 'https://example.com/audio.mp3',
+          caption: 'gooooooodAudio',
+          parse_mode: 'Markdown',
+          duration: 1,
+          performer: 'performer',
+          title: 'title',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendAudio(
+        427770117,
+        'https://example.com/audio.mp3',
+        {
+          caption: 'gooooooodAudio',
+          parseMode: ParseMode.Markdown,
+          duration: 1,
+          performer: 'performer',
+          title: 'title',
+          thumb: 'thumb',
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
