@@ -9,22 +9,94 @@ import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
 import {
+  AnswerInlineQueryOption,
+  AnswerPreCheckoutQueryOption,
+  AnswerShippingQueryOption,
   Chat,
   ChatAction,
   ChatMember,
+  EditMessageCaptionOption,
+  EditMessageLiveLocationOption,
+  EditMessageMediaOption,
+  EditMessageReplyMarkupOption,
+  EditMessageTextOption,
+  EditOption,
   File,
   ForwardMessageOption,
   GameHighScore,
+  GetGameHighScoresOption,
   GetUpdatesOption,
+  GetUserProfilePhotosOption,
+  KickChatMemberOption,
   Message,
+  PinChatMessageOption,
+  PromoteChatMemberOption,
+  RestrictChatMemberOption,
+  SendAnimationOption,
+  SendAudioOption,
+  SendContactOption,
+  SendDocumentOption,
+  SendGameOption,
+  SendInvoiceOption,
+  SendLocationOption,
+  SendMediaGroupOption,
   SendMessageOption,
   SendPhotoOption,
+  SendPollOption,
+  SendStickerOption,
+  SendVenueOption,
+  SendVideoNoteOption,
+  SendVideoOption,
+  SendVoiceOption,
+  SetGameScoreOption,
   SetWebhookOption,
+  StopMessageLiveLocationOption,
+  StopPollOption,
   Update,
   User,
   UserProfilePhotos,
   WebhookInfo,
 } from './TelegramTypes';
+
+export type AnyOption =
+  | AnswerInlineQueryOption
+  | AnswerPreCheckoutQueryOption
+  | AnswerShippingQueryOption
+  | EditMessageCaptionOption
+  | EditMessageLiveLocationOption
+  | EditMessageMediaOption
+  | EditMessageReplyMarkupOption
+  | EditMessageTextOption
+  | EditOption
+  | ForwardMessageOption
+  | GetGameHighScoresOption
+  | GetUpdatesOption
+  | GetUserProfilePhotosOption
+  | KickChatMemberOption
+  | PinChatMessageOption
+  | PromoteChatMemberOption
+  | RestrictChatMemberOption
+  | SendAnimationOption
+  | SendAudioOption
+  | SendContactOption
+  | SendDocumentOption
+  | SendGameOption
+  | SendInvoiceOption
+  | SendLocationOption
+  | SendMediaGroupOption
+  | SendMessageOption
+  | SendPhotoOption
+  | SendPollOption
+  | SendStickerOption
+  | SendVenueOption
+  | SendVideoNoteOption
+  | SendVideoOption
+  | SendVoiceOption
+  | SetGameScoreOption
+  | SetWebhookOption
+  | StopMessageLiveLocationOption
+  | StopPollOption
+  | undefined;
 
 type ClientConfig = {
   accessToken: string;
