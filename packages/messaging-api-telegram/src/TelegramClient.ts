@@ -220,7 +220,7 @@ export default class TelegramClient {
    * Use this method to send photos. On success, the sent Message is returned.
    *
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a photo from the Internet. upload file is not supported yet.
+   * @param photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a photo from the Internet. Upload file is not supported yet.
    * @param options Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendphoto
@@ -238,17 +238,39 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendaudio
+   * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * For sending voice messages, use the sendVoice method instead.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an audio file from the Internet. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
+   * - https://core.telegram.org/bots/api#sendaudio
    */
   sendAudio(
-    chatId: string,
+    chatId: string | number,
     audio: string,
-    options?: Record<string, any>
+    options?: Type.SendAudioOption
   ): Promise<Type.Message> {
+    const optionsWithoutThumb = pick(options, [
+      'caption',
+      'parse_mode',
+      'parseMode',
+      'duration',
+      'performer',
+      'title',
+      'disable_notification',
+      'disableNotification',
+      'reply_to_message_id',
+      'replyToMessageId',
+      'reply_markup',
+      'replyMarkup',
+    ]);
     return this._request('/sendAudio', {
-      chat_id: chatId,
+      chatId,
       audio,
-      ...options,
+      ...optionsWithoutThumb,
     });
   }
 
