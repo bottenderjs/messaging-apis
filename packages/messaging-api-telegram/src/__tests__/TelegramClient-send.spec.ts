@@ -413,47 +413,49 @@ describe('send api', () => {
   });
 
   describe('#sendDocument', () => {
-    it('should send document message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      document: {
+        file_name: 'ylDRTR05sy6M.gif.mp4',
+        mime_type: 'video/mp4',
+        thumb: {
+          file_id: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
+          file_size: 1627,
+          width: 90,
+          height: 90,
         },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        document: {
-          file_name: 'ylDRTR05sy6M.gif.mp4',
-          mime_type: 'video/mp4',
-          thumb: {
-            file_id: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
-            file_size: 1627,
-            width: 90,
-            height: 90,
-          },
-          file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
-          file_size: 21301,
-        },
-        caption: 'gooooooodDocument',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+        file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
+        file_size: 21301,
+      },
+      caption: 'gooooooodDocument',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send document message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendDocument', {
           chat_id: 427770117,
           document: 'https://example.com/doc.gif',
           caption: 'gooooooodDocument',
+          parse_mode: 'Markdown',
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -462,7 +464,38 @@ describe('send api', () => {
         'https://example.com/doc.gif',
         {
           caption: 'gooooooodDocument',
+          thumb: 'thumb',
+          parse_mode: 'Markdown',
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send document message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendDocument', {
+          chat_id: 427770117,
+          document: 'https://example.com/doc.gif',
+          caption: 'gooooooodDocument',
+          parse_mode: 'Markdown',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendDocument(
+        427770117,
+        'https://example.com/doc.gif',
+        {
+          caption: 'gooooooodDocument',
+          thumb: 'thumb',
+          parseMode: ParseMode.Markdown,
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
