@@ -36,6 +36,7 @@
     "@types/lodash.omit": "^4.5.6",
     "@types/map-obj": "^3.1.0",
     "@types/pascal-case": "^1.1.2",
+    "@types/to-snake-case": "^1.0.0",
     "@types/url-join": "^4.0.0",
     "@types/warning": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",

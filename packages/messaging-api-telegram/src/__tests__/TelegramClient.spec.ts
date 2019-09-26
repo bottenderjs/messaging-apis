@@ -638,3 +638,39 @@ describe('Error', () => {
     expect(error.message).toEqual('Telegram API - 404 Not Found');
   });
 });
+
+describe('_optionWithoutKeys', () => {
+  it('should remove snake_case keys and camelCase keys', async () => {
+    const option = {
+      snake_case: {
+        deep_attributes: {
+          a: 1,
+          b: '',
+        },
+      },
+      camelCase: {
+        deep_attributes: {
+          a: 1,
+          b: '',
+        },
+      },
+      others: {
+        a: 1,
+        b: '',
+      },
+    };
+
+    const expected = {
+      others: {
+        a: 1,
+        b: '',
+      },
+    };
+    const client = new TelegramClient(ACCESS_TOKEN);
+    const result = client._optionWithoutKeys(option, [
+      'snakeCase',
+      'camelCase',
+    ]);
+    expect(result).toEqual(expected);
+  });
+});
