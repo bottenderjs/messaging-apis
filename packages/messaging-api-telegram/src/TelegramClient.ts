@@ -234,7 +234,7 @@ export default class TelegramClient {
   sendPhoto(
     chatId: string | number,
     photo: string,
-    options?: Type.SendPhotoOption
+    options: Type.SendPhotoOption = {}
   ): Promise<Type.Message> {
     return this._request('/sendPhoto', {
       chatId,
@@ -257,7 +257,7 @@ export default class TelegramClient {
   sendAudio(
     chatId: string | number,
     audio: string,
-    options?: Type.SendAudioOption
+    options: Type.SendAudioOption = {}
   ): Promise<Type.Message> {
     const optionsWithoutThumb = pick(options, [
       'caption',
@@ -285,13 +285,14 @@ export default class TelegramClient {
    *
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#senddocument
    */
   sendDocument(
     chatId: string | number,
     document: string,
-    options?: Type.SendDocumentOption
+    options: Type.SendDocumentOption = {}
   ): Promise<Type.Message> {
     const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
 
@@ -303,24 +304,50 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a video from the Internet. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
    * https://core.telegram.org/bots/api#sendvideo
    */
   sendVideo(
-    chatId: string,
+    chatId: string | number,
     video: string,
-    options?: Record<string, any>
+    options: Type.SendVideoOption = {}
   ): Promise<Type.Message> {
+    const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
+
     return this._request('/sendVideo', {
-      chat_id: chatId,
+      chatId,
       video,
-      ...options,
+      ...optionsWithoutThumb,
     });
   }
 
   /**
+   * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an animation from the Internet. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
    * https://core.telegram.org/bots/api#sendanimation
    */
-  // TODO: implement sendAnimation
+  sendAnimation(
+    chatId: string | number,
+    animation: string,
+    options: Type.SendAnimationOption = {}
+  ): Promise<Type.Message> {
+    const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
+
+    return this._request('/sendAnimation', {
+      chatId,
+      animation,
+      ...optionsWithoutThumb,
+    });
+  }
 
   /**
    * https://core.telegram.org/bots/api#sendvoice
