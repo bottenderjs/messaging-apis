@@ -607,47 +607,54 @@ describe('send api', () => {
   });
 
   describe('#sendVideo', () => {
-    it('should send video message to user', async () => {
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      document: {
+        file_name: 'madora.mp4',
+        mime_type: 'video/mp4',
+        thumb: {
+          file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+          file_size: 2874,
+          width: 90,
+          height: 90,
+        },
+        file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+        file_size: 40582,
+      },
+      caption: 'gooooooodVideo',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    it('should send video message to user with snakecase', async () => {
       const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        document: {
-          file_name: 'madora.mp4',
-          mime_type: 'video/mp4',
-          thumb: {
-            file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
-            file_size: 2874,
-            width: 90,
-            height: 90,
-          },
-          file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
-          file_size: 40582,
-        },
-        caption: 'gooooooodVideo',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
 
       mock
         .onPost('/sendVideo', {
           chat_id: 427770117,
           video: 'https://example.com/video.mp4',
+          duration: 1,
+          width: 2,
+          height: 3,
           caption: 'gooooooodVideo',
+          parse_mode: 'Markdown',
+          supports_streaming: true,
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -655,8 +662,172 @@ describe('send api', () => {
         427770117,
         'https://example.com/video.mp4',
         {
+          duration: 1,
+          width: 2,
+          height: 3,
+          thumb: 'thumb',
           caption: 'gooooooodVideo',
+          parse_mode: 'Markdown',
+          supports_streaming: true,
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send video message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+
+      mock
+        .onPost('/sendVideo', {
+          chat_id: 427770117,
+          video: 'https://example.com/video.mp4',
+          duration: 1,
+          width: 2,
+          height: 3,
+          caption: 'gooooooodVideo',
+          parse_mode: 'Markdown',
+          supports_streaming: true,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVideo(
+        427770117,
+        'https://example.com/video.mp4',
+        {
+          duration: 1,
+          width: 2,
+          height: 3,
+          thumb: 'thumb',
+          caption: 'gooooooodVideo',
+          parseMode: ParseMode.Markdown,
+          supportsStreaming: true,
+          disableNotification: true,
+          replyToMessageId: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+  });
+
+  describe('#sendAnimation', () => {
+    const result = {
+      message_id: 3,
+      from: {
+        id: 902132548,
+        is_bot: true,
+        first_name: 'kamigo_test',
+        username: 'kamigo_test_bot',
+      },
+      chat: {
+        id: 164230890,
+        first_name: '郭佳甯',
+        username: 'etrexkuo',
+        type: 'private',
+      },
+      date: 1569500899,
+      animation: {
+        file_name: 'giphy.gif.mp4',
+        mime_type: 'video/mp4',
+        duration: 10,
+        width: 300,
+        height: 226,
+        thumb: {
+          file_id: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
+          file_size: 2249,
+          width: 90,
+          height: 67,
+        },
+        file_id: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
+        file_size: 199519,
+      },
+      document: {
+        file_name: 'giphy.gif.mp4',
+        mime_type: 'video/mp4',
+        thumb: {
+          file_id: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
+          file_size: 2249,
+          width: 90,
+          height: 67,
+        },
+        file_id: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
+        file_size: 199519,
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    it('should send animation message to user with snakecase', async () => {
+      const { client, mock } = createMock();
+
+      mock
+        .onPost('/sendAnimation', {
+          chat_id: 427770117,
+          animation: 'https://example.com/animation.mp4',
+          duration: 1,
+          width: 2,
+          height: 3,
+          caption: 'gooooooodAnimation',
+          parse_mode: 'Markdown',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendAnimation(
+        427770117,
+        'https://example.com/animation.mp4',
+        {
+          duration: 1,
+          width: 2,
+          height: 3,
+          thumb: 'thumb',
+          caption: 'gooooooodAnimation',
+          parse_mode: 'Markdown',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send animation message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+
+      mock
+        .onPost('/sendAnimation', {
+          chat_id: 427770117,
+          animation: 'https://example.com/animation.mp4',
+          duration: 1,
+          width: 2,
+          height: 3,
+          caption: 'gooooooodAnimation',
+          parse_mode: 'Markdown',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendAnimation(
+        427770117,
+        'https://example.com/animation.mp4',
+        {
+          duration: 1,
+          width: 2,
+          height: 3,
+          thumb: 'thumb',
+          caption: 'gooooooodAnimation',
+          parseMode: ParseMode.Markdown,
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
