@@ -120,7 +120,7 @@ export default class TelegramClient {
    * - This method will not work if an outgoing webhook is set up.
    * - In order to avoid getting duplicate updates, recalculate offset after each server response.
    *
-   * https://core.telegram.org/bots/api#getupdates
+   * - https://core.telegram.org/bots/api#getupdates
    */
   getUpdates(options?: Type.GetUpdatesOption): Promise<Type.Update[]> {
     return this._request('/getUpdates', {
@@ -131,7 +131,7 @@ export default class TelegramClient {
   /**
    * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
    *
-   * https://core.telegram.org/bots/api#getwebhookinfo
+   * - https://core.telegram.org/bots/api#getwebhookinfo
    */
   getWebhookInfo(): Promise<Type.WebhookInfo> {
     return this._request('/getWebhookInfo');
@@ -142,7 +142,7 @@ export default class TelegramClient {
    *
    * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
    *
-   * https://core.telegram.org/bots/api#setwebhook
+   * - https://core.telegram.org/bots/api#setwebhook
    *
    * @param url HTTPS url to send updates to. Use an empty string to remove webhook integration.
    * @param options.certificate not supported yet.
@@ -166,14 +166,14 @@ export default class TelegramClient {
   /**
    * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success. Requires no parameters.
    *
-   * https://core.telegram.org/bots/api#deletewebhook
+   * - https://core.telegram.org/bots/api#deletewebhook
    */
   deleteWebhook(): Promise<boolean> {
     return this._request('/deleteWebhook');
   }
 
   /**
-   * https://core.telegram.org/bots/api#getme
+   * - https://core.telegram.org/bots/api#getme
    */
   getMe(): Promise<Type.User> {
     return this._request('/getMe');
@@ -206,7 +206,7 @@ export default class TelegramClient {
    * @param fromChatId Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    * @param messageId Message identifier in the chat specified in from_chat_id
    * @param options.disableNotification Sends the message silently. Users will receive a notification with no sound
-   * https://core.telegram.org/bots/api#forwardmessage
+   * - https://core.telegram.org/bots/api#forwardmessage
    */
   forwardMessage(
     chatId: string | number,
@@ -310,7 +310,7 @@ export default class TelegramClient {
    * @param video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a video from the Internet. Upload file is not supported yet.
    * @param options Options for other optional parameters.
    *
-   * https://core.telegram.org/bots/api#sendvideo
+   * - https://core.telegram.org/bots/api#sendvideo
    */
   sendVideo(
     chatId: string | number,
@@ -333,7 +333,7 @@ export default class TelegramClient {
    * @param animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an animation from the Internet. Upload file is not supported yet.
    * @param options Options for other optional parameters.
    *
-   * https://core.telegram.org/bots/api#sendanimation
+   * - https://core.telegram.org/bots/api#sendanimation
    */
   sendAnimation(
     chatId: string | number,
@@ -371,7 +371,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendvideonote
+   * - https://core.telegram.org/bots/api#sendvideonote
    */
   sendVideoNote(
     chatId: string,
@@ -386,7 +386,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendmediagroup
+   * - https://core.telegram.org/bots/api#sendmediagroup
    */
   sendMediaGroup(
     chatId: string,
@@ -401,7 +401,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendlocation
+   * - https://core.telegram.org/bots/api#sendlocation
    */
   sendLocation(
     chatId: string,
@@ -417,7 +417,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#editmessagelivelocation
+   * - https://core.telegram.org/bots/api#editmessagelivelocation
    */
   editMessageLiveLocation(
     { latitude, longitude }: { latitude: number; longitude: number },
@@ -431,7 +431,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#stopmessagelivelocation
+   * - https://core.telegram.org/bots/api#stopmessagelivelocation
    */
   stopMessageLiveLocation(
     identifier: Record<string, any>
@@ -442,7 +442,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendvenue
+   * - https://core.telegram.org/bots/api#sendvenue
    */
   sendVenue(
     chatId: string,
@@ -470,7 +470,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendcontact
+   * - https://core.telegram.org/bots/api#sendcontact
    */
   sendContact(
     chatId: string,
@@ -486,12 +486,12 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendpoll
+   * - https://core.telegram.org/bots/api#sendpoll
    */
   // TODO: implement sendPoll
 
   /**
-   * https://core.telegram.org/bots/api#sendchataction
+   * - https://core.telegram.org/bots/api#sendchataction
    */
   sendChatAction(chatId: string, action: Type.ChatAction): Promise<boolean> {
     return this._request('/sendChatAction', {
@@ -501,7 +501,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getuserprofilephotos
+   * - https://core.telegram.org/bots/api#getuserprofilephotos
    */
   getUserProfilePhotos(
     userId: string,
@@ -514,7 +514,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getfile
+   * - https://core.telegram.org/bots/api#getfile
    */
   getFile(fileId: string): Promise<Type.File> {
     return this._request('/getFile', {
@@ -533,7 +533,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#kickchatmember
+   * - https://core.telegram.org/bots/api#kickchatmember
    */
   kickChatMember(
     chatId: string,
@@ -548,7 +548,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#unbanChatMember
+   * - https://core.telegram.org/bots/api#unbanChatMember
    */
   unbanChatMember(chatId: string, userId: string): Promise<boolean> {
     return this._request('/unbanChatMember', {
@@ -558,7 +558,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#restrictChatMember
+   * - https://core.telegram.org/bots/api#restrictChatMember
    */
   restrictChatMember(
     chatId: string,
@@ -573,7 +573,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#promoteChatMember
+   * - https://core.telegram.org/bots/api#promoteChatMember
    */
   promoteChatMember(
     chatId: string,
@@ -588,12 +588,12 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setchatpermissions
+   * - https://core.telegram.org/bots/api#setchatpermissions
    */
   // TODO: implement setChatPermissions
 
   /**
-   * https://core.telegram.org/bots/api#exportChatInviteLink
+   * - https://core.telegram.org/bots/api#exportChatInviteLink
    */
   exportChatInviteLink(chatId: string): Promise<string> {
     return this._request('/exportChatInviteLink', {
@@ -602,7 +602,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setChatPhoto
+   * - https://core.telegram.org/bots/api#setChatPhoto
    */
   setChatPhoto(chatId: string, photo: string): Promise<boolean> {
     return this._request('/setChatPhoto', {
@@ -612,7 +612,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#deleteChatPhoto
+   * - https://core.telegram.org/bots/api#deleteChatPhoto
    */
   deleteChatPhoto(chatId: string): Promise<boolean> {
     return this._request('/deleteChatPhoto', {
@@ -621,7 +621,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setChatTitle
+   * - https://core.telegram.org/bots/api#setChatTitle
    */
   setChatTitle(chatId: string, title: string): Promise<boolean> {
     return this._request('/setChatTitle', {
@@ -631,7 +631,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setChatDescription
+   * - https://core.telegram.org/bots/api#setChatDescription
    */
   setChatDescription(chatId: string, description: string): Promise<boolean> {
     return this._request('/setChatDescription', {
@@ -641,7 +641,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#pinChatMessage
+   * - https://core.telegram.org/bots/api#pinChatMessage
    */
   pinChatMessage(
     chatId: string,
@@ -656,7 +656,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#unpinChatMessage
+   * - https://core.telegram.org/bots/api#unpinChatMessage
    */
   unpinChatMessage(chatId: string): Promise<boolean> {
     return this._request('/unpinChatMessage', {
@@ -665,7 +665,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#leaveChat
+   * - https://core.telegram.org/bots/api#leaveChat
    */
   leaveChat(chatId: string): Promise<boolean> {
     return this._request('/leaveChat', {
@@ -674,7 +674,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchat
+   * - https://core.telegram.org/bots/api#getchat
    */
   getChat(chatId: string): Promise<Type.Chat> {
     return this._request('/getChat', {
@@ -683,7 +683,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
+   * - https://core.telegram.org/bots/api#getchatmemberscount
    */
   getChatAdministrators(chatId: string): Promise<Type.ChatMember[]> {
     return this._request('/getChatAdministrators', {
@@ -692,7 +692,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchatmemberscount
+   * - https://core.telegram.org/bots/api#getchatmemberscount
    */
   getChatMembersCount(chatId: string): Promise<number> {
     return this._request('/getChatMembersCount', {
@@ -701,7 +701,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getchatmember
+   * - https://core.telegram.org/bots/api#getchatmember
    */
   getChatMember(chatId: string, userId: number): Promise<Type.ChatMember> {
     return this._request('/getChatMember', {
@@ -711,7 +711,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setchatstickerset
+   * - https://core.telegram.org/bots/api#setchatstickerset
    */
   setChatStickerSet(chatId: string, stickerSetName: string): Promise<boolean> {
     return this._request('/setChatStickerSet', {
@@ -721,7 +721,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#deletechatstickerset
+   * - https://core.telegram.org/bots/api#deletechatstickerset
    */
   deleteChatStickerSet(chatId: string): Promise<boolean> {
     return this._request('/deleteChatStickerSet', {
@@ -730,12 +730,12 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#answercallbackquery
+   * - https://core.telegram.org/bots/api#answercallbackquery
    */
   // TODO: implement answerCallbackQuery
 
   /**
-   * https://core.telegram.org/bots/api#editmessagetext
+   * - https://core.telegram.org/bots/api#editmessagetext
    */
   editMessageText(
     text: string,
@@ -748,7 +748,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#editmessagecaption
+   * - https://core.telegram.org/bots/api#editmessagecaption
    */
   editMessageCaption(
     caption: string,
@@ -761,12 +761,12 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#editmessagemedia
+   * - https://core.telegram.org/bots/api#editmessagemedia
    */
   // TODO: implement editMessageMedia
 
   /**
-   * https://core.telegram.org/bots/api#editmessagereplymarkup
+   * - https://core.telegram.org/bots/api#editmessagereplymarkup
    */
   editMessageReplyMarkup(
     replyMarkup: Record<string, any>,
@@ -779,12 +779,12 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#stoppoll
+   * - https://core.telegram.org/bots/api#stoppoll
    */
   // TODO: implement stopPoll
 
   /**
-   * https://core.telegram.org/bots/api#deletemessage
+   * - https://core.telegram.org/bots/api#deletemessage
    */
   deleteMessage(chatId: string, messageId: number): Promise<boolean> {
     return this._request('/deleteMessage', {
@@ -794,7 +794,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendsticker
+   * - https://core.telegram.org/bots/api#sendsticker
    */
   sendSticker(
     chatId: string,
@@ -809,37 +809,37 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getstickerset
+   * - https://core.telegram.org/bots/api#getstickerset
    */
   // TODO: implement getStickerSet
 
   /**
-   * https://core.telegram.org/bots/api#uploadstickerfile
+   * - https://core.telegram.org/bots/api#uploadstickerfile
    */
   // TODO: implement uploadStickerFile
 
   /**
-   * https://core.telegram.org/bots/api#createnewstickerset
+   * - https://core.telegram.org/bots/api#createnewstickerset
    */
   // TODO: implement createNewStickerSet
 
   /**
-   * https://core.telegram.org/bots/api#addstickertoset
+   * - https://core.telegram.org/bots/api#addstickertoset
    */
   // TODO: implement addStickerToSet
 
   /**
-   * https://core.telegram.org/bots/api#setstickerpositioninset
+   * - https://core.telegram.org/bots/api#setstickerpositioninset
    */
   // TODO: implement setStickerPositionInSet
 
   /**
-   * https://core.telegram.org/bots/api#deletestickerfromset
+   * - https://core.telegram.org/bots/api#deletestickerfromset
    */
   // TODO: implement deleteStickerFromSet
 
   /**
-   * https://core.telegram.org/bots/api#answerinlinequery
+   * - https://core.telegram.org/bots/api#answerinlinequery
    */
   answerInlineQuery(
     inlineQueryId: string,
@@ -854,7 +854,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendinvoice
+   * - https://core.telegram.org/bots/api#sendinvoice
    */
   sendInvoice(
     chatId: string,
@@ -877,7 +877,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#answershippingquery
+   * - https://core.telegram.org/bots/api#answershippingquery
    */
   answerShippingQuery(
     shippingQueryId: string,
@@ -892,7 +892,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#answerprecheckoutquery
+   * - https://core.telegram.org/bots/api#answerprecheckoutquery
    */
   answerPreCheckoutQuery(
     preCheckoutQueryId: string,
@@ -907,12 +907,12 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setpassportdataerrors
+   * - https://core.telegram.org/bots/api#setpassportdataerrors
    */
   // TODO: implement setPassportDataErrors
 
   /**
-   * https://core.telegram.org/bots/api#sendgame
+   * - https://core.telegram.org/bots/api#sendgame
    */
   sendGame(
     chatId: string,
@@ -927,7 +927,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#setgamescore
+   * - https://core.telegram.org/bots/api#setgamescore
    */
   setGameScore(
     userId: string,
@@ -942,7 +942,7 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#getgamehighscores
+   * - https://core.telegram.org/bots/api#getgamehighscores
    */
   getGameHighScores(
     userId: string,
