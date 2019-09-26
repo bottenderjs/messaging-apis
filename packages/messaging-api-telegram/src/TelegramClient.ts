@@ -108,10 +108,7 @@ export default class TelegramClient {
     }
   }
 
-  _optionWithoutKeys(
-    option: Record<string, any>,
-    revmoeKeys: string[]
-  ): Record<string, any> {
+  _optionWithoutKeys(option: any, revmoeKeys: string[]): Record<string, any> {
     let keys = Object.keys(option);
     keys = difference(keys, revmoeKeys);
     keys = difference(keys, revmoeKeys.map(key => snakecase(key)));
@@ -262,17 +259,24 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#senddocument
+   * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   *
+   * - https://core.telegram.org/bots/api#senddocument
    */
   sendDocument(
-    chatId: string,
+    chatId: string | number,
     document: string,
-    options?: Record<string, any>
+    options?: Type.SendDocumentOption
   ): Promise<Type.Message> {
+    const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
+
     return this._request('/sendDocument', {
       chat_id: chatId,
       document,
-      ...options,
+      ...optionsWithoutThumb,
     });
   }
 
