@@ -350,15 +350,21 @@ export default class TelegramClient {
   }
 
   /**
-   * https://core.telegram.org/bots/api#sendvoice
+   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param chatId identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
+   * - https://core.telegram.org/bots/api#sendvoice
    */
   sendVoice(
-    chatId: string,
+    chatId: string | number,
     voice: string,
-    options?: Record<string, any>
+    options: Type.SendVoiceOption = {}
   ): Promise<Type.Message> {
     return this._request('/sendVoice', {
-      chat_id: chatId,
+      chatId,
       voice,
       ...options,
     });

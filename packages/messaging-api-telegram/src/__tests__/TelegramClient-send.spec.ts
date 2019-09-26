@@ -836,41 +836,44 @@ describe('send api', () => {
   });
 
   describe('#sendVoice', () => {
-    it('should send voice message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        document: {
-          file_name: '1.ogg',
-          mime_type: 'audio/ogg',
-          file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-          file_size: 10870,
-        },
-        caption: 'gooooooodVoice',
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      document: {
+        file_name: '1.ogg',
+        mime_type: 'audio/ogg',
+        file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+        file_size: 10870,
+      },
+      caption: 'gooooooodVoice',
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send voice message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendVoice', {
           chat_id: 427770117,
           voice: 'https://example.com/voice.ogg',
           caption: 'gooooooodVoice',
+          parse_mode: 'Markdown',
+          duration: 1,
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -879,7 +882,39 @@ describe('send api', () => {
         'https://example.com/voice.ogg',
         {
           caption: 'gooooooodVoice',
+          parse_mode: 'Markdown',
+          duration: 1,
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send voice message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendVoice', {
+          chat_id: 427770117,
+          voice: 'https://example.com/voice.ogg',
+          caption: 'gooooooodVoice',
+          parse_mode: 'Markdown',
+          duration: 1,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVoice(
+        427770117,
+        'https://example.com/voice.ogg',
+        {
+          caption: 'gooooooodVoice',
+          parseMode: ParseMode.Markdown,
+          duration: 1,
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
