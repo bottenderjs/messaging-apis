@@ -2,9 +2,11 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import difference from 'lodash/difference';
 import omit from 'lodash.omit';
 import pick from 'lodash/pick';
 import snakeCaseKeys from 'snakecase-keys';
+import snakecase from 'to-snake-case';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
@@ -106,6 +108,16 @@ export default class TelegramClient {
     }
   }
 
+  _optionWithoutKeys(
+    option: Record<string, any>,
+    revmoeKeys: string[]
+  ): Record<string, any> {
+    let keys = Object.keys(option);
+    keys = difference(keys, revmoeKeys);
+    keys = difference(keys, revmoeKeys.map(key => snakecase(key)));
+    return pick(option, keys);
+  }
+
   /**
    * Use this method to receive incoming updates using long polling. An Array of Update objects is returned.
    * - This method will not work if an outgoing webhook is set up.
@@ -145,11 +157,8 @@ export default class TelegramClient {
     url: string,
     options: Type.SetWebhookOption = {}
   ): Promise<boolean> {
-    const optionsWithoutCertificate = pick(options, [
-      'max_connections',
-      'allowed_updates',
-      'maxConnections',
-      'allowedUpdates',
+    const optionsWithoutCertificate = this._optionWithoutKeys(options, [
+      'certificate',
     ]);
     return this._request('/setWebhook', {
       url,
