@@ -923,46 +923,48 @@ describe('send api', () => {
   });
 
   describe('#sendVideoNote', () => {
-    it('should send video note message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      document: {
+        file_name: 'madora.mp4',
+        mime_type: 'video/mp4',
+        thumb: {
+          file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+          file_size: 2874,
+          width: 90,
+          height: 90,
         },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        document: {
-          file_name: 'madora.mp4',
-          mime_type: 'video/mp4',
-          thumb: {
-            file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
-            file_size: 2874,
-            width: 90,
-            height: 90,
-          },
-          file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
-          file_size: 40582,
-        },
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+        file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+        file_size: 40582,
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send video note message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendVideoNote', {
           chat_id: 427770117,
           video_note: 'https://example.com/video_note.mp4',
           duration: 40,
+          length: 1,
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -971,7 +973,38 @@ describe('send api', () => {
         'https://example.com/video_note.mp4',
         {
           duration: 40,
+          length: 1,
+          thumb: 'thumb',
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send video note message to user with camelecase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendVideoNote', {
+          chat_id: 427770117,
+          video_note: 'https://example.com/video_note.mp4',
+          duration: 40,
+          length: 1,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVideoNote(
+        427770117,
+        'https://example.com/video_note.mp4',
+        {
+          duration: 40,
+          length: 1,
+          thumb: 'thumb',
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
