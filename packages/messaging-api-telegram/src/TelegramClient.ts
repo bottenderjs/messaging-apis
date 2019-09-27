@@ -394,16 +394,25 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param media A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#sendmediagroup
    */
   sendMediaGroup(
-    chatId: string,
-    media: Record<string, any>[],
-    options?: Record<string, any>
+    chatId: string | number,
+    media: (Type.InputMediaPhoto | Type.InputMediaVideo)[],
+    options?: Type.SendMediaGroupOption
   ): Promise<Type.Message[]> {
+    const mediaWithoutThumb = media.map(m =>
+      this._optionWithoutKeys(m, ['thumb'])
+    );
     return this._request('/sendMediaGroup', {
-      chat_id: chatId,
-      media,
+      chatId,
+      media: mediaWithoutThumb,
       ...options,
     });
   }
