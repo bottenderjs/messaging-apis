@@ -371,17 +371,25 @@ export default class TelegramClient {
   }
 
   /**
+   * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param videoNote Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers. Sending video notes by a URL is currently unsupported. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#sendvideonote
    */
   sendVideoNote(
-    chatId: string,
+    chatId: string | number,
     videoNote: string,
-    options?: Record<string, any>
+    options: Type.SendVideoNoteOption = {}
   ): Promise<Type.Message> {
+    const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
+
     return this._request('/sendVideoNote', {
-      chat_id: chatId,
-      video_note: videoNote,
-      ...options,
+      chatId,
+      videoNote,
+      ...optionsWithoutThumb,
     });
   }
 
