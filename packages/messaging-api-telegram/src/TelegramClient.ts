@@ -418,15 +418,22 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send point on the map. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param latitude Latitude of the location
+   * @param longitude Longitude of the location
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#sendlocation
    */
   sendLocation(
-    chatId: string,
+    chatId: string | number,
     { latitude, longitude }: { latitude: number; longitude: number },
-    options?: Record<string, any>
+    options?: Type.SendLocationOption
   ): Promise<Type.Message> {
     return this._request('/sendLocation', {
-      chat_id: chatId,
+      chatId,
       latitude,
       longitude,
       ...options,

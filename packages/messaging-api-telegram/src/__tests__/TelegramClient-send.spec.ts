@@ -1151,38 +1151,40 @@ describe('send api', () => {
   });
 
   describe('#sendLocation', () => {
-    it('should send location message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        location: {
-          latitude: 30.000005,
-          longitude: 45,
-        },
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      location: {
+        latitude: 30.000005,
+        longitude: 45,
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send location message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendLocation', {
           chat_id: 427770117,
           latitude: 30,
           longitude: 45,
+          live_period: 60,
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -1193,7 +1195,37 @@ describe('send api', () => {
           longitude: 45,
         },
         {
+          live_period: 60,
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+    it('should send location message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendLocation', {
+          chat_id: 427770117,
+          latitude: 30,
+          longitude: 45,
+          live_period: 60,
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendLocation(
+        427770117,
+        {
+          latitude: 30,
+          longitude: 45,
+        },
+        {
+          livePeriod: 60,
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
