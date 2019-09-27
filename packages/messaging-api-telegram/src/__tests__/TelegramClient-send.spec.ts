@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import TelegramClient from '../TelegramClient';
-import { ParseMode } from '../TelegramTypes';
+import { InputMediaType, ParseMode } from '../TelegramTypes';
 
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
@@ -1013,45 +1013,138 @@ describe('send api', () => {
   });
 
   describe('#sendMediaGroup', () => {
-    it('should send a group of photos or videos as an album', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
+    // TODO: the real result related to request.
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      photo: [
+        {
+          file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+          width: 1000,
+          height: 1000,
         },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        photo: [
-          {
-            file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-            width: 1000,
-            height: 1000,
-          },
-        ],
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+      ],
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send a group of photos and videos as an album with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendMediaGroup', {
           chat_id: 427770117,
-          media: [{ type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' }],
+          media: [
+            {
+              type: 'photo',
+              media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+              caption: 'caption',
+              parse_mode: 'Markdown',
+            },
+            {
+              type: 'video',
+              media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
+              caption: 'caption',
+              parse_mode: 'Markdown',
+              width: 1,
+              height: 2,
+              duration: 3,
+              supports_streaming: true,
+            },
+          ],
+          disable_notification: true,
         })
         .reply(200, reply);
 
-      const res = await client.sendMediaGroup(427770117, [
-        { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
-      ]);
+      const res = await client.sendMediaGroup(
+        427770117,
+        [
+          {
+            type: InputMediaType.Photo,
+            media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+            caption: 'caption',
+            parse_mode: 'Markdown',
+          },
+          {
+            type: InputMediaType.Video,
+            media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
+            caption: 'caption',
+            thumb: 'thumb',
+            parse_mode: 'Markdown',
+            width: 1,
+            height: 2,
+            duration: 3,
+            supports_streaming: true,
+          },
+        ],
+        { disable_notification: true }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send a group of photos and videos as an album with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendMediaGroup', {
+          chat_id: 427770117,
+          media: [
+            {
+              type: 'photo',
+              media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+              caption: 'caption',
+              parse_mode: 'Markdown',
+            },
+            {
+              type: 'video',
+              media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
+              caption: 'caption',
+              parse_mode: 'Markdown',
+              width: 1,
+              height: 2,
+              duration: 3,
+              supports_streaming: true,
+            },
+          ],
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMediaGroup(
+        427770117,
+        [
+          {
+            type: InputMediaType.Photo,
+            media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+            caption: 'caption',
+            parseMode: 'Markdown',
+          },
+          {
+            type: InputMediaType.Video,
+            media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
+            caption: 'caption',
+            thumb: 'thumb',
+            parseMode: 'Markdown',
+            width: 1,
+            height: 2,
+            duration: 3,
+            supportsStreaming: true,
+          },
+        ],
+        { disableNotification: true }
+      );
 
       expect(res).toEqual(result);
     });

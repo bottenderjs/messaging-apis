@@ -503,35 +503,85 @@ export type InputMedia =
   | InputMediaPhoto
   | InputMediaVideo;
 
+export enum InputMediaType {
+  Photo = 'photo',
+  Video = 'video',
+  Animation = 'animation',
+  Audio = 'audio',
+  Document = 'document',
+}
+
 export type InputMediaPhoto = {
-  type: 'photo';
+  /**
+   * Type of the result, must be photo
+   */
+  type: InputMediaType.Photo;
+
+  /**
+   * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
+   */
   media: string;
+
+  /**
+   * Optional. Caption of the photo to be sent, 0-1024 characters
+   */
   caption?: string;
-  parse_mode?: string;
-  disable_web_page_preview?: boolean;
-  disable_notification?: boolean;
-  reply_to_message_id?: number;
-  reply_markup?:
-    | InlineKeyboardMarkup
-    | ReplyKeyboardMarkup
-    | ReplyKeyboardRemove
-    | ForceReply;
+
+  /**
+   * Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   */
+  parseMode?: ParseMode;
 };
 
 export type InputMediaVideo = {
-  type: 'video';
+  /**
+   * Type of the result, must be video
+   */
+  type: InputMediaType.Video;
+
+  /**
+   * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
+   */
   media: string;
+
+  /**
+   * Thumb is not supported yet.
+   */
   thumb?: string;
+
+  /**
+   * Optional. Caption of the video to be sent, 0-1024 characters
+   */
   caption?: string;
+
+  /**
+   * Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   */
   parse_mode?: string;
+
+  /**
+   * Optional. Video width
+   */
   width?: number;
+
+  /**
+   * Optional. Video height
+   */
   height?: number;
+
+  /**
+   * Optional. Video duration
+   */
   duration?: number;
+
+  /**
+   * Optional. Pass True, if the uploaded video is suitable for streaming
+   */
   supports_streaming?: boolean;
 };
 
 export type InputMediaAnimation = {
-  type: 'animation';
+  type: InputMediaType.Animation;
   media: string;
   thumb?: string;
   caption?: string;
@@ -542,7 +592,7 @@ export type InputMediaAnimation = {
 };
 
 export type InputMediaAudio = {
-  type: 'audio';
+  type: InputMediaType.Audio;
   media: string;
   thumb?: string;
   caption?: string;
@@ -553,7 +603,7 @@ export type InputMediaAudio = {
 };
 
 export type InputMediaDocument = {
-  type: 'document';
+  type: InputMediaType.Document;
   media: string;
   thumb?: string;
   caption?: string;
