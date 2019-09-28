@@ -833,16 +833,13 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<Buffer> {
     return this._axios
-      .get(
-        `/v2/bot/message/${messageId}/content`,
-        customAccessToken === undefined
-          ? undefined
-          : {
-              responseType: 'arraybuffer',
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-      )
-      .then(res => Buffer.from(res.data), handleError);
+      .get(`/v2/bot/message/${messageId}/content`, {
+        responseType: 'arraybuffer',
+        ...(customAccessToken
+          ? { headers: { Authorization: `Bearer ${customAccessToken}` } }
+          : undefined),
+      })
+      .then(res => res.data, handleError);
   }
 
   /**
