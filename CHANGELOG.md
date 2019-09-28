@@ -1,3 +1,9 @@
+# 0.8.3 / 2019-09-28
+
+### messaging-api-line
+
+- [fix] handle arraybuffer correctly in `retrieveMessageContent`
+
 # 0.8.2 / 2019-09-05
 
 - [fix] avoid printing undefined outgoing request body in `onRequest`.
