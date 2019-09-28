@@ -26,7 +26,7 @@ export type Article = {
 };
 
 export type News = {
-  articles: Array<Article>;
+  articles: Article[];
 };
 
 export type MiniProgramPage = {

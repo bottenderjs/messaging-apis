@@ -69,7 +69,7 @@ function createMessage(
 
 function createText(
   text: string,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createMessage({ text }, options);
 }
@@ -98,7 +98,7 @@ function createMessageFormData(
 
 function createAttachment(
   attachment: Attachment,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createMessage(
     {
@@ -124,7 +124,7 @@ function createAttachmentFormData(
 
 function createAudio(
   audio: string | MediaAttachmentPayload,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   if (typeof audio === 'string') {
     const attachment: Attachment = {
@@ -145,7 +145,7 @@ function createAudio(
 
 function createAudioFormData(
   audio: FileData,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'audio',
@@ -157,7 +157,7 @@ function createAudioFormData(
 
 function createImage(
   image: string | MediaAttachmentPayload,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   if (typeof image === 'string') {
     const attachment: Attachment = {
@@ -178,7 +178,7 @@ function createImage(
 
 function createImageFormData(
   image: FileData,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'image',
@@ -190,7 +190,7 @@ function createImageFormData(
 
 function createVideo(
   video: string | MediaAttachmentPayload,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   if (typeof video === 'string') {
     const attachment: Attachment = {
@@ -211,7 +211,7 @@ function createVideo(
 
 function createVideoFormData(
   video: FileData,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'video',
@@ -223,7 +223,7 @@ function createVideoFormData(
 
 function createFile(
   file: string | MediaAttachmentPayload,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   if (typeof file === 'string') {
     const attachment: Attachment = {
@@ -244,7 +244,7 @@ function createFile(
 
 function createFileFormData(
   file: FileData,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'file',
@@ -256,7 +256,7 @@ function createFileFormData(
 
 function createTemplate(
   payload: TemplateAttachmentPayload,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createAttachment(
     {
@@ -270,7 +270,7 @@ function createTemplate(
 function createButtonTemplate(
   text: string,
   buttons: TemplateButton[],
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createTemplate(
     {
@@ -304,7 +304,7 @@ function createListTemplate(
   buttons: TemplateButton[],
   options: {
     top_element_style?: 'large' | 'compact';
-    quick_replies?: Array<QuickReply>;
+    quick_replies?: QuickReply[];
   } = {}
 ): Message {
   return createTemplate(
@@ -320,7 +320,7 @@ function createListTemplate(
 
 function createOpenGraphTemplate(
   elements: OpenGraphElement[],
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createTemplate(
     {
@@ -333,7 +333,7 @@ function createOpenGraphTemplate(
 
 function createMediaTemplate(
   elements: MediaElement[],
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createTemplate(
     {
@@ -346,7 +346,7 @@ function createMediaTemplate(
 
 function createReceiptTemplate(
   attrs: ReceiptAttributes,
-  options: { quick_replies?: Array<QuickReply> } = {}
+  options: { quick_replies?: QuickReply[] } = {}
 ): Message {
   return createTemplate(
     {

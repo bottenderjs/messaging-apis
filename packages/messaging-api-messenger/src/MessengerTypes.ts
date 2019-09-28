@@ -145,7 +145,7 @@ export type InsightOptions = {
 export type SendOption = {
   messaging_type?: MessagingType;
   tag?: MessageTag;
-  quick_replies?: Array<QuickReply>;
+  quick_replies?: QuickReply[];
   access_token?: string;
 };
 
@@ -176,19 +176,19 @@ export type TemplateElement = {
     webview_height_ratio: string;
     fallback_url: string;
   };
-  buttons: Array<TemplateButton>;
+  buttons: TemplateButton[];
 };
 
 export type OpenGraphElement = {
   url: string;
-  buttons?: Array<TemplateButton>;
+  buttons?: TemplateButton[];
 };
 
 export type MediaElement = {
   media_type: 'image' | 'video';
   attachment_id?: string;
   url?: string;
-  buttons?: Array<TemplateButton>;
+  buttons?: TemplateButton[];
 };
 
 export type Address = {
@@ -220,10 +220,10 @@ export type ReceiptAttributes = {
   payment_method: string;
   timestamp?: string;
   order_url?: string;
-  elements?: Array<TemplateElement>;
+  elements?: TemplateElement[];
   address?: Address;
   summary: Summary;
-  adjustments?: Array<Adjustment>;
+  adjustments?: Adjustment[];
 };
 
 export type Airport = {
@@ -256,8 +256,8 @@ export type BoardingPass = {
   pnr_number: string;
   travel_class?: string;
   seat?: string;
-  auxiliary_fields?: Array<Field>;
-  secondary_fields?: Array<Field>;
+  auxiliary_fields?: Field[];
+  secondary_fields?: Field[];
   logo_image_url: string;
   header_image_url?: string;
   header_text_field?: Field;
@@ -270,7 +270,7 @@ export type BoardingPass = {
 export type AirlineBoardingPassAttributes = {
   intro_message: string;
   locale: string;
-  boarding_pass: Array<BoardingPass>;
+  boarding_pass: BoardingPass[];
 };
 
 export type PassengerInfo = {
@@ -298,10 +298,10 @@ export type AirlineCheckinAttributes = {
   locale: string;
   theme_color?: string;
   pnr_number: string;
-  passenger_info: Array<PassengerInfo>;
-  flight_info: Array<FlightInfo>;
-  passenger_segment_info: Array<PassengerSegmentInfo>;
-  price_info?: Array<PriceInfo>;
+  passenger_info: PassengerInfo[];
+  flight_info: FlightInfo[];
+  passenger_segment_info: PassengerSegmentInfo[];
+  price_info?: PriceInfo[];
   base_price?: number;
   tax?: number;
   total_price: number;
@@ -323,11 +323,11 @@ export type User = {
   gender: string;
 };
 
-export type PersistentMenu = Array<{
+export type PersistentMenu = {
   locale: string;
   composer_input_disabled: boolean;
-  call_to_actions: Array<MenuItem>;
-}>;
+  call_to_actions: MenuItem[];
+}[];
 
 export type GreetingConfig = {
   locale: string;
@@ -341,22 +341,22 @@ export type MessengerProfile = {
     payload: string;
   };
   persistent_menu?: PersistentMenu;
-  greeting?: Array<{
+  greeting?: {
     locale: string;
     text: string;
-  }>;
-  whitelisted_domains?: Array<string>;
+  }[];
+  whitelisted_domains?: string[];
   account_linking_url?: string;
   payment_settings?: {
     privacy_url?: string;
     public_key?: string;
-    test_users?: Array<string>;
+    test_users?: string[];
   };
   target_audience?: {
     audience_type: AudienceType;
     countries?: {
-      whitelist?: Array<string>;
-      blacklist?: Array<string>;
+      whitelist?: string[];
+      blacklist?: string[];
     };
   };
   home_url?: {
@@ -368,7 +368,7 @@ export type MessengerProfile = {
 };
 
 export type MessengerProfileResponse = {
-  data: Array<MessengerProfile>;
+  data: MessengerProfile[];
 };
 
 export type MutationSuccessResponse = {
@@ -384,10 +384,10 @@ export type SendSenderActionResponse = {
   recipient_id: string;
 };
 
-export type MessageTagResponse = Array<{
+export type MessageTagResponse = {
   tag: MessageTag;
   description: string;
-}>;
+}[];
 
 export type FileData = Buffer | fs.ReadStream;
 
@@ -445,7 +445,7 @@ export type TokenInfo = {
   is_valid: true;
   issued_at?: number;
   profile_id: string;
-  scopes: Array<Scope>;
+  scopes: Scope[];
   user_id: string;
 };
 
@@ -468,5 +468,5 @@ export type MessengerSubscription = {
   object: string;
   callback_url: string;
   active: boolean;
-  fields: Array<SubscriptionFields>;
+  fields: SubscriptionFields[];
 };

@@ -178,5 +178,5 @@ export interface SlackUser {
 export type SlackChannel = {
   id: string;
   name: string;
-  members?: Array<SlackUser>;
+  members?: SlackUser[];
 };

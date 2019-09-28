@@ -379,7 +379,7 @@ describe('persistent menu', () => {
       expect(res).toEqual(reply);
     });
 
-    it('should response success result if input is a full PersistentMenu, not Array<MenuItem>', async () => {
+    it('should response success result if input is a full PersistentMenu, not MenuItem[]', async () => {
       const { client, mock } = createMock();
 
       const reply = {

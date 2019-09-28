@@ -277,7 +277,7 @@ export default class MessengerClient {
     app_id?: string;
     object?: 'user' | 'page' | 'permissions' | 'payments';
     callback_url: string;
-    fields?: Array<string>;
+    fields?: string[];
     include_values?: boolean;
     verify_token: string;
     access_token: string;
@@ -403,7 +403,7 @@ export default class MessengerClient {
     {
       access_token: customAccessToken,
       fields = ['id', 'name', 'first_name', 'last_name', 'profile_pic'],
-    }: { access_token?: string; fields?: Array<string> } = {}
+    }: { access_token?: string; fields?: string[] } = {}
   ): Promise<User> {
     return this._axios
       .get(
@@ -674,14 +674,14 @@ export default class MessengerClient {
   ): Promise<{
     privacy_url?: string;
     public_key?: string;
-    test_users?: Array<string>;
+    test_users?: string[];
   } | null> {
     return this.getMessengerProfile(['payment_settings'], options).then(res =>
       res[0]
         ? (res[0] as {
             privacy_url?: string;
             public_key?: string;
-            test_users?: Array<string>;
+            test_users?: string[];
           })
         : null
     );
@@ -748,8 +748,8 @@ export default class MessengerClient {
   ): Promise<{
     audience_type: AudienceType;
     countries?: {
-      whitelist?: Array<string>;
-      blacklist?: Array<string>;
+      whitelist?: string[];
+      blacklist?: string[];
     };
   } | null> {
     return this.getMessengerProfile(['target_audience'], options).then(res =>
@@ -757,8 +757,8 @@ export default class MessengerClient {
         ? (res[0] as {
             audience_type: AudienceType;
             countries?: {
-              whitelist?: Array<string>;
-              blacklist?: Array<string>;
+              whitelist?: string[];
+              blacklist?: string[];
             };
           })
         : null
