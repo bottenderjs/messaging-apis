@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import warning from 'warning';
 
 import Messenger from './Messenger';
@@ -9,6 +11,7 @@ import {
   AirlineUpdateAttributes,
   Attachment,
   BatchItem,
+  BatchRequestOptions,
   MediaAttachmentPayload,
   MediaElement,
   Message,
@@ -27,18 +30,19 @@ function omitUndefinedFields(obj = {}): object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function sendRequest(body: object): BatchItem {
+function sendRequest(body: object, options?: BatchRequestOptions): BatchItem {
   return {
     method: 'POST',
     relative_url: 'me/messages',
     body,
+    ...options,
   };
 }
 
 function sendMessage(
   idOrRecipient: UserID | Recipient,
   msg: Message,
-  options: SendOption = {}
+  options: SendOption & BatchRequestOptions = {}
 ): BatchItem {
   const recipient =
     typeof idOrRecipient === 'string'
@@ -53,18 +57,23 @@ function sendMessage(
     messageType = 'MESSAGE_TAG';
   }
 
-  return sendRequest({
-    messaging_type: messageType,
-    recipient,
-    message: Messenger.createMessage(msg, options),
-    ...omitUndefinedFields(options),
-  });
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
+  return sendRequest(
+    {
+      messaging_type: messageType,
+      recipient,
+      message: Messenger.createMessage(msg, options),
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
+    },
+    batchRequestOptions
+  );
 }
 
 function sendText(
   recipient: UserID | Recipient,
   text: string,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(recipient, Messenger.createText(text, options), options);
 }
@@ -72,7 +81,7 @@ function sendText(
 function sendAttachment(
   recipient: UserID | Recipient,
   attachment: Attachment,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -84,7 +93,7 @@ function sendAttachment(
 function sendAudio(
   recipient: UserID | Recipient,
   audio: string | MediaAttachmentPayload,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(recipient, Messenger.createAudio(audio, options), options);
 }
@@ -92,7 +101,7 @@ function sendAudio(
 function sendImage(
   recipient: UserID | Recipient,
   image: string | MediaAttachmentPayload,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(recipient, Messenger.createImage(image, options), options);
 }
@@ -100,7 +109,7 @@ function sendImage(
 function sendVideo(
   recipient: UserID | Recipient,
   video: string | MediaAttachmentPayload,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(recipient, Messenger.createVideo(video, options), options);
 }
@@ -108,7 +117,7 @@ function sendVideo(
 function sendFile(
   recipient: UserID | Recipient,
   file: string | MediaAttachmentPayload,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(recipient, Messenger.createFile(file, options), options);
 }
@@ -116,7 +125,7 @@ function sendFile(
 function sendTemplate(
   recipient: UserID | Recipient,
   payload: TemplateAttachmentPayload,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -129,7 +138,7 @@ function sendButtonTemplate(
   recipient: UserID | Recipient,
   text: string,
   buttons: TemplateButton[],
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -184,7 +193,7 @@ function sendListTemplate(
 function sendOpenGraphTemplate(
   recipient: UserID | Recipient,
   elements: OpenGraphElement[],
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -196,7 +205,7 @@ function sendOpenGraphTemplate(
 function sendReceiptTemplate(
   recipient: UserID | Recipient,
   attrs: ReceiptAttributes,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -208,7 +217,7 @@ function sendReceiptTemplate(
 function sendMediaTemplate(
   recipient: UserID | Recipient,
   elements: MediaElement[],
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -220,7 +229,7 @@ function sendMediaTemplate(
 function sendAirlineBoardingPassTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineBoardingPassAttributes,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -232,7 +241,7 @@ function sendAirlineBoardingPassTemplate(
 function sendAirlineCheckinTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineCheckinAttributes,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -244,7 +253,7 @@ function sendAirlineCheckinTemplate(
 function sendAirlineItineraryTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineItineraryAttributes,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -256,7 +265,7 @@ function sendAirlineItineraryTemplate(
 function sendAirlineUpdateTemplate(
   recipient: UserID | Recipient,
   attrs: AirlineUpdateAttributes,
-  options: SendOption
+  options: SendOption & BatchRequestOptions
 ): BatchItem {
   return sendMessage(
     recipient,
@@ -267,20 +276,23 @@ function sendAirlineUpdateTemplate(
 
 function getUserProfile(
   userId: string,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ) {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'GET',
     relative_url: `${userId}`.concat(
       options.access_token ? `?access_token=${options.access_token}` : ''
     ),
+    ...batchRequestOptions,
   };
 }
 
 function sendSenderAction(
   idOrRecipient: UserID | Recipient,
   action: SenderAction,
-  options: SendOption
+  options: SendOption & BatchRequestOptions = {}
 ) {
   const recipient =
     typeof idOrRecipient === 'string'
@@ -289,22 +301,36 @@ function sendSenderAction(
         }
       : idOrRecipient;
 
-  return sendRequest({
-    recipient,
-    sender_action: action,
-    ...omitUndefinedFields(options),
-  });
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
+  return sendRequest(
+    {
+      recipient,
+      sender_action: action,
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
+    },
+    batchRequestOptions
+  );
 }
 
-function typingOn(idOrRecipient: UserID | Recipient, options: SendOption) {
+function typingOn(
+  idOrRecipient: UserID | Recipient,
+  options: SendOption & BatchRequestOptions
+) {
   return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
-function typingOff(idOrRecipient: UserID | Recipient, options: SendOption) {
+function typingOff(
+  idOrRecipient: UserID | Recipient,
+  options: SendOption & BatchRequestOptions
+) {
   return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
-function markSeen(idOrRecipient: UserID | Recipient, options: SendOption) {
+function markSeen(
+  idOrRecipient: UserID | Recipient,
+  options: SendOption & BatchRequestOptions
+) {
   return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
 
@@ -312,8 +338,10 @@ function passThreadControl(
   recipientId: string,
   targetAppId: number,
   metadata: string,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ) {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'POST',
     relative_url: 'me/pass_thread_control',
@@ -321,8 +349,9 @@ function passThreadControl(
       recipient: { id: recipientId },
       target_app_id: targetAppId,
       metadata,
-      ...omitUndefinedFields(options),
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
     },
+    ...batchRequestOptions,
   };
 }
 
@@ -337,88 +366,105 @@ function passThreadControlToPageInbox(
 function takeThreadControl(
   recipientId: string,
   metadata: string,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ) {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'POST',
     relative_url: 'me/take_thread_control',
     body: {
       recipient: { id: recipientId },
       metadata,
-      ...omitUndefinedFields(options),
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
     },
+    ...batchRequestOptions,
   };
 }
 
 function requestThreadControl(
   recipientId: string,
   metadata: string,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ) {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'POST',
     relative_url: 'me/request_thread_control',
     body: {
       recipient: { id: recipientId },
       metadata,
-      ...omitUndefinedFields(options),
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
     },
+    ...batchRequestOptions,
   };
 }
 
 function getThreadOwner(
   recipientId: string,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ) {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'GET',
     relative_url: `me/thread_owner?recipient=${recipientId}`.concat(
       options.access_token ? `&access_token=${options.access_token}` : ''
     ),
-
     responseAccessPath: 'data[0].thread_owner',
+    ...batchRequestOptions,
   };
 }
 
 function associateLabel(
   userId: UserID,
   labelId: number,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ) {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'POST',
     relative_url: `${labelId}/label`,
     body: {
       user: userId,
-      ...omitUndefinedFields(options),
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
     },
+    ...batchRequestOptions,
   };
 }
 
 function dissociateLabel(
   userId: UserID,
   labelId: number,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ): object {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'DELETE',
     relative_url: `${labelId}/label`,
     body: {
       user: userId,
-      ...omitUndefinedFields(options),
+      ...omitUndefinedFields(omit(options, ['name', 'depends_on'])),
     },
+    ...batchRequestOptions,
   };
 }
 
 function getAssociatedLabels(
   userId: UserID,
-  options: { access_token?: string } = {}
+  options: { access_token?: string } & BatchRequestOptions = {}
 ): object {
+  const batchRequestOptions = pick(options, ['name', 'depends_on']);
+
   return {
     method: 'GET',
     relative_url: `${userId}/custom_labels`.concat(
       options.access_token ? `?access_token=${options.access_token}` : ''
     ),
+    ...batchRequestOptions,
   };
 }
 
