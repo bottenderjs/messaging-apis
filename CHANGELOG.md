@@ -1,3 +1,9 @@
+# 0.8.4 / 2019-09-29
+
+### messaging-api-wechat
+
+- fix(WechatClient): apply throwErrorIfAny to getAccessToken #502
+
 # 0.8.3 / 2019-09-28
 
 ### messaging-api-line

@@ -135,6 +135,7 @@ export default class WechatClient {
       .get(
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
       )
+      .then(throwErrorIfAny)
       .then(res => res.data);
   }
 
