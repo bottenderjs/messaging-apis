@@ -331,6 +331,55 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendMsgMenu', () => {
+    it('should call wechat api', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        errcode: 0,
+        errmsg: 'ok',
+      };
+
+      mock
+        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
+          touser: RECIPIENT_ID,
+          msgtype: 'msgmenu',
+          msgmenu: {
+            head_content: 'HEAD',
+            list: [
+              {
+                id: '101',
+                content: 'Yes',
+              },
+              {
+                id: '102',
+                content: 'No',
+              },
+            ],
+            tail_content: 'TAIL',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMsgMenu(RECIPIENT_ID, {
+        head_content: 'HEAD',
+        list: [
+          {
+            id: '101',
+            content: 'Yes',
+          },
+          {
+            id: '102',
+            content: 'No',
+          },
+        ],
+        tail_content: 'TAIL',
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#sendWXCard', () => {
     it('should call wechat api', async () => {
       const { client, mock } = createMock();
