@@ -9,10 +9,15 @@ import { onRequest } from 'messaging-api-common';
 
 import {
   AccessToken,
+  FailedResponseData,
   MediaType,
   MiniProgramPage,
+  MsgMenu,
   Music,
   News,
+  ResponseData,
+  SendMessageOptions,
+  SucceededResponseData,
   Video,
 } from './WechatTypes';
 
@@ -132,7 +137,7 @@ export default class WechatClient {
    */
   getAccessToken(): Promise<AccessToken> {
     return this._axios
-      .get(
+      .get<{ access_token: string; expires_in: number } | FailedResponseData>(
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
       )
       .then(throwErrorIfAny)
@@ -155,7 +160,10 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
    */
-  async uploadMedia(type: MediaType, media: Buffer | fs.ReadStream) {
+  async uploadMedia(
+    type: MediaType,
+    media: Buffer | fs.ReadStream
+  ): Promise<{ type: string; media_id: string; created_at: number }> {
     await this._refreshTokenWhenExpired();
 
     const form = new FormData();
@@ -163,13 +171,12 @@ export default class WechatClient {
     form.append('media', media);
 
     return this._axios
-      .post(
-        `/media/upload?access_token=${this._accessToken}&type=${type}`,
-        form,
-        {
-          headers: form.getHeaders(),
-        }
-      )
+      .post<
+        | { type: string; media_id: string; created_at: number }
+        | FailedResponseData
+      >(`/media/upload?access_token=${this._accessToken}&type=${type}`, form, {
+        headers: form.getHeaders(),
+      })
       .then(throwErrorIfAny)
       .then(res => res.data);
   }
@@ -179,11 +186,20 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
    */
-  async getMedia(mediaId: string) {
+  async getMedia(
+    mediaId: string
+  ): Promise<{
+    video_url: string;
+  }> {
     await this._refreshTokenWhenExpired();
 
     return this._axios
-      .get(`/media/get?access_token=${this._accessToken}&media_id=${mediaId}`)
+      .get<
+        | {
+            video_url: string;
+          }
+        | FailedResponseData
+      >(`/media/get?access_token=${this._accessToken}&media_id=${mediaId}`)
       .then(throwErrorIfAny)
       .then(res => res.data);
   }
@@ -193,11 +209,69 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547
    */
-  async sendRawBody(body: Record<string, any>) {
+  async sendRawBody(
+    body: {
+      touser: string;
+    } & SendMessageOptions &
+      (
+        | {
+            msgtype: 'text';
+            text: {
+              content: string;
+            };
+          }
+        | {
+            msgtype: 'image';
+            image: {
+              media_id: string;
+            };
+          }
+        | {
+            msgtype: 'voice';
+            voice: {
+              media_id: string;
+            };
+          }
+        | {
+            msgtype: 'video';
+            video: Video;
+          }
+        | {
+            msgtype: 'music';
+            music: Music;
+          }
+        | {
+            msgtype: 'news';
+            news: News;
+          }
+        | {
+            msgtype: 'mpnews';
+            mpnews: {
+              media_id: string;
+            };
+          }
+        | {
+            msgtype: 'msgmenu';
+            msgmenu: MsgMenu;
+          }
+        | {
+            msgtype: 'wxcard';
+            wxcard: {
+              card_id: string;
+            };
+          }
+        | {
+            msgtype: 'miniprogrampage';
+            miniprogrampage: MiniProgramPage;
+          })
+  ): Promise<SucceededResponseData | never> {
     await this._refreshTokenWhenExpired();
 
     return this._axios
-      .post(`/message/custom/send?access_token=${this._accessToken}`, body)
+      .post<ResponseData>(
+        `/message/custom/send?access_token=${this._accessToken}`,
+        body
+      )
       .then(throwErrorIfAny)
       .then(res => res.data);
   }
@@ -205,7 +279,11 @@ export default class WechatClient {
   /**
    * 发送文本消息
    */
-  sendText(userId: string, text: string, options: Record<string, any>) {
+  sendText(
+    userId: string,
+    text: string,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'text',
@@ -219,7 +297,11 @@ export default class WechatClient {
   /**
    * 发送图片消息
    */
-  sendImage(userId: string, mediaId: string, options: Record<string, any>) {
+  sendImage(
+    userId: string,
+    mediaId: string,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'image',
@@ -233,7 +315,11 @@ export default class WechatClient {
   /**
    * 发送语音消息
    */
-  sendVoice(userId: string, mediaId: string, options: Record<string, any>) {
+  sendVoice(
+    userId: string,
+    mediaId: string,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'voice',
@@ -248,7 +334,11 @@ export default class WechatClient {
   /**
    * 发送视频消息
    */
-  sendVideo(userId: string, video: Video, options: Record<string, any>) {
+  sendVideo(
+    userId: string,
+    video: Video,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'video',
@@ -260,7 +350,11 @@ export default class WechatClient {
   /**
    * 发送音乐消息
    */
-  sendMusic(userId: string, music: Music, options: Record<string, any>) {
+  sendMusic(
+    userId: string,
+    music: Music,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'music',
@@ -274,7 +368,11 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendNews(userId: string, news: News, options: Record<string, any>) {
+  sendNews(
+    userId: string,
+    news: News,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'news',
@@ -288,7 +386,11 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    */
-  sendMPNews(userId: string, mediaId: string, options: Record<string, any>) {
+  sendMPNews(
+    userId: string,
+    mediaId: string,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'mpnews',
@@ -300,9 +402,29 @@ export default class WechatClient {
   }
 
   /**
+   * 发送菜单消息
+   */
+  sendMsgMenu(
+    userId: string,
+    msgMenu: MsgMenu,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
+    return this.sendRawBody({
+      touser: userId,
+      msgtype: 'msgmenu',
+      msgmenu: msgMenu,
+      ...options,
+    });
+  }
+
+  /**
    * 发送卡券
    */
-  sendWXCard(userId: string, cardId: string, options: Record<string, any>) {
+  sendWXCard(
+    userId: string,
+    cardId: string,
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'wxcard',
@@ -319,8 +441,8 @@ export default class WechatClient {
   sendMiniProgramPage(
     userId: string,
     miniProgramPage: MiniProgramPage,
-    options: Record<string, any>
-  ) {
+    options?: SendMessageOptions
+  ): Promise<SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'miniprogrampage',
@@ -328,4 +450,8 @@ export default class WechatClient {
       ...options,
     });
   }
+
+  // TODO: implement typing
+
+  // TODO: 客服帳號相關
 }
