@@ -29,6 +29,40 @@ describe('sendRequest', () => {
       },
     });
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.sendRequest(
+        {
+          messaging_type: 'UPDATE',
+          message: {
+            text: 'Hello',
+          },
+          recipient: {
+            id: RECIPIENT_ID,
+          },
+        },
+        {
+          name: 'second',
+          depends_on: 'first',
+        }
+      )
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        messaging_type: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('sendMessage', () => {
@@ -108,6 +142,33 @@ describe('sendMessage', () => {
         }
       )
     ).not.toHaveProperty('body.access_token');
+  });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.sendMessage(
+        RECIPIENT_ID,
+        { text: 'Hello' },
+        {
+          name: 'second',
+          depends_on: 'first',
+        }
+      )
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        messaging_type: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
   });
 });
 
@@ -1036,6 +1097,20 @@ describe('getUserProfile', () => {
       relative_url: RECIPIENT_ID,
     });
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.getUserProfile(RECIPIENT_ID, {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'GET',
+      relative_url: RECIPIENT_ID,
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('sendSenderAction', () => {
@@ -1049,6 +1124,26 @@ describe('sendSenderAction', () => {
         },
         sender_action: 'typing_on',
       },
+    });
+  });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on', {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: {
+        recipient: {
+          id: RECIPIENT_ID,
+        },
+        sender_action: 'typing_on',
+      },
+      name: 'second',
+      depends_on: 'first',
     });
   });
 });
@@ -1116,6 +1211,30 @@ describe('passThreadControl', () => {
       },
     });
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.passThreadControl(
+        RECIPIENT_ID,
+        263902037430900,
+        'something',
+        {
+          name: 'second',
+          depends_on: 'first',
+        }
+      )
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/pass_thread_control',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+        target_app_id: 263902037430900,
+        metadata: 'something',
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('passThreadControlToPageInbox', () => {
@@ -1147,6 +1266,24 @@ describe('takeThreadControl', () => {
       }
     );
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.takeThreadControl(RECIPIENT_ID, 'something', {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/take_thread_control',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+        metadata: 'something',
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('requestThreadControl', () => {
@@ -1162,6 +1299,24 @@ describe('requestThreadControl', () => {
       },
     });
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.requestThreadControl(RECIPIENT_ID, 'something', {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'POST',
+      relative_url: 'me/request_thread_control',
+      body: {
+        recipient: { id: RECIPIENT_ID },
+        metadata: 'something',
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('getThreadOwner', () => {
@@ -1170,6 +1325,21 @@ describe('getThreadOwner', () => {
       method: 'GET',
       relative_url: 'me/thread_owner?recipient=1QAZ2WSX',
       responseAccessPath: 'data[0].thread_owner',
+    });
+  });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.getThreadOwner(RECIPIENT_ID, {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'GET',
+      relative_url: 'me/thread_owner?recipient=1QAZ2WSX',
+      responseAccessPath: 'data[0].thread_owner',
+      name: 'second',
+      depends_on: 'first',
     });
   });
 });
@@ -1184,6 +1354,23 @@ describe('associateLabel', () => {
       },
     });
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.associateLabel(RECIPIENT_ID, LABEL_ID, {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'POST',
+      relative_url: `${LABEL_ID}/label`,
+      body: {
+        user: RECIPIENT_ID,
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('dissociateLabel', () => {
@@ -1196,6 +1383,23 @@ describe('dissociateLabel', () => {
       },
     });
   });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.dissociateLabel(RECIPIENT_ID, LABEL_ID, {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'DELETE',
+      relative_url: `${LABEL_ID}/label`,
+      body: {
+        user: RECIPIENT_ID,
+      },
+      name: 'second',
+      depends_on: 'first',
+    });
+  });
 });
 
 describe('getAssociatedLabels', () => {
@@ -1203,6 +1407,20 @@ describe('getAssociatedLabels', () => {
     expect(MessengerBatch.getAssociatedLabels(RECIPIENT_ID)).toEqual({
       method: 'GET',
       relative_url: `${RECIPIENT_ID}/custom_labels`,
+    });
+  });
+
+  it('should support specifying dependencies between operations', () => {
+    expect(
+      MessengerBatch.getAssociatedLabels(RECIPIENT_ID, {
+        name: 'second',
+        depends_on: 'first',
+      })
+    ).toEqual({
+      method: 'GET',
+      relative_url: `${RECIPIENT_ID}/custom_labels`,
+      name: 'second',
+      depends_on: 'first',
     });
   });
 });

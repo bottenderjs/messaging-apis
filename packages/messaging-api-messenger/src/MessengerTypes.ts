@@ -391,13 +391,18 @@ export type MessageTagResponse = {
 
 export type FileData = Buffer | fs.ReadStream;
 
+export type BatchRequestOptions = {
+  name?: string;
+  depends_on?: string;
+};
+
 export type BatchItem = {
   method: string;
   relative_url: string;
   name?: string;
   body?: Record<string, any>;
   responseAccessPath?: string;
-};
+} & BatchRequestOptions;
 
 export type Model =
   | 'CUSTOM'
