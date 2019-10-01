@@ -1417,6 +1417,87 @@ describe('send api', () => {
     });
   });
 
+  describe('#sendPoll', () => {
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      poll: {
+        id: '6095870087057637377',
+        question: 'q',
+        options: [
+          {
+            text: 'a',
+            voter_count: 0,
+          },
+          {
+            text: 'b',
+            voter_count: 0,
+          },
+          {
+            text: 'c',
+            voter_count: 0,
+          },
+        ],
+        is_closed: false,
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    it('should send poll message to user with snakecase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendPoll', {
+          chat_id: 427770117,
+          question: 'q',
+          options: ['a', 'b', 'c'],
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendPoll(427770117, 'q', ['a', 'b', 'c'], {
+        disable_notification: true,
+        reply_to_message_id: 9527,
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send poll message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendPoll', {
+          chat_id: 427770117,
+          question: 'q',
+          options: ['a', 'b', 'c'],
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendPoll(427770117, 'q', ['a', 'b', 'c'], {
+        disableNotification: true,
+        replyToMessageId: 9527,
+      });
+
+      expect(res).toEqual(result);
+    });
+  });
+
   describe('#sendChatAction', () => {
     it("should tell the user that something is happening on the bot's side", async () => {
       const { client, mock } = createMock();
