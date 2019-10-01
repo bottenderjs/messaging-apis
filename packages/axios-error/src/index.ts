@@ -43,6 +43,8 @@ export default class AxiosError extends Error {
     if (response && response.status) {
       this.status = response.status;
     }
+
+    this.name = 'AxiosError';
   }
 
   [util.inspect.custom](): string {
