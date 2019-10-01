@@ -215,72 +215,68 @@ describe('get api', () => {
   });
 
   describe('#getUserProfilePhotos', () => {
+    const result = {
+      total_count: 3,
+      photos: [
+        [
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+            file_size: 14650,
+            width: 160,
+            height: 160,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+            file_size: 39019,
+            width: 320,
+            height: 320,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+            file_size: 132470,
+            width: 640,
+            height: 640,
+          },
+        ],
+        [
+          {
+            file_id: 'AgABXQSPEUo4Gz8cZAeR-ouu7XBx93EeqRkABHahi76pN-aO0UoDO203',
+            file_size: 14220,
+            width: 160,
+            height: 160,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAT90',
+            file_size: 35122,
+            width: 320,
+            height: 320,
+          },
+          {
+            file_id: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
+            file_size: 106356,
+            width: 640,
+            height: 640,
+          },
+        ],
+      ],
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
+
     it('should response a list of profile pictures for the user', async () => {
       const { client, mock } = createMock();
-      const result = {
-        total_count: 3,
-        photos: [
-          [
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
-              file_size: 14650,
-              width: 160,
-              height: 160,
-            },
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
-              file_size: 39019,
-              width: 320,
-              height: 320,
-            },
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
-              file_size: 132470,
-              width: 640,
-              height: 640,
-            },
-          ],
-          [
-            {
-              file_id:
-                'AgABXQSPEUo4Gz8cZAeR-ouu7XBx93EeqRkABHahi76pN-aO0UoDO203',
-              file_size: 14220,
-              width: 160,
-              height: 160,
-            },
-            {
-              file_id:
-                'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAT90',
-              file_size: 35122,
-              width: 320,
-              height: 320,
-            },
-            {
-              file_id:
-                'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
-              file_size: 106356,
-              width: 640,
-              height: 640,
-            },
-          ],
-        ],
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
-
       mock
         .onPost('/getUserProfilePhotos', {
           user_id: 313534466,
+          offset: 0,
           limit: 2,
         })
         .reply(200, reply);
 
       const res = await client.getUserProfilePhotos(313534466, {
+        offset: 0,
         limit: 2,
       });
 
