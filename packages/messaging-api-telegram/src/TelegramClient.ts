@@ -482,10 +482,20 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send information about a venue. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param latitude Latitude of the venue
+   * @param longitude Longitude of the venue
+   * @param title Name of the venue
+   * @param address Address of the venue
+   * @param options Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#sendvenue
    */
   sendVenue(
-    chatId: string,
+    chatId: string | number,
+    // TODO: replace this parameter with Type.Venue
     {
       latitude,
       longitude,
@@ -497,10 +507,10 @@ export default class TelegramClient {
       title: string;
       address: string;
     },
-    options?: Record<string, any>
+    options?: Type.SendVenueOption
   ): Promise<Type.Message> {
     return this._request('/sendVenue', {
-      chat_id: chatId,
+      chatId,
       latitude,
       longitude,
       title,

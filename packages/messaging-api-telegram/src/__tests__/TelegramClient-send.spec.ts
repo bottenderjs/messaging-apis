@@ -1234,40 +1234,40 @@ describe('send api', () => {
   });
 
   describe('#sendVenue', () => {
-    it('should send venue message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      location: {
+        latitude: 30.000005,
+        longitude: 45,
+      },
+      venue: {
         location: {
           latitude: 30.000005,
           longitude: 45,
         },
-        venue: {
-          location: {
-            latitude: 30.000005,
-            longitude: 45,
-          },
-          title: 'a_title',
-          address: 'an_address',
-        },
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+        title: 'a_title',
+        address: 'an_address',
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send venue message to user with snalecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendVenue', {
           chat_id: 427770117,
@@ -1276,6 +1276,7 @@ describe('send api', () => {
           title: 'a_title',
           address: 'an_address',
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -1289,6 +1290,38 @@ describe('send api', () => {
         },
         {
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send venue message to user with snalecase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendVenue', {
+          chat_id: 427770117,
+          latitude: 30,
+          longitude: 45,
+          title: 'a_title',
+          address: 'an_address',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVenue(
+        427770117,
+        {
+          latitude: 30,
+          longitude: 45,
+          title: 'a_title',
+          address: 'an_address',
+        },
+        {
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 
