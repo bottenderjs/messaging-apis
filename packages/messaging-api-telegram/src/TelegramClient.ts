@@ -586,14 +586,19 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
+   *
+   * @param userId Unique identifier of the target user
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#getuserprofilephotos
    */
   getUserProfilePhotos(
-    userId: string,
-    options?: Record<string, any>
+    userId: number,
+    options?: Type.GetUserProfilePhotosOption
   ): Promise<Type.UserProfilePhotos> {
     return this._request('/getUserProfilePhotos', {
-      user_id: userId,
+      userId,
       ...options,
     });
   }
