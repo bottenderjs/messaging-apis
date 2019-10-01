@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import WechatClient from '../WechatClient';
+import { MediaType } from '../WechatTypes';
 
 const APP_ID = 'APP_ID';
 const APP_SECRET = 'APP_SECRET';
@@ -26,9 +27,10 @@ describe('access token', () => {
   describe('#getAccessToken', () => {
     it('should response access_token and expires_in', async () => {
       const { client } = createMock();
+
       const reply = {
-        access_token: ACCESS_TOKEN,
-        expires_in: 7200,
+        accessToken: ACCESS_TOKEN,
+        expiresIn: 7200,
       };
 
       const res = await client.getAccessToken();
@@ -49,13 +51,22 @@ describe('media', () => {
         created_at: 123456789,
       };
 
+      const camelcaseReply = {
+        type: 'image',
+        mediaId: 'MEDIA_ID',
+        createdAt: 123456789,
+      };
+
       mock
         .onPost(`/media/upload?access_token=${ACCESS_TOKEN}&type=image`)
         .reply(200, reply);
 
-      const res = await client.uploadMedia('image', Buffer.from('1234'));
+      const res = await client.uploadMedia(
+        MediaType.Image,
+        Buffer.from('1234')
+      );
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(camelcaseReply);
     });
   });
 
@@ -67,13 +78,17 @@ describe('media', () => {
         video_url: 'http://www.example.com/image.jpg',
       };
 
+      const camelcaseReply = {
+        videoUrl: 'http://www.example.com/image.jpg',
+      };
+
       mock
         .onGet(`/media/get?access_token=${ACCESS_TOKEN}&media_id=MEDIA_ID`)
         .reply(200, reply);
 
       const res = await client.getMedia('MEDIA_ID');
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual(camelcaseReply);
     });
   });
 });
@@ -208,11 +223,42 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendVideo(RECIPIENT_ID, {
+        mediaId: 'MEDIA_ID',
+        thumbMediaId: 'MEDIA_ID',
+        title: 'TITLE',
+        description: 'DESCRIPTION',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support snakecase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        errcode: 0,
+        errmsg: 'ok',
+      };
+
+      mock
+        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
+          touser: RECIPIENT_ID,
+          msgtype: 'video',
+          video: {
+            media_id: 'MEDIA_ID',
+            thumb_media_id: 'MEDIA_ID',
+            title: 'TITLE',
+            description: 'DESCRIPTION',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVideo(RECIPIENT_ID, {
         media_id: 'MEDIA_ID',
         thumb_media_id: 'MEDIA_ID',
         title: 'TITLE',
         description: 'DESCRIPTION',
-      });
+      } as any);
 
       expect(res).toEqual(reply);
     });
@@ -246,8 +292,41 @@ describe('send api', () => {
         description: 'MUSIC_DESCRIPTION',
         musicurl: 'MUSIC_URL',
         hqmusicurl: 'HQ_MUSIC_URL',
-        thumb_media_id: 'THUMB_MEDIA_ID',
+        thumbMediaId: 'THUMB_MEDIA_ID',
       });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support snakecase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        errcode: 0,
+        errmsg: 'ok',
+      };
+
+      mock
+        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
+          touser: RECIPIENT_ID,
+          msgtype: 'music',
+          music: {
+            title: 'MUSIC_TITLE',
+            description: 'MUSIC_DESCRIPTION',
+            musicurl: 'MUSIC_URL',
+            hqmusicurl: 'HQ_MUSIC_URL',
+            thumb_media_id: 'THUMB_MEDIA_ID',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMusic(RECIPIENT_ID, {
+        title: 'MUSIC_TITLE',
+        description: 'MUSIC_DESCRIPTION',
+        musicurl: 'MUSIC_URL',
+        hqmusicurl: 'HQ_MUSIC_URL',
+        thumb_media_id: 'THUMB_MEDIA_ID',
+      } as any);
 
       expect(res).toEqual(reply);
     });
@@ -362,6 +441,53 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendMsgMenu(RECIPIENT_ID, {
+        headContent: 'HEAD',
+        list: [
+          {
+            id: '101',
+            content: 'Yes',
+          },
+          {
+            id: '102',
+            content: 'No',
+          },
+        ],
+        tailContent: 'TAIL',
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support snakecase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        errcode: 0,
+        errmsg: 'ok',
+      };
+
+      mock
+        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
+          touser: RECIPIENT_ID,
+          msgtype: 'msgmenu',
+          msgmenu: {
+            head_content: 'HEAD',
+            list: [
+              {
+                id: '101',
+                content: 'Yes',
+              },
+              {
+                id: '102',
+                content: 'No',
+              },
+            ],
+            tail_content: 'TAIL',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMsgMenu(RECIPIENT_ID, {
         head_content: 'HEAD',
         list: [
           {
@@ -374,7 +500,7 @@ describe('send api', () => {
           },
         ],
         tail_content: 'TAIL',
-      });
+      } as any);
 
       expect(res).toEqual(reply);
     });
@@ -434,8 +560,39 @@ describe('send api', () => {
         title: 'title',
         appid: 'appid',
         pagepath: 'pagepath',
-        thumb_media_id: 'thumb_media_id',
+        thumbMediaId: 'thumb_media_id',
       });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support snakecase', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        errcode: 0,
+        errmsg: 'ok',
+      };
+
+      mock
+        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
+          touser: RECIPIENT_ID,
+          msgtype: 'miniprogrampage',
+          miniprogrampage: {
+            title: 'title',
+            appid: 'appid',
+            pagepath: 'pagepath',
+            thumb_media_id: 'thumb_media_id',
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.sendMiniProgramPage(RECIPIENT_ID, {
+        title: 'title',
+        appid: 'appid',
+        pagepath: 'pagepath',
+        thumb_media_id: 'thumb_media_id',
+      } as any);
 
       expect(res).toEqual(reply);
     });
