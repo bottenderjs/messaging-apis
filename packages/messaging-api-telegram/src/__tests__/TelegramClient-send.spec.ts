@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import TelegramClient from '../TelegramClient';
-import { InputMediaType, ParseMode } from '../TelegramTypes';
+import { ChatAction, InputMediaType, ParseMode } from '../TelegramTypes';
 
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
@@ -1499,14 +1499,14 @@ describe('send api', () => {
   });
 
   describe('#sendChatAction', () => {
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+    };
+
     it("should tell the user that something is happening on the bot's side", async () => {
       const { client, mock } = createMock();
-      const result = true;
-      const reply = {
-        ok: true,
-        result,
-      };
-
       mock
         .onPost('/sendChatAction', {
           chat_id: 427770117,
@@ -1514,7 +1514,7 @@ describe('send api', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendChatAction(427770117, 'typing');
+      const res = await client.sendChatAction(427770117, ChatAction.Typing);
 
       expect(res).toEqual(result);
     });
