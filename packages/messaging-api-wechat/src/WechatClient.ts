@@ -3,13 +3,16 @@ import fs from 'fs';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import camelcaseKeys from 'camelcase-keys';
 import omit from 'lodash.omit';
+import snakecaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
 import {
   AccessToken,
   FailedResponseData,
+  Media,
   MediaType,
   MiniProgramPage,
   MsgMenu,
@@ -18,6 +21,7 @@ import {
   ResponseData,
   SendMessageOptions,
   SucceededResponseData,
+  UploadedMedia,
   Video,
 } from './WechatTypes';
 
@@ -115,10 +119,7 @@ export default class WechatClient {
   }
 
   async _refreshToken(): Promise<void> {
-    const {
-      access_token: accessToken,
-      expires_in: expiresIn,
-    } = await this.getAccessToken();
+    const { accessToken, expiresIn } = await this.getAccessToken();
 
     this._accessToken = accessToken;
     this._tokenExpiresAt = Date.now() + expiresIn * 1000;
@@ -141,7 +142,12 @@ export default class WechatClient {
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
       )
       .then(throwErrorIfAny)
-      .then(res => res.data);
+      .then(
+        res =>
+          camelcaseKeys(res.data, {
+            deep: true,
+          }) as any
+      );
   }
 
   /**
@@ -163,7 +169,7 @@ export default class WechatClient {
   async uploadMedia(
     type: MediaType,
     media: Buffer | fs.ReadStream
-  ): Promise<{ type: string; media_id: string; created_at: number }> {
+  ): Promise<UploadedMedia> {
     await this._refreshTokenWhenExpired();
 
     const form = new FormData();
@@ -178,7 +184,12 @@ export default class WechatClient {
         headers: form.getHeaders(),
       })
       .then(throwErrorIfAny)
-      .then(res => res.data);
+      .then(
+        res =>
+          camelcaseKeys(res.data, {
+            deep: true,
+          }) as any
+      );
   }
 
   /**
@@ -186,22 +197,20 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
    */
-  async getMedia(
-    mediaId: string
-  ): Promise<{
-    video_url: string;
-  }> {
+  async getMedia(mediaId: string): Promise<Media> {
     await this._refreshTokenWhenExpired();
 
     return this._axios
-      .get<
-        | {
-            video_url: string;
-          }
-        | FailedResponseData
-      >(`/media/get?access_token=${this._accessToken}&media_id=${mediaId}`)
+      .get<{ video_url: string } | FailedResponseData>(
+        `/media/get?access_token=${this._accessToken}&media_id=${mediaId}`
+      )
       .then(throwErrorIfAny)
-      .then(res => res.data);
+      .then(
+        res =>
+          camelcaseKeys(res.data, {
+            deep: true,
+          }) as any
+      );
   }
 
   /**
@@ -223,13 +232,13 @@ export default class WechatClient {
         | {
             msgtype: 'image';
             image: {
-              media_id: string;
+              mediaId: string;
             };
           }
         | {
             msgtype: 'voice';
             voice: {
-              media_id: string;
+              mediaId: string;
             };
           }
         | {
@@ -247,7 +256,7 @@ export default class WechatClient {
         | {
             msgtype: 'mpnews';
             mpnews: {
-              media_id: string;
+              mediaId: string;
             };
           }
         | {
@@ -257,7 +266,7 @@ export default class WechatClient {
         | {
             msgtype: 'wxcard';
             wxcard: {
-              card_id: string;
+              cardId: string;
             };
           }
         | {
@@ -270,10 +279,15 @@ export default class WechatClient {
     return this._axios
       .post<ResponseData>(
         `/message/custom/send?access_token=${this._accessToken}`,
-        body
+        snakecaseKeys(body, { deep: true })
       )
       .then(throwErrorIfAny)
-      .then(res => res.data);
+      .then(
+        res =>
+          camelcaseKeys(res.data, {
+            deep: true,
+          }) as any
+      );
   }
 
   /**
@@ -306,7 +320,7 @@ export default class WechatClient {
       touser: userId,
       msgtype: 'image',
       image: {
-        media_id: mediaId,
+        mediaId,
       },
       ...options,
     });
@@ -324,9 +338,8 @@ export default class WechatClient {
       touser: userId,
       msgtype: 'voice',
       voice: {
-        media_id: mediaId,
+        mediaId,
       },
-
       ...options,
     });
   }
@@ -395,7 +408,7 @@ export default class WechatClient {
       touser: userId,
       msgtype: 'mpnews',
       mpnews: {
-        media_id: mediaId,
+        mediaId,
       },
       ...options,
     });
@@ -429,7 +442,7 @@ export default class WechatClient {
       touser: userId,
       msgtype: 'wxcard',
       wxcard: {
-        card_id: cardId,
+        cardId,
       },
       ...options,
     });

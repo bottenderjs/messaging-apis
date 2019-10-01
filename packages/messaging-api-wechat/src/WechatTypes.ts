@@ -11,13 +11,23 @@ export type FailedResponseData = {
 export type ResponseData = SucceededResponseData | FailedResponseData;
 
 export type AccessToken = {
-  access_token: string;
-  expires_in: number;
+  accessToken: string;
+  expiresIn: number;
+};
+
+export type UploadedMedia = {
+  type: string;
+  mediaId: string;
+  createdAt: number;
+};
+
+export type Media = {
+  videoUrl: string;
 };
 
 export type Video = {
-  media_id: string;
-  thumb_media_id: string;
+  mediaId: string;
+  thumbMediaId: string;
   title: string;
   description: string;
 };
@@ -27,7 +37,7 @@ export type Music = {
   description: string;
   musicurl: string;
   hqmusicurl: string;
-  thumb_media_id: string;
+  thumbMediaId: string;
 };
 
 export type Article = {
@@ -42,19 +52,19 @@ export type News = {
 };
 
 export type MsgMenu = {
-  head_content: string;
+  headContent: string;
   list: {
     id: string;
     content: string;
   }[];
-  tail_content: string;
+  tailContent: string;
 };
 
 export type MiniProgramPage = {
   title: string;
   appid: string;
   pagepath: string;
-  thumb_media_id: string;
+  thumbMediaId: string;
 };
 
 export enum MediaType {
@@ -66,6 +76,6 @@ export enum MediaType {
 
 export type SendMessageOptions = {
   customservice?: {
-    kf_account: string;
+    kfAccount: string;
   };
 };
