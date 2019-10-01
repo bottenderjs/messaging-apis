@@ -1859,6 +1859,18 @@ export type SendVenueOption = {
     | ForceReply;
 };
 
+export type SendContactRequiredOption = {
+  /**
+   * Contact's phone number
+   */
+  phone_number: string;
+
+  /**
+   * Contact's first name
+   */
+  first_name: string;
+};
+
 export type SendContactOption = {
   /**
    * Contact's last name
@@ -1870,7 +1882,7 @@ export type SendContactOption = {
    *
    * - https://en.wikipedia.org/wiki/VCard
    */
-  vacrd?: string;
+  vcard?: string;
 
   /**
    * Sends the message silently. Users will receive a notification with no sound.

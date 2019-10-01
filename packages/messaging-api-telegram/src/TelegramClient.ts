@@ -520,17 +520,23 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send phone contacts. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param requiredOptions.phoneNumber Contact's phone number
+   * @param requiredOptions.firstName Contact's first name
+   * @param options Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#sendcontact
    */
   sendContact(
-    chatId: string,
-    { phone_number, first_name }: { phone_number: string; first_name: string },
-    options?: Record<string, any>
+    chatId: string | number,
+    requiredOptions: Type.SendContactRequiredOption,
+    options?: Type.SendContactOption
   ): Promise<Type.Message> {
     return this._request('/sendContact', {
-      chat_id: chatId,
-      phone_number,
-      first_name,
+      chatId,
+      ...requiredOptions,
       ...options,
     });
   }

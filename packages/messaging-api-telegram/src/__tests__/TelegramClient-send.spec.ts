@@ -1330,38 +1330,41 @@ describe('send api', () => {
   });
 
   describe('#sendContact', () => {
-    it('should send contact message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 1,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499403678,
-        contact: {
-          phone_number: '886123456789',
-          first_name: 'first',
-        },
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 1,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      contact: {
+        phone_number: '886123456789',
+        first_name: 'first',
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should send contact message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendContact', {
           chat_id: 427770117,
           phone_number: '886123456789',
           first_name: 'first',
           last_name: 'last',
+          vcard: 'vcard',
+          disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -1371,7 +1374,43 @@ describe('send api', () => {
           phone_number: '886123456789',
           first_name: 'first',
         },
-        { last_name: 'last' }
+        {
+          last_name: 'last',
+          vcard: 'vcard',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send contact message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendContact', {
+          chat_id: 427770117,
+          phone_number: '886123456789',
+          first_name: 'first',
+          last_name: 'last',
+          vcard: 'vcard',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendContact(
+        427770117,
+        {
+          phoneNumber: '886123456789',
+          firstName: 'first',
+        },
+        {
+          lastName: 'last',
+          vcard: 'vcard',
+          disableNotification: true,
+          replyToMessageId: 9527,
+        }
       );
 
       expect(res).toEqual(result);
