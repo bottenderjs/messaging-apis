@@ -579,37 +579,59 @@ describe('other api', () => {
   });
 
   describe('#stopMessageLiveLocation', () => {
-    it('should stop updating a live location message', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 66,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499402829,
-        location: {
-          latitude: 30.000005,
-          longitude: 45,
-        },
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 66,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      location: {
+        latitude: 30.000005,
+        longitude: 45,
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should stop updating a live location message with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
-        .onPost('/stopMessageLiveLocation', { message_id: 66 })
+        .onPost('/stopMessageLiveLocation', {
+          chat_id: 427770117,
+          message_id: 66,
+        })
         .reply(200, reply);
 
-      const res = await client.stopMessageLiveLocation({ message_id: 66 });
+      const res = await client.stopMessageLiveLocation({
+        chat_id: 427770117,
+        message_id: 66,
+      });
+
+      expect(res).toEqual(result);
+    });
+    it('should stop updating a live location message with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/stopMessageLiveLocation', {
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.stopMessageLiveLocation({
+        chatId: 427770117,
+        messageId: 66,
+      });
 
       expect(res).toEqual(result);
     });
