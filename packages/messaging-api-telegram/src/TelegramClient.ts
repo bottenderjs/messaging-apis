@@ -464,13 +464,20 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
+   *
+   * @param options.chatId Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param options.messageId Required if inline_message_id is not specified. Identifier of the message to edit
+   * @param options.inlineMessageId Required if chat_id and message_id are not specified. Identifier of the inline message
+   * @param options.replyMarkup A JSON-serialized object for a new inline keyboard.
+   *
    * - https://core.telegram.org/bots/api#stopmessagelivelocation
    */
   stopMessageLiveLocation(
-    identifier: Record<string, any>
+    options: Type.StopMessageLiveLocationOption
   ): Promise<Type.Message | boolean> {
     return this._request('/stopMessageLiveLocation', {
-      ...identifier,
+      ...options,
     });
   }
 
