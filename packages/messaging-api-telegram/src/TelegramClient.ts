@@ -510,9 +510,28 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername). A native poll can't be sent to a private chat.
+   * @param question Poll question, 1-255 characters
+   * @param options List of answer options, 2-10 strings 1-100 characters each
+   * @param otherOptions Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#sendpoll
    */
-  // TODO: implement sendPoll
+  sendPoll(
+    chatId: string | number,
+    question: string,
+    options: string[],
+    otherOptions?: Type.SendPollOption
+  ): Promise<Type.Message> {
+    return this._request('/sendPoll', {
+      chatId,
+      question,
+      options,
+      ...otherOptions,
+    });
+  }
 
   /**
    * - https://core.telegram.org/bots/api#sendchataction
