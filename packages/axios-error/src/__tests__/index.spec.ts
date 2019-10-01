@@ -32,6 +32,7 @@ it('should work', async () => {
     error.stack = stack;
 
     expect(error[util.inspect.custom]()).toMatchSnapshot();
+    expect(error.name).toBe('AxiosError');
   }
 });
 
@@ -61,6 +62,7 @@ it('should work with construct using error instance only', async () => {
     error.stack = stack;
 
     expect(error[util.inspect.custom]()).toMatchSnapshot();
+    expect(error.name).toBe('AxiosError');
   }
 });
 
@@ -78,6 +80,7 @@ it('should work with undefined response', async () => {
     error.stack = stack;
 
     expect(error[util.inspect.custom]()).toMatchSnapshot();
+    expect(error.name).toBe('AxiosError');
   }
 });
 
@@ -86,4 +89,5 @@ it('should support error without axios data', () => {
   error.stack = stack;
 
   expect(error[util.inspect.custom]()).toMatchSnapshot();
+  expect(error.name).toBe('AxiosError');
 });
