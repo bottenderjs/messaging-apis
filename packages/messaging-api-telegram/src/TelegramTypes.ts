@@ -641,17 +641,18 @@ export type InputMediaDocument = {
   parse_mode?: string;
 };
 
-export type ChatAction =
-  | 'typing'
-  | 'upload_photo'
-  | 'record_video'
-  | 'upload_video'
-  | 'record_audio'
-  | 'upload_audio'
-  | 'upload_document'
-  | 'find_location'
-  | 'record_video_note'
-  | 'upload_video_note';
+export enum ChatAction {
+  Typing = 'typing',
+  UploadPhoto = 'upload_photo',
+  RecordVideo = 'record_video',
+  UploadVideo = 'upload_video',
+  RecordAudio = 'record_audio',
+  UploadAudio = 'upload_audio',
+  UploadDocument = 'upload_document',
+  FindLocation = 'find_location',
+  RecordVideoNote = 'record_video_note',
+  UploadVideoNote = 'upload_video_note',
+}
 
 // Stickers
 export type Sticker = {
