@@ -170,36 +170,37 @@ describe('updating api', () => {
   });
 
   describe('#editMessageLiveLocation', () => {
-    it('should edit live location message', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        message_id: 66,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499402829,
-        location: {
-          latitude: 11,
-          longitude: 22,
-        },
-      };
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = {
+      message_id: 66,
+      from: {
+        id: 313534466,
+        first_name: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        first_name: 'first',
+        last_name: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      location: {
+        latitude: 11,
+        longitude: 22,
+      },
+    };
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should edit live location message with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/editMessageLiveLocation', {
           latitude: 11,
           longitude: 22,
+          chat_id: 427770117,
           message_id: 66,
         })
         .reply(200, reply);
@@ -209,7 +210,34 @@ describe('updating api', () => {
           latitude: 11,
           longitude: 22,
         },
-        { message_id: 66 }
+        {
+          chat_id: 427770117,
+          message_id: 66,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+    it('should edit live location message with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/editMessageLiveLocation', {
+          latitude: 11,
+          longitude: 22,
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageLiveLocation(
+        {
+          latitude: 11,
+          longitude: 22,
+        },
+        {
+          chatId: 427770117,
+          messageId: 66,
+        }
       );
 
       expect(res).toEqual(result);
