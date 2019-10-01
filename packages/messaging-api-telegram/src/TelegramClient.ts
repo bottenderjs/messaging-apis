@@ -650,12 +650,17 @@ export default class TelegramClient {
   }
 
   /**
-   * - https://core.telegram.org/bots/api#unbanChatMember
+   * Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target group or username of the target supergroup or channel (in the format @username)
+   * @param userId Unique identifier of the target user
+   *
+   * - https://core.telegram.org/bots/api#unbanchatmember
    */
-  unbanChatMember(chatId: string, userId: string): Promise<boolean> {
+  unbanChatMember(chatId: string | number, userId: number): Promise<boolean> {
     return this._request('/unbanChatMember', {
-      chat_id: chatId,
-      user_id: userId,
+      chatId,
+      userId,
     });
   }
 
