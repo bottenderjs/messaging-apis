@@ -2,7 +2,9 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import camelCaseKeys from 'camelcase-keys';
 import difference from 'lodash/difference';
+import isObject from 'lodash/isObject';
 import omit from 'lodash.omit';
 import pick from 'lodash/pick';
 import snakeCaseKeys from 'snakecase-keys';
@@ -96,6 +98,9 @@ export default class TelegramClient {
         });
       }
 
+      if (isObject(data.result)) {
+        return camelCaseKeys(data.result, { deep: true });
+      }
       return data.result;
     } catch (err) {
       if (err.response && err.response.data) {
@@ -622,7 +627,7 @@ export default class TelegramClient {
   getFileLink(fileId: string): Promise<string> {
     return this.getFile(fileId).then(
       result =>
-        `https://api.telegram.org/file/bot${this._token}/${result.file_path}`
+        `https://api.telegram.org/file/bot${this._token}/${result.filePath}`
     );
   }
 

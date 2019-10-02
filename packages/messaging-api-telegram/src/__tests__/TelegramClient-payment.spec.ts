@@ -15,25 +15,25 @@ describe('payment api', () => {
     it('should send invoice message to user', async () => {
       const { client, mock } = createMock();
       const result = {
-        message_id: 1,
+        messageId: 1,
         from: {
           id: 313534466,
-          first_name: 'first',
+          firstName: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
+          firstName: 'first',
+          lastName: 'last',
           type: 'private',
         },
         date: 1499403678,
         invoice: {
           title: 'product name',
           description: 'product description',
-          start_parameter: 'pay',
+          startParameter: 'pay',
           currency: 'USD',
-          total_count: 22000,
+          totalCount: 22000,
         },
       };
       const reply = {

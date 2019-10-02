@@ -1,14 +1,14 @@
 export type Update = {
-  update_id: string;
+  updateId: string;
   message?: Message;
-  edited_message?: Message;
-  channel_post?: Message;
-  edited_channel_post?: Message;
-  inline_query?: InlineQuery;
-  chosen_inline_result?: ChosenInlineResult;
-  callback_query?: CallbackQuery;
-  shipping_query?: ShippingQuery;
-  pre_checkout_query?: PreCheckoutQuery;
+  editedMessage?: Message;
+  channelPost?: Message;
+  editedChannelPost?: Message;
+  inlineQuery?: InlineQuery;
+  chosenInlineResult?: ChosenInlineResult;
+  callbackQuery?: CallbackQuery;
+  shippingQuery?: ShippingQuery;
+  preCheckoutQuery?: PreCheckoutQuery;
   poll?: Poll;
 };
 
@@ -24,42 +24,42 @@ export type WebhookInfo = {
   /**
    * True, if a custom certificate was provided for webhook certificate checks
    */
-  has_custom_certificate: boolean;
+  hasCustomCertificate: boolean;
 
   /**
    * Number of updates awaiting delivery
    */
-  pending_update_count: number;
+  pendingUpdateCount: number;
 
   /**
    * Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook
    */
-  last_error_date?: number;
+  lastErrorDate?: number;
 
   /**
    * Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
    */
-  last_error_message?: string;
+  lastErrorMessage?: string;
 
   /**
    * Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
    */
-  max_connections?: number;
+  maxConnections?: number;
 
   /**
    * Optional. A list of update types the bot is subscribed to. Defaults to all update types
    */
-  allowed_updates?: string[];
+  allowedUpdates?: string[];
 };
 
 export type User = {
-  chat_id: number | string;
+  chatId: number | string;
   text: string;
-  parse_mode?: string;
-  disable_web_page_preview?: boolean;
-  disable_notification?: boolean;
-  reply_to_message_id?: number;
-  reply_markup?:
+  parseMode?: string;
+  disableWebPagePreview?: boolean;
+  disableNotification?: boolean;
+  replyToMessageId?: number;
+  replyMarkup?:
     | InlineKeyboardMarkup
     | ReplyKeyboardMarkup
     | ReplyKeyboardRemove
@@ -72,35 +72,35 @@ export type Chat = {
   type: 'private' | 'group' | 'supergroup' | 'channel';
   title?: string;
   username?: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   photo?: ChatPhoto;
   description?: string;
-  invite_link?: string;
-  pinned_message?: Message;
+  inviteLink?: string;
+  pinnedMessage?: Message;
   permissions?: ChatPermissions;
-  sticker_set_name?: string;
-  can_set_sticker_set?: boolean;
+  stickerSetName?: string;
+  canSetStickerSet?: boolean;
 };
 
 export type Message = {
-  message_id: number;
+  messageId: number;
   from?: User; // TODO: empty for messages sent to channels
   date: number;
   chat: Chat;
-  forward_from?: User;
-  forward_from_chat?: Chat;
-  forward_from_message_id?: number;
-  forward_signature?: string;
-  forward_sender_name?: string;
-  forward_date?: number;
-  reply_to_message?: Message;
-  edit_date?: number;
-  media_group_id?: string;
-  author_signature?: string;
+  forwardFrom?: User;
+  forwardFromChat?: Chat;
+  forwardFromMessageId?: number;
+  forwardSignature?: string;
+  forwardSenderName?: string;
+  forwardDate?: number;
+  replyToMessage?: Message;
+  editDate?: number;
+  mediaGroupId?: string;
+  authorSignature?: string;
   text?: string;
   entities?: MessageEntity[];
-  caption_entities?: MessageEntity[];
+  captionEntities?: MessageEntity[];
   audio?: Audio;
   document?: Document;
   animation?: Animation;
@@ -109,28 +109,28 @@ export type Message = {
   sticker?: Sticker;
   video?: Video;
   voice?: Voice;
-  video_note?: VideoNote;
+  videoNote?: VideoNote;
   caption?: string;
   contact?: Contact;
   location?: Location;
   venue?: Venue;
   poll?: Poll;
-  new_chat_members?: User[];
-  left_chat_member?: User;
-  new_chat_title?: string;
-  new_chat_photo?: PhotoSize[];
-  delete_chat_photo?: boolean;
-  group_chat_created?: boolean;
-  supergroup_chat_created?: boolean;
-  channel_chat_created?: boolean;
-  migrate_to_chat_id?: number;
-  migrate_from_chat_id?: number;
-  pinned_message?: Message;
+  newChatMembers?: User[];
+  leftChatMember?: User;
+  newChatTitle?: string;
+  newChatPhoto?: PhotoSize[];
+  deleteChatPhoto?: boolean;
+  groupChatCreated?: boolean;
+  supergroupChatCreated?: boolean;
+  channelChatCreated?: boolean;
+  migrateToChatId?: number;
+  migrateFromChatId?: number;
+  pinnedMessage?: Message;
   invoice?: Invoice;
-  successful_payment?: SuccessfulPayment;
-  connected_website?: string;
-  passport_data?: PassportData;
-  reply_markup?: InlineKeyboardMarkup;
+  successfulPayment?: SuccessfulPayment;
+  connectedWebsite?: string;
+  passportData?: PassportData;
+  replyMarkup?: InlineKeyboardMarkup;
 };
 
 export type MessageEntity = {
@@ -155,71 +155,71 @@ export type MessageEntity = {
 };
 
 export type PhotoSize = {
-  file_id: string;
+  fileId: string;
   width: number;
   height: number;
-  file_size?: number;
+  fileSize?: number;
 };
 
 export type Audio = {
-  file_id: string;
+  fileId: string;
   duration: number;
   performer?: string;
   title?: string;
-  mime_type?: string;
-  file_size?: number;
+  mimeType?: string;
+  fileSize?: number;
   thumb?: PhotoSize;
 };
 
 export type Document = {
-  file_id: string;
+  fileId: string;
   thumb?: PhotoSize;
-  file_name?: string;
-  mime_type?: string;
-  file_size?: number;
+  fileName?: string;
+  mimeType?: string;
+  fileSize?: number;
 };
 
 export type Video = {
-  file_id: string;
+  fileId: string;
   width: number;
   height: number;
   duration: number;
   thumb?: PhotoSize;
-  mime_type?: string;
-  file_size?: number;
+  mimeType?: string;
+  fileSize?: number;
 };
 
 export type Animation = {
-  file_id: string;
+  fileId: string;
   width: number;
   height: number;
   duration: number;
   thumb?: PhotoSize;
-  file_name?: string;
-  mime_type?: string;
-  file_size?: number;
+  fileName?: string;
+  mimeType?: string;
+  fileSize?: number;
 };
 
 export type Voice = {
-  file_id: string;
+  fileId: string;
   duration: number;
-  mime_type?: string;
-  file_size?: number;
+  mimeType?: string;
+  fileSize?: number;
 };
 
 export type VideoNote = {
-  file_id: string;
+  fileId: string;
   length: number;
   duration: number;
   thumb?: PhotoSize;
-  file_size?: number;
+  fileSize?: number;
 };
 
 export type Contact = {
-  phone_number: string;
-  first_name: string;
-  last_name?: string;
-  user_id?: number;
+  phoneNumber: string;
+  firstName: string;
+  lastName?: string;
+  userId?: number;
   vcard?: string;
 };
 
@@ -259,35 +259,35 @@ export type Venue = {
   /**
    * Optional. Foursquare identifier of the venue
    */
-  foursquare_id?: string;
+  foursquareId?: string;
 
   /**
    * Optional. Foursquare type of the venue. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
-  foursquare_type?: string;
+  foursquareType?: string;
 };
 
 export type PollOption = {
   text: string;
-  voter_count: number;
+  voterCount: number;
 };
 
 export type Poll = {
   id: string;
   question: string;
   options: PollOption[];
-  is_closed: boolean;
+  isClosed: boolean;
 };
 
 export type UserProfilePhotos = {
-  total_count: number;
+  totalCount: number;
   photos: PhotoSize[][];
 };
 
 export type File = {
-  file_id: string;
-  file_size?: number;
-  file_path: string;
+  fileId: string;
+  fileSize?: number;
+  filePath: string;
 };
 
 /**
@@ -315,7 +315,7 @@ export type ReplyKeyboardMarkup = {
   oneTimeKeyboard?: boolean;
 
   /**
-   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessageId), sender of the original message.
    *
    * Example: A user requests to change the bot‘s language, bot replies to the request with a keyboard to select the new language. Other users in the group don’t see the keyboard.
    */
@@ -352,14 +352,14 @@ export type KeyboardButton = {
  */
 export type ReplyKeyboardRemove = {
   /**
-   * Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
+   * Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use oneTimeKeyboard in ReplyKeyboardMarkup)
    */
   removeKeyboard: true;
 
   /**
    * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets:
    * 1. users that are @mentioned in the text of the Message object
-   * 2. if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   * 2. if the bot's message is a reply (has replyToMessageId), sender of the original message.
    *
    * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
    */
@@ -412,7 +412,7 @@ export type InlineKeyboardButton = {
   /**
    * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.
    *
-   * Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switch_pm… actions – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
+   * Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switchPm… actions – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
    */
   switchInlineQuery?: string;
 
@@ -481,10 +481,10 @@ export type CallbackQuery = {
   id: string;
   from: User;
   message?: Message;
-  inline_message_id?: string;
-  chat_instance: string;
+  inlineMessageId?: string;
+  chatInstance: string;
   data?: string;
-  game_short_name?: string;
+  gameShortName?: string;
 };
 
 /**
@@ -502,27 +502,27 @@ export type ForceReply = {
   /**
    * Optional. Use this parameter if you want to force reply from specific users only. Targets:
    * 1. users that are @mentioned in the text of the Message object;
-   * 2. if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+   * 2. if the bot's message is a reply (has replyToMessageId), sender of the original message.
    */
   selective?: boolean;
 };
 
 export type ChatPhoto = {
-  small_file_id: string;
-  big_file_id: string;
+  smallFileId: string;
+  bigFileId: string;
 };
 
 export type ChatMember = any;
 
 export type ChatPermissions = {
-  can_send_messages?: boolean;
-  can_send_media_messages?: boolean;
-  can_send_polls?: boolean;
-  can_send_other_messages?: boolean;
-  can_add_web_page_previews?: boolean;
-  can_change_info?: boolean;
-  can_invite_users?: boolean;
-  can_pin_messages?: boolean;
+  canSendMessages?: boolean;
+  canSendMediaMessages?: boolean;
+  canSendPolls?: boolean;
+  canSendOtherMessages?: boolean;
+  canAddWebPagePreviews?: boolean;
+  canChangeInfo?: boolean;
+  canInviteUsers?: boolean;
+  canPinMessages?: boolean;
 };
 
 export type ResponseParameters = any;
@@ -549,7 +549,7 @@ export type InputMediaPhoto = {
   type: InputMediaType.Photo;
 
   /**
-   * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * File to send. Pass a fileId to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
    */
   media: string;
 
@@ -571,7 +571,7 @@ export type InputMediaVideo = {
   type: InputMediaType.Video;
 
   /**
-   * File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * File to send. Pass a fileId to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
    */
   media: string;
 
@@ -588,7 +588,7 @@ export type InputMediaVideo = {
   /**
    * Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
    */
-  parse_mode?: string;
+  parseMode?: string;
 
   /**
    * Optional. Video width
@@ -608,7 +608,7 @@ export type InputMediaVideo = {
   /**
    * Optional. Pass True, if the uploaded video is suitable for streaming
    */
-  supports_streaming?: boolean;
+  supportsStreaming?: boolean;
 };
 
 export type InputMediaAnimation = {
@@ -616,7 +616,7 @@ export type InputMediaAnimation = {
   media: string;
   thumb?: string;
   caption?: string;
-  parse_mode?: string;
+  parseMode?: string;
   width?: number;
   height?: number;
   duration?: number;
@@ -627,7 +627,7 @@ export type InputMediaAudio = {
   media: string;
   thumb?: string;
   caption?: string;
-  parse_mode?: string;
+  parseMode?: string;
   duration?: number;
   performer?: string;
   title?: string;
@@ -638,7 +638,7 @@ export type InputMediaDocument = {
   media: string;
   thumb?: string;
   caption?: string;
-  parse_mode?: string;
+  parseMode?: string;
 };
 
 export enum ChatAction {
@@ -656,29 +656,29 @@ export enum ChatAction {
 
 // Stickers
 export type Sticker = {
-  file_id: string;
+  fileId: string;
   width: number;
   height: number;
-  is_animated: boolean;
+  isAnimated: boolean;
   thumb?: PhotoSize;
   emoji?: string;
-  set_name?: string;
-  mask_position?: MaskPosition;
-  file_size?: number;
+  setName?: string;
+  maskPosition?: MaskPosition;
+  fileSize?: number;
 };
 
 export type StickerSet = {
   name: string;
   title: string;
-  is_animated: boolean;
-  contains_masks: boolean;
+  isAnimated: boolean;
+  containsMasks: boolean;
   stickers: Sticker[];
 };
 
 export type MaskPosition = {
   point: 'forehead' | 'eyes' | 'mouth' | 'chin';
-  x_shift: number;
-  y_shift: number;
+  xShift: number;
+  yShift: number;
   scale: number;
 };
 
@@ -717,99 +717,99 @@ export type InlineQueryResultArticle = {
   type: 'article';
   id: string;
   title: string;
-  input_message_content: InputMessageContent;
-  reply_markup?: InlineKeyboardMarkup;
+  inputMessageContent: InputMessageContent;
+  replyMarkup?: InlineKeyboardMarkup;
   url?: string;
-  hide_url?: boolean;
+  hideUrl?: boolean;
   description?: string;
-  thumb_url?: string;
-  thumb_width?: number;
-  thumb_height?: number;
+  thumbUrl?: string;
+  thumbWidth?: number;
+  thumbHeight?: number;
 };
 
 export type InlineQueryResultPhoto = {
   type: 'photo';
   id: string;
-  photo_url: string;
-  thumb_url: string;
+  photoUrl: string;
+  thumbUrl: string;
   title?: string;
   description?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultGif = {
   type: 'gif';
   id: string;
-  gif_url: string;
-  gif_width?: number;
-  gif_height?: number;
-  gif_duration?: number;
-  thumb_url: string;
+  gifUrl: string;
+  gifWidth?: number;
+  gifHeight?: number;
+  gifDuration?: number;
+  thumbUrl: string;
   title?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultMpeg4Gif = {
   type: 'mpeg4_gif';
   id: string;
-  mpeg4_url: string;
-  mpeg4_width?: number;
-  mpeg4_height?: number;
-  mpeg4_duration?: number;
-  thumb_url: string;
+  mpeg4Url: string;
+  mpeg4Width?: number;
+  mpeg4Height?: number;
+  mpeg4Duration?: number;
+  thumbUrl: string;
   title?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultVideo = {
   type: 'video';
   id: string;
-  video_url: string;
-  mime_type: string;
-  thumb_url: string;
+  videoUrl: string;
+  mimeType: string;
+  thumbUrl: string;
   title: string;
   caption?: string;
-  parse_mode?: string;
-  video_width?: number;
-  video_height?: number;
-  video_duration?: number;
+  parseMode?: string;
+  videoWidth?: number;
+  videoHeight?: number;
+  videoDuration?: number;
   description?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultAudio = {
   type: 'audio';
   id: string;
-  audio_url: string;
+  audioUrl: string;
   title: string;
   caption?: string;
-  parse_mode?: string;
+  parseMode?: string;
   performer?: string;
-  audio_duration?: number;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  audioDuration?: number;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultVoice = {
   type: 'voice';
   id: string;
-  voice_url: string;
+  voiceUrl: string;
   title: string;
   caption?: string;
-  parse_mode?: string;
-  voice_duration?: number;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  voiceDuration?: number;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultDocument = {
@@ -817,15 +817,15 @@ export type InlineQueryResultDocument = {
   id: string;
   title: string;
   caption?: string;
-  parse_mode?: string;
-  document_url: string;
-  mime_type: string;
+  parseMode?: string;
+  documentUrl: string;
+  mimeType: string;
   description?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
-  thumb_url?: string;
-  thumb_width?: number;
-  thumb_height?: number;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
+  thumbUrl?: string;
+  thumbWidth?: number;
+  thumbHeight?: number;
 };
 
 export type InlineQueryResultLocation = {
@@ -834,12 +834,12 @@ export type InlineQueryResultLocation = {
   latitude: number;
   longitude: number;
   title: string;
-  live_period?: number;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
-  thumb_url?: string;
-  thumb_width?: number;
-  thumb_height?: number;
+  livePeriod?: number;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
+  thumbUrl?: string;
+  thumbWidth?: number;
+  thumbHeight?: number;
 };
 
 export type InlineQueryResultVenue = {
@@ -849,121 +849,121 @@ export type InlineQueryResultVenue = {
   longitude: number;
   title: string;
   address: string;
-  foursquare_id?: string;
-  foursquare_type?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
-  thumb_url?: string;
-  thumb_width?: number;
-  thumb_height?: number;
+  foursquareId?: string;
+  foursquareType?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
+  thumbUrl?: string;
+  thumbWidth?: number;
+  thumbHeight?: number;
 };
 
 export type InlineQueryResultContact = {
   type: 'contact';
   id: string;
-  phone_number: string;
-  first_name: string;
-  last_name?: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName?: string;
   vcard?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
-  thumb_url?: string;
-  thumb_width?: number;
-  thumb_height?: number;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
+  thumbUrl?: string;
+  thumbWidth?: number;
+  thumbHeight?: number;
 };
 
 export type InlineQueryResultGame = {
   type: 'game';
   id: string;
-  game_short_name: string;
-  reply_markup?: InlineKeyboardMarkup;
+  gameShortName: string;
+  replyMarkup?: InlineKeyboardMarkup;
 };
 
 export type InlineQueryResultCachedPhoto = {
   type: 'photo';
   id: string;
-  photo_file_id: string;
+  photoFileId: string;
   title?: string;
   description?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedGif = {
   type: 'gif';
   id: string;
-  gif_file_id: string;
+  gifFileId: string;
   title?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedMpeg4Gif = {
   type: 'mpeg4_gif';
   id: string;
-  mpeg4_file_id: string;
+  mpeg4FileId: string;
   title?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedSticker = {
   type: 'sticker';
   id: string;
-  sticker_file_id: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  stickerFileId: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedDocument = {
   type: 'document';
   id: string;
   title: string;
-  document_file_id: string;
+  documentFileId: string;
   description?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedVideo = {
   type: 'video';
   id: string;
-  video_file_id: string;
+  videoFileId: string;
   title: string;
   description?: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedVoice = {
   type: 'voice';
   id: string;
-  voice_file_id: string;
+  voiceFileId: string;
   title: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InlineQueryResultCachedAudio = {
   type: 'audio';
   id: string;
-  audio_file_id: string;
+  audioFileId: string;
   caption?: string;
-  parse_mode?: string;
-  reply_markup?: InlineKeyboardMarkup;
-  input_message_content?: InputMessageContent;
+  parseMode?: string;
+  replyMarkup?: InlineKeyboardMarkup;
+  inputMessageContent?: InputMessageContent;
 };
 
 export type InputMessageContent =
@@ -973,15 +973,15 @@ export type InputMessageContent =
   | InputContactMessageContent;
 
 export type InputTextMessageContent = {
-  message_text: string;
-  parse_mode?: string;
-  disable_web_page_preview?: boolean;
+  messageText: string;
+  parseMode?: string;
+  disableWebPagePreview?: boolean;
 };
 
 export type InputLocationMessageContent = {
   latitude: number;
   longitude: number;
-  live_period?: number;
+  livePeriod?: number;
 };
 
 export type InputVenueMessageContent = {
@@ -989,22 +989,22 @@ export type InputVenueMessageContent = {
   longitude: number;
   title: string;
   address: string;
-  foursquare_id?: string;
-  foursquare_type?: string;
+  foursquareId?: string;
+  foursquareType?: string;
 };
 
 export type InputContactMessageContent = {
-  phone_number: string;
-  first_name: string;
-  last_name?: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName?: string;
   vcard?: string;
 };
 
 export type ChosenInlineResult = {
-  result_id: string;
+  resultId: string;
   from: User;
   location?: Location;
-  inline_message_id?: string;
+  inlineMessageId?: string;
   query: string;
 };
 
@@ -1017,25 +1017,25 @@ export type LabeledPrice = {
 export type Invoice = {
   title: string;
   description: string;
-  start_parameter: string;
+  startParameter: string;
   currency: string;
-  total_amount: number;
+  totalAmount: number;
 };
 
 export type ShippingAddress = {
-  country_code: string;
+  countryCode: string;
   state: string;
   city: string;
-  street_line1: string;
-  street_line2: string;
-  post_code: string;
+  streetLine1: string;
+  streetLine2: string;
+  postCode: string;
 };
 
 export type OrderInfo = {
   name?: string;
-  phone_number?: string;
+  phoneNumber?: string;
   email?: string;
-  shipping_address?: ShippingAddress;
+  shippingAddress?: ShippingAddress;
 };
 
 export type ShippingOption = {
@@ -1046,29 +1046,29 @@ export type ShippingOption = {
 
 export type SuccessfulPayment = {
   currency: string;
-  total_amount: number;
-  invoice_payload: string;
-  shipping_option_id?: string;
-  order_info?: OrderInfo;
-  telegram_payment_charge_id: string;
-  provider_payment_charge_id: string;
+  totalAmount: number;
+  invoicePayload: string;
+  shippingOptionId?: string;
+  orderInfo?: OrderInfo;
+  telegramPaymentChargeId: string;
+  providerPaymentChargeId: string;
 };
 
 export type ShippingQuery = {
   id: string;
   from: User;
-  invoice_payload: string;
-  shipping_address: ShippingAddress;
+  invoicePayload: string;
+  shippingAddress: ShippingAddress;
 };
 
 export type PreCheckoutQuery = {
   id: string;
   from: User;
   currency: string;
-  total_amount: number;
-  invoice_payload: string;
-  shipping_option_id?: string;
-  order_info?: OrderInfo;
+  totalAmount: number;
+  invoicePayload: string;
+  shippingOptionId?: string;
+  orderInfo?: OrderInfo;
 };
 
 // Telegram Passport
@@ -1078,9 +1078,9 @@ export type PassportData = {
 };
 
 export type PassportFile = {
-  file_id: string;
-  file_size: number;
-  file_date: number;
+  fileId: string;
+  fileSize: number;
+  fileDate: number;
 };
 
 export type EncryptedPassportElement = {
@@ -1099,11 +1099,11 @@ export type EncryptedPassportElement = {
     | 'phone_number'
     | 'email';
   data?: string;
-  phone_number?: string;
+  phoneNumber?: string;
   email?: string;
   files?: PassportFile[];
-  front_side?: PassportFile;
-  reverse_side?: PassportFile;
+  frontSide?: PassportFile;
+  reverseSide?: PassportFile;
   selfie?: PassportFile;
   translation?: PassportFile[];
   hash: string;
@@ -1135,29 +1135,29 @@ export type PassportElementErrorDataField = {
     | 'identity_card'
     | 'internal_passport'
     | 'address';
-  field_name: string;
-  data_hash: string;
+  fieldName: string;
+  dataHash: string;
   message: string;
 };
 
 export type PassportElementErrorFrontSide = {
   source: 'front_side';
   type: 'passport' | 'driver_license' | 'identity_card' | 'internal_passport';
-  file_hash: string;
+  fileHash: string;
   message: string;
 };
 
 export type PassportElementErrorReverseSide = {
   source: 'reverse_side';
   type: 'driver_license' | 'identity_card';
-  file_hash: string;
+  fileHash: string;
   message: string;
 };
 
 export type PassportElementErrorSelfie = {
   source: 'selfie';
   type: 'passport' | 'driver_license' | 'identity_card' | 'internal_passport';
-  file_hash: string;
+  fileHash: string;
   message: string;
 };
 
@@ -1169,7 +1169,7 @@ export type PassportElementErrorFile = {
     | 'rental_agreement'
     | 'passport_registration'
     | 'temporary_registration';
-  file_hash: string;
+  fileHash: string;
   message: string;
 };
 
@@ -1181,7 +1181,7 @@ export type PassportElementErrorFiles = {
     | 'rental_agreement'
     | 'passport_registration'
     | 'temporary_registration';
-  file_hashes: string[];
+  fileHashes: string[];
   message: string;
 };
 
@@ -1197,7 +1197,7 @@ export type PassportElementErrorTranslationFile = {
     | 'rental_agreement'
     | 'passport_registration'
     | 'temporary_registration';
-  file_hash: string;
+  fileHash: string;
   message: string;
 };
 
@@ -1213,14 +1213,14 @@ export type PassportElementErrorTranslationFiles = {
     | 'rental_agreement'
     | 'passport_registration'
     | 'temporary_registration';
-  file_hashes: string[];
+  fileHashes: string[];
   message: string;
 };
 
 export type PassportElementErrorUnspecified = {
   source: 'unspecified';
   type: string;
-  element_hash: string;
+  elementHash: string;
   message: string;
 };
 
@@ -1230,7 +1230,7 @@ export type Game = {
   description: string;
   photo: PhotoSize[];
   text?: string;
-  text_entities?: MessageEntity[];
+  textEntities?: MessageEntity[];
   animation?: Animation;
 };
 
@@ -1268,7 +1268,7 @@ export type SetWebhookOption = {
 
 export type GetUpdatesOption = {
   /**
-   * Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will forgotten.
+   * Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its updateId. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will forgotten.
    */
   offset?: number;
 
@@ -1348,7 +1348,7 @@ export type ForwardMessageOption = {
 
 export type SendPhotoOption = {
   /**
-   * Photo caption (may also be used when resending photos by file_id), 0-1024 characters
+   * Photo caption (may also be used when resending photos by fileId), 0-1024 characters
    */
   caption?: string;
 
@@ -1461,7 +1461,7 @@ export type SendDocumentOption = {
   thumb?: string;
 
   /**
-   * Document caption (may also be used when resending documents by file_id), 0-1024 characters
+   * Document caption (may also be used when resending documents by fileId), 0-1024 characters
    */
   caption?: string;
 
@@ -1525,7 +1525,7 @@ export type SendVideoOption = {
   thumb?: string;
 
   /**
-   * Video caption (may also be used when resending videos by file_id), 0-1024 characters
+   * Video caption (may also be used when resending videos by fileId), 0-1024 characters
    */
   caption?: string;
 
@@ -1594,7 +1594,7 @@ export type SendAnimationOption = {
   thumb?: string;
 
   /**
-   * Animation caption (may also be used when resending animation by file_id), 0-1024 characters
+   * Animation caption (may also be used when resending animation by fileId), 0-1024 characters
    */
   caption?: string;
 
@@ -1784,18 +1784,18 @@ export type SendLocationOption = {
 export type EditOption =
   | {
       /**
-       * Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+       * Required if inlineMessageId is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
        */
       chatId: number | string;
 
       /**
-       * Required if inline_message_id is not specified. Identifier of the message to edit
+       * Required if inlineMessageId is not specified. Identifier of the message to edit
        */
       messageId: number;
     }
   | {
       /**
-       * Required if chat_id and message_id are not specified. Identifier of the inline message
+       * Required if chatId and messageId are not specified. Identifier of the inline message
        */
       inlineMessageId: string;
     };
@@ -1864,12 +1864,12 @@ export type SendContactRequiredOption = {
   /**
    * Contact's phone number
    */
-  phone_number: string;
+  phoneNumber: string;
 
   /**
    * Contact's first name
    */
-  first_name: string;
+  firstName: string;
 };
 
 export type SendContactOption = {
@@ -2146,7 +2146,7 @@ export type AnswerInlineQueryOption = {
   /**
    * Deep-linking parameter for the /start message sent to the bot when user presses the switch button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
    *
-   * Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a ‘Connect your YouTube account’ button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an oauth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
+   * Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a ‘Connect your YouTube account’ button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an oauth link. Once done, the bot can offer a switchInline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
    *
    * - https://core.telegram.org/bots#deep-linking
    */

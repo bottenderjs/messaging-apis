@@ -14,16 +14,16 @@ const createMock = () => {
 describe('send api', () => {
   describe('#sendMessage', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499402829,
@@ -263,35 +263,35 @@ describe('send api', () => {
 
   describe('#sendPhoto', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403191,
       photo: [
         {
-          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
-          file_size: 1611,
+          fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
+          fileSize: 1611,
           width: 90,
           height: 80,
         },
         {
-          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
-          file_size: 17218,
+          fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
+          fileSize: 17218,
           width: 320,
           height: 285,
         },
         {
-          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
-          file_size: 16209,
+          fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
+          fileSize: 16209,
           width: 374,
           height: 333,
         },
@@ -360,26 +360,26 @@ describe('send api', () => {
 
   describe('#sendAudio', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       audio: {
         duration: 108,
-        mime_type: 'audio/mpeg',
+        mimeType: 'audio/mpeg',
         title: 'Song_Title',
         performer: 'Song_Performer',
-        file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-        file_size: 1739320,
+        fileId: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+        fileSize: 1739320,
       },
       caption: 'gooooooodAudio',
     };
@@ -461,30 +461,30 @@ describe('send api', () => {
 
   describe('#sendDocument', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       document: {
-        file_name: 'ylDRTR05sy6M.gif.mp4',
-        mime_type: 'video/mp4',
+        fileName: 'ylDRTR05sy6M.gif.mp4',
+        mimeType: 'video/mp4',
         thumb: {
-          file_id: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
-          file_size: 1627,
+          fileId: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
+          fileSize: 1627,
           width: 90,
           height: 90,
         },
-        file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
-        file_size: 21301,
+        fileId: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
+        fileSize: 21301,
       },
       caption: 'gooooooodDocument',
     };
@@ -554,16 +554,16 @@ describe('send api', () => {
     it('should send sticker message to user', async () => {
       const { client, mock } = createMock();
       const result = {
-        message_id: 1,
+        messageId: 1,
         from: {
           id: 313534466,
-          first_name: 'first',
+          firstName: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
+          firstName: 'first',
+          lastName: 'last',
           type: 'private',
         },
         date: 1499403678,
@@ -572,13 +572,13 @@ describe('send api', () => {
           height: 512,
           emoji: '✊',
           thumb: {
-            file_id: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
-            file_size: 2142,
+            fileId: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
+            fileSize: 2142,
             width: 63,
             height: 90,
           },
-          file_id: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
-          file_size: 36326,
+          fileId: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
+          fileSize: 36326,
         },
       };
       const reply = {
@@ -608,30 +608,30 @@ describe('send api', () => {
 
   describe('#sendVideo', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       document: {
-        file_name: 'madora.mp4',
-        mime_type: 'video/mp4',
+        fileName: 'madora.mp4',
+        mimeType: 'video/mp4',
         thumb: {
-          file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
-          file_size: 2874,
+          fileId: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+          fileSize: 2874,
           width: 90,
           height: 90,
         },
-        file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
-        file_size: 40582,
+        fileId: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+        fileSize: 40582,
       },
       caption: 'gooooooodVideo',
     };
@@ -717,46 +717,46 @@ describe('send api', () => {
 
   describe('#sendAnimation', () => {
     const result = {
-      message_id: 3,
+      messageId: 3,
       from: {
         id: 902132548,
-        is_bot: true,
-        first_name: 'kamigo_test',
-        username: 'kamigo_test_bot',
+        isBot: true,
+        firstName: 'first',
+        username: 'a bot',
       },
       chat: {
         id: 164230890,
-        first_name: '郭佳甯',
-        username: 'etrexkuo',
+        firstName: 'first',
+        username: 'a user',
         type: 'private',
       },
       date: 1569500899,
       animation: {
-        file_name: 'giphy.gif.mp4',
-        mime_type: 'video/mp4',
+        fileName: 'giphy.gif.mp4',
+        mimeType: 'video/mp4',
         duration: 10,
         width: 300,
         height: 226,
         thumb: {
-          file_id: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
-          file_size: 2249,
+          fileId: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
+          fileSize: 2249,
           width: 90,
           height: 67,
         },
-        file_id: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
-        file_size: 199519,
+        fileId: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
+        fileSize: 199519,
       },
       document: {
-        file_name: 'giphy.gif.mp4',
-        mime_type: 'video/mp4',
+        fileName: 'giphy.gif.mp4',
+        mimeType: 'video/mp4',
         thumb: {
-          file_id: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
-          file_size: 2249,
+          fileId: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
+          fileSize: 2249,
           width: 90,
           height: 67,
         },
-        file_id: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
-        file_size: 199519,
+        fileId: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
+        fileSize: 199519,
       },
     };
     const reply = {
@@ -837,24 +837,24 @@ describe('send api', () => {
 
   describe('#sendVoice', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       document: {
-        file_name: '1.ogg',
-        mime_type: 'audio/ogg',
-        file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-        file_size: 10870,
+        fileName: '1.ogg',
+        mimeType: 'audio/ogg',
+        fileId: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+        fileSize: 10870,
       },
       caption: 'gooooooodVoice',
     };
@@ -924,30 +924,30 @@ describe('send api', () => {
 
   describe('#sendVideoNote', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       document: {
-        file_name: 'madora.mp4',
-        mime_type: 'video/mp4',
+        fileName: 'madora.mp4',
+        mimeType: 'video/mp4',
         thumb: {
-          file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
-          file_size: 2874,
+          fileId: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+          fileSize: 2874,
           width: 90,
           height: 90,
         },
-        file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
-        file_size: 40582,
+        fileId: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+        fileSize: 40582,
       },
     };
     const reply = {
@@ -1015,22 +1015,22 @@ describe('send api', () => {
   describe('#sendMediaGroup', () => {
     // TODO: the real result related to request.
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       photo: [
         {
-          file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+          fileId: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
           width: 1000,
           height: 1000,
         },
@@ -1152,16 +1152,16 @@ describe('send api', () => {
 
   describe('#sendLocation', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
@@ -1235,16 +1235,16 @@ describe('send api', () => {
 
   describe('#sendVenue', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
@@ -1331,22 +1331,22 @@ describe('send api', () => {
 
   describe('#sendContact', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
       contact: {
-        phone_number: '886123456789',
-        first_name: 'first',
+        phoneNumber: '886123456789',
+        firstName: 'first',
       },
     };
     const reply = {
@@ -1419,16 +1419,16 @@ describe('send api', () => {
 
   describe('#sendPoll', () => {
     const result = {
-      message_id: 1,
+      messageId: 1,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499403678,
@@ -1438,18 +1438,18 @@ describe('send api', () => {
         options: [
           {
             text: 'a',
-            voter_count: 0,
+            voterCount: 0,
           },
           {
             text: 'b',
-            voter_count: 0,
+            voterCount: 0,
           },
           {
             text: 'c',
-            voter_count: 0,
+            voterCount: 0,
           },
         ],
-        is_closed: false,
+        isClosed: false,
       },
     };
     const reply = {
