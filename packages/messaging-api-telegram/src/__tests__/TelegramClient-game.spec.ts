@@ -58,7 +58,48 @@ describe('game api', () => {
       };
       const reply = {
         ok: true,
-        result,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          game: {
+            title: 'Mario Bros.',
+            description: 'Mario Bros. is fun!',
+            photo: [
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+                file_size: 14650,
+                width: 160,
+                height: 160,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+                file_size: 39019,
+                width: 320,
+                height: 320,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+                file_size: 132470,
+                width: 640,
+                height: 640,
+              },
+            ],
+          },
+        },
       };
 
       mock
@@ -125,7 +166,49 @@ describe('game api', () => {
       };
       const reply = {
         ok: true,
-        result,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          game: {
+            title: 'Mario Bros.',
+            description: 'Mario Bros. is fun!',
+            photo: [
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+                file_size: 14650,
+                width: 160,
+                height: 160,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+                file_size: 39019,
+                width: 320,
+                height: 320,
+              },
+              {
+                file_id:
+                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+                file_size: 132470,
+                width: 640,
+                height: 640,
+              },
+            ],
+            text: 'User 427770117 score is 999.',
+          },
+        },
       };
 
       mock
@@ -154,7 +237,17 @@ describe('game api', () => {
       ];
       const reply = {
         ok: true,
-        result,
+        result: [
+          {
+            position: 1,
+            user: {
+              id: 427770117,
+              is_bot: false,
+              first_name: 'first',
+            },
+            score: 999,
+          },
+        ],
       };
 
       mock

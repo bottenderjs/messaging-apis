@@ -31,7 +31,22 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        text: 'hi',
+      },
     };
 
     it('should send text message to user with snakecase options', async () => {
@@ -300,7 +315,42 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403191,
+        photo: [
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
+            file_size: 1611,
+            width: 90,
+            height: 80,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
+            file_size: 17218,
+            width: 320,
+            height: 285,
+          },
+          {
+            file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
+            file_size: 16209,
+            width: 374,
+            height: 333,
+          },
+        ],
+        caption: 'gooooooodPhoto',
+      },
     };
 
     it('should send photo message to user with snakecase', async () => {
@@ -385,7 +435,30 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        audio: {
+          duration: 108,
+          mime_type: 'audio/mpeg',
+          title: 'Song_Title',
+          performer: 'Song_Performer',
+          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+          file_size: 1739320,
+        },
+        caption: 'gooooooodAudio',
+      },
     };
 
     it('should send audio message to user with snakecase', async () => {
@@ -490,7 +563,34 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: 'ylDRTR05sy6M.gif.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEABN0Rb0ZAARFFMCIr_zrhq9bAAIC',
+            file_size: 1627,
+            width: 90,
+            height: 90,
+          },
+          file_id: 'CgADBAADO3wAAhUbZAer4xD-iB4NdgI',
+          file_size: 21301,
+        },
+        caption: 'gooooooodDocument',
+      },
     };
 
     it('should send document message to user with snakecase', async () => {
@@ -583,7 +683,34 @@ describe('send api', () => {
       };
       const reply = {
         ok: true,
-        result,
+        result: {
+          message_id: 1,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499403678,
+          sticker: {
+            width: 362,
+            height: 512,
+            emoji: '✊',
+            thumb: {
+              file_id: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
+              file_size: 2142,
+              width: 63,
+              height: 90,
+            },
+            file_id: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
+            file_size: 36326,
+          },
+        },
       };
 
       mock
@@ -637,7 +764,34 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: 'madora.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+            file_size: 2874,
+            width: 90,
+            height: 90,
+          },
+          file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+          file_size: 40582,
+        },
+        caption: 'gooooooodVideo',
+      },
     };
 
     it('should send video message to user with snakecase', async () => {
@@ -761,7 +915,49 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 3,
+        from: {
+          id: 902132548,
+          is_bot: true,
+          first_name: 'first',
+          username: 'a bot',
+        },
+        chat: {
+          id: 164230890,
+          first_name: 'first',
+          username: 'a user',
+          type: 'private',
+        },
+        date: 1569500899,
+        animation: {
+          file_name: 'giphy.gif.mp4',
+          mime_type: 'video/mp4',
+          duration: 10,
+          width: 300,
+          height: 226,
+          thumb: {
+            file_id: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
+            file_size: 2249,
+            width: 90,
+            height: 67,
+          },
+          file_id: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
+          file_size: 199519,
+        },
+        document: {
+          file_name: 'giphy.gif.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEAAMEAAMMhYVSt87EuoJutAZRhpoaAAQBAAdzAAO0EAACFgQ',
+            file_size: 2249,
+            width: 90,
+            height: 67,
+          },
+          file_id: 'CgADBAADBAADDIWFUrfOxLqCbrQGFgQ',
+          file_size: 199519,
+        },
+      },
     };
 
     it('should send animation message to user with snakecase', async () => {
@@ -860,7 +1056,28 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: '1.ogg',
+          mime_type: 'audio/ogg',
+          file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+          file_size: 10870,
+        },
+        caption: 'gooooooodVoice',
+      },
     };
 
     it('should send voice message to user with snakecase', async () => {
@@ -952,7 +1169,33 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        document: {
+          file_name: 'madora.mp4',
+          mime_type: 'video/mp4',
+          thumb: {
+            file_id: 'AAQEABM6g94ZAAQOG1S88OjS3BsBAAIC',
+            file_size: 2874,
+            width: 90,
+            height: 90,
+          },
+          file_id: 'CgADBAADwJQAAogcZAdPTKP2PGMdhwI',
+          file_size: 40582,
+        },
+      },
     };
 
     it('should send video note message to user with snakecase', async () => {
@@ -1038,7 +1281,28 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        photo: [
+          {
+            file_id: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
+            width: 1000,
+            height: 1000,
+          },
+        ],
+      },
     };
 
     it('should send a group of photos and videos as an album with snakecase', async () => {
@@ -1172,7 +1436,25 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        location: {
+          latitude: 30.000005,
+          longitude: 45,
+        },
+      },
     };
 
     it('should send location message to user with snakecase', async () => {
@@ -1263,7 +1545,33 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        location: {
+          latitude: 30.000005,
+          longitude: 45,
+        },
+        venue: {
+          location: {
+            latitude: 30.000005,
+            longitude: 45,
+          },
+          title: 'a_title',
+          address: 'an_address',
+        },
+      },
     };
 
     it('should send venue message to user with snalecase', async () => {
@@ -1351,7 +1659,25 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        contact: {
+          phone_number: '886123456789',
+          first_name: 'first',
+        },
+      },
     };
 
     it('should send contact message to user with snakecase', async () => {
@@ -1454,7 +1780,40 @@ describe('send api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 1,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        poll: {
+          id: '6095870087057637377',
+          question: 'q',
+          options: [
+            {
+              text: 'a',
+              voter_count: 0,
+            },
+            {
+              text: 'b',
+              voter_count: 0,
+            },
+            {
+              text: 'c',
+              voter_count: 0,
+            },
+          ],
+          is_closed: false,
+        },
+      },
     };
 
     it('should send poll message to user with snakecase', async () => {
