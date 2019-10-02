@@ -15,16 +15,16 @@ describe('updating api', () => {
     it('should change message text', async () => {
       const { client, mock } = createMock();
       const result = {
-        message_id: 66,
+        messageId: 66,
         from: {
           id: 313534466,
-          first_name: 'first',
+          firstName: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
+          firstName: 'first',
+          lastName: 'last',
           type: 'private',
         },
         date: 1499402829,
@@ -56,26 +56,26 @@ describe('updating api', () => {
     it('should change message caption', async () => {
       const { client, mock } = createMock();
       const result = {
-        message_id: 66,
+        messageId: 66,
         from: {
           id: 313534466,
-          first_name: 'first',
+          firstName: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
+          firstName: 'first',
+          lastName: 'last',
           type: 'private',
         },
         date: 1499403678,
         audio: {
           duration: 108,
-          mime_type: 'audio/mpeg',
+          mimeType: 'audio/mpeg',
           title: 'Song_Title',
           performer: 'Song_Performer',
-          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-          file_size: 1739320,
+          fileId: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+          fileSize: 1739320,
         },
         caption: 'new_caption',
       };
@@ -103,16 +103,16 @@ describe('updating api', () => {
     it('should change message reply_markup', async () => {
       const { client, mock } = createMock();
       const result = {
-        message_id: 66,
+        messageId: 66,
         from: {
           id: 313534466,
-          first_name: 'first',
+          firstName: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
+          firstName: 'first',
+          lastName: 'last',
           type: 'private',
         },
         date: 1499402829,
@@ -171,16 +171,16 @@ describe('updating api', () => {
 
   describe('#editMessageLiveLocation', () => {
     const result = {
-      message_id: 66,
+      messageId: 66,
       from: {
         id: 313534466,
-        first_name: 'first',
+        firstName: 'first',
         username: 'a_bot',
       },
       chat: {
         id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
+        firstName: 'first',
+        lastName: 'last',
         type: 'private',
       },
       date: 1499402829,
