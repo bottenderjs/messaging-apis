@@ -670,16 +670,25 @@ export default class TelegramClient {
   }
 
   /**
-   * - https://core.telegram.org/bots/api#restrictChatMember
+   * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param userId Unique identifier of the target user
+   * @param permissions New user permissions
+   * @param options.untilDate Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
+   *
+   * - https://core.telegram.org/bots/api#restrictchatmember
    */
   restrictChatMember(
-    chatId: string,
-    userId: string,
-    options?: Record<string, any>
+    chatId: string | number,
+    userId: number,
+    permissions: Type.ChatPermissions,
+    options?: Type.RestrictChatMemberOption
   ): Promise<boolean> {
     return this._request('/restrictChatMember', {
-      chat_id: chatId,
-      user_id: userId,
+      chatId,
+      userId,
+      permissions,
       ...options,
     });
   }
