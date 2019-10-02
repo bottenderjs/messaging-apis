@@ -32,7 +32,22 @@ describe('updating api', () => {
       };
       const reply = {
         ok: true,
-        result,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          text: 'new_text',
+        },
       };
 
       mock
@@ -81,7 +96,30 @@ describe('updating api', () => {
       };
       const reply = {
         ok: true,
-        result,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499403678,
+          audio: {
+            duration: 108,
+            mime_type: 'audio/mpeg',
+            title: 'Song_Title',
+            performer: 'Song_Performer',
+            file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+            file_size: 1739320,
+          },
+          caption: 'new_caption',
+        },
       };
 
       mock
@@ -120,7 +158,22 @@ describe('updating api', () => {
       };
       const reply = {
         ok: true,
-        result,
+        result: {
+          message_id: 66,
+          from: {
+            id: 313534466,
+            first_name: 'first',
+            username: 'a_bot',
+          },
+          chat: {
+            id: 427770117,
+            first_name: 'first',
+            last_name: 'last',
+            type: 'private',
+          },
+          date: 1499402829,
+          text: 'hi',
+        },
       };
 
       mock
@@ -191,7 +244,25 @@ describe('updating api', () => {
     };
     const reply = {
       ok: true,
-      result,
+      result: {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499402829,
+        location: {
+          latitude: 11,
+          longitude: 22,
+        },
+      },
     };
 
     it('should edit live location message with snakecase', async () => {
