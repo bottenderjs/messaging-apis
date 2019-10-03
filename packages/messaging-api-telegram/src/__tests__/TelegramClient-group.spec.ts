@@ -421,24 +421,40 @@ describe('group api', () => {
   });
 
   describe('#pinChatMessage', () => {
-    it('should pin a message in chat', async () => {
-      const { client, mock } = createMock();
-      const result = true;
-      const reply = {
-        ok: true,
-        result,
-      };
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+    };
 
+    it('should pin a message in chat with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/pinChatMessage', {
           chat_id: 427770117,
-          messsage_id: 1,
+          message_id: 1,
           disable_notification: true,
         })
         .reply(200, reply);
 
       const res = await client.pinChatMessage(427770117, 1, {
         disable_notification: true,
+      });
+      expect(res).toEqual(result);
+    });
+
+    it('should pin a message in chat with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/pinChatMessage', {
+          chat_id: 427770117,
+          message_id: 1,
+          disable_notification: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.pinChatMessage(427770117, 1, {
+        disableNotification: true,
       });
       expect(res).toEqual(result);
     });

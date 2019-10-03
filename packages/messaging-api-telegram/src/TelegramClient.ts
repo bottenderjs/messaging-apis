@@ -810,16 +810,22 @@ export default class TelegramClient {
   }
 
   /**
-   * - https://core.telegram.org/bots/api#pinChatMessage
+   * Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageId Identifier of a message to pin
+   * @param options Options for other optional parameters.
+   *
+   * - https://core.telegram.org/bots/api#pinchatmessage
    */
   pinChatMessage(
-    chatId: string,
+    chatId: string | number,
     messageId: number,
-    options?: Record<string, any>
+    options?: Type.PinChatMessageOption
   ): Promise<boolean> {
     return this._request('/pinChatMessage', {
-      chat_id: chatId,
-      messsage_id: messageId,
+      chatId,
+      messageId,
       ...options,
     });
   }
