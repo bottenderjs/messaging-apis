@@ -227,6 +227,76 @@ describe('group api', () => {
     });
   });
 
+  describe('#setChatPermissions', () => {
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    it('should set chat permissions with snakecase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/setChatPermissions', {
+          chat_id: 427770117,
+          permissions: {
+            can_send_messages: true,
+            can_send_media_messages: true,
+            can_send_polls: true,
+            can_send_other_messages: true,
+            can_add_web_page_previews: true,
+            can_change_info: true,
+            can_invite_users: true,
+            can_pin_messages: true,
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.setChatPermissions(427770117, {
+        can_send_messages: true,
+        can_send_media_messages: true,
+        can_send_polls: true,
+        can_send_other_messages: true,
+        can_add_web_page_previews: true,
+        can_change_info: true,
+        can_invite_users: true,
+        can_pin_messages: true,
+      });
+      expect(res).toEqual(result);
+    });
+
+    it('should set chat permissions with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/setChatPermissions', {
+          chat_id: 427770117,
+          permissions: {
+            can_send_messages: true,
+            can_send_media_messages: true,
+            can_send_polls: true,
+            can_send_other_messages: true,
+            can_add_web_page_previews: true,
+            can_change_info: true,
+            can_invite_users: true,
+            can_pin_messages: true,
+          },
+        })
+        .reply(200, reply);
+
+      const res = await client.setChatPermissions(427770117, {
+        canSendMessages: true,
+        canSendMediaMessages: true,
+        canSendPolls: true,
+        canSendOtherMessages: true,
+        canAddWebPagePreviews: true,
+        canChangeInfo: true,
+        canInviteUsers: true,
+        canPinMessages: true,
+      });
+      expect(res).toEqual(result);
+    });
+  });
+
   describe('#exportChatInviteLink', () => {
     it('should export chat invite link', async () => {
       const { client, mock } = createMock();
