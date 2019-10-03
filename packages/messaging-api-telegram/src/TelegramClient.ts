@@ -775,11 +775,18 @@ export default class TelegramClient {
   }
 
   /**
-   * - https://core.telegram.org/bots/api#setChatTitle
+   * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+   *
+   * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param title New chat title, 1-255 characters
+   *
+   * - https://core.telegram.org/bots/api#setchattitle
    */
-  setChatTitle(chatId: string, title: string): Promise<boolean> {
+  setChatTitle(chatId: string | number, title: string): Promise<boolean> {
     return this._request('/setChatTitle', {
-      chat_id: chatId,
+      chatId,
       title,
     });
   }
