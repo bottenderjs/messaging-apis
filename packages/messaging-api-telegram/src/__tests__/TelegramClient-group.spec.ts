@@ -317,30 +317,6 @@ describe('group api', () => {
     });
   });
 
-  describe('#setChatPhoto', () => {
-    it('should set chat photo', async () => {
-      const { client, mock } = createMock();
-      const result = true;
-      const reply = {
-        ok: true,
-        result,
-      };
-
-      mock
-        .onPost('/setChatPhoto', {
-          chat_id: 427770117,
-          photo: 'https://example.com/image.png',
-        })
-        .reply(200, reply);
-
-      const res = await client.setChatPhoto(
-        427770117,
-        'https://example.com/image.png'
-      );
-      expect(res).toEqual(result);
-    });
-  });
-
   describe('#deleteChatPhoto', () => {
     it('should delete chat photo', async () => {
       const { client, mock } = createMock();
