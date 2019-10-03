@@ -694,16 +694,22 @@ export default class TelegramClient {
   }
 
   /**
-   * - https://core.telegram.org/bots/api#promoteChatMember
+   * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param userId Unique identifier of the target user
+   * @param options Options for other optional parameters
+   *
+   * - https://core.telegram.org/bots/api#promotechatmember
    */
   promoteChatMember(
-    chatId: string,
-    userId: string,
-    options?: Record<string, any>
+    chatId: string | number,
+    userId: number,
+    options?: Type.PromoteChatMemberOption
   ): Promise<boolean> {
     return this._request('/promoteChatMember', {
-      chat_id: chatId,
-      user_id: userId,
+      chatId,
+      userId,
       ...options,
     });
   }
