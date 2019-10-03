@@ -844,67 +844,103 @@ export default class TelegramClient {
   }
 
   /**
-   * - https://core.telegram.org/bots/api#leaveChat
+   * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   *
+   * - https://core.telegram.org/bots/api#leavechat
    */
-  leaveChat(chatId: string): Promise<boolean> {
+  leaveChat(chatId: string | number): Promise<boolean> {
     return this._request('/leaveChat', {
-      chat_id: chatId,
+      chatId,
     });
   }
 
   /**
+   * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   *
    * - https://core.telegram.org/bots/api#getchat
    */
-  getChat(chatId: string): Promise<Type.Chat> {
+  getChat(chatId: string | number): Promise<Type.Chat> {
     return this._request('/getChat', {
-      chat_id: chatId,
+      chatId,
     });
   }
 
   /**
+   * Use this method to get a list of administrators in a chat. On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   *
    * - https://core.telegram.org/bots/api#getchatmemberscount
    */
-  getChatAdministrators(chatId: string): Promise<Type.ChatMember[]> {
+  getChatAdministrators(chatId: string | number): Promise<Type.ChatMember[]> {
     return this._request('/getChatAdministrators', {
-      chat_id: chatId,
+      chatId,
     });
   }
 
   /**
+   * Use this method to get the number of members in a chat. Returns Int on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   *
    * - https://core.telegram.org/bots/api#getchatmemberscount
    */
-  getChatMembersCount(chatId: string): Promise<number> {
+  getChatMembersCount(chatId: string | number): Promise<number> {
     return this._request('/getChatMembersCount', {
-      chat_id: chatId,
+      chatId,
     });
   }
 
   /**
+   * Use this method to get information about a member of a chat. Returns a ChatMember object on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param userId Unique identifier of the target user
+   *
    * - https://core.telegram.org/bots/api#getchatmember
    */
-  getChatMember(chatId: string, userId: number): Promise<Type.ChatMember> {
+  getChatMember(
+    chatId: string | number,
+    userId: number
+  ): Promise<Type.ChatMember> {
     return this._request('/getChatMember', {
-      chat_id: chatId,
-      user_id: userId,
+      chatId,
+      userId,
     });
   }
 
   /**
+   * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param stickerSetName Name of the sticker set to be set as the group sticker set
+   *
    * - https://core.telegram.org/bots/api#setchatstickerset
    */
-  setChatStickerSet(chatId: string, stickerSetName: string): Promise<boolean> {
+  setChatStickerSet(
+    chatId: string | number,
+    stickerSetName: string
+  ): Promise<boolean> {
     return this._request('/setChatStickerSet', {
       chat_id: chatId,
-      sticker_set_name: stickerSetName,
+      stickerSetName,
     });
   }
 
   /**
+   * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   *
    * - https://core.telegram.org/bots/api#deletechatstickerset
    */
-  deleteChatStickerSet(chatId: string): Promise<boolean> {
+  deleteChatStickerSet(chatId: string | number): Promise<boolean> {
     return this._request('/deleteChatStickerSet', {
-      chat_id: chatId,
+      chatId,
     });
   }
 
