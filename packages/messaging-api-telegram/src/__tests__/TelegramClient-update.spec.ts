@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import TelegramClient from '../TelegramClient';
+import { ParseMode } from '../TelegramTypes';
 
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
@@ -12,55 +13,81 @@ const createMock = () => {
 
 describe('updating api', () => {
   describe('#editMessageText', () => {
-    it('should change message text', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        messageId: 66,
+    const result = {
+      messageId: 66,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      text: 'new_text',
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 66,
         from: {
           id: 313534466,
-          firstName: 'first',
+          first_name: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          firstName: 'first',
-          lastName: 'last',
+          first_name: 'first',
+          last_name: 'last',
           type: 'private',
         },
         date: 1499402829,
         text: 'new_text',
-      };
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          text: 'new_text',
-        },
-      };
+      },
+    };
 
+    it('should change message text with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/editMessageText', {
           text: 'new_text',
+          chat_id: 427770117,
           message_id: 66,
+          parse_mode: 'Markdown',
           disable_web_page_preview: true,
         })
         .reply(200, reply);
 
       const res = await client.editMessageText('new_text', {
+        chat_id: 427770117,
         message_id: 66,
+        parse_mode: 'Markdown',
         disable_web_page_preview: true,
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should change message text with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/editMessageText', {
+          text: 'new_text',
+          chat_id: 427770117,
+          message_id: 66,
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageText('new_text', {
+        chatId: 427770117,
+        messageId: 66,
+        parseMode: ParseMode.Markdown,
+        disableWebPagePreview: true,
       });
 
       expect(res).toEqual(result);
