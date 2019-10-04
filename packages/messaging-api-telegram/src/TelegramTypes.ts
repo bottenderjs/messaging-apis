@@ -1056,6 +1056,16 @@ export type Invoice = {
   totalAmount: number;
 };
 
+export type Product = {
+  title: string;
+  description: string;
+  startParameter: string;
+  currency: string;
+  payload: string;
+  providerToken: string;
+  prices: LabeledPrice[];
+};
+
 export type ShippingAddress = {
   countryCode: string;
   state: string;

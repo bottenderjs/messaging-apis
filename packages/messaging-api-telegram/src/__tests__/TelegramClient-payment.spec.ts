@@ -12,56 +12,56 @@ const createMock = () => {
 
 describe('payment api', () => {
   describe('#sendInvoice', () => {
-    it('should send invoice message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        messageId: 1,
+    const result = {
+      messageId: 1,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      invoice: {
+        title: 'product name',
+        description: 'product description',
+        startParameter: 'pay',
+        currency: 'USD',
+        totalCount: 22000,
+      },
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 1,
         from: {
           id: 313534466,
-          firstName: 'first',
+          first_name: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          firstName: 'first',
-          lastName: 'last',
+          first_name: 'first',
+          last_name: 'last',
           type: 'private',
         },
         date: 1499403678,
         invoice: {
           title: 'product name',
           description: 'product description',
-          startParameter: 'pay',
+          start_parameter: 'pay',
           currency: 'USD',
-          totalCount: 22000,
+          total_count: 22000,
         },
-      };
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          invoice: {
-            title: 'product name',
-            description: 'product description',
-            start_parameter: 'pay',
-            currency: 'USD',
-            total_count: 22000,
-          },
-        },
-      };
+      },
+    };
 
+    it('should send invoice message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendInvoice', {
           chat_id: 427770117,
@@ -84,6 +84,40 @@ describe('payment api', () => {
         payload: 'bot-defined invoice payload',
         provider_token: 'PROVIDER_TOKEN',
         start_parameter: 'pay',
+        currency: 'USD',
+        prices: [
+          { label: 'product', amount: 11000 },
+          { label: 'tax', amount: 11000 },
+        ],
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send invoice message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendInvoice', {
+          chat_id: 427770117,
+          title: 'product name',
+          description: 'product description',
+          payload: 'bot-defined invoice payload',
+          provider_token: 'PROVIDER_TOKEN',
+          start_parameter: 'pay',
+          currency: 'USD',
+          prices: [
+            { label: 'product', amount: 11000 },
+            { label: 'tax', amount: 11000 },
+          ],
+        })
+        .reply(200, reply);
+
+      const res = await client.sendInvoice(427770117, {
+        title: 'product name',
+        description: 'product description',
+        payload: 'bot-defined invoice payload',
+        providerToken: 'PROVIDER_TOKEN',
+        startParameter: 'pay',
         currency: 'USD',
         prices: [
           { label: 'product', amount: 11000 },
