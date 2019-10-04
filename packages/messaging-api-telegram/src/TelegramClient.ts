@@ -950,11 +950,16 @@ export default class TelegramClient {
   // TODO: implement answerCallbackQuery
 
   /**
+   * Use this method to edit text and game messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+   *
+   * @param text New text of the message
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#editmessagetext
    */
   editMessageText(
     text: string,
-    options?: Record<string, any>
+    options?: Type.EditMessageTextOption
   ): Promise<Type.Message | boolean> {
     return this._request('/editMessageText', {
       text,
