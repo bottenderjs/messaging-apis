@@ -1166,16 +1166,22 @@ export default class TelegramClient {
   // TODO: implement setPassportDataErrors
 
   /**
+   * Use this method to send a game. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat
+   * @param gameShortName Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#sendgame
    */
   sendGame(
-    chatId: string,
+    chatId: number,
     gameShortName: string,
-    options?: Record<string, any>
+    options?: Type.SendGameOption
   ): Promise<Type.Message> {
     return this._request('/sendGame', {
-      chat_id: chatId,
-      game_short_name: gameShortName,
+      chatId,
+      gameShortName,
       ...options,
     });
   }

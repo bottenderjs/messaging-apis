@@ -12,19 +12,58 @@ const createMock = () => {
 
 describe('game api', () => {
   describe('sendGame', () => {
-    it('should send a game', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        messageId: 66,
+    const result = {
+      messageId: 66,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      game: {
+        title: 'Mario Bros.',
+        description: 'Mario Bros. is fun!',
+        photo: [
+          {
+            fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+            fileSize: 14650,
+            width: 160,
+            height: 160,
+          },
+          {
+            fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+            fileSize: 39019,
+            width: 320,
+            height: 320,
+          },
+          {
+            fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
+            fileSize: 132470,
+            width: 640,
+            height: 640,
+          },
+        ],
+      },
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 66,
         from: {
           id: 313534466,
-          firstName: 'first',
+          first_name: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          firstName: 'first',
-          lastName: 'last',
+          first_name: 'first',
+          last_name: 'last',
           type: 'private',
         },
         date: 1499402829,
@@ -33,85 +72,64 @@ describe('game api', () => {
           description: 'Mario Bros. is fun!',
           photo: [
             {
-              fileId:
+              file_id:
                 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
-              fileSize: 14650,
+              file_size: 14650,
               width: 160,
               height: 160,
             },
             {
-              fileId:
+              file_id:
                 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
-              fileSize: 39019,
+              file_size: 39019,
               width: 320,
               height: 320,
             },
             {
-              fileId:
+              file_id:
                 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
-              fileSize: 132470,
+              file_size: 132470,
               width: 640,
               height: 640,
             },
           ],
         },
-      };
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          game: {
-            title: 'Mario Bros.',
-            description: 'Mario Bros. is fun!',
-            photo: [
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
-                file_size: 14650,
-                width: 160,
-                height: 160,
-              },
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
-                file_size: 39019,
-                width: 320,
-                height: 320,
-              },
-              {
-                file_id:
-                  'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
-                file_size: 132470,
-                width: 640,
-                height: 640,
-              },
-            ],
-          },
-        },
-      };
+      },
+    };
 
+    it('should send a game with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendGame', {
           chat_id: 427770117,
           game_short_name: 'Mario Bros.',
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
       const res = await client.sendGame(427770117, 'Mario Bros.', {
         disable_notification: true,
+        reply_to_message_id: 9527,
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send a game with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendGame', {
+          chat_id: 427770117,
+          game_short_name: 'Mario Bros.',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendGame(427770117, 'Mario Bros.', {
+        disableNotification: true,
+        replyToMessageId: 9527,
       });
 
       expect(res).toEqual(result);
