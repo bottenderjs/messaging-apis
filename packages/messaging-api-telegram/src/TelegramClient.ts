@@ -1105,23 +1105,27 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send invoices. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target private chat
+   * @param product.title name, 1-32 characters
+   * @param product.description Product description, 1-255 characters
+   * @param product.payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   * @param product.providerToken Payments provider token, obtained via Botfather
+   * @param product.startParameter Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+   * @param product.currency Three-letter ISO 4217 currency code, see more on currencies
+   * @param product.prices Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#sendinvoice
    */
   sendInvoice(
-    chatId: string,
-    product: {
-      title: string;
-      description: string;
-      payload: string;
-      provider_token: string;
-      start_parameter: string;
-      currency: string;
-      prices: Record<string, any>[];
-    },
-    options?: Record<string, any>
+    chatId: number,
+    product: Type.Product,
+    options?: Type.SendInvoiceOption
   ): Promise<Type.Message> {
     return this._request('/sendInvoice', {
-      chat_id: chatId,
+      chatId,
       ...product,
       ...options,
     });
