@@ -1071,15 +1071,21 @@ export default class TelegramClient {
   // TODO: implement deleteStickerFromSet
 
   /**
+   * Use this method to send answers to an inline query. On success, True is returned. No more than 50 results per query are allowed.
+   *
+   * @param inlineQueryId Unique identifier for the answered query
+   * @param results A JSON-serialized array of results for the inline query
+   * @param options Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#answerinlinequery
    */
   answerInlineQuery(
     inlineQueryId: string,
-    results: Record<string, any>[],
-    options?: Record<string, any>
+    results: Type.InlineQueryResult[],
+    options?: Type.AnswerInlineQueryOption
   ): Promise<boolean> {
     return this._request('/answerInlineQuery', {
-      inline_query_id: inlineQueryId,
+      inlineQueryId,
       results,
       ...options,
     });
