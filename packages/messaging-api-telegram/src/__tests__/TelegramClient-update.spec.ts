@@ -189,62 +189,95 @@ describe('updating api', () => {
   });
 
   describe('#editMessageReplyMarkup', () => {
-    it('should change message reply_markup', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        messageId: 66,
+    const result = {
+      messageId: 66,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499402829,
+      text: 'hi',
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 66,
         from: {
           id: 313534466,
-          firstName: 'first',
+          first_name: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          firstName: 'first',
-          lastName: 'last',
+          first_name: 'first',
+          last_name: 'last',
           type: 'private',
         },
         date: 1499402829,
         text: 'hi',
-      };
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499402829,
-          text: 'hi',
-        },
-      };
+      },
+    };
 
+    it('should change message reply_markup with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/editMessageReplyMarkup', {
           reply_markup: {
-            keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
-            resize_keyboard: true,
-            one_time_keyboard: true,
+            inline_keyboard: [
+              [{ text: 'new_button_1' }, { text: 'new_button_2' }],
+            ],
           },
+          chat_id: 427770117,
           message_id: 66,
         })
         .reply(200, reply);
 
       const res = await client.editMessageReplyMarkup(
         {
-          keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
-          resize_keyboard: true,
-          one_time_keyboard: true,
+          inline_keyboard: [
+            [{ text: 'new_button_1' }, { text: 'new_button_2' }],
+          ],
         },
-        { message_id: 66 }
+        {
+          chat_id: 427770117,
+          message_id: 66,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should change message reply_markup with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/editMessageReplyMarkup', {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: 'new_button_1' }, { text: 'new_button_2' }],
+            ],
+          },
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageReplyMarkup(
+        {
+          inlineKeyboard: [
+            [{ text: 'new_button_1' }, { text: 'new_button_2' }],
+          ],
+        },
+        {
+          chatId: 427770117,
+          messageId: 66,
+        }
       );
 
       expect(res).toEqual(result);

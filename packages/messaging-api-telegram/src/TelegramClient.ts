@@ -978,14 +978,19 @@ export default class TelegramClient {
   // TODO: implement editMessageMedia
 
   /**
+   * Use this method to edit only the reply markup of messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+   *
+   * @param replyMarkup A JSON-serialized object for an inline keyboard.
+   * @param options Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#editmessagereplymarkup
    */
   editMessageReplyMarkup(
-    replyMarkup: Record<string, any>,
-    options?: Record<string, any>
+    replyMarkup: Type.InlineKeyboardMarkup,
+    options?: Type.EditMessageReplyMarkupOption
   ): Promise<Type.Message | boolean> {
     return this._request('/editMessageReplyMarkup', {
-      reply_markup: replyMarkup,
+      replyMarkup,
       ...options,
     });
   }
