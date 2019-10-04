@@ -2106,15 +2106,7 @@ export type EditMessageMediaOption = EditOption & {
   replyMarkup?: InlineKeyboardMarkup;
 };
 
-export type EditMessageReplyMarkupOption = EditOption & {
-  /**
-   * A JSON-serialized object for an inline keyboard.
-   *
-   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
-   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
-   */
-  replyMarkup?: InlineKeyboardMarkup;
-};
+export type EditMessageReplyMarkupOption = EditOption;
 
 export type StopPollOption = {
   /**
