@@ -272,39 +272,64 @@ describe('game api', () => {
   });
 
   describe('getGameHighScores', () => {
-    it('should get data for high score tables', async () => {
-      const { client, mock } = createMock();
-      const result = [
+    const result = [
+      {
+        position: 1,
+        user: {
+          id: 427770117,
+          isBot: false,
+          firstName: 'first',
+        },
+        score: 999,
+      },
+    ];
+    const reply = {
+      ok: true,
+      result: [
         {
           position: 1,
           user: {
             id: 427770117,
-            isBot: false,
-            firstName: 'first',
+            is_bot: false,
+            first_name: 'first',
           },
           score: 999,
         },
-      ];
-      const reply = {
-        ok: true,
-        result: [
-          {
-            position: 1,
-            user: {
-              id: 427770117,
-              is_bot: false,
-              first_name: 'first',
-            },
-            score: 999,
-          },
-        ],
-      };
+      ],
+    };
 
+    it('should get data for high score tables with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
-        .onPost('/getGameHighScores', { user_id: 427770117 })
+        .onPost('/getGameHighScores', {
+          user_id: 427770117,
+          chat_id: 427770117,
+          message_id: 1,
+        })
         .reply(200, reply);
 
-      const res = await client.getGameHighScores(427770117);
+      const res = await client.getGameHighScores(427770117, {
+        chat_id: 427770117,
+        message_id: 1,
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should get data for high score tables with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/getGameHighScores', {
+          user_id: 427770117,
+          chat_id: 427770117,
+          message_id: 1,
+        })
+        .reply(200, reply);
+
+      const res = await client.getGameHighScores(427770117, {
+        chatId: 427770117,
+        messageId: 1,
+      });
 
       expect(res).toEqual(result);
     });
