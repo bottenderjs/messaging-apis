@@ -932,9 +932,24 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
+   *
+   * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @Botfather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
+   *
+   * @param callbackQueryId Unique identifier for the query to be answered
+   * @param options Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#answercallbackquery
    */
-  // TODO: implement answerCallbackQuery
+  answerCallbackQuery(
+    callbackQueryId: string,
+    options: Type.AnswerCallbackQueryOption
+  ): Promise<boolean> {
+    return this._request('/answerCallbackQuery', {
+      callbackQueryId,
+      ...options,
+    });
+  }
 
   /**
    * Use this method to edit text and game messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
