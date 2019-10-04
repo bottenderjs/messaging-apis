@@ -988,9 +988,22 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to edit animation, audio, document, photo, or video messages. If a message is a part of a message album, then it can be edited only to a photo or a video. Otherwise, message type can be changed arbitrarily. When inline message is edited, new file can't be uploaded. Use previously uploaded file via its file_id or specify a URL. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
+   *
+   * @param media A JSON-serialized object for a new media content of the message
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#editmessagemedia
    */
-  // TODO: implement editMessageMedia
+  editMessageMedia(
+    media: Type.InputMedia,
+    options: Type.EditMessageMediaOption
+  ): Promise<Type.Message | boolean> {
+    return this._request('/editMessageMedia', {
+      media,
+      ...options,
+    });
+  }
 
   /**
    * Use this method to edit only the reply markup of messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.

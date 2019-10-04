@@ -188,6 +188,134 @@ describe('updating api', () => {
     });
   });
 
+  describe('#editMessageMedia', () => {
+    const result = {
+      messageId: 66,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      audio: {
+        duration: 108,
+        mimeType: 'audio/mpeg',
+        title: 'Song_Title',
+        performer: 'Song_Performer',
+        fileId: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+        fileSize: 1739320,
+      },
+      caption: 'new_caption',
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 66,
+        from: {
+          id: 313534466,
+          first_name: 'first',
+          username: 'a_bot',
+        },
+        chat: {
+          id: 427770117,
+          first_name: 'first',
+          last_name: 'last',
+          type: 'private',
+        },
+        date: 1499403678,
+        audio: {
+          duration: 108,
+          mime_type: 'audio/mpeg',
+          title: 'Song_Title',
+          performer: 'Song_Performer',
+          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+          file_size: 1739320,
+        },
+        caption: 'new_caption',
+      },
+    };
+
+    it('should change message media with snakecase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/editMessageMedia', {
+          media: {
+            type: 'audio',
+            media: 'https://example.com/audio.mp3',
+            caption: 'caption',
+            parse_mode: 'Markdown',
+            duration: 1,
+            performer: 'performer',
+            title: 'title',
+          },
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageMedia(
+        {
+          type: 'audio',
+          media: 'https://example.com/audio.mp3',
+          caption: 'caption',
+          parse_mode: 'Markdown',
+          duration: 1,
+          performer: 'performer',
+          title: 'title',
+        },
+        {
+          chat_id: 427770117,
+          message_id: 66,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should change message media with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/editMessageMedia', {
+          media: {
+            type: 'audio',
+            media: 'https://example.com/audio.mp3',
+            caption: 'caption',
+            parse_mode: 'Markdown',
+            duration: 1,
+            performer: 'performer',
+            title: 'title',
+          },
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageMedia(
+        {
+          type: 'audio',
+          media: 'https://example.com/audio.mp3',
+          caption: 'caption',
+          parseMode: ParseMode.Markdown,
+          duration: 1,
+          performer: 'performer',
+          title: 'title',
+        },
+        {
+          chatId: 427770117,
+          messageId: 66,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+  });
+
   describe('#editMessageReplyMarkup', () => {
     const result = {
       messageId: 66,
