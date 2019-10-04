@@ -95,69 +95,93 @@ describe('updating api', () => {
   });
 
   describe('#editMessageCaption', () => {
-    it('should change message caption', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        messageId: 66,
+    const result = {
+      messageId: 66,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      audio: {
+        duration: 108,
+        mimeType: 'audio/mpeg',
+        title: 'Song_Title',
+        performer: 'Song_Performer',
+        fileId: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+        fileSize: 1739320,
+      },
+      caption: 'new_caption',
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 66,
         from: {
           id: 313534466,
-          firstName: 'first',
+          first_name: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          firstName: 'first',
-          lastName: 'last',
+          first_name: 'first',
+          last_name: 'last',
           type: 'private',
         },
         date: 1499403678,
         audio: {
           duration: 108,
-          mimeType: 'audio/mpeg',
+          mime_type: 'audio/mpeg',
           title: 'Song_Title',
           performer: 'Song_Performer',
-          fileId: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-          fileSize: 1739320,
+          file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
+          file_size: 1739320,
         },
         caption: 'new_caption',
-      };
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 66,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          audio: {
-            duration: 108,
-            mime_type: 'audio/mpeg',
-            title: 'Song_Title',
-            performer: 'Song_Performer',
-            file_id: 'CQADBAADgJMAAkIeZAdcAAGmY-4zEngC',
-            file_size: 1739320,
-          },
-          caption: 'new_caption',
-        },
-      };
+      },
+    };
 
+    it('should change message caption with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/editMessageCaption', {
           caption: 'new_caption',
+          chat_id: 427770117,
           message_id: 66,
+          parse_mode: 'Markdown',
         })
         .reply(200, reply);
 
       const res = await client.editMessageCaption('new_caption', {
+        chat_id: 427770117,
         message_id: 66,
+        parse_mode: 'Markdown',
+      });
+
+      expect(res).toEqual(result);
+    });
+
+    it('should change message caption with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/editMessageCaption', {
+          caption: 'new_caption',
+          chat_id: 427770117,
+          message_id: 66,
+          parse_mode: 'Markdown',
+        })
+        .reply(200, reply);
+
+      const res = await client.editMessageCaption('new_caption', {
+        chatId: 427770117,
+        messageId: 66,
+        parseMode: ParseMode.Markdown,
       });
 
       expect(res).toEqual(result);

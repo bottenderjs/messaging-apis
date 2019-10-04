@@ -968,11 +968,16 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to edit captions of messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+   *
+   * @param caption New caption of the message
+   * @param options Optional parameters for other parameters.
+   *
    * - https://core.telegram.org/bots/api#editmessagecaption
    */
   editMessageCaption(
     caption: string,
-    options?: Record<string, any>
+    options?: Type.EditMessageCaptionOption
   ): Promise<Type.Message | boolean> {
     return this._request('/editMessageCaption', {
       caption,
