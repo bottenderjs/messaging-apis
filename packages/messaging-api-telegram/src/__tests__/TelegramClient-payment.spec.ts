@@ -130,22 +130,47 @@ describe('payment api', () => {
   });
 
   describe('#answerShippingQuery', () => {
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+    };
+
     it('should export chat invite link', async () => {
       const { client, mock } = createMock();
-      const result = true;
-      const reply = {
-        ok: true,
-        result,
-      };
-
       mock
         .onPost('/answerShippingQuery', {
           shipping_query_id: 'UNIQUE_ID',
           ok: true,
+          shipping_options: [
+            {
+              id: 'id',
+              title: 'title',
+              prices: [
+                {
+                  label: 'label',
+                  amount: '100',
+                },
+              ],
+            },
+          ],
         })
         .reply(200, reply);
 
-      const res = await client.answerShippingQuery('UNIQUE_ID', true);
+      const res = await client.answerShippingQuery('UNIQUE_ID', true, {
+        shippingOptions: [
+          {
+            id: 'id',
+            title: 'title',
+            prices: [
+              {
+                label: 'label',
+                amount: '100',
+              },
+            ],
+          },
+        ],
+      });
       expect(res).toEqual(result);
     });
   });
