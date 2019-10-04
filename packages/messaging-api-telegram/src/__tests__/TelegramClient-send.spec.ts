@@ -651,19 +651,47 @@ describe('send api', () => {
   });
 
   describe('#sendSticker', () => {
-    it('should send sticker message to user', async () => {
-      const { client, mock } = createMock();
-      const result = {
-        messageId: 1,
+    const result = {
+      messageId: 1,
+      from: {
+        id: 313534466,
+        firstName: 'first',
+        username: 'a_bot',
+      },
+      chat: {
+        id: 427770117,
+        firstName: 'first',
+        lastName: 'last',
+        type: 'private',
+      },
+      date: 1499403678,
+      sticker: {
+        width: 362,
+        height: 512,
+        emoji: '✊',
+        thumb: {
+          fileId: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
+          fileSize: 2142,
+          width: 63,
+          height: 90,
+        },
+        fileId: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
+        fileSize: 36326,
+      },
+    };
+    const reply = {
+      ok: true,
+      result: {
+        message_id: 1,
         from: {
           id: 313534466,
-          firstName: 'first',
+          first_name: 'first',
           username: 'a_bot',
         },
         chat: {
           id: 427770117,
-          firstName: 'first',
-          lastName: 'last',
+          first_name: 'first',
+          last_name: 'last',
           type: 'private',
         },
         date: 1499403678,
@@ -672,52 +700,25 @@ describe('send api', () => {
           height: 512,
           emoji: '✊',
           thumb: {
-            fileId: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
-            fileSize: 2142,
+            file_id: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
+            file_size: 2142,
             width: 63,
             height: 90,
           },
-          fileId: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
-          fileSize: 36326,
+          file_id: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
+          file_size: 36326,
         },
-      };
-      const reply = {
-        ok: true,
-        result: {
-          message_id: 1,
-          from: {
-            id: 313534466,
-            first_name: 'first',
-            username: 'a_bot',
-          },
-          chat: {
-            id: 427770117,
-            first_name: 'first',
-            last_name: 'last',
-            type: 'private',
-          },
-          date: 1499403678,
-          sticker: {
-            width: 362,
-            height: 512,
-            emoji: '✊',
-            thumb: {
-              file_id: 'AAQFABOt1bEyAASi4MvOBXP2MYs8AQABAg',
-              file_size: 2142,
-              width: 63,
-              height: 90,
-            },
-            file_id: 'CAADBQADQAADyIsGAAE7MpzFPFQX5QI',
-            file_size: 36326,
-          },
-        },
-      };
+      },
+    };
 
+    it('should send sticker message to user with snakecase', async () => {
+      const { client, mock } = createMock();
       mock
         .onPost('/sendSticker', {
           chat_id: 427770117,
           sticker: 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
           disable_notification: true,
+          reply_to_message_id: 9527,
         })
         .reply(200, reply);
 
@@ -726,6 +727,30 @@ describe('send api', () => {
         'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
         {
           disable_notification: true,
+          reply_to_message_id: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should send sticker message to user with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendSticker', {
+          chat_id: 427770117,
+          sticker: 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendSticker(
+        427770117,
+        'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
+        {
+          disableNotification: true,
+          replyToMessageId: 9527,
         }
       );
 

@@ -1020,15 +1020,21 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a .webp file from the Internet. Upload file is not supported yet.
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#sendsticker
    */
   sendSticker(
-    chatId: string,
+    chatId: string | number,
     sticker: string,
-    options?: Record<string, any>
+    options?: Type.SendStickerOption
   ): Promise<Type.Message> {
     return this._request('/sendSticker', {
-      chat_id: chatId,
+      chatId,
       sticker,
       ...options,
     });
