@@ -2363,3 +2363,10 @@ export type CreateNewStickerSetOption = {
    */
   maskPosition?: MaskPosition;
 };
+
+export type AddStickerToSetOption = {
+  /**
+   * A JSON-serialized object for position where the mask should be placed on faces
+   */
+  maskPosition?: MaskPosition;
+};

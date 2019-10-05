@@ -1129,9 +1129,31 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to add a new sticker to a set created by the bot. Returns True on success.
+   *
+   * @param userId User identifier of sticker set owner
+   * @param name Sticker set name
+   * @param pngSticker Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param emojis One or more emoji corresponding to the sticker
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#addstickertoset
    */
-  // TODO: implement addStickerToSet
+  addStickerToSet(
+    userId: number,
+    name: string,
+    pngSticker: string,
+    emojis: string,
+    options?: Type.AddStickerToSetOption
+  ): Promise<boolean> {
+    return this._request('/addStickerToSet', {
+      userId,
+      name,
+      pngSticker,
+      emojis,
+      ...options,
+    });
+  }
 
   /**
    * - https://core.telegram.org/bots/api#setstickerpositioninset
