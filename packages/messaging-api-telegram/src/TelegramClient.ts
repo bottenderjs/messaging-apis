@@ -1101,9 +1101,32 @@ export default class TelegramClient {
   // TODO: implement uploadStickerFile
 
   /**
+   * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set. Returns True on success.
+   *
+   * @param userId User identifier of created sticker set owner
+   * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
+   * @param title Sticker set title, 1-64 characters
+   * @param pngSticker Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   *
    * - https://core.telegram.org/bots/api#createnewstickerset
    */
-  // TODO: implement createNewStickerSet
+  createNewStickerSet(
+    userId: number,
+    name: string,
+    title: string,
+    pngSticker: string,
+    emojis: string,
+    options?: Type.CreateNewStickerSetOption
+  ): Promise<boolean> {
+    return this._request('/createNewStickerSet', {
+      userId,
+      name,
+      title,
+      pngSticker,
+      emojis,
+      ...options,
+    });
+  }
 
   /**
    * - https://core.telegram.org/bots/api#addstickertoset
