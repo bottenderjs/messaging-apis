@@ -1085,9 +1085,15 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to get a sticker set. On success, a StickerSet object is returned.
+   *
+   * @param name Name of the sticker set
+   *
    * - https://core.telegram.org/bots/api#getstickerset
    */
-  // TODO: implement getStickerSet
+  getStickerSet(name: string): Promise<Type.StickerSet> {
+    return this._request('/getStickerSet', { name });
+  }
 
   /**
    * - https://core.telegram.org/bots/api#uploadstickerfile
