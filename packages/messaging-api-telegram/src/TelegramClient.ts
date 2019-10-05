@@ -1156,9 +1156,19 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to move a sticker in a set created by the bot to a specific position . Returns True on success.
+   *
+   * @param sticker File identifier of the sticker
+   * @param position New sticker position in the set, zero-based
+   *
    * - https://core.telegram.org/bots/api#setstickerpositioninset
    */
-  // TODO: implement setStickerPositionInSet
+  setStickerPositionInSet(sticker: string, position: number): Promise<boolean> {
+    return this._request('setStickerPositionInSet', {
+      sticker,
+      position,
+    });
+  }
 
   /**
    * - https://core.telegram.org/bots/api#deletestickerfromset
