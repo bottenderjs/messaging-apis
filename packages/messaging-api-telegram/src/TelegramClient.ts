@@ -1171,9 +1171,15 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to delete a sticker from a set created by the bot. Returns True on success.
+   *
+   * @param sticker File identifier of the sticker
+   *
    * - https://core.telegram.org/bots/api#deletestickerfromset
    */
-  // TODO: implement deleteStickerFromSet
+  deleteStickerFromSet(sticker: string): Promise<boolean> {
+    return this._request('/deleteStickerFromSet', { sticker });
+  }
 
   /**
    * Use this method to send answers to an inline query. On success, True is returned. No more than 50 results per query are allowed.
