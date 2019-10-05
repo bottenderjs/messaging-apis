@@ -238,4 +238,25 @@ describe('sticker set api', () => {
       expect(res).toEqual(result);
     });
   });
+
+  describe('#deleteStickerFromSet', () => {
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    const mock_params = { sticker: 'CAADBAADQwEAAhA1aAABVQO2hjT7dSEWB' };
+
+    it('should delete sticker successfully', async () => {
+      const { client, mock } = createMock();
+      mock.onPost('/deleteStickerFromSet', mock_params).reply(200, reply);
+
+      const res = await client.deleteStickerFromSet(
+        'CAADBAADQwEAAhA1aAABVQO2hjT7dSEWB'
+      );
+
+      expect(res).toEqual(result);
+    });
+  });
 });
