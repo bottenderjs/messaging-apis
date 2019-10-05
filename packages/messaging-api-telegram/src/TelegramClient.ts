@@ -1024,9 +1024,25 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
+   *
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageId Identifier of the original message with the poll
+   * @param options Options for other optional parameters.
+   *
    * - https://core.telegram.org/bots/api#stoppoll
    */
-  // TODO: implement stopPoll
+  stopPoll(
+    chatId: string | number,
+    messageId: number,
+    options?: Type.StopPollOption
+  ): Promise<Type.Poll> {
+    return this._request('/stopPoll', {
+      chatId,
+      messageId,
+      ...options,
+    });
+  }
 
   /**
    * Use this method to delete a message, including service messages, with the following limitations:

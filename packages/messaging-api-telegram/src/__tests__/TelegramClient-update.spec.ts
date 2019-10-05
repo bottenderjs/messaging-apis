@@ -526,4 +526,54 @@ describe('updating api', () => {
       expect(res).toEqual(result);
     });
   });
+
+  describe('#stopPoll', () => {
+    const result = {
+      id: '6107039600482451458',
+      question: 'q',
+      options: [
+        {
+          text: 'a',
+          voterCount: 1,
+        },
+        {
+          text: 'b',
+          voterCount: 0,
+        },
+      ],
+      isClosed: true,
+    };
+    const reply = {
+      ok: true,
+      result: {
+        id: '6107039600482451458',
+        question: 'q',
+        options: [
+          {
+            text: 'a',
+            voter_count: 1,
+          },
+          {
+            text: 'b',
+            voter_count: 0,
+          },
+        ],
+        is_closed: true,
+      },
+    };
+
+    it('should stop poll', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/stopPoll', {
+          chat_id: 427770117,
+          message_id: 66,
+        })
+        .reply(200, reply);
+
+      const res = await client.stopPoll(427770117, 66);
+
+      expect(res).toEqual(result);
+    });
+  });
 });
