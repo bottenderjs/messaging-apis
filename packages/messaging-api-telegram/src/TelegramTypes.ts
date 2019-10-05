@@ -2351,3 +2351,15 @@ export type SetGameScoreOption = EditOption & {
 };
 
 export type GetGameHighScoresOption = EditOption;
+
+export type CreateNewStickerSetOption = {
+  /**
+   * Pass True, if a set of mask stickers should be created
+   */
+  containsMasks?: boolean;
+
+  /**
+   * A JSON-serialized object for position where the mask should be placed on faces
+   */
+  maskPosition?: MaskPosition;
+};

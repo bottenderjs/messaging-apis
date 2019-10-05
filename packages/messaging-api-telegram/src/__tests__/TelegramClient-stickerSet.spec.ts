@@ -77,4 +77,75 @@ describe('sticker set api', () => {
       expect(res).toEqual(result);
     });
   });
+
+  describe('#createNewStickerSet', () => {
+    const result = true;
+    const reply = {
+      ok: true,
+      result,
+    };
+
+    const mock_params = {
+      user_id: 1,
+      name: 'sticker_set_name',
+      title: 'title',
+      png_sticker: 'https://example.com/sticker.png',
+      emojis: '💛',
+      contains_masks: true,
+      mask_position: {
+        point: 'eyes',
+        x_shift: 10,
+        y_shift: 10,
+        scale: 1,
+      },
+    };
+
+    it('should create a new stickerSet with snakecase', async () => {
+      const { client, mock } = createMock();
+      mock.onPost('/createNewStickerSet', mock_params).reply(200, reply);
+
+      const res = await client.createNewStickerSet(
+        1,
+        'sticker_set_name',
+        'title',
+        'https://example.com/sticker.png',
+        '💛',
+        {
+          contains_masks: true,
+          mask_position: {
+            point: 'eyes',
+            x_shift: 10,
+            y_shift: 10,
+            scale: 1,
+          },
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+
+    it('should create a new stickerSet with camelcase', async () => {
+      const { client, mock } = createMock();
+      mock.onPost('/createNewStickerSet', mock_params).reply(200, reply);
+
+      const res = await client.createNewStickerSet(
+        1,
+        'sticker_set_name',
+        'title',
+        'https://example.com/sticker.png',
+        '💛',
+        {
+          containsMasks: true,
+          maskPosition: {
+            point: 'eyes',
+            xShift: 10,
+            yShift: 10,
+            scale: 1,
+          },
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
+  });
 });
