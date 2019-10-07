@@ -500,26 +500,13 @@ export default class TelegramClient {
    */
   sendVenue(
     chatId: string | number,
-    // TODO: replace this parameter with Type.Venue
-    {
-      latitude,
-      longitude,
-      title,
-      address,
-    }: {
-      latitude: number;
-      longitude: number;
-      title: string;
-      address: string;
-    },
+    venue: Type.Venue,
     options?: Type.SendVenueOption
   ): Promise<Type.Message> {
     return this._request('/sendVenue', {
       chatId,
-      latitude,
-      longitude,
-      title,
-      address,
+      ...venue.location,
+      ...this._optionWithoutKeys(venue, ['location']),
       ...options,
     });
   }
