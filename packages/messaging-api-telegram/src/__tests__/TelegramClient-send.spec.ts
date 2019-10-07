@@ -1635,6 +1635,39 @@ describe('send api', () => {
 
       expect(res).toEqual(result);
     });
+
+    it('should send venue message to user with type venue', async () => {
+      const { client, mock } = createMock();
+      mock
+        .onPost('/sendVenue', {
+          chat_id: 427770117,
+          latitude: 30,
+          longitude: 45,
+          title: 'a_title',
+          address: 'an_address',
+          disable_notification: true,
+          reply_to_message_id: 9527,
+        })
+        .reply(200, reply);
+
+      const res = await client.sendVenue(
+        427770117,
+        {
+          location: {
+            latitude: 30,
+            longitude: 45,
+          },
+          title: 'a_title',
+          address: 'an_address',
+        },
+        {
+          disableNotification: true,
+          replyToMessageId: 9527,
+        }
+      );
+
+      expect(res).toEqual(result);
+    });
   });
 
   describe('#sendContact', () => {
