@@ -635,7 +635,7 @@ client.replyImageCarouselTemplate(
 
 Responds flex message using specified reply token.
 
-<img src="https://developers.line.biz/media/messaging-api/using-flex-messages/bubbleSamples-Update1-c3e3fbf2.png" width="250px" />
+<img src="https://developers.line.biz/media/messaging-api/using-flex-messages/bubbleSamples-Update1-c3e3fbf2.png" />
 
 | Param                    | Type     | Description                                                                                             |
 | ------------------------ | -------- | ------------------------------------------------------------------------------------------------------- |
