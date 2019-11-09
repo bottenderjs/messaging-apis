@@ -10,7 +10,10 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "debug": "^4.1.1"
+    "camel-case": "^3.0.0",
+    "debug": "^4.1.1",
+    "map-obj": "^4.1.0",
+    "snake-case": "^2.1.0"
   },
   "keywords": [
     "bot",

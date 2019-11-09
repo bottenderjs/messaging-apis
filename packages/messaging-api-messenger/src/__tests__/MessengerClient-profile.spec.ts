@@ -23,7 +23,7 @@ const createMock = () => {
 
 describe('messenger profile', () => {
   describe('#getMessengerProfile', () => {
-    it('should response data of get messenger profile', async () => {
+    it('should respond data of messenger profile', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -51,29 +51,33 @@ describe('messenger profile', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=get_started,persistent_menu&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getMessengerProfile([
         'get_started',
         'persistent_menu',
       ]);
 
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=get_started,persistent_menu&access_token=${ACCESS_TOKEN}`
+      );
+
       expect(res).toEqual([
         {
-          get_started: {
+          getStarted: {
             payload: 'GET_STARTED',
           },
         },
         {
-          persistent_menu: [
+          persistentMenu: [
             {
               locale: 'default',
-              composer_input_disabled: true,
-              call_to_actions: [
+              composerInputDisabled: true,
+              callToActions: [
                 {
                   type: 'postback',
                   title: 'Restart Conversation',
@@ -88,35 +92,44 @@ describe('messenger profile', () => {
   });
 
   describe('#setMessengerProfile', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          get_started: {
-            payload: 'GET_STARTED',
-          },
-          persistent_menu: [
-            {
-              locale: 'default',
-              composer_input_disabled: true,
-              call_to_actions: [
-                {
-                  type: 'postback',
-                  title: 'Restart Conversation',
-                  payload: 'RESTART',
-                },
-              ],
-            },
-          ],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setMessengerProfile({
+        getStarted: {
+          payload: 'GET_STARTED',
+        },
+        persistentMenu: [
+          {
+            locale: 'default',
+            composerInputDisabled: true,
+            callToActions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
         get_started: {
           payload: 'GET_STARTED',
         },
@@ -140,23 +153,32 @@ describe('messenger profile', () => {
   });
 
   describe('#deleteMessengerProfile', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['get_started', 'persistent_menu'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deleteMessengerProfile([
         'get_started',
         'persistent_menu',
       ]);
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['get_started', 'persistent_menu'],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -165,7 +187,7 @@ describe('messenger profile', () => {
 
 describe('get started button', () => {
   describe('#getGetStarted', () => {
-    it('should response data of get started button', async () => {
+    it('should respond data of get started', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -178,75 +200,101 @@ describe('get started button', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getGetStarted();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual({
         payload: 'GET_STARTED',
       });
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getGetStarted();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setGetStarted', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          get_started: {
-            payload: 'GET_STARTED',
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setGetStarted('GET_STARTED');
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        get_started: {
+          payload: 'GET_STARTED',
+        },
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
   describe('#deleteGetStarted', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['get_started'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deleteGetStarted();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['get_started'],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -255,7 +303,7 @@ describe('get started button', () => {
 
 describe('persistent menu', () => {
   describe('#getPersistentMenu', () => {
-    it('should response data of persistent menu', async () => {
+    it('should respond data of persistent menu', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -283,19 +331,23 @@ describe('persistent menu', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPersistentMenu();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual([
         {
           locale: 'default',
-          composer_input_disabled: true,
-          call_to_actions: [
+          composerInputDisabled: true,
+          callToActions: [
             {
               type: 'postback',
               title: 'Restart Conversation',
@@ -311,57 +363,46 @@ describe('persistent menu', () => {
       ]);
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPersistentMenu();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setPersistentMenu', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          persistent_menu: [
-            {
-              locale: 'default',
-              composer_input_disabled: false,
-              call_to_actions: [
-                {
-                  type: 'postback',
-                  title: 'Restart Conversation',
-                  payload: 'RESTART',
-                },
-                {
-                  type: 'web_url',
-                  title: 'Powered by ALOHA.AI, Yoctol',
-                  url: 'https://www.yoctol.com/',
-                },
-              ],
-            },
-          ],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
-      const items = [
+      const res = await client.setPersistentMenu([
         {
           type: 'postback',
           title: 'Restart Conversation',
@@ -372,231 +413,92 @@ describe('persistent menu', () => {
           title: 'Powered by ALOHA.AI, Yoctol',
           url: 'https://www.yoctol.com/',
         },
-      ];
+      ]);
 
-      const res = await client.setPersistentMenu(items);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: false,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+              {
+                type: 'web_url',
+                title: 'Powered by ALOHA.AI, Yoctol',
+                url: 'https://www.yoctol.com/',
+              },
+            ],
+          },
+        ],
+      });
 
       expect(res).toEqual(reply);
     });
 
-    it('should response success result if input is a full PersistentMenu, not MenuItem[]', async () => {
+    it('should respond success result if input is a full PersistentMenu, not MenuItem[]', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          persistent_menu: [
-            {
-              locale: 'default',
-              call_to_actions: [
-                {
-                  title: 'Play Again',
-                  type: 'postback',
-                  payload: 'RESTART',
-                },
-                {
-                  title: 'Language Setting',
-                  type: 'nested',
-                  call_to_actions: [
-                    {
-                      title: '中文',
-                      type: 'postback',
-                      payload: 'CHINESE',
-                    },
-                    {
-                      title: 'English',
-                      type: 'postback',
-                      payload: 'ENGLISH',
-                    },
-                  ],
-                },
-                {
-                  title: 'Explore D',
-                  type: 'nested',
-                  call_to_actions: [
-                    {
-                      title: 'Explore',
-                      type: 'web_url',
-                      url: 'https://www.youtube.com/watch?v=v',
-                      webview_height_ratio: 'tall',
-                    },
-                    {
-                      title: 'W',
-                      type: 'web_url',
-                      url: 'https://www.facebook.com/w',
-                      webview_height_ratio: 'tall',
-                    },
-                    {
-                      title: 'Powered by YOCTOL',
-                      type: 'web_url',
-                      url: 'https://www.yoctol.com/',
-                      webview_height_ratio: 'tall',
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              locale: 'zh_TW',
-              call_to_actions: [
-                {
-                  title: '重新開始',
-                  type: 'postback',
-                  payload: 'RESTART',
-                },
-                {
-                  title: '語言設定',
-                  type: 'nested',
-                  call_to_actions: [
-                    {
-                      title: '中文',
-                      type: 'postback',
-                      payload: 'CHINESE',
-                    },
-                    {
-                      title: 'English',
-                      type: 'postback',
-                      payload: 'ENGLISH',
-                    },
-                  ],
-                },
-                {
-                  title: '探索敦化南路',
-                  type: 'nested',
-                  call_to_actions: [
-                    {
-                      title: '《敦化南路》預告片',
-                      type: 'web_url',
-                      url: 'https://www.youtube.com/watch?v=v',
-                      webview_height_ratio: 'tall',
-                    },
-                    {
-                      title: '華',
-                      type: 'web_url',
-                      url: 'https://www.facebook.com/w',
-                      webview_height_ratio: 'tall',
-                    },
-                    {
-                      title: 'Powered by YOCTOL',
-                      type: 'web_url',
-                      url: 'https://www.yoctol.com/',
-                      webview_height_ratio: 'tall',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
-      const items = [
+      const res = await client.setPersistentMenu([
         {
           locale: 'default',
-          call_to_actions: [
+          composerInputDisabled: false,
+          callToActions: [
             {
-              title: 'Play Again',
               type: 'postback',
+              title: 'Restart Conversation',
               payload: 'RESTART',
             },
             {
-              title: 'Language Setting',
-              type: 'nested',
-              call_to_actions: [
-                {
-                  title: '中文',
-                  type: 'postback',
-                  payload: 'CHINESE',
-                },
-                {
-                  title: 'English',
-                  type: 'postback',
-                  payload: 'ENGLISH',
-                },
-              ],
-            },
-            {
-              title: 'Explore D',
-              type: 'nested',
-              call_to_actions: [
-                {
-                  title: 'Explore',
-                  type: 'web_url',
-                  url: 'https://www.youtube.com/watch?v=v',
-                  webview_height_ratio: 'tall',
-                },
-                {
-                  title: 'W',
-                  type: 'web_url',
-                  url: 'https://www.facebook.com/w',
-                  webview_height_ratio: 'tall',
-                },
-                {
-                  title: 'Powered by YOCTOL',
-                  type: 'web_url',
-                  url: 'https://www.yoctol.com/',
-                  webview_height_ratio: 'tall',
-                },
-              ],
+              type: 'web_url',
+              title: 'Powered by ALOHA.AI, Yoctol',
+              url: 'https://www.yoctol.com/',
             },
           ],
         },
-        {
-          locale: 'zh_TW',
-          call_to_actions: [
-            {
-              title: '重新開始',
-              type: 'postback',
-              payload: 'RESTART',
-            },
-            {
-              title: '語言設定',
-              type: 'nested',
-              call_to_actions: [
-                {
-                  title: '中文',
-                  type: 'postback',
-                  payload: 'CHINESE',
-                },
-                {
-                  title: 'English',
-                  type: 'postback',
-                  payload: 'ENGLISH',
-                },
-              ],
-            },
-            {
-              title: '探索敦化南路',
-              type: 'nested',
-              call_to_actions: [
-                {
-                  title: '《敦化南路》預告片',
-                  type: 'web_url',
-                  url: 'https://www.youtube.com/watch?v=v',
-                  webview_height_ratio: 'tall',
-                },
-                {
-                  title: '華',
-                  type: 'web_url',
-                  url: 'https://www.facebook.com/w',
-                  webview_height_ratio: 'tall',
-                },
-                {
-                  title: 'Powered by YOCTOL',
-                  type: 'web_url',
-                  url: 'https://www.yoctol.com/',
-                  webview_height_ratio: 'tall',
-                },
-              ],
-            },
-          ],
-        },
-      ];
+      ]);
 
-      const res = await client.setPersistentMenu(items);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: false,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+              {
+                type: 'web_url',
+                title: 'Powered by ALOHA.AI, Yoctol',
+                url: 'https://www.yoctol.com/',
+              },
+            ],
+          },
+        ],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -608,23 +510,13 @@ describe('persistent menu', () => {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          persistent_menu: [
-            {
-              locale: 'default',
-              composer_input_disabled: true,
-              call_to_actions: [
-                {
-                  type: 'postback',
-                  title: 'Restart Conversation',
-                  payload: 'RESTART',
-                },
-              ],
-            },
-          ],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const items = [
         {
@@ -635,7 +527,26 @@ describe('persistent menu', () => {
       ];
 
       const res = await client.setPersistentMenu(items, {
-        composer_input_disabled: true,
+        composerInputDisabled: true,
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: true,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+            ],
+          },
+        ],
       });
 
       expect(res).toEqual(reply);
@@ -643,29 +554,38 @@ describe('persistent menu', () => {
   });
 
   describe('#deletePersistentMenu', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['persistent_menu'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deletePersistentMenu();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['persistent_menu'],
+      });
 
       expect(res).toEqual(reply);
     });
   });
 });
 
-describe('greeting text', () => {
+describe('greeting', () => {
   describe('#getGreeting', () => {
-    it('should response data of greeting text', async () => {
+    it('should respond data of greeting text', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -681,9 +601,17 @@ describe('greeting text', () => {
         ],
       };
 
-      mock.onGet().reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getGreeting();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual([
         {
@@ -693,66 +621,76 @@ describe('greeting text', () => {
       ]);
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock.onGet().reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getGreeting();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setGreeting', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          greeting: [
-            {
-              locale: 'default',
-              text: 'Hello!',
-            },
-          ],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setGreeting('Hello!');
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        greeting: [
+          {
+            locale: 'default',
+            text: 'Hello!',
+          },
+        ],
+      });
 
       expect(res).toEqual(reply);
     });
 
-    it('should response success result if input is multi-locale greeting texts', async () => {
+    it('should respond success result if input is multi-locale greetings', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          greeting: [
-            {
-              locale: 'default',
-              text: 'Hello!',
-            },
-            {
-              locale: 'zh_TW',
-              text: '哈囉！',
-            },
-          ],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setGreeting([
         {
@@ -765,25 +703,50 @@ describe('greeting text', () => {
         },
       ]);
 
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        greeting: [
+          {
+            locale: 'default',
+            text: 'Hello!',
+          },
+          {
+            locale: 'zh_TW',
+            text: '哈囉！',
+          },
+        ],
+      });
+
       expect(res).toEqual(reply);
     });
   });
 
   describe('#deleteGreeting', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['greeting'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deleteGreeting();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['greeting'],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -792,7 +755,7 @@ describe('greeting text', () => {
 
 describe('whitelisted domains', () => {
   describe('#getWhitelistedDomains', () => {
-    it('should response data of whitelisted domains', async () => {
+    it('should respond data of whitelisted domains', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -803,71 +766,97 @@ describe('whitelisted domains', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getWhitelistedDomains();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(['http://www.yoctol.com/']);
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getWhitelistedDomains();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setWhitelistedDomains', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          whitelisted_domains: ['www.yoctol.com'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setWhitelistedDomains(['www.yoctol.com']);
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        whitelisted_domains: ['www.yoctol.com'],
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
   describe('#deleteWhitelistedDomains', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['whitelisted_domains'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deleteWhitelistedDomains();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['whitelisted_domains'],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -876,7 +865,7 @@ describe('whitelisted domains', () => {
 
 describe('account linking url', () => {
   describe('#getAccountLinkingURL', () => {
-    it('should response data of account linking url', async () => {
+    it('should respond data of account linking url', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -888,77 +877,103 @@ describe('account linking url', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getAccountLinkingURL();
 
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
+      );
+
       expect(res).toEqual({
-        account_linking_url:
+        accountLinkingUrl:
           'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
       });
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getAccountLinkingURL();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setAccountLinkingURL', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          account_linking_url:
-            'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setAccountLinkingURL(
         'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
       );
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        account_linking_url:
+          'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
   describe('#deleteAccountLinkingURL', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['account_linking_url'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deleteAccountLinkingURL();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['account_linking_url'],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -967,7 +982,7 @@ describe('account linking url', () => {
 
 describe('payment settings', () => {
   describe('#getPaymentSettings', () => {
-    it('should response data of payment settings', async () => {
+    it('should respond data of payment settings', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -980,249 +995,167 @@ describe('payment settings', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=payment_settings&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPaymentSettings();
 
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=payment_settings&access_token=${ACCESS_TOKEN}`
+      );
+
       expect(res).toEqual({
-        privacy_url: 'www.facebook.com',
-        public_key: 'YOUR_PUBLIC_KEY',
-        test_users: ['12345678'],
+        privacyUrl: 'www.facebook.com',
+        publicKey: 'YOUR_PUBLIC_KEY',
+        testUsers: ['12345678'],
       });
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=payment_settings&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPaymentSettings();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=payment_settings&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setPaymentPrivacyPolicyURL', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          payment_settings: {
-            privacy_url: 'https://www.example.com',
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setPaymentPrivacyPolicyURL(
         'https://www.example.com'
       );
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        payment_settings: {
+          privacy_url: 'https://www.example.com',
+        },
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
   describe('#setPaymentPublicKey', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          payment_settings: {
-            public_key: 'YOUR_PUBLIC_KEY',
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setPaymentPublicKey('YOUR_PUBLIC_KEY');
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        payment_settings: {
+          public_key: 'YOUR_PUBLIC_KEY',
+        },
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
   describe('#setPaymentTestUsers', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          payment_settings: {
-            test_users: ['12345678'],
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setPaymentTestUsers(['12345678']);
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        payment_settings: {
+          test_users: ['12345678'],
+        },
+      });
 
       expect(res).toEqual(reply);
     });
   });
 
   describe('#deletePaymentSettings', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['payment_settings'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deletePaymentSettings();
 
-      expect(res).toEqual(reply);
-    });
-  });
-});
-
-describe('target audience', () => {
-  describe('#getTargetAudience', () => {
-    it('should response data of target audience', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [
-          {
-            audience_type: 'custom',
-            countries: {
-              whitelist: ['US', 'CA'],
-            },
-          },
-        ],
-      };
-
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=target_audience&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
-
-      const res = await client.getTargetAudience();
-
-      expect(res).toEqual({
-        audience_type: 'custom',
-        countries: {
-          whitelist: ['US', 'CA'],
-        },
-      });
-    });
-
-    it('should response null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=target_audience&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
-
-      const res = await client.getTargetAudience();
-
-      expect(res).toEqual(null);
-    });
-  });
-
-  describe('#setTargetAudience', () => {
-    it('should response success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          target_audience: {
-            audience_type: 'custom',
-            countries: {
-              whitelist: ['US', 'CA'],
-              blacklist: ['UK'],
-            },
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.setTargetAudience(
-        'custom',
-        ['US', 'CA'],
-        ['UK']
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should use default value', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          target_audience: {
-            audience_type: 'custom',
-            countries: {
-              whitelist: [],
-              blacklist: [],
-            },
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.setTargetAudience('custom');
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteTargetAudience', () => {
-    it('should response success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['target_audience'],
-        })
-        .reply(200, reply);
-
-      const res = await client.deleteTargetAudience();
+      expect(data).toEqual({
+        fields: ['payment_settings'],
+      });
 
       expect(res).toEqual(reply);
     });
@@ -1231,7 +1164,7 @@ describe('target audience', () => {
 
 describe('chat extension home URL', () => {
   describe('#getHomeURL', () => {
-    it('should response data of target audience', async () => {
+    it('should respond data of home url', async () => {
       const { client, mock } = createMock();
 
       const reply = {
@@ -1244,61 +1177,78 @@ describe('chat extension home URL', () => {
         ],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getHomeURL();
 
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
+      );
+
       expect(res).toEqual({
         url: 'http://petershats.com/send-a-hat',
-        webview_height_ratio: 'tall',
-        in_test: true,
+        webviewHeightRatio: 'tall',
+        inTest: true,
       });
     });
 
-    it('should response null when data is an empty array', async () => {
+    it('should respond null when data is an empty array', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         data: [],
       };
 
-      mock
-        .onGet(
-          `/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getHomeURL();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(null);
     });
   });
 
   describe('#setHomeURL', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onPost(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          home_url: {
-            url: 'http://petershats.com/send-a-hat',
-            webview_height_ratio: 'tall',
-            in_test: true,
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setHomeURL('http://petershats.com/send-a-hat', {
-        webview_height_ratio: 'tall',
-        in_test: true,
+        webviewHeightRatio: 'tall',
+        inTest: true,
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        home_url: {
+          url: 'http://petershats.com/send-a-hat',
+          webview_height_ratio: 'tall',
+          in_test: true,
+        },
       });
 
       expect(res).toEqual(reply);
@@ -1306,20 +1256,29 @@ describe('chat extension home URL', () => {
   });
 
   describe('#deleteHomeURL', () => {
-    it('should response success result', async () => {
+    it('should respond success result', async () => {
       const { client, mock } = createMock();
 
       const reply = {
         result: 'success',
       };
 
-      mock
-        .onDelete(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`, {
-          fields: ['home_url'],
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.deleteHomeURL();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['home_url'],
+      });
 
       expect(res).toEqual(reply);
     });

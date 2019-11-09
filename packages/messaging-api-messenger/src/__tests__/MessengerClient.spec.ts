@@ -9,6 +9,7 @@ const USER_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
 const APP_ID = '987654321';
 const APP_SECRET = '1WDVGY78';
+const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
 
 let axios;
 let _create;
@@ -41,9 +42,17 @@ describe('page info', () => {
         id: '1895382890692546',
       };
 
-      mock.onGet(`/me?access_token=${ACCESS_TOKEN}`).reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPageInfo();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me?access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(reply);
     });
@@ -56,40 +65,49 @@ describe('token', () => {
       expect.assertions(3);
 
       const { client, mock } = createMock();
-      const tokenInfo = {
-        app_id: '000000000000000',
-        application: 'Social Cafe',
-        expires_at: 1352419328,
-        is_valid: true,
-        issued_at: 1347235328,
-        scopes: ['email', 'user_location'],
-        user_id: 1207059,
-      };
-      const body = {
-        data: tokenInfo,
+
+      const reply = {
+        data: {
+          app_id: '000000000000000',
+          application: 'Social Cafe',
+          expires_at: 1352419328,
+          is_valid: true,
+          issued_at: 1347235328,
+          scopes: ['email', 'user_location'],
+          user_id: 1207059,
+        },
       };
 
+      let url;
+      let params;
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://graph.facebook.com/v4.0/debug_token'
-        );
-        expect(config.params).toEqual({
-          input_token: ACCESS_TOKEN,
-          access_token: `${APP_ID}|${APP_SECRET}`,
-        });
-        return [200, body];
+        url = config.url;
+        params = config.params;
+        return [200, reply];
       });
 
       const res = await client.debugToken();
 
-      expect(res).toEqual(tokenInfo);
+      expect(url).toEqual('https://graph.facebook.com/v4.0/debug_token');
+      expect(params).toEqual({
+        input_token: ACCESS_TOKEN,
+        access_token: `${APP_ID}|${APP_SECRET}`,
+      });
+
+      expect(res).toEqual({
+        appId: '000000000000000',
+        application: 'Social Cafe',
+        expiresAt: 1352419328,
+        isValid: true,
+        issuedAt: 1347235328,
+        scopes: ['email', 'user_location'],
+        userId: 1207059,
+      });
     });
   });
 });
 
 describe('subscription', () => {
-  const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
-
   describe('#createSubscription', () => {
     it('should set default fields', async () => {
       const { client, mock } = createMock();
@@ -97,21 +115,30 @@ describe('subscription', () => {
         success: true,
       };
 
-      mock
-        .onPost(`/54321/subscriptions?access_token=${APP_ACCESS_TOKEN}`, {
-          object: 'page',
-          callback_url: 'https://mycallback.com',
-          fields:
-            'messages,messaging_postbacks,messaging_optins,messaging_referrals,messaging_handovers,messaging_policy_enforcement',
-          verify_token: '1234567890',
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.createSubscription({
-        app_id: '54321',
+        appId: '54321',
+        callbackUrl: 'https://mycallback.com',
+        verifyToken: '1234567890',
+        accessToken: APP_ACCESS_TOKEN,
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        object: 'page',
         callback_url: 'https://mycallback.com',
+        fields:
+          'messages,messaging_postbacks,messaging_optins,messaging_referrals,messaging_handovers,messaging_policy_enforcement',
         verify_token: '1234567890',
-        access_token: APP_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -123,24 +150,33 @@ describe('subscription', () => {
         success: true,
       };
 
-      mock
-        .onPost(`/54321/subscriptions?access_token=${APP_ACCESS_TOKEN}`, {
-          object: 'user',
-          callback_url: 'https://mycallback.com',
-          fields: 'messages,messaging_postbacks',
-          verify_token: '1234567890',
-          include_values: true,
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.createSubscription({
-        app_id: '54321',
-        callback_url: 'https://mycallback.com',
-        verify_token: '1234567890',
+        appId: '54321',
+        callbackUrl: 'https://mycallback.com',
+        verifyToken: '1234567890',
         object: 'user',
         fields: ['messages', 'messaging_postbacks'],
+        includeValues: true,
+        accessToken: APP_ACCESS_TOKEN,
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        object: 'user',
+        callback_url: 'https://mycallback.com',
+        fields: 'messages,messaging_postbacks',
+        verify_token: '1234567890',
         include_values: true,
-        access_token: APP_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -166,15 +202,22 @@ describe('subscription', () => {
         ],
       };
 
-      mock
-        .onGet(`/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`)
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getSubscriptions();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
+      );
+
       expect(res).toEqual([
         {
           object: 'page',
-          callback_url: 'https://mycallback.com',
+          callbackUrl: 'https://mycallback.com',
           active: true,
           fields: [
             {
@@ -217,14 +260,21 @@ describe('subscription', () => {
         ],
       };
 
-      mock
-        .onGet(`/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`)
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPageSubscription();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
+      );
+
       expect(res).toEqual({
         object: 'page',
-        callback_url: 'https://mycallback.com',
+        callbackUrl: 'https://mycallback.com',
         active: true,
         fields: [
           {
@@ -249,11 +299,17 @@ describe('#getMessagingFeatureReview', () => {
       ],
     };
 
-    mock
-      .onGet(`/me/messaging_feature_review?access_token=${ACCESS_TOKEN}`)
-      .reply(200, reply);
+    let url;
+    mock.onGet().reply(config => {
+      url = config.url;
+      return [200, reply];
+    });
 
     const res = await client.getMessagingFeatureReview();
+
+    expect(url).toEqual(
+      `https://graph.facebook.com/v4.0/me/messaging_feature_review?access_token=${ACCESS_TOKEN}`
+    );
 
     expect(res).toEqual([
       {
@@ -275,15 +331,24 @@ describe('user profile', () => {
         profile_pic: 'https://example.com/pic.png',
       };
 
-      mock
-        .onGet(
-          `/1?fields=id,name,first_name,last_name,profile_pic&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getUserProfile('1');
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/1?fields=id,name,first_name,last_name,profile_pic&access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual({
+        id: '1',
+        firstName: 'Kevin',
+        lastName: 'Durant',
+        profilePic: 'https://example.com/pic.png',
+      });
     });
 
     it('should get user profile with given fields', async () => {
@@ -298,11 +363,11 @@ describe('user profile', () => {
         gender: 'male',
       };
 
-      mock
-        .onGet(
-          `/1?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getUserProfile('1', {
         fields: [
@@ -317,7 +382,19 @@ describe('user profile', () => {
         ],
       });
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/1?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender&access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual({
+        id: '1',
+        firstName: 'Kevin',
+        lastName: 'Durant',
+        profilePic: 'https://example.com/pic.png',
+        locale: 'en_US',
+        timezone: 8,
+        gender: 'male',
+      });
     });
   });
 });
@@ -330,94 +407,40 @@ describe('message tags', () => {
       const reply = {
         data: [
           {
-            tag: 'SHIPPING_UPDATE',
+            tag: 'POST_PURCHASE_UPDATE',
             description:
-              'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+              'Notify the message recipient of an update on an existing transaction.',
           },
           {
-            tag: 'RESERVATION_UPDATE',
+            tag: 'ACCOUNT_UPDATE',
             description:
-              'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-          },
-          {
-            tag: 'ISSUE_RESOLUTION',
-            description:
-              'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
-          },
-          {
-            tag: 'APPOINTMENT_UPDATE',
-            description:
-              'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-          },
-          {
-            tag: 'GAME_EVENT',
-            description:
-              'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-          },
-          {
-            tag: 'TRANSPORTATION_UPDATE',
-            description:
-              'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-          },
-          {
-            tag: 'FEATURE_FUNCTIONALITY_UPDATE',
-            description:
-              'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-          },
-          {
-            tag: 'TICKET_UPDATE',
-            description:
-              'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+              'Notify the message recipient of a change to their account settings.',
           },
         ],
       };
 
-      mock
-        .onGet(`/page_message_tags?access_token=${ACCESS_TOKEN}`)
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getMessageTags();
 
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/page_message_tags?access_token=${ACCESS_TOKEN}`
+      );
+
       expect(res).toEqual([
         {
-          tag: 'SHIPPING_UPDATE',
+          tag: 'POST_PURCHASE_UPDATE',
           description:
-            'The shipping_update tag may only be used to provide a shipping status notification for a product that has already been purchased. For example, when the product is shipped, in-transit, delivered, or delayed. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+            'Notify the message recipient of an update on an existing transaction.',
         },
         {
-          tag: 'RESERVATION_UPDATE',
+          tag: 'ACCOUNT_UPDATE',
           description:
-            'The reservation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in itinerary, location, or a cancellation (such as when a hotel booking is canceled, a car rental pick-up time changes, or a room upgrade is confirmed). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-        },
-        {
-          tag: 'ISSUE_RESOLUTION',
-          description:
-            'The issue_resolution tag may only be used to respond to a customer service issue surfaced in a Messenger conversation after a transaction has taken place. This tag is intended for use cases where the business requires more than 24 hours to resolve an issue and needs to give someone a status update and/or gather additional information. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements, nor can businesses use the tag to proactively message people to solicit feedback).',
-        },
-        {
-          tag: 'APPOINTMENT_UPDATE',
-          description:
-            'The appointment_update tag may only be used to provide updates about an existing appointment. For example, when there is a change in time, a location update or a cancellation (such as when a spa treatment is canceled, a real estate agent needs to meet you at a new location or a dental office proposes a new appointment time). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-        },
-        {
-          tag: 'GAME_EVENT',
-          description:
-            'The game_event tag may only be used to provide an update on user progression, a global event in a game or a live sporting event. For example, when a person’s crops are ready to be collected, their building is finished, their daily tournament is about to start or their favorite soccer team is about to play. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-        },
-        {
-          tag: 'TRANSPORTATION_UPDATE',
-          description:
-            'The transportation_update tag may only be used to confirm updates to an existing reservation. For example, when there is a change in status of any flight, train or ferry reservation (such as “ride canceled”, “trip started” or “ferry arrived”). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-        },
-        {
-          tag: 'FEATURE_FUNCTIONALITY_UPDATE',
-          description:
-            'The feature_functionality_update tag may only be used to provide an update on new features or functionality that become available in a bot. For example, announcing the ability to talk to a live agent in a bot, or that the bot has a new skill. This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
-        },
-        {
-          tag: 'TICKET_UPDATE',
-          description:
-            'The ticket_update tag may only be used to provide updates pertaining to an event for which a person already has a ticket. For example, when there is a change in time, a location update or a cancellation (such as when a concert is canceled, the venue has changed or a refund opportunity is available). This tag cannot be used for use cases beyond those listed above or for promotional content (ex: daily deals, coupons and discounts, or sale announcements).',
+            'Notify the message recipient of a change to their account settings.',
         },
       ]);
     });
@@ -433,26 +456,37 @@ describe('upload api', () => {
         attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
-          message: {
-            attachment: {
-              type: 'image',
-              payload: {
-                url: 'http://www.yoctol-rocks.com/image.jpg',
-                is_reusable: false,
-              },
-            },
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadAttachment(
         'image',
         'http://www.yoctol-rocks.com/image.jpg'
       );
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        message: {
+          attachment: {
+            type: 'image',
+            payload: {
+              url: 'http://www.yoctol-rocks.com/image.jpg',
+              is_reusable: false,
+            },
+          },
+        },
+      });
+
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
 
     it('can upload reusable attachment', async () => {
@@ -462,50 +496,68 @@ describe('upload api', () => {
         attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
-          message: {
-            attachment: {
-              type: 'image',
-              payload: {
-                url: 'http://www.yoctol-rocks.com/image.jpg',
-                is_reusable: true,
-              },
-            },
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadAttachment(
         'image',
         'http://www.yoctol-rocks.com/image.jpg',
-        { is_reusable: true }
+        { isReusable: true }
       );
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        message: {
+          attachment: {
+            type: 'image',
+            payload: {
+              url: 'http://www.yoctol-rocks.com/image.jpg',
+              is_reusable: true,
+            },
+          },
+        },
+      });
+
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
 
     it('can call api with file stream', async () => {
       const { client, mock } = createMock();
 
       const reply = {
-        attachment_id: '1857777774821032',
+        attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`)
-        .reply(config => {
-          expect(config.data).toBeInstanceOf(FormData);
-
-          return [200, reply];
-        });
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadAttachment(
         'file',
         fs.createReadStream('./')
       );
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toBeInstanceOf(FormData);
+
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
   });
 
@@ -517,25 +569,36 @@ describe('upload api', () => {
         attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
-          message: {
-            attachment: {
-              type: 'audio',
-              payload: {
-                url: 'http://www.yoctol-rocks.com/audio.mp3',
-                is_reusable: false,
-              },
-            },
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadAudio(
         'http://www.yoctol-rocks.com/audio.mp3'
       );
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        message: {
+          attachment: {
+            type: 'audio',
+            payload: {
+              url: 'http://www.yoctol-rocks.com/audio.mp3',
+              is_reusable: false,
+            },
+          },
+        },
+      });
+
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
   });
 
@@ -547,25 +610,36 @@ describe('upload api', () => {
         attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
-          message: {
-            attachment: {
-              type: 'image',
-              payload: {
-                url: 'http://www.yoctol-rocks.com/image.jpg',
-                is_reusable: false,
-              },
-            },
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadImage(
         'http://www.yoctol-rocks.com/image.jpg'
       );
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        message: {
+          attachment: {
+            type: 'image',
+            payload: {
+              url: 'http://www.yoctol-rocks.com/image.jpg',
+              is_reusable: false,
+            },
+          },
+        },
+      });
+
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
   });
 
@@ -577,25 +651,36 @@ describe('upload api', () => {
         attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
-          message: {
-            attachment: {
-              type: 'video',
-              payload: {
-                url: 'http://www.yoctol-rocks.com/video.mp4',
-                is_reusable: false,
-              },
-            },
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadVideo(
         'http://www.yoctol-rocks.com/video.mp4'
       );
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        message: {
+          attachment: {
+            type: 'video',
+            payload: {
+              url: 'http://www.yoctol-rocks.com/video.mp4',
+              is_reusable: false,
+            },
+          },
+        },
+      });
+
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
   });
 
@@ -607,410 +692,37 @@ describe('upload api', () => {
         attachment_id: '1854626884821032',
       };
 
-      mock
-        .onPost(`/me/message_attachments?access_token=${ACCESS_TOKEN}`, {
-          message: {
-            attachment: {
-              type: 'file',
-              payload: {
-                url: 'http://www.yoctol-rocks.com/file.pdf',
-                is_reusable: false,
-              },
-            },
-          },
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.uploadFile(
         'http://www.yoctol-rocks.com/file.pdf'
       );
 
-      expect(res).toEqual(reply);
-    });
-  });
-});
-
-describe('Messenger Code API', () => {
-  describe('#generateMessengerCode', () => {
-    it('should call messages api to generate code', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        uri: 'YOUR_CODE_URL_HERE',
-      };
-
-      mock
-        .onPost(`/me/messenger_codes?access_token=${ACCESS_TOKEN}`, {
-          type: 'standard',
-        })
-        .reply(200, reply);
-
-      const res = await client.generateMessengerCode();
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call messages api to generate code using custom image_size', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        uri: 'YOUR_CODE_URL_HERE',
-      };
-
-      mock
-        .onPost(`/me/messenger_codes?access_token=${ACCESS_TOKEN}`, {
-          type: 'standard',
-          image_size: 1500,
-        })
-        .reply(200, reply);
-
-      const res = await client.generateMessengerCode({
-        image_size: 1500,
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call messages api to generate parametric code', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        uri: 'YOUR_CODE_URL_HERE',
-      };
-
-      mock
-        .onPost(`/me/messenger_codes?access_token=${ACCESS_TOKEN}`, {
-          type: 'standard',
-          data: {
-            ref: 'billboard-ad',
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        message: {
+          attachment: {
+            type: 'file',
+            payload: {
+              url: 'http://www.yoctol-rocks.com/file.pdf',
+              is_reusable: false,
+            },
           },
-        })
-        .reply(200, reply);
-
-      const res = await client.generateMessengerCode({
-        data: {
-          ref: 'billboard-ad',
         },
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual({
+        attachmentId: '1854626884821032',
+      });
     });
-  });
-});
-
-describe('Handover Protocol API', () => {
-  describe('#passThreadControl', () => {
-    it('should call messages api to pass thread control', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-
-      mock
-        .onPost(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`, {
-          recipient: {
-            id: USER_ID,
-          },
-          target_app_id: 123456789,
-          metadata: 'free formed text for another app',
-        })
-        .reply(200, reply);
-
-      const res = await client.passThreadControl(
-        USER_ID,
-        123456789,
-        'free formed text for another app'
-      );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call messages api to pass thread control with custom access token', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-      const options = {
-        access_token: '0987654321',
-      };
-
-      mock
-        .onPost(
-          `/me/pass_thread_control?access_token=${options.access_token}`,
-          {
-            recipient: {
-              id: USER_ID,
-            },
-            target_app_id: 123456789,
-            metadata: 'free formed text for another app',
-          }
-        )
-        .reply(200, reply);
-
-      const res = await client.passThreadControl(
-        USER_ID,
-        123456789,
-        'free formed text for another app',
-        options
-      );
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#passThreadControlToPageInbox', () => {
-    it('should call messages api to pass thread control to page inbox', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-
-      mock
-        .onPost(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`, {
-          recipient: {
-            id: USER_ID,
-          },
-          target_app_id: 263902037430900,
-          metadata: 'free formed text for another app',
-        })
-        .reply(200, reply);
-
-      const res = await client.passThreadControlToPageInbox(
-        USER_ID,
-        'free formed text for another app'
-      );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call messages api to pass thread control to page inbox with custom access token', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-      const options = {
-        access_token: '0987654321',
-      };
-
-      mock
-        .onPost(
-          `/me/pass_thread_control?access_token=${options.access_token}`,
-          {
-            recipient: {
-              id: USER_ID,
-            },
-            target_app_id: 263902037430900,
-            metadata: 'free formed text for another app',
-          }
-        )
-        .reply(200, reply);
-
-      const res = await client.passThreadControlToPageInbox(
-        USER_ID,
-        'free formed text for another app',
-        options
-      );
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#takeThreadControl', () => {
-    it('should call messages api to take thread control', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-
-      mock
-        .onPost(`/me/take_thread_control?access_token=${ACCESS_TOKEN}`, {
-          recipient: {
-            id: USER_ID,
-          },
-          metadata: 'free formed text for another app',
-        })
-        .reply(200, reply);
-
-      const res = await client.takeThreadControl(
-        USER_ID,
-        'free formed text for another app'
-      );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call messages api to take thread control with custom access token', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-      const options = {
-        access_token: '0987654321',
-      };
-
-      mock
-        .onPost(
-          `/me/take_thread_control?access_token=${options.access_token}`,
-          {
-            recipient: {
-              id: USER_ID,
-            },
-            metadata: 'free formed text for another app',
-          }
-        )
-        .reply(200, reply);
-
-      const res = await client.takeThreadControl(
-        USER_ID,
-        'free formed text for another app',
-        options
-      );
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#requestThreadControl', () => {
-    it('should call messages api to request thread control', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-
-      mock
-        .onPost(`/me/request_thread_control?access_token=${ACCESS_TOKEN}`, {
-          recipient: {
-            id: USER_ID,
-          },
-          metadata: 'free formed text for primary app',
-        })
-        .reply(200, reply);
-
-      const res = await client.requestThreadControl(
-        USER_ID,
-        'free formed text for primary app'
-      );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call messages api to request thread control with custom access token', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        success: true,
-      };
-      const options = {
-        access_token: '0987654321',
-      };
-
-      mock
-        .onPost(
-          `/me/request_thread_control?access_token=${options.access_token}`,
-          {
-            recipient: {
-              id: USER_ID,
-            },
-            metadata: 'free formed text for primary app',
-          }
-        )
-        .reply(200, reply);
-
-      const res = await client.requestThreadControl(
-        USER_ID,
-        'free formed text for primary app',
-        options
-      );
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#getSecondaryReceivers', () => {
-    it('should call messages api to get Secondary receivers', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [
-          { id: '12345678910', name: "David's Composer" },
-          { id: '23456789101', name: 'Messenger Rocks' },
-        ],
-      };
-
-      mock
-        .onGet(
-          `/me/secondary_receivers?fields=id,name&access_token=${ACCESS_TOKEN}`
-        )
-        .reply(200, reply);
-
-      const res = await client.getSecondaryReceivers();
-
-      expect(res).toEqual([
-        { id: '12345678910', name: "David's Composer" },
-        { id: '23456789101', name: 'Messenger Rocks' },
-      ]);
-    });
-  });
-});
-
-describe('#getThreadOwner', () => {
-  it('should call messages api to get thread owner', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      data: [
-        {
-          thread_owner: {
-            app_id: '12345678910',
-          },
-        },
-      ],
-    };
-
-    mock
-      .onGet(
-        `/me/thread_owner?recipient=${USER_ID}&access_token=${ACCESS_TOKEN}`
-      )
-      .reply(200, reply);
-
-    const res = await client.getThreadOwner(USER_ID, ACCESS_TOKEN);
-
-    expect(res).toEqual({ app_id: '12345678910' });
-  });
-
-  it('should call messages api to get thread owner with custom access token', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      data: [
-        {
-          thread_owner: {
-            app_id: '12345678910',
-          },
-        },
-      ],
-    };
-
-    const options = {
-      access_token: '0987654321',
-    };
-
-    mock
-      .onGet(
-        `/me/thread_owner?recipient=${USER_ID}&access_token=${options.access_token}`
-      )
-      .reply(200, reply);
-
-    const res = await client.getThreadOwner(USER_ID, options);
-
-    expect(res).toEqual({ app_id: '12345678910' });
   });
 });
 
@@ -1023,15 +735,24 @@ describe('Built-in NLP API', () => {
         success: true,
       };
 
-      mock
-        .onPost(`/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`, {
-          access_token: ACCESS_TOKEN,
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.setNLPConfigs({
-        nlp_enabled: true,
-        custom_token: '1234567890',
+        nlpEnabled: true,
+        customToken: '1234567890',
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`
+      );
+      expect(data).toEqual({
+        access_token: ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -1046,13 +767,22 @@ describe('Built-in NLP API', () => {
         success: true,
       };
 
-      mock
-        .onPost(`/me/nlp_configs?nlp_enabled=true`, {
-          access_token: ACCESS_TOKEN,
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.enableNLP();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=true`
+      );
+      expect(data).toEqual({
+        access_token: ACCESS_TOKEN,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -1066,13 +796,22 @@ describe('Built-in NLP API', () => {
         success: true,
       };
 
-      mock
-        .onPost(`/me/nlp_configs?nlp_enabled=false`, {
-          access_token: ACCESS_TOKEN,
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.disableNLP();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=false`
+      );
+      expect(data).toEqual({
+        access_token: ACCESS_TOKEN,
+      });
 
       expect(res).toEqual(reply);
     });
@@ -1088,23 +827,18 @@ describe('Event Logging API', () => {
         success: true,
       };
 
-      mock
-        .onPost(`/12345/activities?access_token=${ACCESS_TOKEN}`, {
-          event: 'CUSTOM_APP_EVENTS',
-          custom_events:
-            '[{"_eventName":"fb_mobile_purchase","_valueToSum":55.22,"_fb_currency":"USD"}]',
-          advertiser_tracking_enabled: 0,
-          application_tracking_enabled: 0,
-          extinfo: '["mb1"]',
-          page_id: 67890,
-          page_scoped_user_id: USER_ID,
-        })
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
       const res = await client.logCustomEvents({
-        app_id: 12345,
-        page_id: 67890,
-        page_scoped_user_id: USER_ID,
+        appId: 12345,
+        pageId: 67890,
+        pageScopedUserId: USER_ID,
         events: [
           {
             _eventName: 'fb_mobile_purchase',
@@ -1112,6 +846,18 @@ describe('Event Logging API', () => {
             _fb_currency: 'USD',
           },
         ],
+      });
+
+      expect(url).toEqual(`https://graph.facebook.com/v4.0/12345/activities`);
+      expect(data).toEqual({
+        event: 'CUSTOM_APP_EVENTS',
+        custom_events:
+          '[{"_eventName":"fb_mobile_purchase","_valueToSum":55.22,"_fb_currency":"USD"}]',
+        advertiser_tracking_enabled: 0,
+        application_tracking_enabled: 0,
+        extinfo: '["mb1"]',
+        page_id: 67890,
+        page_scoped_user_id: USER_ID,
       });
 
       expect(res).toEqual(reply);
@@ -1153,17 +899,21 @@ describe('ID Matching', () => {
         },
       };
 
-      mock
-        .onGet(
-          `/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&page=5678`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getIdsForApps({
-        user_id: '12345123',
-        app_secret: APP_SECRET,
+        userId: '12345123',
+        appSecret: APP_SECRET,
         page: '5678',
       });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&page=5678`
+      );
 
       expect(res).toEqual(reply);
     });
@@ -1194,17 +944,21 @@ describe('ID Matching', () => {
         },
       };
 
-      mock
-        .onGet(
-          `/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&app=5678`
-        )
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getIdsForPages({
-        user_id: '12345123',
-        app_secret: APP_SECRET,
+        userId: '12345123',
+        appSecret: APP_SECRET,
         app: '5678',
       });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&app=5678`
+      );
 
       expect(res).toEqual(reply);
     });
@@ -1212,7 +966,7 @@ describe('ID Matching', () => {
 });
 
 describe('Error', () => {
-  it('should format correctly', async () => {
+  it('should be formatted correctly', async () => {
     const { client, mock } = createMock();
 
     const reply = {
