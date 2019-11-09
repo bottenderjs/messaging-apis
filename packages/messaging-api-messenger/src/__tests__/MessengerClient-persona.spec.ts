@@ -23,21 +23,31 @@ const createMock = () => {
 
 describe('persona api', () => {
   describe('#createPersona', () => {
-    it('should call messages api to create a persona', async () => {
+    it('should call messenger api to create a persona', async () => {
       const { client, mock } = createMock();
-
-      const persona = {
-        name: 'kpman',
-        profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
-      };
 
       const reply = { id: '2222146701193608' };
 
-      mock
-        .onPost(`/me/personas?access_token=${ACCESS_TOKEN}`, persona)
-        .reply(200, reply);
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
 
-      const res = await client.createPersona(persona);
+      const res = await client.createPersona({
+        name: 'kpman',
+        profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
+      });
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/personas?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        name: 'kpman',
+        profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+      });
 
       expect(res).toEqual(reply);
     });
@@ -48,23 +58,33 @@ describe('persona api', () => {
       const { client, mock } = createMock();
 
       const reply = {
-        name: 'hi',
-        profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
         id: '311884619589478',
+        name: 'kpman',
+        profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
       };
 
-      mock
-        .onGet(`/311884619589478?access_token=${ACCESS_TOKEN}`)
-        .reply(200, reply);
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.getPersona('311884619589478');
 
-      expect(res).toEqual(reply);
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/311884619589478?access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual({
+        name: 'kpman',
+        profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
+        id: '311884619589478',
+      });
     });
   });
 
   describe('#getAllPersonas', () => {
-    it('should call messages api to get all personas created', async () => {
+    it('should call messenger api to get all created personas', async () => {
       const { client, mock } = createMock();
 
       const cursor =
@@ -132,32 +152,32 @@ describe('persona api', () => {
       expect(res).toEqual([
         {
           name: '7',
-          profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+          profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
           id: '1007240332817468',
         },
         {
           name: '6',
-          profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+          profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
           id: '243523459665626',
         },
         {
           name: '5',
-          profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+          profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
           id: '313552169447330',
         },
         {
           name: '8',
-          profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+          profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
           id: '1007240332817468',
         },
         {
           name: '9',
-          profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+          profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
           id: '243523459665626',
         },
         {
           name: '10',
-          profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
+          profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
           id: '313552169447330',
         },
       ]);
@@ -207,7 +227,35 @@ describe('persona api', () => {
 
       const res = await client.getPersonas(cursor);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual({
+        data: [
+          {
+            name: '7',
+            profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
+            id: '1007240332817468',
+          },
+          {
+            name: '6',
+            profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
+            id: '243523459665626',
+          },
+          {
+            name: '5',
+            profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
+            id: '313552169447330',
+          },
+        ],
+        paging: {
+          cursors: {
+            before:
+              'QVFIUktTaXVuTUtsYUpVdFhlQjVhV2tRMU1jY0tRekU0d1NVTS1fZAGw4YmFYakU3ay1vRnlKbUh4VktROWxvazQzLXQzbm1YN0M3SHRKaVBGTTVCNFlyZAXBn',
+            after:
+              'QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
+          },
+          next:
+            'https://graph.facebook.com/v4.0/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
+        },
+      });
     });
   });
 
@@ -221,11 +269,17 @@ describe('persona api', () => {
         success: true,
       };
 
-      mock
-        .onDelete(`/${personaId}?access_token=${ACCESS_TOKEN}`)
-        .reply(200, reply);
+      let url;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
 
       const res = await client.deletePersona(personaId);
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/291604368115617?access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(reply);
     });

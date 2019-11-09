@@ -1,7 +1,7 @@
 import FormData from 'form-data';
-import invariant from 'invariant';
-import omit from 'lodash.omit';
-import warning from 'warning';
+import camelcaseKeys from 'camelcase-keys';
+import omit from 'lodash/omit';
+import snakecaseKeys from 'snakecase-keys';
 
 import {
   AirlineBoardingPassAttributes,
@@ -15,7 +15,6 @@ import {
   MediaAttachmentPayload,
   MediaElement,
   Message,
-  OpenGraphElement,
   QuickReply,
   ReceiptAttributes,
   TemplateAttachmentPayload,
@@ -23,53 +22,27 @@ import {
   TemplateElement,
 } from './MessengerTypes';
 
-function validateQuickReplies(quickReplies: QuickReply[]): void {
-  // quick_replies is limited to 11
-  invariant(
-    Array.isArray(quickReplies) && quickReplies.length <= 11,
-    'quick_replies is an array and limited to 11'
-  );
-
-  quickReplies.forEach(quickReply => {
-    if (quickReply.content_type === 'text') {
-      // title has a 20 character limit, after that it gets truncated
-      invariant(
-        quickReply.title && quickReply.title.trim().length <= 20,
-        'title of quick reply has a 20 character limit, after that it gets truncated'
-      );
-
-      // payload has a 1000 character limit
-      invariant(
-        quickReply.payload && quickReply.payload.length <= 1000,
-        'payload of quick reply has a 1000 character limit'
-      );
-    }
-  });
-}
-
 function createMessage(
-  msg: Message,
-  options: { quick_replies?: QuickReply[] } = {}
+  payload: Message,
+  options: { quickReplies?: QuickReply[] } = {}
 ): Message {
   const message = {
-    ...msg,
+    ...payload,
   };
 
-  if (
-    options.quick_replies &&
-    Array.isArray(options.quick_replies) &&
-    options.quick_replies.length >= 1
-  ) {
-    validateQuickReplies(options.quick_replies);
-    message.quick_replies = options.quick_replies;
+  // snakecase support for backward compatibility
+  const quickReplies = options.quickReplies || (options as any).quick_replies;
+
+  if (quickReplies && Array.isArray(quickReplies) && quickReplies.length >= 1) {
+    message.quickReplies = quickReplies;
   }
 
-  return message;
+  return camelcaseKeys(message, { deep: true });
 }
 
 function createText(
   text: string,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createMessage({ text }, options);
 }
@@ -77,28 +50,38 @@ function createText(
 function createMessageFormData(
   payload: FileDataMediaAttachmentMessage,
   filedata: FileData,
-  options: { quick_replies?: QuickReply[] } = {}
+  options: { quickReplies?: QuickReply[] } = {}
 ): FormData {
   const message: FileDataMediaAttachmentMessage = {
     ...payload,
   };
 
-  if (options.quick_replies) {
-    validateQuickReplies(options.quick_replies);
-    message.quick_replies = options.quick_replies;
+  // snakecase support for backward compatibility
+  const quickReplies = options.quickReplies || (options as any).quick_replies;
+
+  if (quickReplies && Array.isArray(quickReplies) && quickReplies.length >= 1) {
+    message.quickReplies = quickReplies;
   }
 
   const formdata = new FormData();
 
-  formdata.append('message', JSON.stringify(message));
-  formdata.append('filedata', filedata, omit(options, ['quick_replies']));
+  formdata.append(
+    'message',
+    JSON.stringify(snakecaseKeys(message, { deep: true }))
+  );
+  formdata.append(
+    'filedata',
+    filedata,
+    // FIXME: use pick for formdata options
+    omit(options, ['quickReplies'])
+  );
 
   return formdata;
 }
 
 function createAttachment(
   attachment: Attachment,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createMessage(
     {
@@ -111,7 +94,7 @@ function createAttachment(
 function createAttachmentFormData(
   attachment: FileDataMediaAttachment,
   filedata: FileData,
-  options = {}
+  options?: { quickReplies?: QuickReply[] }
 ): FormData {
   return createMessageFormData(
     {
@@ -124,7 +107,7 @@ function createAttachmentFormData(
 
 function createAudio(
   audio: string | MediaAttachmentPayload,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   if (typeof audio === 'string') {
     const attachment: Attachment = {
@@ -145,7 +128,7 @@ function createAudio(
 
 function createAudioFormData(
   audio: FileData,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'audio',
@@ -157,7 +140,7 @@ function createAudioFormData(
 
 function createImage(
   image: string | MediaAttachmentPayload,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   if (typeof image === 'string') {
     const attachment: Attachment = {
@@ -178,7 +161,7 @@ function createImage(
 
 function createImageFormData(
   image: FileData,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'image',
@@ -190,7 +173,7 @@ function createImageFormData(
 
 function createVideo(
   video: string | MediaAttachmentPayload,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   if (typeof video === 'string') {
     const attachment: Attachment = {
@@ -211,7 +194,7 @@ function createVideo(
 
 function createVideoFormData(
   video: FileData,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'video',
@@ -223,7 +206,7 @@ function createVideoFormData(
 
 function createFile(
   file: string | MediaAttachmentPayload,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   if (typeof file === 'string') {
     const attachment: Attachment = {
@@ -244,7 +227,7 @@ function createFile(
 
 function createFileFormData(
   file: FileData,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): FormData {
   const attachment: FileDataMediaAttachment = {
     type: 'file',
@@ -256,7 +239,7 @@ function createFileFormData(
 
 function createTemplate(
   payload: TemplateAttachmentPayload,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createAttachment(
     {
@@ -270,11 +253,11 @@ function createTemplate(
 function createButtonTemplate(
   text: string,
   buttons: TemplateButton[],
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'button',
+      templateType: 'button',
       text,
       buttons,
     },
@@ -285,47 +268,17 @@ function createButtonTemplate(
 function createGenericTemplate(
   elements: TemplateElement[],
   options: {
-    image_aspect_ratio?: 'horizontal' | 'square';
-    quick_replies?: QuickReply[];
+    imageAspectRatio?: 'horizontal' | 'square';
+    quickReplies?: QuickReply[];
   } = {}
 ): Message {
   return createTemplate(
     {
-      template_type: 'generic',
+      templateType: 'generic',
       elements,
-      image_aspect_ratio: options.image_aspect_ratio || 'horizontal',
-    },
-    options
-  );
-}
-
-function createListTemplate(
-  elements: TemplateElement[],
-  buttons: TemplateButton[],
-  options: {
-    top_element_style?: 'large' | 'compact';
-    quick_replies?: QuickReply[];
-  } = {}
-): Message {
-  return createTemplate(
-    {
-      template_type: 'list',
-      elements,
-      buttons,
-      top_element_style: options.top_element_style || 'large',
-    },
-    options
-  );
-}
-
-function createOpenGraphTemplate(
-  elements: OpenGraphElement[],
-  options: { quick_replies?: QuickReply[] } = {}
-): Message {
-  return createTemplate(
-    {
-      template_type: 'open_graph',
-      elements,
+      ...(options.imageAspectRatio
+        ? { imageAspectRatio: options.imageAspectRatio }
+        : {}),
     },
     options
   );
@@ -333,11 +286,11 @@ function createOpenGraphTemplate(
 
 function createMediaTemplate(
   elements: MediaElement[],
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'media',
+      templateType: 'media',
       elements,
     },
     options
@@ -346,11 +299,11 @@ function createMediaTemplate(
 
 function createReceiptTemplate(
   attrs: ReceiptAttributes,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'receipt',
+      templateType: 'receipt',
       ...attrs,
     },
     options
@@ -359,11 +312,11 @@ function createReceiptTemplate(
 
 function createAirlineBoardingPassTemplate(
   attrs: AirlineBoardingPassAttributes,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'airline_boardingpass',
+      templateType: 'airline_boardingpass',
       ...attrs,
     },
     options
@@ -372,11 +325,11 @@ function createAirlineBoardingPassTemplate(
 
 function createAirlineCheckinTemplate(
   attrs: AirlineCheckinAttributes,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'airline_checkin',
+      templateType: 'airline_checkin',
       ...attrs,
     },
     options
@@ -385,11 +338,11 @@ function createAirlineCheckinTemplate(
 
 function createAirlineItineraryTemplate(
   attrs: AirlineItineraryAttributes,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'airline_itinerary',
+      templateType: 'airline_itinerary',
       ...attrs,
     },
     options
@@ -398,26 +351,15 @@ function createAirlineItineraryTemplate(
 
 function createAirlineUpdateTemplate(
   attrs: AirlineUpdateAttributes,
-  options: { quick_replies?: QuickReply[] } = {}
+  options?: { quickReplies?: QuickReply[] }
 ): Message {
   return createTemplate(
     {
-      template_type: 'airline_update',
+      templateType: 'airline_update',
       ...attrs,
     },
     options
   );
-}
-
-function deprecated(name: string, fn: Function): (...args: any[]) => any {
-  return (...args): any => {
-    warning(
-      false,
-      `\`Messenger.${name}\` is deprecated. Use \`Messenger.${fn.name}\` instead.`
-    );
-
-    return fn(...args);
-  };
 }
 
 const Messenger = {
@@ -435,12 +377,6 @@ const Messenger = {
   createTemplate,
   createButtonTemplate,
   createGenericTemplate,
-  createListTemplate: deprecated('createListTemplate', createListTemplate),
-  createOpenGraphTemplate: deprecated(
-    'createOpenGraphTemplate',
-    createOpenGraphTemplate
-  ),
-
   createMediaTemplate,
   createReceiptTemplate,
   createAirlineBoardingPassTemplate,

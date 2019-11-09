@@ -7,7 +7,7 @@ describe('sendRequest', () => {
   it('should create send text request', () => {
     expect(
       MessengerBatch.sendRequest({
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -17,9 +17,9 @@ describe('sendRequest', () => {
       })
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -34,7 +34,7 @@ describe('sendRequest', () => {
     expect(
       MessengerBatch.sendRequest(
         {
-          messaging_type: 'UPDATE',
+          messagingType: 'UPDATE',
           message: {
             text: 'Hello',
           },
@@ -44,14 +44,14 @@ describe('sendRequest', () => {
         },
         {
           name: 'second',
-          depends_on: 'first',
+          dependsOn: 'first',
         }
       )
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -60,7 +60,7 @@ describe('sendRequest', () => {
         },
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -70,9 +70,9 @@ describe('sendMessage', () => {
     expect(MessengerBatch.sendMessage(RECIPIENT_ID, { text: 'Hello' })).toEqual(
       {
         method: 'POST',
-        relative_url: 'me/messages',
+        relativeUrl: 'me/messages',
         body: {
-          messaging_type: 'UPDATE',
+          messagingType: 'UPDATE',
           message: {
             text: 'Hello',
           },
@@ -89,13 +89,13 @@ describe('sendMessage', () => {
       MessengerBatch.sendMessage(
         RECIPIENT_ID,
         { text: 'Hello' },
-        { messaging_type: 'RESPONSE' }
+        { messagingType: 'RESPONSE' }
       )
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'RESPONSE',
+        messagingType: 'RESPONSE',
         message: {
           text: 'Hello',
         },
@@ -110,22 +110,22 @@ describe('sendMessage', () => {
     expect(
       MessengerBatch.sendMessage(
         {
-          phone_number: '+1(212)555-2368',
-          name: { first_name: 'John', last_name: 'Doe' },
+          phoneNumber: '+1(212)555-2368',
+          name: { firstName: 'John', lastName: 'Doe' },
         },
         { text: 'Hello' }
       )
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           text: 'Hello',
         },
         recipient: {
-          phone_number: '+1(212)555-2368',
-          name: { first_name: 'John', last_name: 'Doe' },
+          phoneNumber: '+1(212)555-2368',
+          name: { firstName: 'John', lastName: 'Doe' },
         },
       },
     });
@@ -137,11 +137,11 @@ describe('sendMessage', () => {
         RECIPIENT_ID,
         { text: 'Hello' },
         {
-          messaging_type: 'RESPONSE',
-          access_token: undefined,
+          messagingType: 'RESPONSE',
+          accessToken: undefined,
         }
       )
-    ).not.toHaveProperty('body.access_token');
+    ).not.toHaveProperty('body.accessToken');
   });
 
   it('should support specifying dependencies between operations', () => {
@@ -151,14 +151,14 @@ describe('sendMessage', () => {
         { text: 'Hello' },
         {
           name: 'second',
-          depends_on: 'first',
+          dependsOn: 'first',
         }
       )
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -167,7 +167,7 @@ describe('sendMessage', () => {
         },
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -176,9 +176,9 @@ describe('sendText', () => {
   it('should create send text request', () => {
     expect(MessengerBatch.sendText(RECIPIENT_ID, 'Hello')).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           text: 'Hello',
         },
@@ -201,9 +201,9 @@ describe('sendAttachment', () => {
       })
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'image',
@@ -223,9 +223,9 @@ describe('sendAttachment', () => {
 describe('sendAudio', () => {
   const request = {
     method: 'POST',
-    relative_url: 'me/messages',
+    relativeUrl: 'me/messages',
     body: {
-      messaging_type: 'UPDATE',
+      messagingType: 'UPDATE',
       message: {
         attachment: {
           type: 'audio',
@@ -257,9 +257,9 @@ describe('sendAudio', () => {
 describe('sendImage', () => {
   const request = {
     method: 'POST',
-    relative_url: 'me/messages',
+    relativeUrl: 'me/messages',
     body: {
-      messaging_type: 'UPDATE',
+      messagingType: 'UPDATE',
       message: {
         attachment: {
           type: 'image',
@@ -291,9 +291,9 @@ describe('sendImage', () => {
 describe('sendVideo', () => {
   const request = {
     method: 'POST',
-    relative_url: 'me/messages',
+    relativeUrl: 'me/messages',
     body: {
-      messaging_type: 'UPDATE',
+      messagingType: 'UPDATE',
       message: {
         attachment: {
           type: 'video',
@@ -325,9 +325,9 @@ describe('sendVideo', () => {
 describe('sendFile', () => {
   const request = {
     method: 'POST',
-    relative_url: 'me/messages',
+    relativeUrl: 'me/messages',
     body: {
-      messaging_type: 'UPDATE',
+      messagingType: 'UPDATE',
       message: {
         attachment: {
           type: 'file',
@@ -360,7 +360,7 @@ describe('sendTemplate', () => {
   it('should create send template request', () => {
     expect(
       MessengerBatch.sendTemplate(RECIPIENT_ID, {
-        template_type: 'button',
+        templateType: 'button',
         text: 'title',
         buttons: [
           {
@@ -372,14 +372,14 @@ describe('sendTemplate', () => {
       })
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'button',
+              templateType: 'button',
               text: 'title',
               buttons: [
                 {
@@ -411,14 +411,14 @@ describe('sendButtonTemplate', () => {
       ])
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'button',
+              templateType: 'button',
               text: 'title',
               buttons: [
                 {
@@ -442,14 +442,14 @@ describe('sendGenericTemplate', () => {
   const elements = [
     {
       title: "Welcome to Peter's Hats",
-      image_url: 'https://petersfancybrownhats.com/company_image.png',
+      imageUrl: 'https://petersfancybrownhats.com/company_image.png',
       subtitle: "We've got the right hat for everyone.",
-      default_action: {
+      defaultAction: {
         type: 'web_url',
         url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-        messenger_extensions: true,
-        webview_height_ratio: 'tall',
-        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+        messengerExtensions: true,
+        webviewHeightRatio: 'tall',
+        fallbackUrl: 'https://peterssendreceiveapp.ngrok.io/',
       },
       buttons: [
         {
@@ -463,115 +463,16 @@ describe('sendGenericTemplate', () => {
   it('should create send generic template request', () => {
     expect(MessengerBatch.sendGenericTemplate(RECIPIENT_ID, elements)).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'generic',
+              templateType: 'generic',
               elements,
-              image_aspect_ratio: 'horizontal',
-            },
-          },
-        },
-        recipient: {
-          id: RECIPIENT_ID,
-        },
-      },
-    });
-  });
-});
-
-describe('sendListTemplate', () => {
-  const elements = [
-    {
-      title: 'Classic T-Shirt Collection',
-      image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
-      subtitle: 'See all our colors',
-      default_action: {
-        type: 'web_url',
-        url: 'https://peterssendreceiveapp.ngrok.io/shop_collection',
-        messenger_extensions: true,
-        webview_height_ratio: 'tall',
-        fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-      },
-      buttons: [
-        {
-          title: 'View',
-          type: 'web_url',
-          url: 'https://peterssendreceiveapp.ngrok.io/collection',
-          messenger_extensions: true,
-          webview_height_ratio: 'tall',
-          fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-        },
-      ],
-    },
-  ];
-  const buttons = [
-    {
-      type: 'postback',
-      title: 'Start Chatting',
-      payload: 'USER_DEFINED_PAYLOAD',
-    },
-  ];
-  it('should create send list template request', () => {
-    expect(
-      MessengerBatch.sendListTemplate(RECIPIENT_ID, elements, buttons, {
-        top_element_style: 'compact',
-      })
-    ).toEqual({
-      method: 'POST',
-      relative_url: 'me/messages',
-      body: {
-        messaging_type: 'UPDATE',
-        message: {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'list',
-              elements,
-              buttons,
-              top_element_style: 'compact',
-            },
-          },
-        },
-        recipient: {
-          id: RECIPIENT_ID,
-        },
-      },
-    });
-  });
-});
-
-describe('sendOpenGraphTemplate', () => {
-  const elements = [
-    {
-      url: 'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb',
-      buttons: [
-        {
-          type: 'web_url',
-          url: 'https://en.wikipedia.org/wiki/Rickrolling',
-          title: 'View More',
-        },
-      ],
-    },
-  ];
-  it('should create send open graph template request', () => {
-    expect(
-      MessengerBatch.sendOpenGraphTemplate(RECIPIENT_ID, elements)
-    ).toEqual({
-      method: 'POST',
-      relative_url: 'me/messages',
-      body: {
-        messaging_type: 'UPDATE',
-        message: {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'open_graph',
-              elements,
+              imageAspectRatio: 'horizontal',
             },
           },
         },
@@ -585,11 +486,11 @@ describe('sendOpenGraphTemplate', () => {
 
 describe('sendReceiptTemplate', () => {
   const receipt = {
-    recipient_name: 'Stephane Crozatier',
-    order_number: '12345678902',
+    recipientName: 'Stephane Crozatier',
+    orderNumber: '12345678902',
     currency: 'USD',
-    payment_method: 'Visa 2345',
-    order_url: 'http://petersapparel.parseapp.com/order?order_id=123456',
+    paymentMethod: 'Visa 2345',
+    orderUrl: 'http://petersapparel.parseapp.com/order?order_id=123456',
     timestamp: '1428444852',
     elements: [
       {
@@ -598,7 +499,7 @@ describe('sendReceiptTemplate', () => {
         quantity: 2,
         price: 50,
         currency: 'USD',
-        image_url: 'http://petersapparel.parseapp.com/img/whiteshirt.png',
+        imageUrl: 'http://petersapparel.parseapp.com/img/whiteshirt.png',
       },
       {
         title: 'Classic Gray T-Shirt',
@@ -606,22 +507,22 @@ describe('sendReceiptTemplate', () => {
         quantity: 1,
         price: 25,
         currency: 'USD',
-        image_url: 'http://petersapparel.parseapp.com/img/grayshirt.png',
+        imageUrl: 'http://petersapparel.parseapp.com/img/grayshirt.png',
       },
     ],
     address: {
-      street_1: '1 Hacker Way',
-      street_2: '',
+      street1: '1 Hacker Way',
+      street2: '',
       city: 'Menlo Park',
-      postal_code: '94025',
+      postalCode: '94025',
       state: 'CA',
       country: 'US',
     },
     summary: {
       subtotal: 75.0,
-      shipping_cost: 4.95,
-      total_tax: 6.19,
-      total_cost: 56.14,
+      shippingCost: 4.95,
+      totalTax: 6.19,
+      totalCost: 56.14,
     },
     adjustments: [
       {
@@ -637,14 +538,14 @@ describe('sendReceiptTemplate', () => {
   it('should create send receipt template request', () => {
     expect(MessengerBatch.sendReceiptTemplate(RECIPIENT_ID, receipt)).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'receipt',
+              templateType: 'receipt',
               ...receipt,
             },
           },
@@ -660,8 +561,8 @@ describe('sendReceiptTemplate', () => {
 describe('sendMediaTemplate', () => {
   const elements = [
     {
-      media_type: 'image',
-      attachment_id: '1854626884821032',
+      mediaType: 'image',
+      attachmentId: '1854626884821032',
       buttons: [
         {
           type: 'web_url',
@@ -674,14 +575,14 @@ describe('sendMediaTemplate', () => {
   it('should create send media template request', () => {
     expect(MessengerBatch.sendMediaTemplate(RECIPIENT_ID, elements)).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'media',
+              templateType: 'media',
               elements,
             },
           },
@@ -696,15 +597,15 @@ describe('sendMediaTemplate', () => {
 
 describe('sendAirlineBoardingPassTemplate', () => {
   const attrs = {
-    intro_message: 'You are checked in.',
+    introMessage: 'You are checked in.',
     locale: 'en_US',
-    boarding_pass: [
+    boardingPass: [
       {
-        passenger_name: 'SMITH/NICOLAS',
-        pnr_number: 'CG4X7U',
-        travel_class: 'business',
+        passengerName: 'SMITH/NICOLAS',
+        pnrNumber: 'CG4X7U',
+        travelClass: 'business',
         seat: '74J',
-        auxiliary_fields: [
+        auxiliaryFields: [
           {
             label: 'Terminal',
             value: 'T1',
@@ -714,7 +615,7 @@ describe('sendAirlineBoardingPassTemplate', () => {
             value: '30OCT 19:05',
           },
         ],
-        secondary_fields: [
+        secondaryFields: [
           {
             label: 'Boarding',
             value: '18:30',
@@ -732,34 +633,34 @@ describe('sendAirlineBoardingPassTemplate', () => {
             value: '003',
           },
         ],
-        logo_image_url: 'https://www.example.com/en/logo.png',
-        header_image_url: 'https://www.example.com/en/fb/header.png',
-        qr_code: 'M1SMITH/NICOLAS  CG4X7U nawouehgawgnapwi3jfa0wfh',
-        above_bar_code_image_url: 'https://www.example.com/en/PLAT.png',
-        flight_info: {
-          flight_number: 'KL0642',
-          departure_airport: {
-            airport_code: 'JFK',
+        logoImageUrl: 'https://www.example.com/en/logo.png',
+        headerImageUrl: 'https://www.example.com/en/fb/header.png',
+        qrCode: 'M1SMITH/NICOLAS  CG4X7U nawouehgawgnapwi3jfa0wfh',
+        aboveBarCodeImageUrl: 'https://www.example.com/en/PLAT.png',
+        flightInfo: {
+          flightNumber: 'KL0642',
+          departureAirport: {
+            airportCode: 'JFK',
             city: 'New York',
             terminal: 'T1',
             gate: 'D57',
           },
-          arrival_airport: {
-            airport_code: 'AMS',
+          arrivalAirport: {
+            airportCode: 'AMS',
             city: 'Amsterdam',
           },
-          flight_schedule: {
-            departure_time: '2016-01-02T19:05',
-            arrival_time: '2016-01-05T17:30',
+          flightSchedule: {
+            departureTime: '2016-01-02T19:05',
+            arrivalTime: '2016-01-05T17:30',
           },
         },
       },
       {
-        passenger_name: 'JONES/FARBOUND',
-        pnr_number: 'CG4X7U',
-        travel_class: 'business',
+        passengerName: 'JONES/FARBOUND',
+        pnrNumber: 'CG4X7U',
+        travelClass: 'business',
         seat: '74K',
-        auxiliary_fields: [
+        auxiliaryFields: [
           {
             label: 'Terminal',
             value: 'T1',
@@ -769,7 +670,7 @@ describe('sendAirlineBoardingPassTemplate', () => {
             value: '30OCT 19:05',
           },
         ],
-        secondary_fields: [
+        secondaryFields: [
           {
             label: 'Boarding',
             value: '18:30',
@@ -787,25 +688,25 @@ describe('sendAirlineBoardingPassTemplate', () => {
             value: '004',
           },
         ],
-        logo_image_url: 'https://www.example.com/en/logo.png',
-        header_image_url: 'https://www.example.com/en/fb/header.png',
-        qr_code: 'M1JONES/FARBOUND  CG4X7U nawouehgawgnapwi3jfa0wfh',
-        above_bar_code_image_url: 'https://www.example.com/en/PLAT.png',
-        flight_info: {
-          flight_number: 'KL0642',
-          departure_airport: {
-            airport_code: 'JFK',
+        logoImageUrl: 'https://www.example.com/en/logo.png',
+        headerImageUrl: 'https://www.example.com/en/fb/header.png',
+        qrCode: 'M1JONES/FARBOUND  CG4X7U nawouehgawgnapwi3jfa0wfh',
+        aboveBarCodeImageUrl: 'https://www.example.com/en/PLAT.png',
+        flightInfo: {
+          flightNumber: 'KL0642',
+          departureAirport: {
+            airportCode: 'JFK',
             city: 'New York',
             terminal: 'T1',
             gate: 'D57',
           },
-          arrival_airport: {
-            airport_code: 'AMS',
+          arrivalAirport: {
+            airportCode: 'AMS',
             city: 'Amsterdam',
           },
-          flight_schedule: {
-            departure_time: '2016-01-02T19:05',
-            arrival_time: '2016-01-05T17:30',
+          flightSchedule: {
+            departureTime: '2016-01-02T19:05',
+            arrivalTime: '2016-01-05T17:30',
           },
         },
       },
@@ -816,14 +717,14 @@ describe('sendAirlineBoardingPassTemplate', () => {
       MessengerBatch.sendAirlineBoardingPassTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'airline_boardingpass',
+              templateType: 'airline_boardingpass',
               ...attrs,
             },
           },
@@ -838,46 +739,46 @@ describe('sendAirlineBoardingPassTemplate', () => {
 
 describe('sendAirlineCheckinTemplate', () => {
   const attrs = {
-    intro_message: 'Check-in is available now.',
+    introMessage: 'Check-in is available now.',
     locale: 'en_US',
-    pnr_number: 'ABCDEF',
-    flight_info: [
+    pnrNumber: 'ABCDEF',
+    flightInfo: [
       {
-        flight_number: 'f001',
-        departure_airport: {
-          airport_code: 'SFO',
+        flightNumber: 'f001',
+        departureAirport: {
+          airportCode: 'SFO',
           city: 'San Francisco',
           terminal: 'T4',
           gate: 'G8',
         },
-        arrival_airport: {
-          airport_code: 'SEA',
+        arrivalAirport: {
+          airportCode: 'SEA',
           city: 'Seattle',
           terminal: 'T4',
           gate: 'G8',
         },
-        flight_schedule: {
-          boarding_time: '2016-01-05T15:05',
-          departure_time: '2016-01-05T15:45',
-          arrival_time: '2016-01-05T17:30',
+        flightSchedule: {
+          boardingTime: '2016-01-05T15:05',
+          departureTime: '2016-01-05T15:45',
+          arrivalTime: '2016-01-05T17:30',
         },
       },
     ],
-    checkin_url: 'https://www.airline.com/check-in',
+    checkinUrl: 'https://www.airline.com/check-in',
   };
   it('should create send airline checkin template request', () => {
     expect(
       MessengerBatch.sendAirlineCheckinTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'airline_checkin',
+              templateType: 'airline_checkin',
               ...attrs,
             },
           },
@@ -892,88 +793,88 @@ describe('sendAirlineCheckinTemplate', () => {
 
 describe('sendAirlineItineraryTemplate', () => {
   const attrs = {
-    intro_message: "Here's your flight itinerary.",
+    introMessage: "Here's your flight itinerary.",
     locale: 'en_US',
-    pnr_number: 'ABCDEF',
-    passenger_info: [
+    pnrNumber: 'ABCDEF',
+    passengerInfo: [
       {
         name: 'Farbound Smith Jr',
-        ticket_number: '0741234567890',
-        passenger_id: 'p001',
+        ticketNumber: '0741234567890',
+        passengerId: 'p001',
       },
       {
         name: 'Nick Jones',
-        ticket_number: '0741234567891',
-        passenger_id: 'p002',
+        ticketNumber: '0741234567891',
+        passengerId: 'p002',
       },
     ],
-    flight_info: [
+    flightInfo: [
       {
-        connection_id: 'c001',
-        segment_id: 's001',
-        flight_number: 'KL9123',
-        aircraft_type: 'Boeing 737',
-        departure_airport: {
-          airport_code: 'SFO',
+        connectionId: 'c001',
+        segmentId: 's001',
+        flightNumber: 'KL9123',
+        aircraftType: 'Boeing 737',
+        departureAirport: {
+          airportCode: 'SFO',
           city: 'San Francisco',
           terminal: 'T4',
           gate: 'G8',
         },
-        arrival_airport: {
-          airport_code: 'SLC',
+        arrivalAirport: {
+          airportCode: 'SLC',
           city: 'Salt Lake City',
           terminal: 'T4',
           gate: 'G8',
         },
-        flight_schedule: {
-          departure_time: '2016-01-02T19:45',
-          arrival_time: '2016-01-02T21:20',
+        flightSchedule: {
+          departureTime: '2016-01-02T19:45',
+          arrivalTime: '2016-01-02T21:20',
         },
-        travel_class: 'business',
+        travelClass: 'business',
       },
       {
-        connection_id: 'c002',
-        segment_id: 's002',
-        flight_number: 'KL321',
-        aircraft_type: 'Boeing 747-200',
-        travel_class: 'business',
-        departure_airport: {
-          airport_code: 'SLC',
+        connectionId: 'c002',
+        segmentId: 's002',
+        flightNumber: 'KL321',
+        aircraftType: 'Boeing 747-200',
+        travelClass: 'business',
+        departureAirport: {
+          airportCode: 'SLC',
           city: 'Salt Lake City',
           terminal: 'T1',
           gate: 'G33',
         },
-        arrival_airport: {
-          airport_code: 'AMS',
+        arrivalAirport: {
+          airportCode: 'AMS',
           city: 'Amsterdam',
           terminal: 'T1',
           gate: 'G33',
         },
-        flight_schedule: {
-          departure_time: '2016-01-02T22:45',
-          arrival_time: '2016-01-03T17:20',
+        flightSchedule: {
+          departureTime: '2016-01-02T22:45',
+          arrivalTime: '2016-01-03T17:20',
         },
       },
     ],
-    passenger_segment_info: [
+    passengerSegmentInfo: [
       {
-        segment_id: 's001',
-        passenger_id: 'p001',
+        segmentId: 's001',
+        passengerId: 'p001',
         seat: '12A',
-        seat_type: 'Business',
+        seatType: 'Business',
       },
       {
-        segment_id: 's001',
-        passenger_id: 'p002',
+        segmentId: 's001',
+        passengerId: 'p002',
         seat: '12B',
-        seat_type: 'Business',
+        seatType: 'Business',
       },
       {
-        segment_id: 's002',
-        passenger_id: 'p001',
+        segmentId: 's002',
+        passengerId: 'p001',
         seat: '73A',
-        seat_type: 'World Business',
-        product_info: [
+        seatType: 'World Business',
+        productInfo: [
           {
             title: 'Lounge',
             value: 'Complimentary lounge access',
@@ -985,11 +886,11 @@ describe('sendAirlineItineraryTemplate', () => {
         ],
       },
       {
-        segment_id: 's002',
-        passenger_id: 'p002',
+        segmentId: 's002',
+        passengerId: 'p002',
         seat: '73B',
-        seat_type: 'World Business',
-        product_info: [
+        seatType: 'World Business',
+        productInfo: [
           {
             title: 'Lounge',
             value: 'Complimentary lounge access',
@@ -1001,16 +902,16 @@ describe('sendAirlineItineraryTemplate', () => {
         ],
       },
     ],
-    price_info: [
+    priceInfo: [
       {
         title: 'Fuel surcharge',
         amount: '1597',
         currency: 'USD',
       },
     ],
-    base_price: '12206',
+    basePrice: '12206',
     tax: '200',
-    total_price: '14003',
+    totalPrice: '14003',
     currency: 'USD',
   };
   it('should create send airline itinerary template request', () => {
@@ -1018,14 +919,14 @@ describe('sendAirlineItineraryTemplate', () => {
       MessengerBatch.sendAirlineItineraryTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'airline_itinerary',
+              templateType: 'airline_itinerary',
               ...attrs,
             },
           },
@@ -1040,28 +941,28 @@ describe('sendAirlineItineraryTemplate', () => {
 
 describe('sendAirlineUpdateTemplate', () => {
   const attrs = {
-    intro_message: 'Your flight is delayed',
-    update_type: 'delay',
+    introMessage: 'Your flight is delayed',
+    updateType: 'delay',
     locale: 'en_US',
-    pnr_number: 'CF23G2',
-    update_flight_info: {
-      flight_number: 'KL123',
-      departure_airport: {
-        airport_code: 'SFO',
+    pnrNumber: 'CF23G2',
+    updateFlightInfo: {
+      flightNumber: 'KL123',
+      departureAirport: {
+        airportCode: 'SFO',
         city: 'San Francisco',
         terminal: 'T4',
         gate: 'G8',
       },
-      arrival_airport: {
-        airport_code: 'AMS',
+      arrivalAirport: {
+        airportCode: 'AMS',
         city: 'Amsterdam',
         terminal: 'T4',
         gate: 'G8',
       },
-      flight_schedule: {
-        boarding_time: '2015-12-26T10:30',
-        departure_time: '2015-12-26T11:30',
-        arrival_time: '2015-12-27T07:30',
+      flightSchedule: {
+        boardingTime: '2015-12-26T10:30',
+        departureTime: '2015-12-26T11:30',
+        arrivalTime: '2015-12-27T07:30',
       },
     },
   };
@@ -1070,14 +971,14 @@ describe('sendAirlineUpdateTemplate', () => {
       MessengerBatch.sendAirlineUpdateTemplate(RECIPIENT_ID, attrs)
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
-        messaging_type: 'UPDATE',
+        messagingType: 'UPDATE',
         message: {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'airline_update',
+              templateType: 'airline_update',
               ...attrs,
             },
           },
@@ -1094,7 +995,7 @@ describe('getUserProfile', () => {
   it('should create get user profile request', () => {
     expect(MessengerBatch.getUserProfile(RECIPIENT_ID)).toEqual({
       method: 'GET',
-      relative_url: RECIPIENT_ID,
+      relativeUrl: RECIPIENT_ID,
     });
   });
 
@@ -1102,13 +1003,13 @@ describe('getUserProfile', () => {
     expect(
       MessengerBatch.getUserProfile(RECIPIENT_ID, {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'GET',
-      relative_url: RECIPIENT_ID,
+      relativeUrl: RECIPIENT_ID,
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1117,12 +1018,12 @@ describe('sendSenderAction', () => {
   it('should create send sender action request', () => {
     expect(MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on')).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
         recipient: {
           id: RECIPIENT_ID,
         },
-        sender_action: 'typing_on',
+        senderAction: 'typing_on',
       },
     });
   });
@@ -1131,19 +1032,19 @@ describe('sendSenderAction', () => {
     expect(
       MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on', {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
         recipient: {
           id: RECIPIENT_ID,
         },
-        sender_action: 'typing_on',
+        senderAction: 'typing_on',
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1152,12 +1053,12 @@ describe('typingOn', () => {
   it('should create send typing on request', () => {
     expect(MessengerBatch.typingOn(RECIPIENT_ID)).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
         recipient: {
           id: RECIPIENT_ID,
         },
-        sender_action: 'typing_on',
+        senderAction: 'typing_on',
       },
     });
   });
@@ -1167,12 +1068,12 @@ describe('typingOff', () => {
   it('should create send typing off request', () => {
     expect(MessengerBatch.typingOff(RECIPIENT_ID)).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
         recipient: {
           id: RECIPIENT_ID,
         },
-        sender_action: 'typing_off',
+        senderAction: 'typing_off',
       },
     });
   });
@@ -1182,12 +1083,12 @@ describe('markSeen', () => {
   it('should create send mark seen request', () => {
     expect(MessengerBatch.markSeen(RECIPIENT_ID)).toEqual({
       method: 'POST',
-      relative_url: 'me/messages',
+      relativeUrl: 'me/messages',
       body: {
         recipient: {
           id: RECIPIENT_ID,
         },
-        sender_action: 'mark_seen',
+        senderAction: 'mark_seen',
       },
     });
   });
@@ -1203,10 +1104,10 @@ describe('passThreadControl', () => {
       )
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/pass_thread_control',
+      relativeUrl: 'me/pass_thread_control',
       body: {
         recipient: { id: RECIPIENT_ID },
-        target_app_id: 263902037430900,
+        targetAppId: 263902037430900,
         metadata: 'something',
       },
     });
@@ -1220,19 +1121,19 @@ describe('passThreadControl', () => {
         'something',
         {
           name: 'second',
-          depends_on: 'first',
+          dependsOn: 'first',
         }
       )
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/pass_thread_control',
+      relativeUrl: 'me/pass_thread_control',
       body: {
         recipient: { id: RECIPIENT_ID },
-        target_app_id: 263902037430900,
+        targetAppId: 263902037430900,
         metadata: 'something',
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1243,10 +1144,10 @@ describe('passThreadControlToPageInbox', () => {
       MessengerBatch.passThreadControlToPageInbox(RECIPIENT_ID, 'something')
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/pass_thread_control',
+      relativeUrl: 'me/pass_thread_control',
       body: {
         recipient: { id: RECIPIENT_ID },
-        target_app_id: 263902037430900,
+        targetAppId: 263902037430900,
         metadata: 'something',
       },
     });
@@ -1258,7 +1159,7 @@ describe('takeThreadControl', () => {
     expect(MessengerBatch.takeThreadControl(RECIPIENT_ID, 'something')).toEqual(
       {
         method: 'POST',
-        relative_url: 'me/take_thread_control',
+        relativeUrl: 'me/take_thread_control',
         body: {
           recipient: { id: RECIPIENT_ID },
           metadata: 'something',
@@ -1271,17 +1172,17 @@ describe('takeThreadControl', () => {
     expect(
       MessengerBatch.takeThreadControl(RECIPIENT_ID, 'something', {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/take_thread_control',
+      relativeUrl: 'me/take_thread_control',
       body: {
         recipient: { id: RECIPIENT_ID },
         metadata: 'something',
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1292,7 +1193,7 @@ describe('requestThreadControl', () => {
       MessengerBatch.requestThreadControl(RECIPIENT_ID, 'something')
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/request_thread_control',
+      relativeUrl: 'me/request_thread_control',
       body: {
         recipient: { id: RECIPIENT_ID },
         metadata: 'something',
@@ -1304,17 +1205,17 @@ describe('requestThreadControl', () => {
     expect(
       MessengerBatch.requestThreadControl(RECIPIENT_ID, 'something', {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'POST',
-      relative_url: 'me/request_thread_control',
+      relativeUrl: 'me/request_thread_control',
       body: {
         recipient: { id: RECIPIENT_ID },
         metadata: 'something',
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1323,8 +1224,8 @@ describe('getThreadOwner', () => {
   it('should create get thread owner request', () => {
     expect(MessengerBatch.getThreadOwner(RECIPIENT_ID)).toEqual({
       method: 'GET',
-      relative_url: 'me/thread_owner?recipient=1QAZ2WSX',
-      responseAccessPath: 'data[0].thread_owner',
+      relativeUrl: 'me/thread_owner?recipient=1QAZ2WSX',
+      responseAccessPath: 'data[0].threadOwner',
     });
   });
 
@@ -1332,14 +1233,14 @@ describe('getThreadOwner', () => {
     expect(
       MessengerBatch.getThreadOwner(RECIPIENT_ID, {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'GET',
-      relative_url: 'me/thread_owner?recipient=1QAZ2WSX',
-      responseAccessPath: 'data[0].thread_owner',
+      relativeUrl: 'me/thread_owner?recipient=1QAZ2WSX',
+      responseAccessPath: 'data[0].threadOwner',
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1348,7 +1249,7 @@ describe('associateLabel', () => {
   it('should create associate label request', () => {
     expect(MessengerBatch.associateLabel(RECIPIENT_ID, LABEL_ID)).toEqual({
       method: 'POST',
-      relative_url: `${LABEL_ID}/label`,
+      relativeUrl: `${LABEL_ID}/label`,
       body: {
         user: RECIPIENT_ID,
       },
@@ -1359,16 +1260,16 @@ describe('associateLabel', () => {
     expect(
       MessengerBatch.associateLabel(RECIPIENT_ID, LABEL_ID, {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'POST',
-      relative_url: `${LABEL_ID}/label`,
+      relativeUrl: `${LABEL_ID}/label`,
       body: {
         user: RECIPIENT_ID,
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1377,7 +1278,7 @@ describe('dissociateLabel', () => {
   it('should create dissociate label request', () => {
     expect(MessengerBatch.dissociateLabel(RECIPIENT_ID, LABEL_ID)).toEqual({
       method: 'DELETE',
-      relative_url: `${LABEL_ID}/label`,
+      relativeUrl: `${LABEL_ID}/label`,
       body: {
         user: RECIPIENT_ID,
       },
@@ -1388,16 +1289,16 @@ describe('dissociateLabel', () => {
     expect(
       MessengerBatch.dissociateLabel(RECIPIENT_ID, LABEL_ID, {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'DELETE',
-      relative_url: `${LABEL_ID}/label`,
+      relativeUrl: `${LABEL_ID}/label`,
       body: {
         user: RECIPIENT_ID,
       },
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });
@@ -1406,7 +1307,7 @@ describe('getAssociatedLabels', () => {
   it('should create get associated labels request', () => {
     expect(MessengerBatch.getAssociatedLabels(RECIPIENT_ID)).toEqual({
       method: 'GET',
-      relative_url: `${RECIPIENT_ID}/custom_labels`,
+      relativeUrl: `${RECIPIENT_ID}/custom_labels`,
     });
   });
 
@@ -1414,13 +1315,13 @@ describe('getAssociatedLabels', () => {
     expect(
       MessengerBatch.getAssociatedLabels(RECIPIENT_ID, {
         name: 'second',
-        depends_on: 'first',
+        dependsOn: 'first',
       })
     ).toEqual({
       method: 'GET',
-      relative_url: `${RECIPIENT_ID}/custom_labels`,
+      relativeUrl: `${RECIPIENT_ID}/custom_labels`,
       name: 'second',
-      depends_on: 'first',
+      dependsOn: 'first',
     });
   });
 });

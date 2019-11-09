@@ -7,7 +7,7 @@ export type RecipientWithID = {
 };
 
 export type RecipientWithPhoneNumber = {
-  phone_number: string;
+  phoneNumber: string;
   name?: Record<string, any>;
 };
 
@@ -15,11 +15,11 @@ export type Recipient = RecipientWithID | RecipientWithPhoneNumber;
 
 export type UrlMediaAttachmentPayload = {
   url: string;
-  is_reusable?: boolean;
+  isReusable?: boolean;
 };
 
 export type AttachmentIdAttachmentPayload = {
-  attachment_id: string;
+  attachmentId: string;
 };
 
 export type MediaAttachmentPayload =
@@ -29,7 +29,7 @@ export type MediaAttachmentPayload =
 export type MediaAttachmentType = 'audio' | 'video' | 'image' | 'file';
 
 export type FileDataAttachmentPayload = {
-  is_reusable?: boolean;
+  isReusable?: boolean;
 };
 
 export type FileDataMediaAttachment = {
@@ -39,7 +39,7 @@ export type FileDataMediaAttachment = {
 
 export type FileDataMediaAttachmentMessage = {
   attachment: FileDataMediaAttachment;
-  quick_replies?: QuickReply[];
+  quickReplies?: QuickReply[];
 };
 
 export type MediaAttachment = {
@@ -48,11 +48,9 @@ export type MediaAttachment = {
 };
 
 export type TemplateAttachmentPayload = {
-  template_type:
+  templateType:
     | 'button'
     | 'generic'
-    | 'list'
-    | 'open_graph'
     | 'media'
     | 'receipt'
     | 'airline_boardingpass'
@@ -70,18 +68,18 @@ export type TemplateAttachment = {
 export type Attachment = MediaAttachment | TemplateAttachment;
 
 export type TextQuickReply = {
-  content_type: 'text';
+  contentType: 'text';
   title: string;
   payload: string;
-  image_url?: string;
+  imageUrl?: string;
 };
 
 export type UserPhoneNumberQuickReply = {
-  content_type: 'user_phone_number';
+  contentType: 'user_phone_number';
 };
 
 export type UserEmailQuickReply = {
-  content_type: 'user_email';
+  contentType: 'user_email';
 };
 
 export type QuickReply =
@@ -91,12 +89,12 @@ export type QuickReply =
 
 export type TextMessage = {
   text?: string;
-  quick_replies?: QuickReply[];
+  quickReplies?: QuickReply[];
 };
 
 export type AttachmentMessage = {
   attachment?: Attachment;
-  quick_replies?: QuickReply[];
+  quickReplies?: QuickReply[];
 };
 
 export type Message = TextMessage | AttachmentMessage;
@@ -108,23 +106,10 @@ export type MessagingType =
   | 'NON_PROMOTIONAL_SUBSCRIPTION';
 
 export type MessageTag =
-  | 'BUSINESS_PRODUCTIVITY'
-  | 'COMMUNITY_ALERT'
-  | 'CONFIRMED_EVENT_REMINDER'
-  | 'NON_PROMOTIONAL_SUBSCRIPTION'
-  | 'PAIRING_UPDATE'
-  | 'APPLICATION_UPDATE'
+  | 'CONFIRMED_EVENT_UPDATE'
+  | 'POST_PURCHASE_UPDATE'
   | 'ACCOUNT_UPDATE'
-  | 'PAYMENT_UPDATE'
-  | 'PERSONAL_FINANCE_UPDATE'
-  | 'SHIPPING_UPDATE'
-  | 'RESERVATION_UPDATE'
-  | 'ISSUE_RESOLUTION'
-  | 'APPOINTMENT_UPDATE'
-  | 'GAME_EVENT'
-  | 'TRANSPORTATION_UPDATE'
-  | 'FEATURE_FUNCTIONALITY_UPDATE'
-  | 'TICKET_UPDATE';
+  | 'HUMAN_AGENT';
 
 export type InsightMetric =
   | 'page_messages_blocked_conversations_unique'
@@ -133,26 +118,26 @@ export type InsightMetric =
   | 'page_messages_new_conversations_unique';
 
 export type AccessTokenOptions = {
-  access_token?: string;
+  accessToken?: string;
 };
 
 export type InsightOptions = {
   since?: number;
   until?: number;
-  access_token?: string;
+  accessToken?: string;
 };
 
 export type SendOption = {
-  messaging_type?: MessagingType;
+  messagingType?: MessagingType;
   tag?: MessageTag;
-  quick_replies?: QuickReply[];
-  access_token?: string;
+  quickReplies?: QuickReply[];
+  accessToken?: string;
 };
 
 export type UploadOption = {
   filename?: string;
-  is_reusable?: boolean;
-  access_token?: string;
+  isReusable?: boolean;
+  accessToken?: string;
 };
 
 export type TemplateButton = {
@@ -160,90 +145,98 @@ export type TemplateButton = {
   title: string;
   url?: string;
   payload?: string;
-  webview_height_ratio?: 'compact' | 'tall' | 'full';
+  webviewHeightRatio?: 'compact' | 'tall' | 'full';
 };
 
 export type MenuItem = TemplateButton;
 
 export type TemplateElement = {
   title: string;
-  image_url: string;
+  imageUrl: string;
   subtitle: string;
-  default_action: {
+  defaultAction: {
     type: string;
     url: string;
-    messenger_extensions: boolean;
-    webview_height_ratio: string;
-    fallback_url: string;
+    messengerExtensions: boolean;
+    webviewHeightRatio: string;
+    fallbackUrl: string;
   };
   buttons: TemplateButton[];
 };
 
-export type OpenGraphElement = {
-  url: string;
-  buttons?: TemplateButton[];
-};
-
 export type MediaElement = {
-  media_type: 'image' | 'video';
-  attachment_id?: string;
+  mediaType: 'image' | 'video';
+  attachmentId?: string;
   url?: string;
   buttons?: TemplateButton[];
 };
 
 export type Address = {
-  street_1: string;
-  street_2?: string;
+  street1: string;
+  street2?: string;
   city: string;
-  postal_code: string;
+  postalCode: string;
   state: string;
   country: string;
 };
 
 export type Summary = {
   subtotal?: number;
-  shipping_cost?: number;
-  total_tax?: number;
-  total_cost: number;
+  shippingCost?: number;
+  totalTax?: number;
+  totalCost: number;
 };
 
 export type Adjustment = {
   name?: string;
-  ammont?: number;
+  amount?: number;
+};
+
+export type ReceiptElement = {
+  title: string;
+  subtitle?: string;
+  quantity?: number;
+  price: number;
+  currency?: string;
+  imageUrl: string;
 };
 
 export type ReceiptAttributes = {
-  recipient_name: string;
-  merchant_name?: string;
-  order_number: string; // must be unique
+  recipientName: string;
+  merchantName?: string;
+  orderNumber: string; // must be unique
   currency: string;
-  payment_method: string;
+  paymentMethod: string;
   timestamp?: string;
-  order_url?: string;
-  elements?: TemplateElement[];
+  orderUrl?: string;
+  elements?: ReceiptElement[];
   address?: Address;
   summary: Summary;
   adjustments?: Adjustment[];
 };
 
 export type Airport = {
-  airport_code: string;
+  airportCode: string;
   city: string;
   terminal?: string;
   gate?: string;
 };
 
 export type FlightSchedule = {
-  boarding_time?: string;
-  departure_time: string;
-  arrival_time?: string;
+  boardingTime?: string;
+  departureTime: string;
+  arrivalTime?: string;
 };
 
 export type FlightInfo = {
-  flight_number: string;
-  departure_airport: Airport;
-  arrival_airport: Airport;
-  flight_schedule: FlightSchedule;
+  connectionId: string;
+  segmentId: string | PassengerSegmentInfo;
+  flightNumber: string;
+  aircraftType?: string;
+  departureAirport: Airport;
+  arrivalAirport: Airport;
+  flightSchedule: FlightSchedule;
+  travelClass: 'economy' | 'business' | 'first_class';
 };
 
 export type Field = {
@@ -252,72 +245,97 @@ export type Field = {
 };
 
 export type BoardingPass = {
-  passenger_name: string;
-  pnr_number: string;
-  travel_class?: string;
+  passengerName: string;
+  pnrNumber: string;
+  travelClass?: string;
   seat?: string;
-  auxiliary_fields?: Field[];
-  secondary_fields?: Field[];
-  logo_image_url: string;
-  header_image_url?: string;
-  header_text_field?: Field;
-  qr_code?: string; // FIXME: qr_code or barcode_image_url
-  barcode_image_url?: string;
-  above_bar_code_image_url: string;
-  flight_info: FlightInfo;
+  auxiliaryFields?: Field[];
+  secondaryFields?: Field[];
+  logoImageUrl: string;
+  headerImageUrl?: string;
+  headerTextField?: Field;
+  qrCode?: string; // FIXME: qr_code or barcode_image_url
+  barcodeImageUrl?: string;
+  aboveBarCodeImageUrl: string;
+  flightInfo: FlightInfo;
 };
 
 export type AirlineBoardingPassAttributes = {
-  intro_message: string;
+  introMessage: string;
   locale: string;
-  boarding_pass: BoardingPass[];
+  boardingPass: BoardingPass[];
 };
 
 export type PassengerInfo = {
-  passenger_id: string;
-  ticket_number?: string;
+  passengerId: string;
+  ticketNumber?: string;
   name: string;
 };
 
+export type ProductInfo = {
+  title: string;
+  value: string;
+};
+
 export type PassengerSegmentInfo = {
-  segment_id: string;
-  passenger_id: string;
+  segmentId: string;
+  passengerId: string;
   seat: string;
-  seat_type: string;
-  product_info?: string;
+  seatType: string;
+  productInfo?: ProductInfo[];
 };
 
 export type PriceInfo = {
   title: string;
-  ammont: number;
+  amount: string;
   currency?: string;
 };
 
 export type AirlineCheckinAttributes = {
-  intro_message: string;
+  introMessage: string;
   locale: string;
-  theme_color?: string;
-  pnr_number: string;
-  passenger_info: PassengerInfo[];
-  flight_info: FlightInfo[];
-  passenger_segment_info: PassengerSegmentInfo[];
-  price_info?: PriceInfo[];
-  base_price?: number;
-  tax?: number;
-  total_price: number;
+  pnrNumber?: string;
+  checkinUrl: string;
+  flightInfo: FlightInfo[];
+};
+
+export type AirlineItineraryAttributes = {
+  introMessage: string;
+  locale: string;
+  themeColor?: string;
+  pnrNumber: string;
+  passengerInfo: PassengerInfo[];
+  flightInfo: FlightInfo[];
+  passengerSegmentInfo: PassengerSegmentInfo[];
+  priceInfo?: PriceInfo[];
+  basePrice?: string;
+  tax?: string;
+  totalPrice: string;
   currency: string;
 };
 
-export type AirlineItineraryAttributes = {};
+export type UpdateFlightInfo = {
+  flightNumber: string;
+  departureAirport: Airport;
+  arrivalAirport: Airport;
+  flightSchedule: FlightSchedule;
+};
 
-export type AirlineUpdateAttributes = {};
+export type AirlineUpdateAttributes = {
+  introMessage: string;
+  themeColor?: string;
+  updateType: 'delay' | 'gate_change' | 'cancellation';
+  locale: string;
+  pnrNumber?: string;
+  updateFlightInfo: UpdateFlightInfo;
+};
 
 export type SenderAction = string;
 
 export type User = {
-  first_name: string;
-  last_name: string;
-  profile_pic: string;
+  firstName: string;
+  lastName: string;
+  profilePic: string;
   locale: string;
   timezone: number;
   gender: string;
@@ -325,8 +343,8 @@ export type User = {
 
 export type PersistentMenu = {
   locale: string;
-  composer_input_disabled: boolean;
-  call_to_actions: MenuItem[];
+  composerInputDisabled: boolean;
+  callToActions: MenuItem[];
 }[];
 
 export type GreetingConfig = {
@@ -334,36 +352,27 @@ export type GreetingConfig = {
   text: string;
 };
 
-export type AudienceType = 'all' | 'custom' | 'none';
-
 export type MessengerProfile = {
-  get_started?: {
+  getStarted?: {
     payload: string;
   };
-  persistent_menu?: PersistentMenu;
+  persistentMenu?: PersistentMenu;
   greeting?: {
     locale: string;
     text: string;
   }[];
-  whitelisted_domains?: string[];
-  account_linking_url?: string;
-  payment_settings?: {
-    privacy_url?: string;
-    public_key?: string;
-    test_users?: string[];
+  whitelistedDomains?: string[];
+  accountLinkingUrl?: string;
+  paymentSettings?: {
+    privacyUrl?: string;
+    publicKey?: string;
+    testUsers?: string[];
   };
-  target_audience?: {
-    audience_type: AudienceType;
-    countries?: {
-      whitelist?: string[];
-      blacklist?: string[];
-    };
-  };
-  home_url?: {
+  homeUrl?: {
     url: string;
-    webview_height_ratio: 'tall';
-    webview_share_button?: 'hide' | 'show';
-    in_test: boolean;
+    webviewHeightRatio: 'tall';
+    webviewShareButton?: 'hide' | 'show';
+    inTest: boolean;
   };
 };
 
@@ -376,12 +385,12 @@ export type MutationSuccessResponse = {
 };
 
 export type SendMessageSuccessResponse = {
-  recipient_id: string;
-  message_id: string;
+  recipientId: string;
+  messageId: string;
 };
 
 export type SendSenderActionResponse = {
-  recipient_id: string;
+  recipientId: string;
 };
 
 export type MessageTagResponse = {
@@ -393,12 +402,12 @@ export type FileData = Buffer | fs.ReadStream;
 
 export type BatchRequestOptions = {
   name?: string;
-  depends_on?: string;
+  dependsOn?: string;
 };
 
 export type BatchItem = {
   method: string;
-  relative_url: string;
+  relativeUrl: string;
   name?: string;
   body?: Record<string, any>;
   responseAccessPath?: string;
@@ -427,11 +436,11 @@ export type Model =
   | 'VIETNAMESE';
 
 export type MessengerNLPConfig = {
-  nlp_enabled?: boolean;
+  nlpEnabled?: boolean;
   model?: Model;
-  custom_token?: string;
+  customToken?: string;
   verbose?: boolean;
-  n_best?: number;
+  nBest?: number;
 };
 
 export type PageInfo = {
@@ -442,16 +451,16 @@ export type PageInfo = {
 type Scope = string;
 
 export type TokenInfo = {
-  app_id: string;
+  appId: string;
   type: 'PAGE' | 'APP' | 'USER';
   application: string;
-  data_access_expires_at: number;
-  expires_at: number;
-  is_valid: true;
-  issued_at?: number;
-  profile_id: string;
+  dataAccessExpiresAt: number;
+  expiresAt: number;
+  isValid: true;
+  issuedAt?: number;
+  profileId: string;
   scopes: Scope[];
-  user_id: string;
+  userId: string;
 };
 
 export type MessagingFeatureReview = {
@@ -461,7 +470,7 @@ export type MessagingFeatureReview = {
 
 export type Persona = {
   name: string;
-  profile_picture_url: string;
+  profilePictureUrl: string;
 };
 
 export type SubscriptionFields = {
@@ -471,7 +480,7 @@ export type SubscriptionFields = {
 
 export type MessengerSubscription = {
   object: string;
-  callback_url: string;
+  callbackUrl: string;
   active: boolean;
   fields: SubscriptionFields[];
 };
