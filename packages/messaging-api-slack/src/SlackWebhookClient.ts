@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import omit from 'lodash.omit';
+import snakecaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
@@ -71,7 +72,9 @@ export default class SlackWebhookClient {
   }
 
   sendRawBody(body: Record<string, any>): Promise<SendMessageSuccessResponse> {
-    return this._axios.post('', body).then(res => res.data);
+    return this._axios
+      .post('', snakecaseKeys(body, { deep: true }))
+      .then(res => res.data);
   }
 
   sendText(text: string): Promise<SendMessageSuccessResponse> {

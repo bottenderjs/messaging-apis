@@ -2,23 +2,23 @@ export type SlackAttachment = {
   fallback: string;
   pretext?: string;
   color?: string;
-  author_name?: string;
-  author_link?: string;
-  author_icon?: string;
+  authorName?: string;
+  authorLink?: string;
+  authorIcon?: string;
   title?: string;
-  title_link?: string;
+  titleLink?: string;
   text?: string;
   fields?: {
     title: string;
     value: string;
     short: boolean;
   }[];
-  image_url?: string;
-  thumb_url?: string;
+  imageUrl?: string;
+  thumbUrl?: string;
   footer?: string;
-  footer_icon?: string;
-  callback_id?: string;
-  attachment_type?: string;
+  footerIcon?: string;
+  callbackId?: string;
+  attachmentType?: string;
   actions: {
     name?: string;
     text?: string;
@@ -29,8 +29,8 @@ export type SlackAttachment = {
     confirm?: {
       title?: string;
       text?: string;
-      ok_text?: string;
-      dismiss_text?: string;
+      okText?: string;
+      dismissText?: string;
     };
   }[];
   ts?: number;
@@ -172,7 +172,7 @@ export type SlackAvailableMethod =
 export interface SlackUser {
   id: string;
   name: string;
-  real_name: string;
+  realName: string;
 }
 
 export type SlackChannel = {

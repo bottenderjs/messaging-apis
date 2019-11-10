@@ -2,7 +2,9 @@ import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import camelcaseKeys from 'camelcase-keys';
 import omit from 'lodash.omit';
+import snakecaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
@@ -20,25 +22,36 @@ type CommonOptions = {
 };
 
 type PostEphemeralOptions = CommonOptions & {
-  as_user?: boolean;
+  asUser?: boolean;
   attachments?: string | SlackAttachment[];
-  link_names?: boolean;
+  linkNames?: boolean;
   parse?: 'none' | 'full';
 };
 
 type GetInfoOptions = CommonOptions & {
-  include_locale?: boolean;
+  includeLocale?: boolean;
 };
 
-type WithCursorOptions = CommonOptions & {
+type UserInfoOptions = CommonOptions & {
+  includeLocale?: boolean;
+};
+
+type ConversationMembersOptions = CommonOptions & {
   cursor?: string;
+  limit?: number;
 };
 
 type ConversationListOptions = CommonOptions & {
   cursor?: string;
-  exclude_archived?: boolean;
+  excludeArchived?: boolean;
   limit?: number;
   types?: string;
+};
+
+type UserListOptions = CommonOptions & {
+  cursor?: string;
+  includeLocale?: boolean;
+  limit?: number;
 };
 
 type ClientConfig = {
@@ -48,16 +61,16 @@ type ClientConfig = {
 };
 
 interface PostMessageOptions extends CommonOptions {
-  as_user?: boolean;
+  asUser?: boolean;
   attachments?: string | SlackAttachment[];
-  icon_emoji?: string;
-  icon_url?: string;
-  link_names?: boolean;
+  iconEmoji?: string;
+  iconUrl?: string;
+  linkNames?: boolean;
   parse?: 'none' | 'full';
-  reply_broadcast?: boolean;
-  thread_ts?: string;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
+  replyBroadcast?: boolean;
+  threadTs?: string;
+  unfurlLinks?: boolean;
+  unfurlMedia?: boolean;
   username?: string;
 }
 
@@ -131,20 +144,26 @@ export default class SlackOAuthClient {
 
   async callMethod(
     method: SlackAvailableMethod,
-    _body: Record<string, any> = {}
+    inputBody: Record<string, any> = {}
   ): Promise<SlackOAuthAPIResponse> {
     try {
-      const body = omit(_body, ['token', 'accessToken']);
-      body.token = _body.accessToken || _body.token || this._token;
+      const body = {
+        ...omit(inputBody, ['token', 'accessToken']),
+        token: inputBody.accessToken || inputBody.token || this._token,
+      };
 
       const response = await this._axios.post(
         method,
-        querystring.stringify(body)
+        querystring.stringify(snakecaseKeys(body, { deep: true }) as any)
       );
 
-      const { data, config, request } = response;
+      const data = (camelcaseKeys(response.data, {
+        deep: true,
+      }) as any) as SlackOAuthAPIResponse;
 
       if (!data.ok) {
+        const { config, request } = response;
+
         throw new AxiosError(`Slack API - ${data.error}`, {
           config,
           request,
@@ -159,30 +178,18 @@ export default class SlackOAuthClient {
   }
 
   /**
-   * Gets information about a public channel.
+   * Gets information about a channel.
    *
    * https://api.slack.com/methods/channels.info
    */
   getChannelInfo(
     channelId: string,
-    options: GetInfoOptions = {}
+    options?: GetInfoOptions
   ): Promise<SlackChannel> {
     return this.callMethod('channels.info', {
       channel: channelId,
       ...options,
     }).then(data => data.channel);
-  }
-
-  /**
-   * Lists all public channels in a Slack team.
-   *
-   * https://api.slack.com/methods/channels.list
-   * FIXME: [breaking] support cursor, exclude_archived, exclude_members, limit
-   */
-  getChannelList(options: CommonOptions = {}): Promise<SlackChannel[]> {
-    return this.callMethod('channels.list', options).then(
-      data => data.channels
-    );
   }
 
   /**
@@ -192,7 +199,7 @@ export default class SlackOAuthClient {
    */
   getConversationInfo(
     channelId: string,
-    options: GetInfoOptions = {}
+    options?: GetInfoOptions
   ): Promise<SlackChannel> {
     return this.callMethod('conversations.info', {
       channel: channelId,
@@ -207,7 +214,7 @@ export default class SlackOAuthClient {
    */
   getConversationMembers(
     channelId: string,
-    options: WithCursorOptions = {}
+    options?: ConversationMembersOptions
   ): Promise<{
     members: string[];
     next?: string;
@@ -217,13 +224,13 @@ export default class SlackOAuthClient {
       ...options,
     }).then(data => ({
       members: data.members,
-      next: data.response_metadata && data.response_metadata.next_cursor,
+      next: data.responseMetadata && data.responseMetadata.nextCursor,
     }));
   }
 
   async getAllConversationMembers(
     channelId: string,
-    options: CommonOptions = {}
+    options?: Omit<ConversationMembersOptions, 'cursor'>
   ): Promise<string[]> {
     let allMembers: string[] = [];
     let continuationCursor;
@@ -254,32 +261,32 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/conversations.list
    */
   getConversationList(
-    options: ConversationListOptions = {}
+    options?: ConversationListOptions
   ): Promise<{
     channels: SlackChannel[];
     next?: string;
   }> {
     return this.callMethod('conversations.list', options).then(data => ({
       channels: data.channels,
-      next: data.response_metadata && data.response_metadata.next_cursor,
+      next: data.responseMetadata && data.responseMetadata.nextCursor,
     }));
   }
 
   async getAllConversationList(
-    options: ConversationListOptions = {}
+    options?: Omit<ConversationListOptions, 'cursor'>
   ): Promise<SlackChannel[]> {
     let allChannels: SlackChannel[] = [];
     let continuationCursor: string | undefined;
 
     do {
-      const _options = continuationCursor
+      const nextOptions = continuationCursor
         ? { cursor: continuationCursor, ...options }
         : options;
       const {
         channels,
         next,
         // eslint-disable-next-line no-await-in-loop
-      } = await this.getConversationList(_options);
+      } = await this.getConversationList(nextOptions);
       allChannels = allChannels.concat(channels);
       continuationCursor = next;
     } while (continuationCursor);
@@ -302,14 +309,18 @@ export default class SlackOAuthClient {
     if (options.attachments && typeof options.attachments !== 'string') {
       // A JSON-based array of structured attachments, presented as a URL-encoded string.
       // eslint-disable-next-line no-param-reassign
-      options.attachments = JSON.stringify(options.attachments);
+      options.attachments = JSON.stringify(
+        snakecaseKeys(options.attachments, { deep: true })
+      );
     } else if (
       typeof message === 'object' &&
       message.attachments &&
       typeof message.attachments !== 'string'
     ) {
       // eslint-disable-next-line no-param-reassign
-      message.attachments = JSON.stringify(message.attachments);
+      message.attachments = JSON.stringify(
+        snakecaseKeys(message.attachments, { deep: true })
+      );
     }
 
     if (typeof message === 'string') {
@@ -342,14 +353,18 @@ export default class SlackOAuthClient {
     if (options.attachments && typeof options.attachments !== 'string') {
       // A JSON-based array of structured attachments, presented as a URL-encoded string.
       // eslint-disable-next-line no-param-reassign
-      options.attachments = JSON.stringify(options.attachments);
+      options.attachments = JSON.stringify(
+        snakecaseKeys(options.attachments, { deep: true })
+      );
     } else if (
       typeof message === 'object' &&
       message.attachments &&
       typeof message.attachments !== 'string'
     ) {
       // eslint-disable-next-line no-param-reassign
-      message.attachments = JSON.stringify(message.attachments);
+      message.attachments = JSON.stringify(
+        snakecaseKeys(message.attachments, { deep: true })
+      );
     }
 
     if (typeof message === 'string') {
@@ -373,10 +388,7 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/users.info
    */
-  getUserInfo(
-    userId: string,
-    options: GetInfoOptions = {}
-  ): Promise<SlackUser> {
+  getUserInfo(userId: string, options?: UserInfoOptions): Promise<SlackUser> {
     return this.callMethod('users.info', { user: userId, ...options }).then(
       data => data.user
     );
@@ -386,32 +398,22 @@ export default class SlackOAuthClient {
    * Lists all users in a Slack team.
    *
    * https://api.slack.com/methods/users.list
-   * FIXME: [breaking] support include_locale, limit, presence
    */
   getUserList(
-    cursorOrOptions?: string | WithCursorOptions
+    options?: UserListOptions
   ): Promise<{
     members: SlackUser[];
     next?: string;
   }> {
-    if (typeof cursorOrOptions === 'string') {
-      // cursorOrOptions is cursor string
-      return this.callMethod('users.list', { cursor: cursorOrOptions }).then(
-        data => ({
-          members: data.members,
-          next: data.response_metadata && data.response_metadata.next_cursor,
-        })
-      );
-    }
-
-    // cursorOrOptions is options object
-    return this.callMethod('users.list', cursorOrOptions).then(data => ({
+    return this.callMethod('users.list', options).then(data => ({
       members: data.members,
-      next: data.response_metadata && data.response_metadata.next_cursor,
+      next: data.responseMetadata && data.responseMetadata.nextCursor,
     }));
   }
 
-  async getAllUserList(options: CommonOptions = {}): Promise<SlackUser[]> {
+  async getAllUserList(
+    options?: Omit<UserListOptions, 'cursor'>
+  ): Promise<SlackUser[]> {
     let allUsers: SlackUser[] = [];
     let continuationCursor;
 
@@ -427,6 +429,7 @@ export default class SlackOAuthClient {
         cursor: continuationCursor,
         ...options,
       });
+
       allUsers = allUsers.concat(users);
       continuationCursor = next;
     } while (continuationCursor);

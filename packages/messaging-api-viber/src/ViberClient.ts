@@ -144,7 +144,6 @@ export default class ViberClient {
     body: Record<string, any> = {}
   ): Promise<SucceededResponseData<R> | never> {
     try {
-      console.log(snakecaseKeys(body, { deep: false }));
       const response = await this._axios.post(
         path,
 
