@@ -343,11 +343,13 @@ export default class SlackOAuthClient {
   postEphemeral(
     channel: string,
     user: string,
-    inputMessage: {
-      text?: string;
-      attachments?: Attachment[] | string;
-      blocks?: Block[] | string;
-    },
+    inputMessage:
+      | {
+          text?: string;
+          attachments?: Attachment[] | string;
+          blocks?: Block[] | string;
+        }
+      | string,
     options: PostEphemeralOptions = {}
   ): Promise<OAuthAPIResponse> {
     const message =
