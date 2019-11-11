@@ -520,7 +520,7 @@ describe('#postMessage', () => {
     expect(res).toEqual(reply);
   });
 
-  it('should call chat.postMessage with optional options and parse attachments to string', async () => {
+  it('should support blocks', async () => {
     const { client, mock } = createMock();
 
     const reply = {
@@ -536,9 +536,7 @@ describe('#postMessage', () => {
         querystring.stringify({
           channel: CHANNEL,
           text: 'hello',
-          attachments:
-            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
-          as_user: true,
+          blocks: '[{"type":"section","text":{"type":"mrkdwn","text":"..."}}]',
           token: TOKEN,
         }),
         {
@@ -548,44 +546,17 @@ describe('#postMessage', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postMessage(CHANNEL, 'hello', {
-      attachments: [
+    const res = await client.postMessage(CHANNEL, {
+      text: 'hello',
+      blocks: [
         {
-          text: 'Choose a game to play',
-          fallback: 'You are unable to choose a game',
-          callbackId: 'wopr_game',
-          color: '#3AA3E3',
-          attachmentType: 'default',
-          actions: [
-            {
-              name: 'game',
-              text: 'Chess',
-              type: 'button',
-              value: 'chess',
-            },
-            {
-              name: 'game',
-              text: "Falken's Maze",
-              type: 'button',
-              value: 'maze',
-            },
-            {
-              name: 'game',
-              text: 'Thermonuclear War',
-              style: 'danger',
-              type: 'button',
-              value: 'war',
-              confirm: {
-                title: 'Are you sure?',
-                text: "Wouldn't you prefer a good game of chess?",
-                okText: 'Yes',
-                dismissText: 'No',
-              },
-            },
-          ],
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '...',
+          },
         },
       ],
-      asUser: true,
     });
 
     expect(res).toEqual(reply);
@@ -842,7 +813,7 @@ describe('#postEphemeral', () => {
     expect(res).toEqual(reply);
   });
 
-  it('should call chat.postEphemeral with optional options and parse attachments to string', async () => {
+  it('should support blocks', async () => {
     const { client, mock } = createMock();
 
     const reply = {
@@ -859,9 +830,7 @@ describe('#postEphemeral', () => {
           channel: CHANNEL,
           user: USER,
           text: 'hello',
-          attachments:
-            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
-          as_user: true,
+          blocks: '[{"type":"section","text":{"type":"mrkdwn","text":"..."}}]',
           token: TOKEN,
         }),
         {
@@ -871,44 +840,17 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(CHANNEL, USER, 'hello', {
-      attachments: [
+    const res = await client.postEphemeral(CHANNEL, USER, {
+      text: 'hello',
+      blocks: [
         {
-          text: 'Choose a game to play',
-          fallback: 'You are unable to choose a game',
-          callbackId: 'wopr_game',
-          color: '#3AA3E3',
-          attachmentType: 'default',
-          actions: [
-            {
-              name: 'game',
-              text: 'Chess',
-              type: 'button',
-              value: 'chess',
-            },
-            {
-              name: 'game',
-              text: "Falken's Maze",
-              type: 'button',
-              value: 'maze',
-            },
-            {
-              name: 'game',
-              text: 'Thermonuclear War',
-              style: 'danger',
-              type: 'button',
-              value: 'war',
-              confirm: {
-                title: 'Are you sure?',
-                text: "Wouldn't you prefer a good game of chess?",
-                okText: 'Yes',
-                dismissText: 'No',
-              },
-            },
-          ],
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '...',
+          },
         },
       ],
-      asUser: true,
     });
 
     expect(res).toEqual(reply);

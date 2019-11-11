@@ -4,7 +4,7 @@ import snakecaseKeys from 'snakecase-keys';
 import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
-import { SendMessageSuccessResponse, SlackAttachment } from './SlackTypes';
+import { Attachment, SendMessageSuccessResponse } from './SlackTypes';
 
 type URL = string;
 
@@ -88,14 +88,12 @@ export default class SlackWebhookClient {
    */
 
   sendAttachments(
-    attachments: SlackAttachment[]
+    attachments: Attachment[]
   ): Promise<SendMessageSuccessResponse> {
     return this.sendRawBody({ attachments });
   }
 
-  sendAttachment(
-    attachment: SlackAttachment
-  ): Promise<SendMessageSuccessResponse> {
+  sendAttachment(attachment: Attachment): Promise<SendMessageSuccessResponse> {
     return this.sendAttachments([attachment]);
   }
 }
