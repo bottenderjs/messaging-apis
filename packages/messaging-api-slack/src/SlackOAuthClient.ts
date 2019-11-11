@@ -9,11 +9,12 @@ import urlJoin from 'url-join';
 import { onRequest } from 'messaging-api-common';
 
 import {
-  SlackAttachment,
-  SlackAvailableMethod,
-  SlackChannel,
-  SlackOAuthAPIResponse,
-  SlackUser,
+  Attachment,
+  AvailableMethod,
+  Block,
+  Channel,
+  OAuthAPIResponse,
+  User,
 } from './SlackTypes';
 
 type CommonOptions = {
@@ -23,7 +24,7 @@ type CommonOptions = {
 
 type PostEphemeralOptions = CommonOptions & {
   asUser?: boolean;
-  attachments?: string | SlackAttachment[];
+  attachments?: string | Attachment[];
   linkNames?: boolean;
   parse?: 'none' | 'full';
 };
@@ -62,7 +63,7 @@ type ClientConfig = {
 
 interface PostMessageOptions extends CommonOptions {
   asUser?: boolean;
-  attachments?: string | SlackAttachment[];
+  attachments?: string | Attachment[];
   iconEmoji?: string;
   iconUrl?: string;
   linkNames?: boolean;
@@ -143,9 +144,9 @@ export default class SlackOAuthClient {
   }
 
   async callMethod(
-    method: SlackAvailableMethod,
+    method: AvailableMethod,
     inputBody: Record<string, any> = {}
-  ): Promise<SlackOAuthAPIResponse> {
+  ): Promise<OAuthAPIResponse> {
     try {
       const body = {
         ...omit(inputBody, ['token', 'accessToken']),
@@ -159,7 +160,7 @@ export default class SlackOAuthClient {
 
       const data = (camelcaseKeys(response.data, {
         deep: true,
-      }) as any) as SlackOAuthAPIResponse;
+      }) as any) as OAuthAPIResponse;
 
       if (!data.ok) {
         const { config, request } = response;
@@ -185,7 +186,7 @@ export default class SlackOAuthClient {
   getChannelInfo(
     channelId: string,
     options?: GetInfoOptions
-  ): Promise<SlackChannel> {
+  ): Promise<Channel> {
     return this.callMethod('channels.info', {
       channel: channelId,
       ...options,
@@ -200,7 +201,7 @@ export default class SlackOAuthClient {
   getConversationInfo(
     channelId: string,
     options?: GetInfoOptions
-  ): Promise<SlackChannel> {
+  ): Promise<Channel> {
     return this.callMethod('conversations.info', {
       channel: channelId,
       ...options,
@@ -263,7 +264,7 @@ export default class SlackOAuthClient {
   getConversationList(
     options?: ConversationListOptions
   ): Promise<{
-    channels: SlackChannel[];
+    channels: Channel[];
     next?: string;
   }> {
     return this.callMethod('conversations.list', options).then(data => ({
@@ -274,8 +275,8 @@ export default class SlackOAuthClient {
 
   async getAllConversationList(
     options?: Omit<ConversationListOptions, 'cursor'>
-  ): Promise<SlackChannel[]> {
-    let allChannels: SlackChannel[] = [];
+  ): Promise<Channel[]> {
+    let allChannels: Channel[] = [];
     let continuationCursor: string | undefined;
 
     do {
@@ -301,35 +302,32 @@ export default class SlackOAuthClient {
    */
   postMessage(
     channel: string,
-    message:
-      | { text?: string; attachments?: SlackAttachment[] | string }
+    inputMessage:
+      | {
+          text?: string;
+          attachments?: Attachment[] | string;
+          blocks?: Block[] | string;
+        }
       | string,
     options: PostMessageOptions = {}
-  ): Promise<SlackOAuthAPIResponse> {
-    if (options.attachments && typeof options.attachments !== 'string') {
-      // A JSON-based array of structured attachments, presented as a URL-encoded string.
-      // eslint-disable-next-line no-param-reassign
-      options.attachments = JSON.stringify(
-        snakecaseKeys(options.attachments, { deep: true })
-      );
-    } else if (
-      typeof message === 'object' &&
-      message.attachments &&
-      typeof message.attachments !== 'string'
-    ) {
+  ): Promise<OAuthAPIResponse> {
+    const message =
+      typeof inputMessage === 'string' ? { text: inputMessage } : inputMessage;
+
+    if (message.attachments && typeof message.attachments !== 'string') {
       // eslint-disable-next-line no-param-reassign
       message.attachments = JSON.stringify(
         snakecaseKeys(message.attachments, { deep: true })
       );
     }
 
-    if (typeof message === 'string') {
-      return this.callMethod('chat.postMessage', {
-        channel,
-        text: message,
-        ...options,
-      });
+    if (message.blocks && typeof message.blocks !== 'string') {
+      // eslint-disable-next-line no-param-reassign
+      message.blocks = JSON.stringify(
+        snakecaseKeys(message.blocks, { deep: true })
+      );
     }
+
     return this.callMethod('chat.postMessage', {
       channel,
       ...message,
@@ -345,36 +343,30 @@ export default class SlackOAuthClient {
   postEphemeral(
     channel: string,
     user: string,
-    message:
-      | { text?: string; attachments?: SlackAttachment[] | string }
-      | string,
+    inputMessage: {
+      text?: string;
+      attachments?: Attachment[] | string;
+      blocks?: Block[] | string;
+    },
     options: PostEphemeralOptions = {}
-  ): Promise<SlackOAuthAPIResponse> {
-    if (options.attachments && typeof options.attachments !== 'string') {
-      // A JSON-based array of structured attachments, presented as a URL-encoded string.
-      // eslint-disable-next-line no-param-reassign
-      options.attachments = JSON.stringify(
-        snakecaseKeys(options.attachments, { deep: true })
-      );
-    } else if (
-      typeof message === 'object' &&
-      message.attachments &&
-      typeof message.attachments !== 'string'
-    ) {
+  ): Promise<OAuthAPIResponse> {
+    const message =
+      typeof inputMessage === 'string' ? { text: inputMessage } : inputMessage;
+
+    if (message.attachments && typeof message.attachments !== 'string') {
       // eslint-disable-next-line no-param-reassign
       message.attachments = JSON.stringify(
         snakecaseKeys(message.attachments, { deep: true })
       );
     }
 
-    if (typeof message === 'string') {
-      return this.callMethod('chat.postEphemeral', {
-        channel,
-        user,
-        text: message,
-        ...options,
-      });
+    if (message.blocks && typeof message.blocks !== 'string') {
+      // eslint-disable-next-line no-param-reassign
+      message.blocks = JSON.stringify(
+        snakecaseKeys(message.blocks, { deep: true })
+      );
     }
+
     return this.callMethod('chat.postEphemeral', {
       channel,
       user,
@@ -388,7 +380,7 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/users.info
    */
-  getUserInfo(userId: string, options?: UserInfoOptions): Promise<SlackUser> {
+  getUserInfo(userId: string, options?: UserInfoOptions): Promise<User> {
     return this.callMethod('users.info', { user: userId, ...options }).then(
       data => data.user
     );
@@ -402,7 +394,7 @@ export default class SlackOAuthClient {
   getUserList(
     options?: UserListOptions
   ): Promise<{
-    members: SlackUser[];
+    members: User[];
     next?: string;
   }> {
     return this.callMethod('users.list', options).then(data => ({
@@ -413,8 +405,8 @@ export default class SlackOAuthClient {
 
   async getAllUserList(
     options?: Omit<UserListOptions, 'cursor'>
-  ): Promise<SlackUser[]> {
-    let allUsers: SlackUser[] = [];
+  ): Promise<User[]> {
+    let allUsers: User[] = [];
     let continuationCursor;
 
     do {
@@ -422,7 +414,7 @@ export default class SlackOAuthClient {
         members: users,
         next,
       }: {
-        members: SlackUser[];
+        members: User[];
         next?: string;
         // eslint-disable-next-line no-await-in-loop
       } = await this.getUserList({
