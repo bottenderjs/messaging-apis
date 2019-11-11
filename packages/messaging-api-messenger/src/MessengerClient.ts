@@ -610,9 +610,10 @@ export default class MessengerClient {
   getWhitelistedDomains(
     options: AccessTokenOptions = {}
   ): Promise<string[] | null> {
-    return this.getMessengerProfile(['whitelisted_domains'], options).then(
-      res => (res[0] ? (res[0].whitelisted_domains as string[]) : null)
-    );
+    return this.getMessengerProfile(
+      ['whitelisted_domains'],
+      options
+    ).then(res => (res[0] ? (res[0].whitelisted_domains as string[]) : null));
   }
 
   setWhitelistedDomains(
@@ -641,9 +642,10 @@ export default class MessengerClient {
   getAccountLinkingURL(
     options: AccessTokenOptions = {}
   ): Promise<string | null> {
-    return this.getMessengerProfile(['account_linking_url'], options).then(
-      res => (res[0] ? (res[0] as string) : null)
-    );
+    return this.getMessengerProfile(
+      ['account_linking_url'],
+      options
+    ).then(res => (res[0] ? (res[0] as string) : null));
   }
 
   setAccountLinkingURL(

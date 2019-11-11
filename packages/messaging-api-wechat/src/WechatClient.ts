@@ -272,7 +272,8 @@ export default class WechatClient {
         | {
             msgtype: 'miniprogrampage';
             miniprogrampage: MiniProgramPage;
-          })
+          }
+      )
   ): Promise<SucceededResponseData | never> {
     await this._refreshTokenWhenExpired();
 

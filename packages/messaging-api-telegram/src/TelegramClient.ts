@@ -116,7 +116,10 @@ export default class TelegramClient {
   _optionWithoutKeys(option: any, revmoeKeys: string[]): Record<string, any> {
     let keys = Object.keys(option);
     keys = difference(keys, revmoeKeys);
-    keys = difference(keys, revmoeKeys.map(key => snakecase(key)));
+    keys = difference(
+      keys,
+      revmoeKeys.map(key => snakecase(key))
+    );
     return pick(option, keys);
   }
 

@@ -83,7 +83,8 @@ export type FailedResponseData<T extends object> = (
   | {
       status: 20;
       statusMessage: 'broadcastNotAllowed';
-    }) &
+    }
+) &
   T;
 
 export type SucceededBroadcastResponseData = SucceededResponseData<{
