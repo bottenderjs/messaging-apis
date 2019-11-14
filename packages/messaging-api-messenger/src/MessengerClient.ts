@@ -32,6 +32,7 @@ import {
   BatchItem,
   FileData,
   GreetingConfig,
+  IceBreaker,
   InsightMetric,
   InsightOptions,
   MediaAttachmentPayload,
@@ -594,6 +595,37 @@ export default class MessengerClient {
     options: AccessTokenOptions = {}
   ): Promise<MutationSuccessResponse> {
     return this.deleteMessengerProfile(['greeting'], options);
+  }
+
+  /**
+   * Ice Breakers
+   *
+   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/ice-breakers
+   */
+  getIceBreakers(
+    options: AccessTokenOptions = {}
+  ): Promise<IceBreaker[] | null> {
+    return this.getMessengerProfile(['ice_breakers'], options).then(res =>
+      res[0] ? (res[0].iceBreakers as IceBreaker[]) : null
+    );
+  }
+
+  setIceBreakers(
+    iceBreakers: IceBreaker[],
+    options: AccessTokenOptions = {}
+  ): Promise<MutationSuccessResponse> {
+    return this.setMessengerProfile(
+      {
+        iceBreakers,
+      },
+      options
+    );
+  }
+
+  deleteIceBreakers(
+    options: AccessTokenOptions = {}
+  ): Promise<MutationSuccessResponse> {
+    return this.deleteMessengerProfile(['ice_breakers'], options);
   }
 
   /**
