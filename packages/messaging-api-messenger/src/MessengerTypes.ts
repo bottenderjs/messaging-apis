@@ -352,6 +352,11 @@ export type GreetingConfig = {
   text: string;
 };
 
+export type IceBreaker = {
+  question: string;
+  payload: string;
+};
+
 export type MessengerProfile = {
   getStarted?: {
     payload: string;
@@ -361,6 +366,7 @@ export type MessengerProfile = {
     locale: string;
     text: string;
   }[];
+  iceBreakers?: IceBreaker[];
   whitelistedDomains?: string[];
   accountLinkingUrl?: string;
   paymentSettings?: {

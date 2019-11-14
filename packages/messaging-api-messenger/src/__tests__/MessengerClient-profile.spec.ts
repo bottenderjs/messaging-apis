@@ -753,6 +753,152 @@ describe('greeting', () => {
   });
 });
 
+describe('ice breakers', () => {
+  describe('#getIceBreakers', () => {
+    it('should respond data of ice breakers', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            ice_breakers: [
+              {
+                question: 'Where are you located?',
+                payload: 'LOCATION_POSTBACK_PAYLOAD',
+              },
+              {
+                question: 'What are your hours?',
+                payload: 'HOURS_POSTBACK_PAYLOAD',
+              },
+            ],
+          },
+        ],
+      };
+
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
+
+      const res = await client.getIceBreakers();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual([
+        {
+          question: 'Where are you located?',
+          payload: 'LOCATION_POSTBACK_PAYLOAD',
+        },
+        {
+          question: 'What are your hours?',
+          payload: 'HOURS_POSTBACK_PAYLOAD',
+        },
+      ]);
+    });
+
+    it('should respond null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
+
+      const res = await client.getIceBreakers();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual(null);
+    });
+  });
+
+  describe('#setIceBreakers', () => {
+    it('should respond success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
+
+      const res = await client.setIceBreakers([
+        {
+          question: 'Where are you located?',
+          payload: 'LOCATION_POSTBACK_PAYLOAD',
+        },
+        {
+          question: 'What are your hours?',
+          payload: 'HOURS_POSTBACK_PAYLOAD',
+        },
+      ]);
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        ice_breakers: [
+          {
+            question: 'Where are you located?',
+            payload: 'LOCATION_POSTBACK_PAYLOAD',
+          },
+          {
+            question: 'What are your hours?',
+            payload: 'HOURS_POSTBACK_PAYLOAD',
+          },
+        ],
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteIceBreakers', () => {
+    it('should respond success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      let url;
+      let data;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
+
+      const res = await client.deleteIceBreakers();
+
+      expect(url).toEqual(
+        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
+      );
+      expect(data).toEqual({
+        fields: ['ice_breakers'],
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+});
+
 describe('whitelisted domains', () => {
   describe('#getWhitelistedDomains', () => {
     it('should respond data of whitelisted domains', async () => {
