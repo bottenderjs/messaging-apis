@@ -2,6 +2,7 @@ import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import imageType from 'image-type';
 import invariant from 'invariant';
+import warning from 'warning';
 import {
   OnRequestFunction,
   createRequestInterceptor,
@@ -808,7 +809,7 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-content
    */
-  retrieveMessageContent(
+  getMessageContent(
     messageId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<Buffer> {
@@ -820,6 +821,17 @@ export default class LineClient {
           : undefined),
       })
       .then(res => res.data, handleError);
+  }
+
+  retrieveMessageContent(
+    messageId: string,
+    options?: { accessToken?: string }
+  ) {
+    warning(
+      false,
+      '`retrieveMessageContent` is deprecated. Use `getMessageContent` instead.'
+    );
+    return this.getMessageContent(messageId, options);
   }
 
   /**
