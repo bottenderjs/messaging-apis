@@ -14,6 +14,7 @@ import {
   ColumnObject,
   ConfirmTemplate,
   FlexContainer,
+  FriendDemographics,
   ImageCarouselColumnObject,
   ImagemapMessage,
   LiffView,
@@ -21,8 +22,13 @@ import {
   Message,
   MessageOptions,
   MutationSuccessResponse,
+  NumberOfFollowersResponse,
+  NumberOfMessageDeliveriesResponse,
+  NumberOfMessagesSentResponse,
+  NumberOfMessagesSentThisMonth,
   RichMenu,
   StickerMessage,
+  TargetLimitForAdditionalMessages,
   Template,
   User,
 } from './LineTypes';
@@ -129,11 +135,11 @@ export default class LineClient {
       .post(
         '/v2/bot/message/reply',
         body,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -368,11 +374,11 @@ export default class LineClient {
       .post(
         '/v2/bot/message/push',
         body,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -590,11 +596,11 @@ export default class LineClient {
       .post(
         '/v2/bot/message/multicast',
         body,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -847,11 +853,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/profile/${userId}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError)
       .catch(err => {
@@ -875,11 +881,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/group/${groupId}/member/${userId}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -897,11 +903,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/room/${roomId}/member/${userId}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -919,11 +925,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -966,11 +972,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1013,11 +1019,11 @@ export default class LineClient {
       .post(
         `/v2/bot/group/${groupId}/leave`,
         null,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1035,11 +1041,11 @@ export default class LineClient {
       .post(
         `/v2/bot/room/${roomId}/leave`,
         null,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1055,11 +1061,11 @@ export default class LineClient {
     return this._axios
       .get(
         '/v2/bot/richmenu/list',
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data.richmenus, handleError);
   }
@@ -1071,11 +1077,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/richmenu/${richMenuId}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data)
       .catch(err => {
@@ -1094,11 +1100,11 @@ export default class LineClient {
       .post(
         '/v2/bot/richmenu',
         richMenu,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1110,11 +1116,11 @@ export default class LineClient {
     return this._axios
       .delete(
         `/v2/bot/richmenu/${richMenuId}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1126,11 +1132,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/user/${userId}/richmenu`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data)
       .catch(err => {
@@ -1150,11 +1156,11 @@ export default class LineClient {
       .post(
         `/v2/bot/user/${userId}/richmenu/${richMenuId}`,
         null,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1166,11 +1172,11 @@ export default class LineClient {
     return this._axios
       .delete(
         `/v2/bot/user/${userId}/richmenu`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1181,11 +1187,11 @@ export default class LineClient {
     return this._axios
       .get(
         `/v2/bot/user/all/richmenu`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data)
       .catch(err => {
@@ -1204,11 +1210,11 @@ export default class LineClient {
       .post(
         `/v2/bot/user/all/richmenu/${richMenuId}`,
         null,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1219,11 +1225,11 @@ export default class LineClient {
     return this._axios
       .delete(
         `/v2/bot/user/all/richmenu`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1292,11 +1298,11 @@ export default class LineClient {
       .post(
         `/v2/bot/user/${userId}/linkToken`,
         null,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1315,11 +1321,11 @@ export default class LineClient {
     return this._axios
       .get(
         '/liff/v1/apps',
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data.apps, handleError);
   }
@@ -1332,11 +1338,11 @@ export default class LineClient {
       .post(
         '/liff/v1/apps',
         view,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1350,11 +1356,11 @@ export default class LineClient {
       .put(
         `/liff/v1/apps/${liffId}/view`,
         view,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
       )
       .then(res => res.data, handleError);
   }
@@ -1366,11 +1372,183 @@ export default class LineClient {
     return this._axios
       .delete(
         `/liff/v1/apps/${liffId}`,
-        customAccessToken === undefined
-          ? undefined
-          : {
+        customAccessToken
+          ? {
               headers: { Authorization: `Bearer ${customAccessToken}` },
             }
+          : {}
+      )
+      .then(res => res.data, handleError);
+  }
+
+  /**
+   * Get number of messages sent
+   *
+   */
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-quota
+  getTargetLimitForAdditionalMessages({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}): Promise<TargetLimitForAdditionalMessages> {
+    return this._axios
+      .get(
+        '/v2/bot/message/quota',
+        customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}
+      )
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-consumption
+  getNumberOfMessagesSentThisMonth({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}): Promise<NumberOfMessagesSentThisMonth> {
+    return this._axios
+      .get(
+        '/v2/bot/message/quota/consumption',
+        customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}
+      )
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-number-of-reply-messages
+  getNumberOfSentReplyMessages(
+    date: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<NumberOfMessagesSentResponse> {
+    return this._axios
+      .get('/v2/bot/message/delivery/reply', {
+        params: {
+          date,
+        },
+        ...(customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-number-of-push-messages
+  getNumberOfSentPushMessages(
+    date: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<NumberOfMessagesSentResponse> {
+    return this._axios
+      .get('/v2/bot/message/delivery/push', {
+        params: {
+          date,
+        },
+        ...(customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-number-of-multicast-messages
+  getNumberOfSentMulticastMessages(
+    date: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<NumberOfMessagesSentResponse> {
+    return this._axios
+      .get('/v2/bot/message/delivery/multicast', {
+        params: {
+          date,
+        },
+        ...(customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-number-of-broadcast-messages
+  getNumberOfSentBroadcastMessages(
+    date: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<NumberOfMessagesSentResponse> {
+    return this._axios
+      .get('/v2/bot/message/delivery/broadcast', {
+        params: {
+          date,
+        },
+        ...(customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  /**
+   * Insight
+   *
+   */
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages
+  getNumberOfMessageDeliveries(
+    date: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<NumberOfMessageDeliveriesResponse> {
+    return this._axios
+      .get('/v2/bot/insight/message/delivery', {
+        params: {
+          date,
+        },
+        ...(customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
+  getNumberOfFollowers(
+    date: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<NumberOfFollowersResponse> {
+    return this._axios
+      .get('/v2/bot/insight/followers', {
+        params: {
+          date,
+        },
+        ...(customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  // https://developers.line.biz/en/reference/messaging-api/#get-demographic
+  getFriendDemographics({
+    accessToken: customAccessToken,
+  }: { accessToken?: string } = {}): Promise<FriendDemographics> {
+    return this._axios
+      .get(
+        '/v2/bot/insight/demographic',
+        customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}
       )
       .then(res => res.data, handleError);
   }
