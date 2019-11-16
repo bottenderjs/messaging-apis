@@ -30,8 +30,8 @@ const createMock = ({
 };
 
 describe('Content', () => {
-  describe('#retrieveMessageContent', () => {
-    it('should call retrieveMessageContent api', async () => {
+  describe('#getMessageContent', () => {
+    it('should call getMessageContent api', async () => {
       const { client, mock } = createMock();
 
       const reply = Buffer.from('a content buffer');
@@ -40,7 +40,7 @@ describe('Content', () => {
 
       mock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
 
-      const res = await client.retrieveMessageContent(MESSAGE_ID);
+      const res = await client.getMessageContent(MESSAGE_ID);
 
       expect(res).toEqual(reply);
     });
