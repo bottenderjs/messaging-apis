@@ -1,12 +1,12 @@
-import camelCase from 'camel-case';
 import debug from 'debug';
-import mapObject from 'map-obj';
-import snakeCase from 'snake-case';
+import omit from 'lodash/omit';
+import urlJoin from 'url-join';
+import { AxiosRequestConfig, Method } from 'axios';
 
-const debugRequest = debug('messaging-api-common:request');
+const debugRequest = debug('messaging-api:request');
 
-function onRequest(request: {
-  method: string;
+function defaultOnRequest(request: {
+  method?: Method;
   url: string;
   headers: Record<string, any>;
   body: Record<string, any>;
@@ -21,37 +21,43 @@ function onRequest(request: {
   }
 }
 
-function isLastCharNumber(key: string) {
-  return /^\d$/.test(key[key.length - 1]);
+type RequestPayload = {
+  method?: Method;
+  url: string;
+  headers: Record<string, any>;
+  body: any;
+};
+
+export type OnRequestFunction = (request: RequestPayload) => void;
+
+function createRequestInterceptor({
+  onRequest = defaultOnRequest,
+}: { onRequest?: OnRequestFunction } = {}) {
+  return (config: AxiosRequestConfig) => {
+    onRequest({
+      method: config.method,
+      url: urlJoin(config.baseURL || '', config.url || '/'),
+      headers: {
+        ...config.headers.common,
+        ...(config.method ? config.headers[config.method] : {}),
+        ...omit(config.headers, [
+          'common',
+          'get',
+          'post',
+          'put',
+          'patch',
+          'delete',
+          'head',
+        ]),
+      },
+
+      body: config.data,
+    });
+
+    return config;
+  };
 }
 
-function splitLastChar(key: string) {
-  return `${key.slice(0, key.length - 1)}_${key.slice(
-    key.length - 1,
-    key.length
-  )}`;
-}
+export * from './case';
 
-function snakecaseKeysDeep(obj: Record<string, any>) {
-  return mapObject(
-    obj,
-    (key, val) => [
-      snakeCase(isLastCharNumber(key) ? splitLastChar(key) : key),
-      val,
-    ],
-    { deep: true }
-  );
-}
-
-function camelcaseKeysDeep(obj: Record<string, any>) {
-  return mapObject(
-    obj,
-    (key, val) => [
-      camelCase(isLastCharNumber(key) ? splitLastChar(key) : key),
-      val,
-    ],
-    { deep: true }
-  );
-}
-
-export { onRequest, snakecaseKeysDeep, camelcaseKeysDeep };
+export { defaultOnRequest as onRequest, createRequestInterceptor };

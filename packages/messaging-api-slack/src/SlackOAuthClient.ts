@@ -2,11 +2,13 @@ import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
-import omit from 'lodash.omit';
-import snakecaseKeys from 'snakecase-keys';
-import urlJoin from 'url-join';
-import { onRequest } from 'messaging-api-common';
+import omit from 'lodash/omit';
+import {
+  OnRequestFunction,
+  camelcaseKeysDeep,
+  createRequestInterceptor,
+  snakecaseKeysDeep,
+} from 'messaging-api-common';
 
 import {
   Attachment,
@@ -58,7 +60,7 @@ type UserListOptions = CommonOptions & {
 type ClientConfig = {
   accessToken: string;
   origin?: string;
-  onRequest?: Function;
+  onRequest?: OnRequestFunction;
 };
 
 interface PostMessageOptions extends CommonOptions {
@@ -78,7 +80,7 @@ interface PostMessageOptions extends CommonOptions {
 export default class SlackOAuthClient {
   _token: string;
 
-  _onRequest: Function;
+  _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
 
@@ -92,12 +94,11 @@ export default class SlackOAuthClient {
     if (typeof accessTokenOrConfig === 'string') {
       // Bot User OAuth Access Token
       this._token = accessTokenOrConfig;
-      this._onRequest = onRequest;
     } else {
       const config = accessTokenOrConfig;
 
       this._token = config.accessToken;
-      this._onRequest = config.onRequest || onRequest;
+      this._onRequest = config.onRequest;
       origin = config.origin;
     }
 
@@ -110,29 +111,9 @@ export default class SlackOAuthClient {
       },
     });
 
-    this._axios.interceptors.request.use(config => {
-      this._onRequest({
-        method: config.method,
-        url: urlJoin(config.baseURL || '', config.url || '/'),
-        headers: {
-          ...config.headers.common,
-          ...(config.method ? config.headers[config.method] : {}),
-          ...omit(config.headers, [
-            'common',
-            'get',
-            'post',
-            'put',
-            'patch',
-            'delete',
-            'head',
-          ]),
-        },
-
-        body: config.data,
-      });
-
-      return config;
-    });
+    this._axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this._onRequest })
+    );
   }
 
   get axios(): AxiosInstance {
@@ -155,12 +136,12 @@ export default class SlackOAuthClient {
 
       const response = await this._axios.post(
         method,
-        querystring.stringify(snakecaseKeys(body, { deep: true }) as any)
+        querystring.stringify(snakecaseKeysDeep(body) as any)
       );
 
-      const data = (camelcaseKeys(response.data, {
-        deep: true,
-      }) as any) as OAuthAPIResponse;
+      const data = (camelcaseKeysDeep(
+        response.data
+      ) as any) as OAuthAPIResponse;
 
       if (!data.ok) {
         const { config, request } = response;
@@ -317,15 +298,13 @@ export default class SlackOAuthClient {
     if (message.attachments && typeof message.attachments !== 'string') {
       // eslint-disable-next-line no-param-reassign
       message.attachments = JSON.stringify(
-        snakecaseKeys(message.attachments, { deep: true })
+        snakecaseKeysDeep(message.attachments)
       );
     }
 
     if (message.blocks && typeof message.blocks !== 'string') {
       // eslint-disable-next-line no-param-reassign
-      message.blocks = JSON.stringify(
-        snakecaseKeys(message.blocks, { deep: true })
-      );
+      message.blocks = JSON.stringify(snakecaseKeysDeep(message.blocks));
     }
 
     return this.callMethod('chat.postMessage', {
@@ -358,15 +337,13 @@ export default class SlackOAuthClient {
     if (message.attachments && typeof message.attachments !== 'string') {
       // eslint-disable-next-line no-param-reassign
       message.attachments = JSON.stringify(
-        snakecaseKeys(message.attachments, { deep: true })
+        snakecaseKeysDeep(message.attachments)
       );
     }
 
     if (message.blocks && typeof message.blocks !== 'string') {
       // eslint-disable-next-line no-param-reassign
-      message.blocks = JSON.stringify(
-        snakecaseKeys(message.blocks, { deep: true })
-      );
+      message.blocks = JSON.stringify(snakecaseKeysDeep(message.blocks));
     }
 
     return this.callMethod('chat.postEphemeral', {

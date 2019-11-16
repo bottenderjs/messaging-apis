@@ -1,7 +1,6 @@
 import FormData from 'form-data';
-import camelcaseKeys from 'camelcase-keys';
 import omit from 'lodash/omit';
-import snakecaseKeys from 'snakecase-keys';
+import { camelcaseKeysDeep, snakecaseKeysDeep } from 'messaging-api-common';
 
 import {
   AirlineBoardingPassAttributes,
@@ -37,7 +36,7 @@ function createMessage(
     message.quickReplies = quickReplies;
   }
 
-  return camelcaseKeys(message, { deep: true });
+  return camelcaseKeysDeep(message);
 }
 
 function createText(
@@ -65,10 +64,7 @@ function createMessageFormData(
 
   const formdata = new FormData();
 
-  formdata.append(
-    'message',
-    JSON.stringify(snakecaseKeys(message, { deep: true }))
-  );
+  formdata.append('message', JSON.stringify(snakecaseKeysDeep(message)));
   formdata.append(
     'filedata',
     filedata,

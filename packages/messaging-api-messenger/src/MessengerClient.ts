@@ -7,17 +7,15 @@ import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
 import axios, { AxiosInstance } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
 import get from 'lodash/get';
 import invariant from 'invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
-import snakecaseKeys from 'snakecase-keys';
-import urlJoin from 'url-join';
 import warning from 'warning';
 import {
+  OnRequestFunction,
   camelcaseKeysDeep,
-  onRequest,
+  createRequestInterceptor,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
@@ -69,7 +67,7 @@ type ClientConfig = {
   appSecret?: string;
   version?: string;
   origin?: string;
-  onRequest?: Function;
+  onRequest?: OnRequestFunction;
   skipAppSecretProof?: boolean;
 };
 
@@ -97,7 +95,7 @@ export default class MessengerClient {
     return new MessengerClient(accessTokenOrConfig, version);
   }
 
-  _onRequest: Function;
+  _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
 
@@ -124,7 +122,7 @@ export default class MessengerClient {
       this._appId = config.appId;
       this._appSecret = config.appSecret;
       this._version = extractVersion(config.version || '4.0');
-      this._onRequest = config.onRequest || onRequest;
+      this._onRequest = config.onRequest;
       origin = config.origin;
 
       if (typeof config.skipAppSecretProof === 'boolean') {
@@ -140,7 +138,6 @@ export default class MessengerClient {
       );
 
       this._version = extractVersion(version);
-      this._onRequest = onRequest;
 
       skipAppSecretProof = true;
     }
@@ -192,29 +189,9 @@ export default class MessengerClient {
       });
     }
 
-    this._axios.interceptors.request.use(config => {
-      this._onRequest({
-        method: config.method,
-        url: urlJoin(config.baseURL || '', config.url || '/'),
-        headers: {
-          ...config.headers.common,
-          ...(config.method ? config.headers[config.method] : {}),
-          ...omit(config.headers, [
-            'common',
-            'get',
-            'post',
-            'put',
-            'patch',
-            'delete',
-            'head',
-          ]),
-        },
-
-        body: config.data,
-      });
-
-      return config;
-    });
+    this._axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this._onRequest })
+    );
   }
 
   get version(): string {
@@ -903,7 +880,7 @@ export default class MessengerClient {
     formdata.append('messaging_type', messagingType);
     formdata.append(
       'recipient',
-      JSON.stringify(snakecaseKeys(recipientObject, { deep: true }))
+      JSON.stringify(snakecaseKeysDeep(recipientObject))
     );
 
     return this._axios
@@ -1190,10 +1167,7 @@ export default class MessengerClient {
       .map(item => omit(item, 'responseAccessPath'))
       .map(item => {
         if (item.body) {
-          const body = snakecaseKeys(item.body, { deep: true }) as Record<
-            string,
-            any
-          >;
+          const body = snakecaseKeysDeep(item.body) as Record<string, any>;
           return {
             ...item,
             body: Object.keys(body)
@@ -1219,16 +1193,13 @@ export default class MessengerClient {
           res.data.map(
             (item: { code: number; body: string }, index: number) => {
               const responseAccessPath = responseAccessPaths[index];
-              const datum = camelcaseKeys(item, { deep: true }) as Record<
-                string,
-                any
-              >;
+              const datum = camelcaseKeysDeep(item) as Record<string, any>;
               if (responseAccessPath && datum.body) {
                 return {
                   ...datum,
                   body: JSON.stringify(
                     get(
-                      camelcaseKeys(JSON.parse(datum.body), { deep: true }),
+                      camelcaseKeysDeep(JSON.parse(datum.body)),
                       responseAccessPath
                     )
                   ),
@@ -1590,7 +1561,7 @@ export default class MessengerClient {
         `/me/thread_owner?recipient=${recipientId}&access_token=${customAccessToken ||
           this._accessToken}`
       )
-      .then(res => res.data.data[0].thread_owner, handleError);
+      .then(res => res.data.data[0].threadOwner, handleError);
   }
 
   /**

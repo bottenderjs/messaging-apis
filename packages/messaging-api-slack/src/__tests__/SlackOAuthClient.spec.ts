@@ -108,7 +108,7 @@ const camelcaseMembers = [
     isAdmin: true,
     isOwner: true,
     updated: 1490054400,
-    has2Fa: false,
+    has2fa: false,
   },
   {
     id: 'W07QCRPA4',
@@ -146,7 +146,7 @@ const camelcaseMembers = [
     isUltraRestricted: false,
     isBot: false,
     updated: 1480527098,
-    has2Fa: false,
+    has2fa: false,
   },
 ];
 
@@ -205,7 +205,7 @@ const camelcaseUser = {
   isAdmin: true,
   isOwner: true,
   updated: 1490054400,
-  has2Fa: true,
+  has2fa: true,
 };
 
 const createMock = () => {

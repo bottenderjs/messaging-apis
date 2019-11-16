@@ -2,13 +2,15 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
-import mapObj from 'map-obj';
-import omit from 'lodash.omit';
-import pascalCase from 'pascal-case';
-import snakecaseKeys from 'snakecase-keys';
-import urlJoin from 'url-join';
-import { onRequest } from 'messaging-api-common';
+import {
+  OnRequestFunction,
+  camelcaseKeysDeep,
+  createRequestInterceptor,
+  onRequest,
+  pascalcaseKeysDeep,
+  snakecaseKeys,
+  snakecaseKeysDeep,
+} from 'messaging-api-common';
 
 import {
   AccountInfo,
@@ -33,28 +35,14 @@ type ClientConfig = {
   accessToken: string;
   sender: Sender;
   origin?: string;
-  onRequest?: Function;
+  onRequest?: OnRequestFunction;
 };
-
-function pascalcaseKeysDeep(input: any): any {
-  if (Array.isArray(input)) {
-    return input.map(item => pascalcaseKeysDeep(item));
-  }
-
-  if (input && typeof input === 'object') {
-    return mapObj(input, (key, val) => {
-      return [pascalCase(key as string), pascalcaseKeysDeep(val)];
-    });
-  }
-
-  return input;
-}
 
 function transformMessageCase(message: Message): any {
   const { keyboard, richMedia, ...others } = message as any;
 
   return {
-    ...snakecaseKeys(others, { deep: true }),
+    ...snakecaseKeysDeep(others),
     ...(keyboard ? { keyboard: pascalcaseKeysDeep(keyboard) } : undefined),
     ...(richMedia
       ? {
@@ -79,7 +67,7 @@ export default class ViberClient {
 
   _sender: Sender;
 
-  _onRequest: Function;
+  _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
 
@@ -106,29 +94,9 @@ export default class ViberClient {
       },
     });
 
-    this._axios.interceptors.request.use(config => {
-      this._onRequest({
-        method: config.method,
-        url: urlJoin(config.baseURL || '', config.url || '/'),
-        headers: {
-          ...config.headers.common,
-          ...(config.method ? config.headers[config.method] : {}),
-          ...omit(config.headers, [
-            'common',
-            'get',
-            'post',
-            'put',
-            'patch',
-            'delete',
-            'head',
-          ]),
-        },
-
-        body: config.data,
-      });
-
-      return config;
-    });
+    this._axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this._onRequest })
+    );
   }
 
   get axios(): AxiosInstance {
@@ -154,9 +122,7 @@ export default class ViberClient {
 
       const { config, request } = response;
 
-      const data = (camelcaseKeys(response.data, {
-        deep: true,
-      }) as any) as ResponseData<R>;
+      const data = (camelcaseKeysDeep(response.data) as any) as ResponseData<R>;
 
       if (data.status !== 0) {
         throw new AxiosError(`Viber API - ${data.statusMessage}`, {

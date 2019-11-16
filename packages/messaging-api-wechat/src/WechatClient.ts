@@ -3,11 +3,13 @@ import fs from 'fs';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
-import omit from 'lodash.omit';
-import snakecaseKeys from 'snakecase-keys';
-import urlJoin from 'url-join';
-import { onRequest } from 'messaging-api-common';
+import {
+  OnRequestFunction,
+  camelcaseKeys,
+  createRequestInterceptor,
+  onRequest,
+  snakecaseKeys,
+} from 'messaging-api-common';
 
 import {
   AccessToken,
@@ -29,7 +31,7 @@ type ClientConfig = {
   appId: string;
   appSecret: string;
   origin?: string;
-  onRequest?: Function;
+  onRequest?: OnRequestFunction;
 };
 
 function throwErrorIfAny(response: AxiosResponse): AxiosResponse | never {
@@ -57,7 +59,7 @@ export default class WechatClient {
 
   _appSecret: string;
 
-  _onRequest: Function;
+  _onRequest: OnRequestFunction | undefined;
 
   _accessToken = '';
 
@@ -85,29 +87,11 @@ export default class WechatClient {
       },
     });
 
-    this._axios.interceptors.request.use(config => {
-      this._onRequest({
-        method: config.method,
-        url: urlJoin(config.baseURL || '', config.url || '/'),
-        headers: {
-          ...config.headers.common,
-          ...(config.method ? config.headers[config.method] : {}),
-          ...omit(config.headers, [
-            'common',
-            'get',
-            'post',
-            'put',
-            'patch',
-            'delete',
-            'head',
-          ]),
-        },
-
-        body: config.data,
-      });
-
-      return config;
-    });
+    this._axios.interceptors.request.use(
+      createRequestInterceptor({
+        onRequest: this._onRequest,
+      })
+    );
   }
 
   get axios(): AxiosInstance {

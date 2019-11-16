@@ -15,9 +15,7 @@
     "axios-error": "file:../axios-error",
     "image-type": "^4.1.0",
     "invariant": "^2.2.4",
-    "lodash.omit": "^4.5.0",
-    "messaging-api-common": "file:../messaging-api-common",
-    "url-join": "^4.0.1"
+    "messaging-api-common": "file:../messaging-api-common"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.17.0"
