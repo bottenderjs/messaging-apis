@@ -311,7 +311,7 @@ describe('game api', () => {
       const res = await client.getGameHighScores(427770117, {
         chat_id: 427770117,
         message_id: 1,
-      });
+      } as any);
 
       expect(res).toEqual(result);
     });

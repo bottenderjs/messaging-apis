@@ -2,22 +2,23 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import camelCaseKeys from 'camelcase-keys';
 import difference from 'lodash/difference';
-import isObject from 'lodash/isObject';
-import omit from 'lodash.omit';
+import isPlainObject from 'lodash/isPlainObject';
 import pick from 'lodash/pick';
-import snakeCaseKeys from 'snakecase-keys';
-import snakecase from 'to-snake-case';
-import urlJoin from 'url-join';
-import { onRequest } from 'messaging-api-common';
+import {
+  OnRequestFunction,
+  camelcaseKeysDeep,
+  createRequestInterceptor,
+  snakecase,
+  snakecaseKeysDeep,
+} from 'messaging-api-common';
 
 import * as Type from './TelegramTypes';
 
 type ClientConfig = {
   accessToken: string;
   origin?: string;
-  onRequest?: Function;
+  onRequest?: OnRequestFunction;
 };
 
 export default class TelegramClient {
@@ -27,7 +28,7 @@ export default class TelegramClient {
 
   _token: string;
 
-  _onRequest: Function;
+  _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
 
@@ -37,11 +38,10 @@ export default class TelegramClient {
       const config = accessTokenOrConfig;
 
       this._token = config.accessToken;
-      this._onRequest = config.onRequest || onRequest;
+      this._onRequest = config.onRequest;
       origin = config.origin;
     } else {
       this._token = accessTokenOrConfig;
-      this._onRequest = onRequest;
     }
 
     this._axios = axios.create({
@@ -51,29 +51,11 @@ export default class TelegramClient {
       },
     });
 
-    this._axios.interceptors.request.use(config => {
-      this._onRequest({
-        method: config.method,
-        url: urlJoin(config.baseURL || '', config.url || '/'),
-        headers: {
-          ...config.headers.common,
-          ...(config.method ? config.headers[config.method] : {}),
-          ...omit(config.headers, [
-            'common',
-            'get',
-            'post',
-            'put',
-            'patch',
-            'delete',
-            'head',
-          ]),
-        },
-
-        body: config.data,
-      });
-
-      return config;
-    });
+    this._axios.interceptors.request.use(
+      createRequestInterceptor({
+        onRequest: this._onRequest,
+      })
+    );
   }
 
   get axios(): AxiosInstance {
@@ -86,7 +68,7 @@ export default class TelegramClient {
 
   async _request(path: string, body: Record<string, any> = {}) {
     try {
-      const response = await this._axios.post(path, snakeCaseKeys(body));
+      const response = await this._axios.post(path, snakecaseKeysDeep(body));
 
       const { data, config, request } = response;
 
@@ -98,8 +80,8 @@ export default class TelegramClient {
         });
       }
 
-      if (isObject(data.result)) {
-        return camelCaseKeys(data.result, { deep: true });
+      if (isPlainObject(data.result) || Array.isArray(data.result)) {
+        return camelcaseKeysDeep(data.result);
       }
       return data.result;
     } catch (err) {
@@ -113,12 +95,12 @@ export default class TelegramClient {
     }
   }
 
-  _optionWithoutKeys(option: any, revmoeKeys: string[]): Record<string, any> {
+  _optionWithoutKeys(option: any, removeKeys: string[]): Record<string, any> {
     let keys = Object.keys(option);
-    keys = difference(keys, revmoeKeys);
+    keys = difference(keys, removeKeys);
     keys = difference(
       keys,
-      revmoeKeys.map(key => snakecase(key))
+      removeKeys.map(key => snakecase(key))
     );
     return pick(option, keys);
   }

@@ -2,9 +2,10 @@ import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import imageType from 'image-type';
 import invariant from 'invariant';
-import omit from 'lodash.omit';
-import urlJoin from 'url-join';
-import { onRequest } from 'messaging-api-common';
+import {
+  OnRequestFunction,
+  createRequestInterceptor,
+} from 'messaging-api-common';
 
 import Line from './Line';
 import {
@@ -29,7 +30,7 @@ type ClientConfig = {
   accessToken: string;
   channelSecret: string;
   origin?: string;
-  onRequest?: Function;
+  onRequest?: OnRequestFunction;
 };
 
 function handleError(err: {
@@ -67,7 +68,7 @@ export default class LineClient {
 
   _channelSecret: string;
 
-  _onRequest: Function;
+  _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
 
@@ -83,12 +84,11 @@ export default class LineClient {
 
       this._accessToken = config.accessToken;
       this._channelSecret = config.channelSecret;
-      this._onRequest = config.onRequest || onRequest;
+      this._onRequest = config.onRequest;
       origin = config.origin;
     } else {
       this._accessToken = accessTokenOrConfig;
       this._channelSecret = channelSecret as string;
-      this._onRequest = onRequest;
     }
 
     this._axios = axios.create({
@@ -99,29 +99,9 @@ export default class LineClient {
       },
     });
 
-    this._axios.interceptors.request.use(config => {
-      this._onRequest({
-        method: config.method,
-        url: urlJoin(config.baseURL || '', config.url || '/'),
-        headers: {
-          ...config.headers.common,
-          ...(config.method ? config.headers[config.method] : {}),
-          ...omit(config.headers, [
-            'common',
-            'get',
-            'post',
-            'put',
-            'patch',
-            'delete',
-            'head',
-          ]),
-        },
-
-        body: config.data,
-      });
-
-      return config;
-    });
+    this._axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this._onRequest })
+    );
   }
 
   get axios(): AxiosInstance {
