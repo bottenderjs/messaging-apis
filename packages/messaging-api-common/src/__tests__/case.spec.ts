@@ -10,8 +10,6 @@ import {
   snakecaseKeysDeep,
 } from '../case';
 
-import camelCase = require('camel-case');
-
 it('snakecase', () => {
   expect(snakecase('myKey')).toEqual('my_key');
   expect(snakecase('has2fa')).toEqual('has_2fa');

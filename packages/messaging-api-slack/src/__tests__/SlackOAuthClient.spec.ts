@@ -1817,52 +1817,6 @@ describe('#getConversationList', () => {
 });
 
 describe('#getAllConversationList', () => {
-  const snakecaseChannel = {
-    id: 'C024BE91L',
-    name: 'fun',
-
-    created: 1360782804,
-    creator: 'U024BE7LH',
-
-    is_archived: false,
-    is_general: false,
-    is_member: true,
-    is_starred: true,
-
-    members: [],
-
-    topic: {},
-    purpose: {},
-
-    last_read: '1401383885.000061',
-    latest: {},
-    unread_count: 0,
-    unread_count_display: 0,
-  };
-
-  const camelcaseChannel = {
-    id: 'C024BE91L',
-    name: 'fun',
-
-    created: 1360782804,
-    creator: 'U024BE7LH',
-
-    isArchived: false,
-    isGeneral: false,
-    isMember: true,
-    isStarred: true,
-
-    members: [],
-
-    topic: {},
-    purpose: {},
-
-    lastRead: '1401383885.000061',
-    latest: {},
-    unreadCount: 0,
-    unreadCountDisplay: 0,
-  };
-
   const snakecaseChannels = [
     {
       id: 'C012AB3CD',

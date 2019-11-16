@@ -1,8 +1,4 @@
-import invariant from 'invariant';
-
 import Line from '../Line';
-
-jest.mock('invariant');
 
 const quickReplyOptions = {
   quickReply: {

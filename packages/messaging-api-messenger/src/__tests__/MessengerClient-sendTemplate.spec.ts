@@ -142,58 +142,6 @@ describe('#sendButtonTemplate', () => {
   });
 });
 
-const templateElements = [
-  {
-    title: "Welcome to Peter's Hats",
-    image_url: 'https://petersfancybrownhats.com/company_image.png',
-    subtitle: "We've got the right hat for everyone.",
-    default_action: {
-      type: 'web_url',
-      url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-      messenger_extensions: true,
-      webview_height_ratio: 'tall',
-      fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-    },
-    buttons: [
-      {
-        type: 'postback',
-        title: 'Start Chatting',
-        payload: 'DEVELOPER_DEFINED_PAYLOAD',
-      },
-    ],
-  },
-];
-const templateMessage = {
-  attachment: {
-    type: 'template',
-    payload: {
-      template_type: 'generic',
-      elements: [
-        {
-          title: "Welcome to Peter's Hats",
-          image_url: 'https://petersfancybrownhats.com/company_image.png',
-          subtitle: "We've got the right hat for everyone.",
-          default_action: {
-            type: 'web_url',
-            url: 'https://peterssendreceiveapp.ngrok.io/view?item=103',
-            messenger_extensions: true,
-            webview_height_ratio: 'tall',
-            fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-          },
-          buttons: [
-            {
-              type: 'postback',
-              title: 'Start Chatting',
-              payload: 'DEVELOPER_DEFINED_PAYLOAD',
-            },
-          ],
-        },
-      ],
-      image_aspect_ratio: 'horizontal',
-    },
-  },
-};
-
 describe('#sendGenericTemplate', () => {
   it('should call messages api with generic template', async () => {
     const { client, mock } = createMock();
