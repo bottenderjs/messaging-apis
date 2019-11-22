@@ -54,7 +54,7 @@ describe('#sendTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -112,7 +112,7 @@ describe('#sendButtonTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -184,7 +184,7 @@ describe('#sendGenericTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -273,7 +273,7 @@ describe('#sendGenericTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -363,7 +363,7 @@ describe('#sendGenericTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'MESSAGE_TAG',
       recipient: {
         id: USER_ID,
@@ -441,7 +441,7 @@ describe('#sendMediaTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -547,7 +547,7 @@ describe('#sendReceiptTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -702,7 +702,7 @@ describe('#sendAirlineBoardingPassTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -873,7 +873,7 @@ describe('#sendAirlineCheckinTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -1064,7 +1064,7 @@ describe('#sendAirlineItineraryTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,
@@ -1253,7 +1253,7 @@ describe('#sendAirlineUpdateTemplate', () => {
     expect(url).toEqual(
       `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
     );
-    expect(data).toEqual({
+    expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
         id: USER_ID,

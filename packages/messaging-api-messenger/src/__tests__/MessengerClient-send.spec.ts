@@ -58,7 +58,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -104,7 +104,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -146,7 +146,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -191,7 +191,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'MESSAGE_TAG',
         recipient: {
           id: USER_ID,
@@ -237,7 +237,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'RESPONSE',
         recipient: {
           id: USER_ID,
@@ -282,7 +282,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           phone_number: '+1(212)555-2368',
@@ -335,7 +335,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -388,7 +388,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -433,7 +433,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -477,7 +477,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -521,7 +521,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -560,7 +560,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'MESSAGE_TAG',
         recipient: {
           id: USER_ID,
@@ -603,7 +603,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -647,7 +647,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -723,7 +723,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -767,7 +767,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -843,7 +843,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -887,7 +887,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -963,7 +963,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -1007,7 +1007,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         messaging_type: 'UPDATE',
         recipient: {
           id: USER_ID,
@@ -1082,7 +1082,7 @@ describe('send api', () => {
       const res = await client.sendBatch(batch);
 
       expect(url).toEqual(`https://graph.facebook.com/v4.0/`);
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
         batch: [
           {
@@ -1121,7 +1121,7 @@ describe('send api', () => {
       const res = await client.sendBatch(batch);
 
       expect(url).toEqual(`https://graph.facebook.com/v4.0/`);
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
         batch: [
           {
@@ -1168,7 +1168,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1202,7 +1202,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1237,7 +1237,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1271,7 +1271,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1306,7 +1306,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1340,7 +1340,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1375,7 +1375,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -1409,7 +1409,7 @@ describe('send api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },

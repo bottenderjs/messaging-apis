@@ -133,7 +133,7 @@ describe('subscription', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         object: 'page',
         callback_url: 'https://mycallback.com',
         fields:
@@ -171,7 +171,7 @@ describe('subscription', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         object: 'user',
         callback_url: 'https://mycallback.com',
         fields: 'messages,messaging_postbacks',
@@ -472,7 +472,7 @@ describe('upload api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         message: {
           attachment: {
             type: 'image',
@@ -513,7 +513,7 @@ describe('upload api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         message: {
           attachment: {
             type: 'image',
@@ -584,7 +584,7 @@ describe('upload api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         message: {
           attachment: {
             type: 'audio',
@@ -625,7 +625,7 @@ describe('upload api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         message: {
           attachment: {
             type: 'image',
@@ -666,7 +666,7 @@ describe('upload api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         message: {
           attachment: {
             type: 'video',
@@ -707,7 +707,7 @@ describe('upload api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         message: {
           attachment: {
             type: 'file',
@@ -751,7 +751,7 @@ describe('Built-in NLP API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
       });
 
@@ -780,7 +780,7 @@ describe('Built-in NLP API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=true`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
       });
 
@@ -809,7 +809,7 @@ describe('Built-in NLP API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=false`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
       });
 
@@ -849,7 +849,7 @@ describe('Event Logging API', () => {
       });
 
       expect(url).toEqual(`https://graph.facebook.com/v4.0/12345/activities`);
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         event: 'CUSTOM_APP_EVENTS',
         custom_events:
           '[{"_eventName":"fb_mobile_purchase","_valueToSum":55.22,"_fb_currency":"USD"}]',

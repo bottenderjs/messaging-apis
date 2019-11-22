@@ -129,7 +129,7 @@ describe('messenger profile', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         get_started: {
           payload: 'GET_STARTED',
         },
@@ -176,7 +176,7 @@ describe('messenger profile', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['get_started', 'persistent_menu'],
       });
 
@@ -261,7 +261,7 @@ describe('get started button', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         get_started: {
           payload: 'GET_STARTED',
         },
@@ -292,7 +292,7 @@ describe('get started button', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['get_started'],
       });
 
@@ -418,7 +418,7 @@ describe('persistent menu', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         persistent_menu: [
           {
             locale: 'default',
@@ -479,7 +479,7 @@ describe('persistent menu', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         persistent_menu: [
           {
             locale: 'default',
@@ -533,7 +533,7 @@ describe('persistent menu', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         persistent_menu: [
           {
             locale: 'default',
@@ -574,7 +574,7 @@ describe('persistent menu', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['persistent_menu'],
       });
 
@@ -665,7 +665,7 @@ describe('greeting', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         greeting: [
           {
             locale: 'default',
@@ -706,7 +706,7 @@ describe('greeting', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         greeting: [
           {
             locale: 'default',
@@ -744,7 +744,7 @@ describe('greeting', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['greeting'],
       });
 
@@ -852,7 +852,7 @@ describe('ice breakers', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         ice_breakers: [
           {
             question: 'Where are you located?',
@@ -890,7 +890,7 @@ describe('ice breakers', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['ice_breakers'],
       });
 
@@ -971,7 +971,7 @@ describe('whitelisted domains', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         whitelisted_domains: ['www.yoctol.com'],
       });
 
@@ -1000,7 +1000,7 @@ describe('whitelisted domains', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['whitelisted_domains'],
       });
 
@@ -1087,7 +1087,7 @@ describe('account linking url', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         account_linking_url:
           'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
       });
@@ -1117,7 +1117,7 @@ describe('account linking url', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['account_linking_url'],
       });
 
@@ -1206,7 +1206,7 @@ describe('payment settings', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         payment_settings: {
           privacy_url: 'https://www.example.com',
         },
@@ -1237,7 +1237,7 @@ describe('payment settings', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         payment_settings: {
           public_key: 'YOUR_PUBLIC_KEY',
         },
@@ -1268,7 +1268,7 @@ describe('payment settings', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         payment_settings: {
           test_users: ['12345678'],
         },
@@ -1299,7 +1299,7 @@ describe('payment settings', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['payment_settings'],
       });
 
@@ -1389,7 +1389,7 @@ describe('chat extension home URL', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         home_url: {
           url: 'http://petershats.com/send-a-hat',
           webview_height_ratio: 'tall',
@@ -1422,7 +1422,7 @@ describe('chat extension home URL', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         fields: ['home_url'],
       });
 
