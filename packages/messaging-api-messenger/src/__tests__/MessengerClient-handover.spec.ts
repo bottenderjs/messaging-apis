@@ -48,7 +48,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -87,7 +87,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${options.accessToken}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -123,7 +123,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -161,7 +161,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${options.accessToken}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -197,7 +197,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/take_thread_control?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -234,7 +234,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/take_thread_control?access_token=${options.accessToken}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -269,7 +269,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/request_thread_control?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },
@@ -306,7 +306,7 @@ describe('Handover Protocol API', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/request_thread_control?access_token=${options.accessToken}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         recipient: {
           id: USER_ID,
         },

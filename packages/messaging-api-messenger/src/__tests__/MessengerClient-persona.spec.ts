@@ -44,7 +44,7 @@ describe('persona api', () => {
       expect(url).toEqual(
         `https://graph.facebook.com/v4.0/me/personas?access_token=${ACCESS_TOKEN}`
       );
-      expect(data).toEqual({
+      expect(JSON.parse(data)).toEqual({
         name: 'kpman',
         profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
       });
