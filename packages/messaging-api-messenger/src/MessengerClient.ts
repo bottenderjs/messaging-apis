@@ -6,7 +6,7 @@ import url from 'url';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosTransformer } from 'axios';
 import get from 'lodash/get';
 import invariant from 'invariant';
 import isPlainObject from 'lodash/isPlainObject';
@@ -148,11 +148,13 @@ export default class MessengerClient {
       transformRequest: [
         (data: any) =>
           data && isPlainObject(data) ? snakecaseKeysDeep(data) : data,
+        ...(axios.defaults.transformRequest as AxiosTransformer[]),
       ],
 
       // `transformResponse` allows changes to the response data to be made before
       // it is passed to then/catch
       transformResponse: [
+        ...(axios.defaults.transformResponse as AxiosTransformer[]),
         (data: any) =>
           data && isPlainObject(data) ? camelcaseKeysDeep(data) : data,
       ],
