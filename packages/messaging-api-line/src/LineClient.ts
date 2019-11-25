@@ -1293,9 +1293,13 @@ export default class LineClient {
   issueLinkToken(
     userId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<{ issueToken: string }> {
+  ): Promise<{ linkToken: string }> {
+    warning(
+      false,
+      '`issueLinkToken` is deprecated. Use `getLinkToken` instead. Note: It returns a string instead of an object.'
+    );
     return this._axios
-      .post(
+      .post<{ linkToken: string }>(
         `/v2/bot/user/${userId}/linkToken`,
         null,
         customAccessToken
@@ -1305,6 +1309,23 @@ export default class LineClient {
           : {}
       )
       .then(res => res.data, handleError);
+  }
+
+  getLinkToken(
+    userId: string,
+    { accessToken: customAccessToken }: { accessToken?: string } = {}
+  ): Promise<string> {
+    return this._axios
+      .post<{ linkToken: string }>(
+        `/v2/bot/user/${userId}/linkToken`,
+        null,
+        customAccessToken
+          ? {
+              headers: { Authorization: `Bearer ${customAccessToken}` },
+            }
+          : {}
+      )
+      .then(res => res.data.linkToken, handleError);
   }
 
   /**
