@@ -118,7 +118,7 @@ describe('Profile', () => {
 });
 
 describe('Account link', () => {
-  describe('#issueLinkToken', () => {
+  describe('#getLinkToken', () => {
     it('should response data with link token', async () => {
       expect.assertions(4);
 
@@ -136,9 +136,9 @@ describe('Account link', () => {
         return [200, reply];
       });
 
-      const res = await client.issueLinkToken(RECIPIENT_ID);
+      const res = await client.getLinkToken(RECIPIENT_ID);
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual('NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY');
     });
 
     it('should work with custom access token', async () => {
@@ -160,11 +160,11 @@ describe('Account link', () => {
         return [200, reply];
       });
 
-      const res = await client.issueLinkToken(RECIPIENT_ID, {
+      const res = await client.getLinkToken(RECIPIENT_ID, {
         accessToken: CUSTOM_ACCESS_TOKEN,
       });
 
-      expect(res).toEqual(reply);
+      expect(res).toEqual('NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY');
     });
   });
 });
