@@ -1391,7 +1391,7 @@ export default class LineClient {
     accessToken: customAccessToken,
   }: { accessToken?: string } = {}): Promise<TargetLimitForAdditionalMessages> {
     return this._axios
-      .get(
+      .get<TargetLimitForAdditionalMessages>(
         '/v2/bot/message/quota',
         customAccessToken
           ? {
@@ -1407,7 +1407,7 @@ export default class LineClient {
     accessToken: customAccessToken,
   }: { accessToken?: string } = {}): Promise<NumberOfMessagesSentThisMonth> {
     return this._axios
-      .get(
+      .get<NumberOfMessagesSentThisMonth>(
         '/v2/bot/message/quota/consumption',
         customAccessToken
           ? {
@@ -1424,7 +1424,7 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<NumberOfMessagesSentResponse> {
     return this._axios
-      .get('/v2/bot/message/delivery/reply', {
+      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/reply', {
         params: {
           date,
         },
@@ -1443,7 +1443,7 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<NumberOfMessagesSentResponse> {
     return this._axios
-      .get('/v2/bot/message/delivery/push', {
+      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/push', {
         params: {
           date,
         },
@@ -1462,7 +1462,7 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<NumberOfMessagesSentResponse> {
     return this._axios
-      .get('/v2/bot/message/delivery/multicast', {
+      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/multicast', {
         params: {
           date,
         },
@@ -1481,7 +1481,7 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<NumberOfMessagesSentResponse> {
     return this._axios
-      .get('/v2/bot/message/delivery/broadcast', {
+      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/broadcast', {
         params: {
           date,
         },
@@ -1505,16 +1505,19 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<NumberOfMessageDeliveriesResponse> {
     return this._axios
-      .get('/v2/bot/insight/message/delivery', {
-        params: {
-          date,
-        },
-        ...(customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}),
-      })
+      .get<NumberOfMessageDeliveriesResponse>(
+        '/v2/bot/insight/message/delivery',
+        {
+          params: {
+            date,
+          },
+          ...(customAccessToken
+            ? {
+                headers: { Authorization: `Bearer ${customAccessToken}` },
+              }
+            : {}),
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -1524,7 +1527,7 @@ export default class LineClient {
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<NumberOfFollowersResponse> {
     return this._axios
-      .get('/v2/bot/insight/followers', {
+      .get<NumberOfFollowersResponse>('/v2/bot/insight/followers', {
         params: {
           date,
         },
@@ -1542,7 +1545,7 @@ export default class LineClient {
     accessToken: customAccessToken,
   }: { accessToken?: string } = {}): Promise<FriendDemographics> {
     return this._axios
-      .get(
+      .get<FriendDemographics>(
         '/v2/bot/insight/demographic',
         customAccessToken
           ? {
