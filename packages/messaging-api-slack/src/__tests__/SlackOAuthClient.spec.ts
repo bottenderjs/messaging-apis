@@ -352,7 +352,7 @@ describe('#callMethod', () => {
   });
 });
 
-describe('#postMessage', () => {
+describe('#chat.postMessage', () => {
   it('should call chat.postMessage with channel and text message', async () => {
     const { client, mock } = createMock();
 
@@ -378,7 +378,10 @@ describe('#postMessage', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postMessage(CHANNEL, { text: 'hello' });
+    const res = await client.chat.postMessage({
+      channel: CHANNEL,
+      text: 'hello',
+    });
 
     expect(res).toEqual(reply);
   });
@@ -410,48 +413,46 @@ describe('#postMessage', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postMessage(
-      CHANNEL,
-      {
-        attachments: [
-          {
-            text: 'Choose a game to play',
-            fallback: 'You are unable to choose a game',
-            callbackId: 'wopr_game',
-            color: '#3AA3E3',
-            attachmentType: 'default',
-            actions: [
-              {
-                name: 'game',
-                text: 'Chess',
-                type: 'button',
-                value: 'chess',
+    const res = await client.chat.postMessage({
+      channel: CHANNEL,
+      attachments: [
+        {
+          text: 'Choose a game to play',
+          fallback: 'You are unable to choose a game',
+          callbackId: 'wopr_game',
+          color: '#3AA3E3',
+          attachmentType: 'default',
+          actions: [
+            {
+              name: 'game',
+              text: 'Chess',
+              type: 'button',
+              value: 'chess',
+            },
+            {
+              name: 'game',
+              text: "Falken's Maze",
+              type: 'button',
+              value: 'maze',
+            },
+            {
+              name: 'game',
+              text: 'Thermonuclear War',
+              style: 'danger',
+              type: 'button',
+              value: 'war',
+              confirm: {
+                title: 'Are you sure?',
+                text: "Wouldn't you prefer a good game of chess?",
+                okText: 'Yes',
+                dismissText: 'No',
               },
-              {
-                name: 'game',
-                text: "Falken's Maze",
-                type: 'button',
-                value: 'maze',
-              },
-              {
-                name: 'game',
-                text: 'Thermonuclear War',
-                style: 'danger',
-                type: 'button',
-                value: 'war',
-                confirm: {
-                  title: 'Are you sure?',
-                  text: "Wouldn't you prefer a good game of chess?",
-                  okText: 'Yes',
-                  dismissText: 'No',
-                },
-              },
-            ],
-          },
-        ],
-      },
-      { asUser: true }
-    );
+            },
+          ],
+        },
+      ],
+      asUser: true,
+    });
 
     expect(res).toEqual(reply);
   });
@@ -481,7 +482,10 @@ describe('#postMessage', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postMessage(CHANNEL, 'hello');
+    const res = await client.chat.postMessage({
+      channel: CHANNEL,
+      text: 'hello',
+    });
 
     expect(res).toEqual(reply);
   });
@@ -512,7 +516,9 @@ describe('#postMessage', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postMessage(CHANNEL, 'hello', {
+    const res = await client.chat.postMessage({
+      channel: CHANNEL,
+      text: 'hello',
       asUser: true,
       accessToken: 'custom token',
     });
@@ -546,7 +552,8 @@ describe('#postMessage', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postMessage(CHANNEL, {
+    const res = await client.chat.postMessage({
+      channel: CHANNEL,
       text: 'hello',
       blocks: [
         {
@@ -563,7 +570,7 @@ describe('#postMessage', () => {
   });
 });
 
-describe('#postEphemeral', () => {
+describe('#chat.postEphemeral', () => {
   it('should call chat.postEphemeral with channel, user and text message', async () => {
     const { client, mock } = createMock();
 
@@ -590,7 +597,11 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(CHANNEL, USER, { text: 'hello' });
+    const res = await client.chat.postEphemeral({
+      channel: CHANNEL,
+      user: USER,
+      text: 'hello',
+    });
 
     expect(res).toEqual(reply);
   });
@@ -624,50 +635,48 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(
-      CHANNEL,
-      USER,
-      {
-        text: 'hello',
-        attachments: [
-          {
-            text: 'Choose a game to play',
-            fallback: 'You are unable to choose a game',
-            callbackId: 'wopr_game',
-            color: '#3AA3E3',
-            attachmentType: 'default',
-            actions: [
-              {
-                name: 'game',
-                text: 'Chess',
-                type: 'button',
-                value: 'chess',
+    const res = await client.chat.postEphemeral({
+      channel: CHANNEL,
+      user: USER,
+      text: 'hello',
+      attachments: [
+        {
+          text: 'Choose a game to play',
+          fallback: 'You are unable to choose a game',
+          callbackId: 'wopr_game',
+          color: '#3AA3E3',
+          attachmentType: 'default',
+          actions: [
+            {
+              name: 'game',
+              text: 'Chess',
+              type: 'button',
+              value: 'chess',
+            },
+            {
+              name: 'game',
+              text: "Falken's Maze",
+              type: 'button',
+              value: 'maze',
+            },
+            {
+              name: 'game',
+              text: 'Thermonuclear War',
+              style: 'danger',
+              type: 'button',
+              value: 'war',
+              confirm: {
+                title: 'Are you sure?',
+                text: "Wouldn't you prefer a good game of chess?",
+                okText: 'Yes',
+                dismissText: 'No',
               },
-              {
-                name: 'game',
-                text: "Falken's Maze",
-                type: 'button',
-                value: 'maze',
-              },
-              {
-                name: 'game',
-                text: 'Thermonuclear War',
-                style: 'danger',
-                type: 'button',
-                value: 'war',
-                confirm: {
-                  title: 'Are you sure?',
-                  text: "Wouldn't you prefer a good game of chess?",
-                  okText: 'Yes',
-                  dismissText: 'No',
-                },
-              },
-            ],
-          },
-        ],
-      },
-      { asUser: true }
-    );
+            },
+          ],
+        },
+      ],
+      asUser: true,
+    });
 
     expect(res).toEqual(reply);
   });
@@ -700,49 +709,47 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(
-      CHANNEL,
-      USER,
-      {
-        attachments: [
-          {
-            text: 'Choose a game to play',
-            fallback: 'You are unable to choose a game',
-            callbackId: 'wopr_game',
-            color: '#3AA3E3',
-            attachmentType: 'default',
-            actions: [
-              {
-                name: 'game',
-                text: 'Chess',
-                type: 'button',
-                value: 'chess',
+    const res = await client.chat.postEphemeral({
+      channel: CHANNEL,
+      user: USER,
+      attachments: [
+        {
+          text: 'Choose a game to play',
+          fallback: 'You are unable to choose a game',
+          callbackId: 'wopr_game',
+          color: '#3AA3E3',
+          attachmentType: 'default',
+          actions: [
+            {
+              name: 'game',
+              text: 'Chess',
+              type: 'button',
+              value: 'chess',
+            },
+            {
+              name: 'game',
+              text: "Falken's Maze",
+              type: 'button',
+              value: 'maze',
+            },
+            {
+              name: 'game',
+              text: 'Thermonuclear War',
+              style: 'danger',
+              type: 'button',
+              value: 'war',
+              confirm: {
+                title: 'Are you sure?',
+                text: "Wouldn't you prefer a good game of chess?",
+                okText: 'Yes',
+                dismissText: 'No',
               },
-              {
-                name: 'game',
-                text: "Falken's Maze",
-                type: 'button',
-                value: 'maze',
-              },
-              {
-                name: 'game',
-                text: 'Thermonuclear War',
-                style: 'danger',
-                type: 'button',
-                value: 'war',
-                confirm: {
-                  title: 'Are you sure?',
-                  text: "Wouldn't you prefer a good game of chess?",
-                  okText: 'Yes',
-                  dismissText: 'No',
-                },
-              },
-            ],
-          },
-        ],
-      },
-      { asUser: true }
-    );
+            },
+          ],
+        },
+      ],
+      asUser: true,
+    });
 
     expect(res).toEqual(reply);
   });
@@ -773,7 +780,11 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(CHANNEL, USER, 'hello');
+    const res = await client.chat.postEphemeral({
+      channel: CHANNEL,
+      user: USER,
+      text: 'hello',
+    });
 
     expect(res).toEqual(reply);
   });
@@ -805,7 +816,10 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(CHANNEL, USER, 'hello', {
+    const res = await client.chat.postEphemeral({
+      channel: CHANNEL,
+      user: USER,
+      text: 'hello',
       asUser: true,
       accessToken: 'custom token',
     });
@@ -840,7 +854,9 @@ describe('#postEphemeral', () => {
       )
       .reply(200, reply);
 
-    const res = await client.postEphemeral(CHANNEL, USER, {
+    const res = await client.chat.postEphemeral({
+      channel: CHANNEL,
+      user: USER,
       text: 'hello',
       blocks: [
         {
@@ -851,6 +867,678 @@ describe('#postEphemeral', () => {
           },
         },
       ],
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.update', () => {
+  it('should call chat.update with channel, text and ts', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.update',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          ts: '1405894322.332768',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.update({
+      channel: CHANNEL,
+      text: 'hello',
+      ts: '1405894322.332768',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.update with channel, attachments and ts', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.update',
+        querystring.stringify({
+          channel: CHANNEL,
+          attachments:
+            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+          as_user: true,
+          ts: '1405894322.332768',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.update({
+      channel: CHANNEL,
+      attachments: [
+        {
+          text: 'Choose a game to play',
+          fallback: 'You are unable to choose a game',
+          callbackId: 'wopr_game',
+          color: '#3AA3E3',
+          attachmentType: 'default',
+          actions: [
+            {
+              name: 'game',
+              text: 'Chess',
+              type: 'button',
+              value: 'chess',
+            },
+            {
+              name: 'game',
+              text: "Falken's Maze",
+              type: 'button',
+              value: 'maze',
+            },
+            {
+              name: 'game',
+              text: 'Thermonuclear War',
+              style: 'danger',
+              type: 'button',
+              value: 'war',
+              confirm: {
+                title: 'Are you sure?',
+                text: "Wouldn't you prefer a good game of chess?",
+                okText: 'Yes',
+                dismissText: 'No',
+              },
+            },
+          ],
+        },
+      ],
+      asUser: true,
+      ts: '1405894322.332768',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.update with channel, text, ts and optional options, including custom token', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.update',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          as_user: true,
+          ts: '1405895017.000506',
+          token: 'custom token',
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.update({
+      channel: CHANNEL,
+      text: 'hello',
+      asUser: true,
+      ts: '1405895017.000506',
+      accessToken: 'custom token',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should support blocks', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.update',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          ts: '1405895017.000506',
+          blocks: '[{"type":"section","text":{"type":"mrkdwn","text":"..."}}]',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.update({
+      channel: CHANNEL,
+      text: 'hello',
+      ts: '1405895017.000506',
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '...',
+          },
+        },
+      ],
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.delete', () => {
+  it('should call chat.delete with channel and ts', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C024BE91L',
+      ts: '1417671948.000006',
+    };
+
+    mock
+      .onPost(
+        '/chat.delete',
+        querystring.stringify({
+          channel: CHANNEL,
+          ts: '1405894322.002768',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.delete({
+      channel: CHANNEL,
+      ts: '1405894322.002768',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.delete with channel, ts and optional options', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C024BE91L',
+      ts: '1417671948.000009',
+    };
+
+    mock
+      .onPost(
+        '/chat.delete',
+        querystring.stringify({
+          channel: CHANNEL,
+          ts: '1405894322.022768',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.delete({
+      channel: CHANNEL,
+      ts: '1405894322.022768',
+      asUser: true,
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.meMessage', () => {
+  it('should call chat.meMessage with channel and text', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C024BE91L',
+      ts: '1417671948.000006',
+    };
+
+    mock
+      .onPost(
+        '/chat.meMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.meMessage({
+      channel: CHANNEL,
+      text: 'hello',
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.getPermalink', () => {
+  it('should call chat.getPermalink with channel and text', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C1H9RESGA',
+      permalink: 'https://yoctol.slack.com/archives/C1H9RESGA/p135854651500008',
+    };
+
+    mock
+      .onPost(
+        '/chat.getPermalink',
+        querystring.stringify({
+          channel: CHANNEL,
+          message_ts: '9234567891.321456',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.getPermalink({
+      channel: CHANNEL,
+      message_ts: '9234567891.321456',
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.scheduleMessage', () => {
+  it('should call chat.scheduleMessage with channel, text and post_at', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.scheduleMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          post_at: '299876400',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.scheduleMessage({
+      channel: CHANNEL,
+      text: 'hello',
+      postAt: '299876400',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.scheduleMessage with channel, attachments and post_at', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.scheduleMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          attachments:
+            '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
+          as_user: true,
+          post_at: '299876400',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.scheduleMessage({
+      channel: CHANNEL,
+      attachments: [
+        {
+          text: 'Choose a game to play',
+          fallback: 'You are unable to choose a game',
+          callbackId: 'wopr_game',
+          color: '#3AA3E3',
+          attachmentType: 'default',
+          actions: [
+            {
+              name: 'game',
+              text: 'Chess',
+              type: 'button',
+              value: 'chess',
+            },
+            {
+              name: 'game',
+              text: "Falken's Maze",
+              type: 'button',
+              value: 'maze',
+            },
+            {
+              name: 'game',
+              text: 'Thermonuclear War',
+              style: 'danger',
+              type: 'button',
+              value: 'war',
+              confirm: {
+                title: 'Are you sure?',
+                text: "Wouldn't you prefer a good game of chess?",
+                okText: 'Yes',
+                dismissText: 'No',
+              },
+            },
+          ],
+        },
+      ],
+      asUser: true,
+      postAt: '299876400',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.scheduleMessage with channel, text, post_at and optional options, including custom token', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.scheduleMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          text: 'hello',
+          as_user: true,
+          post_at: '299876400',
+          token: 'custom token',
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.scheduleMessage({
+      channel: CHANNEL,
+      text: 'hello',
+      asUser: true,
+      postAt: '299876400',
+      accessToken: 'custom token',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should support blocks', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      ts: '1405895017.000506',
+      channel: 'C024BE91L',
+      message: {},
+    };
+
+    mock
+      .onPost(
+        '/chat.scheduleMessage',
+        querystring.stringify({
+          channel: 'C1234567890',
+          text: 'hello',
+          post_at: '299876400',
+          blocks: '[{"type":"section","text":{"type":"mrkdwn","text":"..."}}]',
+          token: 'xxxx-xxxxxxxxx-xxxx',
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.scheduleMessage({
+      channel: CHANNEL,
+      text: 'hello',
+      postAt: '299876400',
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '...',
+          },
+        },
+      ],
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.deleteScheduledMessage', () => {
+  it('should call chat.deleteScheduledMessage with channel and scheduledMessageId', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C024BE91L',
+      ts: '1417671948.040006',
+    };
+
+    mock
+      .onPost(
+        '/chat.deleteScheduledMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          scheduled_message_id: 'Q1234ABCD',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.deleteScheduledMessage({
+      channel: CHANNEL,
+      scheduledMessageId: 'Q1234ABCD',
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call chat.deleteScheduledMessage with channel, scheduledMessageId and optional options', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C024BE91L',
+      ts: '1417671948.040006',
+    };
+
+    mock
+      .onPost(
+        '/chat.deleteScheduledMessage',
+        querystring.stringify({
+          channel: CHANNEL,
+          scheduled_message_id: 'Q1234ABCD',
+          as_user: true,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.deleteScheduledMessage({
+      channel: CHANNEL,
+      scheduledMessageId: 'Q1234ABCD',
+      as_user: true,
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.scheduledMessages.list', () => {
+  it('should call chat.scheduledMessages.list', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      scheduledMessages: [
+        {
+          id: 1298393284,
+          channelId: 'C1H9RESGL',
+          postAt: 1551991428,
+          dateCreated: 1551891734,
+        },
+      ],
+      responseMetadata: {
+        nextCursor: '',
+      },
+    };
+
+    mock
+      .onPost(
+        '/chat.scheduledMessages.list',
+        querystring.stringify({
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.scheduledMessages.list({});
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#chat.unfurl', () => {
+  it('should call chat.unfurl with channel, ts and unfurls', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      channel: 'C024BE91L',
+      ts: '1417671948.990006',
+    };
+
+    mock
+      .onPost(
+        '/chat.unfurl',
+        querystring.stringify({
+          channel: CHANNEL,
+          ts: '1405894322.992768',
+          unfurls: {
+            'https://example.com/': {
+              text: 'Every day is the test.',
+            },
+          },
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.chat.unfurl({
+      channel: CHANNEL,
+      ts: '1405894322.992768',
+      unfurls: {
+        'https://example.com/': {
+          text: 'Every day is the test.',
+        },
+      },
     });
 
     expect(res).toEqual(reply);
