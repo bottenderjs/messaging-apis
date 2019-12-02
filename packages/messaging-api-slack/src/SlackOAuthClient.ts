@@ -3,6 +3,7 @@ import querystring from 'querystring';
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import omit from 'lodash/omit';
+import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -24,12 +25,20 @@ type CommonOptions = {
   accessToken?: string;
 };
 
-type PostEphemeralOptions = CommonOptions & {
-  asUser?: boolean;
-  attachments?: string | Attachment[];
-  linkNames?: boolean;
-  parse?: 'none' | 'full';
+type Message = {
+  text?: string;
+  attachments?: Attachment[] | string;
+  blocks?: Block[] | string;
 };
+
+type UpdateMessageOptions = CommonOptions &
+  Message & {
+    ts: string;
+    asUser?: boolean;
+    attachments?: string | Attachment[];
+    linkNames?: boolean;
+    parse?: 'none' | 'full';
+  };
 
 type GetInfoOptions = CommonOptions & {
   includeLocale?: boolean;
@@ -37,6 +46,18 @@ type GetInfoOptions = CommonOptions & {
 
 type UserInfoOptions = CommonOptions & {
   includeLocale?: boolean;
+};
+
+type DeleteMessageOptions = CommonOptions & {
+  channel: string;
+  ts: string;
+  asUser?: boolean;
+};
+
+type DeleteScheduledMessageOptions = CommonOptions & {
+  channel: string;
+  scheduledMessageId: string;
+  asUser?: boolean;
 };
 
 type ConversationMembersOptions = CommonOptions & {
@@ -63,7 +84,7 @@ type ClientConfig = {
   onRequest?: OnRequestFunction;
 };
 
-interface PostMessageOptions extends CommonOptions {
+interface PostMessageOptionalOptions extends CommonOptions {
   asUser?: boolean;
   attachments?: string | Attachment[];
   iconEmoji?: string;
@@ -77,12 +98,88 @@ interface PostMessageOptions extends CommonOptions {
   username?: string;
 }
 
+type PostEphemeralOptionalOptions = CommonOptions & {
+  asUser?: boolean;
+  attachments?: string | Attachment[];
+  linkNames?: boolean;
+  parse?: 'none' | 'full';
+};
+
+type ScheduleMessageOptions = CommonOptions &
+  Message & {
+    channelId: string;
+    asUser?: boolean;
+    attachments?: string | Attachment[];
+    linkNames?: boolean;
+    parse?: 'none' | 'full';
+    replyBroadcast?: boolean;
+    threadTs?: string;
+    unfurlLinks?: boolean;
+    unfurlMedia?: boolean;
+    postAt?: string;
+  };
+
+type PostMessageOptions = PostMessageOptionalOptions &
+  Message & {
+    channel: string;
+  };
+
+type PostEphemeralOptions = PostEphemeralOptionalOptions &
+  Message & {
+    channel: string;
+    user: string;
+  };
+
+type GetScheduledMessagesOptions = CommonOptions & {
+  channel?: string;
+  cursor?: string;
+  latest?: string;
+  limit?: number;
+  oldest?: string;
+};
+
+type UnfurlOptions = CommonOptions & {
+  ts: string;
+  unfurls: {};
+  userAuthMessage?: string;
+  userAuthRequired?: boolean;
+  userAuthUrl?: string;
+};
+
+const DEFAULT_PAYLOAD_FIELDS_TO_STRINGIFY = ['attachments', 'blocks'];
+
+function stringifyPayloadFields(
+  payload: Record<string, any> = {},
+  fields: Array<string> = DEFAULT_PAYLOAD_FIELDS_TO_STRINGIFY
+): object {
+  fields.forEach(field => {
+    if (payload[field] && typeof payload[field] !== 'string') {
+      // eslint-disable-next-line no-param-reassign
+      payload[field] = JSON.stringify(snakecaseKeysDeep(payload[field]));
+    }
+  });
+
+  return payload;
+}
+
+type GetPermalinkOptions = CommonOptions & {
+  channel: string;
+  messageTs: string;
+};
+
+type MeMessageOptions = CommonOptions & {
+  channel: string;
+  text: string;
+};
+
 export default class SlackOAuthClient {
   _token: string;
 
   _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
+
+  chat: {};
 
   static connect(accessTokenOrConfig: string | ClientConfig): SlackOAuthClient {
     return new SlackOAuthClient(accessTokenOrConfig);
@@ -114,6 +211,21 @@ export default class SlackOAuthClient {
     this._axios.interceptors.request.use(
       createRequestInterceptor({ onRequest: this._onRequest })
     );
+
+    this.chat = {
+      postMessage: this._postMessage.bind(this),
+      postEphemeral: this._postEphemeral.bind(this),
+      update: this._updateMessage.bind(this),
+      delete: this._deleteMessage.bind(this),
+      meMessage: this._meMessage.bind(this),
+      getPermalink: this._getPermalink.bind(this),
+      scheduleMessage: this._scheduleMessage.bind(this),
+      deleteScheduledMessage: this._deleteScheduledMessage.bind(this),
+      unfurl: this._unfurl.bind(this),
+      scheduledMessages: {
+        list: this._getScheduledMessages.bind(this),
+      },
+    };
   }
 
   get axios(): AxiosInstance {
@@ -283,35 +395,31 @@ export default class SlackOAuthClient {
    */
   postMessage(
     channel: string,
-    inputMessage:
-      | {
-          text?: string;
-          attachments?: Attachment[] | string;
-          blocks?: Block[] | string;
-        }
-      | string,
-    options: PostMessageOptions = {}
+    inputMessage: Message | string,
+    options: PostMessageOptionalOptions = {}
   ): Promise<OAuthAPIResponse> {
+    warning(
+      false,
+      '`postMessage` is deprecated. Use `chat.postMessage` instead.'
+    );
+
     const message =
       typeof inputMessage === 'string' ? { text: inputMessage } : inputMessage;
 
-    if (message.attachments && typeof message.attachments !== 'string') {
-      // eslint-disable-next-line no-param-reassign
-      message.attachments = JSON.stringify(
-        snakecaseKeysDeep(message.attachments)
-      );
-    }
-
-    if (message.blocks && typeof message.blocks !== 'string') {
-      // eslint-disable-next-line no-param-reassign
-      message.blocks = JSON.stringify(snakecaseKeysDeep(message.blocks));
-    }
-
-    return this.callMethod('chat.postMessage', {
+    return this._postMessage({
       channel,
       ...message,
       ...options,
     });
+  }
+
+  /**
+   * Sends a message to a channel.
+   *
+   * https://api.slack.com/methods/chat.postMessage
+   */
+  _postMessage(options: PostMessageOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.postMessage', stringifyPayloadFields(options));
   }
 
   /**
@@ -322,36 +430,114 @@ export default class SlackOAuthClient {
   postEphemeral(
     channel: string,
     user: string,
-    inputMessage:
-      | {
-          text?: string;
-          attachments?: Attachment[] | string;
-          blocks?: Block[] | string;
-        }
-      | string,
-    options: PostEphemeralOptions = {}
+    inputMessage: Message | string,
+    options: PostEphemeralOptionalOptions = {}
   ): Promise<OAuthAPIResponse> {
+    warning(
+      false,
+      '`postEphemeral` is deprecated. Use `chat.postEphemeral` instead.'
+    );
+
     const message =
       typeof inputMessage === 'string' ? { text: inputMessage } : inputMessage;
 
-    if (message.attachments && typeof message.attachments !== 'string') {
-      // eslint-disable-next-line no-param-reassign
-      message.attachments = JSON.stringify(
-        snakecaseKeysDeep(message.attachments)
-      );
-    }
-
-    if (message.blocks && typeof message.blocks !== 'string') {
-      // eslint-disable-next-line no-param-reassign
-      message.blocks = JSON.stringify(snakecaseKeysDeep(message.blocks));
-    }
-
-    return this.callMethod('chat.postEphemeral', {
+    return this._postEphemeral({
       channel,
       user,
       ...message,
       ...options,
     });
+  }
+
+  /**
+   * Sends an ephemeral message to a user in a channel.
+   *
+   * https://api.slack.com/methods/chat.postMessage
+   */
+  _postEphemeral(options: PostEphemeralOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod(
+      'chat.postEphemeral',
+      stringifyPayloadFields(options)
+    );
+  }
+
+  /**
+   * Updates a message.
+   *
+   * https://api.slack.com/methods/chat.update
+   */
+  _updateMessage(options: UpdateMessageOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.update', stringifyPayloadFields(options));
+  }
+
+  /**
+   * Deletes a message.
+   *
+   * https://api.slack.com/methods/chat.delete
+   */
+  _deleteMessage(options: DeleteMessageOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.delete', options);
+  }
+
+  /**
+   * Share a me message into a channel.
+   *
+   * https://api.slack.com/methods/chat.meMessage
+   */
+  _meMessage(options: MeMessageOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.meMessage', options);
+  }
+
+  /**
+   * Retrieve a permalink URL for a specific extant message
+   *
+   * https://api.slack.com/methods/chat.getPermalink
+   */
+  _getPermalink(options: GetPermalinkOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.getPermalink', options);
+  }
+
+  /**
+   * Schedules a message to be sent to a channel.
+   *
+   * https://api.slack.com/methods/chat.scheduleMessage
+   */
+  _scheduleMessage(options: ScheduleMessageOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod(
+      'chat.scheduleMessage',
+      stringifyPayloadFields(options)
+    );
+  }
+
+  /**
+   * Deletes a pending scheduled message from the queue.
+   *
+   * https://api.slack.com/methods/chat.deleteScheduledMessage
+   */
+  _deleteScheduledMessage(
+    options: DeleteScheduledMessageOptions
+  ): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.deleteScheduledMessage', options);
+  }
+
+  /**
+   * Returns a list of scheduled messages.
+   *
+   * https://api.slack.com/methods/chat.scheduledMessages.list
+   */
+  _getScheduledMessages(
+    options: GetScheduledMessagesOptions = {}
+  ): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.scheduledMessages.list', options);
+  }
+
+  /**
+   * Provide custom unfurl behavior for user-posted URLs
+   *
+   * https://api.slack.com/methods/chat.unfurl
+   */
+  _unfurl(options: UnfurlOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod('chat.unfurl', options);
   }
 
   /**
