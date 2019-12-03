@@ -14,10 +14,11 @@ import {
 import {
   Attachment,
   AvailableMethod,
-  Block,
   Channel,
+  MessageBlock,
   OAuthAPIResponse,
   User,
+  View,
 } from './SlackTypes';
 
 type CommonOptions = {
@@ -28,7 +29,7 @@ type CommonOptions = {
 type Message = {
   text?: string;
   attachments?: Attachment[] | string;
-  blocks?: Block[] | string;
+  blocks?: MessageBlock[] | string;
 };
 
 type UpdateMessageOptions = CommonOptions &
@@ -146,6 +147,29 @@ type UnfurlOptions = CommonOptions & {
   userAuthUrl?: string;
 };
 
+type OpenViewOptions = {
+  triggerId: string;
+  view: View;
+};
+
+type PublishViewOptions = {
+  userId: string;
+  view: View;
+  hash?: string;
+};
+
+type UpdateViewOptions = {
+  view: View;
+  externalId?: string;
+  hash?: string;
+  viewId?: string;
+};
+
+type PushViewOptions = {
+  triggerId: string;
+  view: View;
+};
+
 const DEFAULT_PAYLOAD_FIELDS_TO_STRINGIFY = ['attachments', 'blocks'];
 
 function stringifyPayloadFields(
@@ -180,6 +204,8 @@ export default class SlackOAuthClient {
   _axios: AxiosInstance;
 
   chat: {};
+
+  views: {};
 
   static connect(accessTokenOrConfig: string | ClientConfig): SlackOAuthClient {
     return new SlackOAuthClient(accessTokenOrConfig);
@@ -225,6 +251,13 @@ export default class SlackOAuthClient {
       scheduledMessages: {
         list: this._getScheduledMessages.bind(this),
       },
+    };
+
+    this.views = {
+      open: this._openView.bind(this),
+      publish: this._publishView.bind(this),
+      push: this._pushView.bind(this),
+      update: this._updateView.bind(this),
     };
   }
 
@@ -537,7 +570,58 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/chat.unfurl
    */
   _unfurl(options: UnfurlOptions): Promise<OAuthAPIResponse> {
-    return this.callMethod('chat.unfurl', options);
+    return this.callMethod(
+      'chat.unfurl',
+      stringifyPayloadFields(options, ['view'])
+    );
+  }
+
+  /**
+   * Open a view for a user.
+   *
+   * https://api.slack.com/methods/views.open
+   */
+  _openView(options: OpenViewOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod(
+      'views.open',
+      stringifyPayloadFields(options, ['view'])
+    );
+  }
+
+  /**
+   * Publish a static view for a User.
+   *
+   * https://api.slack.com/methods/views.publish
+   */
+  _publishView(options: PublishViewOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod(
+      'views.publish',
+      stringifyPayloadFields(options, ['view'])
+    );
+  }
+
+  /**
+   * Update an existing view.
+   *
+   * https://api.slack.com/methods/views.update
+   */
+  _updateView(options: UpdateViewOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod(
+      'views.update',
+      stringifyPayloadFields(options, ['view'])
+    );
+  }
+
+  /**
+   * Push a view onto the stack of a root view.
+   *
+   * https://api.slack.com/methods/views.push
+   */
+  _pushView(options: PushViewOptions): Promise<OAuthAPIResponse> {
+    return this.callMethod(
+      'views.push',
+      stringifyPayloadFields(options, ['view'])
+    );
   }
 
   /**

@@ -8,6 +8,48 @@ const TOKEN = 'xxxx-xxxxxxxxx-xxxx';
 const CHANNEL = 'C1234567890';
 const USER = 'U56781234';
 
+const VIEW_PAYLOAD = {
+  id: 'VMHU10V25',
+  teamId: 'T8N4K1JN',
+  type: 'modal',
+  title: {
+    type: 'plain_text',
+    text: 'Quite a plain modal',
+  },
+  submit: {
+    type: 'plain_text',
+    text: 'Create',
+  },
+  blocks: [
+    {
+      type: 'input',
+      blockId: 'a_block_id',
+      label: {
+        type: 'plain_text',
+        text: 'A simple label',
+        emoji: true,
+      },
+      optional: false,
+      element: {
+        type: 'plain_text_input',
+        actionId: 'an_action_id',
+      },
+    },
+  ],
+  privateMetadata: 'Shh it is a secret',
+  callbackId: 'identify_your_modals',
+  externalId: '',
+  state: {
+    values: [],
+  },
+  hash: '156772938.1827394',
+  clearOnClose: false,
+  notifyOnClose: false,
+};
+
+const VIEW_PAYLOAD_STRING =
+  '{"id":"VMHU10V25","team_id":"T8N4K1JN","type":"modal","title":{"type":"plain_text","text":"Quite a plain modal"},"submit":{"type":"plain_text","text":"Create"},"blocks":[{"type":"input","block_id":"a_block_id","label":{"type":"plain_text","text":"A simple label","emoji":true},"optional":false,"element":{"type":"plain_text_input","action_id":"an_action_id"}}],"private_metadata":"Shh it is a secret","callback_id":"identify_your_modals","external_id":"","state":{"values":[]},"hash":"156772938.1827394","clear_on_close":false,"notify_on_close":false}';
+
 const snakecaseMembers = [
   {
     id: 'U023BECGF',
@@ -1539,6 +1581,235 @@ describe('#chat.unfurl', () => {
           text: 'Every day is the test.',
         },
       },
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#views.open', () => {
+  it('should call views.open with triggerId and view payload', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.open',
+        querystring.stringify({
+          trigger_id: '12345.98765.abcd2358fdea',
+          view: VIEW_PAYLOAD_STRING,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.open({
+      triggerId: '12345.98765.abcd2358fdea',
+      view: VIEW_PAYLOAD,
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#views.publish', () => {
+  it('should call views.publish with userId and view payload', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.publish',
+        querystring.stringify({
+          user_id: 'U0BPQUNTA',
+          view: VIEW_PAYLOAD_STRING,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.publish({
+      userId: 'U0BPQUNTA',
+      view: VIEW_PAYLOAD,
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call views.publish with userId, view payload and hash', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.publish',
+        querystring.stringify({
+          user_id: 'U0BPQUNTA',
+          view: VIEW_PAYLOAD_STRING,
+          hash: '156772938.1827394',
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.publish({
+      userId: 'U0BPQUNTA',
+      view: VIEW_PAYLOAD,
+      hash: '156772938.1827394',
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#views.update', () => {
+  it('should call views.update with externalId and view payload', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.update',
+        querystring.stringify({
+          external_id: 'bmarley_view2',
+          view: VIEW_PAYLOAD_STRING,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.update({
+      externalId: 'bmarley_view2',
+      view: VIEW_PAYLOAD,
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call views.update with viewId and view payload', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.update',
+        querystring.stringify({
+          view_id: 'VMM512F2U',
+          view: VIEW_PAYLOAD_STRING,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.update({
+      viewId: 'VMM512F2U',
+      view: VIEW_PAYLOAD,
+    });
+
+    expect(res).toEqual(reply);
+  });
+
+  it('should call views.update with viewId, view payload and hash', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.update',
+        querystring.stringify({
+          view_id: 'VMM512F2U',
+          hash: '156772938.1827394',
+          view: VIEW_PAYLOAD_STRING,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.update({
+      viewId: 'VMM512F2U',
+      hash: '156772938.1827394',
+      view: VIEW_PAYLOAD,
+    });
+
+    expect(res).toEqual(reply);
+  });
+});
+
+describe('#views.push', () => {
+  it('should call views.push with triggerId and view payload', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: true,
+      view: VIEW_PAYLOAD,
+    };
+
+    mock
+      .onPost(
+        '/views.push',
+        querystring.stringify({
+          trigger_id: '12345.98765.abcd2358fdea',
+          view: VIEW_PAYLOAD_STRING,
+          token: TOKEN,
+        }),
+        {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      )
+      .reply(200, reply);
+
+    const res = await client.views.push({
+      triggerId: '12345.98765.abcd2358fdea',
+      view: VIEW_PAYLOAD,
     });
 
     expect(res).toEqual(reply);
