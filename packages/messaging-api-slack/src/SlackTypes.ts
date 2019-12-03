@@ -243,13 +243,27 @@ export type ChannelsSelectElement = {
 // Layout Blocks
 // https://api.slack.com/reference/block-kit/blocks
 
-export type Block =
+export type MessageBlock =
   | ActionsBlock
   | ContextBlock
   | DividerBlock
   | FileBlock
   | ImageBlock
+  | SectionBlock;
+
+export type ModalBlock =
+  | ActionsBlock
+  | ContextBlock
+  | DividerBlock
+  | ImageBlock
   | InputBlock
+  | SectionBlock;
+
+export type HomeBlock =
+  | ActionsBlock
+  | ContextBlock
+  | DividerBlock
+  | ImageBlock
   | SectionBlock;
 
 export type ActionsBlockElement =
@@ -314,6 +328,31 @@ export type SectionBlock = {
   fields?: TextObject[];
   accessory?: BlockElement;
 };
+
+// View
+// https://api.slack.com/reference/surfaces/views
+export type ViewCommon = {
+  privateMetadata?: string;
+  callbackId?: string;
+  externalId?: string;
+};
+
+export type ModalView = {
+  type: 'modal';
+  title: PlainTextObject;
+  blocks: ModalBlock[];
+  close?: PlainTextObject;
+  submit?: PlainTextObject;
+  clearOnClose?: boolean;
+  notifyOnClose?: boolean;
+} & ViewCommon;
+
+export type HomeView = {
+  type: 'home';
+  blocks: HomeBlock[];
+} & ViewCommon;
+
+export type View = ModalView | HomeView;
 
 export type SendMessageSuccessResponse = 'ok';
 
@@ -450,7 +489,11 @@ export type AvailableMethod =
   | 'users.setPhoto'
   | 'users.setPresence'
   | 'users.profile.get'
-  | 'users.profile.set';
+  | 'users.profile.set'
+  | 'views.open'
+  | 'views.publish'
+  | 'views.update'
+  | 'views.push';
 
 export interface User {
   id: string;
