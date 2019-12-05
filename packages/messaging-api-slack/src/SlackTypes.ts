@@ -1,3 +1,5 @@
+import { OnRequestFunction } from 'messaging-api-common';
+
 export type Attachment = {
   fallback: string;
   pretext?: string;
@@ -34,6 +36,12 @@ export type Attachment = {
     };
   }[];
   ts?: number;
+};
+
+export type Message = {
+  text?: string;
+  attachments?: Attachment[] | string;
+  blocks?: MessageBlock[] | string;
 };
 
 // Block Kit
@@ -505,4 +513,196 @@ export type Channel = {
   id: string;
   name: string;
   members?: User[];
+};
+
+// Slack API Payloads
+type CommonOptions = {
+  token?: string;
+  accessToken?: string;
+};
+
+// channels.info
+// https://api.slack.com/methods/channels.info
+export type GetInfoOptions = CommonOptions & {
+  includeLocale?: boolean;
+};
+
+// users.info
+// https://api.slack.com/methods/users.info
+export type UserInfoOptions = CommonOptions & {
+  includeLocale?: boolean;
+};
+
+export interface PostMessageOptionalOptions extends CommonOptions {
+  asUser?: boolean;
+  attachments?: string | Attachment[];
+  iconEmoji?: string;
+  iconUrl?: string;
+  linkNames?: boolean;
+  parse?: 'none' | 'full';
+  replyBroadcast?: boolean;
+  threadTs?: string;
+  unfurlLinks?: boolean;
+  unfurlMedia?: boolean;
+  username?: string;
+}
+
+export type PostEphemeralOptionalOptions = CommonOptions & {
+  asUser?: boolean;
+  attachments?: string | Attachment[];
+  linkNames?: boolean;
+  parse?: 'none' | 'full';
+};
+
+// chat.postMessage
+// https://api.slack.com/methods/chat.postMessage
+export type PostMessageOptions = PostMessageOptionalOptions &
+  Message & {
+    channel: string;
+  };
+
+// chat.postEphemeral
+// https://api.slack.com/methods/chat.postEphemeral
+export type PostEphemeralOptions = PostEphemeralOptionalOptions &
+  Message & {
+    channel: string;
+    user: string;
+  };
+
+// chat.update
+// https://api.slack.com/methods/chat.update
+export type UpdateMessageOptions = CommonOptions &
+  Message & {
+    ts: string;
+    asUser?: boolean;
+    attachments?: string | Attachment[];
+    linkNames?: boolean;
+    parse?: 'none' | 'full';
+  };
+
+// chat.delete
+// https://api.slack.com/methods/chat.delete
+export type DeleteMessageOptions = CommonOptions & {
+  channel: string;
+  ts: string;
+  asUser?: boolean;
+};
+
+// chat.getPermalink
+// https://api.slack.com/methods/chat.getPermalink
+export type GetPermalinkOptions = CommonOptions & {
+  channel: string;
+  messageTs: string;
+};
+
+// chat.meMessage
+// https://api.slack.com/methods/chat.meMessage
+export type MeMessageOptions = CommonOptions & {
+  channel: string;
+  text: string;
+};
+
+// chat.deleteScheduledMessage
+// https://api.slack.com/methods/chat.deleteScheduledMessage
+export type DeleteScheduledMessageOptions = CommonOptions & {
+  channel: string;
+  scheduledMessageId: string;
+  asUser?: boolean;
+};
+
+// chat.scheduleMessage
+// https://api.slack.com/methods/chat.scheduleMessage
+export type ScheduleMessageOptions = CommonOptions &
+  Message & {
+    channelId: string;
+    asUser?: boolean;
+    attachments?: string | Attachment[];
+    linkNames?: boolean;
+    parse?: 'none' | 'full';
+    replyBroadcast?: boolean;
+    threadTs?: string;
+    unfurlLinks?: boolean;
+    unfurlMedia?: boolean;
+    postAt?: string;
+  };
+
+// chat.scheduledMessages.list
+// https://api.slack.com/methods/chat.scheduledMessages.list
+export type GetScheduledMessagesOptions = CommonOptions & {
+  channel?: string;
+  cursor?: string;
+  latest?: string;
+  limit?: number;
+  oldest?: string;
+};
+
+// conversations.members
+// https://api.slack.com/methods/conversations.members
+export type ConversationMembersOptions = CommonOptions & {
+  cursor?: string;
+  limit?: number;
+};
+
+// conversations.list
+// https://api.slack.com/methods/conversations.list
+export type ConversationListOptions = CommonOptions & {
+  cursor?: string;
+  excludeArchived?: boolean;
+  limit?: number;
+  types?: string;
+};
+
+// users.list
+// https://api.slack.com/methods/users.list
+export type UserListOptions = CommonOptions & {
+  cursor?: string;
+  includeLocale?: boolean;
+  limit?: number;
+};
+
+export type ClientConfig = {
+  accessToken: string;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+};
+
+// chat.unfurl
+// https://api.slack.com/methods/chat.unfurl
+export type UnfurlOptions = CommonOptions & {
+  ts: string;
+  unfurls: {};
+  userAuthMessage?: string;
+  userAuthRequired?: boolean;
+  userAuthUrl?: string;
+};
+
+// views.open
+// https://api.slack.com/methods/views.open
+export type OpenViewOptions = {
+  triggerId: string;
+  view: View;
+};
+
+// views.publish
+// https://api.slack.com/methods/views.publish
+export type PublishViewOptions = {
+  userId: string;
+  view: View;
+  hash?: string;
+};
+
+// views.update
+// https://api.slack.com/methods/views.update
+export type UpdateViewOptions = {
+  view: View;
+  externalId?: string;
+  hash?: string;
+  viewId?: string;
+};
+
+// views.push
+// https://api.slack.com/methods/views.push
+export type PushViewOptions = {
+  triggerId: string;
+  view: View;
 };
