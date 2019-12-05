@@ -11,164 +11,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import {
-  Attachment,
-  AvailableMethod,
-  Channel,
-  MessageBlock,
-  OAuthAPIResponse,
-  User,
-  View,
-} from './SlackTypes';
-
-type CommonOptions = {
-  token?: string;
-  accessToken?: string;
-};
-
-type Message = {
-  text?: string;
-  attachments?: Attachment[] | string;
-  blocks?: MessageBlock[] | string;
-};
-
-type UpdateMessageOptions = CommonOptions &
-  Message & {
-    ts: string;
-    asUser?: boolean;
-    attachments?: string | Attachment[];
-    linkNames?: boolean;
-    parse?: 'none' | 'full';
-  };
-
-type GetInfoOptions = CommonOptions & {
-  includeLocale?: boolean;
-};
-
-type UserInfoOptions = CommonOptions & {
-  includeLocale?: boolean;
-};
-
-type DeleteMessageOptions = CommonOptions & {
-  channel: string;
-  ts: string;
-  asUser?: boolean;
-};
-
-type DeleteScheduledMessageOptions = CommonOptions & {
-  channel: string;
-  scheduledMessageId: string;
-  asUser?: boolean;
-};
-
-type ConversationMembersOptions = CommonOptions & {
-  cursor?: string;
-  limit?: number;
-};
-
-type ConversationListOptions = CommonOptions & {
-  cursor?: string;
-  excludeArchived?: boolean;
-  limit?: number;
-  types?: string;
-};
-
-type UserListOptions = CommonOptions & {
-  cursor?: string;
-  includeLocale?: boolean;
-  limit?: number;
-};
-
-type ClientConfig = {
-  accessToken: string;
-  origin?: string;
-  onRequest?: OnRequestFunction;
-};
-
-interface PostMessageOptionalOptions extends CommonOptions {
-  asUser?: boolean;
-  attachments?: string | Attachment[];
-  iconEmoji?: string;
-  iconUrl?: string;
-  linkNames?: boolean;
-  parse?: 'none' | 'full';
-  replyBroadcast?: boolean;
-  threadTs?: string;
-  unfurlLinks?: boolean;
-  unfurlMedia?: boolean;
-  username?: string;
-}
-
-type PostEphemeralOptionalOptions = CommonOptions & {
-  asUser?: boolean;
-  attachments?: string | Attachment[];
-  linkNames?: boolean;
-  parse?: 'none' | 'full';
-};
-
-type ScheduleMessageOptions = CommonOptions &
-  Message & {
-    channelId: string;
-    asUser?: boolean;
-    attachments?: string | Attachment[];
-    linkNames?: boolean;
-    parse?: 'none' | 'full';
-    replyBroadcast?: boolean;
-    threadTs?: string;
-    unfurlLinks?: boolean;
-    unfurlMedia?: boolean;
-    postAt?: string;
-  };
-
-type PostMessageOptions = PostMessageOptionalOptions &
-  Message & {
-    channel: string;
-  };
-
-type PostEphemeralOptions = PostEphemeralOptionalOptions &
-  Message & {
-    channel: string;
-    user: string;
-  };
-
-type GetScheduledMessagesOptions = CommonOptions & {
-  channel?: string;
-  cursor?: string;
-  latest?: string;
-  limit?: number;
-  oldest?: string;
-};
-
-type UnfurlOptions = CommonOptions & {
-  ts: string;
-  unfurls: {};
-  userAuthMessage?: string;
-  userAuthRequired?: boolean;
-  userAuthUrl?: string;
-};
-
-type OpenViewOptions = {
-  triggerId: string;
-  view: View;
-};
-
-type PublishViewOptions = {
-  userId: string;
-  view: View;
-  hash?: string;
-};
-
-type UpdateViewOptions = {
-  view: View;
-  externalId?: string;
-  hash?: string;
-  viewId?: string;
-};
-
-type PushViewOptions = {
-  triggerId: string;
-  view: View;
-};
+import * as SlackTypes from './SlackTypes';
 
 const DEFAULT_PAYLOAD_FIELDS_TO_STRINGIFY = ['attachments', 'blocks'];
 
@@ -186,16 +29,6 @@ function stringifyPayloadFields(
   return payload;
 }
 
-type GetPermalinkOptions = CommonOptions & {
-  channel: string;
-  messageTs: string;
-};
-
-type MeMessageOptions = CommonOptions & {
-  channel: string;
-  text: string;
-};
-
 export default class SlackOAuthClient {
   _token: string;
 
@@ -207,11 +40,13 @@ export default class SlackOAuthClient {
 
   views: {};
 
-  static connect(accessTokenOrConfig: string | ClientConfig): SlackOAuthClient {
+  static connect(
+    accessTokenOrConfig: string | SlackTypes.ClientConfig
+  ): SlackOAuthClient {
     return new SlackOAuthClient(accessTokenOrConfig);
   }
 
-  constructor(accessTokenOrConfig: string | ClientConfig) {
+  constructor(accessTokenOrConfig: string | SlackTypes.ClientConfig) {
     let origin;
 
     if (typeof accessTokenOrConfig === 'string') {
@@ -270,9 +105,9 @@ export default class SlackOAuthClient {
   }
 
   async callMethod(
-    method: AvailableMethod,
+    method: SlackTypes.AvailableMethod,
     inputBody: Record<string, any> = {}
-  ): Promise<OAuthAPIResponse> {
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     try {
       const body = {
         ...omit(inputBody, ['token', 'accessToken']),
@@ -286,7 +121,7 @@ export default class SlackOAuthClient {
 
       const data = (camelcaseKeysDeep(
         response.data
-      ) as any) as OAuthAPIResponse;
+      ) as any) as SlackTypes.OAuthAPIResponse;
 
       if (!data.ok) {
         const { config, request } = response;
@@ -311,8 +146,8 @@ export default class SlackOAuthClient {
    */
   getChannelInfo(
     channelId: string,
-    options?: GetInfoOptions
-  ): Promise<Channel> {
+    options?: SlackTypes.GetInfoOptions
+  ): Promise<SlackTypes.Channel> {
     return this.callMethod('channels.info', {
       channel: channelId,
       ...options,
@@ -326,8 +161,8 @@ export default class SlackOAuthClient {
    */
   getConversationInfo(
     channelId: string,
-    options?: GetInfoOptions
-  ): Promise<Channel> {
+    options?: SlackTypes.GetInfoOptions
+  ): Promise<SlackTypes.Channel> {
     return this.callMethod('conversations.info', {
       channel: channelId,
       ...options,
@@ -341,7 +176,7 @@ export default class SlackOAuthClient {
    */
   getConversationMembers(
     channelId: string,
-    options?: ConversationMembersOptions
+    options?: SlackTypes.ConversationMembersOptions
   ): Promise<{
     members: string[];
     next?: string;
@@ -357,7 +192,7 @@ export default class SlackOAuthClient {
 
   async getAllConversationMembers(
     channelId: string,
-    options?: Omit<ConversationMembersOptions, 'cursor'>
+    options?: Omit<SlackTypes.ConversationMembersOptions, 'cursor'>
   ): Promise<string[]> {
     let allMembers: string[] = [];
     let continuationCursor;
@@ -388,9 +223,9 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/conversations.list
    */
   getConversationList(
-    options?: ConversationListOptions
+    options?: SlackTypes.ConversationListOptions
   ): Promise<{
-    channels: Channel[];
+    channels: SlackTypes.Channel[];
     next?: string;
   }> {
     return this.callMethod('conversations.list', options).then(data => ({
@@ -400,9 +235,9 @@ export default class SlackOAuthClient {
   }
 
   async getAllConversationList(
-    options?: Omit<ConversationListOptions, 'cursor'>
-  ): Promise<Channel[]> {
-    let allChannels: Channel[] = [];
+    options?: Omit<SlackTypes.ConversationListOptions, 'cursor'>
+  ): Promise<SlackTypes.Channel[]> {
+    let allChannels: SlackTypes.Channel[] = [];
     let continuationCursor: string | undefined;
 
     do {
@@ -428,9 +263,9 @@ export default class SlackOAuthClient {
    */
   postMessage(
     channel: string,
-    inputMessage: Message | string,
-    options: PostMessageOptionalOptions = {}
-  ): Promise<OAuthAPIResponse> {
+    inputMessage: SlackTypes.Message | string,
+    options: SlackTypes.PostMessageOptionalOptions = {}
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     warning(
       false,
       '`postMessage` is deprecated. Use `chat.postMessage` instead.'
@@ -451,7 +286,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.postMessage
    */
-  _postMessage(options: PostMessageOptions): Promise<OAuthAPIResponse> {
+  _postMessage(
+    options: SlackTypes.PostMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.postMessage', stringifyPayloadFields(options));
   }
 
@@ -463,9 +300,9 @@ export default class SlackOAuthClient {
   postEphemeral(
     channel: string,
     user: string,
-    inputMessage: Message | string,
-    options: PostEphemeralOptionalOptions = {}
-  ): Promise<OAuthAPIResponse> {
+    inputMessage: SlackTypes.Message | string,
+    options: SlackTypes.PostEphemeralOptionalOptions = {}
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     warning(
       false,
       '`postEphemeral` is deprecated. Use `chat.postEphemeral` instead.'
@@ -487,7 +324,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.postMessage
    */
-  _postEphemeral(options: PostEphemeralOptions): Promise<OAuthAPIResponse> {
+  _postEphemeral(
+    options: SlackTypes.PostEphemeralOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'chat.postEphemeral',
       stringifyPayloadFields(options)
@@ -499,7 +338,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.update
    */
-  _updateMessage(options: UpdateMessageOptions): Promise<OAuthAPIResponse> {
+  _updateMessage(
+    options: SlackTypes.UpdateMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.update', stringifyPayloadFields(options));
   }
 
@@ -508,7 +349,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.delete
    */
-  _deleteMessage(options: DeleteMessageOptions): Promise<OAuthAPIResponse> {
+  _deleteMessage(
+    options: SlackTypes.DeleteMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.delete', options);
   }
 
@@ -517,7 +360,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.meMessage
    */
-  _meMessage(options: MeMessageOptions): Promise<OAuthAPIResponse> {
+  _meMessage(
+    options: SlackTypes.MeMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.meMessage', options);
   }
 
@@ -526,7 +371,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.getPermalink
    */
-  _getPermalink(options: GetPermalinkOptions): Promise<OAuthAPIResponse> {
+  _getPermalink(
+    options: SlackTypes.GetPermalinkOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.getPermalink', options);
   }
 
@@ -535,7 +382,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.scheduleMessage
    */
-  _scheduleMessage(options: ScheduleMessageOptions): Promise<OAuthAPIResponse> {
+  _scheduleMessage(
+    options: SlackTypes.ScheduleMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'chat.scheduleMessage',
       stringifyPayloadFields(options)
@@ -548,8 +397,8 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/chat.deleteScheduledMessage
    */
   _deleteScheduledMessage(
-    options: DeleteScheduledMessageOptions
-  ): Promise<OAuthAPIResponse> {
+    options: SlackTypes.DeleteScheduledMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.deleteScheduledMessage', options);
   }
 
@@ -559,8 +408,8 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/chat.scheduledMessages.list
    */
   _getScheduledMessages(
-    options: GetScheduledMessagesOptions = {}
-  ): Promise<OAuthAPIResponse> {
+    options: SlackTypes.GetScheduledMessagesOptions = {}
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.scheduledMessages.list', options);
   }
 
@@ -569,7 +418,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/chat.unfurl
    */
-  _unfurl(options: UnfurlOptions): Promise<OAuthAPIResponse> {
+  _unfurl(
+    options: SlackTypes.UnfurlOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'chat.unfurl',
       stringifyPayloadFields(options, ['view'])
@@ -581,7 +432,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/views.open
    */
-  _openView(options: OpenViewOptions): Promise<OAuthAPIResponse> {
+  _openView(
+    options: SlackTypes.OpenViewOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'views.open',
       stringifyPayloadFields(options, ['view'])
@@ -593,7 +446,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/views.publish
    */
-  _publishView(options: PublishViewOptions): Promise<OAuthAPIResponse> {
+  _publishView(
+    options: SlackTypes.PublishViewOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'views.publish',
       stringifyPayloadFields(options, ['view'])
@@ -605,7 +460,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/views.update
    */
-  _updateView(options: UpdateViewOptions): Promise<OAuthAPIResponse> {
+  _updateView(
+    options: SlackTypes.UpdateViewOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'views.update',
       stringifyPayloadFields(options, ['view'])
@@ -617,7 +474,9 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/views.push
    */
-  _pushView(options: PushViewOptions): Promise<OAuthAPIResponse> {
+  _pushView(
+    options: SlackTypes.PushViewOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'views.push',
       stringifyPayloadFields(options, ['view'])
@@ -629,7 +488,10 @@ export default class SlackOAuthClient {
    *
    * https://api.slack.com/methods/users.info
    */
-  getUserInfo(userId: string, options?: UserInfoOptions): Promise<User> {
+  getUserInfo(
+    userId: string,
+    options?: SlackTypes.UserInfoOptions
+  ): Promise<SlackTypes.User> {
     return this.callMethod('users.info', { user: userId, ...options }).then(
       data => data.user
     );
@@ -641,9 +503,9 @@ export default class SlackOAuthClient {
    * https://api.slack.com/methods/users.list
    */
   getUserList(
-    options?: UserListOptions
+    options?: SlackTypes.UserListOptions
   ): Promise<{
-    members: User[];
+    members: SlackTypes.User[];
     next?: string;
   }> {
     return this.callMethod('users.list', options).then(data => ({
@@ -653,9 +515,9 @@ export default class SlackOAuthClient {
   }
 
   async getAllUserList(
-    options?: Omit<UserListOptions, 'cursor'>
-  ): Promise<User[]> {
-    let allUsers: User[] = [];
+    options?: Omit<SlackTypes.UserListOptions, 'cursor'>
+  ): Promise<SlackTypes.User[]> {
+    let allUsers: SlackTypes.User[] = [];
     let continuationCursor;
 
     do {
@@ -663,7 +525,7 @@ export default class SlackOAuthClient {
         members: users,
         next,
       }: {
-        members: User[];
+        members: SlackTypes.User[];
         next?: string;
         // eslint-disable-next-line no-await-in-loop
       } = await this.getUserList({
