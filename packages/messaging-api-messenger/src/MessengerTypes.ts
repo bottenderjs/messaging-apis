@@ -12,18 +12,56 @@ export type ClientConfig = {
   skipAppSecretProof?: boolean;
 };
 
-export type UserID = string;
-
+/**
+ * Page Scoped User ID (PSID) of the message recipient.
+ */
 export type RecipientWithID = {
-  id: UserID;
+  id: string;
 };
 
+/**
+ * Used for Customer Matching. (Closed Beta)
+ */
 export type RecipientWithPhoneNumber = {
   phoneNumber: string;
   name?: Record<string, any>;
 };
 
-export type Recipient = RecipientWithID | RecipientWithPhoneNumber;
+/**
+ * Used for the checkbox plugin.
+ */
+export type RecipientWithUserRef = {
+  userRef: string;
+};
+
+/**
+ * Used for Private Replies to reference the visitor post to reply to.
+ */
+export type RecipientWithPostId = {
+  postId: string;
+};
+
+/**
+ * Used for Private Replies to reference the post comment to reply to.
+ */
+export type RecipientWithCommentId = {
+  commentId: string;
+};
+
+/**
+ * Description of the message recipient. All requests must include one to identify the recipient.
+ */
+export type Recipient =
+  | RecipientWithID
+  | RecipientWithPhoneNumber
+  | RecipientWithUserRef
+  | RecipientWithPostId
+  | RecipientWithCommentId;
+
+/**
+ * Description of the message recipient. If a string is provided, it will be recognized as a psid.
+ */
+export type PsidOrRecipient = string | Recipient;
 
 export type UrlMediaAttachmentPayload = {
   url: string;
@@ -423,14 +461,6 @@ export type BatchRequestOptions = {
   dependsOn?: string;
 };
 
-export type BatchItem = {
-  method: string;
-  relativeUrl: string;
-  name?: string;
-  body?: Record<string, any>;
-  responseAccessPath?: string;
-} & BatchRequestOptions;
-
 export type Model =
   | 'CUSTOM'
   | 'CHINESE'
@@ -502,3 +532,11 @@ export type MessengerSubscription = {
   active: boolean;
   fields: SubscriptionFields[];
 };
+
+export type BatchItem = {
+  method: string;
+  relativeUrl: string;
+  name?: string;
+  body?: Record<string, any>;
+  responseAccessPath?: string;
+} & BatchRequestOptions;

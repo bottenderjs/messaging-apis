@@ -789,16 +789,16 @@ export default class MessengerClient {
   }
 
   sendMessage(
-    idOrRecipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     message: Types.Message,
     options: Types.SendOption = {}
   ): Promise<Types.SendMessageSuccessResponse> {
     const recipient =
-      typeof idOrRecipient === 'string'
+      typeof psidOrRecipient === 'string'
         ? {
-            id: idOrRecipient,
+            id: psidOrRecipient,
           }
-        : idOrRecipient;
+        : psidOrRecipient;
 
     let messagingType = 'UPDATE';
 
@@ -817,16 +817,16 @@ export default class MessengerClient {
   }
 
   sendMessageFormData(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     formdata: FormData,
     options: Types.SendOption = {}
   ) {
-    const recipientObject =
-      typeof recipient === 'string'
+    const recipient =
+      typeof psidOrRecipient === 'string'
         ? {
-            id: recipient,
+            id: psidOrRecipient,
           }
-        : recipient;
+        : psidOrRecipient;
 
     let messagingType = 'UPDATE';
     if (options.messagingType) {
@@ -836,10 +836,7 @@ export default class MessengerClient {
     }
 
     formdata.append('messaging_type', messagingType);
-    formdata.append(
-      'recipient',
-      JSON.stringify(snakecaseKeysDeep(recipientObject))
-    );
+    formdata.append('recipient', JSON.stringify(snakecaseKeysDeep(recipient)));
 
     return this._axios
       .post(
@@ -858,83 +855,83 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-messages#content_types
    */
   sendAttachment(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     attachment: Types.Attachment,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createAttachment(attachment, options),
       options
     );
   }
 
   sendText(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     text: string,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createText(text, options),
       options
     );
   }
 
   sendAudio(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     audio: string | Types.FileData | Types.MediaAttachmentPayload,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(audio) || audio instanceof fs.ReadStream) {
       const message = Messenger.createAudioFormData(audio, options);
-      return this.sendMessageFormData(recipient, message, options);
+      return this.sendMessageFormData(psidOrRecipient, message, options);
     }
 
     const message = Messenger.createAudio(audio, options);
-    return this.sendMessage(recipient, message, options);
+    return this.sendMessage(psidOrRecipient, message, options);
   }
 
   sendImage(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     image: string | Types.FileData | Types.MediaAttachmentPayload,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(image) || image instanceof fs.ReadStream) {
       const message = Messenger.createImageFormData(image, options);
-      return this.sendMessageFormData(recipient, message, options);
+      return this.sendMessageFormData(psidOrRecipient, message, options);
     }
 
     const message = Messenger.createImage(image, options);
-    return this.sendMessage(recipient, message, options);
+    return this.sendMessage(psidOrRecipient, message, options);
   }
 
   sendVideo(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     video: string | Types.FileData | Types.MediaAttachmentPayload,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(video) || video instanceof fs.ReadStream) {
       const message = Messenger.createVideoFormData(video, options);
-      return this.sendMessageFormData(recipient, message, options);
+      return this.sendMessageFormData(psidOrRecipient, message, options);
     }
 
     const message = Messenger.createVideo(video, options);
-    return this.sendMessage(recipient, message, options);
+    return this.sendMessage(psidOrRecipient, message, options);
   }
 
   sendFile(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     file: string | Types.FileData | Types.MediaAttachmentPayload,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(file) || file instanceof fs.ReadStream) {
       const message = Messenger.createFileFormData(file, options);
-      return this.sendMessageFormData(recipient, message, options);
+      return this.sendMessageFormData(psidOrRecipient, message, options);
     }
 
     const message = Messenger.createFile(file, options);
-    return this.sendMessage(recipient, message, options);
+    return this.sendMessage(psidOrRecipient, message, options);
   }
 
   /**
@@ -943,12 +940,12 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-messages/templates
    */
   sendTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     payload: Types.TemplateAttachmentPayload,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createTemplate(payload, options),
       options
     );
@@ -956,13 +953,13 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/button
   sendButtonTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     text: string,
     buttons: Types.TemplateButton[],
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createButtonTemplate(text, buttons, options),
       options
     );
@@ -970,14 +967,14 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/generic
   sendGenericTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     elements: Types.TemplateElement[],
     options: {
       imageAspectRatio?: 'horizontal' | 'square';
     } & Types.SendOption = {}
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createGenericTemplate(elements, options),
       omit(options, ['imageAspectRatio'])
     );
@@ -985,12 +982,12 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt
   sendReceiptTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     attrs: Types.ReceiptAttributes,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createReceiptTemplate(attrs, options),
       options
     );
@@ -998,12 +995,12 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/media
   sendMediaTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     elements: Types.MediaElement[],
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createMediaTemplate(elements, options),
       options
     );
@@ -1011,12 +1008,12 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#boarding_pass
   sendAirlineBoardingPassTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     attrs: Types.AirlineBoardingPassAttributes,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createAirlineBoardingPassTemplate(attrs, options),
       options
     );
@@ -1024,12 +1021,12 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#check_in
   sendAirlineCheckinTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     attrs: Types.AirlineCheckinAttributes,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createAirlineCheckinTemplate(attrs, options),
       options
     );
@@ -1037,12 +1034,12 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#itinerary
   sendAirlineItineraryTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     attrs: Types.AirlineItineraryAttributes,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createAirlineItineraryTemplate(attrs, options),
       options
     );
@@ -1050,12 +1047,12 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline#update
   sendAirlineUpdateTemplate(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     attrs: Types.AirlineUpdateAttributes,
     options?: Types.SendOption
   ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendMessage(
-      recipient,
+      psidOrRecipient,
       Messenger.createAirlineUpdateTemplate(attrs, options),
       options
     );
@@ -1067,16 +1064,16 @@ export default class MessengerClient {
    * https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions
    */
   sendSenderAction(
-    idOrRecipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     action: Types.SenderAction,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.SendSenderActionResponse> {
     const recipient =
-      typeof idOrRecipient === 'string'
+      typeof psidOrRecipient === 'string'
         ? {
-            id: idOrRecipient,
+            id: psidOrRecipient,
           }
-        : idOrRecipient;
+        : psidOrRecipient;
     return this.sendRawBody({
       recipient,
       senderAction: action,
@@ -1085,24 +1082,24 @@ export default class MessengerClient {
   }
 
   markSeen(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     options: Record<string, any> = {}
   ): Promise<Types.SendSenderActionResponse> {
-    return this.sendSenderAction(recipient, 'mark_seen', options);
+    return this.sendSenderAction(psidOrRecipient, 'mark_seen', options);
   }
 
   typingOn(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     options: Record<string, any> = {}
   ): Promise<Types.SendSenderActionResponse> {
-    return this.sendSenderAction(recipient, 'typing_on', options);
+    return this.sendSenderAction(psidOrRecipient, 'typing_on', options);
   }
 
   typingOff(
-    recipient: Types.UserID | Types.Recipient,
+    psidOrRecipient: Types.PsidOrRecipient,
     options: Record<string, any> = {}
   ): Promise<Types.SendSenderActionResponse> {
-    return this.sendSenderAction(recipient, 'typing_off', options);
+    return this.sendSenderAction(psidOrRecipient, 'typing_off', options);
   }
 
   /**
@@ -1204,7 +1201,7 @@ export default class MessengerClient {
    */
   // FIXME: [type] return type
   associateLabel(
-    userId: Types.UserID,
+    userId: string,
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ) {
@@ -1226,7 +1223,7 @@ export default class MessengerClient {
    */
   // FIXME: [type] return type
   dissociateLabel(
-    userId: Types.UserID,
+    userId: string,
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ) {
@@ -1248,7 +1245,7 @@ export default class MessengerClient {
    */
   // FIXME: [type] return type
   getAssociatedLabels(
-    userId: Types.UserID,
+    userId: string,
     options: { accessToken?: string; fields?: string[] } = {}
   ) {
     const fields = options.fields ? options.fields.join(',') : 'name';
@@ -1635,7 +1632,7 @@ export default class MessengerClient {
   }: {
     appId: number;
     pageId: number;
-    pageScopedUserId: Types.UserID;
+    pageScopedUserId: string;
     events: Record<string, any>[];
   }) {
     return this._axios
