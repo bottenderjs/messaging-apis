@@ -614,7 +614,7 @@ export type DeleteScheduledMessageOptions = CommonOptions & {
 // https://api.slack.com/methods/chat.scheduleMessage
 export type ScheduleMessageOptions = CommonOptions &
   Message & {
-    channelId: string;
+    channel: string;
     asUser?: boolean;
     attachments?: string | Attachment[];
     linkNames?: boolean;
