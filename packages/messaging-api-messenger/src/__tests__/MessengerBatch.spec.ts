@@ -131,6 +131,75 @@ describe('sendMessage', () => {
     });
   });
 
+  it('can create request with user_ref', () => {
+    expect(
+      MessengerBatch.sendMessage(
+        {
+          userRef: 'user-ref',
+        },
+        { text: 'Hello' }
+      )
+    ).toEqual({
+      method: 'POST',
+      relativeUrl: 'me/messages',
+      body: {
+        messagingType: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          userRef: 'user-ref',
+        },
+      },
+    });
+  });
+
+  it('can create request with post_id', () => {
+    expect(
+      MessengerBatch.sendMessage(
+        {
+          postId: 'post-id',
+        },
+        { text: 'Hello' }
+      )
+    ).toEqual({
+      method: 'POST',
+      relativeUrl: 'me/messages',
+      body: {
+        messagingType: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          postId: 'post-id',
+        },
+      },
+    });
+  });
+
+  it('can create request with comment_id', () => {
+    expect(
+      MessengerBatch.sendMessage(
+        {
+          commentId: 'comment-id',
+        },
+        { text: 'Hello' }
+      )
+    ).toEqual({
+      method: 'POST',
+      relativeUrl: 'me/messages',
+      body: {
+        messagingType: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          commentId: 'comment-id',
+        },
+      },
+    });
+  });
+
   it('should omit options with undefined value', () => {
     expect(
       MessengerBatch.sendMessage(
