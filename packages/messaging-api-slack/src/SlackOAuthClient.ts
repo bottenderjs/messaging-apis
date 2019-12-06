@@ -36,9 +36,55 @@ export default class SlackOAuthClient {
 
   _axios: AxiosInstance;
 
-  chat: {};
+  chat: {
+    postMessage: (
+      options: SlackTypes.PostMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    postEphemeral: (
+      options: SlackTypes.PostEphemeralOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    update: (
+      options: SlackTypes.UpdateMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    delete: (
+      options: SlackTypes.DeleteMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    meMessage: (
+      options: SlackTypes.MeMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    getPermalink: (
+      options: SlackTypes.GetPermalinkOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    scheduleMessage: (
+      options: SlackTypes.ScheduleMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    deleteScheduledMessage: (
+      options: SlackTypes.DeleteScheduledMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    unfurl: (
+      options: SlackTypes.UnfurlOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    scheduledMessages: {
+      list: (
+        options: SlackTypes.GetScheduledMessagesOptions
+      ) => Promise<SlackTypes.OAuthAPIResponse>;
+    };
+  };
 
-  views: {};
+  views: {
+    open: (
+      options: SlackTypes.OpenViewOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    publish: (
+      options: SlackTypes.PublishViewOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    push: (
+      options: SlackTypes.PushViewOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+    update: (
+      options: SlackTypes.UpdateViewOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
+  };
 
   static connect(
     accessTokenOrConfig: string | SlackTypes.ClientConfig
