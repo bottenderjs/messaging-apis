@@ -1,3 +1,12 @@
+import { OnRequestFunction } from 'messaging-api-common';
+
+export type ClientConfig = {
+  accessToken: string;
+  sender: Sender;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+};
+
 export type SucceededResponseData<T extends object> = {
   status: 0;
   statusMessage: 'ok';

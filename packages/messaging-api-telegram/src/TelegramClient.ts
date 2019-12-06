@@ -13,16 +13,12 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import * as Type from './TelegramTypes';
-
-type ClientConfig = {
-  accessToken: string;
-  origin?: string;
-  onRequest?: OnRequestFunction;
-};
+import * as Types from './TelegramTypes';
 
 export default class TelegramClient {
-  static connect(accessTokenOrConfig: string | ClientConfig): TelegramClient {
+  static connect(
+    accessTokenOrConfig: string | Types.ClientConfig
+  ): TelegramClient {
     return new TelegramClient(accessTokenOrConfig);
   }
 
@@ -32,7 +28,7 @@ export default class TelegramClient {
 
   _axios: AxiosInstance;
 
-  constructor(accessTokenOrConfig: string | ClientConfig) {
+  constructor(accessTokenOrConfig: string | Types.ClientConfig) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
@@ -112,7 +108,7 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#getupdates
    */
-  getUpdates(options?: Type.GetUpdatesOption): Promise<Type.Update[]> {
+  getUpdates(options?: Types.GetUpdatesOption): Promise<Types.Update[]> {
     return this._request('/getUpdates', {
       ...options,
     });
@@ -123,7 +119,7 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#getwebhookinfo
    */
-  getWebhookInfo(): Promise<Type.WebhookInfo> {
+  getWebhookInfo(): Promise<Types.WebhookInfo> {
     return this._request('/getWebhookInfo');
   }
 
@@ -142,7 +138,7 @@ export default class TelegramClient {
    */
   setWebhook(
     url: string,
-    options: Type.SetWebhookOption = {}
+    options: Types.SetWebhookOption = {}
   ): Promise<boolean> {
     const optionsWithoutCertificate = this._optionWithoutKeys(options, [
       'certificate',
@@ -165,7 +161,7 @@ export default class TelegramClient {
   /**
    * - https://core.telegram.org/bots/api#getme
    */
-  getMe(): Promise<Type.User> {
+  getMe(): Promise<Types.User> {
     return this._request('/getMe');
   }
 
@@ -180,8 +176,8 @@ export default class TelegramClient {
   sendMessage(
     chatId: string | number,
     text: string,
-    options?: Type.SendMessageOption
-  ): Promise<Type.Message> {
+    options?: Types.SendMessageOption
+  ): Promise<Types.Message> {
     return this._request('/sendMessage', {
       chatId,
       text,
@@ -202,8 +198,8 @@ export default class TelegramClient {
     chatId: string | number,
     fromChatId: string | number,
     messageId: number,
-    options?: Type.ForwardMessageOption
-  ): Promise<Type.Message> {
+    options?: Types.ForwardMessageOption
+  ): Promise<Types.Message> {
     return this._request('/forwardMessage', {
       chatId,
       fromChatId,
@@ -224,8 +220,8 @@ export default class TelegramClient {
   sendPhoto(
     chatId: string | number,
     photo: string,
-    options: Type.SendPhotoOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendPhotoOption = {}
+  ): Promise<Types.Message> {
     return this._request('/sendPhoto', {
       chatId,
       photo,
@@ -247,8 +243,8 @@ export default class TelegramClient {
   sendAudio(
     chatId: string | number,
     audio: string,
-    options: Type.SendAudioOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendAudioOption = {}
+  ): Promise<Types.Message> {
     const optionsWithoutThumb = pick(options, [
       'caption',
       'parse_mode',
@@ -282,8 +278,8 @@ export default class TelegramClient {
   sendDocument(
     chatId: string | number,
     document: string,
-    options: Type.SendDocumentOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendDocumentOption = {}
+  ): Promise<Types.Message> {
     const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
 
     return this._request('/sendDocument', {
@@ -305,8 +301,8 @@ export default class TelegramClient {
   sendVideo(
     chatId: string | number,
     video: string,
-    options: Type.SendVideoOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendVideoOption = {}
+  ): Promise<Types.Message> {
     const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
 
     return this._request('/sendVideo', {
@@ -328,8 +324,8 @@ export default class TelegramClient {
   sendAnimation(
     chatId: string | number,
     animation: string,
-    options: Type.SendAnimationOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendAnimationOption = {}
+  ): Promise<Types.Message> {
     const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
 
     return this._request('/sendAnimation', {
@@ -351,8 +347,8 @@ export default class TelegramClient {
   sendVoice(
     chatId: string | number,
     voice: string,
-    options: Type.SendVoiceOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendVoiceOption = {}
+  ): Promise<Types.Message> {
     return this._request('/sendVoice', {
       chatId,
       voice,
@@ -372,8 +368,8 @@ export default class TelegramClient {
   sendVideoNote(
     chatId: string | number,
     videoNote: string,
-    options: Type.SendVideoNoteOption = {}
-  ): Promise<Type.Message> {
+    options: Types.SendVideoNoteOption = {}
+  ): Promise<Types.Message> {
     const optionsWithoutThumb = this._optionWithoutKeys(options, ['thumb']);
 
     return this._request('/sendVideoNote', {
@@ -394,9 +390,9 @@ export default class TelegramClient {
    */
   sendMediaGroup(
     chatId: string | number,
-    media: (Type.InputMediaPhoto | Type.InputMediaVideo)[],
-    options?: Type.SendMediaGroupOption
-  ): Promise<Type.Message[]> {
+    media: (Types.InputMediaPhoto | Types.InputMediaVideo)[],
+    options?: Types.SendMediaGroupOption
+  ): Promise<Types.Message[]> {
     const mediaWithoutThumb = media.map(m =>
       this._optionWithoutKeys(m, ['thumb'])
     );
@@ -420,8 +416,8 @@ export default class TelegramClient {
   sendLocation(
     chatId: string | number,
     { latitude, longitude }: { latitude: number; longitude: number },
-    options?: Type.SendLocationOption
-  ): Promise<Type.Message> {
+    options?: Types.SendLocationOption
+  ): Promise<Types.Message> {
     return this._request('/sendLocation', {
       chatId,
       latitude,
@@ -444,8 +440,8 @@ export default class TelegramClient {
    */
   editMessageLiveLocation(
     { latitude, longitude }: { latitude: number; longitude: number },
-    options: Type.EditMessageLiveLocationOption
-  ): Promise<Type.Message | boolean> {
+    options: Types.EditMessageLiveLocationOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/editMessageLiveLocation', {
       latitude,
       longitude,
@@ -464,8 +460,8 @@ export default class TelegramClient {
    * - https://core.telegram.org/bots/api#stopmessagelivelocation
    */
   stopMessageLiveLocation(
-    options: Type.StopMessageLiveLocationOption
-  ): Promise<Type.Message | boolean> {
+    options: Types.StopMessageLiveLocationOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/stopMessageLiveLocation', {
       ...options,
     });
@@ -485,9 +481,9 @@ export default class TelegramClient {
    */
   sendVenue(
     chatId: string | number,
-    venue: Type.Venue,
-    options?: Type.SendVenueOption
-  ): Promise<Type.Message> {
+    venue: Types.Venue,
+    options?: Types.SendVenueOption
+  ): Promise<Types.Message> {
     return this._request('/sendVenue', {
       chatId,
       ...venue.location,
@@ -508,9 +504,9 @@ export default class TelegramClient {
    */
   sendContact(
     chatId: string | number,
-    requiredOptions: Type.SendContactRequiredOption,
-    options?: Type.SendContactOption
-  ): Promise<Type.Message> {
+    requiredOptions: Types.SendContactRequiredOption,
+    options?: Types.SendContactOption
+  ): Promise<Types.Message> {
     return this._request('/sendContact', {
       chatId,
       ...requiredOptions,
@@ -532,8 +528,8 @@ export default class TelegramClient {
     chatId: string | number,
     question: string,
     options: string[],
-    otherOptions?: Type.SendPollOption
-  ): Promise<Type.Message> {
+    otherOptions?: Types.SendPollOption
+  ): Promise<Types.Message> {
     return this._request('/sendPoll', {
       chatId,
       question,
@@ -548,13 +544,13 @@ export default class TelegramClient {
    * Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo. The user will see a “sending photo” status for the bot.
    *
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
+   * @param action Types of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
    *
    * - https://core.telegram.org/bots/api#sendchataction
    */
   sendChatAction(
     chatId: string | number,
-    action: Type.ChatAction
+    action: Types.ChatAction
   ): Promise<boolean> {
     return this._request('/sendChatAction', {
       chatId,
@@ -572,8 +568,8 @@ export default class TelegramClient {
    */
   getUserProfilePhotos(
     userId: number,
-    options?: Type.GetUserProfilePhotosOption
-  ): Promise<Type.UserProfilePhotos> {
+    options?: Types.GetUserProfilePhotosOption
+  ): Promise<Types.UserProfilePhotos> {
     return this._request('/getUserProfilePhotos', {
       userId,
       ...options,
@@ -587,7 +583,7 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#getfile
    */
-  getFile(fileId: string): Promise<Type.File> {
+  getFile(fileId: string): Promise<Types.File> {
     return this._request('/getFile', {
       fileId,
     });
@@ -617,7 +613,7 @@ export default class TelegramClient {
   kickChatMember(
     chatId: string | number,
     userId: number,
-    options?: Type.KickChatMemberOption
+    options?: Types.KickChatMemberOption
   ): Promise<boolean> {
     return this._request('/kickChatMember', {
       chatId,
@@ -654,8 +650,8 @@ export default class TelegramClient {
   restrictChatMember(
     chatId: string | number,
     userId: number,
-    permissions: Type.ChatPermissions,
-    options?: Type.RestrictChatMemberOption
+    permissions: Types.ChatPermissions,
+    options?: Types.RestrictChatMemberOption
   ): Promise<boolean> {
     return this._request('/restrictChatMember', {
       chatId,
@@ -677,7 +673,7 @@ export default class TelegramClient {
   promoteChatMember(
     chatId: string | number,
     userId: number,
-    options?: Type.PromoteChatMemberOption
+    options?: Types.PromoteChatMemberOption
   ): Promise<boolean> {
     return this._request('/promoteChatMember', {
       chatId,
@@ -696,7 +692,7 @@ export default class TelegramClient {
    */
   setChatPermissions(
     chatId: string | number,
-    permissions: Type.ChatPermissions
+    permissions: Types.ChatPermissions
   ): Promise<boolean> {
     return this._request('/setChatPermissions', {
       chatId,
@@ -793,7 +789,7 @@ export default class TelegramClient {
   pinChatMessage(
     chatId: string | number,
     messageId: number,
-    options?: Type.PinChatMessageOption
+    options?: Types.PinChatMessageOption
   ): Promise<boolean> {
     return this._request('/pinChatMessage', {
       chatId,
@@ -835,7 +831,7 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#getchat
    */
-  getChat(chatId: string | number): Promise<Type.Chat> {
+  getChat(chatId: string | number): Promise<Types.Chat> {
     return this._request('/getChat', {
       chatId,
     });
@@ -848,7 +844,7 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#getchatmemberscount
    */
-  getChatAdministrators(chatId: string | number): Promise<Type.ChatMember[]> {
+  getChatAdministrators(chatId: string | number): Promise<Types.ChatMember[]> {
     return this._request('/getChatAdministrators', {
       chatId,
     });
@@ -878,7 +874,7 @@ export default class TelegramClient {
   getChatMember(
     chatId: string | number,
     userId: number
-  ): Promise<Type.ChatMember> {
+  ): Promise<Types.ChatMember> {
     return this._request('/getChatMember', {
       chatId,
       userId,
@@ -928,7 +924,7 @@ export default class TelegramClient {
    */
   answerCallbackQuery(
     callbackQueryId: string,
-    options: Type.AnswerCallbackQueryOption
+    options: Types.AnswerCallbackQueryOption
   ): Promise<boolean> {
     return this._request('/answerCallbackQuery', {
       callbackQueryId,
@@ -946,8 +942,8 @@ export default class TelegramClient {
    */
   editMessageText(
     text: string,
-    options?: Type.EditMessageTextOption
-  ): Promise<Type.Message | boolean> {
+    options?: Types.EditMessageTextOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/editMessageText', {
       text,
       ...options,
@@ -964,8 +960,8 @@ export default class TelegramClient {
    */
   editMessageCaption(
     caption: string,
-    options?: Type.EditMessageCaptionOption
-  ): Promise<Type.Message | boolean> {
+    options?: Types.EditMessageCaptionOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/editMessageCaption', {
       caption,
       ...options,
@@ -981,9 +977,9 @@ export default class TelegramClient {
    * - https://core.telegram.org/bots/api#editmessagemedia
    */
   editMessageMedia(
-    media: Type.InputMedia,
-    options: Type.EditMessageMediaOption
-  ): Promise<Type.Message | boolean> {
+    media: Types.InputMedia,
+    options: Types.EditMessageMediaOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/editMessageMedia', {
       media,
       ...options,
@@ -999,9 +995,9 @@ export default class TelegramClient {
    * - https://core.telegram.org/bots/api#editmessagereplymarkup
    */
   editMessageReplyMarkup(
-    replyMarkup: Type.InlineKeyboardMarkup,
-    options?: Type.EditMessageReplyMarkupOption
-  ): Promise<Type.Message | boolean> {
+    replyMarkup: Types.InlineKeyboardMarkup,
+    options?: Types.EditMessageReplyMarkupOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/editMessageReplyMarkup', {
       replyMarkup,
       ...options,
@@ -1020,8 +1016,8 @@ export default class TelegramClient {
   stopPoll(
     chatId: string | number,
     messageId: number,
-    options?: Type.StopPollOption
-  ): Promise<Type.Poll> {
+    options?: Types.StopPollOption
+  ): Promise<Types.Poll> {
     return this._request('/stopPoll', {
       chatId,
       messageId,
@@ -1060,8 +1056,8 @@ export default class TelegramClient {
   sendSticker(
     chatId: string | number,
     sticker: string,
-    options?: Type.SendStickerOption
-  ): Promise<Type.Message> {
+    options?: Types.SendStickerOption
+  ): Promise<Types.Message> {
     return this._request('/sendSticker', {
       chatId,
       sticker,
@@ -1076,7 +1072,7 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#getstickerset
    */
-  getStickerSet(name: string): Promise<Type.StickerSet> {
+  getStickerSet(name: string): Promise<Types.StickerSet> {
     return this._request('/getStickerSet', { name });
   }
 
@@ -1101,7 +1097,7 @@ export default class TelegramClient {
     title: string,
     pngSticker: string,
     emojis: string,
-    options?: Type.CreateNewStickerSetOption
+    options?: Types.CreateNewStickerSetOption
   ): Promise<boolean> {
     return this._request('/createNewStickerSet', {
       userId,
@@ -1129,7 +1125,7 @@ export default class TelegramClient {
     name: string,
     pngSticker: string,
     emojis: string,
-    options?: Type.AddStickerToSetOption
+    options?: Types.AddStickerToSetOption
   ): Promise<boolean> {
     return this._request('/addStickerToSet', {
       userId,
@@ -1177,8 +1173,8 @@ export default class TelegramClient {
    */
   answerInlineQuery(
     inlineQueryId: string,
-    results: Type.InlineQueryResult[],
-    options?: Type.AnswerInlineQueryOption
+    results: Types.InlineQueryResult[],
+    options?: Types.AnswerInlineQueryOption
   ): Promise<boolean> {
     return this._request('/answerInlineQuery', {
       inlineQueryId,
@@ -1204,9 +1200,9 @@ export default class TelegramClient {
    */
   sendInvoice(
     chatId: number,
-    product: Type.Product,
-    options?: Type.SendInvoiceOption
-  ): Promise<Type.Message> {
+    product: Types.Product,
+    options?: Types.SendInvoiceOption
+  ): Promise<Types.Message> {
     return this._request('/sendInvoice', {
       chatId,
       ...product,
@@ -1226,7 +1222,7 @@ export default class TelegramClient {
   answerShippingQuery(
     shippingQueryId: string,
     ok: boolean,
-    options?: Type.AnswerShippingQueryOption
+    options?: Types.AnswerShippingQueryOption
   ): Promise<boolean> {
     return this._request('/answerShippingQuery', {
       shippingQueryId,
@@ -1247,7 +1243,7 @@ export default class TelegramClient {
   answerPreCheckoutQuery(
     preCheckoutQueryId: string,
     ok: boolean,
-    options?: Type.AnswerPreCheckoutQueryOption
+    options?: Types.AnswerPreCheckoutQueryOption
   ): Promise<boolean> {
     return this._request('/answerPreCheckoutQuery', {
       preCheckoutQueryId,
@@ -1273,8 +1269,8 @@ export default class TelegramClient {
   sendGame(
     chatId: number,
     gameShortName: string,
-    options?: Type.SendGameOption
-  ): Promise<Type.Message> {
+    options?: Types.SendGameOption
+  ): Promise<Types.Message> {
     return this._request('/sendGame', {
       chatId,
       gameShortName,
@@ -1294,8 +1290,8 @@ export default class TelegramClient {
   setGameScore(
     userId: number,
     score: number,
-    options?: Type.SetGameScoreOption
-  ): Promise<Type.Message | boolean> {
+    options?: Types.SetGameScoreOption
+  ): Promise<Types.Message | boolean> {
     return this._request('/setGameScore', {
       userId,
       score,
@@ -1315,8 +1311,8 @@ export default class TelegramClient {
    */
   getGameHighScores(
     userId: number,
-    options?: Type.GetGameHighScoresOption
-  ): Promise<Type.GameHighScore[]> {
+    options?: Types.GetGameHighScoresOption
+  ): Promise<Types.GameHighScore[]> {
     return this._request('/getGameHighScores', {
       userId,
       ...options,

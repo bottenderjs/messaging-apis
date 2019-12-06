@@ -1,5 +1,17 @@
 import fs from 'fs';
 
+import { OnRequestFunction } from 'messaging-api-common';
+
+export type ClientConfig = {
+  accessToken: string;
+  appId?: string;
+  appSecret?: string;
+  version?: string;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+  skipAppSecretProof?: boolean;
+};
+
 export type UserID = string;
 
 export type RecipientWithID = {

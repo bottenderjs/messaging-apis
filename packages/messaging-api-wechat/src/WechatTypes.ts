@@ -1,3 +1,12 @@
+import { OnRequestFunction } from 'messaging-api-common';
+
+export type ClientConfig = {
+  appId: string;
+  appSecret: string;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+};
+
 export type SucceededResponseData = {
   errcode: 0;
   errmsg: 'ok';

@@ -1,3 +1,12 @@
+import { OnRequestFunction } from 'messaging-api-common';
+
+export type ClientConfig = {
+  accessToken: string;
+  channelSecret: string;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+};
+
 export type User = {
   displayName: string;
   userId: string;
@@ -598,3 +607,13 @@ export type FriendDemographics = {
     } & PercentageAble
   >;
 };
+
+/* LINE Pay */
+export type LinePayConfig = {
+  channelId: string;
+  channelSecret: string;
+  sandbox?: boolean;
+  origin?: string;
+};
+
+export type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
