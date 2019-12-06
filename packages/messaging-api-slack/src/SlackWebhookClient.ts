@@ -5,12 +5,10 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import { Attachment, SendMessageSuccessResponse } from './SlackTypes';
-
-type URL = string;
+import * as Types from './SlackTypes';
 
 interface ClientConfig {
-  url: URL;
+  url: string;
   onRequest?: OnRequestFunction;
 }
 
@@ -19,11 +17,11 @@ export default class SlackWebhookClient {
 
   _onRequest: OnRequestFunction | undefined;
 
-  static connect(urlOrConfig: URL | ClientConfig): SlackWebhookClient {
+  static connect(urlOrConfig: string | ClientConfig): SlackWebhookClient {
     return new SlackWebhookClient(urlOrConfig);
   }
 
-  constructor(urlOrConfig: URL | ClientConfig) {
+  constructor(urlOrConfig: string | ClientConfig) {
     let url;
 
     if (urlOrConfig && typeof urlOrConfig === 'object') {
@@ -51,11 +49,13 @@ export default class SlackWebhookClient {
     return this._axios;
   }
 
-  sendRawBody(body: Record<string, any>): Promise<SendMessageSuccessResponse> {
+  sendRawBody(
+    body: Record<string, any>
+  ): Promise<Types.SendMessageSuccessResponse> {
     return this._axios.post('', snakecaseKeysDeep(body)).then(res => res.data);
   }
 
-  sendText(text: string): Promise<SendMessageSuccessResponse> {
+  sendText(text: string): Promise<Types.SendMessageSuccessResponse> {
     return this.sendRawBody({ text });
   }
 
@@ -66,12 +66,14 @@ export default class SlackWebhookClient {
    */
 
   sendAttachments(
-    attachments: Attachment[]
-  ): Promise<SendMessageSuccessResponse> {
+    attachments: Types.Attachment[]
+  ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendRawBody({ attachments });
   }
 
-  sendAttachment(attachment: Attachment): Promise<SendMessageSuccessResponse> {
+  sendAttachment(
+    attachment: Types.Attachment
+  ): Promise<Types.SendMessageSuccessResponse> {
     return this.sendAttachments([attachment]);
   }
 }

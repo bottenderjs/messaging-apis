@@ -4,14 +4,7 @@ import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'invariant';
 
-type LinePayConfig = {
-  channelId: string;
-  channelSecret: string;
-  sandbox?: boolean;
-  origin?: string;
-};
-
-type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
+import * as Types from './LineTypes';
 
 function handleError(err: {
   message: string;
@@ -46,7 +39,7 @@ function throwWhenNotSuccess(res: {
 }
 
 export default class LinePay {
-  static connect(config: LinePayConfig): LinePay {
+  static connect(config: Types.LinePayConfig): LinePay {
     return new LinePay(config);
   }
 
@@ -57,7 +50,7 @@ export default class LinePay {
     channelSecret,
     sandbox = false,
     origin,
-  }: LinePayConfig) {
+  }: Types.LinePayConfig) {
     const linePayOrigin = sandbox
       ? 'https://sandbox-api-pay.line.me'
       : 'https://api-pay.line.me';
@@ -146,7 +139,7 @@ export default class LinePay {
   }: {
     productName: string;
     amount: number;
-    currency: LinePayCurrency;
+    currency: Types.LinePayCurrency;
     confirmUrl: string;
     orderId: string;
     productImageUrl?: string;
@@ -181,7 +174,7 @@ export default class LinePay {
       currency,
     }: {
       amount: number;
-      currency: LinePayCurrency;
+      currency: Types.LinePayCurrency;
     }
   ) {
     return this._axios
@@ -199,7 +192,7 @@ export default class LinePay {
       currency,
     }: {
       amount: number;
-      currency: LinePayCurrency;
+      currency: Types.LinePayCurrency;
     }
   ) {
     return this._axios

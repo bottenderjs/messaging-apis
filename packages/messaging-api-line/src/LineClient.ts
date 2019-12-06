@@ -9,36 +9,7 @@ import {
 } from 'messaging-api-common';
 
 import Line from './Line';
-import {
-  ButtonsTemplate,
-  ColumnObject,
-  ConfirmTemplate,
-  FlexContainer,
-  FriendDemographics,
-  ImageCarouselColumnObject,
-  ImagemapMessage,
-  LiffView,
-  Location,
-  Message,
-  MessageOptions,
-  MutationSuccessResponse,
-  NumberOfFollowersResponse,
-  NumberOfMessageDeliveriesResponse,
-  NumberOfMessagesSentResponse,
-  NumberOfMessagesSentThisMonth,
-  RichMenu,
-  StickerMessage,
-  TargetLimitForAdditionalMessages,
-  Template,
-  User,
-} from './LineTypes';
-
-type ClientConfig = {
-  accessToken: string;
-  channelSecret: string;
-  origin?: string;
-  onRequest?: OnRequestFunction;
-};
+import * as Types from './LineTypes';
 
 function handleError(err: {
   message: string;
@@ -67,7 +38,7 @@ function handleError(err: {
 
 export default class LineClient {
   static connect(
-    accessTokenOrConfig: string | ClientConfig,
+    accessTokenOrConfig: string | Types.ClientConfig,
     channelSecret?: string
   ): LineClient {
     return new LineClient(accessTokenOrConfig, channelSecret);
@@ -82,7 +53,7 @@ export default class LineClient {
   _accessToken: string;
 
   constructor(
-    accessTokenOrConfig: string | ClientConfig,
+    accessTokenOrConfig: string | Types.ClientConfig,
     channelSecret?: string
   ) {
     let origin;
@@ -127,10 +98,10 @@ export default class LineClient {
   replyRawBody(
     body: {
       replyToken: string;
-      messages: Message[];
+      messages: Types.Message[];
     },
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/reply',
@@ -146,25 +117,25 @@ export default class LineClient {
 
   reply(
     replyToken: string,
-    messages: Message[],
+    messages: Types.Message[],
     options?: Record<string, any>
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this.replyRawBody({ replyToken, messages }, options);
   }
 
   replyMessages(
     replyToken: string,
-    messages: Message[],
+    messages: Types.Message[],
     options?: Record<string, any>
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, messages, options);
   }
 
   replyText(
     replyToken: string,
     text: string,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createText(text, options)], options);
   }
 
@@ -174,8 +145,8 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createImage(image, options)], options);
   }
 
@@ -185,8 +156,8 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createVideo(video, options)], options);
   }
 
@@ -196,16 +167,16 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createAudio(audio, options)], options);
   }
 
   replyLocation(
     replyToken: string,
-    location: Location,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    location: Types.Location,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createLocation(location, options)],
@@ -215,9 +186,9 @@ export default class LineClient {
 
   replySticker(
     replyToken: string,
-    sticker: Omit<StickerMessage, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    sticker: Omit<Types.StickerMessage, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createSticker(sticker, options)],
@@ -233,9 +204,9 @@ export default class LineClient {
   replyImagemap(
     replyToken: string,
     altText: string,
-    imagemap: Omit<ImagemapMessage, 'type' | 'altText'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createImagemap(altText, imagemap, options)],
@@ -251,9 +222,9 @@ export default class LineClient {
   replyFlex(
     replyToken: string,
     altText: string,
-    flex: FlexContainer,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    flex: Types.FlexContainer,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createFlex(altText, flex, options)],
@@ -269,9 +240,9 @@ export default class LineClient {
   replyTemplate(
     replyToken: string,
     altText: string,
-    template: Template,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    template: Types.Template,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createTemplate(altText, template, options)],
@@ -282,9 +253,9 @@ export default class LineClient {
   replyButtonTemplate(
     replyToken: string,
     altText: string,
-    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createButtonTemplate(altText, buttonTemplate, options)],
@@ -295,9 +266,9 @@ export default class LineClient {
   replyButtonsTemplate(
     replyToken: string,
     altText: string,
-    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.replyButtonTemplate(
       replyToken,
       altText,
@@ -309,9 +280,9 @@ export default class LineClient {
   replyConfirmTemplate(
     replyToken: string,
     altText: string,
-    confirmTemplate: Omit<ConfirmTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createConfirmTemplate(altText, confirmTemplate, options)],
@@ -322,7 +293,7 @@ export default class LineClient {
   replyCarouselTemplate(
     replyToken: string,
     altText: string,
-    columns: ColumnObject[],
+    columns: Types.ColumnObject[],
     {
       imageAspectRatio,
       imageSize,
@@ -330,8 +301,8 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-    } & MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
+    } & Types.MessageOptions = {}
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [
@@ -348,9 +319,9 @@ export default class LineClient {
   replyImageCarouselTemplate(
     replyToken: string,
     altText: string,
-    columns: ImageCarouselColumnObject[],
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    columns: Types.ImageCarouselColumnObject[],
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
       [Line.createImageCarouselTemplate(altText, columns, options)],
@@ -366,10 +337,10 @@ export default class LineClient {
   pushRawBody(
     body: {
       to: string;
-      messages: Message[];
+      messages: Types.Message[];
     },
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/push',
@@ -385,25 +356,25 @@ export default class LineClient {
 
   push(
     to: string,
-    messages: Message[],
+    messages: Types.Message[],
     options?: Record<string, any>
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this.pushRawBody({ to, messages }, options);
   }
 
   pushMessages(
     to: string,
-    messages: Message[],
+    messages: Types.Message[],
     options?: Record<string, any>
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, messages, options);
   }
 
   pushText(
     to: string,
     text: string,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createText(text, options)], options);
   }
 
@@ -413,8 +384,8 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
-    options: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createImage(image, options)], options);
   }
 
@@ -424,8 +395,8 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createVideo(video, options)], options);
   }
 
@@ -435,24 +406,24 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createAudio(audio, options)], options);
   }
 
   pushLocation(
     to: string,
-    location: Location,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    location: Types.Location,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createLocation(location, options)], options);
   }
 
   pushSticker(
     to: string,
-    sticker: Omit<StickerMessage, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    sticker: Omit<Types.StickerMessage, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createSticker(sticker, options)], options);
   }
 
@@ -464,9 +435,9 @@ export default class LineClient {
   pushImagemap(
     to: string,
     altText: string,
-    imagemap: Omit<ImagemapMessage, 'type' | 'altText'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
       [Line.createImagemap(altText, imagemap, options)],
@@ -482,9 +453,9 @@ export default class LineClient {
   pushFlex(
     to: string,
     altText: string,
-    flex: FlexContainer,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    flex: Types.FlexContainer,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createFlex(altText, flex, options)], options);
   }
 
@@ -496,9 +467,9 @@ export default class LineClient {
   pushTemplate(
     to: string,
     altText: string,
-    template: Template,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    template: Types.Template,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
       [Line.createTemplate(altText, template, options)],
@@ -509,9 +480,9 @@ export default class LineClient {
   pushButtonTemplate(
     to: string,
     altText: string,
-    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
       [Line.createButtonTemplate(altText, buttonTemplate, options)],
@@ -522,18 +493,18 @@ export default class LineClient {
   pushButtonsTemplate(
     to: string,
     altText: string,
-    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.pushButtonTemplate(to, altText, buttonTemplate, options);
   }
 
   pushConfirmTemplate(
     to: string,
     altText: string,
-    confirmTemplate: Omit<ConfirmTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
       [Line.createConfirmTemplate(altText, confirmTemplate, options)],
@@ -544,7 +515,7 @@ export default class LineClient {
   pushCarouselTemplate(
     to: string,
     altText: string,
-    columns: ColumnObject[],
+    columns: Types.ColumnObject[],
     {
       imageAspectRatio,
       imageSize,
@@ -552,8 +523,8 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-    } & MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
+    } & Types.MessageOptions = {}
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
       [
@@ -570,9 +541,9 @@ export default class LineClient {
   pushImageCarouselTemplate(
     to: string,
     altText: string,
-    columns: ImageCarouselColumnObject[],
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    columns: Types.ImageCarouselColumnObject[],
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
       [Line.createImageCarouselTemplate(altText, columns, options)],
@@ -588,10 +559,10 @@ export default class LineClient {
   multicastRawBody(
     body: {
       to: string[];
-      messages: Message[];
+      messages: Types.Message[];
     },
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(
         '/v2/bot/message/multicast',
@@ -607,25 +578,25 @@ export default class LineClient {
 
   multicast(
     to: string[],
-    messages: Message[],
+    messages: Types.Message[],
     options?: Record<string, any>
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicastRawBody({ to, messages }, options);
   }
 
   multicastMessages(
     to: string[],
-    messages: Message[],
+    messages: Types.Message[],
     options?: Record<string, any>
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, messages, options);
   }
 
   multicastText(
     to: string[],
     text: string,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createText(text, options)], options);
   }
 
@@ -635,8 +606,8 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createImage(image, options)], options);
   }
 
@@ -646,8 +617,8 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createVideo(video, options)], options);
   }
 
@@ -657,16 +628,16 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createAudio(audio, options)], options);
   }
 
   multicastLocation(
     to: string[],
-    location: Location,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    location: Types.Location,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createLocation(location, options)],
@@ -676,9 +647,9 @@ export default class LineClient {
 
   multicastSticker(
     to: string[],
-    sticker: Omit<StickerMessage, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    sticker: Omit<Types.StickerMessage, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createSticker(sticker, options)], options);
   }
 
@@ -690,9 +661,9 @@ export default class LineClient {
   multicastImagemap(
     to: string[],
     altText: string,
-    imagemap: Omit<ImagemapMessage, 'type' | 'altText'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createImagemap(altText, imagemap, options)],
@@ -708,9 +679,9 @@ export default class LineClient {
   multicastFlex(
     to: string[],
     altText: string,
-    flex: FlexContainer,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    flex: Types.FlexContainer,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createFlex(altText, flex, options)],
@@ -726,9 +697,9 @@ export default class LineClient {
   multicastTemplate(
     to: string[],
     altText: string,
-    template: Template,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    template: Types.Template,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createTemplate(altText, template, options)],
@@ -739,9 +710,9 @@ export default class LineClient {
   multicastButtonTemplate(
     to: string[],
     altText: string,
-    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createButtonTemplate(altText, buttonTemplate, options)],
@@ -752,18 +723,18 @@ export default class LineClient {
   multicastButtonsTemplate(
     to: string[],
     altText: string,
-    buttonTemplate: Omit<ButtonsTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicastButtonTemplate(to, altText, buttonTemplate, options);
   }
 
   multicastConfirmTemplate(
     to: string[],
     altText: string,
-    confirmTemplate: Omit<ConfirmTemplate, 'type'>,
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createConfirmTemplate(altText, confirmTemplate, options)],
@@ -774,7 +745,7 @@ export default class LineClient {
   multicastCarouselTemplate(
     to: string[],
     altText: string,
-    columns: ColumnObject[],
+    columns: Types.ColumnObject[],
     {
       imageAspectRatio,
       imageSize,
@@ -782,8 +753,8 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-    } & MessageOptions = {}
-  ): Promise<MutationSuccessResponse> {
+    } & Types.MessageOptions = {}
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [
@@ -800,9 +771,9 @@ export default class LineClient {
   multicastImageCarouselTemplate(
     to: string[],
     altText: string,
-    columns: ImageCarouselColumnObject[],
-    options?: MessageOptions
-  ): Promise<MutationSuccessResponse> {
+    columns: Types.ImageCarouselColumnObject[],
+    options?: Types.MessageOptions
+  ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
       [Line.createImageCarouselTemplate(altText, columns, options)],
@@ -849,7 +820,7 @@ export default class LineClient {
   getUserProfile(
     userId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<User> {
+  ): Promise<Types.User> {
     return this._axios
       .get(
         `/v2/bot/profile/${userId}`,
@@ -1014,7 +985,7 @@ export default class LineClient {
   leaveGroup(
     groupId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(
         `/v2/bot/group/${groupId}/leave`,
@@ -1036,7 +1007,7 @@ export default class LineClient {
   leaveRoom(
     roomId: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<MutationSuccessResponse> {
+  ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(
         `/v2/bot/room/${roomId}/leave`,
@@ -1093,7 +1064,7 @@ export default class LineClient {
   }
 
   createRichMenu(
-    richMenu: RichMenu,
+    richMenu: Types.RichMenu,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ) {
     return this._axios
@@ -1337,7 +1308,7 @@ export default class LineClient {
     accessToken: customAccessToken,
   }: { accessToken?: string } = {}): Promise<{
     liffId: string;
-    view: LiffView;
+    view: Types.LiffView;
   }> {
     return this._axios
       .get(
@@ -1352,7 +1323,7 @@ export default class LineClient {
   }
 
   createLiffApp(
-    view: LiffView,
+    view: Types.LiffView,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<{ liffId: string }> {
     return this._axios
@@ -1370,7 +1341,7 @@ export default class LineClient {
 
   updateLiffApp(
     liffId: string,
-    view: LiffView,
+    view: Types.LiffView,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
   ): Promise<void> {
     return this._axios
@@ -1410,9 +1381,11 @@ export default class LineClient {
   // https://developers.line.biz/en/reference/messaging-api/#get-quota
   getTargetLimitForAdditionalMessages({
     accessToken: customAccessToken,
-  }: { accessToken?: string } = {}): Promise<TargetLimitForAdditionalMessages> {
+  }: { accessToken?: string } = {}): Promise<
+    Types.TargetLimitForAdditionalMessages
+  > {
     return this._axios
-      .get<TargetLimitForAdditionalMessages>(
+      .get<Types.TargetLimitForAdditionalMessages>(
         '/v2/bot/message/quota',
         customAccessToken
           ? {
@@ -1426,9 +1399,11 @@ export default class LineClient {
   // https://developers.line.biz/en/reference/messaging-api/#get-consumption
   getNumberOfMessagesSentThisMonth({
     accessToken: customAccessToken,
-  }: { accessToken?: string } = {}): Promise<NumberOfMessagesSentThisMonth> {
+  }: { accessToken?: string } = {}): Promise<
+    Types.NumberOfMessagesSentThisMonth
+  > {
     return this._axios
-      .get<NumberOfMessagesSentThisMonth>(
+      .get<Types.NumberOfMessagesSentThisMonth>(
         '/v2/bot/message/quota/consumption',
         customAccessToken
           ? {
@@ -1443,18 +1418,21 @@ export default class LineClient {
   getNumberOfSentReplyMessages(
     date: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<NumberOfMessagesSentResponse> {
+  ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
-      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/reply', {
-        params: {
-          date,
-        },
-        ...(customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}),
-      })
+      .get<Types.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/reply',
+        {
+          params: {
+            date,
+          },
+          ...(customAccessToken
+            ? {
+                headers: { Authorization: `Bearer ${customAccessToken}` },
+              }
+            : {}),
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -1462,18 +1440,21 @@ export default class LineClient {
   getNumberOfSentPushMessages(
     date: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<NumberOfMessagesSentResponse> {
+  ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
-      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/push', {
-        params: {
-          date,
-        },
-        ...(customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}),
-      })
+      .get<Types.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/push',
+        {
+          params: {
+            date,
+          },
+          ...(customAccessToken
+            ? {
+                headers: { Authorization: `Bearer ${customAccessToken}` },
+              }
+            : {}),
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -1481,18 +1462,21 @@ export default class LineClient {
   getNumberOfSentMulticastMessages(
     date: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<NumberOfMessagesSentResponse> {
+  ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
-      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/multicast', {
-        params: {
-          date,
-        },
-        ...(customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}),
-      })
+      .get<Types.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/multicast',
+        {
+          params: {
+            date,
+          },
+          ...(customAccessToken
+            ? {
+                headers: { Authorization: `Bearer ${customAccessToken}` },
+              }
+            : {}),
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -1500,18 +1484,21 @@ export default class LineClient {
   getNumberOfSentBroadcastMessages(
     date: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<NumberOfMessagesSentResponse> {
+  ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
-      .get<NumberOfMessagesSentResponse>('/v2/bot/message/delivery/broadcast', {
-        params: {
-          date,
-        },
-        ...(customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}),
-      })
+      .get<Types.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/broadcast',
+        {
+          params: {
+            date,
+          },
+          ...(customAccessToken
+            ? {
+                headers: { Authorization: `Bearer ${customAccessToken}` },
+              }
+            : {}),
+        }
+      )
       .then(res => res.data, handleError);
   }
 
@@ -1524,9 +1511,9 @@ export default class LineClient {
   getNumberOfMessageDeliveries(
     date: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<NumberOfMessageDeliveriesResponse> {
+  ): Promise<Types.NumberOfMessageDeliveriesResponse> {
     return this._axios
-      .get<NumberOfMessageDeliveriesResponse>(
+      .get<Types.NumberOfMessageDeliveriesResponse>(
         '/v2/bot/insight/message/delivery',
         {
           params: {
@@ -1546,9 +1533,9 @@ export default class LineClient {
   getNumberOfFollowers(
     date: string,
     { accessToken: customAccessToken }: { accessToken?: string } = {}
-  ): Promise<NumberOfFollowersResponse> {
+  ): Promise<Types.NumberOfFollowersResponse> {
     return this._axios
-      .get<NumberOfFollowersResponse>('/v2/bot/insight/followers', {
+      .get<Types.NumberOfFollowersResponse>('/v2/bot/insight/followers', {
         params: {
           date,
         },
@@ -1564,9 +1551,9 @@ export default class LineClient {
   // https://developers.line.biz/en/reference/messaging-api/#get-demographic
   getFriendDemographics({
     accessToken: customAccessToken,
-  }: { accessToken?: string } = {}): Promise<FriendDemographics> {
+  }: { accessToken?: string } = {}): Promise<Types.FriendDemographics> {
     return this._axios
-      .get<FriendDemographics>(
+      .get<Types.FriendDemographics>(
         '/v2/bot/insight/demographic',
         customAccessToken
           ? {

@@ -1,3 +1,11 @@
+import { OnRequestFunction } from 'messaging-api-common';
+
+export type ClientConfig = {
+  accessToken: string;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+};
+
 export type Update = {
   updateId: string;
   message?: Message;

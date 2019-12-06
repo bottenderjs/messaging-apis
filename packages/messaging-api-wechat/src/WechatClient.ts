@@ -11,28 +11,7 @@ import {
   snakecaseKeys,
 } from 'messaging-api-common';
 
-import {
-  AccessToken,
-  FailedResponseData,
-  Media,
-  MediaType,
-  MiniProgramPage,
-  MsgMenu,
-  Music,
-  News,
-  ResponseData,
-  SendMessageOptions,
-  SucceededResponseData,
-  UploadedMedia,
-  Video,
-} from './WechatTypes';
-
-type ClientConfig = {
-  appId: string;
-  appSecret: string;
-  origin?: string;
-  onRequest?: OnRequestFunction;
-};
+import * as Types from './WechatTypes';
 
 function throwErrorIfAny(response: AxiosResponse): AxiosResponse | never {
   const { errcode, errmsg } = response.data;
@@ -47,7 +26,7 @@ function throwErrorIfAny(response: AxiosResponse): AxiosResponse | never {
 
 export default class WechatClient {
   static connect(
-    appIdOrClientConfig: string | ClientConfig,
+    appIdOrClientConfig: string | Types.ClientConfig,
     appSecret: string
   ): WechatClient {
     return new WechatClient(appIdOrClientConfig, appSecret);
@@ -65,7 +44,10 @@ export default class WechatClient {
 
   _tokenExpiresAt = 0;
 
-  constructor(appIdOrClientConfig: string | ClientConfig, appSecret: string) {
+  constructor(
+    appIdOrClientConfig: string | Types.ClientConfig,
+    appSecret: string
+  ) {
     let origin;
     if (appIdOrClientConfig && typeof appIdOrClientConfig === 'object') {
       const config = appIdOrClientConfig;
@@ -120,9 +102,11 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
-  getAccessToken(): Promise<AccessToken> {
+  getAccessToken(): Promise<Types.AccessToken> {
     return this._axios
-      .get<{ access_token: string; expires_in: number } | FailedResponseData>(
+      .get<
+        { access_token: string; expires_in: number } | Types.FailedResponseData
+      >(
         `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
       )
       .then(throwErrorIfAny)
@@ -151,9 +135,9 @@ export default class WechatClient {
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
    */
   async uploadMedia(
-    type: MediaType,
+    type: Types.MediaType,
     media: Buffer | fs.ReadStream
-  ): Promise<UploadedMedia> {
+  ): Promise<Types.UploadedMedia> {
     await this._refreshTokenWhenExpired();
 
     const form = new FormData();
@@ -163,7 +147,7 @@ export default class WechatClient {
     return this._axios
       .post<
         | { type: string; media_id: string; created_at: number }
-        | FailedResponseData
+        | Types.FailedResponseData
       >(`/media/upload?access_token=${this._accessToken}&type=${type}`, form, {
         headers: form.getHeaders(),
       })
@@ -181,11 +165,11 @@ export default class WechatClient {
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
    */
-  async getMedia(mediaId: string): Promise<Media> {
+  async getMedia(mediaId: string): Promise<Types.Media> {
     await this._refreshTokenWhenExpired();
 
     return this._axios
-      .get<{ video_url: string } | FailedResponseData>(
+      .get<{ video_url: string } | Types.FailedResponseData>(
         `/media/get?access_token=${this._accessToken}&media_id=${mediaId}`
       )
       .then(throwErrorIfAny)
@@ -205,7 +189,7 @@ export default class WechatClient {
   async sendRawBody(
     body: {
       touser: string;
-    } & SendMessageOptions &
+    } & Types.SendMessageOptions &
       (
         | {
             msgtype: 'text';
@@ -227,15 +211,15 @@ export default class WechatClient {
           }
         | {
             msgtype: 'video';
-            video: Video;
+            video: Types.Video;
           }
         | {
             msgtype: 'music';
-            music: Music;
+            music: Types.Music;
           }
         | {
             msgtype: 'news';
-            news: News;
+            news: Types.News;
           }
         | {
             msgtype: 'mpnews';
@@ -245,7 +229,7 @@ export default class WechatClient {
           }
         | {
             msgtype: 'msgmenu';
-            msgmenu: MsgMenu;
+            msgmenu: Types.MsgMenu;
           }
         | {
             msgtype: 'wxcard';
@@ -255,14 +239,14 @@ export default class WechatClient {
           }
         | {
             msgtype: 'miniprogrampage';
-            miniprogrampage: MiniProgramPage;
+            miniprogrampage: Types.MiniProgramPage;
           }
       )
-  ): Promise<SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData | never> {
     await this._refreshTokenWhenExpired();
 
     return this._axios
-      .post<ResponseData>(
+      .post<Types.ResponseData>(
         `/message/custom/send?access_token=${this._accessToken}`,
         snakecaseKeys(body, { deep: true })
       )
@@ -281,8 +265,8 @@ export default class WechatClient {
   sendText(
     userId: string,
     text: string,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'text',
@@ -299,8 +283,8 @@ export default class WechatClient {
   sendImage(
     userId: string,
     mediaId: string,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'image',
@@ -317,8 +301,8 @@ export default class WechatClient {
   sendVoice(
     userId: string,
     mediaId: string,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'voice',
@@ -334,9 +318,9 @@ export default class WechatClient {
    */
   sendVideo(
     userId: string,
-    video: Video,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    video: Types.Video,
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'video',
@@ -350,9 +334,9 @@ export default class WechatClient {
    */
   sendMusic(
     userId: string,
-    music: Music,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    music: Types.Music,
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'music',
@@ -368,9 +352,9 @@ export default class WechatClient {
    */
   sendNews(
     userId: string,
-    news: News,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    news: Types.News,
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'news',
@@ -387,8 +371,8 @@ export default class WechatClient {
   sendMPNews(
     userId: string,
     mediaId: string,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'mpnews',
@@ -404,9 +388,9 @@ export default class WechatClient {
    */
   sendMsgMenu(
     userId: string,
-    msgMenu: MsgMenu,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    msgMenu: Types.MsgMenu,
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'msgmenu',
@@ -421,8 +405,8 @@ export default class WechatClient {
   sendWXCard(
     userId: string,
     cardId: string,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'wxcard',
@@ -438,9 +422,9 @@ export default class WechatClient {
    */
   sendMiniProgramPage(
     userId: string,
-    miniProgramPage: MiniProgramPage,
-    options?: SendMessageOptions
-  ): Promise<SucceededResponseData | never> {
+    miniProgramPage: Types.MiniProgramPage,
+    options?: Types.SendMessageOptions
+  ): Promise<Types.SucceededResponseData | never> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'miniprogrampage',

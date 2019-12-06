@@ -12,33 +12,9 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import {
-  AccountInfo,
-  BroadcastResponseData,
-  Contact,
-  EventType,
-  File,
-  Location,
-  Message,
-  MessageOptions,
-  Picture,
-  ResponseData,
-  RichMedia,
-  Sender,
-  SucceededResponseData,
-  UserDetails,
-  UserOnlineStatus,
-  Video,
-} from './ViberTypes';
+import * as Types from './ViberTypes';
 
-type ClientConfig = {
-  accessToken: string;
-  sender: Sender;
-  origin?: string;
-  onRequest?: OnRequestFunction;
-};
-
-function transformMessageCase(message: Message): any {
+function transformMessageCase(message: Types.Message): any {
   const { keyboard, richMedia, ...others } = message as any;
 
   return {
@@ -57,21 +33,24 @@ function transformMessageCase(message: Message): any {
  */
 export default class ViberClient {
   static connect(
-    accessTokenOrConfig: string | ClientConfig,
-    sender?: Sender
+    accessTokenOrConfig: string | Types.ClientConfig,
+    sender?: Types.Sender
   ): ViberClient {
     return new ViberClient(accessTokenOrConfig, sender);
   }
 
   _token: string;
 
-  _sender: Sender;
+  _sender: Types.Sender;
 
   _onRequest: OnRequestFunction | undefined;
 
   _axios: AxiosInstance;
 
-  constructor(accessTokenOrConfig: string | ClientConfig, sender?: Sender) {
+  constructor(
+    accessTokenOrConfig: string | Types.ClientConfig,
+    sender?: Types.Sender
+  ) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
@@ -82,7 +61,7 @@ export default class ViberClient {
       origin = config.origin;
     } else {
       this._token = accessTokenOrConfig;
-      this._sender = sender as Sender;
+      this._sender = sender as Types.Sender;
       this._onRequest = onRequest;
     }
 
@@ -110,7 +89,7 @@ export default class ViberClient {
   async _callAPI<R extends object>(
     path: string,
     body: Record<string, any> = {}
-  ): Promise<SucceededResponseData<R> | never> {
+  ): Promise<Types.SucceededResponseData<R> | never> {
     try {
       const response = await this._axios.post(
         path,
@@ -122,7 +101,9 @@ export default class ViberClient {
 
       const { config, request } = response;
 
-      const data = (camelcaseKeysDeep(response.data) as any) as ResponseData<R>;
+      const data = (camelcaseKeysDeep(
+        response.data
+      ) as any) as Types.ResponseData<R>;
 
       if (data.status !== 0) {
         throw new AxiosError(`Viber API - ${data.statusMessage}`, {
@@ -152,15 +133,15 @@ export default class ViberClient {
   setWebhook(
     url: string,
     optionsOrEventTypes:
-      | EventType[]
+      | Types.EventType[]
       | {
-          eventTypes?: EventType[];
+          eventTypes?: Types.EventType[];
           sendName?: boolean;
           sendPhoto?: boolean;
         } = {}
   ): Promise<
-    | SucceededResponseData<{
-        eventTypes: EventType[];
+    | Types.SucceededResponseData<{
+        eventTypes: Types.EventType[];
       }>
     | never
   > {
@@ -169,7 +150,7 @@ export default class ViberClient {
       : optionsOrEventTypes;
 
     return this._callAPI<{
-      eventTypes: EventType[];
+      eventTypes: Types.EventType[];
     }>('/set_webhook', {
       url,
       ...options,
@@ -182,8 +163,8 @@ export default class ViberClient {
    * https://developers.viber.com/docs/api/rest-bot-api/#removing-your-webhook
    */
   removeWebhook(): Promise<
-    | SucceededResponseData<{
-        eventTypes: EventType[];
+    | Types.SucceededResponseData<{
+        eventTypes: Types.EventType[];
       }>
     | never
   > {
@@ -197,8 +178,8 @@ export default class ViberClient {
    */
   sendMessage(
     receiver: string,
-    message: Message
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    message: Types.Message
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this._callAPI('/send_message', {
       receiver,
       sender: this._sender,
@@ -212,8 +193,8 @@ export default class ViberClient {
   sendText(
     receiver: string,
     text: string,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'text',
       text,
@@ -226,9 +207,9 @@ export default class ViberClient {
    */
   sendPicture(
     receiver: string,
-    { text, media, thumbnail }: Picture,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    { text, media, thumbnail }: Types.Picture,
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'picture',
       text,
@@ -243,9 +224,9 @@ export default class ViberClient {
    */
   sendVideo(
     receiver: string,
-    { media, size, thumbnail, duration }: Video,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    { media, size, thumbnail, duration }: Types.Video,
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'video',
       media,
@@ -261,9 +242,9 @@ export default class ViberClient {
    */
   sendFile(
     receiver: string,
-    file: File,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    file: Types.File,
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'file',
       ...file,
@@ -276,9 +257,9 @@ export default class ViberClient {
    */
   sendContact(
     receiver: string,
-    contact: Contact,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    contact: Types.Contact,
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'contact',
       contact,
@@ -291,9 +272,9 @@ export default class ViberClient {
    */
   sendLocation(
     receiver: string,
-    { lat, lon }: Location,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    { lat, lon }: Types.Location,
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'location',
       location: { lat, lon },
@@ -307,8 +288,8 @@ export default class ViberClient {
   sendURL(
     receiver: string,
     url: string,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'url',
       media: url,
@@ -322,8 +303,8 @@ export default class ViberClient {
   sendSticker(
     receiver: string,
     stickerId: number,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'sticker',
       stickerId,
@@ -336,9 +317,9 @@ export default class ViberClient {
    */
   sendCarouselContent(
     receiver: string,
-    richMedia: RichMedia,
-    options?: MessageOptions
-  ): Promise<SucceededResponseData<{ messageToken: number }> | never> {
+    richMedia: Types.RichMedia,
+    options?: Types.MessageOptions
+  ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this.sendMessage(receiver, {
       type: 'rich_media',
       minApiVersion: 2,
@@ -354,8 +335,8 @@ export default class ViberClient {
    */
   broadcastMessage(
     broadcastList: string[],
-    message: Message
-  ): Promise<BroadcastResponseData | never> {
+    message: Types.Message
+  ): Promise<Types.BroadcastResponseData | never> {
     return this._callAPI('/broadcast_message', {
       broadcastList,
       sender: this._sender,
@@ -369,8 +350,8 @@ export default class ViberClient {
   broadcastText(
     broadcastList: string[],
     text: string,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'text',
       text,
@@ -383,9 +364,9 @@ export default class ViberClient {
    */
   broadcastPicture(
     broadcastList: string[],
-    { text, media, thumbnail }: Picture,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    { text, media, thumbnail }: Types.Picture,
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'picture',
       text,
@@ -400,9 +381,9 @@ export default class ViberClient {
    */
   broadcastVideo(
     broadcastList: string[],
-    { media, size, thumbnail, duration }: Video,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    { media, size, thumbnail, duration }: Types.Video,
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'video',
       media,
@@ -418,9 +399,9 @@ export default class ViberClient {
    */
   broadcastFile(
     broadcastList: string[],
-    file: File,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    file: Types.File,
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'file',
       ...file,
@@ -433,9 +414,9 @@ export default class ViberClient {
    */
   broadcastContact(
     broadcastList: string[],
-    contact: Contact,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    contact: Types.Contact,
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'contact',
       contact,
@@ -448,9 +429,9 @@ export default class ViberClient {
    */
   broadcastLocation(
     broadcastList: string[],
-    { lat, lon }: Location,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    { lat, lon }: Types.Location,
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'location',
       location: { lat, lon },
@@ -464,8 +445,8 @@ export default class ViberClient {
   broadcastURL(
     broadcastList: string[],
     url: string,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'url',
       media: url,
@@ -479,8 +460,8 @@ export default class ViberClient {
   broadcastSticker(
     broadcastList: string[],
     stickerId: number,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'sticker',
       stickerId,
@@ -493,9 +474,9 @@ export default class ViberClient {
    */
   broadcastCarouselContent(
     broadcastList: string[],
-    richMedia: RichMedia,
-    options?: MessageOptions
-  ): Promise<BroadcastResponseData | never> {
+    richMedia: Types.RichMedia,
+    options?: Types.MessageOptions
+  ): Promise<Types.BroadcastResponseData | never> {
     return this.broadcastMessage(broadcastList, {
       type: 'rich_media',
       minApiVersion: 2,
@@ -509,8 +490,10 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-account-info
    */
-  getAccountInfo(): Promise<SucceededResponseData<AccountInfo> | never> {
-    return this._callAPI<AccountInfo>('/get_account_info');
+  getAccountInfo(): Promise<
+    Types.SucceededResponseData<Types.AccountInfo> | never
+  > {
+    return this._callAPI<Types.AccountInfo>('/get_account_info');
   }
 
   /**
@@ -518,9 +501,9 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-user-details
    */
-  async getUserDetails(id: string): Promise<UserDetails | never> {
+  async getUserDetails(id: string): Promise<Types.UserDetails | never> {
     const { user } = await this._callAPI<{
-      user: UserDetails;
+      user: Types.UserDetails;
     }>('/get_user_details', { id });
 
     return user;
@@ -531,9 +514,11 @@ export default class ViberClient {
    *
    * https://developers.viber.com/docs/api/rest-bot-api/#get-online
    */
-  async getOnlineStatus(ids: string[]): Promise<UserOnlineStatus[] | never> {
+  async getOnlineStatus(
+    ids: string[]
+  ): Promise<Types.UserOnlineStatus[] | never> {
     const data = await this._callAPI<{
-      users: UserOnlineStatus[];
+      users: Types.UserOnlineStatus[];
     }>('/get_online', { ids });
 
     return data.users;
