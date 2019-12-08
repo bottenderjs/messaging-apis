@@ -258,7 +258,7 @@ function getUserProfile(
 
 function sendSenderAction(
   psidOrRecipient: Types.PsidOrRecipient,
-  action: Types.SenderAction,
+  senderAction: Types.SenderAction,
   options: Types.SendOption & Types.BatchRequestOptions = {}
 ) {
   const recipient =
@@ -273,7 +273,7 @@ function sendSenderAction(
   return sendRequest(
     {
       recipient,
-      senderAction: action,
+      senderAction,
       ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
     },
     batchRequestOptions

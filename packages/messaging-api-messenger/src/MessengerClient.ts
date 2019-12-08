@@ -1065,7 +1065,7 @@ export default class MessengerClient {
    */
   sendSenderAction(
     psidOrRecipient: Types.PsidOrRecipient,
-    action: Types.SenderAction,
+    senderAction: Types.SenderAction,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.SendSenderActionResponse> {
     const recipient =
@@ -1076,7 +1076,7 @@ export default class MessengerClient {
         : psidOrRecipient;
     return this.sendRawBody({
       recipient,
-      senderAction: action,
+      senderAction,
       accessToken: customAccessToken,
     });
   }
