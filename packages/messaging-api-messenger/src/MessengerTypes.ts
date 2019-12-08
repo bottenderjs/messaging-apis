@@ -380,7 +380,7 @@ export type AirlineUpdateAttributes = {
   updateFlightInfo: UpdateFlightInfo;
 };
 
-export type SenderAction = string;
+export type SenderAction = 'mark_seen' | 'typing_on' | 'typing_off';
 
 export type User = {
   firstName: string;
