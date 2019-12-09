@@ -1064,7 +1064,48 @@ describe('getUserProfile', () => {
   it('should create get user profile request', () => {
     expect(MessengerBatch.getUserProfile(RECIPIENT_ID)).toEqual({
       method: 'GET',
-      relativeUrl: RECIPIENT_ID,
+      relativeUrl: `${RECIPIENT_ID}?fields=id,name,first_name,last_name,profile_pic`,
+    });
+  });
+
+  it('should support custom fields', () => {
+    expect(
+      MessengerBatch.getUserProfile(RECIPIENT_ID, {
+        fields: [
+          'id',
+          'name',
+          'first_name',
+          'last_name',
+          'profile_pic',
+          'locale',
+          'timezone',
+          'gender',
+        ],
+      })
+    ).toEqual({
+      method: 'GET',
+      relativeUrl: `${RECIPIENT_ID}?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender`,
+    });
+  });
+
+  it('should support custom fields and access_token', () => {
+    expect(
+      MessengerBatch.getUserProfile(RECIPIENT_ID, {
+        fields: [
+          'id',
+          'name',
+          'first_name',
+          'last_name',
+          'profile_pic',
+          'locale',
+          'timezone',
+          'gender',
+        ],
+        accessToken: 'ACCESS_TOKEN',
+      })
+    ).toEqual({
+      method: 'GET',
+      relativeUrl: `${RECIPIENT_ID}?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender&access_token=ACCESS_TOKEN`,
     });
   });
 
@@ -1076,7 +1117,7 @@ describe('getUserProfile', () => {
       })
     ).toEqual({
       method: 'GET',
-      relativeUrl: RECIPIENT_ID,
+      relativeUrl: `${RECIPIENT_ID}?fields=id,name,first_name,last_name,profile_pic`,
       name: 'second',
       dependsOn: 'first',
     });

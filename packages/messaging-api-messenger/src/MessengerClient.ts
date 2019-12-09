@@ -329,9 +329,9 @@ export default class MessengerClient {
   getUserProfile(
     userId: string,
     {
-      accessToken: customAccessToken,
       fields = ['id', 'name', 'first_name', 'last_name', 'profile_pic'],
-    }: { accessToken?: string; fields?: string[] } = {}
+      accessToken: customAccessToken,
+    }: { fields?: Types.UserProfileField[]; accessToken?: string } = {}
   ): Promise<Types.User> {
     return this._axios
       .get(

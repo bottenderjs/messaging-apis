@@ -243,14 +243,25 @@ function sendAirlineUpdateTemplate(
 
 function getUserProfile(
   userId: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
+  options: {
+    fields?: Types.UserProfileField[];
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
 ) {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
+  const fields = options.fields || [
+    'id',
+    'name',
+    'first_name',
+    'last_name',
+    'profile_pic',
+  ];
+
   return {
     method: 'GET',
-    relativeUrl: `${userId}`.concat(
-      options.accessToken ? `?access_token=${options.accessToken}` : ''
+    relativeUrl: `${userId}?fields=${fields.join(',')}`.concat(
+      options.accessToken ? `&access_token=${options.accessToken}` : ''
     ),
     ...batchRequestOptions,
   };
