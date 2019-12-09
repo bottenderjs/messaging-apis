@@ -382,13 +382,33 @@ export type AirlineUpdateAttributes = {
 
 export type SenderAction = 'mark_seen' | 'typing_on' | 'typing_off';
 
+/**
+ * Fields can be retrieved from a person's profile information
+ */
+export type UserProfileField =
+  // Granted by default
+  | 'id'
+  | 'name'
+  | 'first_name'
+  | 'last_name'
+  | 'profile_pic'
+  // Needs approval by Facebook
+  | 'locale'
+  | 'timezone'
+  | 'gender';
+
+/**
+ * The User Profile API allows you to use a Page-scoped ID (PSID) to retrieve user profile information in this format
+ */
 export type User = {
+  id: string;
+  name: string;
   firstName: string;
   lastName: string;
   profilePic: string;
-  locale: string;
-  timezone: number;
-  gender: string;
+  locale?: string;
+  timezone?: number;
+  gender?: string;
 };
 
 export type PersistentMenu = {
