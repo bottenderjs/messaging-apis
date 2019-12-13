@@ -1,39 +1,41 @@
 import Line from '../Line';
+import * as Types from '../LineTypes';
 
-const quickReplyOptions = {
-  quickReply: {
-    items: [
-      {
-        type: 'action' as 'action',
-        action: {
-          type: 'cameraRoll' as 'cameraRoll',
-          label: 'Send photo',
-        },
+const quickReply: Types.QuickReply = {
+  items: [
+    {
+      type: 'action',
+      action: {
+        type: 'cameraRoll',
+        label: 'Send photo',
       },
-      {
-        type: 'action' as 'action',
-        action: {
-          type: 'camera' as 'camera',
-          label: 'Open camera',
-        },
+    },
+    {
+      type: 'action',
+      action: {
+        type: 'camera',
+        label: 'Open camera',
       },
-    ],
-  },
+    },
+  ],
 };
 
 describe('#createText', () => {
   it('should return text message object', () => {
     expect(Line.createText('t')).toEqual({ type: 'text', text: 't' });
-    expect(Line.createText('t', quickReplyOptions)).toEqual({
+  });
+
+  it('should work with quickReply', () => {
+    expect(Line.createText('t', { quickReply })).toEqual({
       type: 'text',
       text: 't',
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
 
 describe('#createImage', () => {
-  it('should work with object', () => {
+  it('should return image message object', () => {
     expect(
       Line.createImage({
         originalContentUrl: 'http://example.com/img1.jpg',
@@ -54,19 +56,21 @@ describe('#createImage', () => {
       originalContentUrl: 'http://example.com/img1.jpg',
       previewImageUrl: 'http://example.com/img2.jpg',
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createImage(
         {
           originalContentUrl: 'http://example.com/img1.jpg',
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'image',
       originalContentUrl: 'http://example.com/img1.jpg',
       previewImageUrl: 'http://example.com/img1.jpg',
-      ...quickReplyOptions,
+      quickReply,
     });
 
     expect(
@@ -75,19 +79,19 @@ describe('#createImage', () => {
           originalContentUrl: 'http://example.com/img1.jpg',
           previewImageUrl: 'http://example.com/img2.jpg',
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'image',
       originalContentUrl: 'http://example.com/img1.jpg',
       previewImageUrl: 'http://example.com/img2.jpg',
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
 
 describe('#createVideo', () => {
-  it('should work with object', () => {
+  it('should return video message object', () => {
     expect(
       Line.createVideo({
         originalContentUrl: 'http://example.com/video.mp4',
@@ -98,26 +102,28 @@ describe('#createVideo', () => {
       originalContentUrl: 'http://example.com/video.mp4',
       previewImageUrl: 'http://example.com/img.jpg',
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createVideo(
         {
           originalContentUrl: 'http://example.com/video.mp4',
           previewImageUrl: 'http://example.com/img.jpg',
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'video',
       originalContentUrl: 'http://example.com/video.mp4',
       previewImageUrl: 'http://example.com/img.jpg',
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
 
 describe('#createAudio', () => {
-  it('should work with object', () => {
+  it('should return audio message object', () => {
     expect(
       Line.createAudio({
         originalContentUrl: 'http://example.com/audio.mp3',
@@ -128,20 +134,22 @@ describe('#createAudio', () => {
       originalContentUrl: 'http://example.com/audio.mp3',
       duration: 240000,
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createAudio(
         {
           originalContentUrl: 'http://example.com/audio.mp3',
           duration: 240000,
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'audio',
       originalContentUrl: 'http://example.com/audio.mp3',
       duration: 240000,
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
@@ -162,7 +170,9 @@ describe('#createLocation', () => {
       latitude: 35.65910807942215,
       longitude: 139.70372892916203,
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createLocation(
         {
@@ -171,7 +181,7 @@ describe('#createLocation', () => {
           latitude: 35.65910807942215,
           longitude: 139.70372892916203,
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'location',
@@ -179,13 +189,13 @@ describe('#createLocation', () => {
       address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
       latitude: 35.65910807942215,
       longitude: 139.70372892916203,
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
 
 describe('#createSticker', () => {
-  it('should work with object', () => {
+  it('should return sticker message object', () => {
     expect(
       Line.createSticker({
         packageId: '1',
@@ -196,153 +206,22 @@ describe('#createSticker', () => {
       packageId: '1',
       stickerId: '1',
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createSticker(
         {
           packageId: '1',
           stickerId: '1',
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'sticker',
       packageId: '1',
       stickerId: '1',
-      ...quickReplyOptions,
-    });
-  });
-});
-
-describe('#createImagemap', () => {
-  it('should return imagemap message object', () => {
-    expect(
-      Line.createImagemap('this is an imagemap', {
-        baseUrl: 'https://example.com/bot/images/rm001',
-        baseSize: {
-          width: 1040,
-          height: 1040,
-        },
-        actions: [
-          {
-            type: 'uri' as 'uri',
-            linkUri: 'https://example.com/',
-            area: {
-              x: 0,
-              y: 0,
-              width: 520,
-              height: 1040,
-            },
-          },
-          {
-            type: 'message' as 'message',
-            text: 'hello',
-            area: {
-              x: 520,
-              y: 0,
-              width: 520,
-              height: 1040,
-            },
-          },
-        ],
-      })
-    ).toEqual({
-      type: 'imagemap',
-      altText: 'this is an imagemap',
-      baseUrl: 'https://example.com/bot/images/rm001',
-      baseSize: {
-        width: 1040,
-        height: 1040,
-      },
-      actions: [
-        {
-          type: 'uri',
-          linkUri: 'https://example.com/',
-          area: {
-            x: 0,
-            y: 0,
-            width: 520,
-            height: 1040,
-          },
-        },
-        {
-          type: 'message',
-          text: 'hello',
-          area: {
-            x: 520,
-            y: 0,
-            width: 520,
-            height: 1040,
-          },
-        },
-      ],
-    });
-
-    expect(
-      Line.createImagemap(
-        'this is an imagemap',
-        {
-          baseUrl: 'https://example.com/bot/images/rm001',
-          baseSize: {
-            width: 1040,
-            height: 1040,
-          },
-          actions: [
-            {
-              type: 'uri',
-              linkUri: 'https://example.com/',
-              area: {
-                x: 0,
-                y: 0,
-                width: 520,
-                height: 1040,
-              },
-            },
-            {
-              type: 'message',
-              text: 'hello',
-              area: {
-                x: 520,
-                y: 0,
-                width: 520,
-                height: 1040,
-              },
-            },
-          ],
-        },
-        quickReplyOptions
-      )
-    ).toEqual({
-      type: 'imagemap',
-      altText: 'this is an imagemap',
-      baseUrl: 'https://example.com/bot/images/rm001',
-      baseSize: {
-        width: 1040,
-        height: 1040,
-      },
-      actions: [
-        {
-          type: 'uri',
-          linkUri: 'https://example.com/',
-          area: {
-            x: 0,
-            y: 0,
-            width: 520,
-            height: 1040,
-          },
-        },
-        {
-          type: 'message',
-          text: 'hello',
-          area: {
-            x: 520,
-            y: 0,
-            width: 520,
-            height: 1040,
-          },
-        },
-      ],
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
@@ -410,7 +289,9 @@ describe('#createImagemap', () => {
         },
       ],
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createImagemap(
         'this is an imagemap',
@@ -443,7 +324,7 @@ describe('#createImagemap', () => {
             },
           ],
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'imagemap',
@@ -475,177 +356,7 @@ describe('#createImagemap', () => {
           },
         },
       ],
-      ...quickReplyOptions,
-    });
-  });
-});
-
-describe('#createTemplate', () => {
-  it('should return template message object', () => {
-    expect(
-      Line.createTemplate('this is a buttons template', {
-        type: 'buttons',
-        text: 'Are you sure?',
-        actions: [
-          {
-            type: 'message',
-            label: 'Yes',
-            text: 'yes',
-          },
-          {
-            type: 'message',
-            label: 'No',
-            text: 'no',
-          },
-        ],
-      })
-    ).toEqual({
-      type: 'template',
-      altText: 'this is a buttons template',
-      template: {
-        type: 'buttons',
-        text: 'Are you sure?',
-        actions: [
-          {
-            type: 'message',
-            label: 'Yes',
-            text: 'yes',
-          },
-          {
-            type: 'message',
-            label: 'No',
-            text: 'no',
-          },
-        ],
-      },
-    });
-
-    expect(
-      Line.createTemplate(
-        'this is a buttons template',
-        {
-          type: 'buttons',
-          text: 'Are you sure?',
-          actions: [
-            {
-              type: 'message',
-              label: 'Yes',
-              text: 'yes',
-            },
-            {
-              type: 'message',
-              label: 'No',
-              text: 'no',
-            },
-          ],
-        },
-        quickReplyOptions
-      )
-    ).toEqual({
-      type: 'template',
-      altText: 'this is a buttons template',
-      template: {
-        type: 'buttons',
-        text: 'Are you sure?',
-        actions: [
-          {
-            type: 'message',
-            label: 'Yes',
-            text: 'yes',
-          },
-          {
-            type: 'message',
-            label: 'No',
-            text: 'no',
-          },
-        ],
-      },
-      ...quickReplyOptions,
-    });
-  });
-});
-
-describe('#createTemplate', () => {
-  it('should return template message object', () => {
-    expect(
-      Line.createTemplate('this is a confirm template', {
-        type: 'confirm',
-        text: 'Are you sure?',
-        actions: [
-          {
-            type: 'message',
-            label: 'Yes',
-            text: 'yes',
-          },
-          {
-            type: 'message',
-            label: 'No',
-            text: 'no',
-          },
-        ],
-      })
-    ).toEqual({
-      type: 'template',
-      altText: 'this is a confirm template',
-      template: {
-        type: 'confirm',
-        text: 'Are you sure?',
-        actions: [
-          {
-            type: 'message',
-            label: 'Yes',
-            text: 'yes',
-          },
-          {
-            type: 'message',
-            label: 'No',
-            text: 'no',
-          },
-        ],
-      },
-    });
-
-    expect(
-      Line.createTemplate(
-        'this is a confirm template',
-        {
-          type: 'confirm',
-          text: 'Are you sure?',
-          actions: [
-            {
-              type: 'message',
-              label: 'Yes',
-              text: 'yes',
-            },
-            {
-              type: 'message',
-              label: 'No',
-              text: 'no',
-            },
-          ],
-        },
-        quickReplyOptions
-      )
-    ).toEqual({
-      type: 'template',
-      altText: 'this is a confirm template',
-      template: {
-        type: 'confirm',
-        text: 'Are you sure?',
-        actions: [
-          {
-            type: 'message',
-            label: 'Yes',
-            text: 'yes',
-          },
-          {
-            type: 'message',
-            label: 'No',
-            text: 'no',
-          },
-        ],
-      },
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
@@ -712,7 +423,9 @@ describe('#createButtonTemplate', () => {
         ],
       },
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createButtonTemplate(
         'this is a buttons template',
@@ -738,7 +451,7 @@ describe('#createButtonTemplate', () => {
             },
           ],
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'template',
@@ -766,7 +479,7 @@ describe('#createButtonTemplate', () => {
           },
         ],
       },
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 
@@ -862,7 +575,9 @@ describe('#createConfirmTemplate', () => {
         ],
       },
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createConfirmTemplate(
         'this is a confirm template',
@@ -881,7 +596,7 @@ describe('#createConfirmTemplate', () => {
             },
           ],
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'template',
@@ -902,7 +617,7 @@ describe('#createConfirmTemplate', () => {
           },
         ],
       },
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
@@ -1009,7 +724,9 @@ describe('#createCarouselTemplate', () => {
         ],
       },
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createCarouselTemplate(
         'this is a carousel template',
@@ -1059,7 +776,7 @@ describe('#createCarouselTemplate', () => {
             ],
           },
         ],
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'template',
@@ -1113,7 +830,7 @@ describe('#createCarouselTemplate', () => {
           },
         ],
       },
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
@@ -1180,7 +897,9 @@ describe('#createImageCarouselTemplate', () => {
         ],
       },
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createImageCarouselTemplate(
         'this is a image carousel template',
@@ -1210,7 +929,7 @@ describe('#createImageCarouselTemplate', () => {
             },
           },
         ],
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'template',
@@ -1244,7 +963,7 @@ describe('#createImageCarouselTemplate', () => {
           },
         ],
       },
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
@@ -1340,7 +1059,9 @@ describe('#createFlex', () => {
         },
       },
     });
+  });
 
+  it('should work with quickReply', () => {
     expect(
       Line.createFlex(
         'this is a flex message',
@@ -1386,7 +1107,7 @@ describe('#createFlex', () => {
             },
           },
         },
-        quickReplyOptions
+        { quickReply }
       )
     ).toEqual({
       type: 'flex',
@@ -1433,7 +1154,7 @@ describe('#createFlex', () => {
           },
         },
       },
-      ...quickReplyOptions,
+      quickReply,
     });
   });
 });
