@@ -28,7 +28,7 @@ If you are looking for a framework to build your bots, [Bottender](https://githu
 
 ## Messenger
 
-<img src="https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/R_1BAhxMP5I.png" alt="Messenger" width="100" />
+<img src="https://static.xx.fbcdn.net/rsrc.php/yg/r/4_vfHVmZ5XD.ico" alt="Messenger" width="100" />
 
 Install `messaging-api-messenger` package from the registry:
 
