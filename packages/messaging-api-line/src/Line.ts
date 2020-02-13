@@ -4,7 +4,7 @@ import * as Types from './LineTypes';
 
 function createText(
   text: string,
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.TextMessage {
   return {
     type: 'text',
@@ -18,7 +18,7 @@ function createImage(
     originalContentUrl: string;
     previewImageUrl?: string;
   },
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.ImageMessage {
   return {
     type: 'image',
@@ -33,7 +33,7 @@ function createVideo(
     originalContentUrl: string;
     previewImageUrl: string;
   },
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.VideoMessage {
   return {
     type: 'video',
@@ -48,7 +48,7 @@ function createAudio(
     originalContentUrl: string;
     duration: number;
   },
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.AudioMessage {
   return {
     type: 'audio',
@@ -60,7 +60,7 @@ function createAudio(
 
 function createLocation(
   { title, address, latitude, longitude }: Types.Location,
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.LocationMessage {
   return {
     type: 'location',
@@ -74,7 +74,7 @@ function createLocation(
 
 function createSticker(
   sticker: Omit<Types.StickerMessage, 'type'>,
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.StickerMessage {
   return {
     type: 'sticker',
@@ -92,7 +92,7 @@ function createImagemap(
     video,
     actions,
   }: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.ImagemapMessage {
   return {
     type: 'imagemap',
@@ -108,7 +108,7 @@ function createImagemap(
 function createTemplate(
   altText: string,
   template: Types.Template,
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.TemplateMessage<any> {
   return {
     type: 'template',
@@ -136,10 +136,10 @@ function createButtonTemplate(
     imageBackgroundColor?: string;
     title?: string;
     text: string;
-    defaultAction?: Types.TemplateAction;
-    actions: Types.TemplateAction[];
+    defaultAction?: Types.Action;
+    actions: Types.Action[];
   },
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.TemplateMessage<Types.ButtonsTemplate> {
   return createTemplate(
     altText,
@@ -165,9 +165,9 @@ function createConfirmTemplate(
     actions,
   }: {
     text: string;
-    actions: Types.TemplateAction[];
+    actions: Types.Action[];
   },
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.TemplateMessage<Types.ConfirmTemplate> {
   return createTemplate(
     altText,
@@ -182,7 +182,7 @@ function createConfirmTemplate(
 
 function createCarouselTemplate(
   altText: string,
-  columns: Types.ColumnObject[],
+  columns: Types.TemplateColumn[],
   {
     imageAspectRatio,
     imageSize,
@@ -207,8 +207,8 @@ function createCarouselTemplate(
 
 function createImageCarouselTemplate(
   altText: string,
-  columns: Types.ImageCarouselColumnObject[],
-  options: Types.MessageOptions = {}
+  columns: Types.TemplateImageColumn[],
+  options: Types.MessageCommon = {}
 ): Types.TemplateMessage<Types.ImageCarouselTemplate> {
   return createTemplate(
     altText,
@@ -223,7 +223,7 @@ function createImageCarouselTemplate(
 function createFlex(
   altText: string,
   contents: Types.FlexContainer,
-  options: Types.MessageOptions = {}
+  options: Types.MessageCommon = {}
 ): Types.FlexMessage {
   return {
     type: 'flex',

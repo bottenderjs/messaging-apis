@@ -134,7 +134,7 @@ export default class LineClient {
   replyText(
     replyToken: string,
     text: string,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createText(text, options)], options);
   }
@@ -145,7 +145,7 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createImage(image, options)], options);
   }
@@ -156,7 +156,7 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createVideo(video, options)], options);
   }
@@ -167,7 +167,7 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createAudio(audio, options)], options);
   }
@@ -175,7 +175,7 @@ export default class LineClient {
   replyLocation(
     replyToken: string,
     location: Types.Location,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -187,7 +187,7 @@ export default class LineClient {
   replySticker(
     replyToken: string,
     sticker: Omit<Types.StickerMessage, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -205,7 +205,7 @@ export default class LineClient {
     replyToken: string,
     altText: string,
     imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -223,7 +223,7 @@ export default class LineClient {
     replyToken: string,
     altText: string,
     flex: Types.FlexContainer,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -241,7 +241,7 @@ export default class LineClient {
     replyToken: string,
     altText: string,
     template: Types.Template,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -254,7 +254,7 @@ export default class LineClient {
     replyToken: string,
     altText: string,
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -267,7 +267,7 @@ export default class LineClient {
     replyToken: string,
     altText: string,
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.replyButtonTemplate(
       replyToken,
@@ -281,7 +281,7 @@ export default class LineClient {
     replyToken: string,
     altText: string,
     confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -293,7 +293,7 @@ export default class LineClient {
   replyCarouselTemplate(
     replyToken: string,
     altText: string,
-    columns: Types.ColumnObject[],
+    columns: Types.TemplateColumn[],
     {
       imageAspectRatio,
       imageSize,
@@ -301,7 +301,7 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-    } & Types.MessageOptions = {}
+    } & Types.MessageCommon = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -319,8 +319,8 @@ export default class LineClient {
   replyImageCarouselTemplate(
     replyToken: string,
     altText: string,
-    columns: Types.ImageCarouselColumnObject[],
-    options?: Types.MessageOptions
+    columns: Types.TemplateImageColumn[],
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(
       replyToken,
@@ -373,7 +373,7 @@ export default class LineClient {
   pushText(
     to: string,
     text: string,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createText(text, options)], options);
   }
@@ -384,7 +384,7 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
-    options: Types.MessageOptions
+    options: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createImage(image, options)], options);
   }
@@ -395,7 +395,7 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createVideo(video, options)], options);
   }
@@ -406,7 +406,7 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createAudio(audio, options)], options);
   }
@@ -414,7 +414,7 @@ export default class LineClient {
   pushLocation(
     to: string,
     location: Types.Location,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createLocation(location, options)], options);
   }
@@ -422,7 +422,7 @@ export default class LineClient {
   pushSticker(
     to: string,
     sticker: Omit<Types.StickerMessage, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createSticker(sticker, options)], options);
   }
@@ -436,7 +436,7 @@ export default class LineClient {
     to: string,
     altText: string,
     imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
@@ -454,7 +454,7 @@ export default class LineClient {
     to: string,
     altText: string,
     flex: Types.FlexContainer,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createFlex(altText, flex, options)], options);
   }
@@ -468,7 +468,7 @@ export default class LineClient {
     to: string,
     altText: string,
     template: Types.Template,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
@@ -481,7 +481,7 @@ export default class LineClient {
     to: string,
     altText: string,
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
@@ -494,7 +494,7 @@ export default class LineClient {
     to: string,
     altText: string,
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.pushButtonTemplate(to, altText, buttonTemplate, options);
   }
@@ -503,7 +503,7 @@ export default class LineClient {
     to: string,
     altText: string,
     confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
@@ -515,7 +515,7 @@ export default class LineClient {
   pushCarouselTemplate(
     to: string,
     altText: string,
-    columns: Types.ColumnObject[],
+    columns: Types.TemplateColumn[],
     {
       imageAspectRatio,
       imageSize,
@@ -523,7 +523,7 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-    } & Types.MessageOptions = {}
+    } & Types.MessageCommon = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
@@ -541,8 +541,8 @@ export default class LineClient {
   pushImageCarouselTemplate(
     to: string,
     altText: string,
-    columns: Types.ImageCarouselColumnObject[],
-    options?: Types.MessageOptions
+    columns: Types.TemplateImageColumn[],
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(
       to,
@@ -595,7 +595,7 @@ export default class LineClient {
   multicastText(
     to: string[],
     text: string,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createText(text, options)], options);
   }
@@ -606,7 +606,7 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl?: string;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createImage(image, options)], options);
   }
@@ -617,7 +617,7 @@ export default class LineClient {
       originalContentUrl: string;
       previewImageUrl: string;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createVideo(video, options)], options);
   }
@@ -628,7 +628,7 @@ export default class LineClient {
       originalContentUrl: string;
       duration: number;
     },
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createAudio(audio, options)], options);
   }
@@ -636,7 +636,7 @@ export default class LineClient {
   multicastLocation(
     to: string[],
     location: Types.Location,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -648,7 +648,7 @@ export default class LineClient {
   multicastSticker(
     to: string[],
     sticker: Omit<Types.StickerMessage, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createSticker(sticker, options)], options);
   }
@@ -662,7 +662,7 @@ export default class LineClient {
     to: string[],
     altText: string,
     imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -680,7 +680,7 @@ export default class LineClient {
     to: string[],
     altText: string,
     flex: Types.FlexContainer,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -698,7 +698,7 @@ export default class LineClient {
     to: string[],
     altText: string,
     template: Types.Template,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -711,7 +711,7 @@ export default class LineClient {
     to: string[],
     altText: string,
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -724,7 +724,7 @@ export default class LineClient {
     to: string[],
     altText: string,
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicastButtonTemplate(to, altText, buttonTemplate, options);
   }
@@ -733,7 +733,7 @@ export default class LineClient {
     to: string[],
     altText: string,
     confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
-    options?: Types.MessageOptions
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -745,7 +745,7 @@ export default class LineClient {
   multicastCarouselTemplate(
     to: string[],
     altText: string,
-    columns: Types.ColumnObject[],
+    columns: Types.TemplateColumn[],
     {
       imageAspectRatio,
       imageSize,
@@ -753,7 +753,7 @@ export default class LineClient {
     }: {
       imageAspectRatio?: 'rectangle' | 'square';
       imageSize?: 'cover' | 'contain';
-    } & Types.MessageOptions = {}
+    } & Types.MessageCommon = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
@@ -771,8 +771,8 @@ export default class LineClient {
   multicastImageCarouselTemplate(
     to: string[],
     altText: string,
-    columns: Types.ImageCarouselColumnObject[],
-    options?: Types.MessageOptions
+    columns: Types.TemplateImageColumn[],
+    options?: Types.MessageCommon
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(
       to,
