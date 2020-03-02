@@ -617,3 +617,127 @@ export type LinePayConfig = {
 };
 
 export type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
+
+/* Narrowcast */
+
+export type AccessTokenOptions = {
+  accessToken?: string;
+};
+
+export type NarrowcastOptions = AccessTokenOptions & {
+  recipient?: RecipientObject;
+  demographic?: DemographicFilterObject;
+  max?: number;
+};
+
+export type RecipientObject = {};
+
+export type DemographicFilterObject = {};
+
+export type NarrowcastProgressResponse = {};
+
+/* Audience */
+
+export type CreateUploadAudienceGroupOptions = AccessTokenOptions & {
+  uploadDescription?: string;
+};
+
+export type UpdateUploadAudienceGroupOptions = CreateUploadAudienceGroupOptions & {
+  description?: string;
+};
+
+export type CreateClickAudienceGroupOptions = AccessTokenOptions & {
+  clickUrl?: string;
+};
+
+export type Audience = {
+  id: string;
+};
+
+export type BasicAudienceGroup = {
+  // The audience ID.
+  audienceGroupId: number;
+
+  // The audience's name.
+  description: string;
+
+  // When the audience was created (in UNIX time).
+  created: number;
+};
+
+export type UploadAudienceGroup = BasicAudienceGroup & {
+  type: 'UPLOAD';
+};
+
+export type ImpAudienceGroup = BasicAudienceGroup & {
+  type: 'IMP';
+
+  // The request ID that was specified when the audience was created.
+  requestId: string;
+};
+
+export type ClickAudienceGroup = BasicAudienceGroup & {
+  type: 'CLICK';
+
+  // The request ID that was specified when the audience was created.
+  requestId: string;
+
+  // The URL that was specified when the audience was created.
+  clickUrl?: string;
+};
+
+export type AudienceGroup = (
+  | (UploadAudienceGroup & { isIfaAudience: string })
+  | ImpAudienceGroup
+  | ClickAudienceGroup
+) & {
+  audienceCount: number;
+} & (
+    | {
+        status: 'IN_PROGRESS' | 'READY' | 'EXPIRED';
+      }
+    | {
+        status: 'FAILED';
+        failedType: 'AUDIENCE_GROUP_AUDIENCE_INSUFFICIENT' | 'INTERNAL_ERROR';
+      }
+  );
+
+export type AudienceGroups = {
+  audienceGroups: AudienceGroup[];
+  hasNextPage: boolean;
+  totalCount: number;
+  page: number;
+  size: number;
+};
+
+export type Job = {
+  audienceGroupJobId: number;
+  audienceGroupId: number;
+  description: string;
+  type: 'DIFF_ADD';
+  audienceCount: number;
+  created: number;
+} & (
+  | {
+      jobStatus: 'QUEUED' | 'WORKING' | 'FINISHED';
+    }
+  | {
+      jobStatus: 'FAILED';
+      failedType?: 'INTERNAL_ERROR';
+    }
+);
+
+export type AudienceGroupWithJob = AudienceGroup & {
+  jobs: Job[];
+};
+
+export type GetAudienceGroupsOptions = AccessTokenOptions & {
+  page?: number;
+  description?: string;
+  status?: string;
+  size?: number;
+};
+
+export type AudienceGroupAuthorityLevel = {
+  authorityLevel: 'PUBLIC' | 'PRIVATE';
+};
