@@ -630,11 +630,196 @@ export type NarrowcastOptions = AccessTokenOptions & {
   max?: number;
 };
 
-export type RecipientObject = {};
+// reference: https://github.com/line/line-bot-sdk-nodejs/pull/193/files
+export type FilterOperatorObject<T> = {
+  type: 'operator';
+} & (
+  | {
+      and: T | (T | FilterOperatorObject<T>)[];
+    }
+  | {
+      or: T | (T | FilterOperatorObject<T>)[];
+    }
+  | {
+      not: T | (T | FilterOperatorObject<T>)[];
+    }
+);
 
-export type DemographicFilterObject = {};
+export type AudienceObject = {
+  type: 'audience';
+  audienceGroupId: number;
+};
 
-export type NarrowcastProgressResponse = {};
+export type RecipientObject =
+  | AudienceObject
+  | FilterOperatorObject<AudienceObject>;
+
+export type DemographicAge =
+  | 'age_15'
+  | 'age_20'
+  | 'age_25'
+  | 'age_30'
+  | 'age_35'
+  | 'age_40'
+  | 'age_45'
+  | 'age_50';
+
+export type DemographicSubscriptionPeriod =
+  | 'day_7'
+  | 'day_30'
+  | 'day_90'
+  | 'day_180'
+  | 'day_365';
+
+export type DemographicArea =
+  | 'jp_01'
+  | 'jp_02'
+  | 'jp_03'
+  | 'jp_04'
+  | 'jp_05'
+  | 'jp_06'
+  | 'jp_07'
+  | 'jp_08'
+  | 'jp_09'
+  | 'jp_10'
+  | 'jp_11'
+  | 'jp_12'
+  | 'jp_13'
+  | 'jp_14'
+  | 'jp_15'
+  | 'jp_16'
+  | 'jp_17'
+  | 'jp_18'
+  | 'jp_19'
+  | 'jp_20'
+  | 'jp_21'
+  | 'jp_22'
+  | 'jp_23'
+  | 'jp_24'
+  | 'jp_25'
+  | 'jp_26'
+  | 'jp_27'
+  | 'jp_28'
+  | 'jp_29'
+  | 'jp_30'
+  | 'jp_31'
+  | 'jp_32'
+  | 'jp_33'
+  | 'jp_34'
+  | 'jp_35'
+  | 'jp_36'
+  | 'jp_37'
+  | 'jp_38'
+  | 'jp_39'
+  | 'jp_40'
+  | 'jp_41'
+  | 'jp_42'
+  | 'jp_43'
+  | 'jp_44'
+  | 'jp_45'
+  | 'jp_46'
+  | 'jp_47'
+  | 'tw_01'
+  | 'tw_02'
+  | 'tw_03'
+  | 'tw_04'
+  | 'tw_05'
+  | 'tw_06'
+  | 'tw_07'
+  | 'tw_08'
+  | 'tw_09'
+  | 'tw_10'
+  | 'tw_11'
+  | 'tw_12'
+  | 'tw_13'
+  | 'tw_14'
+  | 'tw_15'
+  | 'tw_16'
+  | 'tw_17'
+  | 'tw_18'
+  | 'tw_19'
+  | 'tw_20'
+  | 'tw_21'
+  | 'tw_22'
+  | 'th_01'
+  | 'th_02'
+  | 'th_03'
+  | 'th_04'
+  | 'th_05'
+  | 'th_06'
+  | 'th_07'
+  | 'th_08'
+  | 'id_01'
+  | 'id_02'
+  | 'id_03'
+  | 'id_04'
+  | 'id_06'
+  | 'id_07'
+  | 'id_08'
+  | 'id_09'
+  | 'id_10'
+  | 'id_11'
+  | 'id_12'
+  | 'id_05';
+
+export type DemographicObject =
+  | {
+      type: 'gender';
+      oneOf: ('male' | 'female')[];
+    }
+  | ({
+      type: 'age';
+    } & (
+      | {
+          gte: DemographicAge;
+        }
+      | {
+          lt: DemographicAge;
+        }
+    ))
+  | {
+      type: 'appType';
+      oneOf: ('ios' | 'android')[];
+    }
+  | {
+      type: 'area';
+      oneOf: DemographicArea[];
+    }
+  | ({
+      type: 'subscriptionPeriod';
+    } & (
+      | {
+          gte: DemographicSubscriptionPeriod;
+        }
+      | {
+          lt: DemographicSubscriptionPeriod;
+        }
+    ));
+
+export type DemographicFilterObject =
+  | DemographicObject
+  | FilterOperatorObject<DemographicObject>;
+
+export type NarrowcastProgressResponse = (
+  | {
+      phase: 'waiting';
+    }
+  | ((
+      | {
+          phase: 'sending' | 'succeeded';
+        }
+      | {
+          phase: 'failed';
+          failedDescription: string;
+        }
+    ) & {
+      successCount: number;
+      failureCount: number;
+      targetCount: string;
+    })
+) & {
+  errorCode?: 1 | 2;
+};
 
 /* Audience */
 
