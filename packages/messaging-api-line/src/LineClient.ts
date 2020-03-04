@@ -1617,11 +1617,17 @@ export default class LineClient {
           demographic: options.demographic,
         }
       : undefined;
+    const limit = options?.max
+      ? {
+          max: options?.max,
+        }
+      : undefined;
     return this.narrowcastRawBody(
       {
         messages,
         recipient: options?.recipient,
         filter,
+        limit,
       },
       { accessToken: options?.accessToken }
     );
