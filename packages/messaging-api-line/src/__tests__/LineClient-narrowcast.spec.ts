@@ -3,7 +3,6 @@ import MockAdapter from 'axios-mock-adapter';
 import LineClient from '../LineClient';
 import * as Types from '../LineTypes';
 
-const RECIPIENT_ID = '1QAZ2WSX';
 const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';

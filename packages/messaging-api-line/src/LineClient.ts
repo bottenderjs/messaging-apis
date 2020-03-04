@@ -1777,7 +1777,7 @@ export default class LineClient {
    */
   setDescriptionAudienceGroup(
     description: string,
-    audienceGroupId: string,
+    audienceGroupId: number,
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
@@ -1801,7 +1801,7 @@ export default class LineClient {
    * - https://developers.line.biz/en/reference/messaging-api/#delete-audience-group
    */
   deleteAudienceGroup(
-    audienceGroupId: string,
+    audienceGroupId: number,
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
@@ -1822,7 +1822,7 @@ export default class LineClient {
    * - https://developers.line.biz/en/reference/messaging-api/#get-audience-group
    */
   getAudienceGroup(
-    audienceGroupId: string,
+    audienceGroupId: number,
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.AudienceGroupWithJob> {
     return this._axios
