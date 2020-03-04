@@ -913,7 +913,7 @@ export type Job = {
 );
 
 export type AudienceGroupWithJob = AudienceGroup & {
-  jobs: Job[];
+  jobs?: Job[];
 };
 
 export type GetAudienceGroupsOptions = AccessTokenOptions & {
