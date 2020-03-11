@@ -840,24 +840,30 @@ export type Audience = {
 };
 
 export type BasicAudienceGroup = {
-  // The audience ID.
+  /** The audience ID. */
   audienceGroupId: number;
 
-  // The audience's name.
+  /** The audience's name. */
   description: string;
 
-  // When the audience was created (in UNIX time).
+  /** When the audience was created (in UNIX time). */
   created: number;
 
-  // The value specified when creating an audience for uploading user IDs to indicate the type of accounts that will be given as recipients. One of:
-  // - true: Accounts are specified with IFAs.
-  // - false (default): Accounts are specified with user IDs.
+  /**
+   * The value specified when creating an audience for uploading user IDs to indicate the type of accounts that will be given as recipients. One of:
+   * - true: Accounts are specified with IFAs.
+   * - false (default): Accounts are specified with user IDs.
+   */
   isIfaAudience: string;
 
-  // Audience's update permission. Audiences linked to the same channel will be
+  /**
+   * Audience's update permission. Audiences linked to the same channel will be READ_WRITE.
+   * - READ: Can use only.
+   * - READ_WRITE: Can use and update.
+   */
   permission: 'READ' | 'READ_WRITE';
 
-  // How the audience was created. If omitted, all audiences are included.
+  /** How the audience was created. If omitted, all audiences are included. */
   createRoute: 'OA_MANAGER' | 'MESSAGING_API';
 };
 
@@ -875,10 +881,10 @@ export type ImpAudienceGroup = BasicAudienceGroup & {
 export type ClickAudienceGroup = BasicAudienceGroup & {
   type: 'CLICK';
 
-  // The request ID that was specified when the audience was created.
+  /** The request ID that was specified when the audience was created. */
   requestId: string;
 
-  // The URL that was specified when the audience was created.
+  /** The URL that was specified when the audience was created. */
   clickUrl?: string;
 };
 
@@ -899,60 +905,62 @@ export type AudienceGroup = (
   );
 
 export type AudienceGroups = {
-  // An array of audience data.
+  /** An array of audience data. */
   audienceGroups: AudienceGroup[];
 
-  // true when this is not the last page.
+  /** true when this is not the last page. */
   hasNextPage: boolean;
 
-  // The total number of audiences that can be returned with the specified filter.
+  /** The total number of audiences that can be returned with the specified filter. */
   totalCount: number;
 
-  // Of the audiences you can get with the specified condition, the number of audiences with the update permission set to READ_WRITE.
+  /** Of the audiences you can get with the specified condition, the number of audiences with the update permission set to READ_WRITE. */
   readWriteAudienceGroupTotalCount: number;
 
-  // The current page number.
+  /** The current page number. */
   page: number;
 
-  // The number of audiences on the current page.
+  /** The number of audiences on the current page. */
   size: number;
 };
 
 export type Job = {
-  // A job ID.
+  /** A job ID. */
   audienceGroupJobId: number;
 
-  // An audience ID.
+  /** An audience ID. */
   audienceGroupId: number;
 
-  // The job's description.
+  /** The job's description. */
   description: string;
 
-  // The job's type. One of:
-  // - DIFF_ADD: Indicates that a user ID or IFA was added via the Messaging API.
+  /**
+   * The job's type. One of:
+   * - DIFF_ADD: Indicates that a user ID or IFA was added via the Messaging API.
+   */
   type: 'DIFF_ADD';
 
-  // The number of accounts (recipients) that were added or removed.
+  /** The number of accounts (recipients) that were added or removed. */
   audienceCount: number;
 
-  // When the job was created (in UNIX time).
+  /** When the job was created (in UNIX time). */
   created: number;
 } & (
   | {
-      // The job's status.
+      /** The job's status. */
       jobStatus: 'QUEUED' | 'WORKING' | 'FINISHED';
     }
   | {
-      // The job's status.
+      /** The job's status. */
       jobStatus: 'FAILED';
 
-      // The reason why the operation failed. This is only included when jobs[].jobStatus is
+      /** The reason why the operation failed. This is only included when jobs[].jobStatus is */
       failedType: 'INTERNAL_ERROR';
     }
 );
 
 export type AudienceGroupWithJob = AudienceGroup & {
-  // An array of jobs. This array is used to keep track of each attempt to add new user IDs or IFAs to an audience for uploading user IDs. null is returned for any other type of audience.
+  /** An array of jobs. This array is used to keep track of each attempt to add new user IDs or IFAs to an audience for uploading user IDs. null is returned for any other type of audience. */
   jobs: Job[];
 };
 
