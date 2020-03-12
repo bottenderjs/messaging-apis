@@ -1605,7 +1605,12 @@ export default class LineClient {
             }
           : {}
       )
-      .then(res => res.data, handleError);
+      .then(res => {
+        return {
+          requestId: res.headers['x-line-request-id'],
+          ...res.data,
+        };
+      }, handleError);
   }
 
   narrowcast(
@@ -1693,7 +1698,7 @@ export default class LineClient {
     audienceGroupId: number,
     audiences: Types.Audience[],
     options: Types.UpdateUploadAudienceGroupOptions = {}
-  ): Promise<Types.UploadAudienceGroup> {
+  ): Promise<Types.MutationSuccessResponse> {
     const bodyOptions = this._optionWithoutKeys(options, ['accessToken']);
     return this._axios
       .put(

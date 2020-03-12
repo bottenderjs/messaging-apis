@@ -115,12 +115,12 @@ describe('Narrowcast', () => {
   };
 
   describe('#narrowcastRawBody', () => {
+    const reply = { requestId: 'abc' };
+
     it('should call narrowcast api', async () => {
       expect.assertions(4);
 
       const { client, mock, headers } = createMock();
-
-      const reply = {};
 
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
@@ -128,7 +128,7 @@ describe('Narrowcast', () => {
         );
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
-        return [200, reply];
+        return [200, reply, { 'x-line-request-id': 'abc' }];
       });
 
       const res = await client.narrowcastRawBody(rawBody);
@@ -143,15 +143,13 @@ describe('Narrowcast', () => {
         customAccessToken: CUSTOM_ACCESS_TOKEN,
       });
 
-      const reply = {};
-
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/narrowcast'
         );
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
-        return [200, reply];
+        return [200, reply, { 'x-line-request-id': 'abc' }];
       });
 
       const res = await client.narrowcastRawBody(rawBody, {
@@ -163,12 +161,12 @@ describe('Narrowcast', () => {
   });
 
   describe('#narrowcast', () => {
+    const reply = { requestId: 'abc' };
+
     it('should call narrowcast api', async () => {
       expect.assertions(4);
 
       const { client, mock, headers } = createMock();
-
-      const reply = {};
 
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
@@ -176,7 +174,7 @@ describe('Narrowcast', () => {
         );
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
-        return [200, reply];
+        return [200, reply, { 'x-line-request-id': 'abc' }];
       });
 
       const res = await client.narrowcast(messages, {
@@ -195,15 +193,13 @@ describe('Narrowcast', () => {
         customAccessToken: CUSTOM_ACCESS_TOKEN,
       });
 
-      const reply = {};
-
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/narrowcast'
         );
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
-        return [200, reply];
+        return [200, reply, { 'x-line-request-id': 'abc' }];
       });
 
       const res = await client.narrowcast(messages, {
@@ -218,12 +214,12 @@ describe('Narrowcast', () => {
   });
 
   describe('#narrowcastMessages', () => {
+    const reply = { requestId: 'abc' };
+
     it('should call narrowcast api', async () => {
       expect.assertions(4);
 
       const { client, mock, headers } = createMock();
-
-      const reply = {};
 
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
@@ -231,7 +227,7 @@ describe('Narrowcast', () => {
         );
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
-        return [200, reply];
+        return [200, reply, { 'x-line-request-id': 'abc' }];
       });
 
       const res = await client.narrowcastMessages(messages, {
@@ -250,15 +246,13 @@ describe('Narrowcast', () => {
         customAccessToken: CUSTOM_ACCESS_TOKEN,
       });
 
-      const reply = {};
-
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
           'https://api.line.me/v2/bot/message/narrowcast'
         );
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
-        return [200, reply];
+        return [200, reply, { 'x-line-request-id': 'abc' }];
       });
 
       const res = await client.narrowcastMessages(messages, {
