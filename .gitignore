@@ -1,6 +1,9 @@
 # Ignore the compiled output.
 dist/
 
+# Ignore the automatic generated documents.
+docs/
+
 # TypeScript incremental compilation cache
 *.tsbuildinfo
 
