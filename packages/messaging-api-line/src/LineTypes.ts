@@ -153,8 +153,14 @@ export type QuickReply = {
   }[];
 };
 
+export type Sender = {
+  name?: string;
+  iconUrl?: string;
+};
+
 export type MessageOptions = {
   quickReply?: QuickReply;
+  sender?: Sender;
 };
 
 export type TemplateMessage<Template> = {
