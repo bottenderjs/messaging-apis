@@ -19,7 +19,6 @@ function handleError(err: {
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
     throw new AxiosError(msg, err);
   }
-  console.log(err);
   throw new AxiosError(err.message, err);
 }
 
