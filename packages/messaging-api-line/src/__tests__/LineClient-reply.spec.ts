@@ -216,7 +216,7 @@ describe('Reply Message', () => {
 
       expect(res).toEqual(reply);
     });
-    
+
     it('should work with custom access token', async () => {
       expect.assertions(4);
 
