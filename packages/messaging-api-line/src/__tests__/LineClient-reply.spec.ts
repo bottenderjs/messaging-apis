@@ -181,6 +181,42 @@ describe('Reply Message', () => {
       expect(res).toEqual(reply);
     });
 
+    it('should call reply api and sender', async () => {
+      expect.assertions(4);
+
+      const { client, mock, headers } = createMock();
+
+      const reply = {};
+
+      mock.onPost().reply(config => {
+        expect(config.url).toEqual('https://api.line.me/v2/bot/message/reply');
+        expect(JSON.parse(config.data)).toEqual({
+          replyToken: REPLY_TOKEN,
+          messages: [
+            {
+              type: 'text',
+              text: 'Hello!',
+              sender: {
+                name: 'Cony',
+                iconUrl: 'https://example.com/original.jpg',
+              },
+            },
+          ],
+        });
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
+
+      const res = await client.replyText(REPLY_TOKEN, 'Hello!', {
+        sender: {
+          name: 'Cony',
+          iconUrl: 'https://example.com/original.jpg',
+        },
+      });
+
+      expect(res).toEqual(reply);
+    });
+
     it('should work with custom access token', async () => {
       expect.assertions(4);
 
