@@ -153,8 +153,29 @@ export type QuickReply = {
   }[];
 };
 
+/**
+ * When sending a message from the LINE Official Account, you can specify the `sender.name` and the `sender.iconUrl` properties in Message objects.
+ */
+export type Sender = {
+  /**
+   * Display name. Certain words such as LINE may not be used.
+   *
+   * - Max character limit: 20
+   */
+  name?: string;
+
+  /**
+   * URL of the image to display as an icon when sending a message
+   *
+   * - Max character limit: 1000
+   * - URL scheme: https
+   */
+  iconUrl?: string;
+};
+
 export type MessageOptions = {
   quickReply?: QuickReply;
+  sender?: Sender;
 };
 
 export type TemplateMessage<Template> = {
