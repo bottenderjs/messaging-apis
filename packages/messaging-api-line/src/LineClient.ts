@@ -55,6 +55,8 @@ export default class LineClient {
 
   _axios: AxiosInstance;
 
+  _dataAxios: AxiosInstance;
+
   _accessToken: string;
 
   constructor(
@@ -62,6 +64,7 @@ export default class LineClient {
     channelSecret?: string
   ) {
     let origin;
+    let dataOrigin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
 
@@ -69,6 +72,7 @@ export default class LineClient {
       this._channelSecret = config.channelSecret;
       this._onRequest = config.onRequest;
       origin = config.origin;
+      dataOrigin = config.dataOrigin;
     } else {
       this._accessToken = accessTokenOrConfig;
       this._channelSecret = channelSecret as string;
@@ -85,10 +89,26 @@ export default class LineClient {
     this._axios.interceptors.request.use(
       createRequestInterceptor({ onRequest: this._onRequest })
     );
+
+    this._dataAxios = axios.create({
+      baseURL: `${dataOrigin || 'https://api-data.line.me'}/`,
+      headers: {
+        Authorization: `Bearer ${this._accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    this._dataAxios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this._onRequest })
+    );
   }
 
   get axios(): AxiosInstance {
     return this._axios;
+  }
+
+  get dataAxios(): AxiosInstance {
+    return this._dataAxios;
   }
 
   get accessToken(): string {
@@ -805,7 +825,7 @@ export default class LineClient {
     messageId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Buffer> {
-    return this._axios
+    return this._dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
         ...(customAccessToken
@@ -1236,7 +1256,7 @@ export default class LineClient {
       'Image must be `image/jpeg` or `image/png`'
     );
 
-    return this._axios
+    return this._dataAxios
       .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
         headers: {
           'Content-Type': (type as { mime: string }).mime,
@@ -1252,7 +1272,7 @@ export default class LineClient {
     richMenuId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ) {
-    return this._axios
+    return this._dataAxios
       .get(`/v2/bot/richmenu/${richMenuId}/content`, {
         responseType: 'arraybuffer',
         headers: {

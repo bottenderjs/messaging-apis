@@ -14,6 +14,7 @@ const createMock = ({
 }: { customAccessToken?: string } = {}): {
   client: LineClient;
   mock: MockAdapter;
+  dataMock: MockAdapter;
   headers: {
     Accept: string;
     'Content-Type': string;
@@ -22,12 +23,13 @@ const createMock = ({
 } => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
+  const dataMock = new MockAdapter(client.dataAxios);
   const headers = {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
     Authorization: `Bearer ${customAccessToken || ACCESS_TOKEN}`,
   };
-  return { client, mock, headers };
+  return { client, mock, dataMock, headers };
 };
 
 describe('Rich Menu', () => {
@@ -598,7 +600,7 @@ describe('Rich Menu', () => {
     it('should call api', async () => {
       expect.assertions(4);
 
-      const { client, mock, headers } = createMock();
+      const { client, dataMock, headers } = createMock();
 
       const reply = {};
 
@@ -612,9 +614,9 @@ describe('Rich Menu', () => {
         });
       });
 
-      mock.onPost().reply(config => {
+      dataMock.onPost().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/1/content'
+          'https://api-data.line.me/v2/bot/richmenu/1/content'
         );
         expect(config.data).toEqual(buffer);
         expect(config.headers).toEqual({
@@ -632,7 +634,7 @@ describe('Rich Menu', () => {
     it('should work with custom access token', async () => {
       expect.assertions(4);
 
-      const { client, mock, headers } = createMock({
+      const { client, dataMock, headers } = createMock({
         customAccessToken: CUSTOM_ACCESS_TOKEN,
       });
 
@@ -648,9 +650,9 @@ describe('Rich Menu', () => {
         });
       });
 
-      mock.onPost().reply(config => {
+      dataMock.onPost().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/1/content'
+          'https://api-data.line.me/v2/bot/richmenu/1/content'
         );
         expect(config.data).toEqual(buffer);
         expect(config.headers).toEqual({
@@ -670,13 +672,13 @@ describe('Rich Menu', () => {
     it('should throw error when ', async () => {
       expect.assertions(1);
 
-      const { client, mock, headers } = createMock();
+      const { client, dataMock, headers } = createMock();
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      dataMock.onPost().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/1/content'
+          'https://api-data.line.me/v2/bot/richmenu/1/content'
         );
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
@@ -698,13 +700,13 @@ describe('Rich Menu', () => {
     it('should call api', async () => {
       expect.assertions(4);
 
-      const { client, mock, headers } = createMock();
+      const { client, dataMock, headers } = createMock();
 
       const reply = Buffer.from('a content buffer');
 
-      mock.onGet().reply(config => {
+      dataMock.onGet().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/1/content'
+          'https://api-data.line.me/v2/bot/richmenu/1/content'
         );
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
@@ -718,15 +720,15 @@ describe('Rich Menu', () => {
 
     it('should work with custom access token', async () => {
       expect.assertions(4);
-      const { client, mock, headers } = createMock({
+      const { client, dataMock, headers } = createMock({
         customAccessToken: CUSTOM_ACCESS_TOKEN,
       });
 
       const reply = Buffer.from('a content buffer');
 
-      mock.onGet().reply(config => {
+      dataMock.onGet().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/1/content'
+          'https://api-data.line.me/v2/bot/richmenu/1/content'
         );
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
@@ -741,9 +743,9 @@ describe('Rich Menu', () => {
     });
 
     it('should return null when no rich menu image found', async () => {
-      const { client, mock } = createMock();
+      const { client, dataMock } = createMock();
 
-      mock.onGet().reply(404, Buffer.from('{"message":"Not found"}'));
+      dataMock.onGet().reply(404, Buffer.from('{"message":"Not found"}'));
 
       const res = await client.downloadRichMenuImage(
         'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'

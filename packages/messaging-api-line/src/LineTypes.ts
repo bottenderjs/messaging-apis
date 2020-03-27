@@ -4,6 +4,7 @@ export type ClientConfig = {
   accessToken: string;
   channelSecret: string;
   origin?: string;
+  dataOrigin?: string;
   onRequest?: OnRequestFunction;
 };
 
