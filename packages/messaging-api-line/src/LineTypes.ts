@@ -996,3 +996,53 @@ export type GetAudienceGroupsOptions = AccessTokenOptions & {
 export type AudienceGroupAuthorityLevel = {
   authorityLevel: 'PUBLIC' | 'PRIVATE';
 };
+
+/**
+ * LINE Notify Config
+ */
+export type LineNotifyConfig = {
+  /**
+   * LINE Notify Service Client ID
+   */
+  clientId: string;
+
+  /**
+   * LINE Notify Service Client Secret
+   */
+  clientSecret: string;
+
+  /**
+   * LINE Notify Service Callback URL
+   */
+  redirectUri: string;
+};
+
+export type LineNotifyOptions = {
+  /**
+   * Maximum size of 240×240px JPEG
+   */
+  imageThumbnail?: string;
+
+  /**
+   * Maximum size of 2048×2048px JPEG
+   */
+  imageFullsize?: string;
+
+  /**
+   * Package ID.
+   */
+  stickerPackageId?: number;
+
+  /**
+   * 	Sticker ID.
+   */
+  stickerId?: number;
+
+  /**
+   * - true: The user doesn't receive a push notification when the message is sent.
+   * - false: The user receives a push notification when the message is sent (unless they have disabled push notification in LINE and/or their device).
+   *
+   * If omitted, the value defaults to false.
+   */
+  notificationDisabled?: boolean;
+};
