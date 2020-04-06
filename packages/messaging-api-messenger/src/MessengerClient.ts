@@ -41,7 +41,7 @@ function handleError(err: AxiosError): void {
 export default class MessengerClient {
   static connect(
     accessTokenOrConfig: string | Types.ClientConfig,
-    version = '4.0'
+    version = '6.0'
   ): MessengerClient {
     return new MessengerClient(accessTokenOrConfig, version);
   }
@@ -60,7 +60,7 @@ export default class MessengerClient {
 
   constructor(
     accessTokenOrConfig: string | Types.ClientConfig,
-    version = '4.0'
+    version = '6.0'
   ) {
     let origin;
     let skipAppSecretProof;
@@ -75,7 +75,7 @@ export default class MessengerClient {
 
       this._appId = config.appId;
       this._appSecret = config.appSecret;
-      this._version = extractVersion(config.version || '4.0');
+      this._version = extractVersion(config.version || '6.0');
       this._onRequest = config.onRequest;
       origin = config.origin;
 
