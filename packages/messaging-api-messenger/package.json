@@ -12,7 +12,7 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "append-query": "^2.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "axios-error": "file:../axios-error",
     "form-data": "^3.0.0",
     "invariant": "^2.2.4",
@@ -20,9 +20,7 @@
     "messaging-api-common": "file:../messaging-api-common",
     "warning": "^4.0.3"
   },
-  "devDependencies": {
-    "axios-mock-adapter": "^1.17.0"
-  },
+  "devDependencies": {},
   "keywords": [
     "bot",
     "chatbot",
