@@ -123,9 +123,7 @@ describe('Narrowcast', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/narrowcast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
         return [200, reply, { 'x-line-request-id': 'abc' }];
@@ -144,9 +142,7 @@ describe('Narrowcast', () => {
       });
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/narrowcast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
         return [200, reply, { 'x-line-request-id': 'abc' }];
@@ -169,9 +165,7 @@ describe('Narrowcast', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/narrowcast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
         return [200, reply, { 'x-line-request-id': 'abc' }];
@@ -194,9 +188,7 @@ describe('Narrowcast', () => {
       });
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/narrowcast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
         return [200, reply, { 'x-line-request-id': 'abc' }];
@@ -222,9 +214,7 @@ describe('Narrowcast', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/narrowcast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
         return [200, reply, { 'x-line-request-id': 'abc' }];
@@ -247,9 +237,7 @@ describe('Narrowcast', () => {
       });
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/narrowcast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
         return [200, reply, { 'x-line-request-id': 'abc' }];
@@ -282,7 +270,7 @@ describe('Narrowcast', () => {
 
       mock.onGet().reply(config => {
         expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/message/progress/narrowcast?requestId=${requestId}`
+          `/v2/bot/message/progress/narrowcast?requestId=${requestId}`
         );
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -302,7 +290,7 @@ describe('Narrowcast', () => {
 
       mock.onGet().reply(config => {
         expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/message/progress/narrowcast?requestId=${requestId}`
+          `/v2/bot/message/progress/narrowcast?requestId=${requestId}`
         );
         expect(config.headers).toEqual(headers);
         return [200, reply];

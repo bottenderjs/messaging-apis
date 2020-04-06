@@ -41,9 +41,7 @@ describe('persona api', () => {
         profilePictureUrl: 'https://i.imgur.com/zV6uy4T.jpg',
       });
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/personas?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/personas?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         name: 'kpman',
         profile_picture_url: 'https://i.imgur.com/zV6uy4T.jpg',
@@ -71,9 +69,7 @@ describe('persona api', () => {
 
       const res = await client.getPersona('311884619589478');
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/311884619589478?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/311884619589478?access_token=${ACCESS_TOKEN}`);
 
       expect(res).toEqual({
         name: 'kpman',
@@ -115,7 +111,7 @@ describe('persona api', () => {
             after: cursor,
           },
           next:
-            'https://graph.facebook.com/v4.0/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
+            '/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
         },
       };
 
@@ -214,7 +210,7 @@ describe('persona api', () => {
               'QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
           },
           next:
-            'https://graph.facebook.com/v4.0/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
+            '/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
         },
       };
 
@@ -253,7 +249,7 @@ describe('persona api', () => {
               'QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
           },
           next:
-            'https://graph.facebook.com/v4.0/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
+            '/138523840252451/personas?access_token=0987654321&limit=25&after=QVFIUl96LThrbmJrU3gzOHdsR2JaZA2dDM01uaEJNaUZArWnNTNHBhQi1iZA3lvakk2YWlUR3F5bUV3UDJYZAWVxYnJyOFA1VnJwZAG9GUEVzOGRMZAzRsV08wdW1R',
         },
       });
     });
@@ -277,9 +273,7 @@ describe('persona api', () => {
 
       const res = await client.deletePersona(personaId);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/291604368115617?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/291604368115617?access_token=${ACCESS_TOKEN}`);
 
       expect(res).toEqual(reply);
     });

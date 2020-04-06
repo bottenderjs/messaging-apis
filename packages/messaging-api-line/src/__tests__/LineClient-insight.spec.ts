@@ -45,7 +45,7 @@ describe('#getTargetLimitForAdditionalMessages', () => {
 
     const res = await client.getTargetLimitForAdditionalMessages();
 
-    expect(url).toEqual('https://api.line.me/v2/bot/message/quota');
+    expect(url).toEqual('/v2/bot/message/quota');
     expect(headers).toEqual(headers);
 
     expect(res).toEqual({
@@ -73,7 +73,7 @@ describe('#getNumberOfMessagesSentThisMonth', () => {
 
     const res = await client.getNumberOfMessagesSentThisMonth();
 
-    expect(url).toEqual('https://api.line.me/v2/bot/message/quota/consumption');
+    expect(url).toEqual('/v2/bot/message/quota/consumption');
     expect(headers).toEqual(headers);
 
     expect(res).toEqual({
@@ -103,7 +103,7 @@ describe('#getNumberOfSentReplyMessages', () => {
 
     const res = await client.getNumberOfSentReplyMessages('20191116');
 
-    expect(url).toEqual('https://api.line.me/v2/bot/message/delivery/reply');
+    expect(url).toEqual('/v2/bot/message/delivery/reply');
     expect(params).toEqual({
       date: '20191116',
     });
@@ -137,7 +137,7 @@ describe('#getNumberOfSentPushMessages', () => {
 
     const res = await client.getNumberOfSentPushMessages('20191116');
 
-    expect(url).toEqual('https://api.line.me/v2/bot/message/delivery/push');
+    expect(url).toEqual('/v2/bot/message/delivery/push');
     expect(params).toEqual({
       date: '20191116',
     });
@@ -171,9 +171,7 @@ describe('#getNumberOfSentMulticastMessages', () => {
 
     const res = await client.getNumberOfSentMulticastMessages('20191116');
 
-    expect(url).toEqual(
-      'https://api.line.me/v2/bot/message/delivery/multicast'
-    );
+    expect(url).toEqual('/v2/bot/message/delivery/multicast');
     expect(params).toEqual({
       date: '20191116',
     });
@@ -207,9 +205,7 @@ describe('#getNumberOfSentBroadcastMessages', () => {
 
     const res = await client.getNumberOfSentBroadcastMessages('20191116');
 
-    expect(url).toEqual(
-      'https://api.line.me/v2/bot/message/delivery/broadcast'
-    );
+    expect(url).toEqual('/v2/bot/message/delivery/broadcast');
     expect(params).toEqual({
       date: '20191116',
     });
@@ -244,7 +240,7 @@ describe('#getNumberOfMessageDeliveries', () => {
 
     const res = await client.getNumberOfMessageDeliveries('20191116');
 
-    expect(url).toEqual('https://api.line.me/v2/bot/insight/message/delivery');
+    expect(url).toEqual('/v2/bot/insight/message/delivery');
     expect(params).toEqual({
       date: '20191116',
     });
@@ -281,7 +277,7 @@ describe('#getNumberOfFollowers', () => {
 
     const res = await client.getNumberOfFollowers('20191116');
 
-    expect(url).toEqual('https://api.line.me/v2/bot/insight/followers');
+    expect(url).toEqual('/v2/bot/insight/followers');
     expect(params).toEqual({
       date: '20191116',
     });
@@ -388,7 +384,7 @@ describe('#getFriendDemographics', () => {
 
     const res = await client.getFriendDemographics();
 
-    expect(url).toEqual('https://api.line.me/v2/bot/insight/demographic');
+    expect(url).toEqual('/v2/bot/insight/demographic');
     expect(headers).toEqual(headers);
 
     expect(res).toEqual(reply);

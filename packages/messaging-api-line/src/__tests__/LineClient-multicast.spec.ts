@@ -38,9 +38,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -72,9 +70,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -109,9 +105,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -143,9 +137,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -178,9 +170,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -204,9 +194,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [{ type: 'text', text: 'Hello!' }],
@@ -232,9 +220,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -265,9 +251,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -297,9 +281,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -332,9 +314,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -371,9 +351,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -404,9 +382,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -439,9 +415,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -478,9 +452,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -511,9 +483,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -546,9 +516,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -587,9 +555,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -626,9 +592,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -669,9 +633,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -702,9 +664,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -737,9 +697,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -776,9 +734,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -866,9 +822,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -955,9 +909,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1043,9 +995,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1161,9 +1111,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1242,9 +1190,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1324,9 +1270,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1419,9 +1363,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1515,9 +1457,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1580,9 +1520,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1646,9 +1584,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1783,9 +1719,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -1919,9 +1853,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -2050,9 +1982,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -2139,9 +2069,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -2229,9 +2157,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [
@@ -2343,9 +2269,7 @@ describe('Multicast', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/message/multicast'
-        );
+        expect(config.url).toEqual('/v2/bot/message/multicast');
         expect(JSON.parse(config.data)).toEqual({
           to: [RECIPIENT_ID],
           messages: [

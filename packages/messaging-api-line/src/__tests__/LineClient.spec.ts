@@ -63,9 +63,7 @@ describe('Profile', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/profile/${RECIPIENT_ID}`
-        );
+        expect(config.url).toEqual(`/v2/bot/profile/${RECIPIENT_ID}`);
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -90,9 +88,7 @@ describe('Profile', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/profile/${RECIPIENT_ID}`
-        );
+        expect(config.url).toEqual(`/v2/bot/profile/${RECIPIENT_ID}`);
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -130,9 +126,7 @@ describe('Account link', () => {
       };
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/user/${RECIPIENT_ID}/linkToken`
-        );
+        expect(config.url).toEqual(`/v2/bot/user/${RECIPIENT_ID}/linkToken`);
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -154,9 +148,7 @@ describe('Account link', () => {
       };
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/user/${RECIPIENT_ID}/linkToken`
-        );
+        expect(config.url).toEqual(`/v2/bot/user/${RECIPIENT_ID}/linkToken`);
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
         return [200, reply];

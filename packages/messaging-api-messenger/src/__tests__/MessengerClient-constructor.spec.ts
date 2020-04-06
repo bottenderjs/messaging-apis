@@ -333,8 +333,8 @@ describe('appsecret proof', () => {
 
     await client.sendText(USER_ID, 'Hello!');
 
-    expect(url).toBe(
-      'https://graph.facebook.com/v4.0/me/messages?access_token=foo_token&appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
+    expect(url).toEqual(
+      '/me/messages?access_token=foo_token&appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
     );
   });
 
@@ -364,8 +364,6 @@ describe('appsecret proof', () => {
 
     await client.sendText(USER_ID, 'Hello!');
 
-    expect(url).toBe(
-      'https://graph.facebook.com/v4.0/me/messages?access_token=foo_token'
-    );
+    expect(url).toEqual('/me/messages?access_token=foo_token');
   });
 });

@@ -1904,6 +1904,8 @@ aws4@^1.8.0:
 
 "axios-error@file:packages/axios-error":
   version "1.0.0-beta.5"
+  dependencies:
+    axios "^0.19.2"
 
 axios-mock-adapter@^1.18.1:
   version "1.18.1"

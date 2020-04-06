@@ -50,9 +50,7 @@ describe('page info', () => {
 
       const res = await client.getPageInfo();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me?access_token=${ACCESS_TOKEN}`);
 
       expect(res).toEqual(reply);
     });
@@ -88,7 +86,7 @@ describe('token', () => {
 
       const res = await client.debugToken();
 
-      expect(url).toEqual('https://graph.facebook.com/v4.0/debug_token');
+      expect(url).toEqual('/debug_token');
       expect(params).toEqual({
         input_token: ACCESS_TOKEN,
         access_token: `${APP_ID}|${APP_SECRET}`,
@@ -131,7 +129,7 @@ describe('subscription', () => {
       });
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
+        `/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         object: 'page',
@@ -169,7 +167,7 @@ describe('subscription', () => {
       });
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
+        `/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         object: 'user',
@@ -211,7 +209,7 @@ describe('subscription', () => {
       const res = await client.getSubscriptions();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
+        `/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
       );
 
       expect(res).toEqual([
@@ -269,7 +267,7 @@ describe('subscription', () => {
       const res = await client.getPageSubscription();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
+        `/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
       );
 
       expect(res).toEqual({
@@ -308,7 +306,7 @@ describe('#getMessagingFeatureReview', () => {
     const res = await client.getMessagingFeatureReview();
 
     expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messaging_feature_review?access_token=${ACCESS_TOKEN}`
+      `/me/messaging_feature_review?access_token=${ACCESS_TOKEN}`
     );
 
     expect(res).toEqual([
@@ -340,7 +338,7 @@ describe('user profile', () => {
       const res = await client.getUserProfile('1');
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/1?fields=id,name,first_name,last_name,profile_pic&access_token=${ACCESS_TOKEN}`
+        `/1?fields=id,name,first_name,last_name,profile_pic&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual({
@@ -383,7 +381,7 @@ describe('user profile', () => {
       });
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/1?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender&access_token=${ACCESS_TOKEN}`
+        `/1?fields=id,name,first_name,last_name,profile_pic,locale,timezone,gender&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual({
@@ -427,9 +425,7 @@ describe('message tags', () => {
 
       const res = await client.getMessageTags();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/page_message_tags?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/page_message_tags?access_token=${ACCESS_TOKEN}`);
 
       expect(res).toEqual([
         {
@@ -470,7 +466,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         message: {
@@ -511,7 +507,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         message: {
@@ -551,7 +547,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(data).toBeInstanceOf(FormData);
 
@@ -582,7 +578,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         message: {
@@ -623,7 +619,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         message: {
@@ -664,7 +660,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         message: {
@@ -705,7 +701,7 @@ describe('upload api', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/message_attachments?access_token=${ACCESS_TOKEN}`
+        `/me/message_attachments?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         message: {
@@ -749,7 +745,7 @@ describe('Built-in NLP API', () => {
       });
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`
+        `/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`
       );
       expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
@@ -777,9 +773,7 @@ describe('Built-in NLP API', () => {
 
       const res = await client.enableNLP();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=true`
-      );
+      expect(url).toEqual(`/me/nlp_configs?nlp_enabled=true`);
       expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
       });
@@ -806,9 +800,7 @@ describe('Built-in NLP API', () => {
 
       const res = await client.disableNLP();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/nlp_configs?nlp_enabled=false`
-      );
+      expect(url).toEqual(`/me/nlp_configs?nlp_enabled=false`);
       expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
       });
@@ -848,7 +840,7 @@ describe('Event Logging API', () => {
         ],
       });
 
-      expect(url).toEqual(`https://graph.facebook.com/v4.0/12345/activities`);
+      expect(url).toEqual(`/12345/activities`);
       expect(JSON.parse(data)).toEqual({
         event: 'CUSTOM_APP_EVENTS',
         custom_events:
@@ -912,7 +904,7 @@ describe('ID Matching', () => {
       });
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&page=5678`
+        `/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&page=5678`
       );
 
       expect(res).toEqual(reply);
@@ -957,7 +949,7 @@ describe('ID Matching', () => {
       });
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&app=5678`
+        `/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&app=5678`
       );
 
       expect(res).toEqual(reply);

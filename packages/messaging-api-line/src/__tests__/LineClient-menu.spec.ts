@@ -69,7 +69,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/v2/bot/richmenu/list');
+        expect(config.url).toEqual('/v2/bot/richmenu/list');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -142,7 +142,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/v2/bot/richmenu/list');
+        expect(config.url).toEqual('/v2/bot/richmenu/list');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -214,7 +214,7 @@ describe('Rich Menu', () => {
 
       mock.onGet().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+          '/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
         );
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
@@ -262,7 +262,7 @@ describe('Rich Menu', () => {
 
       mock.onGet().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+          '/v2/bot/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
         );
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
@@ -328,7 +328,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/v2/bot/richmenu');
+        expect(config.url).toEqual('/v2/bot/richmenu');
         expect(JSON.parse(config.data)).toEqual(richMenuObject);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -375,7 +375,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/v2/bot/richmenu');
+        expect(config.url).toEqual('/v2/bot/richmenu');
         expect(JSON.parse(config.data)).toEqual(richMenuObject);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -398,7 +398,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/v2/bot/richmenu/1');
+        expect(config.url).toEqual('/v2/bot/richmenu/1');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -419,7 +419,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/v2/bot/richmenu/1');
+        expect(config.url).toEqual('/v2/bot/richmenu/1');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -444,9 +444,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/1/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/1/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -469,9 +467,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/1/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/1/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -509,9 +505,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/1/richmenu/2'
-        );
+        expect(config.url).toEqual('/v2/bot/user/1/richmenu/2');
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -532,9 +526,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/1/richmenu/2'
-        );
+        expect(config.url).toEqual('/v2/bot/user/1/richmenu/2');
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -557,9 +549,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/1/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/1/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -580,9 +570,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/1/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/1/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -615,9 +603,7 @@ describe('Rich Menu', () => {
       });
 
       dataMock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api-data.line.me/v2/bot/richmenu/1/content'
-        );
+        expect(config.url).toEqual('/v2/bot/richmenu/1/content');
         expect(config.data).toEqual(buffer);
         expect(config.headers).toEqual({
           ...headers,
@@ -651,9 +637,7 @@ describe('Rich Menu', () => {
       });
 
       dataMock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api-data.line.me/v2/bot/richmenu/1/content'
-        );
+        expect(config.url).toEqual('/v2/bot/richmenu/1/content');
         expect(config.data).toEqual(buffer);
         expect(config.headers).toEqual({
           ...headers,
@@ -677,9 +661,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       dataMock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api-data.line.me/v2/bot/richmenu/1/content'
-        );
+        expect(config.url).toEqual('/v2/bot/richmenu/1/content');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -705,9 +687,7 @@ describe('Rich Menu', () => {
       const reply = Buffer.from('a content buffer');
 
       dataMock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api-data.line.me/v2/bot/richmenu/1/content'
-        );
+        expect(config.url).toEqual('/v2/bot/richmenu/1/content');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -727,9 +707,7 @@ describe('Rich Menu', () => {
       const reply = Buffer.from('a content buffer');
 
       dataMock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api-data.line.me/v2/bot/richmenu/1/content'
-        );
+        expect(config.url).toEqual('/v2/bot/richmenu/1/content');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -766,9 +744,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/all/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/all/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -791,9 +767,7 @@ describe('Rich Menu', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/all/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/all/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -832,7 +806,7 @@ describe('Rich Menu', () => {
 
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+          '/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
         );
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
@@ -857,7 +831,7 @@ describe('Rich Menu', () => {
 
       mock.onPost().reply(config => {
         expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+          '/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
         );
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);
@@ -882,9 +856,7 @@ describe('Rich Menu', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/user/all/richmenu'
-        );
+        expect(config.url).toEqual('/v2/bot/user/all/richmenu');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -906,9 +878,7 @@ describe('Rich Menu', () => {
     const reply = {};
 
     mock.onDelete().reply(config => {
-      expect(config.url).toEqual(
-        'https://api.line.me/v2/bot/user/all/richmenu'
-      );
+      expect(config.url).toEqual('/v2/bot/user/all/richmenu');
       expect(config.data).toEqual(undefined);
       expect(config.headers).toEqual(headers);
       return [200, reply];

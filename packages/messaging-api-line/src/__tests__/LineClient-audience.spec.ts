@@ -53,9 +53,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/upload'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -85,9 +83,7 @@ describe('Audience', () => {
       });
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/upload'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -131,9 +127,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/upload'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -163,9 +157,7 @@ describe('Audience', () => {
       });
 
       mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/upload'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -211,9 +203,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/click'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/click');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -238,9 +228,7 @@ describe('Audience', () => {
       });
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/click'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/click');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -279,9 +267,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/imp'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/imp');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -303,9 +289,7 @@ describe('Audience', () => {
       });
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/imp'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/imp');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -339,7 +323,7 @@ describe('Audience', () => {
 
       mock.onPut().reply(config => {
         expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
+          `/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
         );
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
@@ -363,7 +347,7 @@ describe('Audience', () => {
 
       mock.onPut().reply(config => {
         expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
+          `/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
         );
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
@@ -393,9 +377,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/${audienceGroupId}`
-        );
+        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -413,9 +395,7 @@ describe('Audience', () => {
       });
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/${audienceGroupId}`
-        );
+        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -449,9 +429,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/${audienceGroupId}`
-        );
+        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -469,9 +447,7 @@ describe('Audience', () => {
       });
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/${audienceGroupId}`
-        );
+        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -516,7 +492,7 @@ describe('Audience', () => {
 
       mock.onGet().reply(config => {
         expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
+          `/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
         );
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -541,7 +517,7 @@ describe('Audience', () => {
 
       mock.onGet().reply(config => {
         expect(config.url).toEqual(
-          `https://api.line.me/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
+          `/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
         );
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -570,9 +546,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -590,9 +564,7 @@ describe('Audience', () => {
       });
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -618,9 +590,7 @@ describe('Audience', () => {
       const { client, mock, headers } = createMock();
 
       mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -639,9 +609,7 @@ describe('Audience', () => {
       });
 
       mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
-        );
+        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
         return [200, reply];
