@@ -1298,3 +1298,52 @@ describe('#sendAirlineUpdateTemplate', () => {
     });
   });
 });
+
+describe('#sendOneTimeNotifReqTemplate', () => {
+  it('should call messages api with one time notif req template', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      recipient_id: USER_ID,
+      message_id: 'mid.1489394984387:3dd22de509',
+    };
+
+    let url;
+    let data;
+    mock.onPost().reply(config => {
+      url = config.url;
+      data = config.data;
+      return [200, reply];
+    });
+
+    const res = await client.sendOneTimeNotifReqTemplate(USER_ID, {
+      title: '<TITLE_TEXT>',
+      payload: '<USER_DEFINED_PAYLOAD>',
+    });
+
+    expect(url).toEqual(
+      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
+    );
+    expect(JSON.parse(data)).toEqual({
+      messaging_type: 'UPDATE',
+      recipient: {
+        id: USER_ID,
+      },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'one_time_notif_req',
+            title: '<TITLE_TEXT>',
+            payload: '<USER_DEFINED_PAYLOAD>',
+          },
+        },
+      },
+    });
+
+    expect(res).toEqual({
+      recipientId: USER_ID,
+      messageId: 'mid.1489394984387:3dd22de509',
+    });
+  });
+});
