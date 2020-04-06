@@ -63,7 +63,7 @@ describe('messenger profile', () => {
       ]);
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=get_started,persistent_menu&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=get_started,persistent_menu&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual([
@@ -126,9 +126,7 @@ describe('messenger profile', () => {
         ],
       });
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         get_started: {
           payload: 'GET_STARTED',
@@ -173,9 +171,7 @@ describe('messenger profile', () => {
         'persistent_menu',
       ]);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['get_started', 'persistent_menu'],
       });
@@ -209,7 +205,7 @@ describe('get started button', () => {
       const res = await client.getGetStarted();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual({
@@ -233,7 +229,7 @@ describe('get started button', () => {
       const res = await client.getGetStarted();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -258,9 +254,7 @@ describe('get started button', () => {
 
       const res = await client.setGetStarted('GET_STARTED');
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         get_started: {
           payload: 'GET_STARTED',
@@ -289,9 +283,7 @@ describe('get started button', () => {
 
       const res = await client.deleteGetStarted();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['get_started'],
       });
@@ -340,7 +332,7 @@ describe('persistent menu', () => {
       const res = await client.getPersistentMenu();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual([
@@ -379,7 +371,7 @@ describe('persistent menu', () => {
       const res = await client.getPersistentMenu();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -415,9 +407,7 @@ describe('persistent menu', () => {
         },
       ]);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         persistent_menu: [
           {
@@ -476,9 +466,7 @@ describe('persistent menu', () => {
         },
       ]);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         persistent_menu: [
           {
@@ -530,9 +518,7 @@ describe('persistent menu', () => {
         composerInputDisabled: true,
       });
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         persistent_menu: [
           {
@@ -571,9 +557,7 @@ describe('persistent menu', () => {
 
       const res = await client.deletePersistentMenu();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['persistent_menu'],
       });
@@ -610,7 +594,7 @@ describe('greeting', () => {
       const res = await client.getGreeting();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual([
@@ -637,7 +621,7 @@ describe('greeting', () => {
       const res = await client.getGreeting();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -662,9 +646,7 @@ describe('greeting', () => {
 
       const res = await client.setGreeting('Hello!');
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         greeting: [
           {
@@ -703,9 +685,7 @@ describe('greeting', () => {
         },
       ]);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         greeting: [
           {
@@ -741,9 +721,7 @@ describe('greeting', () => {
 
       const res = await client.deleteGreeting();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['greeting'],
       });
@@ -784,7 +762,7 @@ describe('ice breakers', () => {
       const res = await client.getIceBreakers();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual([
@@ -815,7 +793,7 @@ describe('ice breakers', () => {
       const res = await client.getIceBreakers();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -849,9 +827,7 @@ describe('ice breakers', () => {
         },
       ]);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         ice_breakers: [
           {
@@ -887,9 +863,7 @@ describe('ice breakers', () => {
 
       const res = await client.deleteIceBreakers();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['ice_breakers'],
       });
@@ -921,7 +895,7 @@ describe('whitelisted domains', () => {
       const res = await client.getWhitelistedDomains();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(['http://www.yoctol.com/']);
@@ -943,7 +917,7 @@ describe('whitelisted domains', () => {
       const res = await client.getWhitelistedDomains();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -968,9 +942,7 @@ describe('whitelisted domains', () => {
 
       const res = await client.setWhitelistedDomains(['www.yoctol.com']);
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         whitelisted_domains: ['www.yoctol.com'],
       });
@@ -997,9 +969,7 @@ describe('whitelisted domains', () => {
 
       const res = await client.deleteWhitelistedDomains();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['whitelisted_domains'],
       });
@@ -1032,7 +1002,7 @@ describe('account linking url', () => {
       const res = await client.getAccountLinkingURL();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual({
@@ -1057,7 +1027,7 @@ describe('account linking url', () => {
       const res = await client.getAccountLinkingURL();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -1084,9 +1054,7 @@ describe('account linking url', () => {
         'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
       );
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         account_linking_url:
           'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
@@ -1114,9 +1082,7 @@ describe('account linking url', () => {
 
       const res = await client.deleteAccountLinkingURL();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['account_linking_url'],
       });
@@ -1150,7 +1116,7 @@ describe('chat extension home URL', () => {
       const res = await client.getHomeURL();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual({
@@ -1176,7 +1142,7 @@ describe('chat extension home URL', () => {
       const res = await client.getHomeURL();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
+        `/me/messenger_profile?fields=home_url&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -1204,9 +1170,7 @@ describe('chat extension home URL', () => {
         inTest: true,
       });
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         home_url: {
           url: 'http://petershats.com/send-a-hat',
@@ -1237,9 +1201,7 @@ describe('chat extension home URL', () => {
 
       const res = await client.deleteHomeURL();
 
-      expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/messenger_profile?access_token=${ACCESS_TOKEN}`
-      );
+      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
       expect(JSON.parse(data)).toEqual({
         fields: ['home_url'],
       });

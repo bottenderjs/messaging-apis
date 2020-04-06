@@ -10,14 +10,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "axios-error": "file:../axios-error",
     "lodash": "^4.17.15",
     "messaging-api-common": "file:../messaging-api-common"
   },
-  "devDependencies": {
-    "axios-mock-adapter": "^1.17.0"
-  },
+  "devDependencies": {},
   "keywords": [
     "bot",
     "chatbot",

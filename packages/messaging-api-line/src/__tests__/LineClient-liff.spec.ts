@@ -54,7 +54,7 @@ describe('LINE Front-end Framework', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/liff/v1/apps');
+        expect(config.url).toEqual('/liff/v1/apps');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -107,7 +107,7 @@ describe('LINE Front-end Framework', () => {
       };
 
       mock.onGet().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/liff/v1/apps');
+        expect(config.url).toEqual('/liff/v1/apps');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -147,7 +147,7 @@ describe('LINE Front-end Framework', () => {
       };
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/liff/v1/apps');
+        expect(config.url).toEqual('/liff/v1/apps');
         expect(JSON.parse(config.data)).toEqual({
           type: 'tall',
           url: 'https://example.com/myservice',
@@ -176,7 +176,7 @@ describe('LINE Front-end Framework', () => {
       };
 
       mock.onPost().reply(config => {
-        expect(config.url).toEqual('https://api.line.me/liff/v1/apps');
+        expect(config.url).toEqual('/liff/v1/apps');
         expect(JSON.parse(config.data)).toEqual({
           type: 'tall',
           url: 'https://example.com/myservice',
@@ -208,9 +208,7 @@ describe('LINE Front-end Framework', () => {
       const reply = {};
 
       mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/liff/v1/apps/liff-12345/view'
-        );
+        expect(config.url).toEqual('/liff/v1/apps/liff-12345/view');
         expect(JSON.parse(config.data)).toEqual({
           type: 'tall',
           url: 'https://example.com/myservice',
@@ -237,9 +235,7 @@ describe('LINE Front-end Framework', () => {
       const reply = {};
 
       mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/liff/v1/apps/liff-12345/view'
-        );
+        expect(config.url).toEqual('/liff/v1/apps/liff-12345/view');
         expect(JSON.parse(config.data)).toEqual({
           type: 'tall',
           url: 'https://example.com/myservice',
@@ -270,9 +266,7 @@ describe('LINE Front-end Framework', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/liff/v1/apps/liff-12345'
-        );
+        expect(config.url).toEqual('/liff/v1/apps/liff-12345');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -293,9 +287,7 @@ describe('LINE Front-end Framework', () => {
       const reply = {};
 
       mock.onDelete().reply(config => {
-        expect(config.url).toEqual(
-          'https://api.line.me/liff/v1/apps/liff-12345'
-        );
+        expect(config.url).toEqual('/liff/v1/apps/liff-12345');
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];

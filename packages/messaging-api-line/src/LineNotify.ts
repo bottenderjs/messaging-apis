@@ -141,7 +141,7 @@ export default class LineNotify {
       code,
     };
     return this.axios
-      .post('oauth/token', querystring.encode(formData), { headers })
+      .post('/oauth/token', querystring.encode(formData), { headers })
       .then(res => res.data.access_token, handleError);
   }
 
@@ -178,7 +178,7 @@ export default class LineNotify {
       Authorization: `Bearer ${accessToken}`,
     };
     return this.apiAxios
-      .get('api/status', { headers })
+      .get('/api/status', { headers })
       .then(throwWhenNotSuccess, handleError);
   }
 
@@ -218,7 +218,7 @@ export default class LineNotify {
       ...options,
     };
     return this.apiAxios
-      .post('api/notify', querystring.encode(formData), { headers })
+      .post('/api/notify', querystring.encode(formData), { headers })
       .then(throwWhenNotSuccess, handleError);
   }
 
@@ -255,7 +255,7 @@ export default class LineNotify {
       Authorization: `Bearer ${accessToken}`,
     };
     return this.apiAxios
-      .post('api/revoke', {}, { headers })
+      .post('/api/revoke', {}, { headers })
       .then(throwWhenNotSuccess, handleError);
   }
 }

@@ -46,7 +46,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${ACCESS_TOKEN}`
+        `/me/pass_thread_control?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -85,7 +85,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${options.accessToken}`
+        `/me/pass_thread_control?access_token=${options.accessToken}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -121,7 +121,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${ACCESS_TOKEN}`
+        `/me/pass_thread_control?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -159,7 +159,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/pass_thread_control?access_token=${options.accessToken}`
+        `/me/pass_thread_control?access_token=${options.accessToken}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -195,7 +195,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/take_thread_control?access_token=${ACCESS_TOKEN}`
+        `/me/take_thread_control?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -232,7 +232,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/take_thread_control?access_token=${options.accessToken}`
+        `/me/take_thread_control?access_token=${options.accessToken}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -267,7 +267,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/request_thread_control?access_token=${ACCESS_TOKEN}`
+        `/me/request_thread_control?access_token=${ACCESS_TOKEN}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -304,7 +304,7 @@ describe('Handover Protocol API', () => {
       );
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/request_thread_control?access_token=${options.accessToken}`
+        `/me/request_thread_control?access_token=${options.accessToken}`
       );
       expect(JSON.parse(data)).toEqual({
         recipient: {
@@ -337,7 +337,7 @@ describe('Handover Protocol API', () => {
       const res = await client.getSecondaryReceivers();
 
       expect(url).toEqual(
-        `https://graph.facebook.com/v4.0/me/secondary_receivers?fields=id,name&access_token=${ACCESS_TOKEN}`
+        `/me/secondary_receivers?fields=id,name&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual([
@@ -371,7 +371,7 @@ describe('#getThreadOwner', () => {
     const res = await client.getThreadOwner(USER_ID);
 
     expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/thread_owner?recipient=${USER_ID}&access_token=${ACCESS_TOKEN}`
+      `/me/thread_owner?recipient=${USER_ID}&access_token=${ACCESS_TOKEN}`
     );
 
     expect(res).toEqual({ appId: '12345678910' });
@@ -403,7 +403,7 @@ describe('#getThreadOwner', () => {
     const res = await client.getThreadOwner(USER_ID, options);
 
     expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/thread_owner?recipient=${USER_ID}&access_token=${options.accessToken}`
+      `/me/thread_owner?recipient=${USER_ID}&access_token=${options.accessToken}`
     );
 
     expect(res).toEqual({ appId: '12345678910' });

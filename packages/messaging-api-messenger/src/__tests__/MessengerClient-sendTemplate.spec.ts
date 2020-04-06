@@ -51,9 +51,7 @@ describe('#sendTemplate', () => {
       ],
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -109,9 +107,7 @@ describe('#sendButtonTemplate', () => {
       },
     ]);
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -181,9 +177,7 @@ describe('#sendGenericTemplate', () => {
       },
     ]);
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -270,9 +264,7 @@ describe('#sendGenericTemplate', () => {
       }
     );
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -360,9 +352,7 @@ describe('#sendGenericTemplate', () => {
       }
     );
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'MESSAGE_TAG',
       recipient: {
@@ -438,9 +428,7 @@ describe('#sendMediaTemplate', () => {
       },
     ]);
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -544,9 +532,7 @@ describe('#sendReceiptTemplate', () => {
       ],
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -699,9 +685,7 @@ describe('#sendAirlineBoardingPassTemplate', () => {
       ],
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -870,9 +854,7 @@ describe('#sendAirlineCheckinTemplate', () => {
       checkinUrl: 'https://www.airline.com/check-in',
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -1061,9 +1043,7 @@ describe('#sendAirlineItineraryTemplate', () => {
       currency: 'USD',
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -1250,9 +1230,7 @@ describe('#sendAirlineUpdateTemplate', () => {
       },
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {
@@ -1321,9 +1299,7 @@ describe('#sendOneTimeNotifReqTemplate', () => {
       payload: '<USER_DEFINED_PAYLOAD>',
     });
 
-    expect(url).toEqual(
-      `https://graph.facebook.com/v4.0/me/messages?access_token=${ACCESS_TOKEN}`
-    );
+    expect(url).toEqual(`/me/messages?access_token=${ACCESS_TOKEN}`);
     expect(JSON.parse(data)).toEqual({
       messaging_type: 'UPDATE',
       recipient: {

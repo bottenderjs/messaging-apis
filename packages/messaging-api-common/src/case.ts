@@ -1,7 +1,7 @@
-import camelCase from 'camel-case';
 import mapObject from 'map-obj';
-import pascalCase from 'pascal-case';
-import snakeCase from 'snake-case';
+import { camelCase } from 'camel-case';
+import { pascalCase } from 'pascal-case';
+import { snakeCase } from 'snake-case';
 
 function isLastCharNumber(key: string) {
   return /^\d$/.test(key[key.length - 1]);

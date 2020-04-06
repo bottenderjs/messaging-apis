@@ -137,7 +137,7 @@ describe('#getToken', () => {
     };
 
     mock.onPost().reply(config => {
-      expect(config.url).toEqual('https://notify-bot.line.me/oauth/token');
+      expect(config.url).toEqual('/oauth/token');
       expect(querystring.decode(config.data)).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
       return [200, reply];
@@ -165,7 +165,7 @@ describe('#getStatus', () => {
     };
 
     apiMock.onGet().reply(config => {
-      expect(config.url).toEqual('https://notify-api.line.me/api/status');
+      expect(config.url).toEqual('/api/status');
       expect(config.headers.Authorization).toEqual(headers.Authorization);
       return [200, reply];
     });
@@ -195,7 +195,7 @@ describe('#sendNotify', () => {
     };
 
     apiMock.onPost().reply(config => {
-      expect(config.url).toEqual('https://notify-api.line.me/api/notify');
+      expect(config.url).toEqual('/api/notify');
       expect(config.data).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
       expect(config.headers.Authorization).toEqual(headers.Authorization);
@@ -225,7 +225,7 @@ describe('#revokeToken', () => {
     };
 
     apiMock.onPost().reply(config => {
-      expect(config.url).toEqual('https://notify-api.line.me/api/revoke');
+      expect(config.url).toEqual('/api/revoke');
       expect(JSON.parse(config.data)).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
       expect(config.headers.Authorization).toEqual(headers.Authorization);
