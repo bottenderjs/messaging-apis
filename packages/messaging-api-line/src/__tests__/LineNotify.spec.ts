@@ -11,6 +11,7 @@ const REDIRECT_URI = 'https://example.com/callback';
 const createMock = (): {
   client: LineNotify;
   mock: MockAdapter;
+  apiMock: MockAdapter;
 } => {
   const client = new LineNotify({
     clientId: CLIENT_ID,
@@ -18,7 +19,8 @@ const createMock = (): {
     redirectUri: REDIRECT_URI,
   });
   const mock = new MockAdapter(client.axios);
-  return { client, mock };
+  const apiMock = new MockAdapter(client.apiAxios);
+  return { client, mock, apiMock };
 };
 
 describe('connect', () => {
@@ -43,6 +45,10 @@ describe('connect', () => {
 
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://notify-bot.line.me/',
+    });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://notify-api.line.me/',
     });
   });
 });
@@ -71,6 +77,10 @@ describe('constructor', () => {
     expect(axios.create).toBeCalledWith({
       baseURL: 'https://notify-bot.line.me/',
     });
+
+    expect(axios.create).toBeCalledWith({
+      baseURL: 'https://notify-api.line.me/',
+    });
   });
 });
 
@@ -85,6 +95,10 @@ describe('#axios', () => {
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
     expect(client.axios.delete).toBeDefined();
+    expect(client.apiAxios.get).toBeDefined();
+    expect(client.apiAxios.post).toBeDefined();
+    expect(client.apiAxios.put).toBeDefined();
+    expect(client.apiAxios.delete).toBeDefined();
   });
 });
 
@@ -95,7 +109,7 @@ describe('#getAuthLink', () => {
     const result = client.getAuthLink('state');
 
     expect(result).toEqual(
-      'https://notify-bot.line.me//oauth/authorize?scope=notify&response_type=code&client_id=client-id&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&state=state'
+      'https://notify-bot.line.me/oauth/authorize?scope=notify&response_type=code&client_id=client-id&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&state=state'
     );
   });
 });
@@ -137,7 +151,7 @@ describe('#getToken', () => {
 
 describe('#getStatus', () => {
   it('should work', async () => {
-    const { client, mock } = createMock();
+    const { client, apiMock } = createMock();
 
     const reply = {
       status: 200,
@@ -150,7 +164,7 @@ describe('#getStatus', () => {
       Authorization: `Bearer access_token`,
     };
 
-    mock.onGet().reply(config => {
+    apiMock.onGet().reply(config => {
       expect(config.url).toEqual('/api/status');
       expect(config.headers.Authorization).toEqual(headers.Authorization);
       return [200, reply];
@@ -164,7 +178,7 @@ describe('#getStatus', () => {
 
 describe('#sendNotify', () => {
   it('should work', async () => {
-    const { client, mock } = createMock();
+    const { client, apiMock } = createMock();
 
     const reply = {
       status: 200,
@@ -180,7 +194,7 @@ describe('#sendNotify', () => {
       Authorization: `Bearer access_token`,
     };
 
-    mock.onPost().reply(config => {
+    apiMock.onPost().reply(config => {
       expect(config.url).toEqual('/api/notify');
       expect(config.data).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
@@ -196,7 +210,7 @@ describe('#sendNotify', () => {
 
 describe('#revokeToken', () => {
   it('should work', async () => {
-    const { client, mock } = createMock();
+    const { client, apiMock } = createMock();
 
     const reply = {
       status: 200,
@@ -210,7 +224,7 @@ describe('#revokeToken', () => {
       Authorization: `Bearer access_token`,
     };
 
-    mock.onPost().reply(config => {
+    apiMock.onPost().reply(config => {
       expect(config.url).toEqual('/api/revoke');
       expect(JSON.parse(config.data)).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);

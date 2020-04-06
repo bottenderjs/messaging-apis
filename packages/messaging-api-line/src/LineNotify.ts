@@ -9,14 +9,15 @@ function handleError(err: {
   message: string;
   response: {
     data: {
-      returnCode: string;
-      returnMessage: string;
+      error: {
+        message: string;
+      };
     };
   };
 }): never {
-  if (err.response && err.response.data) {
-    const { returnCode, returnMessage } = err.response.data;
-    const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
+  if (err.response && err.response.data && err.response.data.error) {
+    const { message } = err.response.data.error;
+    const msg = `LINE Notify API - ${message}`;
     throw new AxiosError(msg, err);
   }
   throw new AxiosError(err.message, err);
@@ -59,7 +60,13 @@ export default class LineNotify {
   _origin = 'https://notify-bot.line.me/';
 
   /** @hidden */
+  _apiOrigin = 'https://notify-api.line.me/';
+
+  /** @hidden */
   _axios: AxiosInstance;
+
+  /** @hidden */
+  _apiAxios: AxiosInstance;
 
   /**
    * constructor
@@ -70,14 +77,24 @@ export default class LineNotify {
     this._clientId = config.clientId;
     this._clientSecret = config.clientSecret;
     this._redirectUri = config.redirectUri;
+    this._origin = config.origin || this._origin;
+    this._apiOrigin = config.apiOrigin || this._apiOrigin;
     this._axios = axios.create({
       baseURL: this._origin,
+    });
+    this._apiAxios = axios.create({
+      baseURL: this._apiOrigin,
     });
   }
 
   /** @hidden */
   get axios(): AxiosInstance {
     return this._axios;
+  }
+
+  /** @hidden */
+  get apiAxios(): AxiosInstance {
+    return this._apiAxios;
   }
 
   /**
@@ -101,7 +118,7 @@ export default class LineNotify {
       state,
     };
 
-    return `${this._origin}/oauth/authorize?${querystring.encode(data)}`;
+    return `${this._origin}oauth/authorize?${querystring.encode(data)}`;
   }
 
   /**
@@ -160,7 +177,7 @@ export default class LineNotify {
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
-    return this.axios
+    return this.apiAxios
       .get('/api/status', { headers })
       .then(throwWhenNotSuccess, handleError);
   }
@@ -200,7 +217,7 @@ export default class LineNotify {
       message,
       ...options,
     };
-    return this.axios
+    return this.apiAxios
       .post('/api/notify', querystring.encode(formData), { headers })
       .then(throwWhenNotSuccess, handleError);
   }
@@ -237,7 +254,7 @@ export default class LineNotify {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Bearer ${accessToken}`,
     };
-    return this.axios
+    return this.apiAxios
       .post('/api/revoke', {}, { headers })
       .then(throwWhenNotSuccess, handleError);
   }

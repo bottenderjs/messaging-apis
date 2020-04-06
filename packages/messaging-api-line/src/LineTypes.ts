@@ -1015,6 +1015,16 @@ export type LineNotifyConfig = {
    * LINE Notify Service Callback URL
    */
   redirectUri: string;
+
+  /**
+   * LINE Notify Authentication URL origin
+   */
+  origin?: string;
+
+  /**
+   * LINE Notify Notification URL origin
+   */
+  apiOrigin?: string;
 };
 
 export type LineNotifyOptions = {
