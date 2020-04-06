@@ -49,6 +49,13 @@ export type RecipientWithCommentId = {
 };
 
 /**
+ * Used for the Messenger Platform's One-Time Notification API.
+ */
+export type RecipientWithOneTimeNotifToken = {
+  oneTimeNotifToken: string;
+};
+
+/**
  * Description of the message recipient. All requests must include one to identify the recipient.
  */
 export type Recipient =
@@ -56,7 +63,8 @@ export type Recipient =
   | RecipientWithPhoneNumber
   | RecipientWithUserRef
   | RecipientWithPostId
-  | RecipientWithCommentId;
+  | RecipientWithCommentId
+  | RecipientWithOneTimeNotifToken;
 
 /**
  * Description of the message recipient. If a string is provided, it will be recognized as a psid.
@@ -106,7 +114,8 @@ export type TemplateAttachmentPayload = {
     | 'airline_boardingpass'
     | 'airline_checkin'
     | 'airline_itinerary'
-    | 'airline_update';
+    | 'airline_update'
+    | 'one_time_notif_req';
   [key: string]: any; // FIXME: list all of templates
 };
 
@@ -378,6 +387,11 @@ export type AirlineUpdateAttributes = {
   locale: string;
   pnrNumber?: string;
   updateFlightInfo: UpdateFlightInfo;
+};
+
+export type OneTimeNotifReqAttributes = {
+  title: string;
+  payload: string;
 };
 
 export type SenderAction = 'mark_seen' | 'typing_on' | 'typing_off';

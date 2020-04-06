@@ -341,6 +341,19 @@ function createAirlineUpdateTemplate(
   );
 }
 
+function createOneTimeNotifReqTemplate(
+  attrs: Types.OneTimeNotifReqAttributes,
+  options?: { quickReplies?: Types.QuickReply[] }
+): Types.Message {
+  return createTemplate(
+    {
+      templateType: 'one_time_notif_req',
+      ...attrs,
+    },
+    options
+  );
+}
+
 const Messenger = {
   createMessage,
   createText,
@@ -362,6 +375,7 @@ const Messenger = {
   createAirlineCheckinTemplate,
   createAirlineItineraryTemplate,
   createAirlineUpdateTemplate,
+  createOneTimeNotifReqTemplate,
 };
 
 export default Messenger;

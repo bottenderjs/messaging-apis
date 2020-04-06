@@ -1058,6 +1058,19 @@ export default class MessengerClient {
     );
   }
 
+  // https://developers.facebook.com/docs/messenger-platform/send-messages/one-time-notification/#one-time-notif
+  sendOneTimeNotifReqTemplate(
+    psidOrRecipient: Types.PsidOrRecipient,
+    attrs: Types.OneTimeNotifReqAttributes,
+    options?: Types.SendOption
+  ): Promise<Types.SendMessageSuccessResponse> {
+    return this.sendMessage(
+      psidOrRecipient,
+      Messenger.createOneTimeNotifReqTemplate(attrs, options),
+      options
+    );
+  }
+
   /**
    * Typing
    *

@@ -241,13 +241,25 @@ function sendAirlineUpdateTemplate(
   );
 }
 
+function sendOneTimeNotifReqTemplate(
+  psidOrRecipient: Types.PsidOrRecipient,
+  attrs: Types.OneTimeNotifReqAttributes,
+  options?: Types.SendOption & Types.BatchRequestOptions
+): Types.BatchItem {
+  return sendMessage(
+    psidOrRecipient,
+    Messenger.createOneTimeNotifReqTemplate(attrs, options),
+    options
+  );
+}
+
 function getUserProfile(
   userId: string,
   options: {
     fields?: Types.UserProfileField[];
     accessToken?: string;
   } & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   const fields = options.fields || [
@@ -271,7 +283,7 @@ function sendSenderAction(
   psidOrRecipient: Types.PsidOrRecipient,
   senderAction: Types.SenderAction,
   options: Types.SendOption & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const recipient =
     typeof psidOrRecipient === 'string'
       ? {
@@ -294,21 +306,21 @@ function sendSenderAction(
 function typingOn(
   idOrRecipient: Types.PsidOrRecipient,
   options?: Types.SendOption & Types.BatchRequestOptions
-) {
+): Types.BatchItem {
   return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
 function typingOff(
   idOrRecipient: Types.PsidOrRecipient,
   options?: Types.SendOption & Types.BatchRequestOptions
-) {
+): Types.BatchItem {
   return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
 function markSeen(
   idOrRecipient: Types.PsidOrRecipient,
   options?: Types.SendOption & Types.BatchRequestOptions
-) {
+): Types.BatchItem {
   return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
 
@@ -317,7 +329,7 @@ function passThreadControl(
   targetAppId: number,
   metadata: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -337,7 +349,7 @@ function passThreadControlToPageInbox(
   recipientId: string,
   metadata: string,
   options: { accessToken?: string } = {}
-) {
+): Types.BatchItem {
   return passThreadControl(recipientId, 263902037430900, metadata, options);
 }
 
@@ -345,7 +357,7 @@ function takeThreadControl(
   recipientId: string,
   metadata: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -364,7 +376,7 @@ function requestThreadControl(
   recipientId: string,
   metadata: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -382,7 +394,7 @@ function requestThreadControl(
 function getThreadOwner(
   recipientId: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -399,7 +411,7 @@ function associateLabel(
   userId: string,
   labelId: number,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-) {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -417,7 +429,7 @@ function dissociateLabel(
   userId: string,
   labelId: number,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): object {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -434,7 +446,7 @@ function dissociateLabel(
 function getAssociatedLabels(
   userId: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): object {
+): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
   return {
@@ -464,6 +476,7 @@ const MessengerBatch = {
   sendAirlineCheckinTemplate,
   sendAirlineItineraryTemplate,
   sendAirlineUpdateTemplate,
+  sendOneTimeNotifReqTemplate,
 
   getUserProfile,
 
