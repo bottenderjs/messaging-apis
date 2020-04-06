@@ -30,7 +30,7 @@ describe('connect', () => {
 
       expect(axios.create).toBeCalledWith(
         expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v4.0/',
+          baseURL: 'https://graph.facebook.com/v6.0/',
           headers: { 'Content-Type': 'application/json' },
         })
       );
@@ -48,7 +48,7 @@ describe('connect', () => {
 
       expect(axios.create).toBeCalledWith(
         expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v4.0/',
+          baseURL: 'https://graph.facebook.com/v6.0/',
           headers: { 'Content-Type': 'application/json' },
         })
       );
@@ -108,7 +108,7 @@ describe('connect', () => {
 
     expect(axios.create).toBeCalledWith(
       expect.objectContaining({
-        baseURL: 'https://mydummytestserver.com/v4.0/',
+        baseURL: 'https://mydummytestserver.com/v6.0/',
         headers: { 'Content-Type': 'application/json' },
       })
     );
@@ -129,7 +129,7 @@ describe('constructor', () => {
 
       expect(axios.create).toBeCalledWith(
         expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v4.0/',
+          baseURL: 'https://graph.facebook.com/v6.0/',
           headers: { 'Content-Type': 'application/json' },
         })
       );
@@ -147,7 +147,7 @@ describe('constructor', () => {
 
       expect(axios.create).toBeCalledWith(
         expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v4.0/',
+          baseURL: 'https://graph.facebook.com/v6.0/',
           headers: { 'Content-Type': 'application/json' },
         })
       );
@@ -208,7 +208,7 @@ describe('constructor', () => {
 
     expect(axios.create).toBeCalledWith(
       expect.objectContaining({
-        baseURL: 'https://mydummytestserver.com/v4.0/',
+        baseURL: 'https://mydummytestserver.com/v6.0/',
         headers: { 'Content-Type': 'application/json' },
       })
     );
@@ -217,7 +217,7 @@ describe('constructor', () => {
 
 describe('#version', () => {
   it('should return version of graph api', () => {
-    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('4.0');
+    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('6.0');
     expect(new MessengerClient(ACCESS_TOKEN, 'v2.6').version).toEqual('2.6');
     expect(new MessengerClient(ACCESS_TOKEN, '2.6').version).toEqual('2.6');
     expect(() => {
@@ -226,7 +226,7 @@ describe('#version', () => {
     }).toThrow('Type of `version` must be string.');
 
     expect(new MessengerClient({ accessToken: ACCESS_TOKEN }).version).toEqual(
-      '4.0'
+      '6.0'
     );
     expect(
       new MessengerClient({ accessToken: ACCESS_TOKEN, version: 'v2.6' })
@@ -295,7 +295,7 @@ describe('#onRequest', () => {
 
     expect(onRequest).toBeCalledWith({
       method: 'post',
-      url: 'https://graph.facebook.com/v4.0/path',
+      url: 'https://graph.facebook.com/v6.0/path',
       body: {
         x: 1,
       },
