@@ -1,26 +1,17 @@
 {
   "name": "messaging-api-line",
   "description": "Messaging API client for LINE",
-  "version": "0.7.15",
-  "engines": {
-    "node": ">=6"
-  },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "license": "MIT",
+  "version": "0.7.17",
   "main": "lib/index.js",
   "browser": "lib/browser.js",
-  "keywords": [
-    "bot",
-    "chatbot",
-    "messaging-apis",
-    "line"
-  ],
   "dependencies": {
     "axios": "^0.19.0",
-    "axios-error": "^0.7.11",
+    "axios-error": "^0.7.17",
     "debug": "^4.0.1",
     "image-type": "^3.0.0",
     "invariant": "^2.2.4",
@@ -29,5 +20,14 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0"
+  },
+  "keywords": [
+    "bot",
+    "chatbot",
+    "line",
+    "messaging-apis"
+  ],
+  "engines": {
+    "node": ">=6"
   }
 }
