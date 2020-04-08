@@ -14,19 +14,20 @@ const headers = {
 const createMock = () => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
-  return { client, mock };
+  const dataMock = new MockAdapter(client.dataAxios);
+  return { client, mock, dataMock };
 };
 
 describe('Content', () => {
   describe('#retrieveMessageContent', () => {
     it('should call retrieveMessageContent api', async () => {
-      const { client, mock } = createMock();
+      const { client, dataMock } = createMock();
 
       const reply = Buffer.from('a content buffer');
 
       const MESSAGE_ID = '1234567890';
 
-      mock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
+      dataMock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
 
       const res = await client.retrieveMessageContent(MESSAGE_ID);
 

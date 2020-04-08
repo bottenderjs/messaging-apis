@@ -41,6 +41,7 @@ type ClientConfig = {
   accessToken: string,
   channelSecret: string,
   origin?: string,
+  dataOrigin?: string,
   onRequest?: Function,
 };
 
@@ -82,11 +83,14 @@ export default class LineClient {
 
   _axios: Axios;
 
+  _dataAxios: Axios;
+
   constructor(
     accessTokenOrConfig: string | ClientConfig,
     channelSecret: string
   ) {
     let origin;
+    let dataOrigin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
 
@@ -94,6 +98,7 @@ export default class LineClient {
       this._channelSecret = config.channelSecret;
       this._onRequest = config.onRequest || onRequest;
       origin = config.origin;
+      dataOrigin = config.dataOrigin;
     } else {
       this._accessToken = accessTokenOrConfig;
       this._channelSecret = channelSecret;
@@ -129,10 +134,44 @@ export default class LineClient {
       });
       return config;
     });
+
+    this._dataAxios = axios.create({
+      baseURL: `${dataOrigin || 'https://api-data.line.me'}/`,
+      headers: {
+        Authorization: `Bearer ${this._accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    this._dataAxios.interceptors.request.use(config => {
+      this._onRequest({
+        method: config.method,
+        url: urlJoin(config.baseURL, config.url),
+        headers: {
+          ...config.headers.common,
+          ...config.headers[config.method],
+          ...omit(config.headers, [
+            'common',
+            'get',
+            'post',
+            'put',
+            'patch',
+            'delete',
+            'head',
+          ]),
+        },
+        body: config.data,
+      });
+      return config;
+    });
   }
 
   get axios(): Axios {
     return this._axios;
+  }
+
+  get dataAxios(): Axios {
+    return this._dataAxios;
   }
 
   get accessToken(): string {
@@ -474,7 +513,7 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-content
    */
   retrieveMessageContent(messageId: string): Promise<Buffer> {
-    return this._axios
+    return this._dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
       })
@@ -679,7 +718,7 @@ export default class LineClient {
       type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
       'Image must be `image/jpeg` or `image/png`'
     );
-    return this._axios
+    return this._dataAxios
       .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
         headers: {
           'Content-Type': type.mime,
@@ -689,7 +728,7 @@ export default class LineClient {
   }
 
   downloadRichMenuImage(richMenuId: string) {
-    return this._axios
+    return this._dataAxios
       .get(`/v2/bot/richmenu/${richMenuId}/content`, {
         responseType: 'arraybuffer',
       })
