@@ -1,3 +1,13 @@
+# 0.8.5 / 2020-04-08
+
+### messaging-api-messenger
+
+- [fix] support up to 13 quick replies instead of 11.
+
+### messaging-api-line
+
+- [fix] use data domain to get media and menu content (#557)
+
 # 0.8.4 / 2019-09-29
 
 ### messaging-api-wechat
