@@ -1,3 +1,13 @@
+# 0.7.17 / 2020-04-08
+
+### messaging-api-messenger
+
+- [fix] support up to 13 quick replies instead of 11.
+
+### messaging-api-line
+
+- [fix] use data domain to get media and menu content (#557)
+
 # 0.7.16 / 2019-01-29
 
 ### messaging-api-messenger
