@@ -24,10 +24,10 @@ import type {
 } from './MessengerTypes';
 
 function validateQuickReplies(quickReplies: Array<QuickReply>): void {
-  // quick_replies is limited to 11
+  // quick_replies is limited to 13
   invariant(
-    Array.isArray(quickReplies) && quickReplies.length <= 11,
-    'quick_replies is an array and limited to 11'
+    Array.isArray(quickReplies) && quickReplies.length <= 13,
+    'quick_replies is an array and limited to 13'
   );
 
   quickReplies.forEach(quickReply => {

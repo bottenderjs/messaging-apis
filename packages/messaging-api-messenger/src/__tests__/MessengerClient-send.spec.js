@@ -348,10 +348,10 @@ describe('send api', () => {
       expect(res).toEqual(reply);
     });
 
-    it('should throw if quick_replies length > 11', async () => {
+    it('should throw if quick_replies length > 13', async () => {
       const { client } = createMock();
 
-      const lotsOfQuickReplies = new Array(12).fill({
+      const lotsOfQuickReplies = new Array(14).fill({
         content_type: 'text',
         title: 'Red',
         payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
@@ -363,7 +363,7 @@ describe('send api', () => {
           { text: 'Pick a color:' },
           { quick_replies: lotsOfQuickReplies }
         );
-      }).toThrow('quick_replies is an array and limited to 11');
+      }).toThrow('quick_replies is an array and limited to 13');
     });
 
     it('should throw if title length > 20', async () => {

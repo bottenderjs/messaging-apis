@@ -11,24 +11,25 @@ const CHANNEL_SECRET = 'so-secret';
 const createMock = ({ customAccessToken } = {}) => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
+  const dataMock = new MockAdapter(client.dataAxios);
   const headers = {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
     Authorization: `Bearer ${customAccessToken || ACCESS_TOKEN}`,
   };
-  return { client, mock, headers };
+  return { client, mock, dataMock, headers };
 };
 
 describe('Content', () => {
   describe('#retrieveMessageContent', () => {
     it('should call retrieveMessageContent api', async () => {
-      const { client, mock } = createMock();
+      const { client, dataMock } = createMock();
 
       const reply = Buffer.from('a content buffer');
 
       const MESSAGE_ID = '1234567890';
 
-      mock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
+      dataMock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
 
       const res = await client.retrieveMessageContent(MESSAGE_ID);
 
