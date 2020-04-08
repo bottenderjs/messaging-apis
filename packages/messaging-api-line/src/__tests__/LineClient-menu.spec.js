@@ -15,7 +15,8 @@ const headers = {
 const createMock = () => {
   const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
   const mock = new MockAdapter(client.axios);
-  return { client, mock };
+  const dataMock = new MockAdapter(client.dataAxios);
+  return { client, mock, dataMock };
 };
 
 describe('Rich Menu', () => {
@@ -224,11 +225,11 @@ describe('Rich Menu', () => {
 
   describe('#uploadRichMenuImage', () => {
     it('should call api', async () => {
-      const { client, mock } = createMock();
+      const { client, dataMock } = createMock();
 
       const reply = {};
 
-      mock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
+      dataMock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
 
       const buffer = await new Promise((resolve, reject) => {
         fs.readFile(path.join(__dirname, 'fixture.png'), (err, buf) => {
@@ -246,11 +247,11 @@ describe('Rich Menu', () => {
     });
 
     it('should call api', async () => {
-      const { client, mock } = createMock();
+      const { client, dataMock } = createMock();
 
       const reply = {};
 
-      mock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
+      dataMock.onPost('/v2/bot/richmenu/1/content').reply(200, reply);
 
       let error;
       try {
@@ -265,11 +266,11 @@ describe('Rich Menu', () => {
 
   describe('#downloadRichMenuImage', () => {
     it('should call api', async () => {
-      const { client, mock } = createMock();
+      const { client, dataMock } = createMock();
 
       const reply = Buffer.from('a content buffer');
 
-      mock.onGet('/v2/bot/richmenu/1/content').reply(200, reply);
+      dataMock.onGet('/v2/bot/richmenu/1/content').reply(200, reply);
 
       const res = await client.downloadRichMenuImage('1');
 
