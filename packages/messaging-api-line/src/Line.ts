@@ -136,8 +136,8 @@ function createButtonTemplate(
     imageBackgroundColor?: string;
     title?: string;
     text: string;
-    defaultAction?: Types.TemplateAction;
-    actions: Types.TemplateAction[];
+    defaultAction?: Types.Action;
+    actions: Types.Action[];
   },
   options: Types.MessageOptions = {}
 ): Types.TemplateMessage<Types.ButtonsTemplate> {
@@ -165,7 +165,7 @@ function createConfirmTemplate(
     actions,
   }: {
     text: string;
-    actions: Types.TemplateAction[];
+    actions: Types.Action[];
   },
   options: Types.MessageOptions = {}
 ): Types.TemplateMessage<Types.ConfirmTemplate> {

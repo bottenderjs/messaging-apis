@@ -132,7 +132,7 @@ export type LocationAction = {
   label: string;
 };
 
-export type TemplateAction =
+export type Action =
   | PostbackAction
   | MessageAction
   | URIAction
@@ -193,22 +193,22 @@ export type ButtonsTemplate = {
   imageBackgroundColor?: string;
   title?: string;
   text: string;
-  defaultAction?: TemplateAction;
-  actions: TemplateAction[];
+  defaultAction?: Action;
+  actions: Action[];
 };
 
 export type ConfirmTemplate = {
   type: 'confirm';
   text: string;
-  actions: TemplateAction[];
+  actions: Action[];
 };
 
 export type ColumnObject = {
   thumbnailImageUrl?: string;
   title?: string;
   text: string;
-  defaultAction?: TemplateAction;
-  actions: TemplateAction[];
+  defaultAction?: Action;
+  actions: Action[];
 };
 
 export type CarouselTemplate = {
@@ -220,7 +220,7 @@ export type CarouselTemplate = {
 
 export type ImageCarouselColumnObject = {
   imageUrl: string;
-  action: TemplateAction;
+  action: Action;
 };
 
 export type ImageCarouselTemplate = {
@@ -234,12 +234,43 @@ export type Template =
   | CarouselTemplate
   | ImageCarouselTemplate;
 
-export type Size = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+/**
+ * A container is the top-level structure of a Flex Message. Here are the types of containers available.
+ *
+ * - [Bubble](https://developers.line.biz/en/reference/messaging-api/#bubble)
+ * - [Carousel](https://developers.line.biz/en/reference/messaging-api/#f-carousel)
+ *
+ * See [Flex Message elements](https://developers.line.biz/en/docs/messaging-api/flex-message-elements/)
+ * for the containers' JSON data samples and usage.
+ */
+export type FlexContainer = FlexBubble | FlexCarousel;
 
-export type FlexBlockStyle = {
-  backgroundColor?: string;
-  separator?: boolean;
-  separatorColor?: string;
+/**
+ * This is a container that contains one message bubble. It can contain four
+ * blocks: header, hero, body, and footer.
+ *
+ * For more information about using each block, see
+ * [Block](https://developers.line.biz/en/docs/messaging-api/flex-message-elements/#block).
+ */
+export type FlexBubble = {
+  type: 'bubble';
+  size?: 'nano' | 'micro' | 'kilo' | 'mega' | 'giga';
+  /**
+   * Text directionality and the order of components in horizontal boxes in the
+   * container. Specify one of the following values:
+   *
+   * - `ltr`: Left to right
+   * - `rtl`: Right to left
+   *
+   * The default value is `ltr`.
+   */
+  direction?: 'ltr' | 'rtl';
+  header?: FlexBox<FlexBoxLayout>;
+  hero?: FlexBox<FlexBoxLayout> | FlexImage;
+  body?: FlexBox<FlexBoxLayout>;
+  footer?: FlexBox<FlexBoxLayout>;
+  styles?: FlexBubbleStyle;
+  action?: Action;
 };
 
 export type FlexBubbleStyle = {
@@ -249,121 +280,60 @@ export type FlexBubbleStyle = {
   footer?: FlexBlockStyle;
 };
 
-export type FlexButton = {
-  type: 'button';
-  action: TemplateAction;
-  flex?: number;
-  margin?: Size;
-  height?: 'sm' | 'md';
-  style?: 'link' | 'primary' | 'secondary';
-  color?: string;
-  gravity?: string;
-};
-
-export type FlexFiller = {
-  type: 'filler';
-};
-
-export type FlexIcon = {
-  type: 'icon';
-  url: string;
-  margin?: Size;
-  size?:
-    | 'xxs'
-    | 'xs'
-    | 'sm'
-    | 'md'
-    | 'lg'
-    | 'xl'
-    | 'xxl'
-    | '3xl'
-    | '4xl'
-    | '5xl';
-  asprctRatio?: '1:1' | '2:1' | '3:1';
-};
-
-export type FlexImage = {
-  type: 'image';
-  url: string;
-  flex?: number;
-  margin?: Size;
-  align?: 'start' | 'end' | 'center';
-  gravity?: 'top' | 'bottom' | 'center';
-  size?:
-    | 'xxs'
-    | 'xs'
-    | 'sm'
-    | 'md'
-    | 'lg'
-    | 'xl'
-    | 'xxl'
-    | '3xl'
-    | '4xl'
-    | '5xl'
-    | 'full';
-  aspectRatio?:
-    | '1:1'
-    | '1.51:1'
-    | '1.91:1'
-    | '4:3'
-    | '16:9'
-    | '20:13'
-    | '2:1'
-    | '3:1'
-    | '3:4'
-    | '9:16'
-    | '1:2'
-    | '1:3';
-  aspectMode?: 'cover' | 'fit';
+export type FlexBlockStyle = {
+  /**
+   * Background color of the block. Use a hexadecimal color code.
+   */
   backgroundColor?: string;
-  action?: TemplateAction;
+  /**
+   * - `true` to place a separator above the block.
+   * - `true` will be ignored for the first block in a container because you
+   *   cannot place a separator above the first block.
+   * - The default value is `false`.
+   */
+  separator?: boolean;
+  /**
+   * Color of the separator. Use a hexadecimal color code.
+   */
+  separatorColor?: string;
 };
 
-export type FlexSeparator = {
-  type: 'separator';
-  margin?: Size;
-  color?: string;
+export type FlexCarousel = {
+  type: 'carousel';
+  /**
+   * (Max: 10 bubbles)
+   */
+  contents: FlexBubble[];
 };
 
-export type FlexSpacer = {
-  type: 'spacer';
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-};
-
-export type FlexText = {
-  type: 'text';
-  text: string;
-  flex?: number;
-  margin?: Size;
-  size?:
-    | 'xxs'
-    | 'xs'
-    | 'sm'
-    | 'md'
-    | 'lg'
-    | 'xl'
-    | 'xxl'
-    | '3xl'
-    | '4xl'
-    | '5xl';
-  align?: 'start' | 'end' | 'center';
-  gravity?: 'top' | 'bottom' | 'center';
-  wrap?: boolean;
-  maxLines?: number;
-  weight?: 'regular' | 'bold';
-  color?: string;
-  action?: TemplateAction;
-};
-
-export type FlexBoxContent =
-  // content
+/**
+ * Components are objects that compose a Flex Message container. Here are the
+ * types of components available:
+ *
+ * - [Box](https://developers.line.biz/en/reference/messaging-api/#box)
+ * - [Button](https://developers.line.biz/en/reference/messaging-api/#button)
+ * - [Image](https://developers.line.biz/en/reference/messaging-api/#f-image)
+ * - [Icon](https://developers.line.biz/en/reference/messaging-api/#icon)
+ * - [Text](https://developers.line.biz/en/reference/messaging-api/#f-text)
+ * - [Span](https://developers.line.biz/en/reference/messaging-api/#span)
+ * - [Separator](https://developers.line.biz/en/reference/messaging-api/#separator)
+ * - [Filler](https://developers.line.biz/en/reference/messaging-api/#filler)
+ * - [Spacer (not recommended)](https://developers.line.biz/en/reference/messaging-api/#spacer)
+ *
+ * See the followings for the components' JSON data samples and usage.
+ *
+ * - [Flex Message elements](https://developers.line.biz/en/docs/messaging-api/flex-message-elements/)
+ * - [Flex Message layout](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/)
+ */
+export type FlexComponent =
+  | FlexBox<FlexBoxLayout>
   | FlexButton
-  | FlexIcon
   | FlexImage
+  | FlexIcon
   | FlexText
-  // layout
-  | FlexFiller
+  | FlexSpan
   | FlexSeparator
+  | FlexFiller
   | FlexSpacer;
 
 export type FlexBoxLayout = 'horizontal' | 'vertical' | 'baseline';
@@ -464,7 +434,7 @@ export type FlexBox<L extends FlexBoxLayout> = {
    * - To override this setting for a specific component, set the `margin`
    *   property of that component.
    */
-  spacing?: Size;
+  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   /**
    * Minimum space between this box and the previous component in the parent box.
    *
@@ -475,7 +445,7 @@ export type FlexBox<L extends FlexBoxLayout> = {
    * - If this box is the first component in the parent box, the `margin`
    *   property will be ignored.
    */
-  margin?: Size;
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   /**
    * Free space between the borders of this box and the child element.
    * For more information, see [Box padding](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#padding-property) in the API documentation.
@@ -506,7 +476,7 @@ export type FlexBox<L extends FlexBoxLayout> = {
    *
    * Specify an [action object](https://developers.line.biz/en/reference/messaging-api/#action-objects).
    */
-  action?: TemplateAction;
+  action?: Action;
 } & Offset;
 
 export type Offset = {
@@ -541,22 +511,448 @@ export type Offset = {
   offsetEnd?: string;
 };
 
-export type FlexBubbleContainer = {
-  type: 'bubble';
-  direction?: 'ltr' | 'rtl';
-  header?: FlexBox<FlexBoxLayout>;
-  hero?: FlexImage;
-  body?: FlexBox<FlexBoxLayout>;
-  footer?: FlexBox<FlexBoxLayout>;
-  styles?: FlexBubbleStyle;
+/**
+ * This component draws a button.
+ *
+ * When the user taps a button, a specified action is performed.
+ */
+export type FlexButton = {
+  type: 'button';
+  /**
+   * Action performed when this button is tapped.
+   *
+   * Specify an [action object](https://developers.line.biz/en/reference/messaging-api/#action-objects).
+   */
+  action: Action;
+  /**
+   * The ratio of the width or height of this box within the parent box.
+   *
+   * The default value for the horizontal parent box is `1`, and the default
+   * value for the vertical parent box is `0`.
+   *
+   * For more information, see
+   * [Width and height of components](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-width-and-height).
+   */
+  flex?: number;
+  /**
+   * Minimum space between this box and the previous component in the parent box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is the value of the `spacing` property of the parent
+   *   box.
+   * - If this box is the first component in the parent box, the `margin`
+   *   property will be ignored.
+   */
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  /**
+   * Height of the button. The default value is `md`.
+   */
+  height?: 'sm' | 'md';
+  /**
+   * Style of the button. Specify one of the following values:
+   *
+   * - `link`: HTML link style
+   * - `primary`: Style for dark color buttons
+   * - `secondary`: Style for light color buttons
+   *
+   * The default value is `link`.
+   */
+  style?: 'link' | 'primary' | 'secondary';
+  /**
+   * Use a hexadecimal color code.
+   *
+   * - Character color when the `style` property is `link`.
+   * - Background color when the `style` property is `primary` or `secondary`.
+   */
+  color?: string;
+  /**
+   * Vertical alignment style. Specify one of the following values:
+   *
+   * - `top`: Top-aligned
+   * - `bottom`: Bottom-aligned
+   * - `center`: Center-aligned
+   *
+   * The default value is `top`.
+   *
+   * If the `layout` property of the parent box is `baseline`, the `gravity`
+   * property will be ignored.
+   */
+  gravity?: string;
+} & Offset;
+
+/**
+ * This is an invisible component to fill extra space between components.
+ *
+ * - The filler's `flex` property is fixed to 1.
+ * - The `spacing` property of the parent box will be ignored for fillers.
+ */
+export type FlexFiller = {
+  type: 'filler';
+  /**
+   * The ratio of the width or height of this component within the parent box. For more information, see [Width and height of components](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-width-and-height).
+   */
+  flex?: number;
 };
 
-export type FlexCarouselContainer = {
-  type: 'carousel';
-  contents: FlexBubbleContainer[];
+/**
+ * This component draws an icon.
+ */
+export type FlexIcon = {
+  type: 'icon';
+  /**
+   * Image URL
+   *
+   * Protocol: HTTPS
+   * Image format: JPEG or PNG
+   * Maximum image size: 240×240 pixels
+   * Maximum data size: 1 MB
+   */
+  url: string;
+  /**
+   * Minimum space between this box and the previous component in the parent
+   * box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is the value of the `spacing` property of the parent
+   *   box.
+   * - If this box is the first component in the parent box, the `margin`
+   *   property will be ignored.
+   */
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  /**
+   * Maximum size of the icon width.
+   * The size increases in the order of listing.
+   * The default value is `md`.
+   */
+  size?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
+    | '3xl'
+    | '4xl'
+    | '5xl';
+  /**
+   * Aspect ratio of the icon. The default value is `1:1`.
+   */
+  asprctRatio?: '1:1' | '2:1' | '3:1';
+} & Offset;
+
+/**
+ * This component draws an image.
+ */
+export type FlexImage = {
+  type: 'image';
+  /**
+   * Image URL
+   *
+   * - Protocol: HTTPS
+   * - Image format: JPEG or PNG
+   * - Maximum image size: 1024×1024 pixels
+   * - Maximum data size: 1 MB
+   */
+  url: string;
+  /**
+   * The ratio of the width or height of this box within the parent box.
+   *
+   * The default value for the horizontal parent box is `1`, and the default
+   * value for the vertical parent box is `0`.
+   *
+   * - For more information, see
+   * [Width and height of components](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-width-and-height).
+   */
+  flex?: number;
+  /**
+   * Minimum space between this box and the previous component in the parent
+   * box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is the value of the `spacing` property of the parent
+   *   box.
+   * - If this box is the first component in the parent box, the `margin`
+   *   property will be ignored.
+   */
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  /**
+   * Horizontal alignment style. Specify one of the following values:
+   *
+   * - `start`: Left-aligned
+   * - `end`: Right-aligned
+   * - `center`: Center-aligned
+   *
+   * The default value is `center`.
+   */
+  align?: 'start' | 'end' | 'center';
+  /**
+   * Vertical alignment style. Specify one of the following values:
+   *
+   * - `top`: Top-aligned
+   * - `bottom`: Bottom-aligned
+   * - `center`: Center-aligned
+   *
+   * The default value is `top`.
+   *
+   * If the `layout` property of the parent box is `baseline`, the `gravity` property will be ignored.
+   */
+  gravity?: 'top' | 'bottom' | 'center';
+  /**
+   * Maximum size of the image width.
+   * The size increases in the order of listing.
+   * The default value is `md`.
+   */
+  size?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | 'full';
+  /**
+   * Aspect ratio of the image.
+   * The default value is `1:1`.
+   */
+  aspectRatio?:
+    | '1:1'
+    | '1.51:1'
+    | '1.91:1'
+    | '4:3'
+    | '16:9'
+    | '20:13'
+    | '2:1'
+    | '3:1'
+    | '3:4'
+    | '9:16'
+    | '1:2'
+    | '1:3';
+  /**
+   * Style of the image. Specify one of the following values:
+   *
+   * - `cover`: The image fills the entire drawing area. Parts of the image
+   *   that do not fit in the drawing area are not displayed.
+   * - `fit`: The entire image is displayed in the drawing area. The background
+   *   is displayed in the unused areas to the left and right of vertical images
+   *   and in the areas above and below horizontal images.
+   *
+   * The default value is `fit`.
+   */
+  aspectMode?: 'cover' | 'fit';
+  /**
+   * Background color of the image. Use a hexadecimal color code.
+   */
+  backgroundColor?: string;
+  /**
+   * Action performed when this button is tapped.
+   * Specify an [action object](https://developers.line.biz/en/reference/messaging-api/#action-objects).
+   */
+  action?: Action;
+} & Offset;
+
+/**
+ * This component draws a separator between components in the parent box.
+ */
+export type FlexSeparator = {
+  type: 'separator';
+  /**
+   * Minimum space between this box and the previous component in the parent
+   * box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is the value of the `spacing` property of the parent
+   *   box.
+   * - If this box is the first component in the parent box, the `margin`
+   *   property will be ignored.
+   */
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  /**
+   * Color of the separator. Use a hexadecimal color code.
+   */
+  color?: string;
 };
 
-export type FlexContainer = FlexBubbleContainer | FlexCarouselContainer;
+/**
+ * This is an invisible component that places a fixed-size space at the
+ * beginning or end of the box.
+ */
+export type FlexSpacer = {
+  type: 'spacer';
+  /**
+   * Size of the space.
+   * The size increases in the order of listing.
+   * The default value is `md`.
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+};
+
+export type FlexText = {
+  type: 'text';
+  text: string;
+  /**
+   * Array of spans. Be sure to set either one of the `text` property or `contents` property. If you set the `contents` property, `text` is ignored.
+   */
+  contents?: FlexSpan[];
+  /**
+   * The ratio of the width or height of this box within the parent box.
+   *
+   * The default value for the horizontal parent box is `1`, and the default
+   * value for the vertical parent box is `0`.
+   *
+   * For more information, see
+   * [Width and height of components](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-width-and-height).
+   */
+  flex?: number;
+  /**
+   * Minimum space between this box and the previous component in the parent
+   * box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is the value of the `spacing` property of the parent
+   *   box.
+   * - If this box is the first component in the parent box, the `margin`
+   *   property will be ignored.
+   */
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  /**
+   * Font size.
+   * The size increases in the order of listing.
+   * The default value is `md`.
+   */
+  size?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
+    | '3xl'
+    | '4xl'
+    | '5xl';
+  /**
+   * Horizontal alignment style. Specify one of the following values:
+   *
+   * - `start`: Left-aligned
+   * - `end`: Right-aligned
+   * - `center`: Center-aligned
+   *
+   * The default value is `start`.
+   */
+  align?: 'start' | 'end' | 'center';
+  /**
+   * Vertical alignment style. Specify one of the following values:
+   *
+   * - `top`: Top-aligned
+   * - `bottom`: Bottom-aligned
+   * - `center`: Center-aligned
+   *
+   * The default value is `top`.
+   *
+   * If the `layout` property of the parent box is `baseline`, the `gravity`
+   * property will be ignored.
+   */
+  gravity?: 'top' | 'bottom' | 'center';
+  /**
+   * `true` to wrap text.
+   *
+   * The default value is `false`.
+   *
+   * If set to `true`, you can use a new line character (\n) to begin on a new
+   * line.
+   */
+  wrap?: boolean;
+  /**
+   * Max number of lines. If the text does not fit in the specified number of
+   * lines, an ellipsis (…) is displayed at the end of the last line. If set to
+   * 0, all the text is displayed. The default value is 0.
+   */
+  maxLines?: number;
+  /**
+   * Font weight.
+   * Specifying `bold`makes the font bold.
+   * The default value is `regular`.
+   */
+  weight?: 'regular' | 'bold';
+  /**
+   * Font color. Use a hexadecimal color code.
+   */
+  color?: string;
+  /**
+   * Action performed when this text is tapped.
+   * Specify an [action object](https://developers.line.biz/en/reference/messaging-api/#action-objects).
+   */
+  action?: Action;
+  /**
+   * Style of the text. Specify one of the following values:
+   * - `normal`: Normal
+   * - `italic`: Italic
+   *
+   * The default value is `normal`.
+   */
+  style?: string;
+  /**
+   * Decoration of the text. Specify one of the following values:
+   * `none`: No decoration
+   * `underline`: Underline
+   * `line-through`: Strikethrough
+   *
+   * The default value is `none`.
+   */
+  decoration?: string;
+} & Offset;
+
+/**
+ * This component renders multiple text strings with different designs in one row. You can specify the color, size, weight, and decoration for the font. Span is set to `contents` property in [Text](https://developers.line.biz/en/reference/messaging-api/#f-text).
+ */
+export type FlexSpan = {
+  type: 'span';
+  /**
+   * Text. If the `wrap` property of the parent text is set to `true`, you can use a new line character (`\n`) to begin on a new line.
+   */
+  text: string;
+  /**
+   * Font color. Use a hexadecimal color code.
+   */
+  color?: string;
+  /**
+   * Font size. You can specify one of the following values: `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `xxl`, `3xl`, `4xl`, or `5xl`. The size increases in the order of listing. The default value is `md`.
+   */
+  size?: string;
+  /**
+   * Font weight. You can specify one of the following values: `regular` or `bold`. Specifying `bold` makes the font bold. The default value is `regular`.
+   */
+  weight?: string;
+  /**
+   * Style of the text. Specify one of the following values:
+   * - `normal`: Normal
+   * - `italic`: Italic
+   *
+   * The default value is `normal`.
+   */
+  style?: string;
+  /**
+   * Decoration of the text. Specify one of the following values:
+   * `none`: No decoration
+   * `underline`: Underline
+   * `line-through`: Strikethrough
+   *
+   * The default value is `none`.
+   *
+   * Note: The decoration set in the `decoration` property of the [text](https://developers.line.biz/en/reference/messaging-api/#f-text) cannot be overwritten by the `decoration` property of the span.
+   */
+  decoration?: string;
+};
 
 export type FlexMessage = {
   type: 'flex';
