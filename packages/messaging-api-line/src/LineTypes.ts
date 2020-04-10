@@ -366,23 +366,188 @@ export type FlexBoxContent =
   | FlexSeparator
   | FlexSpacer;
 
-export type FlexBox = {
+export type FlexBoxLayout = 'horizontal' | 'vertical' | 'baseline';
+
+/**
+ * This is a component that defines the layout of child components.
+ * You can also include a box in a box.
+ */
+export type FlexBox<L extends FlexBoxLayout> = {
   type: 'box';
-  layout: 'horizontal' | 'vertical' | 'baseline';
-  contents: FlexBox[] | FlexBoxContent[];
+  /**
+   * The placement style of components in this box. Specify one of the following values:
+   *
+   * - `horizontal`: Components are placed horizontally. The `direction`
+   *     property of the [bubble](https://developers.line.biz/en/reference/messaging-api/#bubble)
+   *     container specifies the order.
+   * - `vertical`: Components are placed vertically from top to bottom.
+   * - `baseline`: Components are placed in the same way as `horizontal` is
+   *     specified except the baselines of the components are aligned.
+   *
+   * For more information, see
+   * [Types of box layouts](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#box-layout-types).
+   */
+  layout: L;
+  /**
+   * Components in this box. Here are the types of components available:
+   *
+   * - When the `layout` property is `horizontal` or `vertical`:
+   *   + [Box](https://developers.line.biz/en/reference/messaging-api/#box)
+   *   + [button](https://developers.line.biz/en/reference/messaging-api/#button)
+   *   + [image](https://developers.line.biz/en/reference/messaging-api/#f-image)
+   *   + [text](https://developers.line.biz/en/reference/messaging-api/#f-text)
+   *   + [separator](https://developers.line.biz/en/reference/messaging-api/#separator)
+   *   + [filler](https://developers.line.biz/en/reference/messaging-api/#filler)
+   *   + [spacer (not recommended)](https://developers.line.biz/en/reference/messaging-api/#spacer)
+   * - When the `layout` property is `baseline`:
+   *   + [icon](https://developers.line.biz/en/reference/messaging-api/#icon)
+   *   + [text](https://developers.line.biz/en/reference/messaging-api/#f-text)
+   *   + [filler](https://developers.line.biz/en/reference/messaging-api/#filler)
+   *   + [spacer (not recommended)](https://developers.line.biz/en/reference/messaging-api/#spacer)
+   */
+  contents: L extends 'baseline'
+    ? (FlexIcon | FlexText | FlexFiller | FlexSpacer)[]
+    : (
+        | FlexBox<FlexBoxLayout>
+        | FlexButton
+        | FlexImage
+        | FlexText
+        | FlexSeparator
+        | FlexFiller
+        | FlexSpacer
+      )[];
+  /**
+   * Background color of the block. In addition to the RGB color, an alpha
+   * channel (transparency) can also be set. Use a hexadecimal color code.
+   * (Example:#RRGGBBAA) The default value is `#00000000`.
+   */
+  backgroundColor?: string;
+  /**
+   * Color of box border. Use a hexadecimal color code.
+   */
+  borderColor?: string;
+  /**
+   * Width of box border. You can specify a value in pixels or any one of none,
+   * light, normal, medium, semi-bold, or bold. none does not render a border
+   * while the others become wider in the order of listing.
+   */
+  borderWidth?: 'none' | 'light' | 'normal' | 'medium' | 'semi-bold' | 'bold';
+  /**
+   * Radius at the time of rounding the corners of the border. You can specify a
+   * value in pixels or any one of `none`, `xs`, `sm`, `md`, `lg`, `xl`, or `xxl`. none does not
+   * round the corner while the others increase in radius in the order of listing. The default value is none.
+   */
+  cornerRadius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  /**
+   * Width of the box. For more information, see [Width of a box](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#box-width) in the API documentation.
+   */
+  width?: string;
+  /**
+   * Height of the box. For more information, see [Height of a box](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#box-height) in the API documentation.
+   */
+  height?: string;
+  /**
+   * The ratio of the width or height of this box within the parent box. The
+   * default value for the horizontal parent box is `1`, and the default value
+   * for the vertical parent box is `0`.
+   *
+   * For more information, see
+   * [Width and height of components](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-width-and-height).
+   */
   flex?: number;
+  /**
+   * Minimum space between components in this box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is `none`.
+   * - To override this setting for a specific component, set the `margin`
+   *   property of that component.
+   */
   spacing?: Size;
+  /**
+   * Minimum space between this box and the previous component in the parent box.
+   *
+   * - `none` does not set a space while the other values set a space whose
+   *   size increases in the order of listing.
+   * - The default value is the value of the `spacing` property of the parent
+   *   box.
+   * - If this box is the first component in the parent box, the `margin`
+   *   property will be ignored.
+   */
   margin?: Size;
+  /**
+   * Free space between the borders of this box and the child element.
+   * For more information, see [Box padding](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#padding-property) in the API documentation.
+   */
+  paddingAll?: string;
+  /**
+   * Free space between the border at the upper end of this box and the upper end of the child element.
+   * For more information, see [Box padding](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#padding-property) in the API documentation.
+   */
+  paddingTop?: string;
+  /**
+   * Free space between the border at the lower end of this box and the lower end of the child element.
+   * For more information, see [Box padding](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#padding-property) in the API documentation.
+   */
+  paddingBottom?: string;
+  /**
+   * Free space between the border at the left end of this box and the left end of the child element.
+   * For more information, see [Box padding](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#padding-property) in the API documentation.
+   */
+  paddingStart?: string;
+  /**
+   * Free space between the border at the right end of this box and the right end of the child element.
+   * For more information, see [Box padding](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#padding-property) in the API documentation.
+   */
+  paddingEnd?: string;
+  /**
+   * Action performed when this button is tapped.
+   *
+   * Specify an [action object](https://developers.line.biz/en/reference/messaging-api/#action-objects).
+   */
   action?: TemplateAction;
+} & Offset;
+
+export type Offset = {
+  /**
+   * Reference position for placing this box. Specify one of the following values:
+   * - `relative`: Use the previous box as reference.
+   * - `absolute`: Use the top left of parent element as reference.
+   *
+   * The default value is relative.
+   * For more information, see [Offset](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-offset) in the API documentation.
+   */
+  position?: 'relative' | 'absolute';
+  /**
+   * The top offset.
+   * For more information, see [Offset](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-offset) in the API documentation.
+   */
+  offsetTop?: string;
+  /**
+   * The bottom offset.
+   * For more information, see [Offset](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-offset) in the API documentation.
+   */
+  offsetBottom?: string;
+  /**
+   * The left offset.
+   * For more information, see [Offset](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-offset) in the API documentation.
+   */
+  offsetStart?: string;
+  /**
+   * The right offset.
+   * For more information, see [Offset](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#component-offset) in the API documentation.
+   */
+  offsetEnd?: string;
 };
 
 export type FlexBubbleContainer = {
   type: 'bubble';
   direction?: 'ltr' | 'rtl';
-  header?: FlexBox;
+  header?: FlexBox<FlexBoxLayout>;
   hero?: FlexImage;
-  body?: FlexBox;
-  footer?: FlexBox;
+  body?: FlexBox<FlexBoxLayout>;
+  footer?: FlexBox<FlexBoxLayout>;
   styles?: FlexBubbleStyle;
 };
 
