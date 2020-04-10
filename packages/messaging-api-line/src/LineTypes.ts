@@ -234,22 +234,22 @@ export type Template =
   | CarouselTemplate
   | ImageCarouselTemplate;
 
-type Size = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type Size = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
-type FlexBlockStyle = {
+export type FlexBlockStyle = {
   backgroundColor?: string;
   separator?: boolean;
   separatorColor?: string;
 };
 
-type FlexBubbleStyle = {
+export type FlexBubbleStyle = {
   header?: FlexBlockStyle;
   hero?: FlexBlockStyle;
   body?: FlexBlockStyle;
   footer?: FlexBlockStyle;
 };
 
-type FlexButton = {
+export type FlexButton = {
   type: 'button';
   action: TemplateAction;
   flex?: number;
@@ -260,11 +260,11 @@ type FlexButton = {
   gravity?: string;
 };
 
-type FlexFiller = {
+export type FlexFiller = {
   type: 'filler';
 };
 
-type FlexIcon = {
+export type FlexIcon = {
   type: 'icon';
   url: string;
   margin?: Size;
@@ -282,7 +282,7 @@ type FlexIcon = {
   asprctRatio?: '1:1' | '2:1' | '3:1';
 };
 
-type FlexImage = {
+export type FlexImage = {
   type: 'image';
   url: string;
   flex?: number;
@@ -319,18 +319,18 @@ type FlexImage = {
   action?: TemplateAction;
 };
 
-type FlexSeparator = {
+export type FlexSeparator = {
   type: 'separator';
   margin?: Size;
   color?: string;
 };
 
-type FlexSpacer = {
+export type FlexSpacer = {
   type: 'spacer';
   size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 };
 
-type FlexText = {
+export type FlexText = {
   type: 'text';
   text: string;
   flex?: number;
@@ -355,7 +355,7 @@ type FlexText = {
   action?: TemplateAction;
 };
 
-type FlexBoxContent =
+export type FlexBoxContent =
   // content
   | FlexButton
   | FlexIcon
@@ -366,7 +366,7 @@ type FlexBoxContent =
   | FlexSeparator
   | FlexSpacer;
 
-type FlexBox = {
+export type FlexBox = {
   type: 'box';
   layout: 'horizontal' | 'vertical' | 'baseline';
   contents: FlexBox[] | FlexBoxContent[];
@@ -376,7 +376,7 @@ type FlexBox = {
   action?: TemplateAction;
 };
 
-type FlexBubbleContainer = {
+export type FlexBubbleContainer = {
   type: 'bubble';
   direction?: 'ltr' | 'rtl';
   header?: FlexBox;
@@ -386,7 +386,7 @@ type FlexBubbleContainer = {
   styles?: FlexBubbleStyle;
 };
 
-type FlexCarouselContainer = {
+export type FlexCarouselContainer = {
   type: 'carousel';
   contents: FlexBubbleContainer[];
 };
