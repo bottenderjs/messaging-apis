@@ -399,7 +399,7 @@ export type FlexMessage = {
   contents: FlexContainer;
 };
 
-export type Message =
+export type Message = (
   | TextMessage
   | ImageMessage
   | ImagemapMessage
@@ -408,7 +408,11 @@ export type Message =
   | LocationMessage
   | StickerMessage
   | TemplateMessage<Template>
-  | FlexMessage;
+  | FlexMessage
+) & {
+  quickReply?: QuickReply;
+  sender?: Sender;
+};
 
 type Area = {
   bounds: {
