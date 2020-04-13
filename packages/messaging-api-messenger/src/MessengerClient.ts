@@ -11,7 +11,6 @@ import get from 'lodash/get';
 import invariant from 'invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
-import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -29,7 +28,7 @@ function extractVersion(version: string): string {
   return version;
 }
 
-function handleError(err: AxiosError): void {
+function handleError(err: AxiosError): never {
   if (err.response && err.response.data) {
     const error = get(err, 'response.data.error', {});
     const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
@@ -1117,15 +1116,14 @@ export default class MessengerClient {
   /**
    * Create Label
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#create_label
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#create_label
    */
-  // FIXME: [type] return type
   createLabel(
     name: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ id: string }> {
     return this._axios
-      .post(
+      .post<{ id: string }>(
         `/me/custom_labels?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -1138,16 +1136,15 @@ export default class MessengerClient {
   /**
    * Associating a Label to a PSID
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#associate_label
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#associate_label
    */
-  // FIXME: [type] return type
   associateLabel(
     userId: string,
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .post(
+      .post<{ success: true }>(
         `/${labelId}/label?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -1160,16 +1157,15 @@ export default class MessengerClient {
   /**
    * Removing a Label From a PSID
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#associate_label
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#remove_label
    */
-  // FIXME: [type] return type
   dissociateLabel(
     userId: string,
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .delete(
+      .delete<{ success: true }>(
         `/${labelId}/label?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -1182,16 +1178,31 @@ export default class MessengerClient {
   /**
    * Retrieving Labels Associated with a PSID
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_all_labels
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#retrieving_labels_by_psid
    */
-  // FIXME: [type] return type
   getAssociatedLabels(
     userId: string,
     options: { accessToken?: string; fields?: string[] } = {}
-  ) {
+  ): Promise<{
+    data: { name: string; id: string }[];
+    paging: {
+      cursors: {
+        before: string;
+        after: string;
+      };
+    };
+  }> {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
-      .get(
+      .get<{
+        data: { name: string; id: string }[];
+        paging: {
+          cursors: {
+            before: string;
+            after: string;
+          };
+        };
+      }>(
         `/${userId}/custom_labels?fields=${fields}&access_token=${options.accessToken ||
           this._accessToken}`
       )
@@ -1201,16 +1212,15 @@ export default class MessengerClient {
   /**
    * Retrieving Label Details
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_label_details
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#get_label_details
    */
-  // FIXME: [type] return type
   getLabelDetails(
     labelId: number,
     options: { accessToken?: string; fields?: string[] } = {}
-  ) {
+  ): Promise<{ name: string; id: string }> {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
-      .get(
+      .get<{ name: string; id: string }>(
         `/${labelId}?fields=${fields}&access_token=${options.accessToken ||
           this._accessToken}`
       )
@@ -1220,13 +1230,30 @@ export default class MessengerClient {
   /**
    * Retrieving a List of All Labels
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#get_all_labels
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#get_all_labels
    */
-  // FIXME: [type] return type
-  getLabelList(options: { accessToken?: string; fields?: string[] } = {}) {
+  getLabelList(
+    options: { accessToken?: string; fields?: string[] } = {}
+  ): Promise<{
+    data: { name: string; id: string }[];
+    paging: {
+      cursors: {
+        before: string;
+        after: string;
+      };
+    };
+  }> {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
-      .get(
+      .get<{
+        data: { name: string; id: string }[];
+        paging: {
+          cursors: {
+            before: string;
+            after: string;
+          };
+        };
+      }>(
         `/me/custom_labels?fields=${fields}&access_token=${options.accessToken ||
           this._accessToken}`
       )
@@ -1236,15 +1263,14 @@ export default class MessengerClient {
   /**
    * Deleting a Label
    *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/broadcast-messages/target-broadcasts#delete_label
+   * https://developers.facebook.com/docs/messenger-platform/identity/custom-labels#delete_label
    */
-  // FIXME: [type] return type
   deleteLabel(
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .delete(
+      .delete<{ success: true }>(
         `/${labelId}?access_token=${customAccessToken || this._accessToken}`
       )
       .then(res => res.data, handleError);
@@ -1309,7 +1335,7 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
   }
 
-  // FIXME: [type] return type
+  // FIXME: use TypeScript overloading
   uploadAudio(
     attachment: string | Types.FileData,
     options?: Types.UploadOption
@@ -1317,7 +1343,7 @@ export default class MessengerClient {
     return this.uploadAttachment('audio', attachment, options);
   }
 
-  // FIXME: [type] return type
+  // FIXME: use TypeScript overloading
   uploadImage(
     attachment: string | Types.FileData,
     options?: Types.UploadOption
@@ -1325,7 +1351,7 @@ export default class MessengerClient {
     return this.uploadAttachment('image', attachment, options);
   }
 
-  // FIXME: [type] return type
+  // FIXME: use TypeScript overloading
   uploadVideo(
     attachment: string | Types.FileData,
     options?: Types.UploadOption
@@ -1333,7 +1359,7 @@ export default class MessengerClient {
     return this.uploadAttachment('video', attachment, options);
   }
 
-  // FIXME: [type] return type
+  // FIXME: use TypeScript overloading
   uploadFile(
     attachment: string | Types.FileData,
     options?: Types.UploadOption
@@ -1352,15 +1378,14 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/pass-thread-control
    */
-  // FIXME: [type] return type
   passThreadControl(
     recipientId: string,
     targetAppId: number,
     metadata?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .post(
+      .post<{ success: true }>(
         `/me/pass_thread_control?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -1372,12 +1397,11 @@ export default class MessengerClient {
       .then(res => res.data, handleError);
   }
 
-  // FIXME: [type] return type
   passThreadControlToPageInbox(
     recipientId: string,
     metadata?: string,
     options: Record<string, any> = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this.passThreadControl(
       recipientId,
       263902037430900,
@@ -1391,14 +1415,13 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/take-thread-control
    */
-  // FIXME: [type] return type
   takeThreadControl(
     recipientId: string,
     metadata?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .post(
+      .post<{ success: true }>(
         `/me/take_thread_control?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -1414,14 +1437,13 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/handover-protocol/request-thread-control/
    */
-  // FIXME: [type] return type
   requestThreadControl(
     recipientId: string,
     metadata?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .post(
+      .post<{ success: true }>(
         `/me/request_thread_control?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -1437,12 +1459,21 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/secondary-receivers
    */
-  // FIXME: [type] return type
   getSecondaryReceivers({
     accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}) {
+  }: Types.AccessTokenOptions = {}): Promise<
+    {
+      id: string;
+      name: string;
+    }[]
+  > {
     return this._axios
-      .get(
+      .get<{
+        data: {
+          id: string;
+          name: string;
+        }[];
+      }>(
         `/me/secondary_receivers?fields=id,name&access_token=${customAccessToken ||
           this._accessToken}`
       )
@@ -1454,18 +1485,22 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/handover-protocol/get-thread-owner
    */
-  // FIXME: [type] return type
   getThreadOwner(
     recipientId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
-    warning(
-      false,
-      '`getThreadOwner` is currently in open beta, and is subject to change. See details in  https://developers.facebook.com/docs/messenger-platform/handover-protocol/get-thread-owner'
-    );
-
+  ): Promise<{
+    appId: string;
+  }> {
     return this._axios
-      .get(
+      .get<{
+        data: [
+          {
+            threadOwner: {
+              appId: string;
+            };
+          }
+        ];
+      }>(
         `/me/thread_owner?recipient=${recipientId}&access_token=${customAccessToken ||
           this._accessToken}`
       )
@@ -1493,16 +1528,32 @@ export default class MessengerClient {
       .then(res => res.data.data, handleError);
   }
 
-  // FIXME: [type] return type
-  getBlockedConversations(options: Record<string, any> = {}) {
+  getBlockedConversations(
+    options: Types.InsightOptions
+  ): Promise<{
+    name: 'page_messages_blocked_conversations_unique';
+    period: 'day';
+    values: {
+      value: number | object;
+      endTime: string;
+    }[];
+  }> {
     return this.getInsights(
       ['page_messages_blocked_conversations_unique'],
       options
     ).then(result => result[0]);
   }
 
-  // FIXME: [type] return type
-  getReportedConversations(options: Record<string, any> = {}) {
+  getReportedConversations(
+    options: Types.InsightOptions
+  ): Promise<{
+    name: 'page_messages_reported_conversations_unique';
+    period: 'day';
+    values: {
+      value: number | object;
+      endTime: string;
+    }[];
+  }> {
     return this.getInsights(
       ['page_messages_reported_conversations_unique'],
       options
@@ -1511,16 +1562,32 @@ export default class MessengerClient {
 
   // https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api?locale=en_US#metrics
   // This metrics replaces the page_messages_open_conversations_unique metric, which was deprecated on May 11, 2018.
-  // FIXME: [type] return type
-  getTotalMessagingConnections(options: Record<string, any> = {}) {
+  getTotalMessagingConnections(
+    options: Types.InsightOptions
+  ): Promise<{
+    name: 'page_messages_total_messaging_connections';
+    period: 'day';
+    values: {
+      value: number | object;
+      endTime: string;
+    }[];
+  }> {
     return this.getInsights(
       ['page_messages_total_messaging_connections'],
       options
     ).then(result => result[0]);
   }
 
-  // FIXME: [type] return type
-  getNewConversations(options: Record<string, any> = {}) {
+  getNewConversations(
+    options: Types.InsightOptions
+  ): Promise<{
+    name: 'page_messages_new_conversations_unique';
+    period: 'day';
+    values: {
+      value: number | object;
+      endTime: string;
+    }[];
+  }> {
     return this.getInsights(
       ['page_messages_new_conversations_unique'],
       options
@@ -1691,13 +1758,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#create
    */
-  // FIXME: [type] return type
   createPersona(
     persona: Types.Persona,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ id: string }> {
     return this._axios
-      .post(
+      .post<{ id: string }>(
         `/me/personas?access_token=${customAccessToken || this._accessToken}`,
         persona
       )
@@ -1709,15 +1775,20 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#get
    */
-  // FIXME: [type] return type
   getPersona(
     personaId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{
+    id: string;
+    name: string;
+    profilePictureUrl: string;
+  }> {
     return this._axios
-      .get(
-        `/${personaId}?access_token=${customAccessToken || this._accessToken}`
-      )
+      .get<{
+        id: string;
+        name: string;
+        profilePictureUrl: string;
+      }>(`/${personaId}?access_token=${customAccessToken || this._accessToken}`)
       .then(res => res.data, handleError);
   }
 
@@ -1726,7 +1797,6 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#retrieve_all
    */
-  // FIXME: [type] return type
   getPersonas(
     cursor?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
@@ -1739,7 +1809,14 @@ export default class MessengerClient {
     paging: { cursors: { before: string; after: string } };
   }> {
     return this._axios
-      .get(
+      .get<{
+        data: {
+          id: string;
+          name: string;
+          profilePictureUrl: string;
+        }[];
+        paging: { cursors: { before: string; after: string } };
+      }>(
         `/me/personas?access_token=${customAccessToken || this._accessToken}${
           cursor ? `&after=${cursor}` : ''
         }`
@@ -1749,8 +1826,18 @@ export default class MessengerClient {
 
   async getAllPersonas({
     accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}): Promise<Record<string, any>[]> {
-    let allPersonas: Record<string, any>[] = [];
+  }: Types.AccessTokenOptions = {}): Promise<
+    {
+      id: string;
+      name: string;
+      profilePictureUrl: string;
+    }[]
+  > {
+    let allPersonas: {
+      id: string;
+      name: string;
+      profilePictureUrl: string;
+    }[] = [];
     let cursor;
 
     do {
@@ -1782,13 +1869,12 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/personas/#remove
    */
-  // FIXME: [type] return type
   deletePersona(
     personaId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<{ success: true }> {
     return this._axios
-      .delete(
+      .delete<{ success: true }>(
         `/${personaId}?access_token=${customAccessToken || this._accessToken}`
       )
       .then(res => res.data, handleError);
