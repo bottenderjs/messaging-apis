@@ -402,13 +402,20 @@ export type FlexBox<L extends FlexBoxLayout> = {
    * light, normal, medium, semi-bold, or bold. none does not render a border
    * while the others become wider in the order of listing.
    */
-  borderWidth?: 'none' | 'light' | 'normal' | 'medium' | 'semi-bold' | 'bold';
+  borderWidth?:
+    | string
+    | 'none'
+    | 'light'
+    | 'normal'
+    | 'medium'
+    | 'semi-bold'
+    | 'bold';
   /**
    * Radius at the time of rounding the corners of the border. You can specify a
    * value in pixels or any one of `none`, `xs`, `sm`, `md`, `lg`, `xl`, or `xxl`. none does not
    * round the corner while the others increase in radius in the order of listing. The default value is none.
    */
-  cornerRadius?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  cornerRadius?: string | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   /**
    * Width of the box. For more information, see [Width of a box](https://developers.line.biz/en/docs/messaging-api/flex-message-layout/#box-width) in the API documentation.
    */
@@ -639,9 +646,12 @@ export type FlexIcon = {
     | '4xl'
     | '5xl';
   /**
-   * Aspect ratio of the icon. The default value is `1:1`.
+   * Aspect ratio of the icon. `{width}:{height}` format.
+   * The values of `{width}` and `{height}` must be in the range 1–100000.
+   * `{height}` can't be more than three times the value of `{width}`.
+   * The default value is `1:1`.
    */
-  asprctRatio?: '1:1' | '2:1' | '3:1';
+  aspectRatio?: string | '1:1' | '2:1' | '3:1';
 } & Offset;
 
 /**
@@ -720,10 +730,13 @@ export type FlexImage = {
     | '5xl'
     | 'full';
   /**
-   * Aspect ratio of the image.
+   * Aspect ratio of the image. `{width}:{height}` format.
+   * Specify the value of `{width}` and `{height}` in the range from 1 to 100000. However,
+   * you cannot set `{height}` to a value that is more than three times the value of `{width}`.
    * The default value is `1:1`.
    */
   aspectRatio?:
+    | string
     | '1:1'
     | '1.51:1'
     | '1.91:1'
