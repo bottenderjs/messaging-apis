@@ -4,7 +4,7 @@ import * as Types from './LineTypes';
 
 function createText(
   text: string,
-  options: Types.MessageOptions = {}
+  options: Types.MessageOptions & { sticon?: Types.Sticon[] } = {}
 ): Types.TextMessage {
   return {
     type: 'text',

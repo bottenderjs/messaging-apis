@@ -1022,9 +1022,32 @@ export type ImageMapVideo = {
   };
 };
 
+export type Sticon = {
+  /**
+   * Index position for a character in text, with the first character being at position 0.
+   * The specified position must correspond to a $ character, which serves as a placeholder for the LINE emoji.
+   * If you specify a position that doesn't contain a $ character, the API returns HTTP 400 Bad request.
+   * See the text message example for details.
+   */
+  index: number;
+  /**
+   * Product ID for a set of LINE emoji. See LINE Available Sticon List: https://d.line-scdn.net/r/devcenter/Default_sticon_list.pdf.
+   */
+  productId: string;
+  /**
+   * ID for a LINE emoji inside a set. See LINE Available Sticon List: https://d.line-scdn.net/r/devcenter/Default_sticon_list.pdf.
+   */
+  sticonId: string;
+};
+
 export type TextMessage = {
   type: 'text';
   text: string;
+  /**
+   * One or more LINE emoji.
+   * Max: 20 LINE emoji
+   */
+  sticon?: Sticon[];
 };
 
 export type NumberOfMessagesSentResponse = InsightStatisticsResponse & {
