@@ -1035,7 +1035,7 @@ export type ImageMapVideo = {
   };
 };
 
-export type Sticon = {
+export type Emoji = {
   /**
    * Index position for a character in text, with the first character being at position 0.
    * The specified position must correspond to a $ character, which serves as a placeholder for the LINE emoji.
@@ -1044,13 +1044,13 @@ export type Sticon = {
    */
   index: number;
   /**
-   * Product ID for a set of LINE emoji. See LINE Available Sticon List: https://d.line-scdn.net/r/devcenter/Default_sticon_list.pdf.
+   * Product ID for a set of LINE emoji. See LINE Available Emoji List: https://d.line-scdn.net/r/devcenter/sendable_line_emoji_list.pdf.
    */
   productId: string;
   /**
-   * ID for a LINE emoji inside a set. See LINE Available Sticon List: https://d.line-scdn.net/r/devcenter/Default_sticon_list.pdf.
+   * ID for a LINE emoji inside a set. See LINE Available Emoji List: https://d.line-scdn.net/r/devcenter/sendable_line_emoji_list.pdf.
    */
-  sticonId: string;
+  emojiId: string;
 };
 
 export type TextMessage = {
@@ -1060,7 +1060,7 @@ export type TextMessage = {
    * One or more LINE emoji.
    * Max: 20 LINE emoji
    */
-  sticon?: Sticon[];
+  emojis?: Emoji[];
 };
 
 export type NumberOfMessagesSentResponse = InsightStatisticsResponse & {

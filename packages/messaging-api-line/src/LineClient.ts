@@ -169,7 +169,7 @@ export default class LineClient {
   replyText(
     replyToken: string,
     text: string,
-    options?: Types.MessageOptions & { sticon?: Types.Sticon[] }
+    options?: Types.MessageOptions & { emojis?: Types.Emoji[] }
   ): Promise<Types.MutationSuccessResponse> {
     return this.reply(replyToken, [Line.createText(text, options)], options);
   }
@@ -408,7 +408,7 @@ export default class LineClient {
   pushText(
     to: string,
     text: string,
-    options?: Types.MessageOptions & { sticon?: Types.Sticon[] }
+    options?: Types.MessageOptions & { emojis?: Types.Emoji[] }
   ): Promise<Types.MutationSuccessResponse> {
     return this.push(to, [Line.createText(text, options)], options);
   }
@@ -630,7 +630,7 @@ export default class LineClient {
   multicastText(
     to: string[],
     text: string,
-    options?: Types.MessageOptions & { sticon?: Types.Sticon[] }
+    options?: Types.MessageOptions & { emojis?: Types.Emoji[] }
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, [Line.createText(text, options)], options);
   }
