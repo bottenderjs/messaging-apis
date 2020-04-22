@@ -651,7 +651,7 @@ export type FlexIcon = {
    * `{height}` can't be more than three times the value of `{width}`.
    * The default value is `1:1`.
    */
-  aspectRatio?: string | '1:1' | '2:1' | '3:1';
+  aspectRatio?: string;
 } & Offset;
 
 /**
@@ -735,20 +735,7 @@ export type FlexImage = {
    * you cannot set `{height}` to a value that is more than three times the value of `{width}`.
    * The default value is `1:1`.
    */
-  aspectRatio?:
-    | string
-    | '1:1'
-    | '1.51:1'
-    | '1.91:1'
-    | '4:3'
-    | '16:9'
-    | '20:13'
-    | '2:1'
-    | '3:1'
-    | '3:4'
-    | '9:16'
-    | '1:2'
-    | '1:3';
+  aspectRatio?: string;
   /**
    * Style of the image. Specify one of the following values:
    *
