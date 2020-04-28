@@ -1968,6 +1968,51 @@ export type SendContactOption = {
 
 export type SendPollOption = {
   /**
+   * True, if the poll needs to be anonymous, defaults to True
+   */
+  isAnonymous?: boolean;
+
+  /**
+   * Poll type, “quiz” or “regular”, defaults to “regular”
+   */
+  type?: string;
+
+  /**
+   * True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+   */
+  allowsMultipleAnswers?: boolean;
+
+  /**
+   * 0-based identifier of the correct answer option, required for polls in quiz mode
+   */
+  correctOptionId?: number;
+
+  /**
+   * Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
+   */
+  explanation?: string;
+
+  /**
+   * Mode for parsing entities in the explanation. See formatting options for more details.
+   */
+  explanationParseMode?: string;
+
+  /**
+   * Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
+   */
+  openPeriod?: number;
+
+  /**
+   * Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
+   */
+  closeDate?: number;
+
+  /**
+   * Pass True, if the poll needs to be immediately closed. This can be useful for poll preview.
+   */
+  isClosed?: boolean;
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
