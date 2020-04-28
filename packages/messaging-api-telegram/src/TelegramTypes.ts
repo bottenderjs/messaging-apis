@@ -18,6 +18,7 @@ export type Update = {
   shippingQuery?: ShippingQuery;
   preCheckoutQuery?: PreCheckoutQuery;
   poll?: Poll;
+  pollAnswer?: PollAnswer;
 };
 
 /**
@@ -60,18 +61,54 @@ export type WebhookInfo = {
   allowedUpdates?: string[];
 };
 
+/**
+ * This object represents a Telegram user or bot.
+ */
 export type User = {
-  chatId: number | string;
-  text: string;
-  parseMode?: string;
-  disableWebPagePreview?: boolean;
-  disableNotification?: boolean;
-  replyToMessageId?: number;
-  replyMarkup?:
-    | InlineKeyboardMarkup
-    | ReplyKeyboardMarkup
-    | ReplyKeyboardRemove
-    | ForceReply;
+  /**
+   * Unique identifier for this user or bot
+   */
+  id: number;
+
+  /**
+   * True, if this user is a bot
+   */
+  isBot: boolean;
+
+  /**
+   * User‘s or bot’s first name
+   */
+  firstName: string;
+
+  /**
+   * Optional. User‘s or bot’s last name
+   */
+  lastName?: string;
+
+  /**
+   * Optional. User‘s or bot’s username
+   */
+  username?: string;
+
+  /**
+   * Optional. (IETF language tag)[https://en.wikipedia.org/wiki/IETF_language_tag] of the user's language
+   */
+  languageCode?: string;
+
+  /**
+   * Optional. True, if the bot can be invited to groups. Returned only in getMe.
+   */
+  canJoinGroups?: boolean;
+
+  /**
+   * Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
+   */
+  canReadAllGroupMessages?: boolean;
+
+  /**
+   * Optional. True, if the bot supports inline queries. Returned only in getMe.
+   */
+  supportsInlineQueries?: boolean;
 };
 
 // TODO: separate different type because some fields returned only in getChat.
@@ -281,10 +318,90 @@ export type PollOption = {
 };
 
 export type Poll = {
+  /**
+   * Unique poll identifier
+   */
   id: string;
+
+  /**
+   * Poll question, 1-255 characters
+   */
   question: string;
+
+  /**
+   * List of poll options
+   */
   options: PollOption[];
+
+  /**
+   * Total number of users that voted in the poll
+   */
+  totalVoterCount: number;
+
+  /**
+   * True, if the poll is closed
+   */
   isClosed: boolean;
+
+  /**
+   * True, if the poll is anonymous
+   */
+  isAnonymous: boolean;
+
+  /**
+   * Poll type, currently can be “regular” or “quiz”
+   */
+  type: string;
+
+  /**
+   * True, if the poll allows multiple answers
+   */
+  allowsMultipleAnswers: boolean;
+
+  /**
+   * Optional. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
+   */
+  correctOptionId?: number;
+
+  /**
+   * Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
+   */
+  explanation?: string;
+
+  /**
+   * Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
+   */
+  explanationEntities?: MessageEntity[];
+
+  /**
+   * Optional. Amount of time in seconds the poll will be active after creation
+   */
+  openPeriod?: number;
+
+  /**
+   * Optional. Point in time (Unix timestamp) when the poll will be automatically closed
+   */
+  closeDate?: number;
+};
+
+/**
+ * This object represents an answer of a user in a non-anonymous poll.
+ */
+export type PollAnswer = {
+  /**
+   * Unique poll identifier
+   */
+  pollId: string;
+
+  /**
+   * The user, who changed the answer to the poll
+   */
+  user: User;
+
+  /**
+   * 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote.
+   */
+  optionIds: number[];
 };
 
 export type UserProfilePhotos = {
@@ -1967,6 +2084,51 @@ export type SendContactOption = {
 };
 
 export type SendPollOption = {
+  /**
+   * True, if the poll needs to be anonymous, defaults to True
+   */
+  isAnonymous?: boolean;
+
+  /**
+   * Poll type, “quiz” or “regular”, defaults to “regular”
+   */
+  type?: string;
+
+  /**
+   * True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+   */
+  allowsMultipleAnswers?: boolean;
+
+  /**
+   * 0-based identifier of the correct answer option, required for polls in quiz mode
+   */
+  correctOptionId?: number;
+
+  /**
+   * Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
+   */
+  explanation?: string;
+
+  /**
+   * Mode for parsing entities in the explanation. See formatting options for more details.
+   */
+  explanationParseMode?: string;
+
+  /**
+   * Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
+   */
+  openPeriod?: number;
+
+  /**
+   * Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
+   */
+  closeDate?: number;
+
+  /**
+   * Pass True, if the poll needs to be immediately closed. This can be useful for poll preview.
+   */
+  isClosed?: boolean;
+
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
