@@ -1,4 +1,5 @@
 import querystring from 'querystring';
+import { Readable } from 'stream';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
@@ -828,6 +829,20 @@ export default class LineClient {
     return this._dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
+        ...(customAccessToken
+          ? { headers: { Authorization: `Bearer ${customAccessToken}` } }
+          : undefined),
+      })
+      .then(res => res.data, handleError);
+  }
+
+  getMessageContentBySteam(
+    messageId: string,
+    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+  ): Promise<Readable> {
+    return this._dataAxios
+      .get(`/v2/bot/message/${messageId}/content`, {
+        responseType: 'stream',
         ...(customAccessToken
           ? { headers: { Authorization: `Bearer ${customAccessToken}` } }
           : undefined),
