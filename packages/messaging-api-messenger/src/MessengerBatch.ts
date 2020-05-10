@@ -327,7 +327,7 @@ function markSeen(
 function passThreadControl(
   recipientId: string,
   targetAppId: number,
-  metadata: string,
+  metadata?: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
@@ -347,15 +347,15 @@ function passThreadControl(
 
 function passThreadControlToPageInbox(
   recipientId: string,
-  metadata: string,
-  options: { accessToken?: string } = {}
+  metadata?: string,
+  options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
   return passThreadControl(recipientId, 263902037430900, metadata, options);
 }
 
 function takeThreadControl(
   recipientId: string,
-  metadata: string,
+  metadata?: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
@@ -374,7 +374,7 @@ function takeThreadControl(
 
 function requestThreadControl(
   recipientId: string,
-  metadata: string,
+  metadata?: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
