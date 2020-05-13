@@ -115,55 +115,32 @@ export default class LineClient {
     return this._accessToken;
   }
 
-  _optionWithoutKeys(option: any, removeKeys: string[]): Record<string, any> {
-    let keys = Object.keys(option);
-    keys = difference(keys, removeKeys);
-    keys = difference(
-      keys,
-      removeKeys.map(key => snakecase(key))
-    );
-    return pick(option, keys);
-  }
-
   /**
    * Reply Message
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#send-reply-message
    */
-  replyRawBody(
-    body: {
-      replyToken: string;
-      messages: Types.Message[];
-    },
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MutationSuccessResponse> {
+  replyRawBody(body: {
+    replyToken: string;
+    messages: Types.Message[];
+  }): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post(
-        '/v2/bot/message/reply',
-        body,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/message/reply', body)
       .then(res => res.data, handleError);
   }
 
   reply(
     replyToken: string,
-    messages: Types.Message[],
-    options?: Record<string, any>
+    messages: Types.Message[]
   ): Promise<Types.MutationSuccessResponse> {
-    return this.replyRawBody({ replyToken, messages }, options);
+    return this.replyRawBody({ replyToken, messages });
   }
 
   replyMessages(
     replyToken: string,
-    messages: Types.Message[],
-    options?: Record<string, any>
+    messages: Types.Message[]
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(replyToken, messages, options);
+    return this.reply(replyToken, messages);
   }
 
   replyText(
@@ -171,7 +148,7 @@ export default class LineClient {
     text: string,
     options?: Types.MessageOptions & { emojis?: Types.Emoji[] }
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(replyToken, [Line.createText(text, options)], options);
+    return this.reply(replyToken, [Line.createText(text, options)]);
   }
 
   replyImage(
@@ -182,7 +159,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(replyToken, [Line.createImage(image, options)], options);
+    return this.reply(replyToken, [Line.createImage(image, options)]);
   }
 
   replyVideo(
@@ -193,7 +170,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(replyToken, [Line.createVideo(video, options)], options);
+    return this.reply(replyToken, [Line.createVideo(video, options)]);
   }
 
   replyAudio(
@@ -204,7 +181,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(replyToken, [Line.createAudio(audio, options)], options);
+    return this.reply(replyToken, [Line.createAudio(audio, options)]);
   }
 
   replyLocation(
@@ -212,11 +189,7 @@ export default class LineClient {
     location: Types.Location,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createLocation(location, options)],
-      options
-    );
+    return this.reply(replyToken, [Line.createLocation(location, options)]);
   }
 
   replySticker(
@@ -224,11 +197,7 @@ export default class LineClient {
     sticker: Omit<Types.StickerMessage, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createSticker(sticker, options)],
-      options
-    );
+    return this.reply(replyToken, [Line.createSticker(sticker, options)]);
   }
 
   /**
@@ -242,11 +211,9 @@ export default class LineClient {
     imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createImagemap(altText, imagemap, options)],
-      options
-    );
+    return this.reply(replyToken, [
+      Line.createImagemap(altText, imagemap, options),
+    ]);
   }
 
   /**
@@ -260,11 +227,7 @@ export default class LineClient {
     flex: Types.FlexContainer,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createFlex(altText, flex, options)],
-      options
-    );
+    return this.reply(replyToken, [Line.createFlex(altText, flex, options)]);
   }
 
   /**
@@ -278,11 +241,9 @@ export default class LineClient {
     template: Types.Template,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createTemplate(altText, template, options)],
-      options
-    );
+    return this.reply(replyToken, [
+      Line.createTemplate(altText, template, options),
+    ]);
   }
 
   replyButtonTemplate(
@@ -291,11 +252,9 @@ export default class LineClient {
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createButtonTemplate(altText, buttonTemplate, options)],
-      options
-    );
+    return this.reply(replyToken, [
+      Line.createButtonTemplate(altText, buttonTemplate, options),
+    ]);
   }
 
   replyButtonsTemplate(
@@ -318,11 +277,9 @@ export default class LineClient {
     confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createConfirmTemplate(altText, confirmTemplate, options)],
-      options
-    );
+    return this.reply(replyToken, [
+      Line.createConfirmTemplate(altText, confirmTemplate, options),
+    ]);
   }
 
   replyCarouselTemplate(
@@ -338,17 +295,13 @@ export default class LineClient {
       imageSize?: 'cover' | 'contain';
     } & Types.MessageOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [
-        Line.createCarouselTemplate(altText, columns, {
-          imageAspectRatio,
-          imageSize,
-          ...options,
-        }),
-      ],
-      options
-    );
+    return this.reply(replyToken, [
+      Line.createCarouselTemplate(altText, columns, {
+        imageAspectRatio,
+        imageSize,
+        ...options,
+      }),
+    ]);
   }
 
   replyImageCarouselTemplate(
@@ -357,11 +310,9 @@ export default class LineClient {
     columns: Types.ImageCarouselColumnObject[],
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.reply(
-      replyToken,
-      [Line.createImageCarouselTemplate(altText, columns, options)],
-      options
-    );
+    return this.reply(replyToken, [
+      Line.createImageCarouselTemplate(altText, columns, options),
+    ]);
   }
 
   /**
@@ -369,40 +320,27 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#send-push-message
    */
-  pushRawBody(
-    body: {
-      to: string;
-      messages: Types.Message[];
-    },
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MutationSuccessResponse> {
+  pushRawBody(body: {
+    to: string;
+    messages: Types.Message[];
+  }): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post(
-        '/v2/bot/message/push',
-        body,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/message/push', body)
       .then(res => res.data, handleError);
   }
 
   push(
     to: string,
-    messages: Types.Message[],
-    options?: Record<string, any>
+    messages: Types.Message[]
   ): Promise<Types.MutationSuccessResponse> {
-    return this.pushRawBody({ to, messages }, options);
+    return this.pushRawBody({ to, messages });
   }
 
   pushMessages(
     to: string,
-    messages: Types.Message[],
-    options?: Record<string, any>
+    messages: Types.Message[]
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, messages, options);
+    return this.push(to, messages);
   }
 
   pushText(
@@ -410,7 +348,7 @@ export default class LineClient {
     text: string,
     options?: Types.MessageOptions & { emojis?: Types.Emoji[] }
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createText(text, options)], options);
+    return this.push(to, [Line.createText(text, options)]);
   }
 
   pushImage(
@@ -421,7 +359,7 @@ export default class LineClient {
     },
     options: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createImage(image, options)], options);
+    return this.push(to, [Line.createImage(image, options)]);
   }
 
   pushVideo(
@@ -432,7 +370,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createVideo(video, options)], options);
+    return this.push(to, [Line.createVideo(video, options)]);
   }
 
   pushAudio(
@@ -443,7 +381,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createAudio(audio, options)], options);
+    return this.push(to, [Line.createAudio(audio, options)]);
   }
 
   pushLocation(
@@ -451,7 +389,7 @@ export default class LineClient {
     location: Types.Location,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createLocation(location, options)], options);
+    return this.push(to, [Line.createLocation(location, options)]);
   }
 
   pushSticker(
@@ -459,7 +397,7 @@ export default class LineClient {
     sticker: Omit<Types.StickerMessage, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createSticker(sticker, options)], options);
+    return this.push(to, [Line.createSticker(sticker, options)]);
   }
 
   /**
@@ -473,11 +411,7 @@ export default class LineClient {
     imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(
-      to,
-      [Line.createImagemap(altText, imagemap, options)],
-      options
-    );
+    return this.push(to, [Line.createImagemap(altText, imagemap, options)]);
   }
 
   /**
@@ -491,7 +425,7 @@ export default class LineClient {
     flex: Types.FlexContainer,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(to, [Line.createFlex(altText, flex, options)], options);
+    return this.push(to, [Line.createFlex(altText, flex, options)]);
   }
 
   /**
@@ -505,11 +439,7 @@ export default class LineClient {
     template: Types.Template,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(
-      to,
-      [Line.createTemplate(altText, template, options)],
-      options
-    );
+    return this.push(to, [Line.createTemplate(altText, template, options)]);
   }
 
   pushButtonTemplate(
@@ -518,11 +448,9 @@ export default class LineClient {
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(
-      to,
-      [Line.createButtonTemplate(altText, buttonTemplate, options)],
-      options
-    );
+    return this.push(to, [
+      Line.createButtonTemplate(altText, buttonTemplate, options),
+    ]);
   }
 
   pushButtonsTemplate(
@@ -540,11 +468,9 @@ export default class LineClient {
     confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(
-      to,
-      [Line.createConfirmTemplate(altText, confirmTemplate, options)],
-      options
-    );
+    return this.push(to, [
+      Line.createConfirmTemplate(altText, confirmTemplate, options),
+    ]);
   }
 
   pushCarouselTemplate(
@@ -560,17 +486,13 @@ export default class LineClient {
       imageSize?: 'cover' | 'contain';
     } & Types.MessageOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(
-      to,
-      [
-        Line.createCarouselTemplate(altText, columns, {
-          imageAspectRatio,
-          imageSize,
-          ...options,
-        }),
-      ],
-      options
-    );
+    return this.push(to, [
+      Line.createCarouselTemplate(altText, columns, {
+        imageAspectRatio,
+        imageSize,
+        ...options,
+      }),
+    ]);
   }
 
   pushImageCarouselTemplate(
@@ -579,11 +501,9 @@ export default class LineClient {
     columns: Types.ImageCarouselColumnObject[],
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.push(
-      to,
-      [Line.createImageCarouselTemplate(altText, columns, options)],
-      options
-    );
+    return this.push(to, [
+      Line.createImageCarouselTemplate(altText, columns, options),
+    ]);
   }
 
   /**
@@ -591,32 +511,20 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#send-multicast-messages
    */
-  multicastRawBody(
-    body: {
-      to: string[];
-      messages: Types.Message[];
-    },
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MutationSuccessResponse> {
+  multicastRawBody(body: {
+    to: string[];
+    messages: Types.Message[];
+  }): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post(
-        '/v2/bot/message/multicast',
-        body,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/message/multicast', body)
       .then(res => res.data, handleError);
   }
 
   multicast(
     to: string[],
-    messages: Types.Message[],
-    options?: Record<string, any>
+    messages: Types.Message[]
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicastRawBody({ to, messages }, options);
+    return this.multicastRawBody({ to, messages });
   }
 
   multicastMessages(
@@ -624,7 +532,7 @@ export default class LineClient {
     messages: Types.Message[],
     options?: Record<string, any>
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(to, messages, options);
+    return this.multicast(to, messages);
   }
 
   multicastText(
@@ -632,7 +540,7 @@ export default class LineClient {
     text: string,
     options?: Types.MessageOptions & { emojis?: Types.Emoji[] }
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(to, [Line.createText(text, options)], options);
+    return this.multicast(to, [Line.createText(text, options)]);
   }
 
   multicastImage(
@@ -643,7 +551,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(to, [Line.createImage(image, options)], options);
+    return this.multicast(to, [Line.createImage(image, options)]);
   }
 
   multicastVideo(
@@ -654,7 +562,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(to, [Line.createVideo(video, options)], options);
+    return this.multicast(to, [Line.createVideo(video, options)]);
   }
 
   multicastAudio(
@@ -665,7 +573,7 @@ export default class LineClient {
     },
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(to, [Line.createAudio(audio, options)], options);
+    return this.multicast(to, [Line.createAudio(audio, options)]);
   }
 
   multicastLocation(
@@ -673,11 +581,7 @@ export default class LineClient {
     location: Types.Location,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createLocation(location, options)],
-      options
-    );
+    return this.multicast(to, [Line.createLocation(location, options)]);
   }
 
   multicastSticker(
@@ -685,7 +589,7 @@ export default class LineClient {
     sticker: Omit<Types.StickerMessage, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(to, [Line.createSticker(sticker, options)], options);
+    return this.multicast(to, [Line.createSticker(sticker, options)]);
   }
 
   /**
@@ -699,11 +603,9 @@ export default class LineClient {
     imagemap: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createImagemap(altText, imagemap, options)],
-      options
-    );
+    return this.multicast(to, [
+      Line.createImagemap(altText, imagemap, options),
+    ]);
   }
 
   /**
@@ -717,11 +619,7 @@ export default class LineClient {
     flex: Types.FlexContainer,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createFlex(altText, flex, options)],
-      options
-    );
+    return this.multicast(to, [Line.createFlex(altText, flex, options)]);
   }
 
   /**
@@ -735,11 +633,9 @@ export default class LineClient {
     template: Types.Template,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createTemplate(altText, template, options)],
-      options
-    );
+    return this.multicast(to, [
+      Line.createTemplate(altText, template, options),
+    ]);
   }
 
   multicastButtonTemplate(
@@ -748,11 +644,9 @@ export default class LineClient {
     buttonTemplate: Omit<Types.ButtonsTemplate, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createButtonTemplate(altText, buttonTemplate, options)],
-      options
-    );
+    return this.multicast(to, [
+      Line.createButtonTemplate(altText, buttonTemplate, options),
+    ]);
   }
 
   multicastButtonsTemplate(
@@ -770,11 +664,9 @@ export default class LineClient {
     confirmTemplate: Omit<Types.ConfirmTemplate, 'type'>,
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createConfirmTemplate(altText, confirmTemplate, options)],
-      options
-    );
+    return this.multicast(to, [
+      Line.createConfirmTemplate(altText, confirmTemplate, options),
+    ]);
   }
 
   multicastCarouselTemplate(
@@ -790,17 +682,13 @@ export default class LineClient {
       imageSize?: 'cover' | 'contain';
     } & Types.MessageOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [
-        Line.createCarouselTemplate(altText, columns, {
-          imageAspectRatio,
-          imageSize,
-          ...options,
-        }),
-      ],
-      options
-    );
+    return this.multicast(to, [
+      Line.createCarouselTemplate(altText, columns, {
+        imageAspectRatio,
+        imageSize,
+        ...options,
+      }),
+    ]);
   }
 
   multicastImageCarouselTemplate(
@@ -809,11 +697,9 @@ export default class LineClient {
     columns: Types.ImageCarouselColumnObject[],
     options?: Types.MessageOptions
   ): Promise<Types.MutationSuccessResponse> {
-    return this.multicast(
-      to,
-      [Line.createImageCarouselTemplate(altText, columns, options)],
-      options
-    );
+    return this.multicast(to, [
+      Line.createImageCarouselTemplate(altText, columns, options),
+    ]);
   }
 
   /**
@@ -821,29 +707,20 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-content
    */
-  getMessageContent(
-    messageId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Buffer> {
+  getMessageContent(messageId: string): Promise<Buffer> {
     return this._dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
-        ...(customAccessToken
-          ? { headers: { Authorization: `Bearer ${customAccessToken}` } }
-          : undefined),
       })
       .then(res => res.data, handleError);
   }
 
-  retrieveMessageContent(
-    messageId: string,
-    options?: Types.AccessTokenOptions
-  ) {
+  retrieveMessageContent(messageId: string) {
     warning(
       false,
       '`retrieveMessageContent` is deprecated. Use `getMessageContent` instead.'
     );
-    return this.getMessageContent(messageId, options);
+    return this.getMessageContent(messageId);
   }
 
   /**
@@ -852,19 +729,9 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#get-profile
    * displayName, userId, pictureUrl, statusMessage
    */
-  getUserProfile(
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.User> {
+  getUserProfile(userId: string): Promise<Types.User> {
     return this._axios
-      .get(
-        `/v2/bot/profile/${userId}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/profile/${userId}`)
       .then(res => res.data, handleError)
       .catch(err => {
         if (err.response && err.response.status === 404) {
@@ -879,20 +746,9 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-group-member-profile
    */
-  getGroupMemberProfile(
-    groupId: string,
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  getGroupMemberProfile(groupId: string, userId: string) {
     return this._axios
-      .get(
-        `/v2/bot/group/${groupId}/member/${userId}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/group/${groupId}/member/${userId}`)
       .then(res => res.data, handleError);
   }
 
@@ -901,20 +757,9 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#get-room-member-profile
    */
-  getRoomMemberProfile(
-    roomId: string,
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  getRoomMemberProfile(roomId: string, userId: string) {
     return this._axios
-      .get(
-        `/v2/bot/room/${roomId}/member/${userId}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/room/${roomId}/member/${userId}`)
       .then(res => res.data, handleError);
   }
 
@@ -925,25 +770,16 @@ export default class LineClient {
    */
   getGroupMemberIds(
     groupId: string,
-    start?: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
       .get(
-        `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
+        `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`
       )
       .then(res => res.data, handleError);
   }
 
-  async getAllGroupMemberIds(
-    groupId: string,
-    options: Record<string, any> = {}
-  ): Promise<string[]> {
+  async getAllGroupMemberIds(groupId: string): Promise<string[]> {
     let allMemberIds: string[] = [];
     let continuationToken;
 
@@ -954,8 +790,7 @@ export default class LineClient {
       }: // eslint-disable-next-line no-await-in-loop
       { memberIds: string[]; next?: string } = await this.getGroupMemberIds(
         groupId,
-        continuationToken,
-        options
+        continuationToken
       );
 
       allMemberIds = allMemberIds.concat(memberIds);
@@ -972,25 +807,16 @@ export default class LineClient {
    */
   getRoomMemberIds(
     roomId: string,
-    start?: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this._axios
       .get(
-        `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
+        `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`
       )
       .then(res => res.data, handleError);
   }
 
-  async getAllRoomMemberIds(
-    roomId: string,
-    options: Record<string, any> = {}
-  ): Promise<string[]> {
+  async getAllRoomMemberIds(roomId: string): Promise<string[]> {
     let allMemberIds: string[] = [];
     let continuationToken;
 
@@ -1001,8 +827,7 @@ export default class LineClient {
       }: // eslint-disable-next-line no-await-in-loop
       { memberIds: string[]; next?: string } = await this.getRoomMemberIds(
         roomId,
-        continuationToken,
-        options
+        continuationToken
       );
 
       allMemberIds = allMemberIds.concat(memberIds);
@@ -1017,20 +842,9 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#leave-group
    */
-  leaveGroup(
-    groupId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MutationSuccessResponse> {
+  leaveGroup(groupId: string): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post(
-        `/v2/bot/group/${groupId}/leave`,
-        null,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post(`/v2/bot/group/${groupId}/leave`, null)
       .then(res => res.data, handleError);
   }
 
@@ -1039,20 +853,9 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#leave-room
    */
-  leaveRoom(
-    roomId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MutationSuccessResponse> {
+  leaveRoom(roomId: string): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post(
-        `/v2/bot/room/${roomId}/leave`,
-        null,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post(`/v2/bot/room/${roomId}/leave`, null)
       .then(res => res.data, handleError);
   }
 
@@ -1061,34 +864,15 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/messaging-api/reference/#rich-menu
    */
-  getRichMenuList({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}) {
+  getRichMenuList() {
     return this._axios
-      .get(
-        '/v2/bot/richmenu/list',
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get('/v2/bot/richmenu/list')
       .then(res => res.data.richmenus, handleError);
   }
 
-  getRichMenu(
-    richMenuId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  getRichMenu(richMenuId: string) {
     return this._axios
-      .get(
-        `/v2/bot/richmenu/${richMenuId}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/richmenu/${richMenuId}`)
       .then(res => res.data)
       .catch(err => {
         if (err.response && err.response.status === 404) {
@@ -1098,52 +882,21 @@ export default class LineClient {
       });
   }
 
-  createRichMenu(
-    richMenu: Types.RichMenu,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  createRichMenu(richMenu: Types.RichMenu) {
     return this._axios
-      .post(
-        '/v2/bot/richmenu',
-        richMenu,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/richmenu', richMenu)
       .then(res => res.data, handleError);
   }
 
-  deleteRichMenu(
-    richMenuId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  deleteRichMenu(richMenuId: string) {
     return this._axios
-      .delete(
-        `/v2/bot/richmenu/${richMenuId}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .delete(`/v2/bot/richmenu/${richMenuId}`)
       .then(res => res.data, handleError);
   }
 
-  getLinkedRichMenu(
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  getLinkedRichMenu(userId: string) {
     return this._axios
-      .get(
-        `/v2/bot/user/${userId}/richmenu`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/user/${userId}/richmenu`)
       .then(res => res.data)
       .catch(err => {
         if (err.response && err.response.status === 404) {
@@ -1153,52 +906,21 @@ export default class LineClient {
       });
   }
 
-  linkRichMenu(
-    userId: string,
-    richMenuId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  linkRichMenu(userId: string, richMenuId: string) {
     return this._axios
-      .post(
-        `/v2/bot/user/${userId}/richmenu/${richMenuId}`,
-        null,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post(`/v2/bot/user/${userId}/richmenu/${richMenuId}`, null)
       .then(res => res.data, handleError);
   }
 
-  unlinkRichMenu(
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  unlinkRichMenu(userId: string) {
     return this._axios
-      .delete(
-        `/v2/bot/user/${userId}/richmenu`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .delete(`/v2/bot/user/${userId}/richmenu`)
       .then(res => res.data, handleError);
   }
 
-  getDefaultRichMenu({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}) {
+  getDefaultRichMenu() {
     return this._axios
-      .get(
-        `/v2/bot/user/all/richmenu`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/user/all/richmenu`)
       .then(res => res.data)
       .catch(err => {
         if (err.response && err.response.status === 404) {
@@ -1208,35 +930,15 @@ export default class LineClient {
       });
   }
 
-  setDefaultRichMenu(
-    richMenuId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  setDefaultRichMenu(richMenuId: string) {
     return this._axios
-      .post(
-        `/v2/bot/user/all/richmenu/${richMenuId}`,
-        null,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post(`/v2/bot/user/all/richmenu/${richMenuId}`, null)
       .then(res => res.data, handleError);
   }
 
-  deleteDefaultRichMenu({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}) {
+  deleteDefaultRichMenu() {
     return this._axios
-      .delete(
-        `/v2/bot/user/all/richmenu`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .delete(`/v2/bot/user/all/richmenu`)
       .then(res => res.data, handleError);
   }
 
@@ -1245,11 +947,7 @@ export default class LineClient {
    * - You cannot replace an image attached to a rich menu.
    *   To update your rich menu image, create a new rich menu object and upload another image.
    */
-  uploadRichMenuImage(
-    richMenuId: string,
-    image: Buffer,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  uploadRichMenuImage(richMenuId: string, image: Buffer) {
     const type = imageType(image);
     invariant(
       type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
@@ -1260,26 +958,15 @@ export default class LineClient {
       .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
         headers: {
           'Content-Type': (type as { mime: string }).mime,
-          ...(customAccessToken && {
-            Authorization: `Bearer ${customAccessToken}`,
-          }),
         },
       })
       .then(res => res.data, handleError);
   }
 
-  downloadRichMenuImage(
-    richMenuId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  downloadRichMenuImage(richMenuId: string) {
     return this._dataAxios
       .get(`/v2/bot/richmenu/${richMenuId}/content`, {
         responseType: 'arraybuffer',
-        headers: {
-          ...(customAccessToken && {
-            Authorization: `Bearer ${customAccessToken}`,
-          }),
-        },
       })
       .then(res => Buffer.from(res.data))
       .catch(err => {
@@ -1296,41 +983,19 @@ export default class LineClient {
    * https://developers.line.me/en/docs/messaging-api/reference/#account-link
    */
 
-  issueLinkToken(
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<{ linkToken: string }> {
+  issueLinkToken(userId: string): Promise<{ linkToken: string }> {
     warning(
       false,
       '`issueLinkToken` is deprecated. Use `getLinkToken` instead. Note: It returns a string instead of an object.'
     );
     return this._axios
-      .post<{ linkToken: string }>(
-        `/v2/bot/user/${userId}/linkToken`,
-        null,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`, null)
       .then(res => res.data, handleError);
   }
 
-  getLinkToken(
-    userId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<string> {
+  getLinkToken(userId: string): Promise<string> {
     return this._axios
-      .post<{ linkToken: string }>(
-        `/v2/bot/user/${userId}/linkToken`,
-        null,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`, null)
       .then(res => res.data.linkToken, handleError);
   }
 
@@ -1339,72 +1004,30 @@ export default class LineClient {
    *
    * https://developers.line.me/en/docs/liff/reference/#add-liff-app
    */
-  getLiffAppList({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}): Promise<{
+  getLiffAppList(): Promise<{
     liffId: string;
     view: Types.LiffView;
   }> {
     return this._axios
-      .get(
-        '/liff/v1/apps',
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get('/liff/v1/apps')
       .then(res => res.data.apps, handleError);
   }
 
-  createLiffApp(
-    view: Types.LiffView,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<{ liffId: string }> {
+  createLiffApp(view: Types.LiffView): Promise<{ liffId: string }> {
     return this._axios
-      .post(
-        '/liff/v1/apps',
-        view,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .post('/liff/v1/apps', view)
       .then(res => res.data, handleError);
   }
 
-  updateLiffApp(
-    liffId: string,
-    view: Types.LiffView,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<void> {
+  updateLiffApp(liffId: string, view: Types.LiffView): Promise<void> {
     return this._axios
-      .put(
-        `/liff/v1/apps/${liffId}/view`,
-        view,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .put(`/liff/v1/apps/${liffId}/view`, view)
       .then(res => res.data, handleError);
   }
 
-  deleteLiffApp(
-    liffId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<void> {
+  deleteLiffApp(liffId: string): Promise<void> {
     return this._axios
-      .delete(
-        `/liff/v1/apps/${liffId}`,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .delete(`/liff/v1/apps/${liffId}`)
       .then(res => res.data, handleError);
   }
 
@@ -1414,45 +1037,28 @@ export default class LineClient {
    */
 
   // https://developers.line.biz/en/reference/messaging-api/#get-quota
-  getTargetLimitForAdditionalMessages({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}): Promise<
+  getTargetLimitForAdditionalMessages(): Promise<
     Types.TargetLimitForAdditionalMessages
   > {
     return this._axios
-      .get<Types.TargetLimitForAdditionalMessages>(
-        '/v2/bot/message/quota',
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get<Types.TargetLimitForAdditionalMessages>('/v2/bot/message/quota')
       .then(res => res.data, handleError);
   }
 
   // https://developers.line.biz/en/reference/messaging-api/#get-consumption
-  getNumberOfMessagesSentThisMonth({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}): Promise<
+  getNumberOfMessagesSentThisMonth(): Promise<
     Types.NumberOfMessagesSentThisMonth
   > {
     return this._axios
       .get<Types.NumberOfMessagesSentThisMonth>(
-        '/v2/bot/message/quota/consumption',
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
+        '/v2/bot/message/quota/consumption'
       )
       .then(res => res.data, handleError);
   }
 
   // https://developers.line.biz/en/reference/messaging-api/#get-number-of-reply-messages
   getNumberOfSentReplyMessages(
-    date: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    date: string
   ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
       .get<Types.NumberOfMessagesSentResponse>(
@@ -1461,11 +1067,6 @@ export default class LineClient {
           params: {
             date,
           },
-          ...(customAccessToken
-            ? {
-                headers: { Authorization: `Bearer ${customAccessToken}` },
-              }
-            : {}),
         }
       )
       .then(res => res.data, handleError);
@@ -1473,8 +1074,7 @@ export default class LineClient {
 
   // https://developers.line.biz/en/reference/messaging-api/#get-number-of-push-messages
   getNumberOfSentPushMessages(
-    date: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    date: string
   ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
       .get<Types.NumberOfMessagesSentResponse>(
@@ -1483,11 +1083,6 @@ export default class LineClient {
           params: {
             date,
           },
-          ...(customAccessToken
-            ? {
-                headers: { Authorization: `Bearer ${customAccessToken}` },
-              }
-            : {}),
         }
       )
       .then(res => res.data, handleError);
@@ -1495,8 +1090,7 @@ export default class LineClient {
 
   // https://developers.line.biz/en/reference/messaging-api/#get-number-of-multicast-messages
   getNumberOfSentMulticastMessages(
-    date: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    date: string
   ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
       .get<Types.NumberOfMessagesSentResponse>(
@@ -1505,11 +1099,6 @@ export default class LineClient {
           params: {
             date,
           },
-          ...(customAccessToken
-            ? {
-                headers: { Authorization: `Bearer ${customAccessToken}` },
-              }
-            : {}),
         }
       )
       .then(res => res.data, handleError);
@@ -1517,8 +1106,7 @@ export default class LineClient {
 
   // https://developers.line.biz/en/reference/messaging-api/#get-number-of-broadcast-messages
   getNumberOfSentBroadcastMessages(
-    date: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    date: string
   ): Promise<Types.NumberOfMessagesSentResponse> {
     return this._axios
       .get<Types.NumberOfMessagesSentResponse>(
@@ -1527,11 +1115,6 @@ export default class LineClient {
           params: {
             date,
           },
-          ...(customAccessToken
-            ? {
-                headers: { Authorization: `Bearer ${customAccessToken}` },
-              }
-            : {}),
         }
       )
       .then(res => res.data, handleError);
@@ -1544,8 +1127,7 @@ export default class LineClient {
 
   // https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages
   getNumberOfMessageDeliveries(
-    date: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    date: string
   ): Promise<Types.NumberOfMessageDeliveriesResponse> {
     return this._axios
       .get<Types.NumberOfMessageDeliveriesResponse>(
@@ -1554,48 +1136,26 @@ export default class LineClient {
           params: {
             date,
           },
-          ...(customAccessToken
-            ? {
-                headers: { Authorization: `Bearer ${customAccessToken}` },
-              }
-            : {}),
         }
       )
       .then(res => res.data, handleError);
   }
 
   // https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
-  getNumberOfFollowers(
-    date: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.NumberOfFollowersResponse> {
+  getNumberOfFollowers(date: string): Promise<Types.NumberOfFollowersResponse> {
     return this._axios
       .get<Types.NumberOfFollowersResponse>('/v2/bot/insight/followers', {
         params: {
           date,
         },
-        ...(customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}),
       })
       .then(res => res.data, handleError);
   }
 
   // https://developers.line.biz/en/reference/messaging-api/#get-demographic
-  getFriendDemographics({
-    accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}): Promise<Types.FriendDemographics> {
+  getFriendDemographics(): Promise<Types.FriendDemographics> {
     return this._axios
-      .get<Types.FriendDemographics>(
-        '/v2/bot/insight/demographic',
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
+      .get<Types.FriendDemographics>('/v2/bot/insight/demographic')
       .then(res => res.data, handleError);
   }
 
@@ -1604,33 +1164,20 @@ export default class LineClient {
    *
    * https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message
    */
-  narrowcastRawBody(
-    body: {
-      messages: Types.Message[];
-      recipient?: Types.RecipientObject;
-      filter?: { demographic: Types.DemographicFilterObject };
-      limit?: {
-        max: number;
+  narrowcastRawBody(body: {
+    messages: Types.Message[];
+    recipient?: Types.RecipientObject;
+    filter?: { demographic: Types.DemographicFilterObject };
+    limit?: {
+      max: number;
+    };
+  }): Promise<Types.MutationSuccessResponse> {
+    return this._axios.post('/v2/bot/message/narrowcast', body).then(res => {
+      return {
+        requestId: res.headers['x-line-request-id'],
+        ...res.data,
       };
-    },
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MutationSuccessResponse> {
-    return this._axios
-      .post(
-        '/v2/bot/message/narrowcast',
-        body,
-        customAccessToken
-          ? {
-              headers: { Authorization: `Bearer ${customAccessToken}` },
-            }
-          : {}
-      )
-      .then(res => {
-        return {
-          requestId: res.headers['x-line-request-id'],
-          ...res.data,
-        };
-      }, handleError);
+    }, handleError);
   }
 
   narrowcast(
@@ -1647,15 +1194,12 @@ export default class LineClient {
           max: options?.max,
         }
       : undefined;
-    return this.narrowcastRawBody(
-      {
-        messages,
-        recipient: options?.recipient,
-        filter,
-        limit,
-      },
-      { accessToken: options?.accessToken }
-    );
+    return this.narrowcastRawBody({
+      messages,
+      recipient: options?.recipient,
+      filter,
+      limit,
+    });
   }
 
   narrowcastMessages(
@@ -1666,15 +1210,10 @@ export default class LineClient {
   }
 
   getNarrowcastProgress(
-    requestId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    requestId: string
   ): Promise<Types.NarrowcastProgressResponse> {
     return this._axios
-      .get(`/v2/bot/message/progress/narrowcast?requestId=${requestId}`, {
-        ...(customAccessToken
-          ? { headers: { Authorization: `Bearer ${customAccessToken}` } }
-          : undefined),
-      })
+      .get(`/v2/bot/message/progress/narrowcast?requestId=${requestId}`)
       .then(res => res.data, handleError);
   }
 
@@ -1690,22 +1229,13 @@ export default class LineClient {
     audiences: Types.Audience[],
     options: Types.CreateUploadAudienceGroupOptions = {}
   ): Promise<Types.UploadAudienceGroup> {
-    const bodyOptions = this._optionWithoutKeys(options, ['accessToken']);
     return this._axios
-      .post(
-        '/v2/bot/audienceGroup/upload',
-        {
-          description,
-          isIfaAudience,
-          audiences,
-          ...bodyOptions,
-        },
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/audienceGroup/upload', {
+        description,
+        isIfaAudience,
+        audiences,
+        ...options,
+      })
       .then(res => res.data, handleError);
   }
 
@@ -1719,21 +1249,12 @@ export default class LineClient {
     audiences: Types.Audience[],
     options: Types.UpdateUploadAudienceGroupOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    const bodyOptions = this._optionWithoutKeys(options, ['accessToken']);
     return this._axios
-      .put(
-        '/v2/bot/audienceGroup/upload',
-        {
-          audienceGroupId,
-          audiences,
-          ...bodyOptions,
-        },
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .put('/v2/bot/audienceGroup/upload', {
+        audienceGroupId,
+        audiences,
+        ...options,
+      })
       .then(res => res.data, handleError);
   }
 
@@ -1749,21 +1270,12 @@ export default class LineClient {
     requestId: string,
     options: Types.CreateClickAudienceGroupOptions = {}
   ): Promise<Types.ClickAudienceGroup> {
-    const bodyOptions = this._optionWithoutKeys(options, ['accessToken']);
     return this._axios
-      .post(
-        '/v2/bot/audienceGroup/click',
-        {
-          description,
-          requestId,
-          ...bodyOptions,
-        },
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/audienceGroup/click', {
+        description,
+        requestId,
+        ...options,
+      })
       .then(res => res.data, handleError);
   }
 
@@ -1776,22 +1288,13 @@ export default class LineClient {
    */
   createImpAudienceGroup(
     description: string,
-    requestId: string,
-    options: Types.AccessTokenOptions = {}
+    requestId: string
   ): Promise<Types.ImpAudienceGroup> {
     return this._axios
-      .post(
-        '/v2/bot/audienceGroup/imp',
-        {
-          description,
-          requestId,
-        },
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .post('/v2/bot/audienceGroup/imp', {
+        description,
+        requestId,
+      })
       .then(res => res.data, handleError);
   }
 
@@ -1802,21 +1305,12 @@ export default class LineClient {
    */
   setDescriptionAudienceGroup(
     description: string,
-    audienceGroupId: number,
-    options: Types.AccessTokenOptions = {}
+    audienceGroupId: number
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .put(
-        `/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`,
-        {
-          description,
-        },
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .put(`/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`, {
+        description,
+      })
       .then(res => res.data, handleError);
   }
 
@@ -1826,18 +1320,10 @@ export default class LineClient {
    * - https://developers.line.biz/en/reference/messaging-api/#delete-audience-group
    */
   deleteAudienceGroup(
-    audienceGroupId: number,
-    options: Types.AccessTokenOptions = {}
+    audienceGroupId: number
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .delete(
-        `/v2/bot/audienceGroup/${audienceGroupId}`,
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .delete(`/v2/bot/audienceGroup/${audienceGroupId}`)
       .then(res => res.data, handleError);
   }
 
@@ -1847,18 +1333,10 @@ export default class LineClient {
    * - https://developers.line.biz/en/reference/messaging-api/#get-audience-group
    */
   getAudienceGroup(
-    audienceGroupId: number,
-    options: Types.AccessTokenOptions = {}
+    audienceGroupId: number
   ): Promise<Types.AudienceGroupWithJob> {
     return this._axios
-      .get(
-        `/v2/bot/audienceGroup/${audienceGroupId}`,
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/audienceGroup/${audienceGroupId}`)
       .then(res => res.data, handleError);
   }
 
@@ -1870,18 +1348,12 @@ export default class LineClient {
   getAudienceGroups(
     options: Types.GetAudienceGroupsOptions = {}
   ): Promise<Types.AudienceGroups> {
-    const bodyOptions = this._optionWithoutKeys(options, ['accessToken']);
-    bodyOptions.page = bodyOptions.page || 1;
-    const query = querystring.stringify(bodyOptions);
+    const query = querystring.stringify({
+      page: 1,
+      ...options,
+    });
     return this._axios
-      .get(
-        `/v2/bot/audienceGroup/list?${query}`,
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/audienceGroup/list?${query}`)
       .then(res => res.data, handleError);
   }
 
@@ -1890,18 +1362,9 @@ export default class LineClient {
    *
    * - https://developers.line.biz/en/reference/messaging-api/#get-authority-level
    */
-  getAudienceGroupAuthorityLevel(
-    options: Types.AccessTokenOptions = {}
-  ): Promise<Types.AudienceGroupAuthorityLevel> {
+  getAudienceGroupAuthorityLevel(): Promise<Types.AudienceGroupAuthorityLevel> {
     return this._axios
-      .get(
-        `/v2/bot/audienceGroup/authorityLevel`,
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .get(`/v2/bot/audienceGroup/authorityLevel`)
       .then(res => res.data, handleError);
   }
 
@@ -1911,21 +1374,12 @@ export default class LineClient {
    * - https://developers.line.biz/en/reference/messaging-api/#change-authority-level
    */
   changeAudienceGroupAuthorityLevel(
-    authorityLevel: 'PUBLIC' | 'PRIVATE',
-    options: Types.AccessTokenOptions = {}
+    authorityLevel: 'PUBLIC' | 'PRIVATE'
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .put(
-        `/v2/bot/audienceGroup/authorityLevel`,
-        {
-          authorityLevel,
-        },
-        options?.accessToken
-          ? {
-              headers: { Authorization: `Bearer ${options?.accessToken}` },
-            }
-          : {}
-      )
+      .put(`/v2/bot/audienceGroup/authorityLevel`, {
+        authorityLevel,
+      })
       .then(res => res.data, handleError);
   }
 }

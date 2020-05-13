@@ -1252,11 +1252,7 @@ export type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
 
 /* Narrowcast */
 
-export type AccessTokenOptions = {
-  accessToken?: string;
-};
-
-export type NarrowcastOptions = AccessTokenOptions & {
+export type NarrowcastOptions = {
   recipient?: RecipientObject;
   demographic?: DemographicFilterObject;
   max?: number;
@@ -1455,7 +1451,7 @@ export type NarrowcastProgressResponse = (
 
 /* Audience */
 
-export type CreateUploadAudienceGroupOptions = AccessTokenOptions & {
+export type CreateUploadAudienceGroupOptions = {
   uploadDescription?: string;
 };
 
@@ -1463,7 +1459,7 @@ export type UpdateUploadAudienceGroupOptions = CreateUploadAudienceGroupOptions 
   description?: string;
 };
 
-export type CreateClickAudienceGroupOptions = AccessTokenOptions & {
+export type CreateClickAudienceGroupOptions = {
   clickUrl?: string;
 };
 
@@ -1596,7 +1592,7 @@ export type AudienceGroupWithJob = AudienceGroup & {
   jobs: Job[];
 };
 
-export type GetAudienceGroupsOptions = AccessTokenOptions & {
+export type GetAudienceGroupsOptions = {
   page?: number;
   description?: string;
   status?: string;
