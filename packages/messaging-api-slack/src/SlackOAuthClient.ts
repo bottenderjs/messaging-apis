@@ -335,7 +335,7 @@ export default class SlackOAuthClient {
   /**
    * Sends an ephemeral message to a user in a channel.
    *
-   * https://api.slack.com/methods/chat.postMessage
+   * https://api.slack.com/methods/chat.postEphemeral
    */
   postEphemeral(
     channel: string,
@@ -362,7 +362,7 @@ export default class SlackOAuthClient {
   /**
    * Sends an ephemeral message to a user in a channel.
    *
-   * https://api.slack.com/methods/chat.postMessage
+   * https://api.slack.com/methods/chat.postEphemeral
    */
   _postEphemeral(
     options: Types.PostEphemeralOptions
