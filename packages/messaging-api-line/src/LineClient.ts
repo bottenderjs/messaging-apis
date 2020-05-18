@@ -2,15 +2,12 @@ import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
-import difference from 'lodash/difference';
 import imageType from 'image-type';
 import invariant from 'invariant';
-import pick from 'lodash/pick';
 import warning from 'warning';
 import {
   OnRequestFunction,
   createRequestInterceptor,
-  snakecase,
 } from 'messaging-api-common';
 
 import Line from './Line';
@@ -529,8 +526,7 @@ export default class LineClient {
 
   multicastMessages(
     to: string[],
-    messages: Types.Message[],
-    options?: Record<string, any>
+    messages: Types.Message[]
   ): Promise<Types.MutationSuccessResponse> {
     return this.multicast(to, messages);
   }

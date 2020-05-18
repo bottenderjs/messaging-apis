@@ -1,5 +1,3 @@
-import omit from 'lodash/omit';
-
 import * as Types from './LineTypes';
 
 function createText(
