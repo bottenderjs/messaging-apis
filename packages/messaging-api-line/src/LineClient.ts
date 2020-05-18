@@ -836,16 +836,10 @@ export default class LineClient {
       .then(res => res.data, handleError);
   }
 
-  getMessageContentBySteam(
-    messageId: string,
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Readable> {
+  getMessageContentStream(messageId: string): Promise<Readable> {
     return this._dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'stream',
-        ...(customAccessToken
-          ? { headers: { Authorization: `Bearer ${customAccessToken}` } }
-          : undefined),
       })
       .then(res => res.data, handleError);
   }
