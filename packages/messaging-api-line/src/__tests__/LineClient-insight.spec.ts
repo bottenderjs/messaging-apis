@@ -5,9 +5,7 @@ import LineClient from '../LineClient';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = ({
-  customAccessToken,
-}: { customAccessToken?: string } = {}): {
+const createMock = (): {
   client: LineClient;
   mock: MockAdapter;
   headers: {
@@ -21,7 +19,7 @@ const createMock = ({
   const headers = {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${customAccessToken || ACCESS_TOKEN}`,
+    Authorization: `Bearer ${ACCESS_TOKEN}`,
   };
   return { client, mock, headers };
 };

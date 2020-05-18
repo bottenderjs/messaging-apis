@@ -3,13 +3,10 @@ import MockAdapter from 'axios-mock-adapter';
 import LineClient from '../LineClient';
 import * as Types from '../LineTypes';
 
-const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = ({
-  customAccessToken,
-}: { customAccessToken?: string } = {}): {
+const createMock = (): {
   client: LineClient;
   mock: MockAdapter;
   headers: {
@@ -23,7 +20,7 @@ const createMock = ({
   const headers = {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${customAccessToken || ACCESS_TOKEN}`,
+    Authorization: `Bearer ${ACCESS_TOKEN}`,
   };
   return { client, mock, headers };
 };
@@ -133,27 +130,6 @@ describe('Narrowcast', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPost().reply(config => {
-        expect(config.url).toEqual('/v2/bot/message/narrowcast');
-        expect(JSON.parse(config.data)).toEqual(rawBody);
-        expect(config.headers).toEqual(headers);
-        return [200, reply, { 'x-line-request-id': 'abc' }];
-      });
-
-      const res = await client.narrowcastRawBody(rawBody, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#narrowcast', () => {
@@ -175,30 +151,6 @@ describe('Narrowcast', () => {
         recipient,
         demographic,
         max: 100,
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPost().reply(config => {
-        expect(config.url).toEqual('/v2/bot/message/narrowcast');
-        expect(JSON.parse(config.data)).toEqual(rawBody);
-        expect(config.headers).toEqual(headers);
-        return [200, reply, { 'x-line-request-id': 'abc' }];
-      });
-
-      const res = await client.narrowcast(messages, {
-        recipient,
-        demographic,
-        max: 100,
-        accessToken: CUSTOM_ACCESS_TOKEN,
       });
 
       expect(res).toEqual(reply);
@@ -228,30 +180,6 @@ describe('Narrowcast', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPost().reply(config => {
-        expect(config.url).toEqual('/v2/bot/message/narrowcast');
-        expect(JSON.parse(config.data)).toEqual(rawBody);
-        expect(config.headers).toEqual(headers);
-        return [200, reply, { 'x-line-request-id': 'abc' }];
-      });
-
-      const res = await client.narrowcastMessages(messages, {
-        recipient,
-        demographic,
-        max: 100,
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#getNarrowcastProgress', () => {
@@ -277,28 +205,6 @@ describe('Narrowcast', () => {
       });
 
       const res = await client.getNarrowcastProgress(requestId);
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(3);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          `/v2/bot/message/progress/narrowcast?requestId=${requestId}`
-        );
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getNarrowcastProgress(requestId, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
 
       expect(res).toEqual(reply);
     });
