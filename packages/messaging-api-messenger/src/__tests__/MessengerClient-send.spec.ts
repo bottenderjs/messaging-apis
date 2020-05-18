@@ -1155,7 +1155,7 @@ describe('send api', () => {
 
       const res = await client.sendBatch(batch);
 
-      expect(url).toEqual(`/`);
+      expect(url).toEqual('/');
       expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
         batch: [

@@ -1,5 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 
+import MessengerBatch from '../MessengerBatch';
 import MessengerClient from '../MessengerClient';
 
 const ACCESS_TOKEN = 'foo_token';
@@ -365,5 +366,66 @@ describe('appsecret proof', () => {
     await client.sendText(USER_ID, 'Hello!');
 
     expect(url).toEqual('/me/messages?access_token=foo_token');
+  });
+
+  it('should add appsecret proof to batch requests if appSecret exists', async () => {
+    expect.assertions(2);
+
+    const client = new MessengerClient({
+      accessToken: ACCESS_TOKEN,
+      appSecret: APP_SECRET,
+    });
+
+    const mock = new MockAdapter(client.axios);
+
+    const USER_ID = 'USER_ID';
+
+    const reply = [
+      {
+        recipient_id: USER_ID,
+        message_id: 'mid.1489394984387:3dd22de509',
+      },
+      {
+        id: USER_ID,
+        first_name: 'Kevin',
+        last_name: 'Durant',
+        profile_pic: 'https://example.com/pic.png',
+      },
+    ];
+
+    let url;
+    let data;
+    mock.onPost().reply(config => {
+      url = config.url;
+      data = config.data;
+      return [200, reply];
+    });
+
+    const batch = [
+      MessengerBatch.sendText(USER_ID, 'Hello', { accessToken: 'token1' }),
+      MessengerBatch.getUserProfile(USER_ID, { accessToken: 'token2' }),
+    ];
+
+    await client.sendBatch(batch);
+
+    expect(url).toEqual(
+      '/?appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
+    );
+    expect(JSON.parse(data)).toEqual({
+      access_token: ACCESS_TOKEN,
+      batch: [
+        {
+          method: 'POST',
+          relative_url:
+            'me/messages?appsecret_proof=99eed1703c01487bce54ccf12b7e8007880e3bf7f3820656f17f200b5c976266',
+          body: `messaging_type=UPDATE&recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D&access_token=token1`,
+        },
+        {
+          method: 'GET',
+          relative_url:
+            'USER_ID?fields=id%2Cname%2Cfirst_name%2Clast_name%2Cprofile_pic&access_token=token2&appsecret_proof=f1405d923148b8e76e002138a7adddfec6ce4075712095d88b4b4b6777ad45e5',
+        },
+      ],
+    });
   });
 });
