@@ -573,6 +573,7 @@ export type PostEphemeralOptions = PostEphemeralOptionalOptions &
 // https://api.slack.com/methods/chat.update
 export type UpdateMessageOptions = CommonOptions &
   Message & {
+    channel: string;
     ts: string;
     asUser?: boolean;
     attachments?: string | Attachment[];
