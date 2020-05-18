@@ -11,6 +11,7 @@ function defaultOnRequest(request: {
   headers: Record<string, any>;
   body: Record<string, any>;
 }): void {
+  debugRequest(`${request.method} - ${request.url}`);
   if (request.body) {
     debugRequest('Outgoing request body:');
     if (Buffer.isBuffer(request.body)) {

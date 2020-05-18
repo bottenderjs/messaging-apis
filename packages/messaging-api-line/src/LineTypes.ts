@@ -110,11 +110,32 @@ export type URIAction = {
 
 export type DatetimePickerAction = {
   type: 'datetimepicker';
+  /**
+   * Label for the action
+   */
   label?: string;
-  data: string;
-  mode: string;
+  /**
+   * String returned via webhook in the `postback.data` property of the postback event
+   */
+  data: 'string';
+  /**
+   * Action mode
+   * - date: Pick date
+   * - time: Pick time
+   * - datetime: Pick date and time
+   */
+  mode: 'date' | 'time' | 'datetime';
+  /**
+   * Initial value of date or time
+   */
   initial?: string;
+  /**
+   * Largest date or time value that can be selected. Must be greater than the `min` value.
+   */
   max?: string;
+  /**
+   * Smallest date or time value that can be selected. Must be less than the `max` value.
+   */
   min?: string;
 };
 
@@ -1231,11 +1252,7 @@ export type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
 
 /* Narrowcast */
 
-export type AccessTokenOptions = {
-  accessToken?: string;
-};
-
-export type NarrowcastOptions = AccessTokenOptions & {
+export type NarrowcastOptions = {
   recipient?: RecipientObject;
   demographic?: DemographicFilterObject;
   max?: number;
@@ -1434,7 +1451,7 @@ export type NarrowcastProgressResponse = (
 
 /* Audience */
 
-export type CreateUploadAudienceGroupOptions = AccessTokenOptions & {
+export type CreateUploadAudienceGroupOptions = {
   uploadDescription?: string;
 };
 
@@ -1442,7 +1459,7 @@ export type UpdateUploadAudienceGroupOptions = CreateUploadAudienceGroupOptions 
   description?: string;
 };
 
-export type CreateClickAudienceGroupOptions = AccessTokenOptions & {
+export type CreateClickAudienceGroupOptions = {
   clickUrl?: string;
 };
 
@@ -1575,7 +1592,7 @@ export type AudienceGroupWithJob = AudienceGroup & {
   jobs: Job[];
 };
 
-export type GetAudienceGroupsOptions = AccessTokenOptions & {
+export type GetAudienceGroupsOptions = {
   page?: number;
   description?: string;
   status?: string;

@@ -2,13 +2,10 @@ import MockAdapter from 'axios-mock-adapter';
 
 import LineClient from '../LineClient';
 
-const CUSTOM_ACCESS_TOKEN = '555555555';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-const createMock = ({
-  customAccessToken,
-}: { customAccessToken?: string } = {}): {
+const createMock = (): {
   client: LineClient;
   mock: MockAdapter;
   headers: {
@@ -22,7 +19,7 @@ const createMock = ({
   const headers = {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${customAccessToken || ACCESS_TOKEN}`,
+    Authorization: `Bearer ${ACCESS_TOKEN}`,
   };
   return { client, mock, headers };
 };
@@ -74,37 +71,6 @@ describe('Audience', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPost().reply(config => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createUploadAudienceGroup(
-        'audienceGroupName',
-        false,
-        [
-          {
-            id: '1',
-          },
-        ],
-        {
-          uploadDescription: 'audience1',
-          accessToken: CUSTOM_ACCESS_TOKEN,
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#updateUploadAudienceGroup', () => {
@@ -143,37 +109,6 @@ describe('Audience', () => {
         {
           description: 'audienceGroupName',
           uploadDescription: 'audience1',
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPut().reply(config => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.updateUploadAudienceGroup(
-        1,
-        [
-          {
-            id: '1',
-          },
-        ],
-        {
-          description: 'audienceGroupName',
-          uploadDescription: 'audience1',
-          accessToken: CUSTOM_ACCESS_TOKEN,
         }
       );
 
@@ -219,32 +154,6 @@ describe('Audience', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPost().reply(config => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/click');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createClickAudienceGroup(
-        'audienceGroupName',
-        '12222',
-        {
-          clickUrl: 'https://line.me/en',
-          accessToken: CUSTOM_ACCESS_TOKEN,
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#createImpAudienceGroup', () => {
@@ -276,31 +185,6 @@ describe('Audience', () => {
       const res = await client.createImpAudienceGroup(
         'audienceGroupName',
         '12222'
-      );
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPost().reply(config => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/imp');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createImpAudienceGroup(
-        'audienceGroupName',
-        '12222',
-        {
-          accessToken: CUSTOM_ACCESS_TOKEN,
-        }
       );
 
       expect(res).toEqual(reply);
@@ -337,33 +221,6 @@ describe('Audience', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPut().reply(config => {
-        expect(config.url).toEqual(
-          `/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
-        );
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.setDescriptionAudienceGroup(
-        'audienceGroupName',
-        audienceGroupId,
-        {
-          accessToken: CUSTOM_ACCESS_TOKEN,
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#deleteAudienceGroup', () => {
@@ -383,26 +240,6 @@ describe('Audience', () => {
       });
 
       const res = await client.deleteAudienceGroup(audienceGroupId);
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(3);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onDelete().reply(config => {
-        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.deleteAudienceGroup(4389303728991, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
 
       expect(res).toEqual(reply);
     });
@@ -435,26 +272,6 @@ describe('Audience', () => {
       });
 
       const res = await client.getAudienceGroup(audienceGroupId);
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(3);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onGet().reply(config => {
-        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getAudienceGroup(4389303728991, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
 
       expect(res).toEqual(reply);
     });
@@ -507,32 +324,6 @@ describe('Audience', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(3);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onGet().reply(config => {
-        expect(config.url).toEqual(
-          `/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
-        );
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getAudienceGroups({
-        page,
-        description,
-        status,
-        size,
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#getAudienceGroupAuthorityLevel', () => {
@@ -552,26 +343,6 @@ describe('Audience', () => {
       });
 
       const res = await client.getAudienceGroupAuthorityLevel();
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(3);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onGet().reply(config => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getAudienceGroupAuthorityLevel({
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
 
       expect(res).toEqual(reply);
     });
@@ -597,27 +368,6 @@ describe('Audience', () => {
       });
 
       const res = await client.changeAudienceGroupAuthorityLevel('PUBLIC');
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should work with custom access token', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock({
-        customAccessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      mock.onPut().reply(config => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.changeAudienceGroupAuthorityLevel('PUBLIC', {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
 
       expect(res).toEqual(reply);
     });

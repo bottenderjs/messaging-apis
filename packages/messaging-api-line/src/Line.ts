@@ -1,5 +1,3 @@
-import omit from 'lodash/omit';
-
 import * as Types from './LineTypes';
 
 function createText(
@@ -9,7 +7,7 @@ function createText(
   return {
     type: 'text',
     text,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -24,7 +22,7 @@ function createImage(
     type: 'image',
     originalContentUrl: image.originalContentUrl,
     previewImageUrl: image.previewImageUrl || image.originalContentUrl,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -39,7 +37,7 @@ function createVideo(
     type: 'video',
     originalContentUrl: video.originalContentUrl,
     previewImageUrl: video.previewImageUrl,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -54,7 +52,7 @@ function createAudio(
     type: 'audio',
     originalContentUrl: audio.originalContentUrl,
     duration: audio.duration,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -68,7 +66,7 @@ function createLocation(
     address,
     latitude,
     longitude,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -80,7 +78,7 @@ function createSticker(
     type: 'sticker',
     packageId: sticker.packageId,
     stickerId: sticker.stickerId,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -101,7 +99,7 @@ function createImagemap(
     baseSize,
     video,
     actions,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -114,7 +112,7 @@ function createTemplate(
     type: 'template',
     altText,
     template,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
@@ -154,7 +152,7 @@ function createButtonTemplate(
       defaultAction,
       actions,
     },
-    omit(options, 'accessToken')
+    options
   );
 }
 
@@ -176,7 +174,7 @@ function createConfirmTemplate(
       text,
       actions,
     },
-    omit(options, 'accessToken')
+    options
   );
 }
 
@@ -216,7 +214,7 @@ function createImageCarouselTemplate(
       type: 'image_carousel',
       columns,
     },
-    omit(options, 'accessToken')
+    options
   );
 }
 
@@ -229,7 +227,7 @@ function createFlex(
     type: 'flex',
     altText,
     contents,
-    ...omit(options, 'accessToken'),
+    ...options,
   };
 }
 
