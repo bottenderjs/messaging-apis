@@ -3,6 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import MessengerClient from '../MessengerClient';
 
 const ACCESS_TOKEN = '1234567890';
+const USER_ID = 'abcdefg';
 
 let axios;
 let _create;
@@ -561,6 +562,285 @@ describe('persistent menu', () => {
       expect(JSON.parse(data)).toEqual({
         fields: ['persistent_menu'],
       });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#getUserPersistentMenu', () => {
+    it('should respond data of persistent menu', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [
+          {
+            user_level_persistent_menu: [
+              {
+                locale: 'default',
+                composer_input_disabled: true,
+                call_to_actions: [
+                  {
+                    type: 'postback',
+                    title: 'Restart Conversation',
+                    payload: 'RESTART',
+                  },
+                  {
+                    type: 'web_url',
+                    title: 'Powered by ALOHA.AI, Yoctol',
+                    url: 'https://www.yoctol.com/',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
+
+      const res = await client.getUserPersistentMenu(USER_ID);
+
+      expect(url).toEqual(
+        `/me/custom_user_settings?psid=${USER_ID}
+        &access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual([
+        {
+          locale: 'default',
+          composerInputDisabled: true,
+          callToActions: [
+            {
+              type: 'postback',
+              title: 'Restart Conversation',
+              payload: 'RESTART',
+            },
+            {
+              type: 'web_url',
+              title: 'Powered by ALOHA.AI, Yoctol',
+              url: 'https://www.yoctol.com/',
+            },
+          ],
+        },
+      ]);
+    });
+
+    it('should respond null when data is an empty array', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        data: [],
+      };
+
+      let url;
+      mock.onGet().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
+
+      const res = await client.getUserPersistentMenu(USER_ID);
+
+      expect(url).toEqual(
+        `/me/custom_user_settings?psid=${USER_ID}
+        &access_token=${ACCESS_TOKEN}`
+      );
+
+      expect(res).toEqual(null);
+    });
+  });
+
+  describe('#setUserPersistentMenu', () => {
+    it('should respond success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
+
+      const res = await client.setUserPersistentMenu(USER_ID, [
+        {
+          type: 'postback',
+          title: 'Restart Conversation',
+          payload: 'RESTART',
+        },
+        {
+          type: 'web_url',
+          title: 'Powered by ALOHA.AI, Yoctol',
+          url: 'https://www.yoctol.com/',
+        },
+      ]);
+
+      expect(url).toEqual(
+        `/me/custom_user_settings?access_token=${ACCESS_TOKEN}`
+      );
+      expect(JSON.parse(data)).toEqual({
+        psid: USER_ID,
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: false,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+              {
+                type: 'web_url',
+                title: 'Powered by ALOHA.AI, Yoctol',
+                url: 'https://www.yoctol.com/',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should respond success result if input is a full PersistentMenu, not MenuItem[]', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
+
+      const res = await client.setUserPersistentMenu(USER_ID, [
+        {
+          locale: 'default',
+          composerInputDisabled: false,
+          callToActions: [
+            {
+              type: 'postback',
+              title: 'Restart Conversation',
+              payload: 'RESTART',
+            },
+            {
+              type: 'web_url',
+              title: 'Powered by ALOHA.AI, Yoctol',
+              url: 'https://www.yoctol.com/',
+            },
+          ],
+        },
+      ]);
+
+      expect(url).toEqual(
+        `/me/custom_user_settings?access_token=${ACCESS_TOKEN}`
+      );
+      expect(JSON.parse(data)).toEqual({
+        psid: USER_ID,
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: false,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+              {
+                type: 'web_url',
+                title: 'Powered by ALOHA.AI, Yoctol',
+                url: 'https://www.yoctol.com/',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(res).toEqual(reply);
+    });
+
+    it('should support disabled input', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      let url;
+      let data;
+      mock.onPost().reply(config => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
+
+      const items = [
+        {
+          type: 'postback',
+          title: 'Restart Conversation',
+          payload: 'RESTART',
+        },
+      ];
+
+      const res = await client.setUserPersistentMenu(USER_ID, items, {
+        composerInputDisabled: true,
+      });
+
+      expect(url).toEqual(
+        `/me/custom_user_settings?access_token=${ACCESS_TOKEN}`
+      );
+      expect(JSON.parse(data)).toEqual({
+        psid: USER_ID,
+        persistent_menu: [
+          {
+            locale: 'default',
+            composer_input_disabled: true,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('#deleteUserPersistentMenu', () => {
+    it('should respond success result', async () => {
+      const { client, mock } = createMock();
+
+      const reply = {
+        result: 'success',
+      };
+
+      let url;
+      mock.onDelete().reply(config => {
+        url = config.url;
+        return [200, reply];
+      });
+
+      const res = await client.deleteUserPersistentMenu(USER_ID);
+
+      expect(url).toEqual(`/me/custom_user_settings?psid=${USER_ID}
+        &params=[%22persistent_menu%22]&access_token=${ACCESS_TOKEN}`);
 
       expect(res).toEqual(reply);
     });

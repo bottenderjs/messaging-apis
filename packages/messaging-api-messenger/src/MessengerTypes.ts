@@ -441,7 +441,13 @@ export type IceBreaker = {
   payload: string;
 };
 
+export type UserPersistentMenu = {
+  userLevelPersistentMenu?: PersistentMenu;
+  pageLevelPersistentMenu?: PersistentMenu;
+};
+
 export type MessengerProfile = {
+  psid?: string;
   getStarted?: {
     payload: string;
   };

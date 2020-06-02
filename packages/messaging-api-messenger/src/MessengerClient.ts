@@ -434,7 +434,7 @@ export default class MessengerClient {
   getUserLevelMenu(
     userId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.MessengerProfile[]> {
+  ): Promise<Types.UserPersistentMenu[]> {
     return this._axios
       .get(
         `/me/custom_user_settings?psid=${userId}
@@ -444,7 +444,6 @@ export default class MessengerClient {
   }
 
   setUserLevelMenu(
-    userId: string,
     profile: Types.MessengerProfile,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
@@ -452,10 +451,7 @@ export default class MessengerClient {
       .post(
         `/me/custom_user_settings?access_token=${customAccessToken ||
           this._accessToken}`,
-        {
-          psid: userId,
-          profile,
-        }
+        profile
       )
       .then(res => res.data, handleError);
   }
@@ -578,7 +574,7 @@ export default class MessengerClient {
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.PersistentMenu | null> {
     return this.getUserLevelMenu(userId, options).then(res =>
-      res[0] ? (res[0].persistentMenu as Types.PersistentMenu) : null
+      res[0] ? (res[0].userLevelPersistentMenu as Types.PersistentMenu) : null
     );
   }
 
@@ -598,8 +594,8 @@ export default class MessengerClient {
       menuItems.some((item: Record<string, any>) => item.locale === 'default')
     ) {
       return this.setUserLevelMenu(
-        userId,
         {
+          psid: userId,
           persistentMenu: menuItems as Types.PersistentMenu,
         },
         options
@@ -608,8 +604,8 @@ export default class MessengerClient {
 
     // menuItems is in type MenuItem[]
     return this.setUserLevelMenu(
-      userId,
       {
+        psid: userId,
         persistentMenu: [
           {
             locale: 'default',
