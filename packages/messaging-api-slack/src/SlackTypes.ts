@@ -281,7 +281,7 @@ export type ActionsBlockElement =
   | DatepickerElement;
 
 export type ActionsBlock = {
-  type: 'action';
+  type: 'actions';
   elements: ActionsBlockElement[];
   blockId?: string;
 };
