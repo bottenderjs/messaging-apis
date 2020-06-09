@@ -12,7 +12,7 @@ module.exports = {
     jest: true,
     jasmine: true,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
   rules: {
     'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
@@ -26,6 +26,12 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+    {
+      files: ['packages/**/*.ts'],
+      rules: {
+        'tsdoc/syntax': 'warn',
       },
     },
   ],
