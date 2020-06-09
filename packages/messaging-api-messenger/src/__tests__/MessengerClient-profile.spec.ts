@@ -605,8 +605,7 @@ describe('persistent menu', () => {
       const res = await client.getUserPersistentMenu(USER_ID);
 
       expect(url).toEqual(
-        `/me/custom_user_settings?psid=${USER_ID}
-        &access_token=${ACCESS_TOKEN}`
+        `/me/custom_user_settings?psid=${USER_ID}&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual([
@@ -645,8 +644,7 @@ describe('persistent menu', () => {
       const res = await client.getUserPersistentMenu(USER_ID);
 
       expect(url).toEqual(
-        `/me/custom_user_settings?psid=${USER_ID}
-        &access_token=${ACCESS_TOKEN}`
+        `/me/custom_user_settings?psid=${USER_ID}&access_token=${ACCESS_TOKEN}`
       );
 
       expect(res).toEqual(null);
@@ -839,8 +837,9 @@ describe('persistent menu', () => {
 
       const res = await client.deleteUserPersistentMenu(USER_ID);
 
-      expect(url).toEqual(`/me/custom_user_settings?psid=${USER_ID}
-        &params=[%22persistent_menu%22]&access_token=${ACCESS_TOKEN}`);
+      expect(url).toEqual(
+        `/me/custom_user_settings?psid=${USER_ID}&params=[%22persistent_menu%22]&access_token=${ACCESS_TOKEN}`
+      );
 
       expect(res).toEqual(reply);
     });

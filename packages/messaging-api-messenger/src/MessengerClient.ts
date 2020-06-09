@@ -532,8 +532,8 @@ export default class MessengerClient {
   ): Promise<Types.PersistentMenu | null> {
     return this._axios
       .get(
-        `/me/custom_user_settings?psid=${userId}
-        &access_token=${customAccessToken || this._accessToken}`
+        `/me/custom_user_settings?psid=${userId}&access_token=${customAccessToken ||
+          this._accessToken}`
       )
       .then(
         res =>
@@ -596,8 +596,7 @@ export default class MessengerClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .delete(
-        `/me/custom_user_settings?psid=${userId}
-        &params=[%22persistent_menu%22]&access_token=${customAccessToken ||
+        `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]&access_token=${customAccessToken ||
           this._accessToken}`
       )
       .then(res => res.data, handleError);

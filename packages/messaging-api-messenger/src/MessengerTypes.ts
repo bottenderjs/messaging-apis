@@ -447,7 +447,6 @@ export type UserPersistentMenu = {
 };
 
 export type MessengerProfile = {
-  psid?: string;
   getStarted?: {
     payload: string;
   };
