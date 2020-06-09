@@ -30,7 +30,7 @@ function throwWhenNotSuccess(res: {
     targetType?: 'USER' | 'GROUP';
     target?: string;
   };
-}): any | never {
+}): any {
   if (res.data.status !== 200) {
     const { status, message } = res.data;
     const msg = `LINE NOTIFY API - ${status} ${message}`;
@@ -71,7 +71,7 @@ export default class LineNotify {
   /**
    * constructor
    *
-   * @param config LINE Notify configuration from LINE Notify services website.
+   * @param config - LINE Notify configuration from LINE Notify services website.
    */
   constructor(config: Types.LineNotifyConfig) {
     this._clientId = config.clientId;
@@ -102,7 +102,7 @@ export default class LineNotify {
    *
    * Get The OAuth2 authorization endpoint URI.
    *
-   * @param state Assigns a token that can be used for responding to CSRF attacks
+   * @param state - Assigns a token that can be used for responding to CSRF attacks
    *
    * CSRF attacks are typically countered by assigning a hash value generated from a user's session ID, and then verifying the state parameter variable when it attempts to access redirect_uri.
    *
@@ -126,7 +126,7 @@ export default class LineNotify {
    *
    * The OAuth2 token endpoint.
    *
-   * @param code Assigns a code parameter value generated during redirection
+   * @param code - Assigns a code parameter value generated during redirection
    * @returns An access token for authentication.
    */
   async getToken(code: string): Promise<string> {
@@ -159,7 +159,7 @@ export default class LineNotify {
    *
    * As LINE Notify also provides the same feature, support for this API is optional.
    *
-   * @param accessToken the accessToken you want to revoke
+   * @param accessToken - the accessToken you want to revoke
    * @returns
    * - status: Value according to HTTP status code.
    * - message: Message visible to end-user.
@@ -194,9 +194,9 @@ export default class LineNotify {
    * ## Expected use cases
    * When a connected service has an event that needs to send a notification to LINE
    *
-   * @param accessToken An access token related to users or groups
-   * @param message The notification content
-   * @param options Other optional parameters
+   * @param accessToken - An access token related to users or groups
+   * @param message - The notification content
+   * @param options - Other optional parameters
    * @returns
    * - status: Value according to HTTP status code
    * - message: Message visible to end-user
@@ -239,7 +239,7 @@ export default class LineNotify {
    *
    * As LINE Notify also provides the same feature, support for this API is optional.
    *
-   * @param accessToken the accessToken you want to revoke
+   * @param accessToken - the accessToken you want to revoke
    * @returns
    * - status: Value according to HTTP status code
    * - message: Message visible to end-user

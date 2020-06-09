@@ -123,8 +123,8 @@ export default class WechatClient {
    *
    * 媒体文件保存时间为 3 天，即 3 天后 media_id 失效。
    *
-   * 图片（image）- 2M，支持 PNG\JPEG\JPG\GIF 格式
-   * 语音（voice）- 2M，播放长度不超过 60s，支持 AMR\MP3 格式
+   * 图片（image）- 2M，支持 PNG,JPEG,JPG,GIF 格式
+   * 语音（voice）- 2M，播放长度不超过 60s，支持 AMR,MP3 格式
    * 视频（video）- 10MB，支持 MP4 格式
    * 缩略图（thumb）- 64KB，支持 JPG 格式
    */

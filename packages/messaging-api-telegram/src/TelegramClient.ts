@@ -130,10 +130,10 @@ export default class TelegramClient {
    *
    * - https://core.telegram.org/bots/api#setwebhook
    *
-   * @param url HTTPS url to send updates to. Use an empty string to remove webhook integration.
-   * @param options.certificate not supported yet.
-   * @param options.maxConnections Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40.
-   * @param options.allowedUpdates List the types of updates you want your bot to receive.
+   * @param url - HTTPS url to send updates to. Use an empty string to remove webhook integration.
+   * @param options.certificate - not supported yet.
+   * @param options.maxConnections - Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40.
+   * @param options.allowedUpdates - List the types of updates you want your bot to receive.
    * @returns True on success.
    */
   setWebhook(
@@ -188,10 +188,10 @@ export default class TelegramClient {
   /**
    * Use this method to forward messages of any kind. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param fromChatId Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-   * @param messageId Message identifier in the chat specified in from_chat_id
-   * @param options.disableNotification Sends the message silently. Users will receive a notification with no sound
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param fromChatId - Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+   * @param messageId - Message identifier in the chat specified in from_chat_id
+   * @param options.disableNotification - Sends the message silently. Users will receive a notification with no sound
    * - https://core.telegram.org/bots/api#forwardmessage
    */
   forwardMessage(
@@ -234,9 +234,9 @@ export default class TelegramClient {
    *
    * For sending voice messages, use the sendVoice method instead.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an audio file from the Internet. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param audio -Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an audio file from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendaudio
    */
@@ -269,9 +269,9 @@ export default class TelegramClient {
   /**
    * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param document - File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#senddocument
    */
@@ -292,9 +292,9 @@ export default class TelegramClient {
   /**
    * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a video from the Internet. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param video - Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a video from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendvideo
    */
@@ -315,9 +315,9 @@ export default class TelegramClient {
   /**
    * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an animation from the Internet. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param animation - Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an animation from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendanimation
    */
@@ -338,9 +338,9 @@ export default class TelegramClient {
   /**
    * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
    *
-   * @param chatId identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param voice - Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendvoice
    */
@@ -359,9 +359,9 @@ export default class TelegramClient {
   /**
    * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param videoNote Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers. Sending video notes by a URL is currently unsupported. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param videoNote - Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers. Sending video notes by a URL is currently unsupported. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendvideonote
    */
@@ -382,9 +382,9 @@ export default class TelegramClient {
   /**
    * Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param media A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param media - A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendmediagroup
    */
@@ -406,10 +406,10 @@ export default class TelegramClient {
   /**
    * Use this method to send point on the map. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param latitude Latitude of the location
-   * @param longitude Longitude of the location
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param latitude - Latitude of the location
+   * @param longitude - Longitude of the location
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendlocation
    */
@@ -429,12 +429,12 @@ export default class TelegramClient {
   /**
    * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
    *
-   * @param latitude Latitude of new location
-   * @param longitude Longitude of new location
-   * @param options.chatId Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param options.messageId Required if inline_message_id is not specified. Identifier of the message to edit
-   * @param options.inlineMessageId Required if chat_id and message_id are not specified. Identifier of the inline message
-   * @param options.replyMarkup A JSON-serialized object for a new inline keyboard.
+   * @param latitude - Latitude of new location
+   * @param longitude - Longitude of new location
+   * @param options.chatId - Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param options.messageId - Required if inline_message_id is not specified. Identifier of the message to edit
+   * @param options.inlineMessageId - Required if chat_id and message_id are not specified. Identifier of the inline message
+   * @param options.replyMarkup - A JSON-serialized object for a new inline keyboard.
    *
    * - https://core.telegram.org/bots/api#editmessagelivelocation
    */
@@ -452,10 +452,10 @@ export default class TelegramClient {
   /**
    * Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
    *
-   * @param options.chatId Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param options.messageId Required if inline_message_id is not specified. Identifier of the message to edit
-   * @param options.inlineMessageId Required if chat_id and message_id are not specified. Identifier of the inline message
-   * @param options.replyMarkup A JSON-serialized object for a new inline keyboard.
+   * @param options.chatId - Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param options.messageId - Required if inline_message_id is not specified. Identifier of the message to edit
+   * @param options.inlineMessageId - Required if chat_id and message_id are not specified. Identifier of the inline message
+   * @param options.replyMarkup - A JSON-serialized object for a new inline keyboard.
    *
    * - https://core.telegram.org/bots/api#stopmessagelivelocation
    */
@@ -470,12 +470,12 @@ export default class TelegramClient {
   /**
    * Use this method to send information about a venue. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param latitude Latitude of the venue
-   * @param longitude Longitude of the venue
-   * @param title Name of the venue
-   * @param address Address of the venue
-   * @param options Optional parameters for other parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param latitude - Latitude of the venue
+   * @param longitude - Longitude of the venue
+   * @param title - Name of the venue
+   * @param address - Address of the venue
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#sendvenue
    */
@@ -495,10 +495,10 @@ export default class TelegramClient {
   /**
    * Use this method to send phone contacts. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param requiredOptions.phoneNumber Contact's phone number
-   * @param requiredOptions.firstName Contact's first name
-   * @param options Optional parameters for other parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param requiredOptions.phoneNumber - Contact's phone number
+   * @param requiredOptions.firstName - Contact's first name
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#sendcontact
    */
@@ -517,10 +517,10 @@ export default class TelegramClient {
   /**
    * Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername). A native poll can't be sent to a private chat.
-   * @param question Poll question, 1-255 characters
-   * @param options List of answer options, 2-10 strings 1-100 characters each
-   * @param otherOptions Optional parameters for other parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername). A native poll can't be sent to a private chat.
+   * @param question - Poll question, 1-255 characters
+   * @param options - List of answer options, 2-10 strings 1-100 characters each
+   * @param otherOptions - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#sendpoll
    */
@@ -543,8 +543,8 @@ export default class TelegramClient {
    *
    * Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo. The user will see a “sending photo” status for the bot.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param action Types of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param action - Types of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
    *
    * - https://core.telegram.org/bots/api#sendchataction
    */
@@ -561,8 +561,8 @@ export default class TelegramClient {
   /**
    * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
    *
-   * @param userId Unique identifier of the target user
-   * @param options Options for other optional parameters.
+   * @param userId - Unique identifier of the target user
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#getuserprofilephotos
    */
@@ -579,7 +579,7 @@ export default class TelegramClient {
   /**
    * Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
    *
-   * @param fileId File identifier to get info about
+   * @param fileId - File identifier to get info about
    *
    * - https://core.telegram.org/bots/api#getfile
    */
@@ -604,9 +604,9 @@ export default class TelegramClient {
    *
    * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group. Otherwise members may only be removed by the group's creator or by the member that added them.
    *
-   * @param chatId Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
-   * @param userId Unique identifier of the target user
-   * @param options.untilDate Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
+   * @param chatId - Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
+   * @param userId - Unique identifier of the target user
+   * @param options.untilDate - Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
    *
    * - https://core.telegram.org/bots/api#kickchatmember
    */
@@ -625,8 +625,8 @@ export default class TelegramClient {
   /**
    * Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. Returns True on success.
    *
-   * @param chatId Unique identifier for the target group or username of the target supergroup or channel (in the format @username)
-   * @param userId Unique identifier of the target user
+   * @param chatId - Unique identifier for the target group or username of the target supergroup or channel (in the format @username)
+   * @param userId - Unique identifier of the target user
    *
    * - https://core.telegram.org/bots/api#unbanchatmember
    */
@@ -640,10 +640,10 @@ export default class TelegramClient {
   /**
    * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-   * @param userId Unique identifier of the target user
-   * @param permissions New user permissions
-   * @param options.untilDate Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param userId - Unique identifier of the target user
+   * @param permissions - New user permissions
+   * @param options.untilDate - Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
    *
    * - https://core.telegram.org/bots/api#restrictchatmember
    */
@@ -664,9 +664,9 @@ export default class TelegramClient {
   /**
    * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param userId Unique identifier of the target user
-   * @param options Options for other optional parameters
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param userId - Unique identifier of the target user
+   * @param options - Options for other optional parameters
    *
    * - https://core.telegram.org/bots/api#promotechatmember
    */
@@ -685,8 +685,8 @@ export default class TelegramClient {
   /**
    * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-   * @param permissions New default chat permissions
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param permissions - New default chat permissions
    *
    * - https://core.telegram.org/bots/api#setchatpermissions
    */
@@ -705,7 +705,7 @@ export default class TelegramClient {
    *
    * Note: Each administrator in a chat generates their own invite links. Bots can't use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using exportChatInviteLink – after this the link will become available to the bot via the getChat method. If your bot needs to generate a new invite link replacing its previous one, use exportChatInviteLink again.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#exportchatinvitelink
    */
@@ -720,8 +720,8 @@ export default class TelegramClient {
    *
    * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param photo New chat photo, uploaded using multipart/form-data
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param photo - New chat photo, uploaded using multipart/form-data
    *
    * - https://core.telegram.org/bots/api#setchatphoto
    */
@@ -732,7 +732,7 @@ export default class TelegramClient {
    *
    * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#deletechatphoto
    */
@@ -747,8 +747,8 @@ export default class TelegramClient {
    *
    * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param title New chat title, 1-255 characters
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param title - New chat title, 1-255 characters
    *
    * - https://core.telegram.org/bots/api#setchattitle
    */
@@ -762,8 +762,8 @@ export default class TelegramClient {
   /**
    * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param description New chat description, 0-255 characters
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param description - New chat description, 0-255 characters
    *
    * - https://core.telegram.org/bots/api#setchatdescription
    */
@@ -780,9 +780,9 @@ export default class TelegramClient {
   /**
    * Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param messageId Identifier of a message to pin
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageId - Identifier of a message to pin
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#pinchatmessage
    */
@@ -801,7 +801,7 @@ export default class TelegramClient {
   /**
    * Use this method to unpin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#unpinchatmessage
    */
@@ -814,7 +814,7 @@ export default class TelegramClient {
   /**
    * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#leavechat
    */
@@ -827,7 +827,7 @@ export default class TelegramClient {
   /**
    * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#getchat
    */
@@ -840,7 +840,7 @@ export default class TelegramClient {
   /**
    * Use this method to get a list of administrators in a chat. On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#getchatmemberscount
    */
@@ -853,7 +853,7 @@ export default class TelegramClient {
   /**
    * Use this method to get the number of members in a chat. Returns Int on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
    *
    * - https://core.telegram.org/bots/api#getchatmemberscount
    */
@@ -866,8 +866,8 @@ export default class TelegramClient {
   /**
    * Use this method to get information about a member of a chat. Returns a ChatMember object on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
-   * @param userId Unique identifier of the target user
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param userId - Unique identifier of the target user
    *
    * - https://core.telegram.org/bots/api#getchatmember
    */
@@ -884,8 +884,8 @@ export default class TelegramClient {
   /**
    * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-   * @param stickerSetName Name of the sticker set to be set as the group sticker set
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param stickerSetName - Name of the sticker set to be set as the group sticker set
    *
    * - https://core.telegram.org/bots/api#setchatstickerset
    */
@@ -902,7 +902,7 @@ export default class TelegramClient {
   /**
    * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
    *
-   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    *
    * - https://core.telegram.org/bots/api#deletechatstickerset
    */
@@ -917,8 +917,8 @@ export default class TelegramClient {
    *
    * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @Botfather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
    *
-   * @param callbackQueryId Unique identifier for the query to be answered
-   * @param options Optional parameters for other parameters.
+   * @param callbackQueryId - Unique identifier for the query to be answered
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#answercallbackquery
    */
@@ -935,8 +935,8 @@ export default class TelegramClient {
   /**
    * Use this method to edit text and game messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
    *
-   * @param text New text of the message
-   * @param options Options for other optional parameters.
+   * @param text - New text of the message
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#editmessagetext
    */
@@ -953,8 +953,8 @@ export default class TelegramClient {
   /**
    * Use this method to edit captions of messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
    *
-   * @param caption New caption of the message
-   * @param options Optional parameters for other parameters.
+   * @param caption - New caption of the message
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#editmessagecaption
    */
@@ -971,8 +971,8 @@ export default class TelegramClient {
   /**
    * Use this method to edit animation, audio, document, photo, or video messages. If a message is a part of a message album, then it can be edited only to a photo or a video. Otherwise, message type can be changed arbitrarily. When inline message is edited, new file can't be uploaded. Use previously uploaded file via its file_id or specify a URL. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
    *
-   * @param media A JSON-serialized object for a new media content of the message
-   * @param options Options for other optional parameters.
+   * @param media - A JSON-serialized object for a new media content of the message
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#editmessagemedia
    */
@@ -989,8 +989,8 @@ export default class TelegramClient {
   /**
    * Use this method to edit only the reply markup of messages. On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
    *
-   * @param replyMarkup A JSON-serialized object for an inline keyboard.
-   * @param options Optional parameters for other parameters.
+   * @param replyMarkup - A JSON-serialized object for an inline keyboard.
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#editmessagereplymarkup
    */
@@ -1007,9 +1007,9 @@ export default class TelegramClient {
   /**
    * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param messageId Identifier of the original message with the poll
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageId - Identifier of the original message with the poll
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#stoppoll
    */
@@ -1047,9 +1047,9 @@ export default class TelegramClient {
   /**
    * Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a .webp file from the Internet. Upload file is not supported yet.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param sticker - Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a .webp file from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendsticker
    */
@@ -1068,7 +1068,7 @@ export default class TelegramClient {
   /**
    * Use this method to get a sticker set. On success, a StickerSet object is returned.
    *
-   * @param name Name of the sticker set
+   * @param name - Name of the sticker set
    *
    * - https://core.telegram.org/bots/api#getstickerset
    */
@@ -1084,10 +1084,10 @@ export default class TelegramClient {
   /**
    * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set. Returns True on success.
    *
-   * @param userId User identifier of created sticker set owner
-   * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
-   * @param title Sticker set title, 1-64 characters
-   * @param pngSticker Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param userId - User identifier of created sticker set owner
+   * @param name - Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
+   * @param title - Sticker set title, 1-64 characters
+   * @param pngSticker - Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
    *
    * - https://core.telegram.org/bots/api#createnewstickerset
    */
@@ -1112,11 +1112,11 @@ export default class TelegramClient {
   /**
    * Use this method to add a new sticker to a set created by the bot. Returns True on success.
    *
-   * @param userId User identifier of sticker set owner
-   * @param name Sticker set name
-   * @param pngSticker Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
-   * @param emojis One or more emoji corresponding to the sticker
-   * @param options Options for other optional parameters.
+   * @param userId - User identifier of sticker set owner
+   * @param name - Sticker set name
+   * @param pngSticker - Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param emojis - One or more emoji corresponding to the sticker
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#addstickertoset
    */
@@ -1139,8 +1139,8 @@ export default class TelegramClient {
   /**
    * Use this method to move a sticker in a set created by the bot to a specific position . Returns True on success.
    *
-   * @param sticker File identifier of the sticker
-   * @param position New sticker position in the set, zero-based
+   * @param sticker - File identifier of the sticker
+   * @param position - New sticker position in the set, zero-based
    *
    * - https://core.telegram.org/bots/api#setstickerpositioninset
    */
@@ -1154,7 +1154,7 @@ export default class TelegramClient {
   /**
    * Use this method to delete a sticker from a set created by the bot. Returns True on success.
    *
-   * @param sticker File identifier of the sticker
+   * @param sticker - File identifier of the sticker
    *
    * - https://core.telegram.org/bots/api#deletestickerfromset
    */
@@ -1165,9 +1165,9 @@ export default class TelegramClient {
   /**
    * Use this method to send answers to an inline query. On success, True is returned. No more than 50 results per query are allowed.
    *
-   * @param inlineQueryId Unique identifier for the answered query
-   * @param results A JSON-serialized array of results for the inline query
-   * @param options Optional parameters for other parameters.
+   * @param inlineQueryId - Unique identifier for the answered query
+   * @param results - A JSON-serialized array of results for the inline query
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#answerinlinequery
    */
@@ -1186,15 +1186,15 @@ export default class TelegramClient {
   /**
    * Use this method to send invoices. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target private chat
-   * @param product.title name, 1-32 characters
-   * @param product.description Product description, 1-255 characters
-   * @param product.payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-   * @param product.providerToken Payments provider token, obtained via Botfather
-   * @param product.startParameter Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
-   * @param product.currency Three-letter ISO 4217 currency code, see more on currencies
-   * @param product.prices Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target private chat
+   * @param product.title - name, 1-32 characters
+   * @param product.description - Product description, 1-255 characters
+   * @param product.payload - Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   * @param product.providerToken - Payments provider token, obtained via Botfather
+   * @param product.startParameter - Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+   * @param product.currency - Three-letter ISO 4217 currency code, see more on currencies
+   * @param product.prices - Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendinvoice
    */
@@ -1213,9 +1213,9 @@ export default class TelegramClient {
   /**
    * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
    *
-   * @param shippingQueryId Unique identifier for the query to be answered
-   * @param ok Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
-   * @param options Options for other optional parameters.
+   * @param shippingQueryId - Unique identifier for the query to be answered
+   * @param ok - Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#answershippingquery
    */
@@ -1234,9 +1234,9 @@ export default class TelegramClient {
   /**
    * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
    *
-   * @param preCheckoutQueryId Unique identifier for the query to be answered
-   * @param ok Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
-   * @param options Optional parameters for other parameters.
+   * @param preCheckoutQueryId - Unique identifier for the query to be answered
+   * @param ok - Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#answerprecheckoutquery
    */
@@ -1260,9 +1260,9 @@ export default class TelegramClient {
   /**
    * Use this method to send a game. On success, the sent Message is returned.
    *
-   * @param chatId Unique identifier for the target chat
-   * @param gameShortName Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
-   * @param options Options for other optional parameters.
+   * @param chatId - Unique identifier for the target chat
+   * @param gameShortName - Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#sendgame
    */
@@ -1281,9 +1281,9 @@ export default class TelegramClient {
   /**
    * Use this method to set the score of the specified user in a game. On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
    *
-   * @param userId User identifier
-   * @param score New score, must be non-negative
-   * @param options Options for other optional parameters.
+   * @param userId - User identifier
+   * @param score - New score, must be non-negative
+   * @param options - Options for other optional parameters.
    *
    * - https://core.telegram.org/bots/api#setgamescore
    */
@@ -1304,8 +1304,8 @@ export default class TelegramClient {
    *
    * This method will currently return scores for the target user, plus two of his closest neighbors on each side. Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
    *
-   * @param userId Target user id
-   * @param options Optional parameters for other parameters.
+   * @param userId - Target user id
+   * @param options - Optional parameters for other parameters.
    *
    * - https://core.telegram.org/bots/api#getgamehighscores
    */
