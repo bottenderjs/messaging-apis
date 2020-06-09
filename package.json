@@ -22,9 +22,9 @@
     "publish": "lerna publish",
     "prepublishOnly": "yarn clean && yarn && yarn test",
     "test": "yarn compile && yarn lint && yarn testonly",
-    "testonly": "jest --verbose",
-    "testonly:cov": "jest --verbose --coverage --runInBand --forceExit --no-cache",
-    "testonly:watch": "jest --verbose --watchAll",
+    "testonly": "jest",
+    "testonly:cov": "jest --coverage",
+    "testonly:watch": "jest --watch",
     "watch": "tsc --build tsconfig.build.json --watch"
   },
   "devDependencies": {
