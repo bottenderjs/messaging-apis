@@ -1,4 +1,5 @@
 import querystring from 'querystring';
+import { Readable } from 'stream';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
@@ -707,6 +708,14 @@ export default class LineClient {
     return this._dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
+      })
+      .then(res => res.data, handleError);
+  }
+
+  getMessageContentStream(messageId: string): Promise<Readable> {
+    return this._dataAxios
+      .get(`/v2/bot/message/${messageId}/content`, {
+        responseType: 'stream',
       })
       .then(res => res.data, handleError);
   }
