@@ -3,24 +3,41 @@ import { camelCase } from 'camel-case';
 import { pascalCase } from 'pascal-case';
 import { snakeCase } from 'snake-case';
 
-function isLastCharNumber(key: string) {
+type Options = { deep?: boolean };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PlainObject = Record<string, any>;
+
+function isLastCharNumber(key: string): boolean {
   return /^\d$/.test(key[key.length - 1]);
 }
 
-function splitLastChar(key: string) {
+function splitLastChar(key: string): string {
   return `${key.slice(0, key.length - 1)}_${key.slice(
     key.length - 1,
     key.length
   )}`;
 }
 
-function snakecase(str: string) {
-  const matches = str.match(/\d+/g);
+/**
+ * Converts a string to snake case.
+ *
+ * @param text - The input string
+ * @returns The converted string
+ *
+ * @example
+ * ```js
+ * snakecase('fooBar');
+ * //=> 'foo_bar'
+ * ```
+ */
+function snakecase(text: string): string {
+  const matches = text.match(/\d+/g);
   if (!matches) {
-    return snakeCase(str);
+    return snakeCase(text);
   }
 
-  let modifiedStr = str;
+  let modifiedStr = text;
   for (let i = 0; i < matches.length; i++) {
     const match = matches[i];
     const mathIndex = modifiedStr.indexOf(match);
@@ -33,19 +50,53 @@ function snakecase(str: string) {
   return snakeCase(modifiedStr);
 }
 
-function snakecaseKeys(
-  obj: Record<string, any>,
-  options: { deep?: boolean } = {}
-) {
+/**
+ * Converts object keys to snake case.
+ *
+ * @param obj - The input object
+ * @param options - The options to config this convert function
+ * @returns The converted object
+ *
+ * @example
+ * ```js
+ * snakecaseKeys({ 'fooBar': true });
+ * //=> { 'foo_bar': true }
+ * ```
+ */
+function snakecaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
   return mapObject(obj, (key, val) => [snakecase(key), val], options);
 }
 
-function snakecaseKeysDeep(obj: Record<string, any>) {
+/**
+ * Converts object keys to snake case deeply.
+ *
+ * @param obj - The input object
+ * @returns The converted object
+ *
+ * @example
+ * ```js
+ * snakecaseKeysDeep({ 'fooBar': { 'barFoo': true } });
+ * //=> { 'foo_bar': { 'bar_foo': true } }
+ * ```
+ */
+function snakecaseKeysDeep(obj: PlainObject): PlainObject {
   return snakecaseKeys(obj, { deep: true });
 }
 
-function camelcase(str: string) {
-  const parts = str.split('_');
+/**
+ * Converts a string to camel case.
+ *
+ * @param text - The input string
+ * @returns The converted string
+ *
+ * @example
+ * ```js
+ * camelcase('foo_bar');
+ * //=> 'fooBar'
+ * ```
+ */
+function camelcase(text: string): string {
+  const parts = text.split('_');
   const modifiedStr = parts.reduce((acc, part) => {
     if (acc === '') return part;
     if (/^\d+/.test(part)) {
@@ -56,29 +107,85 @@ function camelcase(str: string) {
   return camelCase(modifiedStr);
 }
 
-function camelcaseKeys(
-  obj: Record<string, any>,
-  options: { deep?: boolean } = {}
-) {
+/**
+ * Converts object keys to camel case.
+ *
+ * @param obj - The input object
+ * @param options - The options to config this convert function
+ * @returns The converted object
+ *
+ * @example
+ * ```js
+ * camelcaseKeys({ 'foo_bar': true });
+ * //=> { 'fooBar': true }
+ * ```
+ */
+function camelcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
   return mapObject(obj, (key, val) => [camelcase(key), val], options);
 }
 
-function camelcaseKeysDeep(obj: Record<string, any>) {
+/**
+ * Converts object keys to camel case deeply.
+ *
+ * @param obj - The input object
+ * @returns The converted object
+ *
+ * @example
+ * ```js
+ * camelcaseKeysDeep({ 'foo_bar': { 'bar_foo': true } });
+ * //=> { 'fooBar': { 'barFoo': true } }
+ * ```
+ */
+function camelcaseKeysDeep(obj: PlainObject): PlainObject {
   return camelcaseKeys(obj, { deep: true });
 }
 
-function pascalcase(str: string) {
+/**
+ * Converts a string to pascal case.
+ *
+ * @param text - The input string
+ * @returns The converted string
+ *
+ * @example
+ * ```js
+ * pascalcase('fooBar');
+ * //=> 'FooBar'
+ * ```
+ */
+function pascalcase(str: string): string {
   return pascalCase(isLastCharNumber(str) ? splitLastChar(str) : str);
 }
 
-function pascalcaseKeys(
-  obj: Record<string, any>,
-  options: { deep?: boolean } = {}
-) {
+/**
+ * Converts object keys to pascal case.
+ *
+ * @param obj - The input object
+ * @param options - The options to config this convert function
+ * @returns The converted object
+ *
+ * @example
+ * ```js
+ * pascalcaseKeys({ 'fooBar': true });
+ * //=> { 'FooBar': true }
+ * ```
+ */
+function pascalcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
   return mapObject(obj, (key, val) => [pascalcase(key), val], options);
 }
 
-function pascalcaseKeysDeep(obj: Record<string, any>) {
+/**
+ * Converts object keys to pascal case deeply.
+ *
+ * @param obj - The input object
+ * @returns The converted object
+ *
+ * @example
+ * ```js
+ * pascalcaseKeysDeep({ 'fooBar': { 'barFoo': true } });
+ * //=> { 'FooBar': { 'BarFoo': true } }
+ * ```
+ */
+function pascalcaseKeysDeep(obj: PlainObject): PlainObject {
   return pascalcaseKeys(obj, { deep: true });
 }
 

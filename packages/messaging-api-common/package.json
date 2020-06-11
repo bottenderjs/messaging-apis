@@ -1,6 +1,6 @@
 {
   "name": "messaging-api-common",
-  "description": "Messaging API client for common usage",
+  "description": "Helpers for common usages in Messaging API clients",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,6 +25,6 @@
     "messaging-apis"
   ],
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   }
 }

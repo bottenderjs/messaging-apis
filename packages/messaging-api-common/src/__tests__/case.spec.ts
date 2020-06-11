@@ -68,7 +68,7 @@ it('pascalcase', () => {
   expect(pascalcase('myKey')).toEqual('MyKey');
 });
 
-describe('pascalcaseKeys', () => {
+it('pascalcaseKeys', () => {
   expect(pascalcaseKeys({ myKey: 'value' })).toEqual({
     MyKey: 'value',
   });
@@ -84,7 +84,7 @@ describe('pascalcaseKeys', () => {
   );
 });
 
-describe('pascalcaseKeysDeep', () => {
+it('pascalcaseKeysDeep', () => {
   expect(pascalcaseKeysDeep({ myObj: { myKey: 'value' } })).toEqual({
     MyObj: { MyKey: 'value' },
   });

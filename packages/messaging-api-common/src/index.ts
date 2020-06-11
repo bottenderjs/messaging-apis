@@ -5,12 +5,16 @@ import { AxiosRequestConfig, Method } from 'axios';
 
 const debugRequest = debug('messaging-api:request');
 
-function defaultOnRequest(request: {
+export type RequestPayload = {
   method?: Method;
   url: string;
-  headers: Record<string, any>;
-  body: Record<string, any>;
-}): void {
+  headers: Record<string, string>;
+  body: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+};
+
+export type OnRequestFunction = (request: RequestPayload) => void;
+
+function defaultOnRequest(request: RequestPayload): void {
   debugRequest(`${request.method} - ${request.url}`);
   if (request.body) {
     debugRequest('Outgoing request body:');
@@ -22,19 +26,10 @@ function defaultOnRequest(request: {
   }
 }
 
-type RequestPayload = {
-  method?: Method;
-  url: string;
-  headers: Record<string, any>;
-  body: any;
-};
-
-export type OnRequestFunction = (request: RequestPayload) => void;
-
 function createRequestInterceptor({
   onRequest = defaultOnRequest,
 }: { onRequest?: OnRequestFunction } = {}) {
-  return (config: AxiosRequestConfig) => {
+  return (config: AxiosRequestConfig): AxiosRequestConfig => {
     onRequest({
       method: config.method,
       url: urlJoin(config.baseURL || '', config.url || '/'),
