@@ -103,11 +103,11 @@ function createImagemap(
   };
 }
 
-function createTemplate(
+function createTemplate<T extends Types.Template>(
   altText: string,
-  template: Types.Template,
+  template: T,
   options: Types.MessageOptions = {}
-): Types.TemplateMessage<any> {
+): Types.TemplateMessage<T> {
   return {
     type: 'template',
     altText,

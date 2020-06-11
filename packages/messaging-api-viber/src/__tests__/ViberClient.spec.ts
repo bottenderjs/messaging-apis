@@ -12,7 +12,7 @@ const SENDER = {
   avatar: 'http://avatar.example.com',
 };
 
-const createMock = () => {
+const createMock = (): { client: ViberClient; mock: MockAdapter } => {
   const client = new ViberClient(AUTH_TOKEN, SENDER);
   const mock = new MockAdapter(client.axios);
   return { client, mock };
@@ -275,8 +275,9 @@ describe('send message', () => {
       const res = await client.sendFile(RECEIVER, {
         media: 'http://www.images.com/file.doc',
         size: 10000,
+        // @ts-expect-error
         file_name: 'name_of_file.doc',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -341,8 +342,9 @@ describe('send message', () => {
 
       const res = await client.sendContact(RECEIVER, {
         name: 'Itamar',
+        // @ts-expect-error
         phone_number: '+972511123123',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -749,7 +751,8 @@ describe('send message', () => {
         })
         .reply(200, reply);
 
-      const res = await client.sendCarouselContent(RECEIVER, richMedia as any);
+      // @ts-expect-error
+      const res = await client.sendCarouselContent(RECEIVER, richMedia);
 
       expect(res).toEqual(reply);
     });
@@ -848,8 +851,9 @@ describe('keyboards', () => {
       .reply(200, reply);
 
     const res = await client.sendText(RECEIVER, 'Hello', {
+      // @ts-expect-error
       keyboard,
-    } as any);
+    });
 
     expect(res).toEqual(reply);
   });

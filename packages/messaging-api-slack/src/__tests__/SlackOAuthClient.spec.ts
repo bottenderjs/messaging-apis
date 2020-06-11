@@ -250,7 +250,7 @@ const camelcaseUser = {
   has2fa: true,
 };
 
-const createMock = () => {
+const createMock = (): { client: SlackOAuthClient; mock: MockAdapter } => {
   const client = new SlackOAuthClient(TOKEN);
   const mock = new MockAdapter(client.axios);
   return { client, mock };

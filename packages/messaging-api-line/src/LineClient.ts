@@ -123,7 +123,7 @@ export default class LineClient {
     messages: Types.Message[];
   }): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post('/v2/bot/message/reply', body)
+      .post<Types.MutationSuccessResponse>('/v2/bot/message/reply', body)
       .then(res => res.data, handleError);
   }
 
@@ -323,7 +323,7 @@ export default class LineClient {
     messages: Types.Message[];
   }): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post('/v2/bot/message/push', body)
+      .post<Types.MutationSuccessResponse>('/v2/bot/message/push', body)
       .then(res => res.data, handleError);
   }
 
@@ -514,7 +514,7 @@ export default class LineClient {
     messages: Types.Message[];
   }): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post('/v2/bot/message/multicast', body)
+      .post<Types.MutationSuccessResponse>('/v2/bot/message/multicast', body)
       .then(res => res.data, handleError);
   }
 

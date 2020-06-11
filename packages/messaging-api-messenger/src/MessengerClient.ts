@@ -99,7 +99,9 @@ export default class MessengerClient {
       baseURL: `${origin || 'https://graph.facebook.com'}/v${this._version}/`,
       headers: { 'Content-Type': 'application/json' },
       transformRequest: [
-        (data: any) =>
+        // axios use any as type of the data in AxiosTransformer
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (data: any): any =>
           data && isPlainObject(data) ? snakecaseKeysDeep(data) : data,
         ...(axios.defaults.transformRequest as AxiosTransformer[]),
       ],
@@ -108,7 +110,9 @@ export default class MessengerClient {
       // it is passed to then/catch
       transformResponse: [
         ...(axios.defaults.transformResponse as AxiosTransformer[]),
-        (data: any) =>
+        // axios use any as type of the data in AxiosTransformer
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (data: any): any =>
           data && isPlainObject(data) ? camelcaseKeysDeep(data) : data,
       ],
     });
@@ -370,7 +374,7 @@ export default class MessengerClient {
     }: { fields?: Types.UserProfileField[]; accessToken?: string } = {}
   ): Promise<Types.User> {
     return this._axios
-      .get(
+      .get<Types.User>(
         `/${userId}?fields=${fields.join(
           ','
         )}&access_token=${customAccessToken || this._accessToken}`
@@ -388,7 +392,7 @@ export default class MessengerClient {
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MessengerProfile[]> {
     return this._axios
-      .get(
+      .get<{ data: Types.MessengerProfile[] }>(
         `/me/messenger_profile?fields=${fields.join(
           ','
         )}&access_token=${customAccessToken || this._accessToken}`
@@ -401,7 +405,7 @@ export default class MessengerClient {
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .post(
+      .post<Types.MutationSuccessResponse>(
         `/me/messenger_profile?access_token=${customAccessToken ||
           this._accessToken}`,
         profile
@@ -414,7 +418,7 @@ export default class MessengerClient {
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
-      .delete(
+      .delete<Types.MutationSuccessResponse>(
         `/me/messenger_profile?access_token=${customAccessToken ||
           this._accessToken}`,
         {
@@ -479,7 +483,7 @@ export default class MessengerClient {
   }
 
   setPersistentMenu(
-    menuItems: Types.MenuItem[] | Types.PersistentMenu,
+    menuItems: Types.MenuItem[] | Types.PersistentMenuItem[],
     {
       composerInputDisabled = false,
       ...options
@@ -488,9 +492,12 @@ export default class MessengerClient {
       accessToken?: string;
     } = {}
   ): Promise<Types.MutationSuccessResponse> {
-    // menuItems is in type PersistentMenu
+    // locale is in type PersistentMenuItem
     if (
-      menuItems.some((item: Record<string, any>) => item.locale === 'default')
+      menuItems.some(
+        (item: Types.MenuItem | Types.PersistentMenuItem) =>
+          'locale' in item && item.locale === 'default'
+      )
     ) {
       return this.setMessengerProfile(
         {
@@ -546,7 +553,7 @@ export default class MessengerClient {
 
   setUserPersistentMenu(
     userId: string,
-    menuItems: Types.MenuItem[] | Types.PersistentMenu,
+    menuItems: Types.MenuItem[] | Types.PersistentMenuItem[],
     {
       composerInputDisabled = false,
       accessToken: customAccessToken,
@@ -555,12 +562,15 @@ export default class MessengerClient {
       accessToken?: string;
     } = {}
   ): Promise<Types.MutationSuccessResponse> {
-    // menuItems is in type PersistentMenu
+    // locale is in type PersistentMenuItem
     if (
-      menuItems.some((item: Record<string, any>) => item.locale === 'default')
+      menuItems.some(
+        (item: Types.MenuItem | Types.PersistentMenuItem) =>
+          'locale' in item && item.locale === 'default'
+      )
     ) {
       return this._axios
-        .post(
+        .post<Types.MutationSuccessResponse>(
           `/me/custom_user_settings?access_token=${customAccessToken ||
             this._accessToken}`,
           {
@@ -808,7 +818,7 @@ export default class MessengerClient {
     accessToken: customAccessToken,
   }: Types.AccessTokenOptions = {}): Promise<Types.MessageTagResponse> {
     return this._axios
-      .get(
+      .get<{ data: Types.MessageTagResponse }>(
         `/page_message_tags?access_token=${customAccessToken ||
           this._accessToken}`
       )
@@ -826,7 +836,7 @@ export default class MessengerClient {
     const { accessToken: customAccessToken } = body;
 
     return this._axios
-      .post(
+      .post<Types.SendMessageSuccessResponse>(
         `/me/messages?access_token=${customAccessToken || this._accessToken}`,
         body
       )
@@ -865,7 +875,7 @@ export default class MessengerClient {
     psidOrRecipient: Types.PsidOrRecipient,
     formdata: FormData,
     options: Types.SendOption = {}
-  ) {
+  ): Promise<Types.SendMessageSuccessResponse> {
     const recipient =
       typeof psidOrRecipient === 'string'
         ? {
@@ -884,7 +894,7 @@ export default class MessengerClient {
     formdata.append('recipient', JSON.stringify(snakecaseKeysDeep(recipient)));
 
     return this._axios
-      .post(
+      .post<Types.SendMessageSuccessResponse>(
         `/me/messages?access_token=${options.accessToken || this._accessToken}`,
         formdata,
         {
@@ -1630,7 +1640,6 @@ export default class MessengerClient {
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api
    */
-  // FIXME: [type] return type
   getInsights(
     metrics: Types.InsightMetric[],
     options: Types.InsightOptions = {}
@@ -1721,7 +1730,7 @@ export default class MessengerClient {
   setNLPConfigs(
     config: Types.MessengerNLPConfig = {},
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ) {
+  ): Promise<any> {
     return this._axios
       .post(
         `/me/nlp_configs?${querystring.stringify(
@@ -1735,12 +1744,12 @@ export default class MessengerClient {
   }
 
   // FIXME: [type] return type
-  enableNLP(options: Record<string, any> = {}) {
+  enableNLP(options: Types.AccessTokenOptions = {}): Promise<any> {
     return this.setNLPConfigs({ nlpEnabled: true }, options);
   }
 
   // FIXME: [type] return type
-  disableNLP(options: Record<string, any> = {}) {
+  disableNLP(options: Types.AccessTokenOptions = {}): Promise<any> {
     return this.setNLPConfigs({ nlpEnabled: false }, options);
   }
 

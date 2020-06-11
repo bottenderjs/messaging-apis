@@ -4,7 +4,7 @@ import TelegramClient from '../TelegramClient';
 
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
-const createMock = () => {
+const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
   const client = new TelegramClient(ACCESS_TOKEN);
   const mock = new MockAdapter(client.axios);
   return { client, mock };
@@ -309,9 +309,10 @@ describe('game api', () => {
         .reply(200, reply);
 
       const res = await client.getGameHighScores(427770117, {
+        // @ts-expect-error
         chat_id: 427770117,
         message_id: 1,
-      } as any);
+      });
 
       expect(res).toEqual(result);
     });

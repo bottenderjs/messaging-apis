@@ -15,7 +15,7 @@ const BROADCAST_LIST = [
   'ABB102akPCRKFaqxWnaf222==',
 ];
 
-const createMock = () => {
+const createMock = (): { client: ViberClient; mock: MockAdapter } => {
   const client = new ViberClient(AUTH_TOKEN, SENDER);
   const mock = new MockAdapter(client.axios);
   return { client, mock };
@@ -210,8 +210,9 @@ describe('broadcast message', () => {
       const res = await client.broadcastFile(BROADCAST_LIST, {
         media: 'http://www.images.com/file.doc',
         size: 10000,
+        // @ts-expect-error
         file_name: 'name_of_file.doc',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -276,8 +277,9 @@ describe('broadcast message', () => {
 
       const res = await client.broadcastContact(BROADCAST_LIST, {
         name: 'Itamar',
+        // @ts-expect-error
         phone_number: '+972511123123',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -693,7 +695,8 @@ describe('broadcast message', () => {
 
     const res = await client.broadcastCarouselContent(
       BROADCAST_LIST,
-      richMedia as any
+      // @ts-expect-error
+      richMedia
     );
 
     expect(res).toEqual(reply);

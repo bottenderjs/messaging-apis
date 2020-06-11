@@ -47,25 +47,18 @@ export default class LineNotify {
     return new LineNotify(config);
   }
 
-  /** @hidden */
   _clientId: string;
 
-  /** @hidden */
   _clientSecret: string;
 
-  /** @hidden */
   _redirectUri: string;
 
-  /** @hidden */
   _origin = 'https://notify-bot.line.me/';
 
-  /** @hidden */
   _apiOrigin = 'https://notify-api.line.me/';
 
-  /** @hidden */
   _axios: AxiosInstance;
 
-  /** @hidden */
   _apiAxios: AxiosInstance;
 
   /**
@@ -87,12 +80,10 @@ export default class LineNotify {
     });
   }
 
-  /** @hidden */
   get axios(): AxiosInstance {
     return this._axios;
   }
 
-  /** @hidden */
   get apiAxios(): AxiosInstance {
     return this._apiAxios;
   }
