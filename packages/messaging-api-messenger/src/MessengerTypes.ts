@@ -425,11 +425,13 @@ export type User = {
   gender?: string;
 };
 
-export type PersistentMenu = {
+export type PersistentMenuItem = {
   locale: string;
   composerInputDisabled: boolean;
   callToActions: MenuItem[];
-}[];
+};
+
+export type PersistentMenu = PersistentMenuItem[];
 
 export type GreetingConfig = {
   locale: string;

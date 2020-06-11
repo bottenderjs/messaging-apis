@@ -890,7 +890,7 @@ export type FlexText = {
    *
    * The default value is `false`.
    *
-   * If set to `true`, you can use a new line character (\n) to begin on a new
+   * If set to `true`, you can use a new line character (`\n`) to begin on a new
    * line.
    */
   wrap?: boolean;

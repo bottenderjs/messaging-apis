@@ -9,7 +9,7 @@ const APP_SECRET = 'APP_SECRET';
 const RECIPIENT_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
 
-const createMock = () => {
+const createMock = (): { client: WechatClient; mock: MockAdapter } => {
   const client = new WechatClient(APP_ID, APP_SECRET);
   const mock = new MockAdapter(client.axios);
 
@@ -254,11 +254,12 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendVideo(RECIPIENT_ID, {
+        // @ts-expect-error
         media_id: 'MEDIA_ID',
         thumb_media_id: 'MEDIA_ID',
         title: 'TITLE',
         description: 'DESCRIPTION',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -325,8 +326,9 @@ describe('send api', () => {
         description: 'MUSIC_DESCRIPTION',
         musicurl: 'MUSIC_URL',
         hqmusicurl: 'HQ_MUSIC_URL',
+        // @ts-expect-error
         thumb_media_id: 'THUMB_MEDIA_ID',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -488,6 +490,7 @@ describe('send api', () => {
         .reply(200, reply);
 
       const res = await client.sendMsgMenu(RECIPIENT_ID, {
+        // @ts-expect-error
         head_content: 'HEAD',
         list: [
           {
@@ -500,7 +503,7 @@ describe('send api', () => {
           },
         ],
         tail_content: 'TAIL',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });
@@ -591,8 +594,9 @@ describe('send api', () => {
         title: 'title',
         appid: 'appid',
         pagepath: 'pagepath',
+        // @ts-expect-error
         thumb_media_id: 'thumb_media_id',
-      } as any);
+      });
 
       expect(res).toEqual(reply);
     });

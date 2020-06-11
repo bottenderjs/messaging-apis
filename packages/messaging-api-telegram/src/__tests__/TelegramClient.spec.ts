@@ -4,7 +4,7 @@ import TelegramClient from '../TelegramClient';
 
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
-const createMock = () => {
+const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
   const client = new TelegramClient(ACCESS_TOKEN);
   const mock = new MockAdapter(client.axios);
   return { client, mock };
@@ -812,11 +812,13 @@ describe('other api', () => {
         .reply(200, reply);
 
       const res = await client.forwardMessage(427770117, 313534466, 203, {
+        // @ts-expect-error
         disable_notification: true,
       });
 
       expect(res).toEqual(result);
     });
+
     it('should forward messages of any kind with camelcase', async () => {
       const { client, mock } = createMock();
       mock

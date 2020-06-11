@@ -22,7 +22,7 @@ afterEach(() => {
   axios.create = _create;
 });
 
-const createMock = () => {
+const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
   const client = new MessengerClient({
     appId: APP_ID,
     appSecret: APP_SECRET,

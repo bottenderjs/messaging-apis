@@ -440,7 +440,7 @@ export type ReplyKeyboardMarkup = {
   oneTimeKeyboard?: boolean;
 
   /**
-   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has replyToMessageId), sender of the original message.
+   * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are `@mentioned` in the text of the Message object; 2) if the bot's message is a reply (has replyToMessageId), sender of the original message.
    *
    * Example: A user requests to change the bot‘s language, bot replies to the request with a keyboard to select the new language. Other users in the group don’t see the keyboard.
    */
@@ -483,7 +483,7 @@ export type ReplyKeyboardRemove = {
 
   /**
    * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets:
-   * 1. users that are @mentioned in the text of the Message object
+   * 1. users that are `@mentioned` in the text of the Message object
    * 2. if the bot's message is a reply (has replyToMessageId), sender of the original message.
    *
    * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
@@ -626,7 +626,7 @@ export type ForceReply = {
 
   /**
    * Optional. Use this parameter if you want to force reply from specific users only. Targets:
-   * 1. users that are @mentioned in the text of the Message object;
+   * 1. users that are `@mentioned` in the text of the Message object;
    * 2. if the bot's message is a reply (has replyToMessageId), sender of the original message.
    */
   selective?: boolean;
@@ -1953,7 +1953,7 @@ export type SendLocationOption = {
 export type EditOption =
   | {
       /**
-       * Required if inlineMessageId is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+       * Required if inlineMessageId is not specified. Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
        */
       chatId: number | string;
 
@@ -2474,7 +2474,7 @@ export type AnswerCallbackQueryOption = {
   showAlert?: boolean;
 
   /**
-   * URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @Botfather, specify the URL that opens your game – note that this will only work if the query comes from a callback_game button.
+   * URL that will be opened by the user's client. If you have created a Game and accepted the conditions via `@Botfather`, specify the URL that opens your game – note that this will only work if the query comes from a callback_game button.
    *
    * Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
    */

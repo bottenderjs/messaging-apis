@@ -13,7 +13,10 @@ function createMessage(
   };
 
   // snakecase support for backward compatibility
-  const quickReplies = options.quickReplies || (options as any).quick_replies;
+  const quickReplies =
+    options.quickReplies ||
+    // @ts-expect-error
+    options.quick_replies;
 
   if (quickReplies && Array.isArray(quickReplies) && quickReplies.length >= 1) {
     message.quickReplies = quickReplies;
@@ -39,7 +42,10 @@ function createMessageFormData(
   };
 
   // snakecase support for backward compatibility
-  const quickReplies = options.quickReplies || (options as any).quick_replies;
+  const quickReplies =
+    options.quickReplies ||
+    // @ts-expect-error
+    options.quick_replies;
 
   if (quickReplies && Array.isArray(quickReplies) && quickReplies.length >= 1) {
     message.quickReplies = quickReplies;

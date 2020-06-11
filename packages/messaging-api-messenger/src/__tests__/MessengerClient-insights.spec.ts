@@ -15,7 +15,7 @@ afterEach(() => {
   axios.create = _create;
 });
 
-const createMock = () => {
+const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
   const client = new MessengerClient(ACCESS_TOKEN);
   const mock = new MockAdapter(client.axios);
   return { client, mock };

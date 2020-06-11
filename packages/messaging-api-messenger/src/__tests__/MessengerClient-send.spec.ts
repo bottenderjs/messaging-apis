@@ -21,7 +21,7 @@ afterEach(() => {
   axios.create = _create;
 });
 
-const createMock = () => {
+const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
   const client = new MessengerClient(ACCESS_TOKEN);
   const mock = new MockAdapter(client.axios);
   return { client, mock };
@@ -433,7 +433,7 @@ describe('send api', () => {
         {
           quickReplies: [
             {
-              contentType: 'text' as any, // FIXME: use enum
+              contentType: 'text',
               title: 'Search',
               payload: '<POSTBACK_PAYLOAD>',
               imageUrl: 'http://example.com/img/red.png',
@@ -532,7 +532,8 @@ describe('send api', () => {
           text: 'Hello!',
         },
         {
-          quickReplies: {} as any,
+          // @ts-expect-error
+          quickReplies: {},
         }
       );
 
