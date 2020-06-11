@@ -41,7 +41,7 @@ const { SlackOAuthClient } = require('messaging-api-slack');
 
 // get access token by setup OAuth & Permissions function to your app.
 // https://api.slack.com/docs/oauth
-const client = SlackOAuthClient.connect(
+const client = new SlackOAuthClient(
   'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx'
 );
 ```
@@ -442,7 +442,7 @@ const { SlackWebhookClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/
-const client = SlackWebhookClient.connect(
+const client = new SlackWebhookClient(
   'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ'
 );
 ```
@@ -567,7 +567,7 @@ If you want to use custom request logging function, just define your own `onRequ
 
 ```js
 // for SlackOAuthClient
-const client = SlackOAuthClient.connect({
+const client = new SlackOAuthClient({
   accessToken: ACCESS_TOKEN,
   onRequest: ({ method, url, headers, body }) => {
     /* */
@@ -575,7 +575,7 @@ const client = SlackOAuthClient.connect({
 });
 
 // for SlackWebhookClient
-const client = SlackWebhookClient.connect({
+const client = new SlackWebhookClient({
   url: URL,
   onRequest: ({ method, url, headers, body }) => {
     /* */
@@ -592,7 +592,7 @@ To avoid sending requests to real Slack server, specify `origin` option when con
 ```js
 const { SlackOAuthClient } = require('messaging-api-slack');
 
-const client = SlackOAuthClient.connect({
+const client = new SlackOAuthClient({
   accessToken: ACCESS_TOKEN,
   origin: 'https://mydummytestserver.com',
 });

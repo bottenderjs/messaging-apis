@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const { MessengerClient } = require('messaging-api-messenger');
 
 const server = express();
-const client = MessengerClient.connect(process.env.ACCESS_TOKEN);
+const client = new MessengerClient({
+  accessToken: process.env.ACCESS_TOKEN,
+});
 
 server.use(bodyParser.json());
 

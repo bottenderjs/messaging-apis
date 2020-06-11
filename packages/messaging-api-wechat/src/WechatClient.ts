@@ -3,6 +3,7 @@ import fs from 'fs';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeys,
@@ -25,10 +26,17 @@ function throwErrorIfAny(response: AxiosResponse): AxiosResponse | never {
 }
 
 export default class WechatClient {
+  /**
+   * @deprecated Use `new WechatClient(...)` instead.
+   */
   static connect(
     appIdOrClientConfig: string | Types.ClientConfig,
     appSecret: string
   ): WechatClient {
+    warning(
+      false,
+      '`WechatClient.connect(...)` is deprecated. Use `new WechatClient(...)` instead.'
+    );
     return new WechatClient(appIdOrClientConfig, appSecret);
   }
 

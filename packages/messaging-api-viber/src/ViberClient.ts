@@ -2,6 +2,7 @@
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -32,10 +33,17 @@ function transformMessageCase(message: Types.Message): any {
  * https://developers.viber.com/docs/api/rest-bot-api/#viber-rest-api
  */
 export default class ViberClient {
+  /**
+   * @deprecated Use `new ViberClient(...)` instead.
+   */
   static connect(
     accessTokenOrConfig: string | Types.ClientConfig,
     sender?: Types.Sender
   ): ViberClient {
+    warning(
+      false,
+      '`ViberClient.connect(...)` is deprecated. Use `new ViberClient(...)` instead.'
+    );
     return new ViberClient(accessTokenOrConfig, sender);
   }
 

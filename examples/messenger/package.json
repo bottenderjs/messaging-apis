@@ -6,6 +6,6 @@
   "dependencies": {
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
-    "messaging-api-messenger": "^0.3.5"
+    "messaging-api-messenger": "latest"
   }
 }

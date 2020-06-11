@@ -41,7 +41,7 @@ yarn add messaging-api-viber
 const { ViberClient } = require('messaging-api-viber');
 
 // get authToken from the "edit info" screen of your Public Account.
-const client = ViberClient.connect(authToken);
+const client = new ViberClient(authToken);
 ```
 
 ### Error Handling
@@ -655,7 +655,7 @@ DEBUG=messaging-api-viber
 If you want to use custom request logging function, just define your own `onRequest`:
 
 ```js
-const client = ViberClient.connect({
+const client = new ViberClient({
   accessToken: ACCESS_TOKEN,
   onRequest: ({ method, url, headers, body }) => {
     /* */
@@ -672,7 +672,7 @@ To avoid sending requests to real Viber server, specify `origin` option when con
 ```js
 const { ViberClient } = require('messaging-api-viber');
 
-const client = ViberClient.connect({
+const client = new ViberClient({
   accessToken: ACCESS_TOKEN,
   origin: 'https://mydummytestserver.com',
 });
