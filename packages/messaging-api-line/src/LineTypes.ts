@@ -8,114 +8,366 @@ export type ClientConfig = {
   onRequest?: OnRequestFunction;
 };
 
+/**
+ * User Profile
+ *
+ */
 export type User = {
+  /** User's display name */
   displayName: string;
+
+  /** User ID */
   userId: string;
+
   language?: string;
+
+  /** Profile image URL. "https" image URL. Not included in the response if the user doesn't have a profile image. */
   pictureUrl: string;
+
+  /** User's status message. Not included in the response if the user doesn't have a status message. */
   statusMessage: string;
 };
 
 export type ImageMessage = {
   type: 'image';
+
+  /**
+   * Image URL (Max character limit: 1000)
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG
+   * - Max: 4096 x 4096
+   * - Max: 1 MB
+   */
   originalContentUrl: string;
+
+  /**
+   * Preview image URL (Max character limit: 1000)
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG
+   * - Max: 240 x 240
+   * - Max: 1 MB
+   */
   previewImageUrl: string;
 };
 
+/**
+ * Defines the size of a tappable area. The top left is used as the origin of the area. Set these properties based on the `baseSize.width` property and the `baseSize.height` property.
+ */
 export type ImageMapArea = {
+  /** Horizontal position relative to the left edge of the area. Value must be 0 or higher. */
   x: number;
+
+  /** Vertical position relative to the top of the area. Value must be 0 or higher. */
   y: number;
+
+  /** Width of the tappable area */
   width: number;
+
+  /** Height of the tappable area */
   height: number;
 };
 
 export type ImageMapUriAction = {
   type: 'uri';
+
+  /**
+   * Label for the action. Spoken when the accessibility feature is enabled on the client device.
+   * - Max character limit: 50
+   * - Supported on LINE 8.2.0 and later for iOS.
+   */
   label?: string;
+
+  /**
+   * - Webpage URL
+   * - Max character limit: 1000
+   *
+   * The available schemes are http, https, line, and tel. For more information about the LINE URL scheme, see Using the LINE URL scheme.
+   */
   linkUri: string;
+
+  /**
+   * Defined tappable area
+   */
   area: ImageMapArea;
 };
 
 export type ImageMapMessageAction = {
   type: 'message';
+
+  /**
+   * Label for the action. Spoken when the accessibility feature is enabled on the client device.
+   * - Max character limit: 50
+   * - Supported on LINE 8.2.0 and later for iOS.
+   */
   label?: string;
+
+  /**
+   * Message to send
+   * - Max character limit: 400
+   * - Supported on LINE for iOS and Android only.
+   */
   text: string;
+
+  /**
+   * Defined tappable area
+   */
   area: ImageMapArea;
 };
 
+/**
+ * Imagemap message
+ *
+ * Imagemap messages are messages configured with an image that has multiple tappable areas. You can assign one tappable area for the entire image or different tappable areas on divided areas of the image.
+ *
+ * You can also play a video on the image and display a label with a hyperlink after the video is finished.
+ *
+ * [Official document - imagemap message](https://developers.line.biz/en/reference/messaging-api/#imagemap-message)
+ */
 export type ImagemapMessage = {
   type: 'imagemap';
+
+  /**
+   * Base URL of the image
+   * - Max character limit: 1000
+   * - `HTTPS` over `TLS` 1.2 or later
+   * - For more information about supported images in imagemap messages, see [How to configure an image](https://developers.line.biz/en/reference/messaging-api/#base-url).
+   */
   baseUrl: string;
+
+  /**
+   * Alternative text
+   * - Max character limit: 400
+   */
   altText: string;
+
   baseSize: {
+    /**
+     * Height of base image. Set to the height that corresponds to a width of 1040 pixels.
+     */
     height: number;
+
+    /**
+     * Width of base image in pixels. Set to 1040.
+     */
     width: number;
   };
+
   video?: ImageMapVideo;
+
+  /**
+   * Imagemap action objects
+   *
+   * Object which specifies the actions and tappable areas of an imagemap.
+   *
+   * When an area is tapped, the user is redirected to the URI specified in `uri` and the message specified in `message` is sent.
+   *
+   * - Action when tapped
+   * - Max: 50
+   */
   actions: (ImageMapUriAction | ImageMapMessageAction)[];
 };
 
 export type VideoMessage = {
   type: 'video';
+
+  /**
+   * URL of video file
+   * - Max character limit: 1000
+   * - HTTPS over TLS 1.2 or later
+   * - mp4
+   * - Max: 1 minute
+   * - Max: 10 MB
+   *
+   * A very wide or tall video may be cropped when played in some environments.
+   */
   originalContentUrl: string;
+
+  /**
+   * URL of preview image
+   * - Max character limit: 1000
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG
+   * - Max: 240 x 240
+   * - Max: 1 MB
+   */
   previewImageUrl: string;
 };
 
 export type AudioMessage = {
   type: 'audio';
+
+  /**
+   * URL of audio file
+   * - Max character limit: 1000
+   * - HTTPS over TLS 1.2 or later
+   * - m4a
+   * - Max: 1 minute
+   * - Max: 10 MB
+   */
   originalContentUrl: string;
+
+  /**
+   * Length of audio file (milliseconds)
+   */
   duration: number;
 };
 
 export type Location = {
+  /**
+   * Title
+   * - Max character limit: 100
+   */
   title: string;
+
+  /**
+   * Address
+   * - Max character limit: 100
+   */
   address: string;
+
+  /** Latitude */
   latitude: number;
+
+  /** Longitude */
   longitude: number;
 };
 
 export type LocationMessage = {
   type: 'location';
+
+  /**
+   * Title
+   * - Max character limit: 100
+   */
   title: string;
+
+  /**
+   * Address
+   * - Max character limit: 100
+   */
   address: string;
+
+  /** Latitude */
   latitude: number;
+
+  /** Longitude */
   longitude: number;
 };
 
 export type StickerMessage = {
   type: 'sticker';
+
+  /**
+   * Package ID for a set of stickers. For information on package IDs, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
+   */
   packageId: string;
+
+  /**
+   * Sticker ID. For a list of sticker IDs for stickers that can be sent with the Messaging API, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
+   */
   stickerId: string;
 };
 
+/**
+ * When a control associated with this action is tapped, a [postback event](https://developers.line.biz/en/reference/messaging-api/#postback-event) is returned via webhook with the specified string in the data property.
+ */
 export type PostbackAction = {
   type: 'postback';
+
+  /**
+   * Label for the action
+   * - Required for templates other than image carousel. Max character limit: 20
+   * - Optional for image carousel templates. Max character limit: 12
+   * - Optional for rich menus. Spoken when the accessibility feature is enabled on the client device. Max character limit: 20. Supported on LINE 8.2.0 and later for iOS.
+   * - Required for quick reply buttons. Max character limit: 20. Supported on LINE 8.11.0 and later for iOS and Android.
+   * - Required for the button of Flex Message. This property can be specified for the box, image, and text but its value is not displayed. Max character limit: 20
+   */
   label?: string;
+
+  /**
+   * String returned via webhook in the postback.data property of the postback event
+   * - Max character limit: 300
+   */
   data: string;
+
+  /**
+   * 【Deprecated】 Text displayed in the chat as a message sent by the user when the action is performed. Returned from the server through a webhook. This property shouldn't be used with quick reply buttons.
+   * - Max character limit: 300
+   * - The displayText and text properties cannot both be used at the same time.
+   */
   text?: string;
+
+  /**
+   * Text displayed in the chat as a message sent by the user when the action is performed. Required for quick reply buttons. Optional for the other message types.
+   * - Max character limit: 300
+   * - The displayText and text properties cannot both be used at the same time.
+   */
   displayText?: string;
 };
 
+/**
+ * When a control associated with this action is tapped, the string in the `text` property is sent as a message from the user.
+ */
 export type MessageAction = {
   type: 'message';
+
+  /**
+   * Label for the action
+   * - Required for templates other than image carousel. Max character limit: 20
+   * - Optional for image carousel templates. Max character limit: 12
+   * - Optional for rich menus. Spoken when the accessibility feature is enabled on the client device. Max character limit: 20. Supported on LINE 8.2.0 and later for iOS.
+   * - Required for quick reply buttons. Max character limit: 20. Supported on LINE 8.11.0 and later for iOS and Android.
+   * - Required for the button of Flex Message. This property can be specified for the box, image, and text but its value is not displayed. Max charater limit: 20
+   */
   label?: string;
+
+  /**
+   * Text sent when the action is performed
+   * - Max character limit: 300
+   */
   text: string;
 };
 
+/**
+ * When a control associated with this action is tapped, the URI specified in the `uri` property is opened.
+ */
 export type URIAction = {
   type: 'uri';
+
+  /**
+   * Label for the action
+   * - Required for templates other than image carousel. Max character limit: 20
+   * - Optional for image carousel templates. Max character limit: 12
+   * - Optional for rich menus. Spoken when the accessibility feature is enabled on the client device. Max character limit: 20. Supported on LINE 8.2.0 and later for iOS.
+   * - Required for the button of Flex Message. This property can be specified for the box, image, and text but its value is not displayed. Max character limit: 20
+   */
   label?: string;
+
+  /**
+   * URI opened when the action is performed (Max character limit: 1000)
+   *
+   * The available schemes are `http`, `https`, `line`, and `tel`. For more information about the LINE URL scheme, see Using the LINE URL scheme.
+   */
   uri: string;
 };
 
+/**
+ * When a control associated with this action is tapped, a [postback event](https://developers.line.biz/en/reference/messaging-api/#postback-event) is returned via webhook with the date and time selected by the user from the date and time selection dialog. The datetime picker action does not support time zones.
+ */
 export type DatetimePickerAction = {
   type: 'datetimepicker';
   /**
    * Label for the action
+   * - Required for templates other than image carousel. Max character limit: 20
+   * - Optional for image carousel templates. Max character limit: 12
+   * - Optional for rich menus. Spoken when the accessibility feature is enabled on the client device. Max character limit: 20. Supported on LINE 8.2.0 and later for iOS.
+   * - Required for quick reply buttons. Max character limit: 20. Supported on LINE 8.11.0 and later for iOS and Android.
+   * - Required for the button of Flex Message. This property can be specified for the box, image, and text but its value is not displayed. Max character limit: 20
    */
   label?: string;
   /**
-   * String returned via webhook in the `postback.data` property of the postback event
+   * String returned via webhook in the `postback.data` property of the [postback event](https://developers.line.biz/en/reference/messaging-api/#postback-event)
+   * - Max character limit: 300
    */
   data: 'string';
   /**
@@ -126,31 +378,62 @@ export type DatetimePickerAction = {
    */
   mode: 'date' | 'time' | 'datetime';
   /**
-   * Initial value of date or time
+   * Initial value of date or time.
+   *
+   * [Date and time format](https://developers.line.biz/en/reference/messaging-api/#date-and-time-format)
    */
   initial?: string;
+
   /**
    * Largest date or time value that can be selected. Must be greater than the `min` value.
+   *
+   * [Date and time format](https://developers.line.biz/en/reference/messaging-api/#date-and-time-format)
    */
   max?: string;
+
   /**
    * Smallest date or time value that can be selected. Must be less than the `max` value.
+   *
+   * [Date and time format](https://developers.line.biz/en/reference/messaging-api/#date-and-time-format)
    */
   min?: string;
 };
 
+/**
+ * This action can be configured only with quick reply buttons. When a button associated with this action is tapped, the camera screen in LINE is opened.
+ */
 export type CameraAction = {
   type: 'camera';
+
+  /**
+   * Label for the action
+   * - Max character limit: 20
+   */
   label: string;
 };
 
+/**
+ * This action can be configured only with quick reply buttons. When a button associated with this action is tapped, the camera roll screen in LINE is opened.
+ */
 export type CameraRollAction = {
   type: 'cameraRoll';
+  /**
+   * Label for the action
+   * - Max character limit: 20
+   */
   label: string;
 };
 
+/**
+ * This action can be configured only with quick reply buttons. When a button associated with this action is tapped, the location screen in LINE is opened.
+ */
 export type LocationAction = {
   type: 'location';
+
+  /**
+   * Label for the action
+   * - Max character limit: 20
+   */
   label: string;
 };
 
@@ -158,7 +441,10 @@ export type Action =
   | PostbackAction
   | MessageAction
   | URIAction
-  | DatetimePickerAction;
+  | DatetimePickerAction
+  | CameraAction
+  | CameraRollAction
+  | LocationAction;
 
 export type QuickReplyAction =
   | PostbackAction
@@ -168,10 +454,43 @@ export type QuickReplyAction =
   | CameraRollAction
   | LocationAction;
 
+/**
+ * This is a container that contains quick reply buttons.
+ *
+ * If a version of LINE that doesn't support the quick reply feature receives a message that contains quick reply buttons, only the message is displayed.
+ */
 export type QuickReply = {
+  /**
+   * This is a quick reply option that is displayed as a button.
+   *
+   * - Max: 13 objects
+   */
   items: {
     type: 'action';
+
+    /**
+     * URL of the icon that is displayed at the beginning of the button
+     * - Max character limit: 1000
+     * - URL scheme: https
+     * - Image format: PNG
+     * - Aspect ratio: 1:1
+     * - Data size: Up to 1 MB
+     *
+     * There is no limit on the image size.
+     *
+     * If the action property has a camera action, camera roll action, or location action, and the imageUrl property is not set, the default icon is displayed.
+     */
     imageUrl?: string;
+
+    /**
+     * Action performed when this button is tapped. Specify an action object. The following is a list of the available actions:
+     * - Postback action
+     * - Message action
+     * - Datetime picker action
+     * - Camera action
+     * - Camera roll action
+     * - Location action
+     */
     action: QuickReplyAction;
   }[];
 };
@@ -196,58 +515,267 @@ export type Sender = {
   iconUrl?: string;
 };
 
+/**
+ * Common properties for messages
+ *
+ * The following properties can be specified in all the message objects.
+ * - Quick reply
+ * - sender
+ */
 export type MessageOptions = {
+  /**
+   * These properties are used for the quick reply feature. Supported on LINE 8.11.0 and later for iOS and Android. For more information, see [Using quick replies](https://developers.line.biz/en/docs/messaging-api/using-quick-reply/).
+   */
   quickReply?: QuickReply;
+
   sender?: Sender;
 };
 
+/**
+ * Template messages are messages with predefined layouts which you can customize. For more information, see Template messages.
+ *
+ * The following template types are available:
+ *
+ * - Buttons
+ * - Confirm
+ * - Carousel
+ * - Image carousel
+ */
 export type TemplateMessage<Template> = {
   type: 'template';
+
+  /**
+   * Alternative text
+   * - Max character limit: 400
+   */
   altText: string;
+
+  /**
+   * A Buttons, Confirm, Carousel, or Image Carousel object.
+   */
   template: Template;
 };
 
+/**
+ * Buttons template
+ *
+ * Template with an image, title, text, and multiple action buttons.
+ *
+ * Because of the height limitation for buttons template messages, the lower part of the text display area will get cut off if the height limitation is exceeded. For this reason, depending on the character width, the message text may not be fully displayed even when it is within the character limits.
+ */
 export type ButtonsTemplate = {
   type: 'buttons';
+
+  /**
+   * Image URL
+   * - Max character limit: 1,000
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG or PNG
+   * - Max width: 1024px
+   * - Max file size: 1 MB
+   */
   thumbnailImageUrl?: string;
+
+  /**
+   * Aspect ratio of the image. One of:
+   * - `rectangle`: 1.51:1
+   * - `square`: 1:1
+   *
+   * Default: `rectangle`
+   */
   imageAspectRatio?: 'rectangle' | 'square';
+
+  /**
+   * Size of the image. One of:
+   * - `cover`: The image fills the entire image area. Parts of the image that do not fit in the area are not displayed.
+   * - `contain`: The entire image is displayed in the image area. A background is displayed in the unused areas to the left and right of vertical images and in the areas above and below horizontal images.
+   *
+   * Default: `cover`
+   */
   imageSize?: 'cover' | 'contain';
+
+  /**
+   * Background color of the image. Specify a RGB color value. Default: `#FFFFFF` (white)
+   */
   imageBackgroundColor?: string;
+
+  /**
+   * Title
+   * - Max character limit: 40
+   */
   title?: string;
+
+  /**
+   * Message text
+   * - Max character limit: 160 (no image or title)
+   * - Max character limit: 60 (message with an image or title)
+   */
   text: string;
+
+  /**
+   * Action when image, title or text area is tapped.
+   */
   defaultAction?: Action;
+
+  /**
+   * Action when tapped
+   * - Max objects: 4
+   */
   actions: Action[];
 };
 
+/**
+ * Confirm template
+ *
+ * Template with two action buttons.
+ *
+ * Because of the height limitation for confirm template messages, the lower part of the text display area will get cut off if the height limitation is exceeded. For this reason, depending on the character width, the message text may not be fully displayed even when it is within the character limits.
+ */
 export type ConfirmTemplate = {
   type: 'confirm';
+
+  /**
+   * Message text
+   * - Max character limit: 240
+   */
   text: string;
+
+  /**
+   * Array of action objects
+   * - Action when tapped
+   * - Set 2 actions for the 2 buttons
+   */
   actions: Action[];
 };
 
 export type ColumnObject = {
+  /**
+   * Image URL
+   * - Max character limit: 1,000
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG or PNG
+   * - Aspect ratio: 1:1.51
+   * - Max width: 1024px
+   * - Max file size: 1 MB
+   */
   thumbnailImageUrl?: string;
+
+  /**
+   * Background color of the image. Specify a RGB color value. The default value is `#FFFFFF` (white).
+   */
+  imageBackgroundColor?: string;
+
+  /**
+   * Title
+   * - Max character limit: 40
+   */
   title?: string;
+
+  /**
+   * Message text
+   * - Max character limit: 120 (no image or title)
+   * - Max character limit: 60 (message with an image or title)
+   */
   text: string;
+
+  /**
+   * Action when image, title or text area is tapped.
+   */
   defaultAction?: Action;
+
+  /**
+   * Action when tapped
+   * - Max objects: 3
+   */
   actions: Action[];
 };
 
+/**
+ * Carousel template
+ *
+ * Template with multiple columns which can be cycled like a carousel. The columns are shown in order when scrolling horizontally.
+ *
+ * Because of the height limitation for carousel template messages, the lower part of the text display area will get cut off if the height limitation is exceeded. For this reason, depending on the character width, the message text may not be fully displayed even when it is within the character limits.
+ *
+ * Keep the number of actions consistent for all columns. If you use an image or title for a column, make sure to do the same for all other columns.
+ */
 export type CarouselTemplate = {
   type: 'carousel';
+
+  /**
+   * Array of columns
+   * - Max columns: 10
+   */
   columns: ColumnObject[];
+
+  /**
+   * Aspect ratio of the image. One of:
+   * - `rectangle`: 1.51:1
+   * - `square`: 1:1
+   *
+   * Applies to all columns. Default: `rectangle`
+   */
   imageAspectRatio?: 'rectangle' | 'square';
+
+  /**
+   * Size of the image. One of:
+   * - cover: The image fills the entire image area. Parts of the image that do not fit in the area are not displayed.
+   * - contain: The entire image is displayed in the image area. A background is displayed in the unused areas to the left and right of vertical images and in the areas above and below horizontal images.
+   *
+   * Applies to all columns. Default: cover.
+   */
   imageSize?: 'cover' | 'contain';
 };
 
 export type ImageCarouselColumnObject = {
+  /**
+   * Image URL
+   * - Max character limit: 1,000
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG or PNG
+   * - Aspect ratio: 1:1
+   * - Max width: 1024px
+   * - Max file size: 1 MB
+   */
   imageUrl: string;
+
+  /** Action when image is tapped */
   action: Action;
 };
 
+/**
+ * Image carousel template
+ *
+ * Template with multiple images which can be cycled like a carousel. The images are shown in order when scrolling horizontally.
+ */
 export type ImageCarouselTemplate = {
   type: 'image_carousel';
+
+  /**
+   * Array of columns
+   * - Max columns: 10
+   */
   columns: ImageCarouselColumnObject[];
+};
+
+export type CarouselTemplateOptions = MessageOptions & {
+  /**
+   * Aspect ratio of the image. One of:
+   * - `rectangle`: 1.51:1
+   * - `square`: 1:1
+   *
+   * Applies to all columns. Default: `rectangle`
+   */
+  imageAspectRatio?: 'rectangle' | 'square';
+
+  /**
+   * Size of the image. One of:
+   * - `cover`: The image fills the entire image area. Parts of the image that do not fit in the area are not displayed.
+   * - `contain`: The entire image is displayed in the image area. A background is displayed in the unused areas to the left and right of vertical images and in the areas above and below horizontal images.
+   *
+   * Applies to all columns. Default: `cover`.
+   */
+  imageSize?: 'cover' | 'contain';
 };
 
 export type Template =
@@ -271,11 +799,17 @@ export type FlexContainer = FlexBubble | FlexCarousel;
  * This is a container that contains one message bubble. It can contain four
  * blocks: header, hero, body, and footer.
  *
+ * The maximum size of JSON data that defines a bubble is 10 KB.
+ *
  * For more information about using each block, see
  * [Block](https://developers.line.biz/en/docs/messaging-api/flex-message-elements/#block).
  */
 export type FlexBubble = {
   type: 'bubble';
+
+  /**
+   * The size of the bubble. You can specify one of the following values: nano, micro, kilo, mega, or giga. The default value is mega.
+   */
   size?: 'nano' | 'micro' | 'kilo' | 'mega' | 'giga';
   /**
    * Text directionality and the order of components in horizontal boxes in the
@@ -287,11 +821,37 @@ export type FlexBubble = {
    * The default value is `ltr`.
    */
   direction?: 'ltr' | 'rtl';
+
+  /**
+   * Header block. Specify a Box.
+   */
   header?: FlexBox<FlexBoxLayout>;
+
+  /**
+   * Hero block. Specify a box or an image.
+   */
   hero?: FlexBox<FlexBoxLayout> | FlexImage;
+
+  /**
+   * Body block. Specify a Box.
+   */
   body?: FlexBox<FlexBoxLayout>;
+
+  /**
+   * Footer block. Specify a Box.
+   */
   footer?: FlexBox<FlexBoxLayout>;
+
+  /**
+   * Style of each block. Specify a bubble style.
+   */
   styles?: FlexBubbleStyle;
+
+  /**
+   * Action performed when this image is tapped. Specify an action object. This property is supported on the following versions of LINE.
+   *
+   * LINE for iOS and Android: 8.11.0 and later
+   */
   action?: Action;
 };
 
@@ -302,6 +862,9 @@ export type FlexBubbleStyle = {
   footer?: FlexBlockStyle;
 };
 
+/**
+ * Objects for the block style
+ */
 export type FlexBlockStyle = {
   /**
    * Background color of the block. Use a hexadecimal color code.
@@ -320,10 +883,27 @@ export type FlexBlockStyle = {
   separatorColor?: string;
 };
 
+/**
+ * Carousel
+ *
+ * A carousel is a container that contains multiple bubbles as child elements. Users can scroll horizontally through the bubbles.
+ *
+ * The maximum size of JSON data that defines a carousel is 50 KB.
+ *
+ * 【Bubble width】
+ *
+ * A carousel cannot contain bubbles of different widths (size property). Each bubble in a carousel should have the same width.
+ *
+ * 【Bubble height】
+ *
+ * The body of each bubble will stretch to match the bubble with the greatest height in the carousel. However, bubbles with no body will not change height.
+ */
 export type FlexCarousel = {
   type: 'carousel';
+
   /**
-   * (Max: 10 bubbles)
+   * Bubbles in the carousel.
+   * - Max: 10 bubbles
    */
   contents: FlexBubble[];
 };
@@ -976,12 +1556,31 @@ export type FlexSpan = {
   decoration?: string;
 };
 
+/**
+ * Flex Message
+ *
+ * Flex Messages are messages with a customizable layout. You can customize the layout freely based on the specification for [CSS Flexible Box (CSS Flexbox)](https://www.w3.org/TR/css-flexbox-1/). For more information, see [Sending Flex Messages](https://developers.line.biz/en/docs/messaging-api/using-flex-messages/) in the API documentation.
+ */
 export type FlexMessage = {
   type: 'flex';
+
+  /**
+   * Alternative text
+   * - Max character limit: 400
+   */
   altText: string;
+
+  /**
+   * Flex Message container
+   */
   contents: FlexContainer;
 };
 
+/**
+ * Message objects
+ *
+ * JSON object which contains the contents of the message you send.
+ */
 export type Message = (
   | TextMessage
   | ImageMessage
@@ -992,53 +1591,176 @@ export type Message = (
   | StickerMessage
   | TemplateMessage<Template>
   | FlexMessage
-) & {
-  quickReply?: QuickReply;
-  sender?: Sender;
-};
+) &
+  MessageOptions;
 
+/**
+ *
+ */
 type Area = {
+  /**
+   * Object describing the boundaries of the area in pixels.
+   */
   bounds: {
+    /**
+     * Horizontal position of the top-left corner of the tappable area relative to the left edge of the image. Value must be `0` or higher.
+     */
     x: number;
+
+    /**
+     * Vertical position of the top-left corner of the tappable area relative to the left edge of the image. Value must be `0` or higher.
+     */
     y: number;
+
+    /**
+     * Width of the tappable area.
+     */
     width: number;
+
+    /**
+     * Height of the tappable area.
+     */
     height: number;
   };
-  action: {
-    type: string;
-    data: string;
-  };
+
+  /**
+   * Action performed when the area is tapped.
+   */
+  action: Action;
 };
 
 export type RichMenu = {
+  /**
+   * size object which contains the width and height of the rich menu displayed in the chat. Rich menu images must be one of the following sizes (pixels): 2500x1686, 2500x843, 1200x810, 1200x405, 800x540, 800x270
+   */
   size: {
-    width: 2500;
-    height: 1686 | 843;
+    width: 2500 | 1200 | 800;
+    height: 1686 | 843 | 810 | 405 | 270;
   };
+
+  /**
+   * `true` to display the rich menu by default. Otherwise, `false`.
+   */
   selected: boolean;
+
+  /**
+   * Name of the rich menu. This value can be used to help manage your rich menus and is not displayed to users.
+   * - Max character limit: 300
+   */
   name: string;
+
+  /**
+   * Text displayed in the chat bar
+   * - Max character limit: 14
+   */
   chatBarText: string;
+
+  /**
+   * Array of area objects which define the coordinates and size of tappable areas
+   * - Max: 20 area objects
+   */
   areas: Area[];
 };
 
+export type LiffApp = {
+  /** LIFF app ID */
+  liffId: string;
+
+  view: LiffView;
+
+  /**
+   * Name of the LIFF app
+   */
+  description: string;
+
+  features: LiffFeatures;
+};
+
 export type LiffView = {
+  /**
+   * Size of the LIFF app view. Specify one of the following values:
+   * - `compact`: 50% of device screen height.
+   * - `tall`: 80% of device screen height.
+   * - `full`: 100% of device screen height.
+   */
   type: 'compact' | 'tall' | 'full';
+
+  /**
+   * URL of the server on which the LIFF app is deployed (endpoint URL). The URL scheme must be https. Specify only the domain in this URL, without paths or query parameters.
+   */
   url: string;
+};
+
+export type PartialLiffApp = {
+  /** LIFF app ID */
+  liffId?: string;
+
+  view?: Partial<LiffView>;
+
+  /** Name of the LIFF app */
+  description?: string;
+
+  features?: Partial<LiffFeatures>;
+};
+
+export type LiffFeatures = {
+  /**
+   * `true` if the LIFF app supports Bluetooth® Low Energy for [LINE Things](https://developers.line.biz/en/docs/line-things/). `false` otherwise.
+   */
+  ble: boolean;
 };
 
 export type MutationSuccessResponse = {};
 
 export type ImageMapVideo = {
+  /**
+   * URL of the video file
+   * - Max character limit: 1000
+   * - HTTPS over TLS 1.2 or later
+   * - mp4
+   * - Max: 1 minute
+   * - Max: 10 MB
+   *
+   * Note: A very wide or tall video may be cropped when played in some environments.
+   */
   originalContentUrl: string;
+
+  /**
+   * URL of the preview image
+   * - Max character limit: 1000
+   * - HTTPS over TLS 1.2 or later
+   * - JPEG
+   * - Max: 240 x 240 pixels
+   * - Max: 1 MB
+   */
   previewImageUrl: string;
+
   area: {
+    /** Horizontal position of the video area relative to the left edge of the imagemap area. Value must be 0 or higher. */
     x: number;
+
+    /** Vertical position of the video area relative to the top of the imagemap area. Value must be 0 or higher. */
     y: number;
+
+    /** Width of the video area */
     width: number;
+
+    /** Height of the video area */
     height: number;
   };
+
   externalLink: {
+    /**
+     * Webpage URL. Called when the label displayed after the video is tapped.
+Max character limit: 1000
+The available schemes are http, https, line, and tel. For more information about the LINE URL scheme, see Using the LINE URL scheme.
+     */
     linkUri: string;
+
+    /**
+     * Label. Displayed after the video is finished.
+     * Max character limit: 30
+     */
     label: string;
   };
 };
@@ -1063,6 +1785,15 @@ export type Emoji = {
 
 export type TextMessage = {
   type: 'text';
+  /**
+   * Message text. You can include the following emoji:
+   *
+   * Unicode emoji
+   * LINE emoji (Use a $ character as a placeholder and specify details in the emojis property)
+   * (Deprecated) LINE original emoji (Unicode code point table for LINE original emoji)
+   *
+   * Max character limit: 5000
+   */
   text: string;
   /**
    * One or more LINE emoji.
@@ -1173,6 +1904,9 @@ export type NumberOfFollowersResponse =
   | NumberOfFollowers;
 
 type PercentageAble = {
+  /**
+   * Percentage
+   */
   percentage: number;
 };
 
@@ -1253,31 +1987,72 @@ export type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
 /* Narrowcast */
 
 export type NarrowcastOptions = {
+  /**
+   * Recipient object. You can specify recipients of the message using up to 10 audiences.
+   *
+   * If this is omitted, messages will be sent to all users who have added your LINE Official Account as a friend.
+   */
   recipient?: RecipientObject;
+
+  /**
+   * Demographic filter object. You can use friends' attributes to filter the list of recipients.
+   *
+   * If this is omitted, messages are sent to everyone—including users with attribute values of "unknown".
+   */
   demographic?: DemographicFilterObject;
+
+  /**
+   * The maximum number of narrowcast messages to send. Use this parameter to limit the number of narrowcast messages sent. The recipients will be chosen at random.
+   */
   max?: number;
 };
 
 // reference: https://github.com/line/line-bot-sdk-nodejs/pull/193/files
+
+/**
+ * Logical operator objects
+ *
+ * Use logical AND, OR, and NOT operators to combine multiple recipient objects together.
+ *
+ * * Be sure to specify only one of these three properties (and, or, not). You cannot specify an empty array.
+ */
 export type FilterOperatorObject<T> = {
   type: 'operator';
 } & (
   | {
+      /**
+       * Create a new recipient object by taking the logical conjunction (AND) of the specified array of recipient objects. *
+       */
       and: T | (T | FilterOperatorObject<T>)[];
     }
   | {
+      /**
+       * Create a new recipient object by taking the logical disjunction (OR) of the specified array of recipient objects. *
+       */
       or: T | (T | FilterOperatorObject<T>)[];
     }
   | {
+      /**
+       * Create a new recipient object that excludes the specified recipient object. *
+       */
       not: T | (T | FilterOperatorObject<T>)[];
     }
 );
 
 export type AudienceObject = {
   type: 'audience';
+
+  /**
+   * The audience ID. Create audiences with the manage audience API.
+   */
   audienceGroupId: number;
 };
 
+/**
+ * Recipient objects
+ *
+ * Recipient objects represent audiences. You can specify recipients based on a combination of criteria using logical operator objects. You can specify up to 10 recipient objects per request.
+ */
 export type RecipientObject =
   | AudienceObject
   | FilterOperatorObject<AudienceObject>;
@@ -1390,6 +2165,11 @@ export type DemographicArea =
   | 'id_12'
   | 'id_05';
 
+/**
+ * Demographic filter objects
+ *
+ * Demographic filter objects represent criteria (e.g. age, gender, OS, region, and friendship duration) on which to filter the list of recipients. You can filter recipients based on a combination of different criteria using logical operator objects.
+ */
 export type DemographicObject =
   | {
       type: 'gender';
@@ -1430,13 +2210,34 @@ export type DemographicFilterObject =
 
 export type NarrowcastProgressResponse = (
   | {
+      /**
+       * The current status. One of:
+       * - waiting: Messages are not yet ready to be sent. They are currently being filtered or processed in some way.
+       * - sending: Messages are currently being sent.
+       * - succeeded: Messages were sent successfully.
+       * - failed: Messages failed to be sent. Use the failedDescription property to find the cause of the failure.
+       */
       phase: 'waiting';
     }
   | ((
       | {
+          /**
+           * The current status. One of:
+           * - waiting: Messages are not yet ready to be sent. They are currently being filtered or processed in some way.
+           * - sending: Messages are currently being sent.
+           * - succeeded: Messages were sent successfully.
+           * - failed: Messages failed to be sent. Use the failedDescription property to find the cause of the failure.
+           */
           phase: 'sending' | 'succeeded';
         }
       | {
+          /**
+           * The current status. One of:
+           * - waiting: Messages are not yet ready to be sent. They are currently being filtered or processed in some way.
+           * - sending: Messages are currently being sent.
+           * - succeeded: Messages were sent successfully.
+           * - failed: Messages failed to be sent. Use the failedDescription property to find the cause of the failure.
+           */
           phase: 'failed';
           failedDescription: string;
         }
@@ -1452,18 +2253,28 @@ export type NarrowcastProgressResponse = (
 /* Audience */
 
 export type CreateUploadAudienceGroupOptions = {
+  /** The description to register for the job (in `jobs[].description`). */
   uploadDescription?: string;
 };
 
 export type UpdateUploadAudienceGroupOptions = CreateUploadAudienceGroupOptions & {
+  /**
+   * The audience's name. Audience names must be unique. This is case-insensitive, meaning AUDIENCE and audience are considered identical.
+   * - Max character limit: 120
+   */
   description?: string;
 };
 
 export type CreateClickAudienceGroupOptions = {
+  /**
+   * The URL clicked by the user. If empty, users who clicked any URL in the message are added to the list of recipients.
+   * - Max character limit: 2,000
+   */
   clickUrl?: string;
 };
 
 export type Audience = {
+  /** A user ID or IFA. */
   id: string;
 };
 
@@ -1593,13 +2404,48 @@ export type AudienceGroupWithJob = AudienceGroup & {
 };
 
 export type GetAudienceGroupsOptions = {
+  /**
+   * The page to return when getting (paginated) results. Must be `1` or higher.
+   */
   page?: number;
+  /**
+   * The name of the audience(s) to return. You can search for partial matches. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   */
   description?: string;
-  status?: string;
+  /**
+   * The status of the audience(s) to return. One of:
+   * - `IN_PROGRESS`: Pending. It may take several hours for the status to change to `READY`.
+   * - `READY`: Ready to accept messages.
+   * - `FAILED`: An error occurred while creating the audience.
+   * - `EXPIRED`: Expired. Audiences are automatically deleted a month after they expire.
+   */
+  status?: 'IN_PROGRESS' | 'READY' | 'FAILED' | 'EXPIRED';
+  /**
+   * The number of audiences per page. Default: 20
+   * - Max: 40
+   */
   size?: number;
+
+  /**
+   * - `true`: Get public audiences created in all channels linked to the same bot.
+   * - `false`: Get audiences created in the same channel.
+   */
+  includesExternalPublicGroups?: boolean;
+
+  /**
+   * How the audience was created. If omitted, all audiences are included.
+   * - `OA_MANAGER`: Return only audiences created with [LINE Official Account Manager](https://manager.line.biz/).
+   * - `MESSAGING_API`: Return only audiences created with Messaging API.
+   */
+  createRoute?: string;
 };
 
 export type AudienceGroupAuthorityLevel = {
+  /**
+   * The authority level for all audiences linked to a channel
+   * - `PUBLIC`: The default authority level. Audiences will be available in channels other than the one where you created the audience. For example, it will be available in [LINE Official Account Manager](https://manager.line.biz/), [LINE Ad Manager](https://admanager.line.biz/), and all channels the bot is linked to.
+   * - `PRIVATE`: Audiences will be available only in the channel where you created the audience.
+   */
   authorityLevel: 'PUBLIC' | 'PRIVATE';
 };
 
