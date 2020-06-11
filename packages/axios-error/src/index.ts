@@ -17,7 +17,7 @@ function json(data: Record<string, any>): string {
   return JSON.stringify(data, null, 2);
 }
 
-export default class AxiosError extends Error {
+class AxiosError extends Error {
   config: AxiosRequestConfig;
 
   request?: any;
@@ -100,3 +100,5 @@ ${responseMessage}
 `;
   }
 }
+
+export = AxiosError;
