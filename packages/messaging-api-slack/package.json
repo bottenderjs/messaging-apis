@@ -22,7 +22,6 @@
     "slack"
   ],
   "engines": {
-    "node": ">=8"
-  },
-  "gitHead": "1db3f49ad55c567a6084c90f1290c450ac67217e"
+    "node": ">=10"
+  }
 }
