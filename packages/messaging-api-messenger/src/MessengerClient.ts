@@ -522,6 +522,87 @@ export default class MessengerClient {
   }
 
   /**
+   * User Level Persistent Menu
+   *
+   * https://developers.facebook.com/docs/messenger-platform/send-messages/persistent-menu#user_level_menu
+   */
+  getUserPersistentMenu(
+    userId: string,
+    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+  ): Promise<Types.PersistentMenu | null> {
+    return this._axios
+      .get(
+        `/me/custom_user_settings?psid=${userId}&access_token=${customAccessToken ||
+          this._accessToken}`
+      )
+      .then(
+        res =>
+          res.data.data[0]
+            ? (res.data.data[0].userLevelPersistentMenu as Types.PersistentMenu)
+            : null,
+        handleError
+      );
+  }
+
+  setUserPersistentMenu(
+    userId: string,
+    menuItems: Types.MenuItem[] | Types.PersistentMenu,
+    {
+      composerInputDisabled = false,
+      accessToken: customAccessToken,
+    }: {
+      composerInputDisabled?: boolean;
+      accessToken?: string;
+    } = {}
+  ): Promise<Types.MutationSuccessResponse> {
+    // menuItems is in type PersistentMenu
+    if (
+      menuItems.some((item: Record<string, any>) => item.locale === 'default')
+    ) {
+      return this._axios
+        .post(
+          `/me/custom_user_settings?access_token=${customAccessToken ||
+            this._accessToken}`,
+          {
+            psid: userId,
+            persistentMenu: menuItems as Types.PersistentMenu,
+          }
+        )
+        .then(res => res.data, handleError);
+    }
+
+    // menuItems is in type MenuItem[]
+    return this._axios
+      .post(
+        `/me/custom_user_settings?access_token=${customAccessToken ||
+          this._accessToken}`,
+        {
+          psid: userId,
+          persistentMenu: [
+            {
+              locale: 'default',
+              composerInputDisabled,
+              callToActions: menuItems as Types.MenuItem[],
+            },
+          ],
+        }
+      )
+      .then(res => res.data, handleError);
+  }
+
+  deleteUserPersistentMenu(
+    userId: string,
+    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+  ): Promise<Types.MutationSuccessResponse> {
+    return this._axios
+      .delete(
+        `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]&access_token=${customAccessToken ||
+          this._accessToken}`
+      )
+      .then(res => res.data, handleError);
+  }
+
+  /**
    * Greeting Text
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/greeting
