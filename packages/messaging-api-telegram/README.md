@@ -43,7 +43,7 @@ yarn add messaging-api-telegram
 const { TelegramClient } = require('messaging-api-telegram');
 
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
+const client = new TelegramClient('12345678:AaBbCcDdwhatever');
 ```
 
 ### Error Handling
@@ -1271,7 +1271,7 @@ DEBUG=messaging-api-telegram
 If you want to use custom request logging function, just define your own `onRequest`:
 
 ```js
-const client = TelegramClient.connect({
+const client = new TelegramClient({
   accessToken: ACCESS_TOKEN,
   onRequest: ({ method, url, headers, body }) => {
     /* */
@@ -1288,7 +1288,7 @@ To avoid sending requests to real Telegram server, specify `origin` option when 
 ```js
 const { TelegramClient } = require('messaging-api-telegram');
 
-const client = TelegramClient.connect({
+const client = new TelegramClient({
   accessToken: ACCESS_TOKEN,
   origin: 'https://mydummytestserver.com',
 });

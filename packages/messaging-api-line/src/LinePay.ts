@@ -3,6 +3,7 @@ import querystring from 'querystring';
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'invariant';
+import warning from 'warning';
 
 import * as Types from './LineTypes';
 
@@ -39,7 +40,14 @@ function throwWhenNotSuccess(res: {
 }
 
 export default class LinePay {
+  /**
+   * @deprecated Use `new LinePay(...)` instead.
+   */
   static connect(config: Types.LinePayConfig): LinePay {
+    warning(
+      false,
+      '`LineNotify.connect(...)` is deprecated. Use `new LineNotify(...)` instead.'
+    );
     return new LinePay(config);
   }
 

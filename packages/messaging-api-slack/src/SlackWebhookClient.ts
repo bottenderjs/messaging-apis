@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import warning from 'warning';
 import {
   OnRequestFunction,
   createRequestInterceptor,
@@ -17,7 +18,14 @@ export default class SlackWebhookClient {
 
   _onRequest: OnRequestFunction | undefined;
 
+  /**
+   * @deprecated Use `new SlackWebhookClient(...)` instead.
+   */
   static connect(urlOrConfig: string | ClientConfig): SlackWebhookClient {
+    warning(
+      false,
+      '`SlackWebhookClient.connect(...)` is deprecated. Use `new SlackWebhookClient(...)` instead.'
+    );
     return new SlackWebhookClient(urlOrConfig);
   }
 

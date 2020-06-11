@@ -5,6 +5,7 @@ import axios, { AxiosInstance } from 'axios';
 import difference from 'lodash/difference';
 import isPlainObject from 'lodash/isPlainObject';
 import pick from 'lodash/pick';
+import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -16,9 +17,16 @@ import {
 import * as Types from './TelegramTypes';
 
 export default class TelegramClient {
+  /**
+   * @deprecated Use `new TelegramClient(...)` instead.
+   */
   static connect(
     accessTokenOrConfig: string | Types.ClientConfig
   ): TelegramClient {
+    warning(
+      false,
+      '`TelegramClient.connect(...)` is deprecated. Use `new TelegramClient(...)` instead.'
+    );
     return new TelegramClient(accessTokenOrConfig);
   }
 

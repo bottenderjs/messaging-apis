@@ -64,13 +64,13 @@ yarn add messaging-api-messenger
 const { MessengerClient } = require('messaging-api-messenger');
 
 // get accessToken from facebook developers website
-const client = MessengerClient.connect(accessToken);
+const client = new MessengerClient(accessToken);
 ```
 
 You can specify version of Facebook Graph API using second argument:
 
 ```js
-const client = MessengerClient.connect({
+const client = new MessengerClient({
   accessToken: ACCESS_TOKEN,
   appId: APP_ID,
   appSecret: APP_SECRET,
@@ -85,7 +85,7 @@ If it is not specified, version `4.0` will be used as default.
 If `appSecret` is provided, `MessengerClient` will enable this feature automatically and include `appsecret_proof` in every Graph API requests. To skip it, set `skipAppSecretProof` to `true`:
 
 ```js
-const client = MessengerClient.connect({
+const client = new MessengerClient({
   accessToken: ACCESS_TOKEN,
   appId: APP_ID,
   appSecret: APP_SECRET,
@@ -3409,7 +3409,7 @@ DEBUG=messaging-api-messenger
 If you want to use custom request logging function, just define your own `onRequest`:
 
 ```js
-const client = MessengerClient.connect({
+const client = new MessengerClient({
   accessToken: ACCESS_TOKEN,
   onRequest: ({ method, url, headers, body }) => {
     /* */
@@ -3426,7 +3426,7 @@ To avoid sending requests to real Messenger server, specify `origin` option when
 ```js
 const { MessengerClient } = require('messaging-api-messenger');
 
-const client = MessengerClient.connect({
+const client = new MessengerClient({
   accessToken: ACCESS_TOKEN,
   origin: 'https://mydummytestserver.com',
 });

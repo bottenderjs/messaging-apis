@@ -34,7 +34,7 @@ yarn add messaging-api-wechat
 const { WechatClient } = require('messaging-api-wechat');
 
 // get appId, appSecret from「微信公众平台-开发-基本配置」page
-const client = WechatClient.connect({
+const client = new WechatClient({
   appId: APP_ID,
   appSecret: APP_SECRET,
 });
@@ -265,7 +265,7 @@ DEBUG=messaging-api-wechat
 If you want to use custom request logging function, just define your own `onRequest`:
 
 ```js
-const client = WechatClient.connect({
+const client = new WechatClient({
   appId: APP_ID,
   appSecret: APP_SECRET,
   onRequest: ({ method, url, headers, body }) => {
@@ -283,7 +283,7 @@ To avoid sending requests to real WeChat server, specify `origin` option when co
 ```js
 const { WechatClient } = require('messaging-api-wechat');
 
-const client = WechatClient.connect({
+const client = new WechatClient({
   appId: APP_ID,
   appSecret: APP_SECRET,
   origin: 'https://mydummytestserver.com',

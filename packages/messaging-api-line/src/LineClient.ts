@@ -40,10 +40,17 @@ function handleError(err: {
 }
 
 export default class LineClient {
+  /**
+   * @deprecated Use `new LineClient(...)` instead.
+   */
   static connect(
     accessTokenOrConfig: string | Types.ClientConfig,
     channelSecret?: string
   ): LineClient {
+    warning(
+      false,
+      '`LineClient.connect(...)` is deprecated. Use `new LineClient(...)` instead.'
+    );
     return new LineClient(accessTokenOrConfig, channelSecret);
   }
 

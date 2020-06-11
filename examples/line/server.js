@@ -3,10 +3,10 @@ const { Line, LineClient } = require('messaging-api-line');
 
 const verifyMiddleware = require('./middleware/verify');
 
-const client = LineClient.connect(
-  process.env.ACCESS_TOKEN,
-  process.env.CHANNEL_SECRET
-);
+const client = new LineClient({
+  accessToken: process.env.ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
+});
 
 const server = express();
 

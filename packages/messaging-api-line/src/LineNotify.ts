@@ -2,6 +2,7 @@ import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import warning from 'warning';
 
 import * as Types from './LineTypes';
 
@@ -43,7 +44,14 @@ function throwWhenNotSuccess(res: {
  * LINE Notify
  */
 export default class LineNotify {
+  /**
+   * @deprecated Use `new LineNotify(...)` instead.
+   */
   static connect(config: Types.LineNotifyConfig): LineNotify {
+    warning(
+      false,
+      '`LineNotify.connect(...)` is deprecated. Use `new LineNotify(...)` instead.'
+    );
     return new LineNotify(config);
   }
 

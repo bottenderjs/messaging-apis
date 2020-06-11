@@ -80,9 +80,16 @@ export default class SlackOAuthClient {
     ) => Promise<Types.OAuthAPIResponse>;
   };
 
+  /**
+   * @deprecated Use `new SlackOAuthClient(...)` instead.
+   */
   static connect(
     accessTokenOrConfig: string | Types.ClientConfig
   ): SlackOAuthClient {
+    warning(
+      false,
+      '`SlackOAuthClient.connect(...)` is deprecated. Use `new SlackOAuthClient(...)` instead.'
+    );
     return new SlackOAuthClient(accessTokenOrConfig);
   }
 

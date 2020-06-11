@@ -56,7 +56,7 @@ yarn add messaging-api-line
 const { LineClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
-const client = LineClient.connect({
+const client = new LineClient({
   accessToken: ACCESS_TOKEN,
   channelSecret: CHANNEL_SECRET,
 });
@@ -2569,7 +2569,7 @@ client.deleteLiffApp(LIFF_ID);
 ```js
 const { LinePay } = require('messaging-api-line');
 
-const linePay = LinePay.connect({
+const linePay = new LinePay({
   channelId: CHANNEL_ID,
   channelSecret: CHANNEL_SECRET,
   sandbox: true, // default false
@@ -2840,7 +2840,7 @@ DEBUG=messaging-api-line
 If you want to use custom request logging function, just define your own `onRequest`:
 
 ```js
-const client = LineClient.connect({
+const client = new LineClient({
   accessToken: ACCESS_TOKEN,
   channelSecret: CHANNEL_SECRET,
   onRequest: ({ method, url, headers, body }) => {
@@ -2858,7 +2858,7 @@ To avoid sending requests to real LINE server, specify `origin` option when cons
 ```js
 const { LineClient } = require('messaging-api-line');
 
-const client = LineClient.connect({
+const client = new LineClient({
   accessToken: ACCESS_TOKEN,
   channelSecret: CHANNEL_SECRET,
   origin: 'https://mydummytestserver.com',

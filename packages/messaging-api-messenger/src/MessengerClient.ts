@@ -11,6 +11,7 @@ import get from 'lodash/get';
 import invariant from 'invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
+import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -38,10 +39,17 @@ function handleError(err: AxiosError): never {
 }
 
 export default class MessengerClient {
+  /**
+   * @deprecated Use `new MessengerClient(...)` instead.
+   */
   static connect(
     accessTokenOrConfig: string | Types.ClientConfig,
     version = '6.0'
   ): MessengerClient {
+    warning(
+      false,
+      '`MessengerClient.connect(...)` is deprecated. Use `new MessengerClient(...)` instead.'
+    );
     return new MessengerClient(accessTokenOrConfig, version);
   }
 
