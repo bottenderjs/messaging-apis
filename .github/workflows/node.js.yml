@@ -45,10 +45,11 @@ jobs:
         run: npm run compile
 
       - name: Run lint rules
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node-version == 12 }}
         run: npm run lint
 
       - name: Run tests
-        run: npm run testonly:cov -- --no-cache --colors
+        run: npm run testonly:cov -- --colors
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
