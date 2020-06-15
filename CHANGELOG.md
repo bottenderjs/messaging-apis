@@ -58,7 +58,7 @@ client
       `gender`,
     ],
   })
-  .then(user => {
+  .then((user) => {
     console.log(user);
     // {
     //   id: '5566'
@@ -107,7 +107,7 @@ client.getPageSubscription({
 - [new] implement `client.debugToken`:
 
 ```js
-client.debugToken().then(pageInfo => {
+client.debugToken().then((pageInfo) => {
   console.log(pageInfo);
   // {
   //    app_id: '000000000000000',
@@ -270,7 +270,7 @@ linePay
     transactionId: '20140101123123123',
     orderId: '1002045572',
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // [
     //   {
@@ -295,7 +295,7 @@ linePay
     transactionId: '20140101123123123',
     orderId: '1002045572',
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // [
     //   {
@@ -335,7 +335,7 @@ linePay
     confirmUrl:
       'naversearchapp://inappbrowser?url=http%3A%2F%2FtestMall.com%2FcheckResult.nhn%3ForderId%3D20140101123456789',
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // {
     //   transactionId: 123123123123,
@@ -356,7 +356,7 @@ linePay
     amount: 1000,
     currency: 'TWD',
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // {
     //   orderId: 'order_210124213',
@@ -383,7 +383,7 @@ linePay
     amount: 1000,
     currency: 'TWD',
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // {
     //   transactionId: 20140101123123123,
@@ -411,7 +411,7 @@ linePay.void(TRANSACTION_ID);
 - `refund(transactionId, options)`:
 
 ```js
-linePay.refund(TRANSACTION_ID).then(result => {
+linePay.refund(TRANSACTION_ID).then((result) => {
   console.log(result);
   // {
   //   refundTransactionId: 123123123123,
@@ -442,7 +442,7 @@ linePay.refund(TRANSACTION_ID).then(result => {
 createPersona({
   name: 'John Mathew',
   profile_picture_url: 'https://facebook.com/john_image.jpg',
-}).then(persona => {
+}).then((persona) => {
   console.log(persona);
   // {
   //  "id": "<PERSONA_ID>"
@@ -453,7 +453,7 @@ createPersona({
 - `getPersona(personaId)`:
 
 ```js
-getPersona(personaId).then(persona => {
+getPersona(personaId).then((persona) => {
   console.log(persona);
   // {
   //   "name": "John Mathew",
@@ -466,7 +466,7 @@ getPersona(personaId).then(persona => {
 - `getPersonas(cursor?: string)`:
 
 ```js
-getPersonas(cursor).then(personas => {
+getPersonas(cursor).then((personas) => {
   console.log(personas);
   // {
   //   "data": [
@@ -494,7 +494,7 @@ getPersonas(cursor).then(personas => {
 - `getAllPersonas()`:
 
 ```js
-getAllPersonas().then(personas => {
+getAllPersonas().then((personas) => {
   console.log(personas);
   //   [
   //     {
@@ -528,7 +528,7 @@ deletePersona(personaId);
 - `getDefaultRichMenu()`:
 
 ```js
-client.getDefaultRichMenu().then(richMenu => {
+client.getDefaultRichMenu().then((richMenu) => {
   console.log(richMenu);
   // {
   //   "richMenuId": "{richMenuId}"
@@ -678,7 +678,7 @@ client
   .sendBroadcastMessage(938461089, {
     schedule_time: '2018-04-05T20:39:13+00:00',
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // {
     //   broadcast_id: '115517705935329',
@@ -695,7 +695,7 @@ client.cancelBroadcast('115517705935329');
 To check on broadcast status.
 
 ```js
-client.getBroadcast('115517705935329').then(broadcast => {
+client.getBroadcast('115517705935329').then((broadcast) => {
   console.log(broadcast);
   // {
   //   scheduled_time: '2018-04-05T20:39:13+00:00',
@@ -728,7 +728,7 @@ client.sendBroadcastMessage(938461089, {
 - [new] Support getting the thread owner when using Handover Protocol:
 
 ```js
-client.getThreadOwner().then(threadOwner => {
+client.getThreadOwner().then((threadOwner) => {
   console.log(threadOwner);
   // {
   //   app_id: '12345678910'
@@ -739,7 +739,7 @@ client.getThreadOwner().then(threadOwner => {
 - [new] Support new insights API `getTotalMessagingConnections()`:
 
 ```js
-client.getTotalMessagingConnections().then(result => {
+client.getTotalMessagingConnections().then((result) => {
   console.log(result);
   // {
   //   name: 'page_messages_total_messaging_connections',
@@ -760,7 +760,7 @@ client.getTotalMessagingConnections().then(result => {
 - [new] Support programmatically checking the feature submission status of Page-level Platform features using `getMessagingFeatureReview`:
 
 ```js
-client.getMessagingFeatureReview().then(data => {
+client.getMessagingFeatureReview().then((data) => {
   console.log(data);
   // [
   //   {
@@ -850,7 +850,7 @@ MessengerBatch.getAssociatedLabels;
 `getOpenConversations(options)`:
 
 ```js
-client.getOpenConversations().then(result => {
+client.getOpenConversations().then((result) => {
   console.log(result);
   // {
   //   name: 'page_messages_open_conversations_unique',
@@ -871,7 +871,7 @@ client.getOpenConversations().then(result => {
 `getNewConversations(options)`:
 
 ```js
-client.getNewConversations().then(result => {
+client.getNewConversations().then((result) => {
   console.log(result);
   // {
   //   name: 'page_messages_new_conversations_unique',
@@ -904,7 +904,7 @@ Affected APIs:
 Before:
 
 ```js
-client.getBlockedConversations().then(counts => {
+client.getBlockedConversations().then((counts) => {
   console.log(counts);
   // [
   //   {
@@ -928,7 +928,7 @@ client.getBlockedConversations().then(counts => {
 After:
 
 ```js
-client.getBlockedConversations().then(counts => {
+client.getBlockedConversations().then((counts) => {
   console.log(counts);
   //   {
   //     "name": "page_messages_blocked_conversations_unique",
@@ -963,7 +963,7 @@ AirlineFlightUpdateTemplate -> AirlineUpdateTemplate
 - [new] support LINE issue link token for account linking: [#332](https://github.com/Yoctol/messaging-apis/pull/332)
 
 ```js
-client.issueLinkToken(USER_ID).then(result => {
+client.issueLinkToken(USER_ID).then((result) => {
   console.log(result);
   // {
   //   linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
@@ -1136,7 +1136,7 @@ client
   .getUpdates({
     limit: 10,
   })
-  .then(data => {
+  .then((data) => {
     console.log(data.result);
     /*
       [
@@ -1258,7 +1258,7 @@ client
     user_id: USER_ID,
     app_secret: APP_SECRET,
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
   });
 ```
@@ -1271,7 +1271,7 @@ client
     user_id: USER_ID,
     app_secret: APP_SECRET,
   })
-  .then(result => {
+  .then((result) => {
     console.log(result);
   });
 ```
@@ -1467,7 +1467,7 @@ client.uploadImage(fs.creatReadStream('xxx.jpg'));
 - [new] support `getPageInfo` to get page name and page id using Graph API. For example:
 
 ```js
-client.getPageInfo().then(page => {
+client.getPageInfo().then((page) => {
   console.log(page);
   // {
   //   name: 'Bot Demo',

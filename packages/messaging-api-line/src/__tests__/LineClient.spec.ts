@@ -59,7 +59,7 @@ describe('Profile', () => {
         statusMessage: 'Hello, LINE!',
       };
 
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         expect(config.url).toEqual(`/v2/bot/profile/${RECIPIENT_ID}`);
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
@@ -95,7 +95,7 @@ describe('Account link', () => {
         linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
       };
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual(`/v2/bot/user/${RECIPIENT_ID}/linkToken`);
         expect(config.data).toEqual(null);
         expect(config.headers).toEqual(headers);

@@ -141,7 +141,7 @@ export default class LineNotify {
     };
     return this.axios
       .post('/oauth/token', querystring.encode(formData), { headers })
-      .then(res => res.data.access_token, handleError);
+      .then((res) => res.data.access_token, handleError);
   }
 
   /**

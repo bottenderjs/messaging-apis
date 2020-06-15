@@ -60,7 +60,9 @@ export default class SlackWebhookClient {
   sendRawBody(
     body: Record<string, any>
   ): Promise<Types.SendMessageSuccessResponse> {
-    return this._axios.post('', snakecaseKeysDeep(body)).then(res => res.data);
+    return this._axios
+      .post('', snakecaseKeysDeep(body))
+      .then((res) => res.data);
   }
 
   sendText(text: string): Promise<Types.SendMessageSuccessResponse> {

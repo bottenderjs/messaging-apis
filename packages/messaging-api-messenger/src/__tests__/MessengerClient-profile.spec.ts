@@ -53,7 +53,7 @@ describe('messenger profile', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -102,7 +102,7 @@ describe('messenger profile', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -161,7 +161,7 @@ describe('messenger profile', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -198,7 +198,7 @@ describe('get started button', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -222,7 +222,7 @@ describe('get started button', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -247,7 +247,7 @@ describe('get started button', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -276,7 +276,7 @@ describe('get started button', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -325,7 +325,7 @@ describe('persistent menu', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -364,7 +364,7 @@ describe('persistent menu', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -389,7 +389,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -442,7 +442,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -501,7 +501,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -550,7 +550,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -597,7 +597,7 @@ describe('persistent menu', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -636,7 +636,7 @@ describe('persistent menu', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -661,7 +661,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -717,7 +717,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -779,7 +779,7 @@ describe('persistent menu', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -830,7 +830,7 @@ describe('persistent menu', () => {
       };
 
       let url;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -865,7 +865,7 @@ describe('greeting', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -892,7 +892,7 @@ describe('greeting', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -917,7 +917,7 @@ describe('greeting', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -947,7 +947,7 @@ describe('greeting', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -992,7 +992,7 @@ describe('greeting', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1033,7 +1033,7 @@ describe('ice breakers', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1064,7 +1064,7 @@ describe('ice breakers', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1089,7 +1089,7 @@ describe('ice breakers', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1134,7 +1134,7 @@ describe('ice breakers', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1166,7 +1166,7 @@ describe('whitelisted domains', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1188,7 +1188,7 @@ describe('whitelisted domains', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1213,7 +1213,7 @@ describe('whitelisted domains', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1240,7 +1240,7 @@ describe('whitelisted domains', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1273,7 +1273,7 @@ describe('account linking url', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1298,7 +1298,7 @@ describe('account linking url', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1323,7 +1323,7 @@ describe('account linking url', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1353,7 +1353,7 @@ describe('account linking url', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1387,7 +1387,7 @@ describe('chat extension home URL', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1413,7 +1413,7 @@ describe('chat extension home URL', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -1438,7 +1438,7 @@ describe('chat extension home URL', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1472,7 +1472,7 @@ describe('chat extension home URL', () => {
 
       let url;
       let data;
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];

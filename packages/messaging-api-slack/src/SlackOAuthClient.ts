@@ -19,7 +19,7 @@ function stringifyPayloadFields(
   payload: Record<string, any> = {},
   fields: Array<string> = DEFAULT_PAYLOAD_FIELDS_TO_STRINGIFY
 ): object {
-  fields.forEach(field => {
+  fields.forEach((field) => {
     if (payload[field] && typeof payload[field] !== 'string') {
       // eslint-disable-next-line no-param-reassign
       payload[field] = JSON.stringify(snakecaseKeysDeep(payload[field]));
@@ -198,7 +198,7 @@ export default class SlackOAuthClient {
     return this.callMethod('channels.info', {
       channel: channelId,
       ...options,
-    }).then(data => data.channel);
+    }).then((data) => data.channel);
   }
 
   /**
@@ -213,7 +213,7 @@ export default class SlackOAuthClient {
     return this.callMethod('conversations.info', {
       channel: channelId,
       ...options,
-    }).then(data => data.channel);
+    }).then((data) => data.channel);
   }
 
   /**
@@ -231,7 +231,7 @@ export default class SlackOAuthClient {
     return this.callMethod('conversations.members', {
       channel: channelId,
       ...options,
-    }).then(data => ({
+    }).then((data) => ({
       members: data.members,
       next: data.responseMetadata && data.responseMetadata.nextCursor,
     }));
@@ -275,7 +275,7 @@ export default class SlackOAuthClient {
     channels: Types.Channel[];
     next?: string;
   }> {
-    return this.callMethod('conversations.list', options).then(data => ({
+    return this.callMethod('conversations.list', options).then((data) => ({
       channels: data.channels,
       next: data.responseMetadata && data.responseMetadata.nextCursor,
     }));
@@ -532,7 +532,7 @@ export default class SlackOAuthClient {
     options?: Types.UserInfoOptions
   ): Promise<Types.User> {
     return this.callMethod('users.info', { user: userId, ...options }).then(
-      data => data.user
+      (data) => data.user
     );
   }
 
@@ -547,7 +547,7 @@ export default class SlackOAuthClient {
     members: Types.User[];
     next?: string;
   }> {
-    return this.callMethod('users.list', options).then(data => ({
+    return this.callMethod('users.list', options).then((data) => ({
       members: data.members,
       next: data.responseMetadata && data.responseMetadata.nextCursor,
     }));

@@ -34,7 +34,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -66,7 +66,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -95,7 +95,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -117,7 +117,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -155,7 +155,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -186,7 +186,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -216,7 +216,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -249,7 +249,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -280,7 +280,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -313,7 +313,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -344,7 +344,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -377,7 +377,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -414,7 +414,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -445,7 +445,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -478,7 +478,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -564,7 +564,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -650,7 +650,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -766,7 +766,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -844,7 +844,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -935,7 +935,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -1018,7 +1018,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -1081,7 +1081,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -1214,7 +1214,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -1343,7 +1343,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,
@@ -1430,7 +1430,7 @@ describe('Reply Message', () => {
 
       const reply = {};
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/reply');
         expect(JSON.parse(config.data)).toEqual({
           replyToken: REPLY_TOKEN,

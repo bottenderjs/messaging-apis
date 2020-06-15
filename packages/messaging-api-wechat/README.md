@@ -45,7 +45,7 @@ const client = new WechatClient({
 `messaging-api-wechat` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
 
 ```js
-client.sendText(userId, text).catch(error => {
+client.sendText(userId, text).catch((error) => {
   console.log(error); // formatted error message
   console.log(error.stack); // error stack trace
   console.log(error.config); // axios request config
@@ -225,7 +225,7 @@ const fs = require('fs');
 
 const buffer = fs.readFileSync('test.jpg');
 
-client.uploadMedia('image', buffer).then(media => {
+client.uploadMedia('image', buffer).then((media) => {
   console.log(media);
   // {
   //   type: 'image',
@@ -244,7 +244,7 @@ client.uploadMedia('image', buffer).then(media => {
 Example:
 
 ```js
-client.getMedia(MEDIA_ID).then(media => {
+client.getMedia(MEDIA_ID).then((media) => {
   console.log(media);
   // {
   //   video_url: "..."

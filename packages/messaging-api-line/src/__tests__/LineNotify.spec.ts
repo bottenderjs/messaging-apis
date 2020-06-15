@@ -136,7 +136,7 @@ describe('#getToken', () => {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
 
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       expect(config.url).toEqual('/oauth/token');
       expect(querystring.decode(config.data)).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
@@ -164,7 +164,7 @@ describe('#getStatus', () => {
       Authorization: `Bearer access_token`,
     };
 
-    apiMock.onGet().reply(config => {
+    apiMock.onGet().reply((config) => {
       expect(config.url).toEqual('/api/status');
       expect(config.headers.Authorization).toEqual(headers.Authorization);
       return [200, reply];
@@ -194,7 +194,7 @@ describe('#sendNotify', () => {
       Authorization: `Bearer access_token`,
     };
 
-    apiMock.onPost().reply(config => {
+    apiMock.onPost().reply((config) => {
       expect(config.url).toEqual('/api/notify');
       expect(config.data).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
@@ -224,7 +224,7 @@ describe('#revokeToken', () => {
       Authorization: `Bearer access_token`,
     };
 
-    apiMock.onPost().reply(config => {
+    apiMock.onPost().reply((config) => {
       expect(config.url).toEqual('/api/revoke');
       expect(JSON.parse(config.data)).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);

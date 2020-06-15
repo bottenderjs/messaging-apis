@@ -43,7 +43,7 @@ describe('page info', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -78,7 +78,7 @@ describe('token', () => {
 
       let url;
       let params;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         params = config.params;
         return [200, reply];
@@ -115,7 +115,7 @@ describe('subscription', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -150,7 +150,7 @@ describe('subscription', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -201,7 +201,7 @@ describe('subscription', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -259,7 +259,7 @@ describe('subscription', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -298,7 +298,7 @@ describe('#getMessagingFeatureReview', () => {
     };
 
     let url;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       return [200, reply];
     });
@@ -330,7 +330,7 @@ describe('user profile', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -362,7 +362,7 @@ describe('user profile', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -418,7 +418,7 @@ describe('message tags', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -454,7 +454,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -494,7 +494,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -535,7 +535,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -567,7 +567,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -608,7 +608,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -649,7 +649,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -690,7 +690,7 @@ describe('upload api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -733,7 +733,7 @@ describe('Built-in NLP API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -765,7 +765,7 @@ describe('Built-in NLP API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -792,7 +792,7 @@ describe('Built-in NLP API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -821,7 +821,7 @@ describe('Event Logging API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -892,7 +892,7 @@ describe('ID Matching', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -937,7 +937,7 @@ describe('ID Matching', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });

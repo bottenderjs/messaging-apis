@@ -247,8 +247,8 @@ describe('Client instance', () => {
 
     let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
 
-    sendTypes.forEach(sendType => {
-      messageTypes.forEach(messageType => {
+    sendTypes.forEach((sendType) => {
+      messageTypes.forEach((messageType) => {
         expect(client[`${sendType}${messageType}`]).toBeDefined();
       });
     });
@@ -258,8 +258,8 @@ describe('Client instance', () => {
       channelSecret: CHANNEL_SECRET,
     });
 
-    sendTypes.forEach(sendType => {
-      messageTypes.forEach(messageType => {
+    sendTypes.forEach((sendType) => {
+      messageTypes.forEach((messageType) => {
         expect(client[`${sendType}${messageType}`]).toBeDefined();
       });
     });

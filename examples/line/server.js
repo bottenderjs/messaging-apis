@@ -21,7 +21,7 @@ const verifyEvents = [
   'ffffffffffffffffffffffffffffffff',
 ];
 
-const handleEvent = event => {
+const handleEvent = (event) => {
   const { type, replyToken, message } = event;
   const messageType = message.type;
   if (type !== 'message' || messageType !== 'text') {
@@ -40,8 +40,8 @@ server.post('/webhook', verifyMiddleware(config), (req, res) => {
   const { events } = body;
 
   Promise.all(events.map(handleEvent))
-    .then(result => res.status(200).send(result))
-    .catch(err => console.log(err));
+    .then((result) => res.status(200).send(result))
+    .catch((err) => console.log(err));
 });
 
 module.exports = server;

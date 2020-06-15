@@ -39,7 +39,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -82,7 +82,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -129,7 +129,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -166,7 +166,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -210,7 +210,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -252,7 +252,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -294,7 +294,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -335,7 +335,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -377,7 +377,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -419,7 +419,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -477,7 +477,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -520,7 +520,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -566,7 +566,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -613,7 +613,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -648,7 +648,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -688,7 +688,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -731,7 +731,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -773,7 +773,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -802,7 +802,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -845,7 +845,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -887,7 +887,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -916,7 +916,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -959,7 +959,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1001,11 +1001,13 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost(`/me/messages?access_token=${ACCESS_TOKEN}`).reply(config => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`)
+        .reply((config) => {
+          url = config.url;
+          data = config.data;
+          return [200, reply];
+        });
 
       const res = await client.sendVideo(USER_ID, fs.createReadStream('./'));
 
@@ -1030,7 +1032,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1073,7 +1075,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1115,11 +1117,13 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost(`/me/messages?access_token=${ACCESS_TOKEN}`).reply(config => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+      mock
+        .onPost(`/me/messages?access_token=${ACCESS_TOKEN}`)
+        .reply((config) => {
+          url = config.url;
+          data = config.data;
+          return [200, reply];
+        });
 
       const res = await client.sendFile(USER_ID, fs.createReadStream('./'));
 
@@ -1148,7 +1152,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1187,7 +1191,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1232,7 +1236,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1262,7 +1266,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1297,7 +1301,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1327,7 +1331,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1362,7 +1366,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1392,7 +1396,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1427,7 +1431,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -1457,7 +1461,7 @@ describe('send api', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
