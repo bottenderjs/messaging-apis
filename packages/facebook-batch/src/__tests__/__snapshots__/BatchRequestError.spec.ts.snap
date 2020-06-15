@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work 1`] = `
+"
+Error Message - Batch Request Error
+
+Request -
+
+POST me/feed
+message=Test status update&amp;link=http://developers.facebook.com/
+
+Response -
+403
+{\\"error\\":{\\"type\\":\\"OAuthException\\",\\"message\\": \\"Invalid parameter\\",\\"code\\": 100}}
+    "
+`;

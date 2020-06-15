@@ -45,6 +45,7 @@
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-yoctol-base": "^0.23.1",
+    "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-sort-imports-es6-autofix": "^0.5.0",
@@ -62,7 +63,7 @@
     "typescript": "^3.9.5"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "husky": {
     "hooks": {

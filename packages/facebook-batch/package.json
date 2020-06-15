@@ -1,0 +1,28 @@
+{
+  "name": "facebook-batch",
+  "description": "Gracefully batching facebook requests.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoctol/messaging-apis.git"
+  },
+  "version": "1.0.0-beta.25",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@types/invariant": "^2.2.33",
+    "invariant": "^2.2.4",
+    "messaging-api-messenger": "file:../messaging-api-messenger",
+    "type-fest": "^0.15.1"
+  },
+  "keywords": [
+    "batch",
+    "bottender",
+    "facebook",
+    "messaging-apis",
+    "messenger"
+  ],
+  "engines": {
+    "node": ">=10"
+  }
+}

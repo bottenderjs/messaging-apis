@@ -1194,7 +1194,13 @@ export default class MessengerClient {
   sendBatch(
     batch: Types.BatchItem[],
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.SendMessageSuccessResponse[]> {
+  ): Promise<
+    {
+      code: number;
+      headers?: { name: string; value: string }[];
+      body: string;
+    }[]
+  > {
     invariant(
       batch.length <= 50,
       'limit the number of requests which can be in a batch to 50'
