@@ -82,8 +82,8 @@ export default class LineClient {
    * })
    * ```
    *
-   * @param accessTokenOrConfig your channel access token from LINE Messaging API or [[ClientConfig]]
-   * @param channelSecret your channel secret from LINE Messaging API
+   * @param accessTokenOrConfig - your channel access token from LINE Messaging API or [[ClientConfig]]
+   * @param channelSecret - your channel secret from LINE Messaging API
    */
   constructor(
     accessTokenOrConfig: string | Types.ClientConfig,
@@ -154,9 +154,9 @@ export default class LineClient {
    *
    * [Official document](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
    *
-   * @param body Request body
-   * @param body.replyToken Reply token received via webhook
-   * @param body.messages Messages to send (Max: 5)
+   * @param body - Request body
+   * @param body.replyToken - Reply token received via webhook
+   * @param body.messages - Messages to send (Max: 5)
    *
    * @returns Returns status code `200` and an empty JSON object.
    */
@@ -182,8 +182,8 @@ export default class LineClient {
    *
    * [Official document - send reply message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param messages Messages to send (Max: 5)
+   * @param replyToken - Reply token received via webhook
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   reply(
@@ -206,8 +206,8 @@ export default class LineClient {
    *
    * [Official document - send reply message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param messages Messages to send (Max: 5)
+   * @param replyToken - Reply token received via webhook
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyMessages(
@@ -222,8 +222,8 @@ export default class LineClient {
    *
    * [Official document - text message](https://developers.line.biz/en/reference/messaging-api/#text-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param text Message text.
+   * @param replyToken - Reply token received via webhook
+   * @param text - Message text.
    *
    * You can include the following emoji:
    * - Unicode emoji
@@ -231,7 +231,7 @@ export default class LineClient {
    *
    * Max character limit: 2000
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyText(
@@ -247,16 +247,16 @@ export default class LineClient {
    *
    * [Official document - image message](https://developers.line.biz/en/reference/messaging-api/#image-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param image
-   * @param options Common properties for messages
-   * @param image.originalContentUrl Image URL
+   * @param replyToken - Reply token received via webhook
+   * @param image - Image
+   * @param options - Common properties for messages
+   * @param image.originalContentUrl - Image URL
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
    * - Max: 4096 x 4096
    * - Max: 1 MB
-   * @param image.previewImageUrl Preview image URL
+   * @param image.previewImageUrl - Preview image URL
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
@@ -280,10 +280,10 @@ export default class LineClient {
    *
    * [Official document - video message](https://developers.line.biz/en/reference/messaging-api/#video-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param video Video
-   * @param options Common properties for messages
-   * @param video.originalContentUrl URL of video file
+   * @param replyToken - Reply token received via webhook
+   * @param video - Video
+   * @param options - Common properties for messages
+   * @param video.originalContentUrl - URL of video file
    *
    * A very wide or tall video may be cropped when played in some environments.
    * - Max character limit: 1000
@@ -292,7 +292,7 @@ export default class LineClient {
    * - Max: 1 minute
    * - Max: 10 MB
    *
-   * @param video.previewImageUrl URL of preview image
+   * @param video.previewImageUrl - URL of preview image
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
@@ -316,16 +316,16 @@ export default class LineClient {
    *
    * [Official document - audio message](https://developers.line.biz/en/reference/messaging-api/#audio-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param audio Audio
-   * @param options Common properties for messages
-   * @param audio.originalContentUrl URL of audio file
+   * @param replyToken - Reply token received via webhook
+   * @param audio - Audio
+   * @param options - Common properties for messages
+   * @param audio.originalContentUrl - URL of audio file
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - m4a
    * - Max: 1 minute
    * - Max: 10 MB
-   * @param audio.duration Length of audio file (milliseconds)
+   * @param audio.duration - Length of audio file (milliseconds)
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyAudio(
@@ -344,8 +344,8 @@ export default class LineClient {
    *
    * [Official document - location message](https://developers.line.biz/en/reference/messaging-api/#location-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param location Location
+   * @param replyToken - Reply token received via webhook
+   * @param location - Location
    *
    * location.title:
    * - Max character limit: 100
@@ -353,7 +353,7 @@ export default class LineClient {
    * location.address:
    * - Max character limit: 100
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyLocation(
@@ -369,8 +369,8 @@ export default class LineClient {
    *
    * [Official document - sticker message](https://developers.line.biz/en/reference/messaging-api/#sticker-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param sticker Sticker
+   * @param replyToken - Reply token received via webhook
+   * @param sticker - Sticker
    *
    * sticker.packageId:
    * - Package ID for a set of stickers. For information on package IDs, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
@@ -378,7 +378,7 @@ export default class LineClient {
    * sticker.stickerId:
    * - Sticker ID. For a list of sticker IDs for stickers that can be sent with the Messaging API, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replySticker(
@@ -398,10 +398,10 @@ export default class LineClient {
    *
    * [Official document - imagemap message](https://developers.line.biz/en/reference/messaging-api/#imagemap-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param imagemap Imagemap
-   * @param options Common properties for messages
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param imagemap - Imagemap
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyImagemap(
@@ -424,10 +424,10 @@ export default class LineClient {
    *
    * [Official document - flex message](https://developers.line.biz/en/reference/messaging-api/#flex-message)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param flex Flex Message [container](https://developers.line.biz/en/reference/messaging-api/#container)
-   * @param options Common properties for messages
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param flex - Flex Message [container](https://developers.line.biz/en/reference/messaging-api/#container)
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyFlex(
@@ -452,10 +452,10 @@ export default class LineClient {
    *
    * [Official document - template message](https://developers.line.biz/en/reference/messaging-api/#template-messages)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param template A [Buttons](https://developers.line.biz/en/reference/messaging-api/#buttons), [Confirm](https://developers.line.biz/en/reference/messaging-api/#confirm), [Carousel](https://developers.line.biz/en/reference/messaging-api/#carousel), or [Image carousel](https://developers.line.biz/en/reference/messaging-api/#image-carousel) object.
-   * @param options Common properties for messages
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param template - A [Buttons](https://developers.line.biz/en/reference/messaging-api/#buttons), [Confirm](https://developers.line.biz/en/reference/messaging-api/#confirm), [Carousel](https://developers.line.biz/en/reference/messaging-api/#carousel), or [Image carousel](https://developers.line.biz/en/reference/messaging-api/#image-carousel) object.
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyTemplate(
@@ -476,10 +476,10 @@ export default class LineClient {
    *
    * [Official document - button template message](https://developers.line.biz/en/reference/messaging-api/#buttons)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param buttonTemplate Button template object
-   * @param options Common properties for messages
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param buttonTemplate - Button template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyButtonTemplate(
@@ -502,10 +502,10 @@ export default class LineClient {
    *
    * [Official document - button template message](https://developers.line.biz/en/reference/messaging-api/#buttons)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param buttonTemplate Button template object
-   * @param options Common properties for messages
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param buttonTemplate - Button template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyButtonsTemplate(
@@ -531,10 +531,10 @@ export default class LineClient {
    *
    * [Official document - confirm template message](https://developers.line.biz/en/reference/messaging-api/#confirm)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param confirmTemplate Confirm template object
-   * @param options Common properties for messages
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param confirmTemplate - Confirm template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyConfirmTemplate(
@@ -555,13 +555,13 @@ export default class LineClient {
    *
    * [Official document - carousel template message](https://developers.line.biz/en/reference/messaging-api/#carousel)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param columns Array of columns for carousel
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param columns - Array of columns for carousel
    *
    * Max columns: 10
    *
-   * @param options Carousel template options
+   * @param options - Carousel template options
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyCarouselTemplate(
@@ -582,13 +582,13 @@ export default class LineClient {
    *
    * [Official document - image carousel template message](https://developers.line.biz/en/reference/messaging-api/#image-carousel)
    *
-   * @param replyToken Reply token received via webhook
-   * @param altText Alternative text
-   * @param columns Array of columns for image carousel
+   * @param replyToken - Reply token received via webhook
+   * @param altText - Alternative text
+   * @param columns - Array of columns for image carousel
    *
    * Max columns: 10
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   replyImageCarouselTemplate(
@@ -607,13 +607,13 @@ export default class LineClient {
    *
    * Sends a push message to a user, group, or room at any time.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - send push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message)
    *
-   * @param body Request body
-   * @param body.to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param body.messages Messages to send (Max: 5)
+   * @param body - Request body
+   * @param body.to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param body.messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushRawBody(body: {
@@ -630,12 +630,12 @@ export default class LineClient {
    *
    * Sends a push message to a user, group, or room at any time.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - send push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param messages Messages to send (Max: 5)
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   push(
@@ -650,12 +650,12 @@ export default class LineClient {
    *
    * Sends a push message to a user, group, or room at any time.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - send push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param messages Messages to send (Max: 5)
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushMessages(
@@ -670,8 +670,8 @@ export default class LineClient {
    *
    * [Official document - text message](https://developers.line.biz/en/reference/messaging-api/#text-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param text Message text.
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param text - Message text.
    *
    * You can include the following emoji:
    * - Unicode emoji
@@ -679,7 +679,7 @@ export default class LineClient {
    *
    * Max character limit: 2000
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushText(
@@ -695,16 +695,16 @@ export default class LineClient {
    *
    * [Official document - image message](https://developers.line.biz/en/reference/messaging-api/#image-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param image
-   * @param options Common properties for messages
-   * @param image.originalContentUrl Image URL
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param image - Image
+   * @param options - Common properties for messages
+   * @param image.originalContentUrl - Image URL
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
    * - Max: 4096 x 4096
    * - Max: 1 MB
-   * @param image.previewImageUrl Preview image URL
+   * @param image.previewImageUrl - Preview image URL
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
@@ -728,10 +728,10 @@ export default class LineClient {
    *
    * [Official document - video message](https://developers.line.biz/en/reference/messaging-api/#video-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param video Video
-   * @param options Common properties for messages
-   * @param video.originalContentUrl URL of video file
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param video - Video
+   * @param options - Common properties for messages
+   * @param video.originalContentUrl - URL of video file
    *
    * A very wide or tall video may be cropped when played in some environments.
    * - Max character limit: 1000
@@ -740,7 +740,7 @@ export default class LineClient {
    * - Max: 1 minute
    * - Max: 10 MB
    *
-   * @param video.previewImageUrl URL of preview image
+   * @param video.previewImageUrl - URL of preview image
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
@@ -764,16 +764,16 @@ export default class LineClient {
    *
    * [Official document - audio message](https://developers.line.biz/en/reference/messaging-api/#audio-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param audio Audio
-   * @param options Common properties for messages
-   * @param audio.originalContentUrl URL of audio file
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param audio - Audio
+   * @param options - Common properties for messages
+   * @param audio.originalContentUrl - URL of audio file
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - m4a
    * - Max: 1 minute
    * - Max: 10 MB
-   * @param audio.duration Length of audio file (milliseconds)
+   * @param audio.duration - Length of audio file (milliseconds)
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushAudio(
@@ -792,8 +792,8 @@ export default class LineClient {
    *
    * [Official document - location message](https://developers.line.biz/en/reference/messaging-api/#location-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param location Location
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param location - Location
    *
    * location.title:
    * - Max character limit: 100
@@ -801,7 +801,7 @@ export default class LineClient {
    * location.address:
    * - Max character limit: 100
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushLocation(
@@ -817,8 +817,8 @@ export default class LineClient {
    *
    * [Official document - sticker message](https://developers.line.biz/en/reference/messaging-api/#sticker-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param sticker Sticker
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param sticker - Sticker
    *
    * sticker.packageId:
    * - Package ID for a set of stickers. For information on package IDs, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
@@ -826,7 +826,7 @@ export default class LineClient {
    * sticker.stickerId:
    * - Sticker ID. For a list of sticker IDs for stickers that can be sent with the Messaging API, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushSticker(
@@ -846,10 +846,10 @@ export default class LineClient {
    *
    * [Official document - imagemap message](https://developers.line.biz/en/reference/messaging-api/#imagemap-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param imagemap Imagemap
-   * @param options Common properties for messages
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param imagemap - Imagemap
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushImagemap(
@@ -870,10 +870,10 @@ export default class LineClient {
    *
    * [Official document - flex message](https://developers.line.biz/en/reference/messaging-api/#flex-message)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param flex Flex Message [container](https://developers.line.biz/en/reference/messaging-api/#container)
-   * @param options Common properties for messages
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param flex - Flex Message [container](https://developers.line.biz/en/reference/messaging-api/#container)
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushFlex(
@@ -898,10 +898,10 @@ export default class LineClient {
    *
    * [Official document - template message](https://developers.line.biz/en/reference/messaging-api/#template-messages)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param template A [Buttons](https://developers.line.biz/en/reference/messaging-api/#buttons), [Confirm](https://developers.line.biz/en/reference/messaging-api/#confirm), [Carousel](https://developers.line.biz/en/reference/messaging-api/#carousel), or [Image carousel](https://developers.line.biz/en/reference/messaging-api/#image-carousel) object.
-   * @param options Common properties for messages
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param template - A [Buttons](https://developers.line.biz/en/reference/messaging-api/#buttons), [Confirm](https://developers.line.biz/en/reference/messaging-api/#confirm), [Carousel](https://developers.line.biz/en/reference/messaging-api/#carousel), or [Image carousel](https://developers.line.biz/en/reference/messaging-api/#image-carousel) object.
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushTemplate(
@@ -920,10 +920,10 @@ export default class LineClient {
    *
    * [Official document - button template message](https://developers.line.biz/en/reference/messaging-api/#buttons)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param buttonTemplate Button template object
-   * @param options Common properties for messages
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param buttonTemplate - Button template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushButtonTemplate(
@@ -946,10 +946,10 @@ export default class LineClient {
    *
    * [Official document - button template message](https://developers.line.biz/en/reference/messaging-api/#buttons)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param buttonTemplate Button template object
-   * @param options Common properties for messages
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param buttonTemplate - Button template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushButtonsTemplate(
@@ -970,10 +970,10 @@ export default class LineClient {
    *
    * [Official document - confirm template message](https://developers.line.biz/en/reference/messaging-api/#confirm)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param confirmTemplate Confirm template object
-   * @param options Common properties for messages
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param confirmTemplate - Confirm template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushConfirmTemplate(
@@ -994,13 +994,13 @@ export default class LineClient {
    *
    * [Official document - carousel template message](https://developers.line.biz/en/reference/messaging-api/#carousel)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param columns Array of columns for carousel
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param columns - Array of columns for carousel
    *
    * Max columns: 10
    *
-   * @param options Carousel template options
+   * @param options - Carousel template options
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushCarouselTemplate(
@@ -1021,13 +1021,13 @@ export default class LineClient {
    *
    * [Official document - image carousel template message](https://developers.line.biz/en/reference/messaging-api/#image-carousel)
    *
-   * @param to ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param altText Alternative text
-   * @param columns Array of columns for image carousel
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param altText - Alternative text
+   * @param columns - Array of columns for image carousel
    *
    * Max columns: 10
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   pushImageCarouselTemplate(
@@ -1046,14 +1046,14 @@ export default class LineClient {
    *
    * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - send multicast message](https://developers.line.biz/en/reference/messaging-api/#send-multicast-message)
    *
-   * @param body Request body
-   * @param body.to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param body - Request body
+   * @param body.to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param body.messages Messages to send (Max: 5)
+   * @param body.messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastRawBody(body: {
@@ -1070,13 +1070,13 @@ export default class LineClient {
    *
    * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - send multicast message](https://developers.line.biz/en/reference/messaging-api/#send-multicast-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param messages Messages to send (Max: 5)
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicast(
@@ -1091,13 +1091,13 @@ export default class LineClient {
    *
    * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - send multicast message](https://developers.line.biz/en/reference/messaging-api/#send-multicast-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param messages Messages to send (Max: 5)
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastMessages(
@@ -1112,9 +1112,9 @@ export default class LineClient {
    *
    * [Official document - text message](https://developers.line.biz/en/reference/messaging-api/#text-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param text Message text.
+   * @param text - Message text.
    *
    * You can include the following emoji:
    * - Unicode emoji
@@ -1122,7 +1122,7 @@ export default class LineClient {
    *
    * Max character limit: 2000
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastText(
@@ -1138,17 +1138,17 @@ export default class LineClient {
    *
    * [Official document - image message](https://developers.line.biz/en/reference/messaging-api/#image-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param image
-   * @param options Common properties for messages
-   * @param image.originalContentUrl Image URL
+   * @param image - Image
+   * @param options - Common properties for messages
+   * @param image.originalContentUrl - Image URL
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
    * - Max: 4096 x 4096
    * - Max: 1 MB
-   * @param image.previewImageUrl Preview image URL
+   * @param image.previewImageUrl - Preview image URL
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
@@ -1172,11 +1172,11 @@ export default class LineClient {
    *
    * [Official document - video message](https://developers.line.biz/en/reference/messaging-api/#video-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param video Video
-   * @param options Common properties for messages
-   * @param video.originalContentUrl URL of video file
+   * @param video - Video
+   * @param options - Common properties for messages
+   * @param video.originalContentUrl - URL of video file
    *
    * A very wide or tall video may be cropped when played in some environments.
    * - Max character limit: 1000
@@ -1185,7 +1185,7 @@ export default class LineClient {
    * - Max: 1 minute
    * - Max: 10 MB
    *
-   * @param video.previewImageUrl URL of preview image
+   * @param video.previewImageUrl - URL of preview image
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - JPEG
@@ -1209,17 +1209,17 @@ export default class LineClient {
    *
    * [Official document - audio message](https://developers.line.biz/en/reference/messaging-api/#audio-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param audio Audio
-   * @param options Common properties for messages
-   * @param audio.originalContentUrl URL of audio file
+   * @param audio - Audio
+   * @param options - Common properties for messages
+   * @param audio.originalContentUrl - URL of audio file
    * - Max character limit: 1000
    * - HTTPS over TLS 1.2 or later
    * - m4a
    * - Max: 1 minute
    * - Max: 10 MB
-   * @param audio.duration Length of audio file (milliseconds)
+   * @param audio.duration - Length of audio file (milliseconds)
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastAudio(
@@ -1238,9 +1238,9 @@ export default class LineClient {
    *
    * [Official document - location message](https://developers.line.biz/en/reference/messaging-api/#location-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param location Location
+   * @param location - Location
    *
    * location.title:
    * - Max character limit: 100
@@ -1248,7 +1248,7 @@ export default class LineClient {
    * location.address:
    * - Max character limit: 100
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastLocation(
@@ -1264,9 +1264,9 @@ export default class LineClient {
    *
    * [Official document - sticker message](https://developers.line.biz/en/reference/messaging-api/#sticker-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param sticker Sticker
+   * @param sticker - Sticker
    *
    * sticker.packageId:
    * - Package ID for a set of stickers. For information on package IDs, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
@@ -1274,7 +1274,7 @@ export default class LineClient {
    * sticker.stickerId:
    * - Sticker ID. For a list of sticker IDs for stickers that can be sent with the Messaging API, see the [Sticker list](https://developers.line.biz/media/messaging-api/sticker_list.pdf).
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastSticker(
@@ -1294,11 +1294,11 @@ export default class LineClient {
    *
    * [Official document - imagemap message](https://developers.line.biz/en/reference/messaging-api/#imagemap-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param imagemap Imagemap
-   * @param options Common properties for messages
+   * @param altText - Alternative text
+   * @param imagemap - Imagemap
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastImagemap(
@@ -1321,11 +1321,11 @@ export default class LineClient {
    *
    * [Official document - flex message](https://developers.line.biz/en/reference/messaging-api/#flex-message)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param flex Flex Message [container](https://developers.line.biz/en/reference/messaging-api/#container)
-   * @param options Common properties for messages
+   * @param altText - Alternative text
+   * @param flex - Flex Message [container](https://developers.line.biz/en/reference/messaging-api/#container)
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastFlex(
@@ -1350,11 +1350,11 @@ export default class LineClient {
    *
    * [Official document - template message](https://developers.line.biz/en/reference/messaging-api/#template-messages)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param template A [Buttons](https://developers.line.biz/en/reference/messaging-api/#buttons), [Confirm](https://developers.line.biz/en/reference/messaging-api/#confirm), [Carousel](https://developers.line.biz/en/reference/messaging-api/#carousel), or [Image carousel](https://developers.line.biz/en/reference/messaging-api/#image-carousel) object.
-   * @param options Common properties for messages
+   * @param altText - Alternative text
+   * @param template - A [Buttons](https://developers.line.biz/en/reference/messaging-api/#buttons), [Confirm](https://developers.line.biz/en/reference/messaging-api/#confirm), [Carousel](https://developers.line.biz/en/reference/messaging-api/#carousel), or [Image carousel](https://developers.line.biz/en/reference/messaging-api/#image-carousel) object.
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastTemplate(
@@ -1375,11 +1375,11 @@ export default class LineClient {
    *
    * [Official document - button template message](https://developers.line.biz/en/reference/messaging-api/#buttons)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param buttonTemplate Button template object
-   * @param options Common properties for messages
+   * @param altText - Alternative text
+   * @param buttonTemplate - Button template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastButtonTemplate(
@@ -1402,11 +1402,11 @@ export default class LineClient {
    *
    * [Official document - button template message](https://developers.line.biz/en/reference/messaging-api/#buttons)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param buttonTemplate Button template object
-   * @param options Common properties for messages
+   * @param altText - Alternative text
+   * @param buttonTemplate - Button template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastButtonsTemplate(
@@ -1427,11 +1427,11 @@ export default class LineClient {
    *
    * [Official document - confirm template message](https://developers.line.biz/en/reference/messaging-api/#confirm)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param confirmTemplate Confirm template object
-   * @param options Common properties for messages
+   * @param altText - Alternative text
+   * @param confirmTemplate - Confirm template object
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastConfirmTemplate(
@@ -1452,14 +1452,14 @@ export default class LineClient {
    *
    * [Official document - carousel template message](https://developers.line.biz/en/reference/messaging-api/#carousel)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param columns Array of columns for carousel
+   * @param altText - Alternative text
+   * @param columns - Array of columns for carousel
    *
    * Max columns: 10
    *
-   * @param options Carousel template options
+   * @param options - Carousel template options
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastCarouselTemplate(
@@ -1480,14 +1480,14 @@ export default class LineClient {
    *
    * [Official document - image carousel template message](https://developers.line.biz/en/reference/messaging-api/#image-carousel)
    *
-   * @param to Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
+   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
    * - Max: 150 user IDs
-   * @param altText Alternative text
-   * @param columns Array of columns for image carousel
+   * @param altText - Alternative text
+   * @param columns - Array of columns for image carousel
    *
    * Max columns: 10
    *
-   * @param options Common properties for messages
+   * @param options - Common properties for messages
    * @returns Returns status code `200` and an empty JSON object.
    */
   multicastImageCarouselTemplate(
@@ -1512,7 +1512,7 @@ export default class LineClient {
    *
    * [Official document - get content](https://developers.line.biz/en/reference/messaging-api/#get-content)
    *
-   * @param messageId Message ID
+   * @param messageId - Message ID
    * @returns Returns status code `200` and the content in binary.
    *
    * Content is automatically deleted after a certain period from when the message was sent. There is no guarantee for how long content is stored.
@@ -1551,7 +1551,7 @@ export default class LineClient {
    *
    * [Official document - get user profile](https://developers.line.biz/en/reference/messaging-api/#get-profile)
    *
-   * @param userId User ID that is returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID found on LINE.Message IDUser ID that is returned in a webhook event object. Do not use the LINE ID found on LINE.
+   * @param userId - User ID that is returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID found on LINE.Message IDUser ID that is returned in a webhook event object. Do not use the LINE ID found on LINE.
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * displayName:
@@ -1585,8 +1585,8 @@ export default class LineClient {
    *
    * [Official document - get group member profile](https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile)
    *
-   * @param groupId Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @param userId User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * displayName:
@@ -1611,8 +1611,8 @@ export default class LineClient {
    *
    * [Official document - get room member profile](https://developers.line.biz/en/reference/messaging-api/#get-room-member-profile)
    *
-   * @param roomId Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @param userId User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * displayName:
@@ -1639,8 +1639,8 @@ export default class LineClient {
    *
    * [Official document - get group member profile](https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile)
    *
-   * @param groupId Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @param start Value of the continuation token found in the `next` property of the JSON object returned in the [response](https://developers.line.biz/en/reference/messaging-api/#get-group-member-user-ids-response). Include this parameter to get the next array of user IDs for the members of the group.
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param start - Value of the continuation token found in the `next` property of the JSON object returned in the [response](https://developers.line.biz/en/reference/messaging-api/#get-group-member-user-ids-response). Include this parameter to get the next array of user IDs for the members of the group.
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * memberIds:
@@ -1670,7 +1670,7 @@ export default class LineClient {
    *
    * [Official document - get group member profile](https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile)
    *
-   * @param groupId Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * memberIds:
@@ -1706,8 +1706,8 @@ export default class LineClient {
    *
    * [Official document - get room member profile](https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids)
    *
-   * @param roomId Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @param start Value of the continuation token found in the `next` property of the JSON object returned in the [response](https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids-response). Include this parameter to get the next array of user IDs for the members of the group.
+   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param start - Value of the continuation token found in the `next` property of the JSON object returned in the [response](https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids-response). Include this parameter to get the next array of user IDs for the members of the group.
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * memberIds:
@@ -1737,7 +1737,7 @@ export default class LineClient {
    *
    * [Official document - get room member profile](https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids)
    *
-   * @param roomId Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a JSON object with the following information.
    *
    * memberIds:
@@ -1771,7 +1771,7 @@ export default class LineClient {
    *
    * [Official document - leave group](https://developers.line.biz/en/reference/messaging-api/#leave-group)
    *
-   * @param groupId Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and an empty JSON object.
    */
   leaveGroup(groupId: string): Promise<Types.MutationSuccessResponse> {
@@ -1787,7 +1787,7 @@ export default class LineClient {
    *
    * [Official document - leave room](https://developers.line.biz/en/reference/messaging-api/#leave-room)
    *
-   * @param roomId Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and an empty JSON object.
    */
   leaveRoom(roomId: string): Promise<Types.MutationSuccessResponse> {
@@ -1823,7 +1823,7 @@ export default class LineClient {
    *
    * [Official document - get rich menu](https://developers.line.biz/en/reference/messaging-api/#get-rich-menu)
    *
-   * @param richMenuId ID of a rich menu
+   * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and a [rich menu response objects](https://developers.line.biz/en/reference/messaging-api/#rich-menu-response-object).
    *
    * richmenus:
@@ -1850,7 +1850,7 @@ export default class LineClient {
    *
    * [Official document - create rich menu](https://developers.line.biz/en/reference/messaging-api/#create-rich-menu)
    *
-   * @param richMenu The rich menu represented as a rich menu object.
+   * @param richMenu - The rich menu represented as a rich menu object.
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    */
   createRichMenu(richMenu: Types.RichMenu): Promise<{ richMenuId: string }> {
@@ -1868,7 +1868,7 @@ export default class LineClient {
    *
    * [Official document - delete rich menu](https://developers.line.biz/en/reference/messaging-api/#delete-rich-menu)
    *
-   * @param richMenuId ID of a rich menu
+   * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and an empty JSON object.
    */
   deleteRichMenu(richMenuId: string): Promise<Types.MutationSuccessResponse> {
@@ -1884,7 +1884,7 @@ export default class LineClient {
    *
    * [Official document - get rich menu id of user](https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-id-of-user)
    *
-   * @param userId User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    */
   getLinkedRichMenu(userId: string): Promise<{ richMenuId: string }> {
@@ -1912,8 +1912,8 @@ export default class LineClient {
    *
    * [Official document - link rich menu to user](https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-user)
    *
-   * @param userId User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
-   * @param richMenuId ID of a rich menu
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and an empty JSON object.
    */
   linkRichMenu(
@@ -1932,7 +1932,7 @@ export default class LineClient {
    *
    * [Official document - unlink rich menu from user](https://developers.line.biz/en/reference/messaging-api/#unlink-rich-menu-from-user)
    *
-   * @param userId User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and an empty JSON object.
    */
   unlinkRichMenu(userId: string): Promise<Types.MutationSuccessResponse> {
@@ -1975,7 +1975,7 @@ export default class LineClient {
    *
    * [Official document - set default rich menu](https://developers.line.biz/en/reference/messaging-api/#set-default-rich-menu)
    *
-   * @param richMenuId ID of a rich menu
+   * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and an empty JSON object.
    */
   setDefaultRichMenu(
@@ -1995,7 +1995,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    */
-  deleteDefaultRichMenu() {
+  deleteDefaultRichMenu(): Promise<{ richMenuId: string }> {
     return this._axios
       .delete(`/v2/bot/user/all/richmenu`)
       .then(res => res.data, handleError);
@@ -2016,8 +2016,8 @@ export default class LineClient {
    *
    * [Official document - upload rich menu image](https://developers.line.biz/en/reference/messaging-api/#upload-rich-menu-image)
    *
-   * @param richMenuId The ID of the rich menu to attach the image to
-   * @param image image
+   * @param richMenuId - The ID of the rich menu to attach the image to
+   * @param image - image
    * @returns Returns status code `200` and an empty JSON object.
    */
   uploadRichMenuImage(
@@ -2046,7 +2046,7 @@ export default class LineClient {
    *
    * [Official document - download rich menu image](https://developers.line.biz/en/reference/messaging-api/#download-rich-menu-image)
    *
-   * @param richMenuId ID of the rich menu with the image to be downloaded
+   * @param richMenuId - ID of the rich menu with the image to be downloaded
    * @returns Returns status code `200` and the binary data of the rich menu image. The image can be downloaded as shown in the example request.
    */
   downloadRichMenuImage(richMenuId: string): Promise<Buffer | undefined> {
@@ -2083,7 +2083,7 @@ export default class LineClient {
    *
    * [Official document - issue link token](https://developers.line.biz/en/reference/messaging-api/#issue-link-token)
    *
-   * @param userId User ID for the LINE account to be linked. Found in the `source` object of [account link event objects](https://developers.line.biz/en/reference/messaging-api/#account-link-event). Do not use the LINE ID used in LINE.
+   * @param userId - User ID for the LINE account to be linked. Found in the `source` object of [account link event objects](https://developers.line.biz/en/reference/messaging-api/#account-link-event). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and a link token. Link tokens are valid for 10 minutes and can only be used once.
    *
    * Note: The validity period may change without notice.
@@ -2120,7 +2120,7 @@ export default class LineClient {
    *
    * [Official document - add liff app](https://developers.line.biz/en/reference/liff-v1/#add-liff-app)
    *
-   * @param liffApp LIFF app settings
+   * @param liffApp - LIFF app settings
    * @returns Returns status code `200` and a JSON object with the following properties.
    *
    * liffId:
@@ -2139,8 +2139,8 @@ export default class LineClient {
    *
    * [Official document - update liff app](https://developers.line.biz/en/reference/liff-v1/#update-liff-app)
    *
-   * @param liffId ID of the LIFF app to be updated
-   * @param liffApp Partial LIFF app settings. Only the properties specified in the request body are updated.
+   * @param liffId - ID of the LIFF app to be updated
+   * @param liffApp - Partial LIFF app settings. Only the properties specified in the request body are updated.
    * @returns Status code `200` is returned.
    */
   updateLiffApp(liffId: string, liffApp: Types.PartialLiffApp): Promise<void> {
@@ -2156,7 +2156,7 @@ export default class LineClient {
    *
    * [Official document - delete liff app](https://developers.line.biz/en/reference/liff-v1/#delete-liff-app)
    *
-   * @param liffId ID of the LIFF app to be deleted
+   * @param liffId - ID of the LIFF app to be deleted
    * @returns Status code `200` is returned.
    */
   deleteLiffApp(liffId: string): Promise<void> {
@@ -2179,7 +2179,7 @@ export default class LineClient {
    *
    * Set a target limit with LINE Official Account Manager. For the procedures, refer to the LINE Official Account Manager manual.
    *
-   * Note: LINE@ accounts cannot call this API endpoint.
+   * Note: LINE\@ accounts cannot call this API endpoint.
    *
    * [Official document - get quota](https://developers.line.biz/en/reference/messaging-api/#get-quota)
    *
@@ -2202,7 +2202,7 @@ export default class LineClient {
    *
    * The number of messages retrieved by this operation is approximate. To get the correct number of sent messages, use LINE Official Account Manager or execute API operations for getting the number of sent messages.
    *
-   * Note: LINE@ accounts cannot call this API endpoint.
+   * Note: LINE\@ accounts cannot call this API endpoint.
    *
    * [Official document - get consumption](https://developers.line.biz/en/reference/messaging-api/#get-consumption)
    *
@@ -2227,7 +2227,7 @@ export default class LineClient {
    *
    * [Official document - get number of reply messages](https://developers.line.biz/en/reference/messaging-api/#get-number-of-reply-messages)
    *
-   * @param date Date the messages were sent
+   * @param date - Date the messages were sent
    *
    * - Format: yyyyMMdd (Example: 20191231)
    * - Timezone: UTC+9
@@ -2256,11 +2256,11 @@ export default class LineClient {
    *
    * The number of messages retrieved by this operation does not include the number of messages sent from LINE Official Account Manager.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - get number of push messages](https://developers.line.biz/en/reference/messaging-api/#get-number-of-push-messages)
    *
-   * @param date Date the messages were sent
+   * @param date - Date the messages were sent
    *
    * - Format: yyyyMMdd (Example: 20191231)
    * - Timezone: UTC+9
@@ -2289,11 +2289,11 @@ export default class LineClient {
    *
    * The number of messages retrieved by this operation does not include the number of messages sent from LINE Official Account Manager.
    *
-   * Note: LINE@ accounts under the free or basic plan cannot call this API endpoint.
+   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
    *
    * [Official document - get number of multicast messages](https://developers.line.biz/en/reference/messaging-api/#get-number-of-multicast-messages)
    *
-   * @param date Date the messages were sent
+   * @param date - Date the messages were sent
    *
    * - Format: yyyyMMdd (Example: 20191231)
    * - Timezone: UTC+9
@@ -2324,11 +2324,11 @@ export default class LineClient {
    *
    * 【LINE Official Account migration】
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * [Official document - get number of broadcast messages](https://developers.line.biz/en/reference/messaging-api/#get-number-of-broadcast-messages)
    *
-   * @param date Date the messages were sent
+   * @param date - Date the messages were sent
    *
    * - Format: yyyyMMdd (Example: 20191231)
    * - Timezone: UTC+9
@@ -2362,11 +2362,11 @@ export default class LineClient {
    *
    * 【LINE Official Account migration】
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * [Official document - get number of delivery messages](https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages)
    *
-   * @param date Date for which to retrieve number of sent messages.
+   * @param date - Date for which to retrieve number of sent messages.
    *
    * - Format: yyyyMMdd (Example: 20191231)
    * - Timezone: UTC+9
@@ -2395,11 +2395,11 @@ export default class LineClient {
    *
    * 【LINE Official Account migration】
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * [Official document - get number of followers](https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers)
    *
-   * @param date Date for which to retrieve the number of followers.
+   * @param date - Date for which to retrieve the number of followers.
    *
    * - Format: yyyyMMdd (Example: 20191231)
    * - Timezone: UTC+9
@@ -2423,7 +2423,7 @@ export default class LineClient {
    *
    * 【LINE Official Account migration】
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * Not real-time data
    *
@@ -2450,22 +2450,22 @@ export default class LineClient {
    *
    *  LINE Official Account migration
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
    *
-   * @param body Request body
-   * @param body.messages Messages to send
+   * @param body - Request body
+   * @param body.messages - Messages to send
    * - Max: 5
-   * @param body.recipient [[RecipientObject]]. You can specify recipients of the message using up to 10 audiences.
+   * @param body.recipient - [[RecipientObject]]. You can specify recipients of the message using up to 10 audiences.
    *
    * If this is omitted, messages will be sent to all users who have added your LINE Official Account as a friend.
-   * @param body.filter demographic:
+   * @param body.filter - demographic:
    * - [[DemographicFilterObject]].
    * - You can use friends' attributes to filter the list of recipients.
    *
    * If this is omitted, messages are sent to everyone—including users with attribute values of "unknown".
-   * @param body.limit max:
+   * @param body.limit - max:
    * - The maximum number of narrowcast messages to send.
    * - Use this parameter to limit the number of narrowcast messages sent. The recipients will be chosen at random.
    *
@@ -2499,13 +2499,13 @@ export default class LineClient {
    *
    *  LINE Official Account migration
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
    *
-   * @param messages Messages to send
+   * @param messages - Messages to send
    * - Max: 5
-   * @param options Narrowcast options
+   * @param options - Narrowcast options
    * @returns Returns the `202` HTTP status code and a JSON object with the following information.
    *
    * requestId: string
@@ -2542,13 +2542,13 @@ export default class LineClient {
    *
    *  LINE Official Account migration
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
    *
-   * @param messages Messages to send
+   * @param messages - Messages to send
    * - Max: 5
-   * @param options Narrowcast options
+   * @param options - Narrowcast options
    * @returns Returns the `202` HTTP status code and a JSON object with the following information.
    *
    * requestId: string
@@ -2570,7 +2570,7 @@ export default class LineClient {
    *
    * 【LINE Official Account migration】
    *
-   * You can't call this API with a LINE@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
    *
    * 【Messages must have a minimum number of recipients】
    *
@@ -2582,7 +2582,7 @@ export default class LineClient {
    *
    * [Official document - get narrowcast progress status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status)
    *
-   * @param requestId The narrowcast message's request ID. Each Messaging API request has a request ID.
+   * @param requestId - The narrowcast message's request ID. Each Messaging API request has a request ID.
    * @returns Returns a `200` HTTP status code and a [[NarrowcastProgressResponse]]
    */
   getNarrowcastProgress(
@@ -2615,11 +2615,11 @@ export default class LineClient {
    *
    * [Official document - create upload audience group](https://developers.line.biz/en/reference/messaging-api/#create-upload-audience-group)
    *
-   * @param description The audience's name. Audience names must be unique. Note that comparisons are case-insensitive, so the names `AUDIENCE` and `audience` are considered identical.
+   * @param description - The audience's name. Audience names must be unique. Note that comparisons are case-insensitive, so the names `AUDIENCE` and `audience` are considered identical.
    * - Max character limit: 120
-   * @param isIfaAudience If this is `false` (default), recipients are specified by user IDs. If `true`, recipients must be specified by IFAs.
-   * @param audiences An array of up to 10,000 user IDs or IFAs.
-   * @param options Create upload audience group options.
+   * @param isIfaAudience - If this is `false` (default), recipients are specified by user IDs. If `true`, recipients must be specified by IFAs.
+   * @param audiences - An array of up to 10,000 user IDs or IFAs.
+   * @param options - Create upload audience group options.
    * @returns Returns an [[UploadAudienceGroup]] along with the `202` HTTP status code.
    */
   createUploadAudienceGroup(
@@ -2659,9 +2659,9 @@ export default class LineClient {
    *
    * [Official document - update upload audience group](https://developers.line.biz/en/reference/messaging-api/#update-upload-audience-group)
    *
-   * @param audienceGroupId The audience ID.
-   * @param audiences An array of up to 10,000 user IDs or IFAs.
-   * @param options Update upload audience group options.
+   * @param audienceGroupId - The audience ID.
+   * @param audiences - An array of up to 10,000 user IDs or IFAs.
+   * @param options - Update upload audience group options.
    * @returns Returns the HTTP `202` status code.
    */
   updateUploadAudienceGroup(
@@ -2689,10 +2689,10 @@ export default class LineClient {
    *
    * [Official document - create click audience group](https://developers.line.biz/en/reference/messaging-api/#create-click-audience-group)
    *
-   * @param description The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
    * - Max character limit: 120
-   * @param requestId The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
-   * @param options create click audience group options
+   * @param requestId - The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
+   * @param options - create click audience group options
    * @returns Returns a [[ClickAudienceGroup]] along with the `202` HTTP status code.
    */
   createClickAudienceGroup(
@@ -2720,9 +2720,9 @@ export default class LineClient {
    *
    * [Official document - create imp audience group](https://developers.line.biz/en/reference/messaging-api/#create-imp-audience-group)
    *
-   * @param description The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
    * - Max character limit: 120
-   * @param requestId The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
+   * @param requestId - The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
    * @returns Returns an [[ImpAudienceGroup]] along with the `202` HTTP status code.
    */
   createImpAudienceGroup(
@@ -2744,9 +2744,9 @@ export default class LineClient {
    *
    * [Official document - set description audience group](https://developers.line.biz/en/reference/messaging-api/#set-description-audience-group)
    *
-   * @param description The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
    * - Max character limit: 120
-   * @param audienceGroupId The audience ID.
+   * @param audienceGroupId - The audience ID.
    * @returns Returns the `200` HTTP status code.
    */
   setDescriptionAudienceGroup(
@@ -2771,7 +2771,7 @@ export default class LineClient {
    *
    * [Official document - delete audience group](https://developers.line.biz/en/reference/messaging-api/#delete-audience-group)
    *
-   * @param audienceGroupId The audience ID.
+   * @param audienceGroupId - The audience ID.
    * @returns Returns the `200` HTTP status code.
    */
   deleteAudienceGroup(
@@ -2789,7 +2789,7 @@ export default class LineClient {
    *
    * [Official document - get audience group](https://developers.line.biz/en/reference/messaging-api/#get-audience-group)
    *
-   * @param audienceGroupId The audience ID.
+   * @param audienceGroupId - The audience ID.
    * @returns Returns a `200` HTTP status code and an [[AudienceGroupWithJob]].
    */
   getAudienceGroup(
@@ -2807,7 +2807,7 @@ export default class LineClient {
    *
    * [Official document - get audience groups](https://developers.line.biz/en/reference/messaging-api/#get-audience-groups)
    *
-   * @param options get audience groups options
+   * @param options - get audience groups options
    * @returns Returns a `200` HTTP status code and an [[AudienceGroups]].
    */
   getAudienceGroups(
@@ -2845,7 +2845,7 @@ export default class LineClient {
    *
    * [Official document - change authority level](https://developers.line.biz/en/reference/messaging-api/#change-authority-level)
    *
-   * @param authorityLevel The authority level for all audiences linked to a channel
+   * @param authorityLevel - The authority level for all audiences linked to a channel
    * - `PUBLIC`: The default authority level. Audiences will be available in channels other than the one where you created the audience. For example, it will be available in [LINE Official Account Manager](https://manager.line.biz/), [LINE Ad Manager](https://admanager.line.biz/), and all channels the bot is linked to.
    * - `PRIVATE`: Audiences will be available only in the channel where you created the audience.
    * @returns Returns the HTTP `200` status code.
