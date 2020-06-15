@@ -49,7 +49,7 @@ const client = new ViberClient(authToken);
 `messaging-api-viber` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
 
 ```js
-client.setWebhook(url).catch(error => {
+client.setWebhook(url).catch((error) => {
   console.log(error); // formatted error message
   console.log(error.stack); // error stack trace
   console.log(error.config); // axios request config
@@ -504,7 +504,7 @@ client
     ],
     'a broadcast to everybody'
   )
-  .then(result => {
+  .then((result) => {
     console.log(result);
     // {
     //   message_token: 40808912438712,
@@ -537,7 +537,7 @@ It will fetch the account’s details as registered in Viber.
 Example:
 
 ```js
-client.getAccountInfo().then(info => {
+client.getAccountInfo().then((info) => {
   console.log(info);
   // {
   //   status: 0,
@@ -584,7 +584,7 @@ It will fetch the details of a specific Viber user based on his unique user ID.
 Example:
 
 ```js
-client.getUserDetails('01234567890A=').then(user => {
+client.getUserDetails('01234567890A=').then((user) => {
   console.log(user);
   // {
   //   id: '01234567890A=',
@@ -619,7 +619,7 @@ Example:
 ```js
 client
   .getOnlineStatus(['01234567890=', '01234567891=', '01234567893='])
-  .then(status => {
+  .then((status) => {
     console.log(status);
     // [
     //   {

@@ -104,7 +104,7 @@ export default class TelegramClient {
     keys = difference(keys, removeKeys);
     keys = difference(
       keys,
-      removeKeys.map(key => snakecase(key))
+      removeKeys.map((key) => snakecase(key))
     );
     return pick(option, keys);
   }
@@ -401,7 +401,7 @@ export default class TelegramClient {
     media: (Types.InputMediaPhoto | Types.InputMediaVideo)[],
     options?: Types.SendMediaGroupOption
   ): Promise<Types.Message[]> {
-    const mediaWithoutThumb = media.map(m =>
+    const mediaWithoutThumb = media.map((m) =>
       this._optionWithoutKeys(m, ['thumb'])
     );
     return this._request('/sendMediaGroup', {
@@ -602,7 +602,7 @@ export default class TelegramClient {
    */
   getFileLink(fileId: string): Promise<string> {
     return this.getFile(fileId).then(
-      result =>
+      (result) =>
         `https://api.telegram.org/file/bot${this._token}/${result.filePath}`
     );
   }

@@ -71,7 +71,7 @@ axios.interceptors.request.use(createRequestInterceptor());
 // use the custom onRequest function
 axios.interceptors.request.use(
   createRequestInterceptor({
-    onRequest: request => {
+    onRequest: (request) => {
       console.log(request);
     },
   })

@@ -51,10 +51,10 @@ describe('Narrowcast', () => {
   };
 
   const demographic: Types.DemographicFilterObject = {
-    type: 'operator' as 'operator',
+    type: 'operator' as const,
     or: [
       {
-        type: 'operator' as 'operator',
+        type: 'operator' as const,
         and: [
           {
             type: 'gender',
@@ -81,7 +81,7 @@ describe('Narrowcast', () => {
         ],
       },
       {
-        type: 'operator' as 'operator',
+        type: 'operator' as const,
         and: [
           {
             type: 'age',
@@ -89,7 +89,7 @@ describe('Narrowcast', () => {
             lt: 'age_40',
           },
           {
-            type: 'operator' as 'operator',
+            type: 'operator' as const,
             not: {
               type: 'gender',
               oneOf: ['male'],
@@ -119,7 +119,7 @@ describe('Narrowcast', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
@@ -140,7 +140,7 @@ describe('Narrowcast', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
@@ -165,7 +165,7 @@ describe('Narrowcast', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/message/narrowcast');
         expect(JSON.parse(config.data)).toEqual(rawBody);
         expect(config.headers).toEqual(headers);
@@ -196,7 +196,7 @@ describe('Narrowcast', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         expect(config.url).toEqual(
           `/v2/bot/message/progress/narrowcast?requestId=${requestId}`
         );

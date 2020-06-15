@@ -119,7 +119,7 @@ export default class WechatClient {
       )
       .then(throwErrorIfAny)
       .then(
-        res =>
+        (res) =>
           camelcaseKeys(res.data, {
             deep: true,
           }) as any
@@ -161,7 +161,7 @@ export default class WechatClient {
       })
       .then(throwErrorIfAny)
       .then(
-        res =>
+        (res) =>
           camelcaseKeys(res.data, {
             deep: true,
           }) as any
@@ -182,7 +182,7 @@ export default class WechatClient {
       )
       .then(throwErrorIfAny)
       .then(
-        res =>
+        (res) =>
           camelcaseKeys(res.data, {
             deep: true,
           }) as any
@@ -260,7 +260,7 @@ export default class WechatClient {
       )
       .then(throwErrorIfAny)
       .then(
-        res =>
+        (res) =>
           camelcaseKeys(res.data, {
             deep: true,
           }) as any

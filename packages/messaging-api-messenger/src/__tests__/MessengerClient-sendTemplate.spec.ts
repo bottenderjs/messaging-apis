@@ -33,7 +33,7 @@ describe('#sendTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -93,7 +93,7 @@ describe('#sendButtonTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -149,7 +149,7 @@ describe('#sendGenericTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -230,7 +230,7 @@ describe('#sendGenericTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -318,7 +318,7 @@ describe('#sendGenericTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -408,7 +408,7 @@ describe('#sendMediaTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -475,7 +475,7 @@ describe('#sendReceiptTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -617,7 +617,7 @@ describe('#sendAirlineBoardingPassTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -819,7 +819,7 @@ describe('#sendAirlineCheckinTemplate', () => {
           },
         },
       })
-      .reply(config => {
+      .reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -914,7 +914,7 @@ describe('#sendAirlineItineraryTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -1197,7 +1197,7 @@ describe('#sendAirlineUpdateTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];
@@ -1288,7 +1288,7 @@ describe('#sendOneTimeNotifReqTemplate', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];

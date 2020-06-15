@@ -14,16 +14,18 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
   rules: {
+    camelcase: 'off',
+
     'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
 
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/ban-types': 'warn',
   },
   overrides: [
     {
-      files: [
-        'examples/**/*.js',
-      ],
+      files: ['examples/**/*.js'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
       },
@@ -41,5 +43,5 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
-  }
+  },
 };

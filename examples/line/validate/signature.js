@@ -36,9 +36,7 @@ function safeCompare(a, b) {
 
 function validateSignature(body, channelSecret, signature) {
   return safeCompare(
-    createHmac('SHA256', channelSecret)
-      .update(body)
-      .digest(),
+    createHmac('SHA256', channelSecret).update(body).digest(),
     s2b(signature, 'base64')
   );
 }

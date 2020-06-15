@@ -33,7 +33,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -71,7 +71,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -109,7 +109,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -146,7 +146,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -183,7 +183,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -219,7 +219,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -255,7 +255,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -291,7 +291,7 @@ describe('Handover Protocol API', () => {
 
       let url;
       let data;
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         url = config.url;
         data = config.data;
         return [200, reply];
@@ -329,7 +329,7 @@ describe('Handover Protocol API', () => {
       };
 
       let url;
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         url = config.url;
         return [200, reply];
       });
@@ -363,7 +363,7 @@ describe('#getThreadOwner', () => {
     };
 
     let url;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       return [200, reply];
     });
@@ -395,7 +395,7 @@ describe('#getThreadOwner', () => {
     };
 
     let url;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       return [200, reply];
     });

@@ -30,7 +30,7 @@ function handleError(err: {
     const { message, details } = err.response.data;
     let msg = `LINE API - ${message}`;
     if (details && details.length > 0) {
-      details.forEach(detail => {
+      details.forEach((detail) => {
         msg += `\n- ${detail.property}: ${detail.message}`;
       });
     }
@@ -166,7 +166,7 @@ export default class LineClient {
   }): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post<Types.MutationSuccessResponse>('/v2/bot/message/reply', body)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -622,7 +622,7 @@ export default class LineClient {
   }): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post<Types.MutationSuccessResponse>('/v2/bot/message/push', body)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1062,7 +1062,7 @@ export default class LineClient {
   }): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post<Types.MutationSuccessResponse>('/v2/bot/message/multicast', body)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1522,7 +1522,7 @@ export default class LineClient {
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   getMessageContentStream(messageId: string): Promise<Readable> {
@@ -1530,7 +1530,7 @@ export default class LineClient {
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'stream',
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1569,8 +1569,8 @@ export default class LineClient {
   getUserProfile(userId: string): Promise<Types.User> {
     return this._axios
       .get(`/v2/bot/profile/${userId}`)
-      .then(res => res.data, handleError)
-      .catch(err => {
+      .then((res) => res.data, handleError)
+      .catch((err) => {
         if (err.response && err.response.status === 404) {
           return null;
         }
@@ -1601,7 +1601,7 @@ export default class LineClient {
   getGroupMemberProfile(groupId: string, userId: string): Promise<Types.User> {
     return this._axios
       .get(`/v2/bot/group/${groupId}/member/${userId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1627,7 +1627,7 @@ export default class LineClient {
   getRoomMemberProfile(roomId: string, userId: string): Promise<Types.User> {
     return this._axios
       .get(`/v2/bot/room/${roomId}/member/${userId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1658,7 +1658,7 @@ export default class LineClient {
       .get(
         `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1725,7 +1725,7 @@ export default class LineClient {
       .get(
         `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1777,7 +1777,7 @@ export default class LineClient {
   leaveGroup(groupId: string): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(`/v2/bot/group/${groupId}/leave`, null)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1793,7 +1793,7 @@ export default class LineClient {
   leaveRoom(roomId: string): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(`/v2/bot/room/${roomId}/leave`, null)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1813,7 +1813,7 @@ export default class LineClient {
   getRichMenuList(): Promise<Types.RichMenu[]> {
     return this._axios
       .get('/v2/bot/richmenu/list')
-      .then(res => res.data.richmenus, handleError);
+      .then((res) => res.data.richmenus, handleError);
   }
 
   /**
@@ -1832,8 +1832,8 @@ export default class LineClient {
   getRichMenu(richMenuId: string): Promise<Types.RichMenu> {
     return this._axios
       .get(`/v2/bot/richmenu/${richMenuId}`)
-      .then(res => res.data)
-      .catch(err => {
+      .then((res) => res.data)
+      .catch((err) => {
         if (err.response && err.response.status === 404) {
           return null;
         }
@@ -1856,7 +1856,7 @@ export default class LineClient {
   createRichMenu(richMenu: Types.RichMenu): Promise<{ richMenuId: string }> {
     return this._axios
       .post('/v2/bot/richmenu', richMenu)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1874,7 +1874,7 @@ export default class LineClient {
   deleteRichMenu(richMenuId: string): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .delete(`/v2/bot/richmenu/${richMenuId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1890,8 +1890,8 @@ export default class LineClient {
   getLinkedRichMenu(userId: string): Promise<{ richMenuId: string }> {
     return this._axios
       .get(`/v2/bot/user/${userId}/richmenu`)
-      .then(res => res.data)
-      .catch(err => {
+      .then((res) => res.data)
+      .catch((err) => {
         if (err.response && err.response.status === 404) {
           return null;
         }
@@ -1922,7 +1922,7 @@ export default class LineClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(`/v2/bot/user/${userId}/richmenu/${richMenuId}`, null)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1938,7 +1938,7 @@ export default class LineClient {
   unlinkRichMenu(userId: string): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .delete(`/v2/bot/user/${userId}/richmenu`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1953,8 +1953,8 @@ export default class LineClient {
   getDefaultRichMenu(): Promise<{ richMenuId: string }> {
     return this._axios
       .get(`/v2/bot/user/all/richmenu`)
-      .then(res => res.data)
-      .catch(err => {
+      .then((res) => res.data)
+      .catch((err) => {
         if (err.response && err.response.status === 404) {
           return null;
         }
@@ -1983,7 +1983,7 @@ export default class LineClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post(`/v2/bot/user/all/richmenu/${richMenuId}`, null)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1998,7 +1998,7 @@ export default class LineClient {
   deleteDefaultRichMenu(): Promise<{ richMenuId: string }> {
     return this._axios
       .delete(`/v2/bot/user/all/richmenu`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2036,7 +2036,7 @@ export default class LineClient {
           'Content-Type': (type as { mime: string }).mime,
         },
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2054,8 +2054,8 @@ export default class LineClient {
       .get(`/v2/bot/richmenu/${richMenuId}/content`, {
         responseType: 'arraybuffer',
       })
-      .then(res => Buffer.from(res.data))
-      .catch(err => {
+      .then((res) => Buffer.from(res.data))
+      .catch((err) => {
         if (err.response && err.response.status === 404) {
           return undefined;
         }
@@ -2073,7 +2073,7 @@ export default class LineClient {
     );
     return this._axios
       .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`, null)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2091,7 +2091,7 @@ export default class LineClient {
   getLinkToken(userId: string): Promise<string> {
     return this._axios
       .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`, null)
-      .then(res => res.data.linkToken, handleError);
+      .then((res) => res.data.linkToken, handleError);
   }
 
   /**
@@ -2110,7 +2110,7 @@ export default class LineClient {
   getLiffAppList(): Promise<Types.LiffApp[]> {
     return this._axios
       .get('/liff/v1/apps')
-      .then(res => res.data.apps, handleError);
+      .then((res) => res.data.apps, handleError);
   }
 
   /**
@@ -2129,7 +2129,7 @@ export default class LineClient {
   createLiffApp(liffApp: Types.LiffApp): Promise<{ liffId: string }> {
     return this._axios
       .post('/liff/v1/apps', liffApp)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2146,7 +2146,7 @@ export default class LineClient {
   updateLiffApp(liffId: string, liffApp: Types.PartialLiffApp): Promise<void> {
     return this._axios
       .put(`/liff/v1/apps/${liffId}/view`, liffApp)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2162,7 +2162,7 @@ export default class LineClient {
   deleteLiffApp(liffId: string): Promise<void> {
     return this._axios
       .delete(`/liff/v1/apps/${liffId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2190,7 +2190,7 @@ export default class LineClient {
   > {
     return this._axios
       .get<Types.TargetLimitForAdditionalMessages>('/v2/bot/message/quota')
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2215,7 +2215,7 @@ export default class LineClient {
       .get<Types.NumberOfMessagesSentThisMonth>(
         '/v2/bot/message/quota/consumption'
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2246,7 +2246,7 @@ export default class LineClient {
           },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2279,7 +2279,7 @@ export default class LineClient {
           },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2312,7 +2312,7 @@ export default class LineClient {
           },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2347,7 +2347,7 @@ export default class LineClient {
           },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2385,7 +2385,7 @@ export default class LineClient {
           },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2413,7 +2413,7 @@ export default class LineClient {
           date,
         },
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2436,7 +2436,7 @@ export default class LineClient {
   getFriendDemographics(): Promise<Types.FriendDemographics> {
     return this._axios
       .get<Types.FriendDemographics>('/v2/bot/insight/demographic')
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2484,7 +2484,7 @@ export default class LineClient {
       max: number;
     };
   }): Promise<{ requestId: string }> {
-    return this._axios.post('/v2/bot/message/narrowcast', body).then(res => {
+    return this._axios.post('/v2/bot/message/narrowcast', body).then((res) => {
       return {
         requestId: res.headers['x-line-request-id'],
         ...res.data,
@@ -2590,7 +2590,7 @@ export default class LineClient {
   ): Promise<Types.NarrowcastProgressResponse> {
     return this._axios
       .get(`/v2/bot/message/progress/narrowcast?requestId=${requestId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2635,7 +2635,7 @@ export default class LineClient {
         audiences,
         ...options,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2675,7 +2675,7 @@ export default class LineClient {
         audiences,
         ...options,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2706,7 +2706,7 @@ export default class LineClient {
         requestId,
         ...options,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2734,7 +2734,7 @@ export default class LineClient {
         description,
         requestId,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2757,7 +2757,7 @@ export default class LineClient {
       .put(`/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`, {
         description,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2779,7 +2779,7 @@ export default class LineClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .delete(`/v2/bot/audienceGroup/${audienceGroupId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2797,7 +2797,7 @@ export default class LineClient {
   ): Promise<Types.AudienceGroupWithJob> {
     return this._axios
       .get(`/v2/bot/audienceGroup/${audienceGroupId}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2819,7 +2819,7 @@ export default class LineClient {
     });
     return this._axios
       .get(`/v2/bot/audienceGroup/list?${query}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2834,7 +2834,7 @@ export default class LineClient {
   getAudienceGroupAuthorityLevel(): Promise<Types.AudienceGroupAuthorityLevel> {
     return this._axios
       .get(`/v2/bot/audienceGroup/authorityLevel`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -2857,6 +2857,6 @@ export default class LineClient {
       .put(`/v2/bot/audienceGroup/authorityLevel`, {
         authorityLevel,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 }

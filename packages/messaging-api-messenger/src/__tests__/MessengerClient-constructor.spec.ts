@@ -327,7 +327,7 @@ describe('appsecret proof', () => {
     };
 
     let url;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       return [200, reply];
     });
@@ -358,7 +358,7 @@ describe('appsecret proof', () => {
     };
 
     let url;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       return [200, reply];
     });
@@ -395,7 +395,7 @@ describe('appsecret proof', () => {
 
     let url;
     let data;
-    mock.onPost().reply(config => {
+    mock.onPost().reply((config) => {
       url = config.url;
       data = config.data;
       return [200, reply];

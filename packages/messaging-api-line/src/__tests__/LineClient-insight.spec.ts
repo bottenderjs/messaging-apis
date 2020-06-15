@@ -35,7 +35,7 @@ describe('#getTargetLimitForAdditionalMessages', () => {
 
     let url;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       headers = config.headers;
       return [200, reply];
@@ -63,7 +63,7 @@ describe('#getNumberOfMessagesSentThisMonth', () => {
 
     let url;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       headers = config.headers;
       return [200, reply];
@@ -92,7 +92,7 @@ describe('#getNumberOfSentReplyMessages', () => {
     let url;
     let params;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       params = config.params;
       headers = config.headers;
@@ -126,7 +126,7 @@ describe('#getNumberOfSentPushMessages', () => {
     let url;
     let params;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       params = config.params;
       headers = config.headers;
@@ -160,7 +160,7 @@ describe('#getNumberOfSentMulticastMessages', () => {
     let url;
     let params;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       params = config.params;
       headers = config.headers;
@@ -194,7 +194,7 @@ describe('#getNumberOfSentBroadcastMessages', () => {
     let url;
     let params;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       params = config.params;
       headers = config.headers;
@@ -229,7 +229,7 @@ describe('#getNumberOfMessageDeliveries', () => {
     let url;
     let params;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       params = config.params;
       headers = config.headers;
@@ -266,7 +266,7 @@ describe('#getNumberOfFollowers', () => {
     let url;
     let params;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       params = config.params;
       headers = config.headers;
@@ -374,7 +374,7 @@ describe('#getFriendDemographics', () => {
 
     let url;
     let headers;
-    mock.onGet().reply(config => {
+    mock.onGet().reply((config) => {
       url = config.url;
       headers = config.headers;
       return [200, reply];

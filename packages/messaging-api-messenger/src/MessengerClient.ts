@@ -138,7 +138,7 @@ export default class MessengerClient {
 
       const appSecret = this._appSecret as string;
 
-      this._axios.interceptors.request.use(config => {
+      this._axios.interceptors.request.use((config) => {
         const isBatch = config.url === '/' && Array.isArray(config.data.batch);
 
         if (isBatch) {
@@ -149,7 +149,7 @@ export default class MessengerClient {
             if (!accessToken && item.body) {
               const entries = decodeURIComponent(item.body)
                 .split('&')
-                .map(pair => pair.split('='));
+                .map((pair) => pair.split('='));
 
               const accessTokenEntry = entries.find(
                 ([key]) => key === 'access_token'
@@ -225,7 +225,7 @@ export default class MessengerClient {
   }: Types.AccessTokenOptions = {}): Promise<Types.PageInfo> {
     return this._axios
       .get(`/me?access_token=${customAccessToken || this._accessToken}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -248,7 +248,7 @@ export default class MessengerClient {
           access_token: accessToken,
         },
       })
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   /**
@@ -296,7 +296,7 @@ export default class MessengerClient {
         includeValues,
         verifyToken,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -320,7 +320,7 @@ export default class MessengerClient {
 
     return this._axios
       .get(`/${appId}/subscriptions?access_token=${accessToken}`)
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   /**
@@ -347,7 +347,7 @@ export default class MessengerClient {
     }).then(
       (subscriptions: Types.MessengerSubscription[]) =>
         subscriptions.filter(
-          subscription => subscription.object === 'page'
+          (subscription) => subscription.object === 'page'
         )[0] || null
     );
   }
@@ -362,10 +362,11 @@ export default class MessengerClient {
   }: Types.AccessTokenOptions = {}): Promise<Types.MessagingFeatureReview[]> {
     return this._axios
       .get(
-        `/me/messaging_feature_review?access_token=${customAccessToken ||
-          this._accessToken}`
+        `/me/messaging_feature_review?access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   /**
@@ -383,11 +384,11 @@ export default class MessengerClient {
   ): Promise<Types.User> {
     return this._axios
       .get<Types.User>(
-        `/${userId}?fields=${fields.join(
-          ','
-        )}&access_token=${customAccessToken || this._accessToken}`
+        `/${userId}?fields=${fields.join(',')}&access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -401,11 +402,11 @@ export default class MessengerClient {
   ): Promise<Types.MessengerProfile[]> {
     return this._axios
       .get<{ data: Types.MessengerProfile[] }>(
-        `/me/messenger_profile?fields=${fields.join(
-          ','
-        )}&access_token=${customAccessToken || this._accessToken}`
+        `/me/messenger_profile?fields=${fields.join(',')}&access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   setMessengerProfile(
@@ -414,11 +415,12 @@ export default class MessengerClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .post<Types.MutationSuccessResponse>(
-        `/me/messenger_profile?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/messenger_profile?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         profile
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   deleteMessengerProfile(
@@ -427,15 +429,16 @@ export default class MessengerClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .delete<Types.MutationSuccessResponse>(
-        `/me/messenger_profile?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/messenger_profile?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           data: {
             fields,
           },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -448,7 +451,7 @@ export default class MessengerClient {
   ): Promise<{
     payload: string;
   } | null> {
-    return this.getMessengerProfile(['get_started'], options).then(res =>
+    return this.getMessengerProfile(['get_started'], options).then((res) =>
       res[0]
         ? (res[0].getStarted as {
             payload: string;
@@ -485,7 +488,7 @@ export default class MessengerClient {
   getPersistentMenu(
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.PersistentMenu | null> {
-    return this.getMessengerProfile(['persistent_menu'], options).then(res =>
+    return this.getMessengerProfile(['persistent_menu'], options).then((res) =>
       res[0] ? (res[0].persistentMenu as Types.PersistentMenu) : null
     );
   }
@@ -547,11 +550,12 @@ export default class MessengerClient {
   ): Promise<Types.PersistentMenu | null> {
     return this._axios
       .get(
-        `/me/custom_user_settings?psid=${userId}&access_token=${customAccessToken ||
-          this._accessToken}`
+        `/me/custom_user_settings?psid=${userId}&access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
       .then(
-        res =>
+        (res) =>
           res.data.data[0]
             ? (res.data.data[0].userLevelPersistentMenu as Types.PersistentMenu)
             : null,
@@ -579,21 +583,23 @@ export default class MessengerClient {
     ) {
       return this._axios
         .post<Types.MutationSuccessResponse>(
-          `/me/custom_user_settings?access_token=${customAccessToken ||
-            this._accessToken}`,
+          `/me/custom_user_settings?access_token=${
+            customAccessToken || this._accessToken
+          }`,
           {
             psid: userId,
             persistentMenu: menuItems as Types.PersistentMenu,
           }
         )
-        .then(res => res.data, handleError);
+        .then((res) => res.data, handleError);
     }
 
     // menuItems is in type MenuItem[]
     return this._axios
       .post(
-        `/me/custom_user_settings?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/custom_user_settings?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           psid: userId,
           persistentMenu: [
@@ -605,7 +611,7 @@ export default class MessengerClient {
           ],
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   deleteUserPersistentMenu(
@@ -614,10 +620,11 @@ export default class MessengerClient {
   ): Promise<Types.MutationSuccessResponse> {
     return this._axios
       .delete(
-        `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]&access_token=${customAccessToken ||
-          this._accessToken}`
+        `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]&access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -628,7 +635,7 @@ export default class MessengerClient {
   getGreeting(
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.GreetingConfig[] | null> {
-    return this.getMessengerProfile(['greeting'], options).then(res =>
+    return this.getMessengerProfile(['greeting'], options).then((res) =>
       res[0] ? (res[0].greeting as Types.GreetingConfig[]) : null
     );
   }
@@ -673,7 +680,7 @@ export default class MessengerClient {
   getIceBreakers(
     options: Types.AccessTokenOptions = {}
   ): Promise<Types.IceBreaker[] | null> {
-    return this.getMessengerProfile(['ice_breakers'], options).then(res =>
+    return this.getMessengerProfile(['ice_breakers'], options).then((res) =>
       res[0] ? (res[0].iceBreakers as Types.IceBreaker[]) : null
     );
   }
@@ -707,7 +714,7 @@ export default class MessengerClient {
     return this.getMessengerProfile(
       ['whitelisted_domains'],
       options
-    ).then(res => (res[0] ? (res[0].whitelistedDomains as string[]) : null));
+    ).then((res) => (res[0] ? (res[0].whitelistedDomains as string[]) : null));
   }
 
   setWhitelistedDomains(
@@ -739,7 +746,7 @@ export default class MessengerClient {
     return this.getMessengerProfile(
       ['account_linking_url'],
       options
-    ).then(res => (res[0] ? (res[0] as string) : null));
+    ).then((res) => (res[0] ? (res[0] as string) : null));
   }
 
   setAccountLinkingURL(
@@ -773,7 +780,7 @@ export default class MessengerClient {
     webviewShareButton?: 'hide' | 'show';
     inTest: boolean;
   } | null> {
-    return this.getMessengerProfile(['home_url'], options).then(res =>
+    return this.getMessengerProfile(['home_url'], options).then((res) =>
       res[0]
         ? (res[0] as {
             url: string;
@@ -827,10 +834,11 @@ export default class MessengerClient {
   }: Types.AccessTokenOptions = {}): Promise<Types.MessageTagResponse> {
     return this._axios
       .get<{ data: Types.MessageTagResponse }>(
-        `/page_message_tags?access_token=${customAccessToken ||
-          this._accessToken}`
+        `/page_message_tags?access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   /**
@@ -848,7 +856,7 @@ export default class MessengerClient {
         `/me/messages?access_token=${customAccessToken || this._accessToken}`,
         body
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   sendMessage(
@@ -909,7 +917,7 @@ export default class MessengerClient {
           headers: formdata.getHeaders(),
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1192,17 +1200,17 @@ export default class MessengerClient {
       'limit the number of requests which can be in a batch to 50'
     );
 
-    const responseAccessPaths = batch.map(item => item.responseAccessPath);
+    const responseAccessPaths = batch.map((item) => item.responseAccessPath);
 
     const bodyEncodedbatch = batch
-      .map(item => omit(item, 'responseAccessPath'))
-      .map(item => {
+      .map((item) => omit(item, 'responseAccessPath'))
+      .map((item) => {
         if (item.body) {
           const body = snakecaseKeysDeep(item.body) as Record<string, any>;
           return {
             ...item,
             body: Object.keys(body)
-              .map(key => {
+              .map((key) => {
                 const val = body[key];
                 return `${encodeURIComponent(key)}=${encodeURIComponent(
                   typeof val === 'object' ? JSON.stringify(val) : val
@@ -1220,7 +1228,7 @@ export default class MessengerClient {
         batch: bodyEncodedbatch,
       })
       .then(
-        res =>
+        (res) =>
           res.data.map(
             (item: { code: number; body: string }, index: number) => {
               const responseAccessPath = responseAccessPaths[index];
@@ -1260,13 +1268,14 @@ export default class MessengerClient {
   ): Promise<{ id: string }> {
     return this._axios
       .post<{ id: string }>(
-        `/me/custom_labels?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/custom_labels?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           name,
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1281,13 +1290,14 @@ export default class MessengerClient {
   ): Promise<{ success: true }> {
     return this._axios
       .post<{ success: true }>(
-        `/${labelId}/label?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/${labelId}/label?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           user: userId,
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1302,13 +1312,14 @@ export default class MessengerClient {
   ): Promise<{ success: true }> {
     return this._axios
       .delete<{ success: true }>(
-        `/${labelId}/label?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/${labelId}/label?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           data: { user: userId },
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1339,10 +1350,11 @@ export default class MessengerClient {
           };
         };
       }>(
-        `/${userId}/custom_labels?fields=${fields}&access_token=${options.accessToken ||
-          this._accessToken}`
+        `/${userId}/custom_labels?fields=${fields}&access_token=${
+          options.accessToken || this._accessToken
+        }`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1357,10 +1369,11 @@ export default class MessengerClient {
     const fields = options.fields ? options.fields.join(',') : 'name';
     return this._axios
       .get<{ name: string; id: string }>(
-        `/${labelId}?fields=${fields}&access_token=${options.accessToken ||
-          this._accessToken}`
+        `/${labelId}?fields=${fields}&access_token=${
+          options.accessToken || this._accessToken
+        }`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1390,10 +1403,11 @@ export default class MessengerClient {
           };
         };
       }>(
-        `/me/custom_labels?fields=${fields}&access_token=${options.accessToken ||
-          this._accessToken}`
+        `/me/custom_labels?fields=${fields}&access_token=${
+          options.accessToken || this._accessToken
+        }`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1409,7 +1423,7 @@ export default class MessengerClient {
       .delete<{ success: true }>(
         `/${labelId}?access_token=${customAccessToken || this._accessToken}`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1464,11 +1478,12 @@ export default class MessengerClient {
 
     return this._axios
       .post(
-        `/me/message_attachments?access_token=${options.accessToken ||
-          this._accessToken}`,
+        `/me/message_attachments?access_token=${
+          options.accessToken || this._accessToken
+        }`,
         ...args
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   // FIXME: use TypeScript overloading
@@ -1522,15 +1537,16 @@ export default class MessengerClient {
   ): Promise<{ success: true }> {
     return this._axios
       .post<{ success: true }>(
-        `/me/pass_thread_control?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/pass_thread_control?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           recipient: { id: recipientId },
           targetAppId,
           metadata,
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   passThreadControlToPageInbox(
@@ -1558,14 +1574,15 @@ export default class MessengerClient {
   ): Promise<{ success: true }> {
     return this._axios
       .post<{ success: true }>(
-        `/me/take_thread_control?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/take_thread_control?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           recipient: { id: recipientId },
           metadata,
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1580,14 +1597,15 @@ export default class MessengerClient {
   ): Promise<{ success: true }> {
     return this._axios
       .post<{ success: true }>(
-        `/me/request_thread_control?access_token=${customAccessToken ||
-          this._accessToken}`,
+        `/me/request_thread_control?access_token=${
+          customAccessToken || this._accessToken
+        }`,
         {
           recipient: { id: recipientId },
           metadata,
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1610,10 +1628,11 @@ export default class MessengerClient {
           name: string;
         }[];
       }>(
-        `/me/secondary_receivers?fields=id,name&access_token=${customAccessToken ||
-          this._accessToken}`
+        `/me/secondary_receivers?fields=id,name&access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   /**
@@ -1637,10 +1656,11 @@ export default class MessengerClient {
           }
         ];
       }>(
-        `/me/thread_owner?recipient=${recipientId}&access_token=${customAccessToken ||
-          this._accessToken}`
+        `/me/thread_owner?recipient=${recipientId}&access_token=${
+          customAccessToken || this._accessToken
+        }`
       )
-      .then(res => res.data.data[0].threadOwner, handleError);
+      .then((res) => res.data.data[0].threadOwner, handleError);
   }
 
   /**
@@ -1660,7 +1680,7 @@ export default class MessengerClient {
           ...options,
         })}`
       )
-      .then(res => res.data.data, handleError);
+      .then((res) => res.data.data, handleError);
   }
 
   getBlockedConversations(
@@ -1676,7 +1696,7 @@ export default class MessengerClient {
     return this.getInsights(
       ['page_messages_blocked_conversations_unique'],
       options
-    ).then(result => result[0]);
+    ).then((result) => result[0]);
   }
 
   getReportedConversations(
@@ -1692,7 +1712,7 @@ export default class MessengerClient {
     return this.getInsights(
       ['page_messages_reported_conversations_unique'],
       options
-    ).then(result => result[0]);
+    ).then((result) => result[0]);
   }
 
   // https://developers.facebook.com/docs/messenger-platform/reference/messaging-insights-api?locale=en_US#metrics
@@ -1710,7 +1730,7 @@ export default class MessengerClient {
     return this.getInsights(
       ['page_messages_total_messaging_connections'],
       options
-    ).then(result => result[0]);
+    ).then((result) => result[0]);
   }
 
   getNewConversations(
@@ -1726,7 +1746,7 @@ export default class MessengerClient {
     return this.getInsights(
       ['page_messages_new_conversations_unique'],
       options
-    ).then(result => result[0]);
+    ).then((result) => result[0]);
   }
 
   /**
@@ -1748,7 +1768,7 @@ export default class MessengerClient {
           accessToken: customAccessToken || this._accessToken,
         }
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   // FIXME: [type] return type
@@ -1788,7 +1808,7 @@ export default class MessengerClient {
         pageId,
         pageScopedUserId,
       })
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1825,7 +1845,7 @@ export default class MessengerClient {
       .get(
         `/${userId}/${field}?access_token=${accessToken}&appsecret_proof=${appsecretProof}${appQueryString}${pageQueryString}`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1902,7 +1922,7 @@ export default class MessengerClient {
         `/me/personas?access_token=${customAccessToken || this._accessToken}`,
         persona
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1924,7 +1944,7 @@ export default class MessengerClient {
         name: string;
         profilePictureUrl: string;
       }>(`/${personaId}?access_token=${customAccessToken || this._accessToken}`)
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1956,7 +1976,7 @@ export default class MessengerClient {
           cursor ? `&after=${cursor}` : ''
         }`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 
   async getAllPersonas({
@@ -2012,6 +2032,6 @@ export default class MessengerClient {
       .delete<{ success: true }>(
         `/${personaId}?access_token=${customAccessToken || this._accessToken}`
       )
-      .then(res => res.data, handleError);
+      .then((res) => res.data, handleError);
   }
 }

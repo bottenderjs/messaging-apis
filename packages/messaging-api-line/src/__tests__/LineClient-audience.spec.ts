@@ -49,7 +49,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
@@ -92,7 +92,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPut().reply(config => {
+      mock.onPut().reply((config) => {
         expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
@@ -137,7 +137,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/audienceGroup/click');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
@@ -175,7 +175,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPost().reply(config => {
+      mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/audienceGroup/imp');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);
@@ -205,7 +205,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPut().reply(config => {
+      mock.onPut().reply((config) => {
         expect(config.url).toEqual(
           `/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
         );
@@ -233,7 +233,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onDelete().reply(config => {
+      mock.onDelete().reply((config) => {
         expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -265,7 +265,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -307,7 +307,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         expect(config.url).toEqual(
           `/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
         );
@@ -336,7 +336,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onGet().reply(config => {
+      mock.onGet().reply((config) => {
         expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
         expect(config.headers).toEqual(headers);
         return [200, reply];
@@ -360,7 +360,7 @@ describe('Audience', () => {
 
       const { client, mock, headers } = createMock();
 
-      mock.onPut().reply(config => {
+      mock.onPut().reply((config) => {
         expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
         expect(JSON.parse(config.data)).toEqual(body);
         expect(config.headers).toEqual(headers);

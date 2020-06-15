@@ -9,7 +9,7 @@ import {
 function indent(str: string): string {
   return str
     .split('\n')
-    .map(s => (s ? `  ${s}` : ''))
+    .map((s) => (s ? `  ${s}` : ''))
     .join('\n');
 }
 
