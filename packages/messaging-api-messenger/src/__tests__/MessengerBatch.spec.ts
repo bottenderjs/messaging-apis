@@ -1154,6 +1154,110 @@ describe('getUserProfile', () => {
   });
 });
 
+describe('#userPersistentMenu', () => {
+  describe('getUserPersistentMenu', () => {
+    it('should create get user persistent menu request', () => {
+      expect(MessengerBatch.getUserPersistentMenu(RECIPIENT_ID)).toEqual({
+        method: 'GET',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}`,
+      });
+    });
+
+    it('should support access_token', () => {
+      expect(
+        MessengerBatch.getUserPersistentMenu(RECIPIENT_ID, {
+          accessToken: 'ACCESS_TOKEN',
+        })
+      ).toEqual({
+        method: 'GET',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&access_token=ACCESS_TOKEN`,
+      });
+    });
+
+    it('should support specifying dependencies between operations', () => {
+      expect(
+        MessengerBatch.getUserPersistentMenu(RECIPIENT_ID, {
+          name: 'second',
+          dependsOn: 'first',
+        })
+      ).toEqual({
+        method: 'GET',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}`,
+        name: 'second',
+        dependsOn: 'first',
+      });
+    });
+  });
+
+  describe('setUserPersistentMenu', () => {
+    it('should create set user persistent menu request', () => {
+      expect(MessengerBatch.setUserPersistentMenu()).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings`,
+      });
+    });
+
+    it('should support access_token', () => {
+      expect(
+        MessengerBatch.setUserPersistentMenu({
+          accessToken: 'ACCESS_TOKEN',
+        })
+      ).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings?access_token=ACCESS_TOKEN`,
+      });
+    });
+
+    it('should support specifying dependencies between operations', () => {
+      expect(
+        MessengerBatch.setUserPersistentMenu({
+          name: 'second',
+          dependsOn: 'first',
+        })
+      ).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings`,
+        name: 'second',
+        dependsOn: 'first',
+      });
+    });
+  });
+
+  describe('deleteUserPersistentMenu', () => {
+    it('should create delete user persistent menu request', () => {
+      expect(MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID)).toEqual({
+        method: 'DELETE',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]`,
+      });
+    });
+
+    it('should support access_token', () => {
+      expect(
+        MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID, {
+          accessToken: 'ACCESS_TOKEN',
+        })
+      ).toEqual({
+        method: 'DELETE',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]&access_token=ACCESS_TOKEN`,
+      });
+    });
+
+    it('should support specifying dependencies between operations', () => {
+      expect(
+        MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID, {
+          name: 'second',
+          dependsOn: 'first',
+        })
+      ).toEqual({
+        method: 'DELETE',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]`,
+        name: 'second',
+        dependsOn: 'first',
+      });
+    });
+  });
+});
+
 describe('sendSenderAction', () => {
   it('should create send sender action request', () => {
     expect(MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on')).toEqual({

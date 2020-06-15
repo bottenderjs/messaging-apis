@@ -279,6 +279,56 @@ function getUserProfile(
   };
 }
 
+function getUserPersistentMenu(
+  userId: string,
+  options: {
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
+): Types.BatchItem {
+  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+
+  return {
+    method: 'GET',
+    relativeUrl: `/me/custom_user_settings?psid=${userId}`.concat(
+      options.accessToken ? `&access_token=${options.accessToken}` : ''
+    ),
+    ...batchRequestOptions,
+  };
+}
+
+function setUserPersistentMenu(
+  options: {
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
+): Types.BatchItem {
+  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+
+  return {
+    method: 'POST',
+    relativeUrl: `/me/custom_user_settings`.concat(
+      options.accessToken ? `?access_token=${options.accessToken}` : ''
+    ),
+    ...batchRequestOptions,
+  };
+}
+
+function deleteUserPersistentMenu(
+  userId: string,
+  options: {
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
+): Types.BatchItem {
+  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+
+  return {
+    method: 'DELETE',
+    relativeUrl: `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]`.concat(
+      options.accessToken ? `&access_token=${options.accessToken}` : ''
+    ),
+    ...batchRequestOptions,
+  };
+}
+
 function sendSenderAction(
   psidOrRecipient: Types.PsidOrRecipient,
   senderAction: Types.SenderAction,
@@ -479,6 +529,9 @@ const MessengerBatch = {
   sendOneTimeNotifReqTemplate,
 
   getUserProfile,
+  getUserPersistentMenu,
+  setUserPersistentMenu,
+  deleteUserPersistentMenu,
 
   sendSenderAction,
   typingOn,
