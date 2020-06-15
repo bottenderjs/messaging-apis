@@ -9,6 +9,11 @@
   "version": "1.0.0-beta.25",
   "main": "dist/index.js",
   "browser": "lib/browser.js",
+  "scripts": {
+    "typedoc": "yarn typedoc:html && yarn typedoc:json",
+    "typedoc:html": "typedoc --out docs --exclude \"src/__tests__/**/*.ts\" src",
+    "typedoc:json": "typedoc --json docs/index.json --exclude \"src/__tests__/**/*.ts\" src"
+  },
   "types": "dist/index.d.ts",
   "dependencies": {
     "axios": "^0.19.2",
@@ -17,6 +22,9 @@
     "invariant": "^2.2.4",
     "messaging-api-common": "file:../messaging-api-common",
     "warning": "^4.0.3"
+  },
+  "devDependencies": {
+    "typedoc": "^0.16.11"
   },
   "keywords": [
     "bot",

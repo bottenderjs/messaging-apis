@@ -401,7 +401,7 @@ describe('Rich Menu', () => {
         'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
       );
 
-      expect(res).toEqual(null);
+      expect(res).toEqual(undefined);
     });
   });
 
