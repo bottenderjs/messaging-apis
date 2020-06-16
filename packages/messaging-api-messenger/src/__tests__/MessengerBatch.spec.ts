@@ -1154,6 +1154,275 @@ describe('getUserProfile', () => {
   });
 });
 
+describe('#userPersistentMenu', () => {
+  describe('getUserPersistentMenu', () => {
+    it('should create get user persistent menu request', () => {
+      expect(MessengerBatch.getUserPersistentMenu(RECIPIENT_ID)).toEqual({
+        method: 'GET',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}`,
+      });
+    });
+
+    it('should support access_token', () => {
+      expect(
+        MessengerBatch.getUserPersistentMenu(RECIPIENT_ID, {
+          accessToken: 'ACCESS_TOKEN',
+        })
+      ).toEqual({
+        method: 'GET',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&access_token=ACCESS_TOKEN`,
+      });
+    });
+
+    it('should support specifying dependencies between operations', () => {
+      expect(
+        MessengerBatch.getUserPersistentMenu(RECIPIENT_ID, {
+          name: 'second',
+          dependsOn: 'first',
+        })
+      ).toEqual({
+        method: 'GET',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}`,
+        name: 'second',
+        dependsOn: 'first',
+      });
+    });
+  });
+
+  describe('setUserPersistentMenu', () => {
+    it('should create set user persistent menu request', () => {
+      expect(
+        MessengerBatch.setUserPersistentMenu(RECIPIENT_ID, [
+          {
+            locale: 'default',
+            composerInputDisabled: false,
+            callToActions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+              {
+                type: 'web_url',
+                title: 'Powered by ALOHA.AI, Yoctol',
+                url: 'https://www.yoctol.com/',
+              },
+            ],
+          },
+        ])
+      ).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings`,
+        body: {
+          psid: `${RECIPIENT_ID}`,
+          persistentMenu: [
+            {
+              locale: 'default',
+              composerInputDisabled: false,
+              callToActions: [
+                {
+                  type: 'postback',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
+                },
+                {
+                  type: 'web_url',
+                  title: 'Powered by ALOHA.AI, Yoctol',
+                  url: 'https://www.yoctol.com/',
+                },
+              ],
+            },
+          ],
+        },
+      });
+    });
+
+    it('should response correctly if input is not a full Persistent Menu', () => {
+      expect(
+        MessengerBatch.setUserPersistentMenu(RECIPIENT_ID, [
+          {
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+          {
+            type: 'web_url',
+            title: 'Powered by ALOHA.AI, Yoctol',
+            url: 'https://www.yoctol.com/',
+          },
+        ])
+      ).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings`,
+        body: {
+          psid: `${RECIPIENT_ID}`,
+          persistentMenu: [
+            {
+              locale: 'default',
+              composerInputDisabled: false,
+              callToActions: [
+                {
+                  type: 'postback',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
+                },
+                {
+                  type: 'web_url',
+                  title: 'Powered by ALOHA.AI, Yoctol',
+                  url: 'https://www.yoctol.com/',
+                },
+              ],
+            },
+          ],
+        },
+      });
+    });
+
+    it('should support access_token', () => {
+      expect(
+        MessengerBatch.setUserPersistentMenu(
+          RECIPIENT_ID,
+          [
+            {
+              locale: 'default',
+              composerInputDisabled: false,
+              callToActions: [
+                {
+                  type: 'postback',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
+                },
+                {
+                  type: 'web_url',
+                  title: 'Powered by ALOHA.AI, Yoctol',
+                  url: 'https://www.yoctol.com/',
+                },
+              ],
+            },
+          ],
+          {
+            accessToken: 'ACCESS_TOKEN',
+          }
+        )
+      ).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings?access_token=ACCESS_TOKEN`,
+        body: {
+          psid: `${RECIPIENT_ID}`,
+          persistentMenu: [
+            {
+              locale: 'default',
+              composerInputDisabled: false,
+              callToActions: [
+                {
+                  type: 'postback',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
+                },
+                {
+                  type: 'web_url',
+                  title: 'Powered by ALOHA.AI, Yoctol',
+                  url: 'https://www.yoctol.com/',
+                },
+              ],
+            },
+          ],
+        },
+      });
+    });
+
+    it('should support specifying dependencies between operations', () => {
+      expect(
+        MessengerBatch.setUserPersistentMenu(
+          RECIPIENT_ID,
+          [
+            {
+              locale: 'default',
+              composerInputDisabled: false,
+              callToActions: [
+                {
+                  type: 'postback',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
+                },
+                {
+                  type: 'web_url',
+                  title: 'Powered by ALOHA.AI, Yoctol',
+                  url: 'https://www.yoctol.com/',
+                },
+              ],
+            },
+          ],
+          {
+            name: 'second',
+            dependsOn: 'first',
+          }
+        )
+      ).toEqual({
+        method: 'POST',
+        relativeUrl: `/me/custom_user_settings`,
+        body: {
+          psid: `${RECIPIENT_ID}`,
+          persistentMenu: [
+            {
+              locale: 'default',
+              composerInputDisabled: false,
+              callToActions: [
+                {
+                  type: 'postback',
+                  title: 'Restart Conversation',
+                  payload: 'RESTART',
+                },
+                {
+                  type: 'web_url',
+                  title: 'Powered by ALOHA.AI, Yoctol',
+                  url: 'https://www.yoctol.com/',
+                },
+              ],
+            },
+          ],
+        },
+        name: 'second',
+        dependsOn: 'first',
+      });
+    });
+  });
+
+  describe('deleteUserPersistentMenu', () => {
+    it('should create delete user persistent menu request', () => {
+      expect(MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID)).toEqual({
+        method: 'DELETE',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]`,
+      });
+    });
+
+    it('should support access_token', () => {
+      expect(
+        MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID, {
+          accessToken: 'ACCESS_TOKEN',
+        })
+      ).toEqual({
+        method: 'DELETE',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]&access_token=ACCESS_TOKEN`,
+      });
+    });
+
+    it('should support specifying dependencies between operations', () => {
+      expect(
+        MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID, {
+          name: 'second',
+          dependsOn: 'first',
+        })
+      ).toEqual({
+        method: 'DELETE',
+        relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]`,
+        name: 'second',
+        dependsOn: 'first',
+      });
+    });
+  });
+});
+
 describe('sendSenderAction', () => {
   it('should create send sender action request', () => {
     expect(MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on')).toEqual({

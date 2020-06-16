@@ -279,6 +279,87 @@ function getUserProfile(
   };
 }
 
+function getUserPersistentMenu(
+  userId: string,
+  options: {
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
+): Types.BatchItem {
+  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+
+  return {
+    method: 'GET',
+    relativeUrl: `/me/custom_user_settings?psid=${userId}`.concat(
+      options.accessToken ? `&access_token=${options.accessToken}` : ''
+    ),
+    ...batchRequestOptions,
+  };
+}
+
+function setUserPersistentMenu(
+  userId: string,
+  menuItems: Types.MenuItem[] | Types.PersistentMenuItem[],
+  options: {
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
+): Types.BatchItem {
+  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+
+  if (
+    menuItems.some(
+      (item: Types.MenuItem | Types.PersistentMenuItem) =>
+        'locale' in item && item.locale === 'default'
+    )
+  ) {
+    return {
+      method: 'POST',
+      relativeUrl: `/me/custom_user_settings`.concat(
+        options.accessToken ? `?access_token=${options.accessToken}` : ''
+      ),
+      body: {
+        psid: userId,
+        persistentMenu: menuItems,
+      },
+      ...batchRequestOptions,
+    };
+  }
+
+  return {
+    method: 'POST',
+    relativeUrl: `/me/custom_user_settings`.concat(
+      options.accessToken ? `?access_token=${options.accessToken}` : ''
+    ),
+    body: {
+      psid: userId,
+      persistentMenu: [
+        {
+          locale: 'default',
+          composerInputDisabled: false,
+          callToActions: menuItems as Types.MenuItem[],
+        },
+      ],
+    },
+    ...batchRequestOptions,
+  };
+}
+
+function deleteUserPersistentMenu(
+  userId: string,
+  options: {
+    accessToken?: string;
+  } & Types.BatchRequestOptions = {}
+): Types.BatchItem {
+  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+
+  return {
+    method: 'DELETE',
+    relativeUrl: `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]`.concat(
+      options.accessToken ? `&access_token=${options.accessToken}` : ''
+    ),
+    ...batchRequestOptions,
+  };
+}
+
 function sendSenderAction(
   psidOrRecipient: Types.PsidOrRecipient,
   senderAction: Types.SenderAction,
@@ -479,6 +560,9 @@ const MessengerBatch = {
   sendOneTimeNotifReqTemplate,
 
   getUserProfile,
+  getUserPersistentMenu,
+  setUserPersistentMenu,
+  deleteUserPersistentMenu,
 
   sendSenderAction,
   typingOn,
