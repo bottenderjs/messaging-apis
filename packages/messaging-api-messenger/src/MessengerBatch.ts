@@ -297,17 +297,48 @@ function getUserPersistentMenu(
 }
 
 function setUserPersistentMenu(
+  userId: string,
+  menuItems: Types.MenuItem[] | Types.PersistentMenuItem[],
   options: {
     accessToken?: string;
   } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
   const batchRequestOptions = pick(options, ['name', 'dependsOn']);
 
+  if (
+    menuItems.some(
+      (item: Types.MenuItem | Types.PersistentMenuItem) =>
+        'locale' in item && item.locale === 'default'
+    )
+  ) {
+    return {
+      method: 'POST',
+      relativeUrl: `/me/custom_user_settings`.concat(
+        options.accessToken ? `?access_token=${options.accessToken}` : ''
+      ),
+      body: {
+        psid: userId,
+        persistentMenu: menuItems,
+      },
+      ...batchRequestOptions,
+    };
+  }
+
   return {
     method: 'POST',
     relativeUrl: `/me/custom_user_settings`.concat(
       options.accessToken ? `?access_token=${options.accessToken}` : ''
     ),
+    body: {
+      psid: userId,
+      persistentMenu: [
+        {
+          locale: 'default',
+          composerInputDisabled: false,
+          callToActions: menuItems as Types.MenuItem[],
+        },
+      ],
+    },
     ...batchRequestOptions,
   };
 }
