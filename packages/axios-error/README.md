@@ -1,6 +1,6 @@
 # axios-error
 
-> An axios error wrapper that aim to provide clear error message to the user
+> An axios error wrapper that aim to provide clear error message to the developer
 
 ## Installation
 
@@ -31,7 +31,7 @@ const error = new AxiosError(message, errorThrowByAxios);
 const error = new AxiosError(message, { config, request, response });
 ```
 
-Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+Calling `console.log` on the error instance returns the formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via the following keys on the error instance:
 
 ```js
 console.log(error); // formatted error message

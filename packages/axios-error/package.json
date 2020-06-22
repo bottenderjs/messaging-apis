@@ -1,6 +1,6 @@
 {
   "name": "axios-error",
-  "description": "An axios error wrapper that aim to provide clear error message to the user",
+  "description": "An axios error wrapper that aim to provide clear error message to the developer",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,7 +10,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "type-fest": "^0.15.1"
   },
   "keywords": [
     "axios",

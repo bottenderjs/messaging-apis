@@ -1983,7 +1983,7 @@ aws4@^1.8.0:
   integrity sha512-wMHVg2EOHaMRxbzgFJ9gtjOOCrI80OHLG14rxi28XwOW8ux6IiEbRCGGGqCtdAIg4FQCbW20k9RsT4y3gJlFug==
 
 "axios-error@file:packages/axios-error":
-  version "1.0.0-beta.24"
+  version "1.0.0-beta.26"
   dependencies:
     axios "^0.19.2"
 
@@ -5609,7 +5609,7 @@ merge2@^1.2.3:
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
 "messaging-api-common@file:packages/messaging-api-common":
-  version "1.0.0-beta.24"
+  version "1.0.0-beta.26"
   dependencies:
     axios "^0.19.2"
     camel-case "^4.1.1"
