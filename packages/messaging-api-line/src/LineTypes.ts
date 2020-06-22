@@ -28,6 +28,28 @@ export type User = {
   statusMessage: string;
 };
 
+/**
+ * Group Summary
+ *
+ */
+export type Group = {
+  /** Group ID */
+  groupId: string;
+
+  /** Group name */
+  groupName: string;
+
+  /** Group icon URL */
+  pictureUrl: string;
+};
+
+/**
+ * Group / Room Members Count
+ */
+export type MemberCount = {
+  count: number;
+};
+
 export type ImageMessage = {
   type: 'image';
 

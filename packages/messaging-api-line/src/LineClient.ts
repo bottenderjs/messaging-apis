@@ -1630,6 +1630,50 @@ export default class LineClient {
   }
 
   /**
+   * Get Group Summary
+   *
+   * Gets the group ID, group name, and group icon URL of a group where the LINE Official Account is a member.
+   *
+   * [Official document - get group summary](https://developers.line.biz/en/reference/messaging-api/#get-group-summary)
+   *
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @returns Returns status code `200` and a JSON object with the following information.
+   *
+   * groupId:
+   * - Group ID
+   *
+   * groupName:
+   * - Group name
+   *
+   * pictureUrl:
+   * - Group icon URL
+   */
+  getGroupSummary(groupId: string): Promise<Types.Group> {
+    return this._axios
+      .get(`/v2/bot/group/${groupId}/summary`)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Get Members In Group Count
+   *
+   * Gets the count of members in a group. You can get the member in group count even if the user hasn't added the LINE Official Account as a friend or has blocked the LINE Official Account.
+   *
+   * [Official document - get members in group count](https://developers.line.biz/en/reference/messaging-api/#get-members-group-count)
+   *
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @returns Returns status code `200` and a JSON object with the following information.
+   *
+   * count:
+   * - The count of members in the group. The number returned excludes the LINE Official Account.
+   */
+  getGroupMembersCount(groupId: string): Promise<Types.MemberCount> {
+    return this._axios
+      .get(`/v2/bot/group/${groupId}/members/count`)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
    * Get Group Member Ids
    *
    * Gets the user IDs of the members of a group that the bot is in. This includes the user IDs of users who have not added the LINE Official Account as a friend or has blocked the LINE Official Account.
@@ -1694,6 +1738,25 @@ export default class LineClient {
     } while (continuationToken);
 
     return allMemberIds;
+  }
+
+  /**
+   * Get Members In Room Count
+   *
+   * Gets the count of members in a room. You can get the member in room count even if the user hasn't added the LINE Official Account as a friend or has blocked the LINE Official Account.
+   *
+   * [Official document - get members in room count](https://developers.line.biz/en/reference/messaging-api/#get-members-room-count)
+   *
+   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @returns Returns status code `200` and a JSON object with the following information.
+   *
+   * count:
+   * - The count of members in the group. The number returned excludes the LINE Official Account.
+   */
+  getRoomMembersCount(roomId: string): Promise<Types.MemberCount> {
+    return this._axios
+      .get(`/v2/bot/group/${roomId}/members/count`)
+      .then((res) => res.data, handleError);
   }
 
   /**
