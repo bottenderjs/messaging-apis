@@ -2,7 +2,7 @@ import { BatchRequestErrorInfo } from './types';
 
 export function getErrorMessage(errInfo: BatchRequestErrorInfo): string {
   try {
-    const { message } = JSON.parse(errInfo.response.body).error;
+    const message = errInfo.response.body?.error?.message;
     return message;
   } catch (_) {
     return '';

@@ -1198,7 +1198,7 @@ export default class MessengerClient {
     {
       code: number;
       headers?: { name: string; value: string }[];
-      body: string;
+      body: Record<string, any>;
     }[]
   > {
     invariant(
@@ -1239,15 +1239,13 @@ export default class MessengerClient {
             (item: { code: number; body: string }, index: number) => {
               const responseAccessPath = responseAccessPaths[index];
               const datum = camelcaseKeysDeep(item) as Record<string, any>;
-              if (responseAccessPath && datum.body) {
+              if (datum.body) {
+                const parsedBody = camelcaseKeysDeep(JSON.parse(datum.body));
                 return {
                   ...datum,
-                  body: JSON.stringify(
-                    get(
-                      camelcaseKeysDeep(JSON.parse(datum.body)),
-                      responseAccessPath
-                    )
-                  ),
+                  body: responseAccessPath
+                    ? get(parsedBody, responseAccessPath)
+                    : parsedBody,
                 };
               }
               return datum;

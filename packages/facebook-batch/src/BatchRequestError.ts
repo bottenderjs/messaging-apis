@@ -22,11 +22,11 @@ Error Message - Batch Request Error
 Request -
 
 ${this.request.method.toUpperCase()} ${this.request.relativeUrl}
-${this.request.body || ''}
+${JSON.stringify(this.request.body, null, 2) || ''}
 
 Response -
 ${this.response.code}
-${this.response.body || ''}
+${JSON.stringify(this.response.body, null, 2) || ''}
     `;
   }
 }

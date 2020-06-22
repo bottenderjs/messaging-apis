@@ -21,13 +21,21 @@ export type QueueItem = {
   retry?: number;
 };
 
-export type BatchResponse = {
+export type BatchResponse<T extends JsonObject = JsonObject> = {
   code: number;
   headers?: { name: string; value: string }[];
-  body: string;
+  body: T;
 };
+
+export type BatchErrorResponse = BatchResponse<{
+  error: {
+    type: string;
+    message: string;
+    code: number;
+  };
+}>;
 
 export type BatchRequestErrorInfo = {
   request: BatchRequest;
-  response: BatchResponse;
+  response: BatchErrorResponse;
 };

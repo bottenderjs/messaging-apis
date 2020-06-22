@@ -67,13 +67,12 @@ it('should flush when length >= 50', async () => {
     .fill(0)
     .map(() => ({
       code: 200,
-      body: '{"data": []}',
+      body: { data: [] },
     }));
 
   mocked(client.sendBatch).mockResolvedValue(responses);
 
   for (let i = 0; i < 49; i++) {
-    // eslint-disable-next-line no-await-in-loop
     queue.push(MessengerBatch.sendText('1412611362105802', 'hello'));
   }
 
@@ -109,7 +108,7 @@ it('should flush with 1000 timeout', async () => {
   const responses = [
     {
       code: 200,
-      body: '{"data": []}',
+      body: { data: [] },
     },
   ];
 
@@ -154,7 +153,7 @@ it('should not send batch when with empty array', async () => {
   const responses = [
     {
       code: 200,
-      body: '{"data": []}',
+      body: { data: [] },
     },
   ];
 
@@ -177,7 +176,7 @@ it('should reset timeout when flush', async () => {
     .fill(0)
     .map(() => ({
       code: 200,
-      body: '{"data": []}',
+      body: { data: [] },
     }));
 
   mocked(client.sendBatch).mockResolvedValue(responses);
@@ -204,12 +203,16 @@ it('should throw request and response', async () => {
   const responses = [
     {
       code: 400,
-      body:
-        '{"error": {"message": "(#100) Param recipient[id] must be a valid ID string (e.g., \\"123\\")"} }',
+      body: {
+        error: {
+          message:
+            '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+        },
+      },
     },
   ];
 
-  mocked(client.sendBatch).mockReturnValue(Promise.resolve(responses));
+  mocked(client.sendBatch).mockResolvedValue(responses);
 
   let error: BatchRequestError | undefined;
 
@@ -245,8 +248,12 @@ it('should throw request and response', async () => {
     relativeUrl: 'me/messages',
   });
   expect(error!.response).toEqual({
-    body:
-      '{"error": {"message": "(#100) Param recipient[id] must be a valid ID string (e.g., \\"123\\")"} }',
+    body: {
+      error: {
+        message:
+          '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+      },
+    },
     code: 400,
   });
 });
@@ -257,7 +264,7 @@ it('should support delay option', async () => {
   const responses = [
     {
       code: 200,
-      body: '{"data": []}',
+      body: { data: [] },
     },
   ];
 
@@ -273,8 +280,12 @@ it('should support retryTimes option', async () => {
   const responses = [
     {
       code: 400,
-      body:
-        '{"error": {"message": "(#100) Param recipient[id] must be a valid ID string (e.g., \\"123\\")"} }',
+      body: {
+        error: {
+          message:
+            '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+        },
+      },
     },
   ];
 
@@ -311,13 +322,20 @@ it('should support shouldRetry option', async () => {
   const responses = [
     {
       code: 400,
-      body:
-        '{"error": {"message": "(#100) Param recipient[id] must be a valid ID string (e.g., \\"123\\")"} }',
+      body: {
+        error: {
+          message:
+            '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+        },
+      },
     },
     {
       code: 400,
-      body:
-        '{"error": {"message": "(#613) Calls to this api have exceeded the rate limit."} }',
+      body: {
+        error: {
+          message: '(#613) Calls to this api have exceeded the rate limit.',
+        },
+      },
     },
   ];
 
@@ -342,6 +360,7 @@ it('should support shouldRetry option', async () => {
   const fn = mocked(setTimeout).mock.calls[0][0];
 
   await fn();
+
   expect(queue.queue).toHaveLength(1);
   expect(client.sendBatch).toHaveBeenCalledTimes(1);
   expect(mocked(client.sendBatch).mock.calls[0][0]).toHaveLength(2);

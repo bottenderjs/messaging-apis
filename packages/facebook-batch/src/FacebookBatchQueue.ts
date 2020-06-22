@@ -3,7 +3,12 @@ import { JsonObject } from 'type-fest';
 import { MessengerClient } from 'messaging-api-messenger';
 
 import BatchRequestError from './BatchRequestError';
-import { BatchRequest, BatchRequestErrorInfo, QueueItem } from './types';
+import {
+  BatchErrorResponse,
+  BatchRequest,
+  BatchRequestErrorInfo,
+  QueueItem,
+} from './types';
 
 const MAX_BATCH_SIZE = 50;
 
@@ -48,7 +53,7 @@ export default class FacebookBatchQueue {
     return this._queue;
   }
 
-  push(request: BatchRequest): Promise<JsonObject> {
+  push<T extends JsonObject = JsonObject>(request: BatchRequest): Promise<T> {
     const promise = new Promise((resolve, reject) => {
       this._queue.push({ request, resolve, reject });
     });
@@ -57,7 +62,7 @@ export default class FacebookBatchQueue {
       this.flush();
     }
 
-    return promise as Promise<JsonObject>;
+    return promise as Promise<T>;
   }
 
   async flush(): Promise<void> {
@@ -76,11 +81,14 @@ export default class FacebookBatchQueue {
       items.forEach(({ request, resolve, reject, retry = 0 }, i) => {
         const response = responses[i];
         if (response.code === 200) {
-          resolve(JSON.parse(response.body));
+          resolve(response.body);
           return;
         }
 
-        const err: BatchRequestErrorInfo = { response, request };
+        const err: BatchRequestErrorInfo = {
+          response: response as BatchErrorResponse,
+          request,
+        };
 
         if (retry < this._retryTimes && this._shouldRetry(err)) {
           this._queue.push({ request, resolve, reject, retry: retry + 1 });

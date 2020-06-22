@@ -7,10 +7,19 @@ Error Message - Batch Request Error
 Request -
 
 POST me/feed
-message=Test status update&amp;link=http://developers.facebook.com/
+{
+  \\"message\\": \\"Test status update\\",
+  \\"link\\": \\"http://developers.facebook.com/\\"
+}
 
 Response -
 403
-{\\"error\\":{\\"type\\":\\"OAuthException\\",\\"message\\": \\"Invalid parameter\\",\\"code\\": 100}}
+{
+  \\"error\\": {
+    \\"type\\": \\"OAuthException\\",
+    \\"message\\": \\"Invalid parameter\\",
+    \\"code\\": 100
+  }
+}
     "
 `;

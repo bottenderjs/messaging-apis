@@ -1143,8 +1143,9 @@ describe('send api', () => {
 
       const reply = [
         {
-          recipient_id: USER_ID,
-          message_id: 'mid.1489394984387:3dd22de509',
+          code: 200,
+          body:
+            '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
         },
       ];
 
@@ -1174,8 +1175,11 @@ describe('send api', () => {
 
       expect(res).toEqual([
         {
-          recipientId: USER_ID,
-          messageId: 'mid.1489394984387:3dd22de509',
+          code: 200,
+          body: {
+            recipientId: USER_ID,
+            messageId: 'mid.1489394984387:3dd22de509',
+          },
         },
       ]);
     });
@@ -1184,7 +1188,10 @@ describe('send api', () => {
       const { client, mock } = createMock();
 
       const reply = [
-        { body: '{"data":[{"thread_owner":{"app_id":"501514720355337"}}]}' },
+        {
+          code: 200,
+          body: '{"data":[{"thread_owner":{"app_id":"501514720355337"}}]}',
+        },
       ];
 
       const batch = [MessengerBatch.getThreadOwner(USER_ID)];
@@ -1210,7 +1217,12 @@ describe('send api', () => {
         ],
       });
 
-      expect(res).toEqual([{ body: '{"appId":"501514720355337"}' }]);
+      expect(res).toEqual([
+        {
+          code: 200,
+          body: { appId: '501514720355337' },
+        },
+      ]);
     });
 
     it('should throw if item length > 50', async () => {
