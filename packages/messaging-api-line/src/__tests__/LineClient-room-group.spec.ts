@@ -136,7 +136,7 @@ describe('Group/Room Member', () => {
       };
 
       mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/group/${ROOM_ID}/members/count`);
+        expect(config.url).toEqual(`/v2/bot/room/${ROOM_ID}/members/count`);
         expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
