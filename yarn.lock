@@ -1984,7 +1984,7 @@ aws4@^1.8.0:
   integrity sha512-wMHVg2EOHaMRxbzgFJ9gtjOOCrI80OHLG14rxi28XwOW8ux6IiEbRCGGGqCtdAIg4FQCbW20k9RsT4y3gJlFug==
 
 "axios-error@file:packages/axios-error":
-  version "1.0.0-beta.26"
+  version "1.0.0-beta.27"
   dependencies:
     axios "^0.19.2"
     type-fest "^0.15.1"
@@ -5621,18 +5621,6 @@ merge2@^1.2.3:
     pascal-case "^3.1.1"
     snake-case "^3.0.3"
     url-join "^4.0.1"
-
-"messaging-api-messenger@file:packages/messaging-api-messenger":
-  version "1.0.0-beta.26"
-  dependencies:
-    append-query "^2.1.0"
-    axios "^0.19.2"
-    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.0.0-beta.26-ff7e7780-ac62-4297-a1f8-c36e66dd0bd7-1592887745222/node_modules/axios-error"
-    form-data "^3.0.0"
-    invariant "^2.2.4"
-    lodash "^4.17.15"
-    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.0.0-beta.26-ff7e7780-ac62-4297-a1f8-c36e66dd0bd7-1592887745222/node_modules/messaging-api-common"
-    warning "^4.0.3"
 
 micromatch@4.x, micromatch@^4.0.2:
   version "4.0.2"
