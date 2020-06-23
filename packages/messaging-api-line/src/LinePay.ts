@@ -6,7 +6,7 @@ import axios, {
   AxiosResponse,
   AxiosError as BaseAxiosError,
 } from 'axios';
-import invariant from 'invariant';
+import invariant from 'ts-invariant';
 import warning from 'warning';
 
 import * as Types from './LineTypes';

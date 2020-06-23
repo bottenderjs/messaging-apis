@@ -16,11 +16,12 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@types/warning": "^3.0.0",
     "axios": "^0.19.2",
     "axios-error": "file:../axios-error",
     "image-type": "^4.1.0",
-    "invariant": "^2.2.4",
     "messaging-api-common": "file:../messaging-api-common",
+    "ts-invariant": "^0.4.4",
     "type-fest": "^0.15.1",
     "warning": "^4.0.3"
   },

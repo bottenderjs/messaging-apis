@@ -12,7 +12,7 @@ import axios, {
   AxiosError as BaseAxiosError,
 } from 'axios';
 import get from 'lodash/get';
-import invariant from 'invariant';
+import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
 import warning from 'warning';

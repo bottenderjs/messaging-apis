@@ -10,9 +10,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@types/warning": "^3.0.0",
     "axios": "^0.19.2",
     "axios-error": "file:../axios-error",
-    "lodash": "^4.17.15",
     "messaging-api-common": "file:../messaging-api-common",
     "warning": "^4.0.3"
   },

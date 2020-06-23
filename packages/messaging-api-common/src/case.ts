@@ -2,8 +2,7 @@ import mapObject from 'map-obj';
 import { camelCase } from 'camel-case';
 import { pascalCase } from 'pascal-case';
 import { snakeCase } from 'snake-case';
-
-type Options = { deep?: boolean };
+import type { Options } from 'map-obj';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PlainObject = Record<string, any>;
@@ -64,7 +63,12 @@ function snakecase(text: string): string {
  * ```
  */
 function snakecaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
-  return mapObject(obj, (key, val) => [snakecase(key), val], options);
+  return mapObject(
+    obj,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (key: string, val: any) => [snakecase(key), val],
+    options
+  );
 }
 
 /**
@@ -121,7 +125,12 @@ function camelcase(text: string): string {
  * ```
  */
 function camelcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
-  return mapObject(obj, (key, val) => [camelcase(key), val], options);
+  return mapObject(
+    obj,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (key: string, val: any) => [camelcase(key), val],
+    options
+  );
 }
 
 /**
@@ -170,7 +179,12 @@ function pascalcase(str: string): string {
  * ```
  */
 function pascalcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
-  return mapObject(obj, (key, val) => [pascalcase(key), val], options);
+  return mapObject(
+    obj,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (key: string, val: any) => [pascalcase(key), val],
+    options
+  );
 }
 
 /**
