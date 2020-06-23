@@ -12,6 +12,7 @@
     { "path": "./packages/messaging-api-slack" },
     { "path": "./packages/messaging-api-telegram" },
     { "path": "./packages/messaging-api-viber" },
-    { "path": "./packages/messaging-api-wechat" }
+    { "path": "./packages/messaging-api-wechat" },
+    { "path": "./packages/facebook-batch" }
   ]
 }

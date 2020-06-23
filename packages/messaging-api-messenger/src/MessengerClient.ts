@@ -1194,7 +1194,13 @@ export default class MessengerClient {
   sendBatch(
     batch: Types.BatchItem[],
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
-  ): Promise<Types.SendMessageSuccessResponse[]> {
+  ): Promise<
+    {
+      code: number;
+      headers?: { name: string; value: string }[];
+      body: Record<string, any>;
+    }[]
+  > {
     invariant(
       batch.length <= 50,
       'limit the number of requests which can be in a batch to 50'
@@ -1233,15 +1239,13 @@ export default class MessengerClient {
             (item: { code: number; body: string }, index: number) => {
               const responseAccessPath = responseAccessPaths[index];
               const datum = camelcaseKeysDeep(item) as Record<string, any>;
-              if (responseAccessPath && datum.body) {
+              if (datum.body) {
+                const parsedBody = camelcaseKeysDeep(JSON.parse(datum.body));
                 return {
                   ...datum,
-                  body: JSON.stringify(
-                    get(
-                      camelcaseKeysDeep(JSON.parse(datum.body)),
-                      responseAccessPath
-                    )
-                  ),
+                  body: responseAccessPath
+                    ? get(parsedBody, responseAccessPath)
+                    : parsedBody,
                 };
               }
               return datum;
