@@ -21,11 +21,11 @@ yarn add axios-error
 ```js
 const AxiosError = require('axios-error');
 
-// You can construct it from error throw by axios
-const error = new AxiosError(errorThrowByAxios);
+// You can construct it from the error thrown by axios
+const error = new AxiosError(errorThrownByAxios);
 
-// Or with custom error message
-const error = new AxiosError(message, errorThrowByAxios);
+// Or with an custom error message
+const error = new AxiosError(message, errorThrownByAxios);
 
 // Or construct it from axios config, axios request and axios response
 const error = new AxiosError(message, { config, request, response });

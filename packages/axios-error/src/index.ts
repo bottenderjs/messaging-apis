@@ -23,6 +23,33 @@ class AxiosError extends Error {
 
   status?: number;
 
+  /**
+   * @example
+   * ```js
+   * new AxiosError(errorThrownByAxios)
+   * ```
+   */
+  constructor(error: BaseAxiosError);
+
+  /**
+   * @example
+   * ```js
+   * new AxiosError('error message', errorThrownByAxios)
+   * ```
+   */
+  constructor(message: string, error: BaseAxiosError);
+
+  /**
+   * @example
+   * ```js
+   * new AxiosError('error message', { config, request, response })
+   * ```
+   */
+  constructor(
+    message: string,
+    error: Pick<BaseAxiosError, 'config' | 'request' | 'response'>
+  );
+
   constructor(
     messageOrError: string | BaseAxiosError,
     error?:
