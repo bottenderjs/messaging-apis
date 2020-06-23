@@ -4,6 +4,7 @@ import { MessengerClient } from 'messaging-api-messenger';
 
 import BatchRequestError from './BatchRequestError';
 import {
+  BatchConfig,
   BatchErrorResponse,
   BatchRequest,
   BatchRequestErrorInfo,
@@ -27,14 +28,7 @@ export default class FacebookBatchQueue {
 
   _timeout: NodeJS.Timeout;
 
-  constructor(
-    client: MessengerClient,
-    options: {
-      delay?: number;
-      shouldRetry?: (err: BatchRequestErrorInfo) => boolean;
-      retryTimes?: number;
-    } = {}
-  ) {
+  constructor(client: MessengerClient, options: BatchConfig = {}) {
     invariant(
       client,
       'Must provide a MessengerClient or FacebookClient instance'
