@@ -2,21 +2,18 @@
 import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosError as BaseAxiosError } from 'axios';
 import invariant from 'invariant';
 import warning from 'warning';
 
 import * as Types from './LineTypes';
 
-function handleError(err: {
-  message: string;
-  response: {
-    data: {
-      returnCode: string;
-      returnMessage: string;
-    };
-  };
-}): never {
+function handleError(
+  err: BaseAxiosError<{
+    returnCode: string;
+    returnMessage: string;
+  }>
+): never {
   if (err.response && err.response.data) {
     const { returnCode, returnMessage } = err.response.data;
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;

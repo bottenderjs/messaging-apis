@@ -6,7 +6,11 @@ import url from 'url';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
-import axios, { AxiosInstance, AxiosTransformer } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosTransformer,
+  AxiosError as BaseAxiosError,
+} from 'axios';
 import get from 'lodash/get';
 import invariant from 'invariant';
 import isPlainObject from 'lodash/isPlainObject';
@@ -29,7 +33,15 @@ function extractVersion(version: string): string {
   return version;
 }
 
-function handleError(err: AxiosError): never {
+function handleError(
+  err: BaseAxiosError<{
+    error: {
+      code: number;
+      type: string;
+      message: string;
+    };
+  }>
+): never {
   if (err.response && err.response.data) {
     const error = get(err, 'response.data.error', {});
     const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;

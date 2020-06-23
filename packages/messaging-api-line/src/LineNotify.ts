@@ -1,21 +1,18 @@
 import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosError as BaseAxiosError } from 'axios';
 import warning from 'warning';
 
 import * as Types from './LineTypes';
 
-function handleError(err: {
-  message: string;
-  response: {
-    data: {
-      error: {
-        message: string;
-      };
+function handleError(
+  err: BaseAxiosError<{
+    error: {
+      message: string;
     };
-  };
-}): never {
+  }>
+): never {
   if (err.response && err.response.data && err.response.data.error) {
     const { message } = err.response.data.error;
     const msg = `LINE Notify API - ${message}`;

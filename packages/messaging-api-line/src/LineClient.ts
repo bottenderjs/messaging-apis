@@ -2,7 +2,7 @@ import querystring from 'querystring';
 import { Readable } from 'stream';
 
 import AxiosError from 'axios-error';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosError as BaseAxiosError } from 'axios';
 import imageType from 'image-type';
 import invariant from 'invariant';
 import warning from 'warning';
@@ -14,18 +14,15 @@ import {
 import Line from './Line';
 import * as Types from './LineTypes';
 
-function handleError(err: {
-  message: string;
-  response: {
-    data: {
+function handleError(
+  err: BaseAxiosError<{
+    message: string;
+    details: {
+      property: string;
       message: string;
-      details: {
-        property: string;
-        message: string;
-      }[];
-    };
-  };
-}): never {
+    }[];
+  }>
+): never {
   if (err.response && err.response.data) {
     const { message, details } = err.response.data;
     let msg = `LINE API - ${message}`;
