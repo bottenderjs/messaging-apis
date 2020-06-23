@@ -7,7 +7,7 @@ const ACCESS_TOKEN = '1234567890';
 let axios;
 let _create;
 beforeEach(() => {
-  axios = require('axios'); // eslint-disable-line global-require
+  axios = require('axios');
   _create = axios.create;
 });
 

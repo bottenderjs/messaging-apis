@@ -2012,7 +2012,6 @@ export default class MessengerClient {
     let cursor;
 
     do {
-      // eslint-disable-next-line no-await-in-loop
       const {
         data,
         paging,

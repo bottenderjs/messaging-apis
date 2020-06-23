@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import warning from 'warning';

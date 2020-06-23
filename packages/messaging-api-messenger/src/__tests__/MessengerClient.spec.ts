@@ -14,7 +14,7 @@ const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
 let axios;
 let _create;
 beforeEach(() => {
-  axios = require('axios'); // eslint-disable-line global-require
+  axios = require('axios');
   _create = axios.create;
 });
 
