@@ -1,6 +1,6 @@
 {
   "name": "axios-error",
-  "description": "An axios error wrapper that aim to provide clear error message to the developer",
+  "description": "Axios error wrapper that aim to provide clear error message to developers",
   "license": "MIT",
   "repository": {
     "type": "git",

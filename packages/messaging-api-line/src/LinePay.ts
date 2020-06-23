@@ -2,7 +2,11 @@
 import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
-import axios, { AxiosInstance, AxiosError as BaseAxiosError } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError as BaseAxiosError,
+} from 'axios';
 import invariant from 'invariant';
 import warning from 'warning';
 
@@ -22,17 +26,21 @@ function handleError(
   throw new AxiosError(err.message, err);
 }
 
-function throwWhenNotSuccess(res: {
-  data: {
+function throwWhenNotSuccess<T = any>(
+  res: AxiosResponse<{
     returnCode: string;
     returnMessage: string;
-    info?: any;
-  };
-}): any | never {
+    info?: T;
+  }>
+): T | undefined {
   if (res.data.returnCode !== '0000') {
     const { returnCode, returnMessage } = res.data;
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
-    throw new AxiosError(msg);
+    throw new AxiosError(msg, {
+      response: res,
+      config: res.config,
+      request: res.request,
+    });
   }
   return res.data.info;
 }

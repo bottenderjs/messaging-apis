@@ -1,6 +1,6 @@
 # axios-error
 
-> An axios error wrapper that aim to provide clear error message to the developer
+> Axios error wrapper that aim to provide clear error message to developers
 
 ## Installation
 

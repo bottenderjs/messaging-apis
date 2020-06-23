@@ -1,22 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should support error without axios data 1`] = `
-"
-Error: boom....
-  at Object.<anonymous> (/Users/xxx/messaging-apis/packages/axios-error/src/__tests__/index.spec.js:16:19)
-  at Generator.throw (<anonymous>)
-  at step (/Users/xxx/messaging-apis/packages/axios-error/src/__tests__/index.spec.js:4:336)
-  at /Users/xxx/messaging-apis/packages/axios-error/src/__tests__/index.spec.js:4:535
-  at <anonymous>
-
-
-Error Message -
-  custom error
-
-
-"
-`;
-
 exports[`should work 1`] = `
 "
 Error: boom....

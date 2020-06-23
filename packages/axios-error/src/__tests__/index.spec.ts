@@ -83,11 +83,3 @@ it('should work with undefined response', async () => {
     expect(error.name).toBe('AxiosError');
   }
 });
-
-it('should support error without axios data', () => {
-  const error = new AxiosError('custom error');
-  error.stack = stack;
-
-  expect(error[util.inspect.custom]()).toMatchSnapshot();
-  expect(error.name).toBe('AxiosError');
-});
