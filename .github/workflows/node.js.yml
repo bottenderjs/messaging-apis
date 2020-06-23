@@ -46,7 +46,7 @@ jobs:
 
       - name: Run lint rules
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node-version == 12 }}
-        run: npm run lint
+        run: npm run lint -- --report-unused-disable-directives
 
       - name: Run tests
         run: npm run testonly:cov -- --colors

@@ -13,7 +13,7 @@ const CUSTOM_ACCESS_TOKEN = '0987654321';
 let axios;
 let _create;
 beforeEach(() => {
-  axios = require('axios'); // eslint-disable-line global-require
+  axios = require('axios');
   _create = axios.create;
 });
 

@@ -13,7 +13,7 @@ describe('connect', () => {
   let axios;
   let _create;
   beforeEach(() => {
-    axios = require('axios'); // eslint-disable-line global-require
+    axios = require('axios');
     _create = axios.create;
   });
 
@@ -89,7 +89,7 @@ describe('constructor', () => {
   let axios;
   let _create;
   beforeEach(() => {
-    axios = require('axios'); // eslint-disable-line global-require
+    axios = require('axios');
     _create = axios.create;
   });
 

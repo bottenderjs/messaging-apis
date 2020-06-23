@@ -8,7 +8,7 @@ const USER_ID = 'abcdefg';
 let axios;
 let _create;
 beforeEach(() => {
-  axios = require('axios'); // eslint-disable-line global-require
+  axios = require('axios');
   _create = axios.create;
 });
 

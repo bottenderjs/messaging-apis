@@ -9,7 +9,7 @@ const APP_SECRET = 'shhhhh!is.my.secret';
 let axios;
 let _create;
 beforeEach(() => {
-  axios = require('axios'); // eslint-disable-line global-require
+  axios = require('axios');
   _create = axios.create;
 });
 

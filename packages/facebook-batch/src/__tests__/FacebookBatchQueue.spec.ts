@@ -185,7 +185,6 @@ it('should reset timeout when flush', async () => {
   expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
 
   for (let i = 0; i < 49; i++) {
-    // eslint-disable-next-line no-await-in-loop
     queue.push(MessengerBatch.sendText('1412611362105802', 'hello'));
   }
 
