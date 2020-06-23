@@ -1,10 +1,7 @@
 import util from 'util';
 
-import {
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError as BaseAxiosError,
-} from 'axios';
+import { AxiosError as BaseAxiosError } from 'axios';
+import { JsonValue } from 'type-fest';
 
 function indent(str: string): string {
   return str
@@ -13,29 +10,62 @@ function indent(str: string): string {
     .join('\n');
 }
 
-function json(data: Record<string, any>): string {
+function json(data: JsonValue): string {
   return JSON.stringify(data, null, 2);
 }
 
 class AxiosError extends Error {
-  config: AxiosRequestConfig;
+  config: BaseAxiosError['config'];
 
-  request?: any;
+  request?: BaseAxiosError['request'];
 
-  response?: AxiosResponse;
+  response?: BaseAxiosError['response'];
 
   status?: number;
 
-  constructor(messageOrErr: any, _err: any = {}) {
-    let err;
-    if (messageOrErr instanceof Error) {
-      super(messageOrErr.message);
-      err = messageOrErr;
+  /**
+   * @example
+   * ```js
+   * new AxiosError(errorThrownByAxios)
+   * ```
+   */
+  constructor(error: BaseAxiosError);
+
+  /**
+   * @example
+   * ```js
+   * new AxiosError('error message', errorThrownByAxios)
+   * ```
+   */
+  constructor(message: string, error: BaseAxiosError);
+
+  /**
+   * @example
+   * ```js
+   * new AxiosError('error message', { config, request, response })
+   * ```
+   */
+  constructor(
+    message: string,
+    error: Pick<BaseAxiosError, 'config' | 'request' | 'response'>
+  );
+
+  constructor(
+    messageOrError: string | BaseAxiosError,
+    error?:
+      | BaseAxiosError
+      | Pick<BaseAxiosError, 'config' | 'request' | 'response'>
+  ) {
+    let err: Pick<BaseAxiosError, 'config' | 'request' | 'response'>;
+    if (typeof messageOrError === 'string') {
+      super(messageOrError);
+      err = error as Pick<BaseAxiosError, 'config' | 'request' | 'response'>;
     } else {
-      super(messageOrErr);
-      err = _err;
+      super(messageOrError.message);
+      err = messageOrError;
     }
-    const { config, request, response } = err as BaseAxiosError;
+
+    const { config, request, response } = err;
 
     this.config = config;
     this.request = request;

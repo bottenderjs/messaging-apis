@@ -1,21 +1,23 @@
 import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
-import axios, { AxiosInstance } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError as BaseAxiosError,
+} from 'axios';
 import warning from 'warning';
+import { JsonObject } from 'type-fest';
 
 import * as Types from './LineTypes';
 
-function handleError(err: {
-  message: string;
-  response: {
-    data: {
-      error: {
-        message: string;
-      };
+function handleError(
+  err: BaseAxiosError<{
+    error: {
+      message: string;
     };
-  };
-}): never {
+  }>
+): never {
   if (err.response && err.response.data && err.response.data.error) {
     const { message } = err.response.data.error;
     const msg = `LINE Notify API - ${message}`;
@@ -24,18 +26,25 @@ function handleError(err: {
   throw new AxiosError(err.message, err);
 }
 
-function throwWhenNotSuccess(res: {
-  data: {
-    status: number;
-    message: string;
-    targetType?: 'USER' | 'GROUP';
-    target?: string;
-  };
-}): any {
+function throwWhenNotSuccess<T extends JsonObject = {}>(
+  res: AxiosResponse<
+    {
+      status: number;
+      message: string;
+    } & T
+  >
+): {
+  status: number;
+  message: string;
+} & T {
   if (res.data.status !== 200) {
     const { status, message } = res.data;
     const msg = `LINE NOTIFY API - ${status} ${message}`;
-    throw new AxiosError(msg);
+    throw new AxiosError(msg, {
+      response: res,
+      config: res.config,
+      request: res.request,
+    });
   }
   return res.data;
 }

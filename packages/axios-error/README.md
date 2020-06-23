@@ -1,6 +1,6 @@
 # axios-error
 
-> An axios error wrapper that aim to provide clear error message to the user
+> Axios error wrapper that aim to provide clear error message to developers
 
 ## Installation
 
@@ -21,17 +21,17 @@ yarn add axios-error
 ```js
 const AxiosError = require('axios-error');
 
-// You can construct it from error throw by axios
-const error = new AxiosError(errorThrowByAxios);
+// You can construct it from the error thrown by axios
+const error = new AxiosError(errorThrownByAxios);
 
-// Or with custom error message
-const error = new AxiosError(message, errorThrowByAxios);
+// Or with an custom error message
+const error = new AxiosError(message, errorThrownByAxios);
 
 // Or construct it from axios config, axios request and axios response
 const error = new AxiosError(message, { config, request, response });
 ```
 
-Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+Calling `console.log` on the error instance returns the formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via the following keys on the error instance:
 
 ```js
 console.log(error); // formatted error message

@@ -16,9 +16,12 @@ module.exports = {
   rules: {
     camelcase: 'off',
 
+    'no-useless-constructor': 'off',
+
     'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
 
+    '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-types': 'warn',

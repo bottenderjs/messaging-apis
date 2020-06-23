@@ -2,21 +2,22 @@
 import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
-import axios, { AxiosInstance } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError as BaseAxiosError,
+} from 'axios';
 import invariant from 'invariant';
 import warning from 'warning';
 
 import * as Types from './LineTypes';
 
-function handleError(err: {
-  message: string;
-  response: {
-    data: {
-      returnCode: string;
-      returnMessage: string;
-    };
-  };
-}): never {
+function handleError(
+  err: BaseAxiosError<{
+    returnCode: string;
+    returnMessage: string;
+  }>
+): never {
   if (err.response && err.response.data) {
     const { returnCode, returnMessage } = err.response.data;
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
@@ -25,17 +26,21 @@ function handleError(err: {
   throw new AxiosError(err.message, err);
 }
 
-function throwWhenNotSuccess(res: {
-  data: {
+function throwWhenNotSuccess<T = any>(
+  res: AxiosResponse<{
     returnCode: string;
     returnMessage: string;
-    info?: any;
-  };
-}): any | never {
+    info?: T;
+  }>
+): T | undefined {
   if (res.data.returnCode !== '0000') {
     const { returnCode, returnMessage } = res.data;
     const msg = `LINE PAY API - ${returnCode} ${returnMessage}`;
-    throw new AxiosError(msg);
+    throw new AxiosError(msg, {
+      response: res,
+      config: res.config,
+      request: res.request,
+    });
   }
   return res.data.info;
 }
