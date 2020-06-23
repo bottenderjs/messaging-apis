@@ -1755,7 +1755,7 @@ export default class LineClient {
    */
   getRoomMembersCount(roomId: string): Promise<Types.MemberCount> {
     return this._axios
-      .get(`/v2/bot/group/${roomId}/members/count`)
+      .get(`/v2/bot/room/${roomId}/members/count`)
       .then((res) => res.data, handleError);
   }
 
