@@ -28,6 +28,30 @@ const createMock = (): {
 };
 
 describe('Group/Room Member', () => {
+  describe('#getGroupSummary', () => {
+    it('should response group summary', async () => {
+      expect.assertions(4);
+
+      const { client, mock, headers } = createMock();
+      const reply = {
+        groupId: GROUP_ID,
+        groupName: 'LINE Group',
+        pictureUrl: 'http:/obs.line-apps.com/...',
+      };
+
+      mock.onGet().reply((config) => {
+        expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/summary`);
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
+
+      const res = await client.getGroupSummary(GROUP_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
   describe('#getGroupMemberProfile', () => {
     it('should response group member profile', async () => {
       expect.assertions(4);
@@ -75,6 +99,50 @@ describe('Group/Room Member', () => {
       });
 
       const res = await client.getRoomMemberProfile(ROOM_ID, RECIPIENT_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('getGroupMembersCount', () => {
+    it('should response group members count', async () => {
+      expect.assertions(4);
+
+      const { client, mock, headers } = createMock();
+      const reply = {
+        count: 2,
+      };
+
+      mock.onGet().reply((config) => {
+        expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/members/count`);
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
+
+      const res = await client.getGroupMembersCount(GROUP_ID);
+
+      expect(res).toEqual(reply);
+    });
+  });
+
+  describe('getRoomMembersCount', () => {
+    it('should response room members count', async () => {
+      expect.assertions(4);
+
+      const { client, mock, headers } = createMock();
+      const reply = {
+        count: 2,
+      };
+
+      mock.onGet().reply((config) => {
+        expect(config.url).toEqual(`/v2/bot/group/${ROOM_ID}/members/count`);
+        expect(config.data).toEqual(undefined);
+        expect(config.headers).toEqual(headers);
+        return [200, reply];
+      });
+
+      const res = await client.getRoomMembersCount(ROOM_ID);
 
       expect(res).toEqual(reply);
     });
