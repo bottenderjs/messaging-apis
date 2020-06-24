@@ -56,7 +56,10 @@ export default class LinePay {
     return new LinePay(config);
   }
 
-  _axios: AxiosInstance;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
   constructor({
     channelId,
@@ -68,7 +71,7 @@ export default class LinePay {
       ? 'https://sandbox-api-pay.line.me'
       : 'https://api-pay.line.me';
 
-    this._axios = axios.create({
+    this.axios = axios.create({
       baseURL: `${origin || linePayOrigin}/v2/`,
       headers: {
         'Content-Type': 'application/json',
@@ -76,10 +79,6 @@ export default class LinePay {
         'X-LINE-ChannelSecret': channelSecret,
       },
     });
-  }
-
-  get axios(): AxiosInstance {
-    return this._axios;
   }
 
   getPayments({
@@ -107,7 +106,7 @@ export default class LinePay {
       query.orderId = orderId;
     }
 
-    return this._axios
+    return this.axios
       .get(`/payments?${querystring.stringify(query)}`)
       .then(throwWhenNotSuccess, handleError);
   }
@@ -137,7 +136,7 @@ export default class LinePay {
       query.orderId = orderId;
     }
 
-    return this._axios
+    return this.axios
       .get(`/payments/authorizations?${querystring.stringify(query)}`)
       .then(throwWhenNotSuccess, handleError);
   }
@@ -168,7 +167,7 @@ export default class LinePay {
     capture?: boolean;
     extras?: Record<string, any>;
   }) {
-    return this._axios
+    return this.axios
       .post('/payments/request', {
         productName,
         amount,
@@ -190,7 +189,7 @@ export default class LinePay {
       currency: Types.LinePayCurrency;
     }
   ) {
-    return this._axios
+    return this.axios
       .post(`/payments/${transactionId}/confirm`, {
         amount,
         currency,
@@ -208,7 +207,7 @@ export default class LinePay {
       currency: Types.LinePayCurrency;
     }
   ) {
-    return this._axios
+    return this.axios
       .post(`/payments/authorizations/${transactionId}/capture`, {
         amount,
         currency,
@@ -217,13 +216,13 @@ export default class LinePay {
   }
 
   void(transactionId: string) {
-    return this._axios
+    return this.axios
       .post(`/payments/authorizations/${transactionId}/void`)
       .then(throwWhenNotSuccess, handleError);
   }
 
   refund(transactionId: string, options: { refundAmount?: number } = {}) {
-    return this._axios
+    return this.axios
       .post(`/payments/${transactionId}/refund`, options)
       .then(throwWhenNotSuccess, handleError);
   }

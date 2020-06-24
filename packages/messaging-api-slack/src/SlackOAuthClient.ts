@@ -30,13 +30,33 @@ function stringifyPayloadFields(
 }
 
 export default class SlackOAuthClient {
-  _token: string;
+  /**
+   * @deprecated Use `new SlackOAuthClient(...)` instead.
+   */
+  static connect(
+    accessTokenOrConfig: string | Types.ClientConfig
+  ): SlackOAuthClient {
+    warning(
+      false,
+      '`SlackOAuthClient.connect(...)` is deprecated. Use `new SlackOAuthClient(...)` instead.'
+    );
+    return new SlackOAuthClient(accessTokenOrConfig);
+  }
 
-  _onRequest: OnRequestFunction | undefined;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
-  _axios: AxiosInstance;
+  /**
+   * The access token used by the client.
+   */
+  readonly accessToken: string;
 
-  chat: {
+  /**
+   * chat.* APIs.
+   */
+  readonly chat: {
     postMessage: (
       options: Types.PostMessageOptions
     ) => Promise<Types.OAuthAPIResponse>;
@@ -69,7 +89,10 @@ export default class SlackOAuthClient {
     };
   };
 
-  views: {
+  /**
+   * views.* APIs.
+   */
+  readonly views: {
     open: (options: Types.OpenViewOptions) => Promise<Types.OAuthAPIResponse>;
     publish: (
       options: Types.PublishViewOptions
@@ -81,43 +104,35 @@ export default class SlackOAuthClient {
   };
 
   /**
-   * @deprecated Use `new SlackOAuthClient(...)` instead.
+   * The callback to be called when receiving requests.
    */
-  static connect(
-    accessTokenOrConfig: string | Types.ClientConfig
-  ): SlackOAuthClient {
-    warning(
-      false,
-      '`SlackOAuthClient.connect(...)` is deprecated. Use `new SlackOAuthClient(...)` instead.'
-    );
-    return new SlackOAuthClient(accessTokenOrConfig);
-  }
+  private onRequest?: OnRequestFunction;
 
   constructor(accessTokenOrConfig: string | Types.ClientConfig) {
     let origin;
 
     if (typeof accessTokenOrConfig === 'string') {
       // Bot User OAuth Access Token
-      this._token = accessTokenOrConfig;
+      this.accessToken = accessTokenOrConfig;
     } else {
       const config = accessTokenOrConfig;
 
-      this._token = config.accessToken;
-      this._onRequest = config.onRequest;
+      this.accessToken = config.accessToken;
+      this.onRequest = config.onRequest;
       origin = config.origin;
     }
 
     // Web API
     // https://api.slack.com/web
-    this._axios = axios.create({
+    this.axios = axios.create({
       baseURL: `${origin || 'https://slack.com'}/api/`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
 
-    this._axios.interceptors.request.use(
-      createRequestInterceptor({ onRequest: this._onRequest })
+    this.axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this.onRequest })
     );
 
     this.chat = {
@@ -143,14 +158,6 @@ export default class SlackOAuthClient {
     };
   }
 
-  get axios(): AxiosInstance {
-    return this._axios;
-  }
-
-  get accessToken(): string {
-    return this._token;
-  }
-
   async callMethod(
     method: Types.AvailableMethod,
     inputBody: Record<string, any> = {}
@@ -158,10 +165,10 @@ export default class SlackOAuthClient {
     try {
       const body = {
         ...omit(inputBody, ['token', 'accessToken']),
-        token: inputBody.accessToken || inputBody.token || this._token,
+        token: inputBody.accessToken || inputBody.token || this.accessToken,
       };
 
-      const response = await this._axios.post(
+      const response = await this.axios.post(
         method,
         querystring.stringify(snakecaseKeysDeep(body) as any)
       );

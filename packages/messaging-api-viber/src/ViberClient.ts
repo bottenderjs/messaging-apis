@@ -45,13 +45,25 @@ export default class ViberClient {
     return new ViberClient(accessTokenOrConfig, sender);
   }
 
-  _token: string;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
-  _sender: Types.Sender;
+  /**
+   * The access token used by the client.
+   */
+  readonly accessToken: string;
 
-  _onRequest: OnRequestFunction | undefined;
+  /**
+   * The sender used by the client.
+   */
+  private sender: Types.Sender;
 
-  _axios: AxiosInstance;
+  /**
+   * The callback to be called when receiving requests.
+   */
+  private onRequest?: OnRequestFunction;
 
   constructor(
     accessTokenOrConfig: string | Types.ClientConfig,
@@ -61,35 +73,27 @@ export default class ViberClient {
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
 
-      this._token = config.accessToken;
-      this._sender = config.sender;
-      this._onRequest = config.onRequest || onRequest;
+      this.accessToken = config.accessToken;
+      this.sender = config.sender;
+      this.onRequest = config.onRequest || onRequest;
       origin = config.origin;
     } else {
-      this._token = accessTokenOrConfig;
-      this._sender = sender as Types.Sender;
-      this._onRequest = onRequest;
+      this.accessToken = accessTokenOrConfig;
+      this.sender = sender as Types.Sender;
+      this.onRequest = onRequest;
     }
 
-    this._axios = axios.create({
+    this.axios = axios.create({
       baseURL: `${origin || 'https://chatapi.viber.com'}/pa/`,
       headers: {
         'Content-Type': 'application/json',
-        'X-Viber-Auth-Token': this._token,
+        'X-Viber-Auth-Token': this.accessToken,
       },
     });
 
-    this._axios.interceptors.request.use(
-      createRequestInterceptor({ onRequest: this._onRequest })
+    this.axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this.onRequest })
     );
-  }
-
-  get axios(): AxiosInstance {
-    return this._axios;
-  }
-
-  get accessToken(): string {
-    return this._token;
   }
 
   async _callAPI<R extends object>(
@@ -97,7 +101,7 @@ export default class ViberClient {
     body: Record<string, any> = {}
   ): Promise<Types.SucceededResponseData<R> | never> {
     try {
-      const response = await this._axios.post(
+      const response = await this.axios.post(
         path,
 
         // we can't apply a deep snake_case transform here
@@ -188,7 +192,7 @@ export default class ViberClient {
   ): Promise<Types.SucceededResponseData<{ messageToken: number }> | never> {
     return this._callAPI('/send_message', {
       receiver,
-      sender: this._sender,
+      sender: this.sender,
       ...transformMessageCase(message),
     });
   }
@@ -345,7 +349,7 @@ export default class ViberClient {
   ): Promise<Types.BroadcastResponseData | never> {
     return this._callAPI('/broadcast_message', {
       broadcastList,
-      sender: this._sender,
+      sender: this.sender,
       ...transformMessageCase(message),
     });
   }

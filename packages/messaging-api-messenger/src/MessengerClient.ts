@@ -65,17 +65,35 @@ export default class MessengerClient {
     return new MessengerClient(accessTokenOrConfig, version);
   }
 
-  _onRequest: OnRequestFunction | undefined;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
-  _axios: AxiosInstance;
+  /**
+   * The version of the Facebook Graph API.
+   */
+  readonly version: string;
 
-  _accessToken: string;
+  /**
+   * The access token used by the client.
+   */
+  readonly accessToken: string;
 
-  _appId?: string;
+  /**
+   * The app secret used by the client.
+   */
+  readonly appSecret?: string;
 
-  _appSecret?: string;
+  /**
+   * The app ID used by the client.
+   */
+  private appId?: string;
 
-  _version: string;
+  /**
+   * The callback to be called when receiving requests.
+   */
+  private onRequest?: OnRequestFunction;
 
   constructor(
     accessTokenOrConfig: string | Types.ClientConfig,
@@ -86,37 +104,37 @@ export default class MessengerClient {
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
 
-      this._accessToken = config.accessToken;
+      this.accessToken = config.accessToken;
       invariant(
         !config.version || typeof config.version === 'string',
         'Type of `version` must be string.'
       );
 
-      this._appId = config.appId;
-      this._appSecret = config.appSecret;
-      this._version = extractVersion(config.version || '6.0');
-      this._onRequest = config.onRequest;
+      this.appId = config.appId;
+      this.appSecret = config.appSecret;
+      this.version = extractVersion(config.version || '6.0');
+      this.onRequest = config.onRequest;
       origin = config.origin;
 
       if (typeof config.skipAppSecretProof === 'boolean') {
         skipAppSecretProof = config.skipAppSecretProof;
       } else {
-        skipAppSecretProof = this._appSecret == null;
+        skipAppSecretProof = this.appSecret == null;
       }
     } else {
-      this._accessToken = accessTokenOrConfig;
+      this.accessToken = accessTokenOrConfig;
       invariant(
         typeof version === 'string',
         'Type of `version` must be string.'
       );
 
-      this._version = extractVersion(version);
+      this.version = extractVersion(version);
 
       skipAppSecretProof = true;
     }
 
-    this._axios = axios.create({
-      baseURL: `${origin || 'https://graph.facebook.com'}/v${this._version}/`,
+    this.axios = axios.create({
+      baseURL: `${origin || 'https://graph.facebook.com'}/v${this.version}/`,
       headers: { 'Content-Type': 'application/json' },
       transformRequest: [
         // axios use any as type of the data in AxiosTransformer
@@ -137,20 +155,20 @@ export default class MessengerClient {
       ],
     });
 
-    this._axios.interceptors.request.use(
-      createRequestInterceptor({ onRequest: this._onRequest })
+    this.axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this.onRequest })
     );
 
     // add appsecret_proof to request
     if (!skipAppSecretProof) {
       invariant(
-        this._appSecret,
+        this.appSecret,
         'Must provide appSecret when skipAppSecretProof is false'
       );
 
-      const appSecret = this._appSecret as string;
+      const appSecret = this.appSecret as string;
 
-      this._axios.interceptors.request.use((config) => {
+      this.axios.interceptors.request.use((config) => {
         const isBatch = config.url === '/' && Array.isArray(config.data.batch);
 
         if (isBatch) {
@@ -192,7 +210,7 @@ export default class MessengerClient {
         const accessToken = get(
           urlParts,
           'query.access_token',
-          this._accessToken
+          this.accessToken
         );
 
         const appSecretProof = crypto
@@ -210,22 +228,6 @@ export default class MessengerClient {
     }
   }
 
-  get version(): string {
-    return this._version;
-  }
-
-  get axios(): AxiosInstance {
-    return this._axios;
-  }
-
-  get accessToken(): string {
-    return this._accessToken;
-  }
-
-  get appSecret(): string | undefined {
-    return this._appSecret;
-  }
-
   /**
    * Get Page Info
    *
@@ -235,8 +237,8 @@ export default class MessengerClient {
   getPageInfo({
     accessToken: customAccessToken,
   }: Types.AccessTokenOptions = {}): Promise<Types.PageInfo> {
-    return this._axios
-      .get(`/me?access_token=${customAccessToken || this._accessToken}`)
+    return this.axios
+      .get(`/me?access_token=${customAccessToken || this.accessToken}`)
       .then((res) => res.data, handleError);
   }
 
@@ -248,15 +250,15 @@ export default class MessengerClient {
   debugToken({
     accessToken: customAccessToken,
   }: Types.AccessTokenOptions = {}): Promise<Types.TokenInfo> {
-    invariant(this._appId, 'App ID is required to debug token');
-    invariant(this._appSecret, 'App Secret is required to debug token');
+    invariant(this.appId, 'App ID is required to debug token');
+    invariant(this.appSecret, 'App Secret is required to debug token');
 
-    const accessToken = `${this._appId}|${this._appSecret}`;
+    const accessToken = `${this.appId}|${this.appSecret}`;
 
-    return this._axios
+    return this.axios
       .get(`/debug_token`, {
         params: {
-          input_token: customAccessToken || this._accessToken,
+          input_token: customAccessToken || this.accessToken,
           access_token: accessToken,
         },
       })
@@ -290,17 +292,17 @@ export default class MessengerClient {
     verifyToken: string;
     accessToken: string;
   }): Promise<{ success: boolean }> {
-    const appId = this._appId;
+    const { appId } = this;
 
     invariant(appId, 'App ID is required to create subscription');
     invariant(
-      this._appSecret || appAccessToken,
+      this.appSecret || appAccessToken,
       'App Secret or App Token is required to create subscription'
     );
 
-    const accessToken = appAccessToken || `${appId}|${this._appSecret}`;
+    const accessToken = appAccessToken || `${appId}|${this.appSecret}`;
 
-    return this._axios
+    return this.axios
       .post(`/${appId}/subscriptions?access_token=${accessToken}`, {
         object,
         callbackUrl,
@@ -321,16 +323,16 @@ export default class MessengerClient {
   }: {
     accessToken?: string;
   } = {}): Promise<Types.MessengerSubscription[]> {
-    const appId = this._appId;
+    const { appId } = this;
     invariant(appId, 'App ID is required to get subscriptions');
     invariant(
-      this._appSecret || appAccessToken,
+      this.appSecret || appAccessToken,
       'App Secret or App Token is required to get subscriptions'
     );
 
-    const accessToken = appAccessToken || `${appId}|${this._appSecret}`;
+    const accessToken = appAccessToken || `${appId}|${this.appSecret}`;
 
-    return this._axios
+    return this.axios
       .get(`/${appId}/subscriptions?access_token=${accessToken}`)
       .then((res) => res.data.data, handleError);
   }
@@ -345,14 +347,14 @@ export default class MessengerClient {
   }: {
     accessToken?: string;
   } = {}): Promise<Types.MessengerSubscription> {
-    const appId = this._appId;
+    const { appId } = this;
     invariant(appId, 'App ID is required to get subscription');
     invariant(
-      this._appSecret || appAccessToken,
+      this.appSecret || appAccessToken,
       'App Secret or App Token is required to get subscription'
     );
 
-    const accessToken = appAccessToken || `${appId}|${this._appSecret}`;
+    const accessToken = appAccessToken || `${appId}|${this.appSecret}`;
 
     return this.getSubscriptions({
       accessToken,
@@ -372,10 +374,10 @@ export default class MessengerClient {
   getMessagingFeatureReview({
     accessToken: customAccessToken,
   }: Types.AccessTokenOptions = {}): Promise<Types.MessagingFeatureReview[]> {
-    return this._axios
+    return this.axios
       .get(
         `/me/messaging_feature_review?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data.data, handleError);
@@ -394,10 +396,10 @@ export default class MessengerClient {
       accessToken: customAccessToken,
     }: { fields?: Types.UserProfileField[]; accessToken?: string } = {}
   ): Promise<Types.User> {
-    return this._axios
+    return this.axios
       .get<Types.User>(
         `/${userId}?fields=${fields.join(',')}&access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data, handleError);
@@ -412,10 +414,10 @@ export default class MessengerClient {
     fields: string[],
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MessengerProfile[]> {
-    return this._axios
+    return this.axios
       .get<{ data: Types.MessengerProfile[] }>(
         `/me/messenger_profile?fields=${fields.join(',')}&access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data.data, handleError);
@@ -425,10 +427,10 @@ export default class MessengerClient {
     profile: Types.MessengerProfile,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    return this._axios
+    return this.axios
       .post<Types.MutationSuccessResponse>(
         `/me/messenger_profile?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         profile
       )
@@ -439,10 +441,10 @@ export default class MessengerClient {
     fields: string[],
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    return this._axios
+    return this.axios
       .delete<Types.MutationSuccessResponse>(
         `/me/messenger_profile?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           data: {
@@ -560,10 +562,10 @@ export default class MessengerClient {
     userId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.PersistentMenu | null> {
-    return this._axios
+    return this.axios
       .get(
         `/me/custom_user_settings?psid=${userId}&access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then(
@@ -593,10 +595,10 @@ export default class MessengerClient {
           'locale' in item && item.locale === 'default'
       )
     ) {
-      return this._axios
+      return this.axios
         .post<Types.MutationSuccessResponse>(
           `/me/custom_user_settings?access_token=${
-            customAccessToken || this._accessToken
+            customAccessToken || this.accessToken
           }`,
           {
             psid: userId,
@@ -607,10 +609,10 @@ export default class MessengerClient {
     }
 
     // menuItems is in type MenuItem[]
-    return this._axios
+    return this.axios
       .post(
         `/me/custom_user_settings?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           psid: userId,
@@ -630,10 +632,10 @@ export default class MessengerClient {
     userId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<Types.MutationSuccessResponse> {
-    return this._axios
+    return this.axios
       .delete(
         `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]&access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data, handleError);
@@ -844,10 +846,10 @@ export default class MessengerClient {
   getMessageTags({
     accessToken: customAccessToken,
   }: Types.AccessTokenOptions = {}): Promise<Types.MessageTagResponse> {
-    return this._axios
+    return this.axios
       .get<{ data: Types.MessageTagResponse }>(
         `/page_message_tags?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data.data, handleError);
@@ -863,9 +865,9 @@ export default class MessengerClient {
   ): Promise<Types.SendMessageSuccessResponse> {
     const { accessToken: customAccessToken } = body;
 
-    return this._axios
+    return this.axios
       .post<Types.SendMessageSuccessResponse>(
-        `/me/messages?access_token=${customAccessToken || this._accessToken}`,
+        `/me/messages?access_token=${customAccessToken || this.accessToken}`,
         body
       )
       .then((res) => res.data, handleError);
@@ -921,9 +923,9 @@ export default class MessengerClient {
     formdata.append('messaging_type', messagingType);
     formdata.append('recipient', JSON.stringify(snakecaseKeysDeep(recipient)));
 
-    return this._axios
+    return this.axios
       .post<Types.SendMessageSuccessResponse>(
-        `/me/messages?access_token=${options.accessToken || this._accessToken}`,
+        `/me/messages?access_token=${options.accessToken || this.accessToken}`,
         formdata,
         {
           headers: formdata.getHeaders(),
@@ -1240,9 +1242,9 @@ export default class MessengerClient {
         return item;
       });
 
-    return this._axios
+    return this.axios
       .post('/', {
-        accessToken: customAccessToken || this._accessToken,
+        accessToken: customAccessToken || this.accessToken,
         batch: bodyEncodedbatch,
       })
       .then(
@@ -1282,10 +1284,10 @@ export default class MessengerClient {
     name: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ id: string }> {
-    return this._axios
+    return this.axios
       .post<{ id: string }>(
         `/me/custom_labels?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           name,
@@ -1304,10 +1306,10 @@ export default class MessengerClient {
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .post<{ success: true }>(
         `/${labelId}/label?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           user: userId,
@@ -1326,10 +1328,10 @@ export default class MessengerClient {
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .delete<{ success: true }>(
         `/${labelId}/label?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           data: { user: userId },
@@ -1356,7 +1358,7 @@ export default class MessengerClient {
     };
   }> {
     const fields = options.fields ? options.fields.join(',') : 'name';
-    return this._axios
+    return this.axios
       .get<{
         data: { name: string; id: string }[];
         paging: {
@@ -1367,7 +1369,7 @@ export default class MessengerClient {
         };
       }>(
         `/${userId}/custom_labels?fields=${fields}&access_token=${
-          options.accessToken || this._accessToken
+          options.accessToken || this.accessToken
         }`
       )
       .then((res) => res.data, handleError);
@@ -1383,10 +1385,10 @@ export default class MessengerClient {
     options: { accessToken?: string; fields?: string[] } = {}
   ): Promise<{ name: string; id: string }> {
     const fields = options.fields ? options.fields.join(',') : 'name';
-    return this._axios
+    return this.axios
       .get<{ name: string; id: string }>(
         `/${labelId}?fields=${fields}&access_token=${
-          options.accessToken || this._accessToken
+          options.accessToken || this.accessToken
         }`
       )
       .then((res) => res.data, handleError);
@@ -1409,7 +1411,7 @@ export default class MessengerClient {
     };
   }> {
     const fields = options.fields ? options.fields.join(',') : 'name';
-    return this._axios
+    return this.axios
       .get<{
         data: { name: string; id: string }[];
         paging: {
@@ -1420,7 +1422,7 @@ export default class MessengerClient {
         };
       }>(
         `/me/custom_labels?fields=${fields}&access_token=${
-          options.accessToken || this._accessToken
+          options.accessToken || this.accessToken
         }`
       )
       .then((res) => res.data, handleError);
@@ -1435,9 +1437,9 @@ export default class MessengerClient {
     labelId: number,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .delete<{ success: true }>(
-        `/${labelId}?access_token=${customAccessToken || this._accessToken}`
+        `/${labelId}?access_token=${customAccessToken || this.accessToken}`
       )
       .then((res) => res.data, handleError);
   }
@@ -1492,10 +1494,10 @@ export default class MessengerClient {
       });
     }
 
-    return this._axios
+    return this.axios
       .post(
         `/me/message_attachments?access_token=${
-          options.accessToken || this._accessToken
+          options.accessToken || this.accessToken
         }`,
         ...args
       )
@@ -1551,10 +1553,10 @@ export default class MessengerClient {
     metadata?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .post<{ success: true }>(
         `/me/pass_thread_control?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           recipient: { id: recipientId },
@@ -1588,10 +1590,10 @@ export default class MessengerClient {
     metadata?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .post<{ success: true }>(
         `/me/take_thread_control?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           recipient: { id: recipientId },
@@ -1611,10 +1613,10 @@ export default class MessengerClient {
     metadata?: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .post<{ success: true }>(
         `/me/request_thread_control?access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`,
         {
           recipient: { id: recipientId },
@@ -1637,7 +1639,7 @@ export default class MessengerClient {
       name: string;
     }[]
   > {
-    return this._axios
+    return this.axios
       .get<{
         data: {
           id: string;
@@ -1645,7 +1647,7 @@ export default class MessengerClient {
         }[];
       }>(
         `/me/secondary_receivers?fields=id,name&access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data.data, handleError);
@@ -1662,7 +1664,7 @@ export default class MessengerClient {
   ): Promise<{
     appId: string;
   }> {
-    return this._axios
+    return this.axios
       .get<{
         data: [
           {
@@ -1673,7 +1675,7 @@ export default class MessengerClient {
         ];
       }>(
         `/me/thread_owner?recipient=${recipientId}&access_token=${
-          customAccessToken || this._accessToken
+          customAccessToken || this.accessToken
         }`
       )
       .then((res) => res.data.data[0].threadOwner, handleError);
@@ -1688,11 +1690,11 @@ export default class MessengerClient {
     metrics: Types.InsightMetric[],
     options: Types.InsightOptions = {}
   ) {
-    return this._axios
+    return this.axios
       .get(
         `/me/insights/?${querystring.stringify({
           metric: metrics.join(','),
-          access_token: options.accessToken || this._accessToken,
+          access_token: options.accessToken || this.accessToken,
           ...options,
         })}`
       )
@@ -1775,13 +1777,13 @@ export default class MessengerClient {
     config: Types.MessengerNLPConfig = {},
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<any> {
-    return this._axios
+    return this.axios
       .post(
         `/me/nlp_configs?${querystring.stringify(
           snakecaseKeysDeep(config) as Record<string, any>
         )}`,
         {
-          accessToken: customAccessToken || this._accessToken,
+          accessToken: customAccessToken || this.accessToken,
         }
       )
       .then((res) => res.data, handleError);
@@ -1814,7 +1816,7 @@ export default class MessengerClient {
     pageScopedUserId: string;
     events: Record<string, any>[];
   }) {
-    return this._axios
+    return this.axios
       .post(`/${appId}/activities`, {
         event: 'CUSTOM_APP_EVENTS',
         customEvents: JSON.stringify(events),
@@ -1846,7 +1848,7 @@ export default class MessengerClient {
     page?: string;
     accessToken?: string;
   }) {
-    const accessToken = customAccessToken || this._accessToken;
+    const accessToken = customAccessToken || this.accessToken;
 
     // $appsecret_proof= hash_hmac('sha256', $access_token, $app_secret);
     const appsecretProof = crypto
@@ -1857,7 +1859,7 @@ export default class MessengerClient {
     const appQueryString = app ? `&app=${app}` : '';
     const pageQueryString = page ? `&page=${page}` : '';
 
-    return this._axios
+    return this.axios
       .get(
         `/${userId}/${field}?access_token=${accessToken}&appsecret_proof=${appsecretProof}${appQueryString}${pageQueryString}`
       )
@@ -1933,9 +1935,9 @@ export default class MessengerClient {
     persona: Types.Persona,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ id: string }> {
-    return this._axios
+    return this.axios
       .post<{ id: string }>(
-        `/me/personas?access_token=${customAccessToken || this._accessToken}`,
+        `/me/personas?access_token=${customAccessToken || this.accessToken}`,
         persona
       )
       .then((res) => res.data, handleError);
@@ -1954,12 +1956,12 @@ export default class MessengerClient {
     name: string;
     profilePictureUrl: string;
   }> {
-    return this._axios
+    return this.axios
       .get<{
         id: string;
         name: string;
         profilePictureUrl: string;
-      }>(`/${personaId}?access_token=${customAccessToken || this._accessToken}`)
+      }>(`/${personaId}?access_token=${customAccessToken || this.accessToken}`)
       .then((res) => res.data, handleError);
   }
 
@@ -1979,7 +1981,7 @@ export default class MessengerClient {
     }[];
     paging: { cursors: { before: string; after: string } };
   }> {
-    return this._axios
+    return this.axios
       .get<{
         data: {
           id: string;
@@ -1988,7 +1990,7 @@ export default class MessengerClient {
         }[];
         paging: { cursors: { before: string; after: string } };
       }>(
-        `/me/personas?access_token=${customAccessToken || this._accessToken}${
+        `/me/personas?access_token=${customAccessToken || this.accessToken}${
           cursor ? `&after=${cursor}` : ''
         }`
       )
@@ -2043,9 +2045,9 @@ export default class MessengerClient {
     personaId: string,
     { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
   ): Promise<{ success: true }> {
-    return this._axios
+    return this.axios
       .delete<{ success: true }>(
-        `/${personaId}?access_token=${customAccessToken || this._accessToken}`
+        `/${personaId}?access_token=${customAccessToken || this.accessToken}`
       )
       .then((res) => res.data, handleError);
   }

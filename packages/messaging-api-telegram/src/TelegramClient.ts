@@ -28,49 +28,52 @@ export default class TelegramClient {
     return new TelegramClient(accessTokenOrConfig);
   }
 
-  _token: string;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
-  _onRequest: OnRequestFunction | undefined;
+  /**
+   * The access token used by the client.
+   */
+  readonly accessToken: string;
 
-  _axios: AxiosInstance;
+  /**
+   * The callback to be called when receiving requests.
+   */
+  private onRequest?: OnRequestFunction;
 
   constructor(accessTokenOrConfig: string | Types.ClientConfig) {
     let origin;
     if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
       const config = accessTokenOrConfig;
 
-      this._token = config.accessToken;
-      this._onRequest = config.onRequest;
+      this.accessToken = config.accessToken;
+      this.onRequest = config.onRequest;
       origin = config.origin;
     } else {
-      this._token = accessTokenOrConfig;
+      this.accessToken = accessTokenOrConfig;
     }
 
-    this._axios = axios.create({
-      baseURL: `${origin || 'https://api.telegram.org'}/bot${this._token}/`,
+    this.axios = axios.create({
+      baseURL: `${origin || 'https://api.telegram.org'}/bot${
+        this.accessToken
+      }/`,
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    this._axios.interceptors.request.use(
+    this.axios.interceptors.request.use(
       createRequestInterceptor({
-        onRequest: this._onRequest,
+        onRequest: this.onRequest,
       })
     );
   }
 
-  get axios(): AxiosInstance {
-    return this._axios;
-  }
-
-  get accessToken(): string {
-    return this._token;
-  }
-
   async _request(path: string, body: Record<string, any> = {}) {
     try {
-      const response = await this._axios.post(path, snakecaseKeysDeep(body));
+      const response = await this.axios.post(path, snakecaseKeysDeep(body));
 
       const { data, config, request } = response;
 
@@ -601,7 +604,7 @@ export default class TelegramClient {
   getFileLink(fileId: string): Promise<string> {
     return this.getFile(fileId).then(
       (result) =>
-        `https://api.telegram.org/file/bot${this._token}/${result.filePath}`
+        `https://api.telegram.org/file/bot${this.accessToken}/${result.filePath}`
     );
   }
 
