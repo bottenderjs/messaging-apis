@@ -14,7 +14,7 @@ import {
 
 import * as Types from './WechatTypes';
 
-function throwErrorIfAny(response: AxiosResponse): AxiosResponse | never {
+function throwErrorIfAny(response: AxiosResponse): AxiosResponse {
   const { errcode, errmsg } = response.data;
   if (!errcode || errcode === 0) return response;
   const msg = `WeChat API - ${errcode} ${errmsg}`;
@@ -250,7 +250,7 @@ export default class WechatClient {
             miniprogrampage: Types.MiniProgramPage;
           }
       )
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     await this._refreshTokenWhenExpired();
 
     return this._axios
@@ -274,7 +274,7 @@ export default class WechatClient {
     userId: string,
     text: string,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'text',
@@ -292,7 +292,7 @@ export default class WechatClient {
     userId: string,
     mediaId: string,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'image',
@@ -310,7 +310,7 @@ export default class WechatClient {
     userId: string,
     mediaId: string,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'voice',
@@ -328,7 +328,7 @@ export default class WechatClient {
     userId: string,
     video: Types.Video,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'video',
@@ -344,7 +344,7 @@ export default class WechatClient {
     userId: string,
     music: Types.Music,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'music',
@@ -362,7 +362,7 @@ export default class WechatClient {
     userId: string,
     news: Types.News,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'news',
@@ -380,7 +380,7 @@ export default class WechatClient {
     userId: string,
     mediaId: string,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'mpnews',
@@ -398,7 +398,7 @@ export default class WechatClient {
     userId: string,
     msgMenu: Types.MsgMenu,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'msgmenu',
@@ -414,7 +414,7 @@ export default class WechatClient {
     userId: string,
     cardId: string,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'wxcard',
@@ -432,7 +432,7 @@ export default class WechatClient {
     userId: string,
     miniProgramPage: Types.MiniProgramPage,
     options?: Types.SendMessageOptions
-  ): Promise<Types.SucceededResponseData | never> {
+  ): Promise<Types.SucceededResponseData> {
     return this.sendRawBody({
       touser: userId,
       msgtype: 'miniprogrampage',
