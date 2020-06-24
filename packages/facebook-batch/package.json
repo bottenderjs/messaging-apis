@@ -10,9 +10,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@types/invariant": "^2.2.33",
-    "invariant": "^2.2.4",
     "messaging-api-messenger": "file:../messaging-api-messenger",
+    "ts-invariant": "^0.4.4",
     "type-fest": "^0.15.1"
   },
   "keywords": [

@@ -1,4 +1,4 @@
-import invariant from 'invariant';
+import invariant from 'ts-invariant';
 import { JsonObject } from 'type-fest';
 import { MessengerClient } from 'messaging-api-messenger';
 
