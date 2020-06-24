@@ -40,17 +40,35 @@ export default class WechatClient {
     return new WechatClient(appIdOrClientConfig, appSecret);
   }
 
-  _axios: AxiosInstance;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
-  _appId: string;
+  /**
+   * The current access token used by the client.
+   */
+  accessToken = '';
 
-  _appSecret: string;
+  /**
+   * The callback to be called when receiving requests.
+   */
+  private onRequest?: OnRequestFunction;
 
-  _onRequest: OnRequestFunction | undefined;
+  /**
+   * The app ID used by the client.
+   */
+  private appId: string;
 
-  _accessToken = '';
+  /**
+   * The app secret used by the client.
+   */
+  private appSecret: string;
 
-  _tokenExpiresAt = 0;
+  /**
+   * The timestamp of the token expired time.
+   */
+  private tokenExpiresAt = 0;
 
   constructor(
     appIdOrClientConfig: string | Types.ClientConfig,
@@ -60,47 +78,39 @@ export default class WechatClient {
     if (appIdOrClientConfig && typeof appIdOrClientConfig === 'object') {
       const config = appIdOrClientConfig;
 
-      this._appId = config.appId;
-      this._appSecret = config.appSecret;
-      this._onRequest = config.onRequest || onRequest;
+      this.appId = config.appId;
+      this.appSecret = config.appSecret;
+      this.onRequest = config.onRequest || onRequest;
       origin = config.origin;
     } else {
-      this._appId = appIdOrClientConfig;
-      this._appSecret = appSecret;
-      this._onRequest = onRequest;
+      this.appId = appIdOrClientConfig;
+      this.appSecret = appSecret;
+      this.onRequest = onRequest;
     }
 
-    this._axios = axios.create({
+    this.axios = axios.create({
       baseURL: `${origin || 'https://api.weixin.qq.com'}/cgi-bin/`,
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    this._axios.interceptors.request.use(
+    this.axios.interceptors.request.use(
       createRequestInterceptor({
-        onRequest: this._onRequest,
+        onRequest: this.onRequest,
       })
     );
-  }
-
-  get axios(): AxiosInstance {
-    return this._axios;
-  }
-
-  get accessToken(): string {
-    return this._accessToken;
   }
 
   async _refreshToken(): Promise<void> {
     const { accessToken, expiresIn } = await this.getAccessToken();
 
-    this._accessToken = accessToken;
-    this._tokenExpiresAt = Date.now() + expiresIn * 1000;
+    this.accessToken = accessToken;
+    this.tokenExpiresAt = Date.now() + expiresIn * 1000;
   }
 
   async _refreshTokenWhenExpired(): Promise<void> {
-    if (Date.now() > this._tokenExpiresAt) {
+    if (Date.now() > this.tokenExpiresAt) {
       await this._refreshToken();
     }
   }
@@ -111,11 +121,11 @@ export default class WechatClient {
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
    */
   getAccessToken(): Promise<Types.AccessToken> {
-    return this._axios
+    return this.axios
       .get<
         { access_token: string; expires_in: number } | Types.FailedResponseData
       >(
-        `/token?grant_type=client_credential&appid=${this._appId}&secret=${this._appSecret}`
+        `/token?grant_type=client_credential&appid=${this.appId}&secret=${this.appSecret}`
       )
       .then(throwErrorIfAny)
       .then(
@@ -152,11 +162,11 @@ export default class WechatClient {
 
     form.append('media', media);
 
-    return this._axios
+    return this.axios
       .post<
         | { type: string; media_id: string; created_at: number }
         | Types.FailedResponseData
-      >(`/media/upload?access_token=${this._accessToken}&type=${type}`, form, {
+      >(`/media/upload?access_token=${this.accessToken}&type=${type}`, form, {
         headers: form.getHeaders(),
       })
       .then(throwErrorIfAny)
@@ -176,9 +186,9 @@ export default class WechatClient {
   async getMedia(mediaId: string): Promise<Types.Media> {
     await this._refreshTokenWhenExpired();
 
-    return this._axios
+    return this.axios
       .get<{ video_url: string } | Types.FailedResponseData>(
-        `/media/get?access_token=${this._accessToken}&media_id=${mediaId}`
+        `/media/get?access_token=${this.accessToken}&media_id=${mediaId}`
       )
       .then(throwErrorIfAny)
       .then(
@@ -253,9 +263,9 @@ export default class WechatClient {
   ): Promise<Types.SucceededResponseData> {
     await this._refreshTokenWhenExpired();
 
-    return this._axios
+    return this.axios
       .post<Types.ResponseData>(
-        `/message/custom/send?access_token=${this._accessToken}`,
+        `/message/custom/send?access_token=${this.accessToken}`,
         snakecaseKeys(body, { deep: true })
       )
       .then(throwErrorIfAny)

@@ -64,19 +64,40 @@ export default class LineNotify {
     return new LineNotify(config);
   }
 
-  _clientId: string;
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
 
-  _clientSecret: string;
+  /**
+   * The underlying axios instance for notify-api.line.me APIs.
+   */
+  readonly apiAxios: AxiosInstance;
 
-  _redirectUri: string;
+  /**
+   * The client ID used by the client.
+   */
+  private clientId: string;
 
-  _origin = 'https://notify-bot.line.me/';
+  /**
+   * The client secret used by the client.
+   */
+  private clientSecret: string;
 
-  _apiOrigin = 'https://notify-api.line.me/';
+  /**
+   * The redirect URI used by the client.
+   */
+  private redirectUri: string;
 
-  _axios: AxiosInstance;
+  /**
+   * The origin of the notify-bot.line.me APIs.
+   */
+  private origin = 'https://notify-bot.line.me/';
 
-  _apiAxios: AxiosInstance;
+  /**
+   * The origin of the notify-api.line.me APIs.
+   */
+  private apiOrigin = 'https://notify-api.line.me/';
 
   /**
    * constructor
@@ -84,25 +105,17 @@ export default class LineNotify {
    * @param config - LINE Notify configuration from LINE Notify services website.
    */
   constructor(config: Types.LineNotifyConfig) {
-    this._clientId = config.clientId;
-    this._clientSecret = config.clientSecret;
-    this._redirectUri = config.redirectUri;
-    this._origin = config.origin || this._origin;
-    this._apiOrigin = config.apiOrigin || this._apiOrigin;
-    this._axios = axios.create({
-      baseURL: this._origin,
+    this.clientId = config.clientId;
+    this.clientSecret = config.clientSecret;
+    this.redirectUri = config.redirectUri;
+    this.origin = config.origin || this.origin;
+    this.apiOrigin = config.apiOrigin || this.apiOrigin;
+    this.axios = axios.create({
+      baseURL: this.origin,
     });
-    this._apiAxios = axios.create({
-      baseURL: this._apiOrigin,
+    this.apiAxios = axios.create({
+      baseURL: this.apiOrigin,
     });
-  }
-
-  get axios(): AxiosInstance {
-    return this._axios;
-  }
-
-  get apiAxios(): AxiosInstance {
-    return this._apiAxios;
   }
 
   /**
@@ -121,12 +134,12 @@ export default class LineNotify {
     const data = {
       scope: 'notify',
       response_type: 'code',
-      client_id: this._clientId,
-      redirect_uri: this._redirectUri,
+      client_id: this.clientId,
+      redirect_uri: this.redirectUri,
       state,
     };
 
-    return `${this._origin}oauth/authorize?${querystring.encode(data)}`;
+    return `${this.origin}oauth/authorize?${querystring.encode(data)}`;
   }
 
   /**
@@ -143,9 +156,9 @@ export default class LineNotify {
     };
     const formData = {
       grant_type: 'authorization_code',
-      client_id: this._clientId,
-      client_secret: this._clientSecret,
-      redirect_uri: this._redirectUri,
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      redirect_uri: this.redirectUri,
       code,
     };
     return this.axios

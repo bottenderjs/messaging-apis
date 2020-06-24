@@ -14,10 +14,6 @@ interface ClientConfig {
 }
 
 export default class SlackWebhookClient {
-  _axios: AxiosInstance;
-
-  _onRequest: OnRequestFunction | undefined;
-
   /**
    * @deprecated Use `new SlackWebhookClient(...)` instead.
    */
@@ -29,6 +25,16 @@ export default class SlackWebhookClient {
     return new SlackWebhookClient(urlOrConfig);
   }
 
+  /**
+   * The underlying axios instance.
+   */
+  readonly axios: AxiosInstance;
+
+  /**
+   * The callback to be called when receiving requests.
+   */
+  private onRequest?: OnRequestFunction;
+
   constructor(urlOrConfig: string | ClientConfig) {
     let url;
 
@@ -36,33 +42,27 @@ export default class SlackWebhookClient {
       const config = urlOrConfig;
 
       url = config.url;
-      this._onRequest = config.onRequest;
+      this.onRequest = config.onRequest;
     } else {
       url = urlOrConfig;
     }
 
     // incoming webhooks
     // https://api.slack.com/incoming-webhooks
-    this._axios = axios.create({
+    this.axios = axios.create({
       baseURL: url,
       headers: { 'Content-Type': 'application/json' },
     });
 
-    this._axios.interceptors.request.use(
-      createRequestInterceptor({ onRequest: this._onRequest })
+    this.axios.interceptors.request.use(
+      createRequestInterceptor({ onRequest: this.onRequest })
     );
-  }
-
-  get axios(): AxiosInstance {
-    return this._axios;
   }
 
   sendRawBody(
     body: Record<string, any>
   ): Promise<Types.SendMessageSuccessResponse> {
-    return this._axios
-      .post('', snakecaseKeysDeep(body))
-      .then((res) => res.data);
+    return this.axios.post('', snakecaseKeysDeep(body)).then((res) => res.data);
   }
 
   sendText(text: string): Promise<Types.SendMessageSuccessResponse> {
