@@ -2,10 +2,42 @@ import { BatchRequest, BatchRequestErrorInfo, BatchResponse } from './types';
 import { getErrorMessage } from './utils';
 
 export default class BatchRequestError extends Error {
-  request: BatchRequest;
+  /**
+   * The request of the batch error.
+   */
+  readonly request: BatchRequest;
 
-  response: BatchResponse;
+  /**
+   * The response of the batch error.
+   */
+  readonly response: BatchResponse;
 
+  /**
+   * @example
+   * ```js
+   * new BatchRequestError({
+   *   request: {
+   *     method: 'POST',
+   *     relativeUrl: 'me/messages',
+   *     body: {
+   *       messagingType: 'UPDATE',
+   *       recipient: 'PSID',
+   *       message: { text: 'Hello World' },
+   *     },
+   *   },
+   *   response: {
+   *     code: 403,
+   *     body: {
+   *       error: {
+   *         type: 'OAuthException',
+   *         message: 'Invalid parameter',
+   *         code: 100,
+   *       },
+   *     }
+   *   },
+   * })
+   * ```
+   */
   constructor({ request, response }: BatchRequestErrorInfo) {
     const message = getErrorMessage({ request, response });
 
