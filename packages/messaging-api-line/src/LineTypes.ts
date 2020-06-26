@@ -46,9 +46,7 @@ export type Group = {
 /**
  * Group / Room Members Count
  */
-export type MemberCount = {
-  count: number;
-};
+export type MemberCount = number;
 
 export type ImageMessage = {
   type: 'image';
