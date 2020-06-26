@@ -1662,15 +1662,15 @@ export default class LineClient {
    * [Official document - get members in group count](https://developers.line.biz/en/reference/messaging-api/#get-members-group-count)
    *
    * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @returns Returns status code `200` and a JSON object with the following information.
+   * @returns Returns status code `200` and a number representing group member count.
    *
    * count:
    * - The count of members in the group. The number returned excludes the LINE Official Account.
    */
-  getGroupMembersCount(groupId: string): Promise<Types.MemberCount> {
+  getGroupMembersCount(groupId: string): Promise<number> {
     return this._axios
       .get(`/v2/bot/group/${groupId}/members/count`)
-      .then((res) => res.data, handleError);
+      .then((res) => res.data.count, handleError);
   }
 
   /**
@@ -1748,15 +1748,15 @@ export default class LineClient {
    * [Official document - get members in room count](https://developers.line.biz/en/reference/messaging-api/#get-members-room-count)
    *
    * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @returns Returns status code `200` and a JSON object with the following information.
+   * @returns Returns status code `200` and a number representing room member count.
    *
    * count:
    * - The count of members in the group. The number returned excludes the LINE Official Account.
    */
-  getRoomMembersCount(roomId: string): Promise<Types.MemberCount> {
+  getRoomMembersCount(roomId: string): Promise<number> {
     return this._axios
       .get(`/v2/bot/room/${roomId}/members/count`)
-      .then((res) => res.data, handleError);
+      .then((res) => res.data.count, handleError);
   }
 
   /**
