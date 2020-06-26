@@ -122,7 +122,7 @@ describe('Group/Room Member', () => {
 
       const res = await client.getGroupMembersCount(GROUP_ID);
 
-      expect(res).toEqual(reply);
+      expect(res).toBe(2);
     });
   });
 
@@ -144,7 +144,7 @@ describe('Group/Room Member', () => {
 
       const res = await client.getRoomMembersCount(ROOM_ID);
 
-      expect(res).toEqual(reply);
+      expect(res).toBe(2);
     });
   });
 
