@@ -1,6 +1,5 @@
-import invariant from 'ts-invariant';
 import { JsonObject } from 'type-fest';
-import { MessengerClient } from 'messaging-api-messenger';
+import { MessengerClient, MessengerTypes } from 'messaging-api-messenger';
 
 import BatchRequestError from './BatchRequestError';
 import {
@@ -48,15 +47,14 @@ export default class FacebookBatchQueue {
    * });
    * ```
    */
-  constructor(client: MessengerClient, options: BatchConfig = {}) {
-    invariant(
-      client,
-      'Must provide a MessengerClient or FacebookClient instance'
-    );
-
+  constructor(
+    clientConfig: MessengerTypes.ClientConfig,
+    options: BatchConfig = {}
+  ) {
     this.queue = [];
 
-    this.client = client;
+    // TODO: we use messenger client here for now, but maybe we will replace it with some facebook base client
+    this.client = new MessengerClient(clientConfig);
     this.delay = options.delay ?? 1000;
     this.shouldRetry = options.shouldRetry ?? alwaysTrue;
     this.retryTimes = options.retryTimes ?? 0;

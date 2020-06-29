@@ -36,11 +36,15 @@ function setup(
   };
   mocked(setTimeout).mockReturnValue(timeout);
 
-  const client = new MessengerClient({
-    accessToken: 'ACCESS_TOKEN',
-    appSecret: 'APP_SECRET',
-  });
-  queue = new FacebookBatchQueue(client, options);
+  queue = new FacebookBatchQueue(
+    {
+      accessToken: 'ACCESS_TOKEN',
+      appSecret: 'APP_SECRET',
+    },
+    options
+  );
+
+  const client = mocked(MessengerClient).mock.instances[0];
 
   return {
     client,
