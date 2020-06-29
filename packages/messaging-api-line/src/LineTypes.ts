@@ -42,11 +42,6 @@ export type Group = {
   pictureUrl: string;
 };
 
-/**
- * Group / Room Members Count
- */
-export type MemberCount = number;
-
 export type ImageMessage = {
   type: 'image';
 

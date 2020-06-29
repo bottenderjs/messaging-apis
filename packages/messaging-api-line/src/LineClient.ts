@@ -1667,7 +1667,7 @@ export default class LineClient {
    * count:
    * - The count of members in the group. The number returned excludes the LINE Official Account.
    */
-  getGroupMembersCount(groupId: string): Promise<Types.MemberCount> {
+  getGroupMembersCount(groupId: string): Promise<number> {
     return this.axios
       .get(`/v2/bot/group/${groupId}/members/count`)
       .then((res) => res.data.count, handleError);
@@ -1753,7 +1753,7 @@ export default class LineClient {
    * count:
    * - The count of members in the group. The number returned excludes the LINE Official Account.
    */
-  getRoomMembersCount(roomId: string): Promise<Types.MemberCount> {
+  getRoomMembersCount(roomId: string): Promise<number> {
     return this.axios
       .get(`/v2/bot/room/${roomId}/members/count`)
       .then((res) => res.data.count, handleError);
