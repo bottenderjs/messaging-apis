@@ -1649,7 +1649,7 @@ export default class LineClient {
    * - Group icon URL
    */
   getGroupSummary(groupId: string): Promise<Types.Group> {
-    return this._axios
+    return this.axios
       .get(`/v2/bot/group/${groupId}/summary`)
       .then((res) => res.data, handleError);
   }
@@ -1668,7 +1668,7 @@ export default class LineClient {
    * - The count of members in the group. The number returned excludes the LINE Official Account.
    */
   getGroupMembersCount(groupId: string): Promise<Types.MemberCount> {
-    return this._axios
+    return this.axios
       .get(`/v2/bot/group/${groupId}/members/count`)
       .then((res) => res.data.count, handleError);
   }
@@ -1754,7 +1754,7 @@ export default class LineClient {
    * - The count of members in the group. The number returned excludes the LINE Official Account.
    */
   getRoomMembersCount(roomId: string): Promise<Types.MemberCount> {
-    return this._axios
+    return this.axios
       .get(`/v2/bot/room/${roomId}/members/count`)
       .then((res) => res.data.count, handleError);
   }
