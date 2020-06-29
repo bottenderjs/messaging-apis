@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.0-beta.27",
+  "version": "1.0.0-beta.29",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
@@ -15,7 +15,7 @@
     "axios": "^0.19.2",
     "axios-error": "^1.0.0-beta.27",
     "lodash": "^4.17.15",
-    "messaging-api-common": "^1.0.0-beta.26"
+    "messaging-api-common": "^1.0.0-beta.29"
   },
   "keywords": [
     "bot",
