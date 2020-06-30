@@ -276,7 +276,7 @@ export type UserDetails = {
   viberVersion: string;
   mcc: number;
   mnc: number;
-  device_type: string;
+  deviceType: string;
 };
 
 export type UserOnlineStatus = {
