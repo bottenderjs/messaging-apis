@@ -1,4 +1,4 @@
-import { JsonObject } from 'type-fest';
+import { JsonValue } from 'type-fest';
 import { MessengerClient, MessengerTypes } from 'messaging-api-messenger';
 
 import BatchRequestError from './BatchRequestError';
@@ -86,7 +86,7 @@ export default class FacebookBatchQueue {
    * ```
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  push<T extends JsonObject = any>(request: BatchRequest): Promise<T> {
+  push<T extends JsonValue = any>(request: BatchRequest): Promise<T> {
     const promise = new Promise((resolve, reject) => {
       this.queue.push({ request, resolve, reject });
     });
