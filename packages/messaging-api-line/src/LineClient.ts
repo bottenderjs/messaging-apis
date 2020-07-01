@@ -87,7 +87,7 @@ export default class LineClient {
    * })
    * ```
    *
-   * @param config - your channel access token from LINE Messaging API or [[ClientConfig]]
+   * @param config - [[ClientConfig]]
    * @param channelSecret - your channel secret from LINE Messaging API
    */
   constructor(config: Types.ClientConfig) {
