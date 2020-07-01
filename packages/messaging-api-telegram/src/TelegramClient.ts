@@ -1,6 +1,7 @@
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import difference from 'lodash/difference';
+import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import pick from 'lodash/pick';
 import warning from 'warning';
@@ -18,14 +19,12 @@ export default class TelegramClient {
   /**
    * @deprecated Use `new TelegramClient(...)` instead.
    */
-  static connect(
-    accessTokenOrConfig: string | Types.ClientConfig
-  ): TelegramClient {
+  static connect(config: Types.ClientConfig): TelegramClient {
     warning(
       false,
       '`TelegramClient.connect(...)` is deprecated. Use `new TelegramClient(...)` instead.'
     );
-    return new TelegramClient(accessTokenOrConfig);
+    return new TelegramClient(config);
   }
 
   /**
@@ -43,17 +42,15 @@ export default class TelegramClient {
    */
   private onRequest?: OnRequestFunction;
 
-  constructor(accessTokenOrConfig: string | Types.ClientConfig) {
-    let origin;
-    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
-      const config = accessTokenOrConfig;
+  constructor(config: Types.ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `TelegramClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
 
-      this.accessToken = config.accessToken;
-      this.onRequest = config.onRequest;
-      origin = config.origin;
-    } else {
-      this.accessToken = accessTokenOrConfig;
-    }
+    this.accessToken = config.accessToken;
+    this.onRequest = config.onRequest;
+    const { origin } = config;
 
     this.axios = axios.create({
       baseURL: `${origin || 'https://api.telegram.org'}/bot${

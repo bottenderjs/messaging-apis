@@ -14,6 +14,7 @@
     "axios": "^0.19.2",
     "axios-error": "file:../axios-error",
     "messaging-api-common": "file:../messaging-api-common",
+    "ts-invariant": "^0.4.4",
     "warning": "^4.0.3"
   },
   "keywords": [

@@ -16,7 +16,10 @@ const BROADCAST_LIST = [
 ];
 
 const createMock = (): { client: ViberClient; mock: MockAdapter } => {
-  const client = new ViberClient(AUTH_TOKEN, SENDER);
+  const client = new ViberClient({
+    accessToken: AUTH_TOKEN,
+    sender: SENDER,
+  });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };

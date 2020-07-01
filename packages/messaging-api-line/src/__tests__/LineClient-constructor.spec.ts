@@ -18,25 +18,6 @@ describe('connect', () => {
   });
 
   describe('create axios with Line API', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      LineClient.connect(ACCESS_TOKEN, CHANNEL_SECRET);
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/',
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -97,25 +78,6 @@ describe('constructor', () => {
   });
 
   describe('create axios with Line API', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      new LineClient(ACCESS_TOKEN, CHANNEL_SECRET); // eslint-disable-line no-new
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/',
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -167,16 +129,11 @@ describe('constructor', () => {
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
-
-    client = new LineClient({
+    const client = new LineClient({
       accessToken: ACCESS_TOKEN,
       channelSecret: CHANNEL_SECRET,
     });
+
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -186,13 +143,11 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
-    expect(client.accessToken).toBe(ACCESS_TOKEN);
-
-    client = new LineClient({
+    const client = new LineClient({
       accessToken: ACCESS_TOKEN,
       channelSecret: CHANNEL_SECRET,
     });
+
     expect(client.accessToken).toBe(ACCESS_TOKEN);
   });
 });
@@ -245,15 +200,7 @@ describe('Client instance', () => {
       'ImageCarouselTemplate',
     ];
 
-    let client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
-
-    sendTypes.forEach((sendType) => {
-      messageTypes.forEach((messageType) => {
-        expect(client[`${sendType}${messageType}`]).toBeDefined();
-      });
-    });
-
-    client = new LineClient({
+    const client = new LineClient({
       accessToken: ACCESS_TOKEN,
       channelSecret: CHANNEL_SECRET,
     });

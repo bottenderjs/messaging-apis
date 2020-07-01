@@ -43,15 +43,12 @@ export default class LineClient {
   /**
    * @deprecated Use `new LineClient(...)` instead.
    */
-  static connect(
-    accessTokenOrConfig: string | Types.ClientConfig,
-    channelSecret?: string
-  ): LineClient {
+  static connect(config: Types.ClientConfig): LineClient {
     warning(
       false,
       '`LineClient.connect(...)` is deprecated. Use `new LineClient(...)` instead.'
     );
-    return new LineClient(accessTokenOrConfig, channelSecret);
+    return new LineClient(config);
   }
 
   /**
@@ -84,37 +81,24 @@ export default class LineClient {
    *
    * Usage:
    * ```ts
-   * new LineClient(ACCESS_TOKEN, CHANNEL_SECRET)
-   * ```
-   * or
-   * ```ts
    * new LineClient({
    *   accessToken: ACCESS_TOKEN,
    *   channelSecret: CHANNEL_SECRET
    * })
    * ```
    *
-   * @param accessTokenOrConfig - your channel access token from LINE Messaging API or [[ClientConfig]]
-   * @param channelSecret - your channel secret from LINE Messaging API
+   * @param config - [[ClientConfig]]
    */
-  constructor(
-    accessTokenOrConfig: string | Types.ClientConfig,
-    channelSecret?: string
-  ) {
-    let origin;
-    let dataOrigin;
-    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
-      const config = accessTokenOrConfig;
+  constructor(config: Types.ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `LineClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
 
-      this.accessToken = config.accessToken;
-      this.channelSecret = config.channelSecret;
-      this.onRequest = config.onRequest;
-      origin = config.origin;
-      dataOrigin = config.dataOrigin;
-    } else {
-      this.accessToken = accessTokenOrConfig;
-      this.channelSecret = channelSecret as string;
-    }
+    this.accessToken = config.accessToken;
+    this.channelSecret = config.channelSecret;
+    this.onRequest = config.onRequest;
+    const { origin, dataOrigin } = config;
 
     this.axios = axios.create({
       baseURL: `${origin || 'https://api.line.me'}/`,

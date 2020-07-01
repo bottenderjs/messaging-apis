@@ -18,24 +18,6 @@ describe('connect', () => {
   });
 
   describe('create axios with WeChat API', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      WechatClient.connect(APP_ID, APP_SECRET);
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -91,24 +73,6 @@ describe('constructor', () => {
   });
 
   describe('create axios with WeChat API', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      new WechatClient(APP_ID, APP_SECRET); // eslint-disable-line no-new
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -154,13 +118,8 @@ describe('constructor', () => {
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    let client = new WechatClient(APP_ID, APP_SECRET);
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
+    const client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
 
-    client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -170,10 +129,8 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    let client = new WechatClient(APP_ID, APP_SECRET);
-    expect(typeof client.accessToken).toBe('string');
+    const client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
 
-    client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
     expect(typeof client.accessToken).toBe('string');
   });
 });

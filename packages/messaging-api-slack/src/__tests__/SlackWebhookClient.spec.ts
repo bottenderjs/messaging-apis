@@ -5,7 +5,9 @@ import SlackWebhookClient from '../SlackWebhookClient';
 const URL = 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ';
 
 const createMock = (): { client: SlackWebhookClient; mock: MockAdapter } => {
-  const client = new SlackWebhookClient(URL);
+  const client = new SlackWebhookClient({
+    url: URL,
+  });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };

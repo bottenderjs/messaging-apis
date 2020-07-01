@@ -5,7 +5,9 @@ import TelegramClient from '../TelegramClient';
 const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
 
 const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
-  const client = new TelegramClient(ACCESS_TOKEN);
+  const client = new TelegramClient({
+    accessToken: ACCESS_TOKEN,
+  });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
@@ -225,6 +227,7 @@ describe('webhooks', () => {
 
       const res = await client.setWebhook('https://4a16faff.ngrok.io/', {
         certificate: 'qq',
+        // @ts-expect-error
         max_connections: 40,
         allowed_updates: [],
       });
@@ -633,12 +636,14 @@ describe('inline mode api', () => {
           {
             type: 'photo',
             id: 'UNIQUE_ID',
+            // @ts-expect-error
             photo_file_id: 'FILEID',
             title: 'PHOTO_TITLE',
           },
           {
             type: 'audio',
             id: 'UNIQUE_ID',
+            // @ts-expect-error
             audio_file_id: 'FILEID',
             caption: 'AUDIO_TITLE',
           },
@@ -718,6 +723,7 @@ describe('inline mode api', () => {
 
       const res = await client.answerCallbackQuery('CALLBACK_QUERY_ID', {
         text: 'text',
+        // @ts-expect-error
         show_alert: true,
         url: 'http://example.com/',
         cache_time: 1000,
@@ -891,6 +897,7 @@ describe('other api', () => {
         .reply(200, reply);
 
       const res = await client.stopMessageLiveLocation({
+        // @ts-expect-error
         chat_id: 427770117,
         message_id: 66,
       });
@@ -966,7 +973,7 @@ describe('_optionWithoutKeys', () => {
         b: '',
       },
     };
-    const client = new TelegramClient(ACCESS_TOKEN);
+    const client = new TelegramClient({ accessToken: ACCESS_TOKEN });
     const result = client._optionWithoutKeys(option, [
       'snakeCase',
       'camelCase',

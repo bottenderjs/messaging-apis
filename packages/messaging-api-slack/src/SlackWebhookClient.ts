@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import invariant from 'ts-invariant';
 import warning from 'warning';
 import {
   OnRequestFunction,
@@ -17,12 +18,12 @@ export default class SlackWebhookClient {
   /**
    * @deprecated Use `new SlackWebhookClient(...)` instead.
    */
-  static connect(urlOrConfig: string | ClientConfig): SlackWebhookClient {
+  static connect(config: ClientConfig): SlackWebhookClient {
     warning(
       false,
       '`SlackWebhookClient.connect(...)` is deprecated. Use `new SlackWebhookClient(...)` instead.'
     );
-    return new SlackWebhookClient(urlOrConfig);
+    return new SlackWebhookClient(config);
   }
 
   /**
@@ -35,22 +36,18 @@ export default class SlackWebhookClient {
    */
   private onRequest?: OnRequestFunction;
 
-  constructor(urlOrConfig: string | ClientConfig) {
-    let url;
+  constructor(config: ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `SlackWebhookClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
 
-    if (urlOrConfig && typeof urlOrConfig === 'object') {
-      const config = urlOrConfig;
-
-      url = config.url;
-      this.onRequest = config.onRequest;
-    } else {
-      url = urlOrConfig;
-    }
+    this.onRequest = config.onRequest;
 
     // incoming webhooks
     // https://api.slack.com/incoming-webhooks
     this.axios = axios.create({
-      baseURL: url,
+      baseURL: config.url,
       headers: { 'Content-Type': 'application/json' },
     });
 

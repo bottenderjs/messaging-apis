@@ -251,7 +251,9 @@ const camelcaseUser = {
 };
 
 const createMock = (): { client: SlackOAuthClient; mock: MockAdapter } => {
-  const client = new SlackOAuthClient(TOKEN);
+  const client = new SlackOAuthClient({
+    accessToken: TOKEN,
+  });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };

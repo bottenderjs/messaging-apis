@@ -19,24 +19,6 @@ afterEach(() => {
 
 describe('connect', () => {
   describe('create axios with default graphAPI version', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      MessengerClient.connect(ACCESS_TOKEN);
-
-      expect(axios.create).toBeCalledWith(
-        expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v6.0/',
-          headers: { 'Content-Type': 'application/json' },
-        })
-      );
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -57,24 +39,6 @@ describe('connect', () => {
   });
 
   describe('create axios with custom graphAPI version', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      MessengerClient.connect(ACCESS_TOKEN, '2.6');
-
-      expect(axios.create).toBeCalledWith(
-        expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v2.6/',
-          headers: { 'Content-Type': 'application/json' },
-        })
-      );
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -118,24 +82,6 @@ describe('connect', () => {
 
 describe('constructor', () => {
   describe('create axios with default graphAPI version', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      new MessengerClient(ACCESS_TOKEN); // eslint-disable-line no-new
-
-      expect(axios.create).toBeCalledWith(
-        expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v6.0/',
-          headers: { 'Content-Type': 'application/json' },
-        })
-      );
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -156,24 +102,6 @@ describe('constructor', () => {
   });
 
   describe('create axios with custom graphAPI version', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      new MessengerClient(ACCESS_TOKEN, '2.6'); // eslint-disable-line no-new
-
-      expect(axios.create).toBeCalledWith(
-        expect.objectContaining({
-          baseURL: 'https://graph.facebook.com/v2.6/',
-          headers: { 'Content-Type': 'application/json' },
-        })
-      );
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -218,14 +146,6 @@ describe('constructor', () => {
 
 describe('#version', () => {
   it('should return version of graph api', () => {
-    expect(new MessengerClient(ACCESS_TOKEN).version).toEqual('6.0');
-    expect(new MessengerClient(ACCESS_TOKEN, 'v2.6').version).toEqual('2.6');
-    expect(new MessengerClient(ACCESS_TOKEN, '2.6').version).toEqual('2.6');
-    expect(() => {
-      // eslint-disable-next-line no-new
-      new MessengerClient(ACCESS_TOKEN, 2.6);
-    }).toThrow('Type of `version` must be string.');
-
     expect(new MessengerClient({ accessToken: ACCESS_TOKEN }).version).toEqual(
       '6.0'
     );
@@ -245,13 +165,8 @@ describe('#version', () => {
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    let client = new MessengerClient(ACCESS_TOKEN);
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
+    const client = new MessengerClient({ accessToken: ACCESS_TOKEN });
 
-    client = new MessengerClient({ accessToken: ACCESS_TOKEN });
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -261,10 +176,8 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    let client = new MessengerClient(ACCESS_TOKEN);
-    expect(client.accessToken).toBe(ACCESS_TOKEN);
+    const client = new MessengerClient({ accessToken: ACCESS_TOKEN });
 
-    client = new MessengerClient({ accessToken: ACCESS_TOKEN });
     expect(client.accessToken).toBe(ACCESS_TOKEN);
   });
 });

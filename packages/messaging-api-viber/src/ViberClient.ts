@@ -1,5 +1,6 @@
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import invariant from 'ts-invariant';
 import warning from 'warning';
 import {
   OnRequestFunction,
@@ -34,15 +35,12 @@ export default class ViberClient {
   /**
    * @deprecated Use `new ViberClient(...)` instead.
    */
-  static connect(
-    accessTokenOrConfig: string | Types.ClientConfig,
-    sender?: Types.Sender
-  ): ViberClient {
+  static connect(config: Types.ClientConfig): ViberClient {
     warning(
       false,
       '`ViberClient.connect(...)` is deprecated. Use `new ViberClient(...)` instead.'
     );
-    return new ViberClient(accessTokenOrConfig, sender);
+    return new ViberClient(config);
   }
 
   /**
@@ -65,23 +63,16 @@ export default class ViberClient {
    */
   private onRequest?: OnRequestFunction;
 
-  constructor(
-    accessTokenOrConfig: string | Types.ClientConfig,
-    sender?: Types.Sender
-  ) {
-    let origin;
-    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
-      const config = accessTokenOrConfig;
+  constructor(config: Types.ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `ViberClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
 
-      this.accessToken = config.accessToken;
-      this.sender = config.sender;
-      this.onRequest = config.onRequest || onRequest;
-      origin = config.origin;
-    } else {
-      this.accessToken = accessTokenOrConfig;
-      this.sender = sender as Types.Sender;
-      this.onRequest = onRequest;
-    }
+    this.accessToken = config.accessToken;
+    this.sender = config.sender;
+    this.onRequest = config.onRequest || onRequest;
+    const { origin } = config;
 
     this.axios = axios.create({
       baseURL: `${origin || 'https://chatapi.viber.com'}/pa/`,
