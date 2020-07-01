@@ -2,6 +2,7 @@ import querystring from 'querystring';
 
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
+import invariant from 'ts-invariant';
 import omit from 'lodash/omit';
 import warning from 'warning';
 import {
@@ -33,14 +34,12 @@ export default class SlackOAuthClient {
   /**
    * @deprecated Use `new SlackOAuthClient(...)` instead.
    */
-  static connect(
-    accessTokenOrConfig: string | Types.ClientConfig
-  ): SlackOAuthClient {
+  static connect(config: Types.ClientConfig): SlackOAuthClient {
     warning(
       false,
       '`SlackOAuthClient.connect(...)` is deprecated. Use `new SlackOAuthClient(...)` instead.'
     );
-    return new SlackOAuthClient(accessTokenOrConfig);
+    return new SlackOAuthClient(config);
   }
 
   /**
@@ -108,24 +107,19 @@ export default class SlackOAuthClient {
    */
   private onRequest?: OnRequestFunction;
 
-  constructor(accessTokenOrConfig: string | Types.ClientConfig) {
-    let origin;
+  constructor(config: Types.ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `SlackOAuthClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
 
-    if (typeof accessTokenOrConfig === 'string') {
-      // Bot User OAuth Access Token
-      this.accessToken = accessTokenOrConfig;
-    } else {
-      const config = accessTokenOrConfig;
-
-      this.accessToken = config.accessToken;
-      this.onRequest = config.onRequest;
-      origin = config.origin;
-    }
+    this.accessToken = config.accessToken;
+    this.onRequest = config.onRequest;
 
     // Web API
     // https://api.slack.com/web
     this.axios = axios.create({
-      baseURL: `${origin || 'https://slack.com'}/api/`,
+      baseURL: `${config.origin || 'https://slack.com'}/api/`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },

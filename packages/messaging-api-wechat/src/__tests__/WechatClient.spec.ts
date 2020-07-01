@@ -10,7 +10,10 @@ const RECIPIENT_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
 
 const createMock = (): { client: WechatClient; mock: MockAdapter } => {
-  const client = new WechatClient(APP_ID, APP_SECRET);
+  const client = new WechatClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
+  });
   const mock = new MockAdapter(client.axios);
 
   mock

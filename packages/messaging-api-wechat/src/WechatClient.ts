@@ -3,6 +3,7 @@ import fs from 'fs';
 import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import invariant from 'ts-invariant';
 import warning from 'warning';
 import {
   OnRequestFunction,
@@ -29,15 +30,12 @@ export default class WechatClient {
   /**
    * @deprecated Use `new WechatClient(...)` instead.
    */
-  static connect(
-    appIdOrClientConfig: string | Types.ClientConfig,
-    appSecret: string
-  ): WechatClient {
+  static connect(config: Types.ClientConfig): WechatClient {
     warning(
       false,
       '`WechatClient.connect(...)` is deprecated. Use `new WechatClient(...)` instead.'
     );
-    return new WechatClient(appIdOrClientConfig, appSecret);
+    return new WechatClient(config);
   }
 
   /**
@@ -70,23 +68,16 @@ export default class WechatClient {
    */
   private tokenExpiresAt = 0;
 
-  constructor(
-    appIdOrClientConfig: string | Types.ClientConfig,
-    appSecret: string
-  ) {
-    let origin;
-    if (appIdOrClientConfig && typeof appIdOrClientConfig === 'object') {
-      const config = appIdOrClientConfig;
+  constructor(config: Types.ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `WechatClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
 
-      this.appId = config.appId;
-      this.appSecret = config.appSecret;
-      this.onRequest = config.onRequest || onRequest;
-      origin = config.origin;
-    } else {
-      this.appId = appIdOrClientConfig;
-      this.appSecret = appSecret;
-      this.onRequest = onRequest;
-    }
+    this.appId = config.appId;
+    this.appSecret = config.appSecret;
+    this.onRequest = config.onRequest || onRequest;
+    const { origin } = config;
 
     this.axios = axios.create({
       baseURL: `${origin || 'https://api.weixin.qq.com'}/cgi-bin/`,

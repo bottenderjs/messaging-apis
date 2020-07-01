@@ -54,15 +54,12 @@ export default class MessengerClient {
   /**
    * @deprecated Use `new MessengerClient(...)` instead.
    */
-  static connect(
-    accessTokenOrConfig: string | Types.ClientConfig,
-    version = '6.0'
-  ): MessengerClient {
+  static connect(config: Types.ClientConfig): MessengerClient {
     warning(
       false,
       '`MessengerClient.connect(...)` is deprecated. Use `new MessengerClient(...)` instead.'
     );
-    return new MessengerClient(accessTokenOrConfig, version);
+    return new MessengerClient(config);
   }
 
   /**
@@ -95,42 +92,29 @@ export default class MessengerClient {
    */
   private onRequest?: OnRequestFunction;
 
-  constructor(
-    accessTokenOrConfig: string | Types.ClientConfig,
-    version = '6.0'
-  ) {
-    let origin;
+  constructor(config: Types.ClientConfig) {
+    invariant(
+      typeof config !== 'string',
+      `MessengerClient: do not allow constructing client with ${config} string. Use object instead.`
+    );
+
+    this.accessToken = config.accessToken;
+    invariant(
+      !config.version || typeof config.version === 'string',
+      'Type of `version` must be string.'
+    );
+
+    this.appId = config.appId;
+    this.appSecret = config.appSecret;
+    this.version = extractVersion(config.version || '6.0');
+    this.onRequest = config.onRequest;
+    const { origin } = config;
+
     let skipAppSecretProof;
-    if (accessTokenOrConfig && typeof accessTokenOrConfig === 'object') {
-      const config = accessTokenOrConfig;
-
-      this.accessToken = config.accessToken;
-      invariant(
-        !config.version || typeof config.version === 'string',
-        'Type of `version` must be string.'
-      );
-
-      this.appId = config.appId;
-      this.appSecret = config.appSecret;
-      this.version = extractVersion(config.version || '6.0');
-      this.onRequest = config.onRequest;
-      origin = config.origin;
-
-      if (typeof config.skipAppSecretProof === 'boolean') {
-        skipAppSecretProof = config.skipAppSecretProof;
-      } else {
-        skipAppSecretProof = this.appSecret == null;
-      }
+    if (typeof config.skipAppSecretProof === 'boolean') {
+      skipAppSecretProof = config.skipAppSecretProof;
     } else {
-      this.accessToken = accessTokenOrConfig;
-      invariant(
-        typeof version === 'string',
-        'Type of `version` must be string.'
-      );
-
-      this.version = extractVersion(version);
-
-      skipAppSecretProof = true;
+      skipAppSecretProof = this.appSecret == null;
     }
 
     this.axios = axios.create({
@@ -168,45 +152,48 @@ export default class MessengerClient {
 
       const appSecret = this.appSecret as string;
 
-      this.axios.interceptors.request.use((config) => {
-        const isBatch = config.url === '/' && Array.isArray(config.data.batch);
+      this.axios.interceptors.request.use((requestConfig) => {
+        const isBatch =
+          requestConfig.url === '/' && Array.isArray(requestConfig.data.batch);
 
         if (isBatch) {
           // eslint-disable-next-line no-param-reassign
-          config.data.batch = config.data.batch.map((item: any) => {
-            const urlParts = url.parse(item.relativeUrl, true);
-            let accessToken = get(urlParts, 'query.access_token');
-            if (!accessToken && item.body) {
-              const entries = decodeURIComponent(item.body)
-                .split('&')
-                .map((pair) => pair.split('='));
+          requestConfig.data.batch = requestConfig.data.batch.map(
+            (item: any) => {
+              const urlParts = url.parse(item.relativeUrl, true);
+              let accessToken = get(urlParts, 'query.access_token');
+              if (!accessToken && item.body) {
+                const entries = decodeURIComponent(item.body)
+                  .split('&')
+                  .map((pair) => pair.split('='));
 
-              const accessTokenEntry = entries.find(
-                ([key]) => key === 'access_token'
-              );
-              if (accessTokenEntry) {
-                accessToken = accessTokenEntry[1];
+                const accessTokenEntry = entries.find(
+                  ([key]) => key === 'access_token'
+                );
+                if (accessTokenEntry) {
+                  accessToken = accessTokenEntry[1];
+                }
               }
-            }
 
-            if (accessToken) {
-              const appSecretProof = crypto
-                .createHmac('sha256', appSecret)
-                .update(accessToken, 'utf8')
-                .digest('hex');
-              return {
-                ...item,
-                relativeUrl: appendQuery(item.relativeUrl, {
-                  appsecret_proof: appSecretProof,
-                }),
-              };
-            }
+              if (accessToken) {
+                const appSecretProof = crypto
+                  .createHmac('sha256', appSecret)
+                  .update(accessToken, 'utf8')
+                  .digest('hex');
+                return {
+                  ...item,
+                  relativeUrl: appendQuery(item.relativeUrl, {
+                    appsecret_proof: appSecretProof,
+                  }),
+                };
+              }
 
-            return item;
-          });
+              return item;
+            }
+          );
         }
 
-        const urlParts = url.parse(config.url || '', true);
+        const urlParts = url.parse(requestConfig.url || '', true);
         const accessToken = get(
           urlParts,
           'query.access_token',
@@ -219,11 +206,11 @@ export default class MessengerClient {
           .digest('hex');
 
         // eslint-disable-next-line no-param-reassign
-        config.url = appendQuery(config.url || '', {
+        requestConfig.url = appendQuery(requestConfig.url || '', {
           appsecret_proof: appSecretProof,
         });
 
-        return config;
+        return requestConfig;
       });
     }
   }

@@ -22,7 +22,9 @@ afterEach(() => {
 });
 
 const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
-  const client = new MessengerClient(ACCESS_TOKEN);
+  const client = new MessengerClient({
+    accessToken: ACCESS_TOKEN,
+  });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };

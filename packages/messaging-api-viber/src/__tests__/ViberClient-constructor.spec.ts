@@ -22,25 +22,6 @@ describe('connect', () => {
   });
 
   describe('create axios with Viber API', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      ViberClient.connect(AUTH_TOKEN, SENDER);
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://chatapi.viber.com/pa/',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Viber-Auth-Token': AUTH_TOKEN,
-        },
-      });
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -98,25 +79,6 @@ describe('constructor', () => {
   });
 
   describe('create axios with Viber API', () => {
-    it('with args', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      new ViberClient(AUTH_TOKEN, SENDER); // eslint-disable-line no-new
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://chatapi.viber.com/pa/',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Viber-Auth-Token': AUTH_TOKEN,
-        },
-      });
-    });
-
     it('with config', () => {
       axios.create = jest.fn().mockReturnValue({
         interceptors: {
@@ -164,13 +126,8 @@ describe('constructor', () => {
 
 describe('#axios', () => {
   it('should return underlying http client', () => {
-    let client = new ViberClient(AUTH_TOKEN, SENDER);
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
+    const client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
 
-    client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
     expect(client.axios.get).toBeDefined();
     expect(client.axios.post).toBeDefined();
     expect(client.axios.put).toBeDefined();
@@ -180,10 +137,8 @@ describe('#axios', () => {
 
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
-    let client = new ViberClient(AUTH_TOKEN, SENDER);
-    expect(client.accessToken).toBe(AUTH_TOKEN);
+    const client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
 
-    client = new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
     expect(client.accessToken).toBe(AUTH_TOKEN);
   });
 });

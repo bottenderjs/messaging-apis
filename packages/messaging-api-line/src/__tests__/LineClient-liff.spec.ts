@@ -14,7 +14,10 @@ const createMock = (): {
     Authorization: string;
   };
 } => {
-  const client = new LineClient(ACCESS_TOKEN, CHANNEL_SECRET);
+  const client = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
+  });
   const mock = new MockAdapter(client.axios);
   const headers = {
     Accept: 'application/json, text/plain, */*',
