@@ -88,7 +88,7 @@ export default class MessengerClient {
   /**
    * The app ID used by the client.
    */
-  private appId?: string;
+  readonly appId?: string;
 
   /**
    * The callback to be called when receiving requests.
