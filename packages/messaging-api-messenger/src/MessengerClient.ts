@@ -43,9 +43,11 @@ function handleError(
   }>
 ): never {
   if (err.response && err.response.data) {
-    const error = get(err, 'response.data.error', {});
-    const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
-    throw new AxiosError(msg, err);
+    const error = get(err, 'response.data.error');
+    if (error) {
+      const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
+      throw new AxiosError(msg, err);
+    }
   }
   throw new AxiosError(err.message, err);
 }
