@@ -44,4 +44,5 @@ export type BatchConfig = {
   delay?: number;
   shouldRetry?: (err: BatchRequestErrorInfo) => boolean;
   retryTimes?: number;
+  includeHeaders?: boolean;
 };

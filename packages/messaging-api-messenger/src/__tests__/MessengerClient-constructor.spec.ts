@@ -326,6 +326,7 @@ describe('appsecret proof', () => {
     );
     expect(JSON.parse(data)).toEqual({
       access_token: ACCESS_TOKEN,
+      include_headers: true,
       batch: [
         {
           method: 'POST',

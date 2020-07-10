@@ -28,6 +28,8 @@ export default class FacebookBatchQueue {
 
   private retryTimes: number;
 
+  private includeHeaders: boolean;
+
   private timeout: NodeJS.Timeout;
 
   /**
@@ -58,6 +60,7 @@ export default class FacebookBatchQueue {
     this.delay = options.delay ?? 1000;
     this.shouldRetry = options.shouldRetry ?? alwaysTrue;
     this.retryTimes = options.retryTimes ?? 0;
+    this.includeHeaders = options.includeHeaders ?? true;
 
     this.timeout = setTimeout(() => this.flush(), this.delay);
   }
@@ -119,7 +122,10 @@ export default class FacebookBatchQueue {
 
     try {
       const responses = await this.client.sendBatch(
-        items.map((item) => item.request)
+        items.map((item) => item.request),
+        {
+          includeHeaders: this.includeHeaders,
+        }
       );
 
       items.forEach(({ request, resolve, reject, retry = 0 }, i) => {

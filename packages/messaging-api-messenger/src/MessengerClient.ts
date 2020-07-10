@@ -1196,7 +1196,10 @@ export default class MessengerClient {
    */
   sendBatch(
     batch: Types.BatchItem[],
-    { accessToken: customAccessToken }: Types.AccessTokenOptions = {}
+    {
+      includeHeaders = true,
+      accessToken: customAccessToken,
+    }: Types.AccessTokenOptions & { includeHeaders?: boolean } = {}
   ): Promise<
     {
       code: number;
@@ -1234,6 +1237,7 @@ export default class MessengerClient {
     return this.axios
       .post('/', {
         accessToken: customAccessToken || this.accessToken,
+        includeHeaders,
         batch: bodyEncodedbatch,
       })
       .then(
