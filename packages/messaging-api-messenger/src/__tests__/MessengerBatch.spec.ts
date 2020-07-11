@@ -45,6 +45,7 @@ describe('sendRequest', () => {
         {
           name: 'second',
           dependsOn: 'first',
+          omitResponseOnSuccess: false,
         }
       )
     ).toEqual({
@@ -61,6 +62,7 @@ describe('sendRequest', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -221,6 +223,7 @@ describe('sendMessage', () => {
         {
           name: 'second',
           dependsOn: 'first',
+          omitResponseOnSuccess: false,
         }
       )
     ).toEqual({
@@ -237,6 +240,7 @@ describe('sendMessage', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1144,12 +1148,14 @@ describe('getUserProfile', () => {
       MessengerBatch.getUserProfile(RECIPIENT_ID, {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'GET',
       relativeUrl: `${RECIPIENT_ID}?fields=id,name,first_name,last_name,profile_pic`,
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1179,12 +1185,14 @@ describe('#userPersistentMenu', () => {
         MessengerBatch.getUserPersistentMenu(RECIPIENT_ID, {
           name: 'second',
           dependsOn: 'first',
+          omitResponseOnSuccess: false,
         })
       ).toEqual({
         method: 'GET',
         relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}`,
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       });
     });
   });
@@ -1356,6 +1364,7 @@ describe('#userPersistentMenu', () => {
           {
             name: 'second',
             dependsOn: 'first',
+            omitResponseOnSuccess: false,
           }
         )
       ).toEqual({
@@ -1384,6 +1393,7 @@ describe('#userPersistentMenu', () => {
         },
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       });
     });
   });
@@ -1412,12 +1422,14 @@ describe('#userPersistentMenu', () => {
         MessengerBatch.deleteUserPersistentMenu(RECIPIENT_ID, {
           name: 'second',
           dependsOn: 'first',
+          omitResponseOnSuccess: false,
         })
       ).toEqual({
         method: 'DELETE',
         relativeUrl: `/me/custom_user_settings?psid=${RECIPIENT_ID}&params=[%22persistent_menu%22]`,
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       });
     });
   });
@@ -1442,6 +1454,7 @@ describe('sendSenderAction', () => {
       MessengerBatch.sendSenderAction(RECIPIENT_ID, 'typing_on', {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'POST',
@@ -1454,6 +1467,7 @@ describe('sendSenderAction', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1531,6 +1545,7 @@ describe('passThreadControl', () => {
         {
           name: 'second',
           dependsOn: 'first',
+          omitResponseOnSuccess: false,
         }
       )
     ).toEqual({
@@ -1543,6 +1558,7 @@ describe('passThreadControl', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1582,6 +1598,7 @@ describe('takeThreadControl', () => {
       MessengerBatch.takeThreadControl(RECIPIENT_ID, 'something', {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'POST',
@@ -1592,6 +1609,7 @@ describe('takeThreadControl', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1615,6 +1633,7 @@ describe('requestThreadControl', () => {
       MessengerBatch.requestThreadControl(RECIPIENT_ID, 'something', {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'POST',
@@ -1625,6 +1644,7 @@ describe('requestThreadControl', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1643,6 +1663,7 @@ describe('getThreadOwner', () => {
       MessengerBatch.getThreadOwner(RECIPIENT_ID, {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'GET',
@@ -1650,6 +1671,7 @@ describe('getThreadOwner', () => {
       responseAccessPath: 'data[0].threadOwner',
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1670,6 +1692,7 @@ describe('associateLabel', () => {
       MessengerBatch.associateLabel(RECIPIENT_ID, LABEL_ID, {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'POST',
@@ -1679,6 +1702,7 @@ describe('associateLabel', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1699,6 +1723,7 @@ describe('dissociateLabel', () => {
       MessengerBatch.dissociateLabel(RECIPIENT_ID, LABEL_ID, {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'DELETE',
@@ -1708,6 +1733,7 @@ describe('dissociateLabel', () => {
       },
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });
@@ -1725,12 +1751,14 @@ describe('getAssociatedLabels', () => {
       MessengerBatch.getAssociatedLabels(RECIPIENT_ID, {
         name: 'second',
         dependsOn: 'first',
+        omitResponseOnSuccess: false,
       })
     ).toEqual({
       method: 'GET',
       relativeUrl: `${RECIPIENT_ID}/custom_labels`,
       name: 'second',
       dependsOn: 'first',
+      omitResponseOnSuccess: false,
     });
   });
 });

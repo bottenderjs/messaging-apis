@@ -8,6 +8,18 @@ function omitUndefinedFields(obj = {}): object {
   return JSON.parse(JSON.stringify(obj));
 }
 
+function pickBatchOptions<T extends Types.BatchRequestOptions>(
+  options: T
+): Pick<T, 'name' | 'dependsOn' | 'omitResponseOnSuccess'> {
+  return pick(options, ['name', 'dependsOn', 'omitResponseOnSuccess']);
+}
+
+function omitBatchOptions<T extends Types.BatchRequestOptions>(
+  options: T
+): Omit<T, 'name' | 'dependsOn' | 'omitResponseOnSuccess'> {
+  return omit(options, ['name', 'dependsOn', 'omitResponseOnSuccess']);
+}
+
 function sendRequest(
   body: object,
   options?: Types.BatchRequestOptions
@@ -38,14 +50,14 @@ function sendMessage(
     messagingType = 'MESSAGE_TAG';
   }
 
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return sendRequest(
     {
       messagingType,
       recipient,
       message: Messenger.createMessage(msg, options),
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     batchRequestOptions
   );
@@ -260,7 +272,7 @@ function getUserProfile(
     accessToken?: string;
   } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   const fields = options.fields || [
     'id',
@@ -285,7 +297,7 @@ function getUserPersistentMenu(
     accessToken?: string;
   } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'GET',
@@ -303,7 +315,7 @@ function setUserPersistentMenu(
     accessToken?: string;
   } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   if (
     menuItems.some(
@@ -349,7 +361,7 @@ function deleteUserPersistentMenu(
     accessToken?: string;
   } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'DELETE',
@@ -372,13 +384,13 @@ function sendSenderAction(
         }
       : psidOrRecipient;
 
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return sendRequest(
     {
       recipient,
       senderAction,
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     batchRequestOptions
   );
@@ -411,7 +423,7 @@ function passThreadControl(
   metadata?: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'POST',
@@ -420,7 +432,7 @@ function passThreadControl(
       recipient: { id: recipientId },
       targetAppId,
       metadata,
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     ...batchRequestOptions,
   };
@@ -439,7 +451,7 @@ function takeThreadControl(
   metadata?: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'POST',
@@ -447,7 +459,7 @@ function takeThreadControl(
     body: {
       recipient: { id: recipientId },
       metadata,
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     ...batchRequestOptions,
   };
@@ -458,7 +470,7 @@ function requestThreadControl(
   metadata?: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'POST',
@@ -466,7 +478,7 @@ function requestThreadControl(
     body: {
       recipient: { id: recipientId },
       metadata,
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     ...batchRequestOptions,
   };
@@ -476,7 +488,7 @@ function getThreadOwner(
   recipientId: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'GET',
@@ -493,14 +505,14 @@ function associateLabel(
   labelId: number,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'POST',
     relativeUrl: `${labelId}/label`,
     body: {
       user: userId,
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     ...batchRequestOptions,
   };
@@ -511,14 +523,14 @@ function dissociateLabel(
   labelId: number,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'DELETE',
     relativeUrl: `${labelId}/label`,
     body: {
       user: userId,
-      ...omitUndefinedFields(omit(options, ['name', 'dependsOn'])),
+      ...omitUndefinedFields(omitBatchOptions(options)),
     },
     ...batchRequestOptions,
   };
@@ -528,7 +540,7 @@ function getAssociatedLabels(
   userId: string,
   options: { accessToken?: string } & Types.BatchRequestOptions = {}
 ): Types.BatchItem {
-  const batchRequestOptions = pick(options, ['name', 'dependsOn']);
+  const batchRequestOptions = pickBatchOptions(options);
 
   return {
     method: 'GET',
