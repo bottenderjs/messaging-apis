@@ -1146,6 +1146,9 @@ describe('send api', () => {
       const reply = [
         {
           code: 200,
+          headers: [
+            { name: 'Content-Type', value: 'text/javascript; charset=UTF-8' },
+          ],
           body:
             '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
         },
@@ -1166,6 +1169,57 @@ describe('send api', () => {
       expect(url).toEqual('/');
       expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
+        include_headers: true,
+        batch: [
+          {
+            method: 'POST',
+            relative_url: 'me/messages',
+            body: `messaging_type=UPDATE&recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D`,
+          },
+        ],
+      });
+
+      expect(res).toEqual([
+        {
+          code: 200,
+          headers: [
+            { name: 'Content-Type', value: 'text/javascript; charset=UTF-8' },
+          ],
+          body: {
+            recipientId: USER_ID,
+            messageId: 'mid.1489394984387:3dd22de509',
+          },
+        },
+      ]);
+    });
+
+    it('support the includeHeaders option', async () => {
+      const { client, mock } = createMock();
+
+      const reply = [
+        {
+          code: 200,
+          body:
+            '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
+        },
+      ];
+
+      const batch = [MessengerBatch.sendText(USER_ID, 'Hello')];
+
+      let url;
+      let data;
+      mock.onPost().reply((config) => {
+        url = config.url;
+        data = config.data;
+        return [200, reply];
+      });
+
+      const res = await client.sendBatch(batch, { includeHeaders: false });
+
+      expect(url).toEqual('/');
+      expect(JSON.parse(data)).toEqual({
+        access_token: ACCESS_TOKEN,
+        include_headers: false,
         batch: [
           {
             method: 'POST',
@@ -1192,6 +1246,9 @@ describe('send api', () => {
       const reply = [
         {
           code: 200,
+          headers: [
+            { name: 'Content-Type', value: 'text/javascript; charset=UTF-8' },
+          ],
           body: '{"data":[{"thread_owner":{"app_id":"501514720355337"}}]}',
         },
       ];
@@ -1211,6 +1268,7 @@ describe('send api', () => {
       expect(url).toEqual(`/`);
       expect(JSON.parse(data)).toEqual({
         access_token: ACCESS_TOKEN,
+        include_headers: true,
         batch: [
           {
             method: 'GET',
@@ -1222,6 +1280,9 @@ describe('send api', () => {
       expect(res).toEqual([
         {
           code: 200,
+          headers: [
+            { name: 'Content-Type', value: 'text/javascript; charset=UTF-8' },
+          ],
           body: { appId: '501514720355337' },
         },
       ]);
