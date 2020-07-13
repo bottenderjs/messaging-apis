@@ -500,6 +500,7 @@ export type FileData = Buffer | fs.ReadStream;
 export type BatchRequestOptions = {
   name?: string;
   dependsOn?: string;
+  omitResponseOnSuccess?: boolean;
 };
 
 export type Model =
