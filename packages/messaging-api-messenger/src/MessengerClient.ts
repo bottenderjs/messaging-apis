@@ -220,14 +220,22 @@ export default class MessengerClient {
   /**
    * Get Page Info
    *
-   * https://developers.facebook.com/docs/graph-api/using-graph-api
+   * https://developers.facebook.com/docs/graph-api/reference/page/
    * id, name
    */
   getPageInfo({
+    fields,
     accessToken: customAccessToken,
-  }: Types.AccessTokenOptions = {}): Promise<Types.PageInfo> {
+  }: Types.AccessTokenOptions & { fields?: string[] } = {}): Promise<
+    Types.PageInfo
+  > {
     return this.axios
-      .get(`/me?access_token=${customAccessToken || this.accessToken}`)
+      .get('/me', {
+        params: {
+          access_token: customAccessToken || this.accessToken,
+          fields: fields ? fields.join(',') : undefined,
+        },
+      })
       .then((res) => res.data, handleError);
   }
 
