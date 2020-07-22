@@ -43,17 +43,50 @@ describe('page info', () => {
       };
 
       let url;
+      let params;
       mock.onGet().reply((config) => {
         url = config.url;
+        params = config.params;
         return [200, reply];
       });
 
       const res = await client.getPageInfo();
 
-      expect(url).toEqual(`/me?access_token=${ACCESS_TOKEN}`);
+      expect(url).toEqual('/me');
+      expect(params).toEqual({
+        access_token: ACCESS_TOKEN,
+        fields: undefined,
+      });
 
       expect(res).toEqual(reply);
     });
+  });
+
+  it('should support fields', async () => {
+    const { client, mock } = createMock();
+    const reply = {
+      name: 'Bot Demo',
+      id: '1895382890692546',
+    };
+
+    let url;
+    let params;
+    mock.onGet().reply((config) => {
+      url = config.url;
+      params = config.params;
+      return [200, reply];
+    });
+
+    const res = await client.getPageInfo({
+      fields: ['id', 'name'],
+    });
+
+    expect(url).toEqual('/me');
+    expect(params).toEqual({
+      access_token: ACCESS_TOKEN,
+      fields: 'id,name',
+    });
+    expect(res).toEqual(reply);
   });
 });
 
