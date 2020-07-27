@@ -69,7 +69,7 @@ export default class LineClient {
   /**
    * The channel secret used by the client
    */
-  readonly channelSecret: string;
+  readonly channelSecret: string | undefined;
 
   /**
    * The callback to be called when receiving requests.
@@ -83,7 +83,6 @@ export default class LineClient {
    * ```ts
    * new LineClient({
    *   accessToken: ACCESS_TOKEN,
-   *   channelSecret: CHANNEL_SECRET
    * })
    * ```
    *

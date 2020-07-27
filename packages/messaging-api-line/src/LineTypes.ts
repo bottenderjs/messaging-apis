@@ -2,7 +2,7 @@ import { OnRequestFunction } from 'messaging-api-common';
 
 export type ClientConfig = {
   accessToken: string;
-  channelSecret: string;
+  channelSecret?: string;
   origin?: string;
   dataOrigin?: string;
   onRequest?: OnRequestFunction;
