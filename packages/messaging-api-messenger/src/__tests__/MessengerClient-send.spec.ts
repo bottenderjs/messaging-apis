@@ -73,51 +73,6 @@ describe('send api', () => {
         messageId: 'mid.1489394984387:3dd22de509',
       });
     });
-
-    it('should call messages api with custom access token', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        recipient_id: USER_ID,
-        message_id: 'mid.1489394984387:3dd22de509',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.sendRawBody({
-        messagingType: 'UPDATE',
-        recipient: {
-          id: USER_ID,
-        },
-        message: {
-          text: 'Hello!',
-        },
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(url).toEqual(`/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        messaging_type: 'UPDATE',
-        recipient: {
-          id: USER_ID,
-        },
-        message: {
-          text: 'Hello!',
-        },
-        access_token: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(res).toEqual({
-        recipientId: USER_ID,
-        messageId: 'mid.1489394984387:3dd22de509',
-      });
-    });
   });
 
   describe('#sendMessage', () => {
@@ -1331,39 +1286,6 @@ describe('send api', () => {
         recipientId: USER_ID,
       });
     });
-
-    it('should call messages api with sender action and custom access token', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        recipient_id: USER_ID,
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.sendSenderAction(USER_ID, 'typing_on', {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(url).toEqual(`/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        recipient: {
-          id: USER_ID,
-        },
-        sender_action: 'typing_on',
-        access_token: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(res).toEqual({
-        recipientId: USER_ID,
-      });
-    });
   });
 
   describe('#markSeen', () => {
@@ -1390,39 +1312,6 @@ describe('send api', () => {
           id: USER_ID,
         },
         sender_action: 'mark_seen',
-      });
-
-      expect(res).toEqual({
-        recipientId: USER_ID,
-      });
-    });
-
-    it('should call messages api with mark_seen sender action and options', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        recipient_id: USER_ID,
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.markSeen(USER_ID, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(url).toEqual(`/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        recipient: {
-          id: USER_ID,
-        },
-        sender_action: 'mark_seen',
-        access_token: CUSTOM_ACCESS_TOKEN,
       });
 
       expect(res).toEqual({
@@ -1461,39 +1350,6 @@ describe('send api', () => {
         recipientId: USER_ID,
       });
     });
-
-    it('should call messages api with typing_on sender action and options', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        recipient_id: USER_ID,
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.typingOn(USER_ID, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(url).toEqual(`/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        recipient: {
-          id: USER_ID,
-        },
-        sender_action: 'typing_on',
-        access_token: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(res).toEqual({
-        recipientId: USER_ID,
-      });
-    });
   });
 
   describe('#typingOff', () => {
@@ -1520,39 +1376,6 @@ describe('send api', () => {
           id: USER_ID,
         },
         sender_action: 'typing_off',
-      });
-
-      expect(res).toEqual({
-        recipientId: USER_ID,
-      });
-    });
-
-    it('should call messages api with typing_off sender action and options', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        recipient_id: USER_ID,
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.typingOff(USER_ID, {
-        accessToken: CUSTOM_ACCESS_TOKEN,
-      });
-
-      expect(url).toEqual(`/me/messages?access_token=${CUSTOM_ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        recipient: {
-          id: USER_ID,
-        },
-        sender_action: 'typing_off',
-        access_token: CUSTOM_ACCESS_TOKEN,
       });
 
       expect(res).toEqual({

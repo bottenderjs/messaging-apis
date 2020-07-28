@@ -176,27 +176,20 @@ export type InsightMetric =
   | 'page_messages_total_messaging_connections'
   | 'page_messages_new_conversations_unique';
 
-export type AccessTokenOptions = {
-  accessToken?: string;
-};
-
 export type InsightOptions = {
   since?: number;
   until?: number;
-  accessToken?: string;
 };
 
 export type SendOption = {
   messagingType?: MessagingType;
   tag?: MessageTag;
   quickReplies?: QuickReply[];
-  accessToken?: string;
 };
 
 export type UploadOption = {
   filename?: string;
   isReusable?: boolean;
-  accessToken?: string;
 };
 
 export type TemplateButton = {

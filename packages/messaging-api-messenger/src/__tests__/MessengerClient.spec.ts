@@ -765,10 +765,8 @@ describe('Built-in NLP API', () => {
       };
 
       let url;
-      let data;
       mock.onPost().reply((config) => {
         url = config.url;
-        data = config.data;
         return [200, reply];
       });
 
@@ -778,11 +776,8 @@ describe('Built-in NLP API', () => {
       });
 
       expect(url).toEqual(
-        `/me/nlp_configs?nlp_enabled=true&custom_token=1234567890`
+        `/me/nlp_configs?nlp_enabled=true&custom_token=1234567890&access_token=1234567890`
       );
-      expect(JSON.parse(data)).toEqual({
-        access_token: ACCESS_TOKEN,
-      });
 
       expect(res).toEqual(reply);
     });
@@ -797,19 +792,16 @@ describe('Built-in NLP API', () => {
       };
 
       let url;
-      let data;
       mock.onPost().reply((config) => {
         url = config.url;
-        data = config.data;
         return [200, reply];
       });
 
       const res = await client.enableNLP();
 
-      expect(url).toEqual(`/me/nlp_configs?nlp_enabled=true`);
-      expect(JSON.parse(data)).toEqual({
-        access_token: ACCESS_TOKEN,
-      });
+      expect(url).toEqual(
+        `/me/nlp_configs?nlp_enabled=true&access_token=1234567890`
+      );
 
       expect(res).toEqual(reply);
     });
@@ -824,19 +816,16 @@ describe('Built-in NLP API', () => {
       };
 
       let url;
-      let data;
       mock.onPost().reply((config) => {
         url = config.url;
-        data = config.data;
         return [200, reply];
       });
 
       const res = await client.disableNLP();
 
-      expect(url).toEqual(`/me/nlp_configs?nlp_enabled=false`);
-      expect(JSON.parse(data)).toEqual({
-        access_token: ACCESS_TOKEN,
-      });
+      expect(url).toEqual(
+        `/me/nlp_configs?nlp_enabled=false&access_token=1234567890`
+      );
 
       expect(res).toEqual(reply);
     });
