@@ -68,12 +68,17 @@ export default class WechatClient {
    */
   private tokenExpiresAt = 0;
 
+  /**
+   *
+   * @param config -
+   *
+   * @example
+   */
   constructor(config: Types.ClientConfig) {
     invariant(
       typeof config !== 'string',
       `WechatClient: do not allow constructing client with ${config} string. Use object instead.`
     );
-
     this.appId = config.appId;
     this.appSecret = config.appSecret;
     this.onRequest = config.onRequest || onRequest;
@@ -91,19 +96,6 @@ export default class WechatClient {
         onRequest: this.onRequest,
       })
     );
-  }
-
-  async _refreshToken(): Promise<void> {
-    const { accessToken, expiresIn } = await this.getAccessToken();
-
-    this.accessToken = accessToken;
-    this.tokenExpiresAt = Date.now() + expiresIn * 1000;
-  }
-
-  async _refreshTokenWhenExpired(): Promise<void> {
-    if (Date.now() > this.tokenExpiresAt) {
-      await this._refreshToken();
-    }
   }
 
   /**
@@ -142,12 +134,14 @@ export default class WechatClient {
    * 多媒体文件上传接口
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
+   *
+   * @example
    */
   async uploadMedia(
     type: Types.MediaType,
     media: Buffer | fs.ReadStream
   ): Promise<Types.UploadedMedia> {
-    await this._refreshTokenWhenExpired();
+    await this.refreshTokenWhenExpired();
 
     const form = new FormData();
 
@@ -173,9 +167,13 @@ export default class WechatClient {
    * 下载多媒体文件接口
    *
    * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
+   *
+   * @param mediaId -
+   *
+   * @example
    */
   async getMedia(mediaId: string): Promise<Types.Media> {
-    await this._refreshTokenWhenExpired();
+    await this.refreshTokenWhenExpired();
 
     return this.axios
       .get<{ video_url: string } | Types.FailedResponseData>(
@@ -252,7 +250,7 @@ export default class WechatClient {
           }
       )
   ): Promise<Types.SucceededResponseData> {
-    await this._refreshTokenWhenExpired();
+    await this.refreshTokenWhenExpired();
 
     return this.axios
       .post<Types.ResponseData>(
@@ -270,6 +268,12 @@ export default class WechatClient {
 
   /**
    * 发送文本消息
+   *
+   * @param userId -
+   * @param text -
+   * @param options -
+   *
+   * @example
    */
   sendText(
     userId: string,
@@ -288,6 +292,12 @@ export default class WechatClient {
 
   /**
    * 发送图片消息
+   *
+   * @param userId -
+   * @param mediaId -
+   * @param options -
+   *
+   * @example
    */
   sendImage(
     userId: string,
@@ -306,6 +316,12 @@ export default class WechatClient {
 
   /**
    * 发送语音消息
+   *
+   * @param userId -
+   * @param mediaId -
+   * @param options -
+   *
+   * @example
    */
   sendVoice(
     userId: string,
@@ -324,6 +340,12 @@ export default class WechatClient {
 
   /**
    * 发送视频消息
+   *
+   * @param userId -
+   * @param video -
+   * @param options -
+   *
+   * @example
    */
   sendVideo(
     userId: string,
@@ -340,6 +362,12 @@ export default class WechatClient {
 
   /**
    * 发送音乐消息
+   *
+   * @param userId -
+   * @param music -
+   * @param options -
+   *
+   * @example
    */
   sendMusic(
     userId: string,
@@ -358,6 +386,12 @@ export default class WechatClient {
    * 发送图文消息（点击跳转到外链）
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
+   *
+   * @param userId -
+   * @param news -
+   * @param options -
+   *
+   * @example
    */
   sendNews(
     userId: string,
@@ -376,6 +410,12 @@ export default class WechatClient {
    * 发送图文消息（点击跳转到图文消息页面）
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
+   *
+   * @param userId -
+   * @param mediaId -
+   * @param options -
+   *
+   * @example
    */
   sendMPNews(
     userId: string,
@@ -394,6 +434,12 @@ export default class WechatClient {
 
   /**
    * 发送菜单消息
+   *
+   * @param userId -
+   * @param msgMenu -
+   * @param options -
+   *
+   * @example
    */
   sendMsgMenu(
     userId: string,
@@ -410,6 +456,12 @@ export default class WechatClient {
 
   /**
    * 发送卡券
+   *
+   * @param userId -
+   * @param cardId -
+   * @param options -
+   *
+   * @example
    */
   sendWXCard(
     userId: string,
@@ -428,6 +480,20 @@ export default class WechatClient {
 
   /**
    * 发送小程序卡片（要求小程序与公众号已关联）
+   *
+   * @param userId -
+   * @param miniProgramPage -
+   * @param options -
+   *
+   * @example
+   * ```js
+   * client.sendMiniProgramPage(USER_ID, {
+   *   title: 'title',
+   *   appid: 'appid',
+   *   pagepath: 'pagepath',
+   *   thumbMediaId: 'thumb_media_id',
+   * });
+   * ```
    */
   sendMiniProgramPage(
     userId: string,
@@ -445,4 +511,17 @@ export default class WechatClient {
   // TODO: implement typing
 
   // TODO: 客服帳號相關
+
+  private async refreshToken(): Promise<void> {
+    const { accessToken, expiresIn } = await this.getAccessToken();
+
+    this.accessToken = accessToken;
+    this.tokenExpiresAt = Date.now() + expiresIn * 1000;
+  }
+
+  private async refreshTokenWhenExpired(): Promise<void> {
+    if (Date.now() > this.tokenExpiresAt) {
+      await this.refreshToken();
+    }
+  }
 }
