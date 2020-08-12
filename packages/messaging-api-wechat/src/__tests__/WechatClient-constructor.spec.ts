@@ -5,161 +5,69 @@ import WechatClient from '../WechatClient';
 const APP_ID = 'APP_ID';
 const APP_SECRET = 'APP_SECRET';
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
+it('should support using connect to create client', () => {
+  const client = WechatClient.connect({ appId: APP_ID, appSecret: APP_SECRET });
 
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with WeChat API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      WechatClient.connect({ appId: APP_ID, appSecret: APP_SECRET });
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    WechatClient.connect({
-      appId: APP_ID,
-      appSecret: APP_SECRET,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/cgi-bin/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  });
+  expect(client).toBeInstanceOf(WechatClient);
 });
 
-describe('constructor', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
+it('support origin', () => {
+  // eslint-disable-next-line no-new
+  new WechatClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
+    origin: 'https://mydummytestserver.com',
   });
 
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with WeChat API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      new WechatClient({ appId: APP_ID, appSecret: APP_SECRET }); // eslint-disable-line no-new
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    // eslint-disable-next-line no-new
-    new WechatClient({
-      appId: APP_ID,
-      appSecret: APP_SECRET,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/cgi-bin/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  });
+  // https://mydummytestserver.com/cgi-bin/
+  // 'Content-Type': 'application/json',
 });
 
-describe('#axios', () => {
-  it('should return underlying http client', () => {
-    const client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
-
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
+it('#axios - should return the underlying http client', () => {
+  const client = new WechatClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
   });
+
+  expect(client.axios.get).toBeDefined();
+  expect(client.axios.post).toBeDefined();
+  expect(client.axios.put).toBeDefined();
+  expect(client.axios.delete).toBeDefined();
 });
 
-describe('#accessToken', () => {
-  it('should return underlying access token', () => {
-    const client = new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
-
-    expect(typeof client.accessToken).toBe('string');
+it('#accessToken - should return the underlying access token', () => {
+  const client = new WechatClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
   });
+
+  expect(client.accessToken).toEqual(expect.any(String));
 });
 
-describe('#onRequest', () => {
-  it('should call onRequest when calling any API', async () => {
-    const onRequest = jest.fn();
-    const client = new WechatClient({
-      appId: APP_ID,
-      appSecret: APP_SECRET,
-      onRequest,
-    });
+it('#onRequest - should call provided onRequest function when calling any API', async () => {
+  const onRequest = jest.fn();
 
-    const mock = new MockAdapter(client.axios);
+  const client = new WechatClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
+    onRequest,
+  });
 
-    mock.onPost('/path').reply(200, {});
+  const mock = new MockAdapter(client.axios);
 
-    await client.axios.post('/path', { x: 1 });
+  mock.onPost('/path').reply(200, {});
 
-    expect(onRequest).toBeCalledWith({
-      method: 'post',
-      url: 'https://api.weixin.qq.com/cgi-bin/path',
-      body: {
-        x: 1,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json, text/plain, */*',
-      },
-    });
+  await client.axios.post('/path', { x: 1 });
+
+  expect(onRequest).toBeCalledWith({
+    method: 'post',
+    url: 'https://api.weixin.qq.com/cgi-bin/path',
+    body: {
+      x: 1,
+    },
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json, text/plain, */*',
+    },
   });
 });
