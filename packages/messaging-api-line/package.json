@@ -9,11 +9,6 @@
   "version": "1.0.0-beta.33",
   "main": "dist/index.js",
   "browser": "lib/browser.js",
-  "scripts": {
-    "typedoc": "yarn typedoc:html && yarn typedoc:json",
-    "typedoc:html": "typedoc --out docs --exclude \"src/__tests__/**/*.ts\" src",
-    "typedoc:json": "typedoc --json docs/index.json --exclude \"src/__tests__/**/*.ts\" src"
-  },
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/warning": "^3.0.0",
@@ -24,9 +19,6 @@
     "ts-invariant": "^0.4.4",
     "type-fest": "^0.15.1",
     "warning": "^4.0.3"
-  },
-  "devDependencies": {
-    "typedoc": "^0.16.11"
   },
   "keywords": [
     "bot",
