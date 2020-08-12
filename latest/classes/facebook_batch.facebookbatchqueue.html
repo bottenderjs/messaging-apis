@@ -1,0 +1,418 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FacebookBatchQueue | messaging-apis - v1.0.0-beta.27</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">messaging-apis - v1.0.0-beta.27</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/facebook_batch.html">facebook-batch</a>
+				</li>
+				<li>
+					<a href="facebook_batch.facebookbatchqueue.html">FacebookBatchQueue</a>
+				</li>
+			</ul>
+			<h1>Class FacebookBatchQueue</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">FacebookBatchQueue</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="facebook_batch.facebookbatchqueue.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="facebook_batch.facebookbatchqueue.html#queue" class="tsd-kind-icon">queue</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="facebook_batch.facebookbatchqueue.html#flush" class="tsd-kind-icon">flush</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="facebook_batch.facebookbatchqueue.html#push" class="tsd-kind-icon">push</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="facebook_batch.facebookbatchqueue.html#stop" class="tsd-kind-icon">stop</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Facebook<wbr>Batch<wbr>Queue<span class="tsd-signature-symbol">(</span>clientConfig<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MessengerTypes.ClientConfig</span>, options<span class="tsd-signature-symbol">?: </span><a href="../modules/facebook_batch.html#batchconfig-1" class="tsd-signature-type">BatchConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="facebook_batch.facebookbatchqueue.html" class="tsd-signature-type">FacebookBatchQueue</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/e367a5e/packages/facebook-batch/src/FacebookBatchQueue.ts#L33">packages/facebook-batch/src/FacebookBatchQueue.ts:33</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> MessengerClient();
+<span class="hljs-keyword">new</span> FacebookBatchQueue(client);
+
+<span class="hljs-keyword">new</span> FacebookBatchQueue(client, {
+  <span class="hljs-attr">delay</span>: <span class="hljs-number">3000</span>,
+  <span class="hljs-attr">shouldRetry</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">retryTimes</span>: <span class="hljs-number">3</span>,
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>clientConfig: <span class="tsd-signature-type">MessengerTypes.ClientConfig</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../modules/facebook_batch.html#batchconfig-1" class="tsd-signature-type">BatchConfig</a><span class="tsd-signature-symbol"> = {}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Optional batch config.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="facebook_batch.facebookbatchqueue.html" class="tsd-signature-type">FacebookBatchQueue</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="queue" class="tsd-anchor"></a>
+					<h3>queue</h3>
+					<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="../modules/facebook_batch.html#queueitem-1" class="tsd-signature-type">QueueItem</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/e367a5e/packages/facebook-batch/src/FacebookBatchQueue.ts#L21">packages/facebook-batch/src/FacebookBatchQueue.ts:21</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The queue to store facebook requests.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="flush" class="tsd-anchor"></a>
+					<h3>flush</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">flush<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/e367a5e/packages/facebook-batch/src/FacebookBatchQueue.ts#L115">packages/facebook-batch/src/FacebookBatchQueue.ts:115</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Flushes the queue proactively.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>This queue has a timer to flush items at a time interval, so normally you don&#39;t need to call this method.</p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> bq.flush();</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="push" class="tsd-anchor"></a>
+					<h3>push</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">push&lt;T&gt;<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../modules/facebook_batch.html#batchrequest-1" class="tsd-signature-type">BatchRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/e367a5e/packages/facebook-batch/src/FacebookBatchQueue.ts#L92">packages/facebook-batch/src/FacebookBatchQueue.ts:92</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pushes a facebook request into the queue.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> bq.push({
+  <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>,
+  <span class="hljs-attr">relativeUrl</span>: <span class="hljs-string">'me/messages'</span>,
+  <span class="hljs-attr">body</span>: {
+    <span class="hljs-attr">messagingType</span>: <span class="hljs-string">'UPDATE'</span>,
+    <span class="hljs-attr">recipient</span>: <span class="hljs-string">'PSID'</span>,
+    <span class="hljs-attr">message</span>: { <span class="hljs-attr">text</span>: <span class="hljs-string">'Hello World'</span> },
+  },
+});
+<span class="hljs-comment">//=&gt; {</span>
+  recipientId: <span class="hljs-string">'...'</span>,
+  <span class="hljs-attr">messageId</span>: <span class="hljs-string">'...'</span>,
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonValue</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>request: <a href="../modules/facebook_batch.html#batchrequest-1" class="tsd-signature-type">BatchRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The request to be queued.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A promise resolves the response of the request.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/e367a5e/packages/facebook-batch/src/FacebookBatchQueue.ts#L168">packages/facebook-batch/src/FacebookBatchQueue.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops the internal timer.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-js">bq.stop();</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/facebook_batch.html">facebook-<wbr>batch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_common.html">messaging-<wbr>api-<wbr>common</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_line.html">messaging-<wbr>api-<wbr>line</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_messenger.html">messaging-<wbr>api-<wbr>messenger</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_slack.html">messaging-<wbr>api-<wbr>slack</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_telegram.html">messaging-<wbr>api-<wbr>telegram</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_viber.html">messaging-<wbr>api-<wbr>viber</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_wechat.html">messaging-<wbr>api-<wbr>wechat</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchconfig" class="tsd-kind-icon">Batch<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batcherrorresponse" class="tsd-kind-icon">Batch<wbr>Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchrequest" class="tsd-kind-icon">Batch<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchrequesterrorinfo" class="tsd-kind-icon">Batch<wbr>Request<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchrequestoptions" class="tsd-kind-icon">Batch<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchresponse" class="tsd-kind-icon">Batch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#queueitem" class="tsd-kind-icon">Queue<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="facebook_batch.batchrequesterror.html" class="tsd-kind-icon">Batch<wbr>Request<wbr>Error</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="facebook_batch.facebookbatchqueue.html" class="tsd-kind-icon">Facebook<wbr>Batch<wbr>Queue</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="facebook_batch.facebookbatchqueue.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="facebook_batch.facebookbatchqueue.html#queue" class="tsd-kind-icon">queue</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="facebook_batch.facebookbatchqueue.html#flush" class="tsd-kind-icon">flush</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="facebook_batch.facebookbatchqueue.html#push" class="tsd-kind-icon">push</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="facebook_batch.facebookbatchqueue.html#stop" class="tsd-kind-icon">stop</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchconfig-1" class="tsd-kind-icon">Batch<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batcherrorresponse-1" class="tsd-kind-icon">Batch<wbr>Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchrequest-1" class="tsd-kind-icon">Batch<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchrequesterrorinfo-1" class="tsd-kind-icon">Batch<wbr>Request<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#batchrequestoptions-1" class="tsd-kind-icon">Batch<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/facebook_batch.html#batchresponse-1" class="tsd-kind-icon">Batch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#queueitem-1" class="tsd-kind-icon">Queue<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#geterrormessage" class="tsd-kind-icon">get<wbr>Error<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/facebook_batch.html#iserror613" class="tsd-kind-icon">is<wbr>Error613</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
