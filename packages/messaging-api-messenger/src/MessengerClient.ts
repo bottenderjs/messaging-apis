@@ -678,55 +678,6 @@ export default class MessengerClient {
   }
 
   /**
-   * Chat Extension Home URL
-   *
-   * https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/home-url
-   */
-  getHomeURL(): Promise<{
-    url: string;
-    webviewHeightRatio: 'tall';
-    webviewShareButton?: 'hide' | 'show';
-    inTest: boolean;
-  } | null> {
-    return this.getMessengerProfile(['home_url']).then((res) =>
-      res[0]
-        ? (res[0] as {
-            url: string;
-            webviewHeightRatio: 'tall';
-            webviewShareButton?: 'hide' | 'show';
-            inTest: boolean;
-          })
-        : null
-    );
-  }
-
-  setHomeURL(
-    homeUrl: string,
-    {
-      webviewHeightRatio = 'tall',
-      webviewShareButton,
-      inTest,
-    }: {
-      webviewHeightRatio?: 'tall';
-      webviewShareButton?: 'hide' | 'show';
-      inTest: boolean;
-    }
-  ): Promise<Types.MutationSuccessResponse> {
-    return this.setMessengerProfile({
-      homeUrl: {
-        url: homeUrl,
-        webviewHeightRatio,
-        inTest,
-        webviewShareButton,
-      },
-    });
-  }
-
-  deleteHomeURL(): Promise<Types.MutationSuccessResponse> {
-    return this.deleteMessengerProfile(['home_url']);
-  }
-
-  /**
    * Message tags
    *
    * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
