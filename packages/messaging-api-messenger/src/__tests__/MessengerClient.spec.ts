@@ -430,52 +430,6 @@ describe('user profile', () => {
   });
 });
 
-describe('message tags', () => {
-  describe('#getMessageTags', () => {
-    it('should response data of message tags', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [
-          {
-            tag: 'POST_PURCHASE_UPDATE',
-            description:
-              'Notify the message recipient of an update on an existing transaction.',
-          },
-          {
-            tag: 'ACCOUNT_UPDATE',
-            description:
-              'Notify the message recipient of a change to their account settings.',
-          },
-        ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getMessageTags();
-
-      expect(url).toEqual(`/page_message_tags?access_token=${ACCESS_TOKEN}`);
-
-      expect(res).toEqual([
-        {
-          tag: 'POST_PURCHASE_UPDATE',
-          description:
-            'Notify the message recipient of an update on an existing transaction.',
-        },
-        {
-          tag: 'ACCOUNT_UPDATE',
-          description:
-            'Notify the message recipient of a change to their account settings.',
-        },
-      ]);
-    });
-  });
-});
-
 describe('upload api', () => {
   describe('#uploadAttachment', () => {
     it('should call messages api to upload attachment', async () => {
