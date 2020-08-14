@@ -2046,9 +2046,9 @@ client.getUserProfile(USER_ID).then((user) => {
 
 Retrieves the current value of one or more Messenger Profile properties by name.
 
-| Param  | Type            | Description                                                                                                                                                        |
-| ------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`. |
+| Param  | Type            | Description                                                                                                     |
+| ------ | --------------- | --------------------------------------------------------------------------------------------------------------- |
+| fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`. |
 
 Example:
 
@@ -2121,9 +2121,9 @@ client.setMessengerProfile({
 
 Deletes one or more Messenger Profile properties. Only properties specified in the fields array will be deleted.
 
-| Param  | Type            | Description                                                                                                                                                        |
-| ------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`, `payment_settings`, `target_audience`, `home_url`. |
+| Param  | Type            | Description                                                                                                     |
+| ------ | --------------- | --------------------------------------------------------------------------------------------------------------- |
+| fields | `Array<String>` | Value must be among `account_linking_url`, `persistent_menu`, `get_started`, `greeting`, `whitelisted_domains`. |
 
 Example:
 
