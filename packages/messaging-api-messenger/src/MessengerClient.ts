@@ -678,19 +678,6 @@ export default class MessengerClient {
   }
 
   /**
-   * Message tags
-   *
-   * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
-   */
-  getMessageTags(): Promise<Types.MessageTagResponse> {
-    return this.axios
-      .get<{ data: Types.MessageTagResponse }>(
-        `/page_message_tags?access_token=${this.accessToken}`
-      )
-      .then((res) => res.data.data, handleError);
-  }
-
-  /**
    * Send API
    *
    * https://developers.facebook.com/docs/messenger-platform/reference/send-api
