@@ -14,7 +14,7 @@
   - [Usage](#usage-1)
   - [API Reference](#api-reference-1)
 - [Debug Tips](#debug-tips)
-- [Test](#test)
+- [Testing](#testing)
 
 ## Installation
 
@@ -88,6 +88,8 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 <br />
 
 #### Chat API
+
+- [chat.postMessage]
 
 ## `postMessage(channel, message [, options])` - [Official docs](https://api.slack.com/methods/chat.postMessage)
 
@@ -457,113 +459,24 @@ All methods return a Promise.
 
 ### Send API - [Official docs](https://api.slack.com/docs/messages)
 
-## `sendRawBody(body)`
-
-| Param | Type     | Description          |
-| ----- | -------- | -------------------- |
-| body  | `Object` | Raw data to be sent. |
-
-Example:
-
-```js
-client.sendRawBody({ text: 'Hello!' });
-```
-
-<br />
-
-## `sendText(text)`
-
-| Param | Type     | Description                     |
-| ----- | -------- | ------------------------------- |
-| text  | `String` | Text of the message to be sent. |
-
-Example:
-
-```js
-client.sendText('Hello!');
-```
-
-<br />
-
-## `sendAttachments(attachments)` - [Official docs](https://api.slack.com/docs/message-attachments)
-
-Send multiple attachments which let you add more context to a message.
-
-| Param       | Type            | Description                                                                                                                             |
-| ----------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| attachments | `Array<Object>` | Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment. |
-
-Example:
-
-```js
-client.sendAttachments([
-  {
-    fallback: 'some text',
-    pretext: 'some pretext',
-    color: 'good',
-    fields: [
-      {
-        title: 'aaa',
-        value: 'bbb',
-        short: false,
-      },
-    ],
-  },
-  {
-    fallback: 'some other text',
-    pretext: 'some pther pretext',
-    color: '#FF0000',
-    fields: [
-      {
-        title: 'ccc',
-        value: 'ddd',
-        short: false,
-      },
-    ],
-  },
-]);
-```
-
-<br />
-
-## `sendAttachment(attachment)` - [Official docs](https://api.slack.com/docs/message-attachments)
-
-Send only one attachment.
-
-| Param       | Type     | Description                                                                                                       |
-| ----------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| attachments | `Object` | Message is an attachment. The object contains the parameters to customize the appearance of a message attachment. |
-
-Example:
-
-```js
-client.sendAttachment({
-  fallback: 'some text',
-  pretext: 'some pretext',
-  color: 'good',
-  fields: [
-    {
-      title: 'aaa',
-      value: 'bbb',
-      short: false,
-    },
-  ],
-});
-```
+- [sendRawBody](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendrawbody)
+- [sendText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendtext)
+- [sendAttachments](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendattachments)
+- [sendAttachment](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendattachment)
 
 <br />
 
 ## Debug Tips
 
-### Log requests details
+### Log Requests Details
 
 To enable default request debugger, use following `DEBUG` env variable:
 
 ```sh
-DEBUG=messaging-api-slack
+DEBUG=messaging-api:request
 ```
 
-If you want to use custom request logging function, just define your own `onRequest`:
+If you want to use a custom request logging function, just provide your own `onRequest`:
 
 ```js
 // for SlackOAuthClient
@@ -583,11 +496,11 @@ const client = new SlackWebhookClient({
 });
 ```
 
-## Test
+## Testing
 
-### Point requests to your dummy server
+### Point Requests to Your Dummy Server
 
-To avoid sending requests to real Slack server, specify `origin` option when constructing your client:
+To avoid sending requests to real Slack server, specify the `origin` option when constructing your client:
 
 ```js
 const { SlackOAuthClient } = require('messaging-api-slack');
@@ -598,42 +511,4 @@ const client = new SlackOAuthClient({
 });
 ```
 
-> Warning: Don't do this on production server.
-
-### Manual Mock with [Jest](https://facebook.github.io/jest/)
-
-create `__mocks__/messaging-api-slack.js` in your project root:
-
-```js
-// __mocks__/messaging-api-slack.js
-const jestMock = require('jest-mock');
-const { SlackOAuthClient, SlackWebhookClient } = require.requireActual(
-  'messaging-api-slack'
-);
-
-module.exports = {
-  SlackOAuthClient: {
-    connect: jest.fn(() => {
-      const Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(SlackOAuthClient)
-      );
-      return new Mock();
-    }),
-  },
-  SlackWebhookClient: {
-    connect: jest.fn(() => {
-      const Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(SlackWebhookClient)
-      );
-      return new Mock();
-    }),
-  },
-};
-```
-
-Then, mock `messaging-api-slack` package in your tests:
-
-```js
-// __tests__/mytest.spec.js
-jest.mock('messaging-api-slack');
-```
+> Warning: Don't do this on your production server.

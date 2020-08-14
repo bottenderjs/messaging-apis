@@ -1286,10 +1286,9 @@ describe('account linking url', () => {
         `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
       );
 
-      expect(res).toEqual({
-        accountLinkingUrl:
-          'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
-      });
+      expect(res).toEqual(
+        'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
+      );
     });
 
     it('should respond null when data is an empty array', async () => {
