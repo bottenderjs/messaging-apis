@@ -82,7 +82,7 @@
 							</ul>
 						</li>
 						<li><a href="#debug-tips">Debug Tips</a></li>
-						<li><a href="#test">Test</a></li>
+						<li><a href="#testing">Testing</a></li>
 					</ul>
 					<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 						<h2>Installation</h2>
@@ -297,11 +297,11 @@ client.uploadMedia(<span class="hljs-string">'image'</span>, buffer).then(<span 
 								<h2>Debug Tips</h2>
 							</a>
 							<a href="#log-requests-details" id="log-requests-details" style="color: inherit; text-decoration: none;">
-								<h3>Log requests details</h3>
+								<h3>Log Requests Details</h3>
 							</a>
 							<p>To enable default request debugger, use following <code>DEBUG</code> env variable:</p>
-							<pre><code class="language-sh">DEBUG=messaging-api-wechat</code></pre>
-							<p>If you want to use custom request logging function, just define your own <code>onRequest</code>:</p>
+							<pre><code class="language-sh">DEBUG=messaging-api:request</code></pre>
+							<p>If you want to use a custom request logging function, just provide your own <code>onRequest</code>:</p>
 							<pre><code class="language-js"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> WechatClient({
   <span class="hljs-attr">appId</span>: APP_ID,
   <span class="hljs-attr">appSecret</span>: APP_SECRET,
@@ -309,13 +309,13 @@ client.uploadMedia(<span class="hljs-string">'image'</span>, buffer).then(<span 
     <span class="hljs-comment">/* */</span>
   },
 });</code></pre>
-							<a href="#test" id="test" style="color: inherit; text-decoration: none;">
-								<h2>Test</h2>
+							<a href="#testing" id="testing" style="color: inherit; text-decoration: none;">
+								<h2>Testing</h2>
 							</a>
 							<a href="#point-requests-to-your-dummy-server" id="point-requests-to-your-dummy-server" style="color: inherit; text-decoration: none;">
-								<h3>Point requests to your dummy server</h3>
+								<h3>Point Requests to Your Dummy Server</h3>
 							</a>
-							<p>To avoid sending requests to real WeChat server, specify <code>origin</code> option when constructing your client:</p>
+							<p>To avoid sending requests to real WeChat server, specify the <code>origin</code> option when constructing your client:</p>
 							<pre><code class="language-js"><span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-wechat'</span>);
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> WechatClient({
@@ -324,7 +324,7 @@ client.uploadMedia(<span class="hljs-string">'image'</span>, buffer).then(<span 
   <span class="hljs-attr">origin</span>: <span class="hljs-string">'https://mydummytestserver.com'</span>,
 });</code></pre>
 							<blockquote>
-								<p>Warning: Don&#39;t do this on production server.</p>
+								<p>Warning: Don&#39;t do this on your production server.</p>
 							</blockquote>
 							<a href="#manual-mock-with-jest" id="manual-mock-with-jest" style="color: inherit; text-decoration: none;">
 								<h3>Manual Mock with <a href="https://facebook.github.io/jest/">Jest</a></h3>
@@ -395,7 +395,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>accessToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>expiresIn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L22">packages/messaging-api-wechat/src/WechatTypes.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L22">packages/messaging-api-wechat/src/WechatTypes.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -416,7 +416,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Article<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>picurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L52">packages/messaging-api-wechat/src/WechatTypes.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L52">packages/messaging-api-wechat/src/WechatTypes.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -443,7 +443,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Client<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>appId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>appSecret<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>onRequest<span class="tsd-signature-symbol">?: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a><span class="tsd-signature-symbol">; </span>origin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L3">packages/messaging-api-wechat/src/WechatTypes.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L3">packages/messaging-api-wechat/src/WechatTypes.ts:3</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -470,7 +470,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Failed<wbr>Response<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>errcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>errmsg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L15">packages/messaging-api-wechat/src/WechatTypes.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L15">packages/messaging-api-wechat/src/WechatTypes.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -491,7 +491,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Media<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>videoUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L33">packages/messaging-api-wechat/src/WechatTypes.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L33">packages/messaging-api-wechat/src/WechatTypes.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -509,7 +509,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Mini<wbr>Program<wbr>Page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>appid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>pagepath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbMediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L72">packages/messaging-api-wechat/src/WechatTypes.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L72">packages/messaging-api-wechat/src/WechatTypes.ts:72</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -536,7 +536,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Msg<wbr>Menu<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>headContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>tailContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L63">packages/messaging-api-wechat/src/WechatTypes.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L63">packages/messaging-api-wechat/src/WechatTypes.ts:63</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -560,7 +560,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Music<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>hqmusicurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>musicurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbMediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L44">packages/messaging-api-wechat/src/WechatTypes.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L44">packages/messaging-api-wechat/src/WechatTypes.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -590,7 +590,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">News<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>articles<span class="tsd-signature-symbol">: </span><a href="messaging_api_wechat.html#article" class="tsd-signature-type">Article</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L59">packages/messaging-api-wechat/src/WechatTypes.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L59">packages/messaging-api-wechat/src/WechatTypes.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -608,7 +608,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Response<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="messaging_api_wechat.html#succeededresponsedata" class="tsd-signature-type">SucceededResponseData</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_wechat.html#failedresponsedata" class="tsd-signature-type">FailedResponseData</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L20">packages/messaging-api-wechat/src/WechatTypes.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L20">packages/messaging-api-wechat/src/WechatTypes.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -618,7 +618,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Send<wbr>Message<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>customservice<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>kfAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L86">packages/messaging-api-wechat/src/WechatTypes.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L86">packages/messaging-api-wechat/src/WechatTypes.ts:86</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -641,7 +641,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Succeeded<wbr>Response<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>errcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol">; </span>errmsg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"ok"</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L10">packages/messaging-api-wechat/src/WechatTypes.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L10">packages/messaging-api-wechat/src/WechatTypes.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -662,7 +662,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Uploaded<wbr>Media<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>createdAt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>mediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L27">packages/messaging-api-wechat/src/WechatTypes.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L27">packages/messaging-api-wechat/src/WechatTypes.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -686,7 +686,7 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Video<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbMediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/3b6ef34/packages/messaging-api-wechat/src/WechatTypes.ts#L37">packages/messaging-api-wechat/src/WechatTypes.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/05a04f1/packages/messaging-api-wechat/src/WechatTypes.ts#L37">packages/messaging-api-wechat/src/WechatTypes.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
