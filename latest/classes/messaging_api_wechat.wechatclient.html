@@ -125,7 +125,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L69">packages/messaging-api-wechat/src/WechatClient.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L69">packages/messaging-api-wechat/src/WechatClient.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -147,7 +147,7 @@
 					<div class="tsd-signature tsd-kind-icon">access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L49">packages/messaging-api-wechat/src/WechatClient.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L49">packages/messaging-api-wechat/src/WechatClient.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,7 +162,7 @@
 					<div class="tsd-signature tsd-kind-icon">axios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AxiosInstance</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L44">packages/messaging-api-wechat/src/WechatClient.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L44">packages/messaging-api-wechat/src/WechatClient.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -184,7 +184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L114">packages/messaging-api-wechat/src/WechatClient.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L126">packages/messaging-api-wechat/src/WechatClient.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -195,9 +195,17 @@
 									<dt>see</dt>
 									<dd><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140183">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140183</a></p>
 									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getAccessToken();
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   accessToken: "ACCESS_TOKEN",</span>
+<span class="hljs-comment">//   expiresIn: 7200</span>
+<span class="hljs-comment">// }</span></code></pre>
+									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.AccessToken</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Access token info</p>
 						</li>
 					</ul>
 				</section>
@@ -211,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L177">packages/messaging-api-wechat/src/WechatClient.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L220">packages/messaging-api-wechat/src/WechatClient.ts:220</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,15 +230,25 @@
 									<dt>see</dt>
 									<dd><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1444738727">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1444738727</a></p>
 									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getMedia(MEDIA_ID);
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   videoUrl: "..."</span>
+<span class="hljs-comment">// }</span></code></pre>
+									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>mediaId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of the media to get.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Media</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Info of the media.</p>
 						</li>
 					</ul>
 				</section>
@@ -244,27 +262,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L292">packages/messaging-api-wechat/src/WechatClient.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L363">packages/messaging-api-wechat/src/WechatClient.ts:363</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送图片消息</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendImage(USER_ID, <span class="hljs-string">'MEDIA_ID'</span>);</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>mediaId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of the media to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -278,7 +314,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L380">packages/messaging-api-wechat/src/WechatClient.ts:380</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L542">packages/messaging-api-wechat/src/WechatClient.ts:542</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,20 +322,38 @@
 									<p>发送图文消息（点击跳转到图文消息页面）</p>
 								</div>
 								<p>图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendMPNews(USER_ID, <span class="hljs-string">'MEDIA_ID'</span>);</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>mediaId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of the media to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -313,27 +367,50 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L432">packages/messaging-api-wechat/src/WechatClient.ts:432</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L651">packages/messaging-api-wechat/src/WechatClient.ts:651</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送小程序卡片（要求小程序与公众号已关联）</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendMiniProgramPage(USER_ID, {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">'title'</span>,
+  <span class="hljs-attr">appid</span>: <span class="hljs-string">'appid'</span>,
+  <span class="hljs-attr">pagepath</span>: <span class="hljs-string">'pagepath'</span>,
+  <span class="hljs-attr">thumbMediaId</span>: <span class="hljs-string">'thumb_media_id'</span>,
+});</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>miniProgramPage: <span class="tsd-signature-type">Types.MiniProgramPage</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Info of the mini program page to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -347,27 +424,58 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L398">packages/messaging-api-wechat/src/WechatClient.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L586">packages/messaging-api-wechat/src/WechatClient.ts:586</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送菜单消息</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendMsgMenu(USER_ID, {
+  <span class="hljs-attr">headContent</span>: <span class="hljs-string">'HEAD'</span>,
+  <span class="hljs-attr">list</span>: [
+    {
+      <span class="hljs-attr">id</span>: <span class="hljs-string">'101'</span>,
+      <span class="hljs-attr">content</span>: <span class="hljs-string">'Yes'</span>,
+    },
+    {
+      <span class="hljs-attr">id</span>: <span class="hljs-string">'102'</span>,
+      <span class="hljs-attr">content</span>: <span class="hljs-string">'No'</span>,
+    },
+  ],
+  <span class="hljs-string">'tailContent'</span>: <span class="hljs-string">'Tail'</span>,
+});</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>msgMenu: <span class="tsd-signature-type">Types.MsgMenu</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Data of the msg menu to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -381,27 +489,48 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L344">packages/messaging-api-wechat/src/WechatClient.ts:344</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L465">packages/messaging-api-wechat/src/WechatClient.ts:465</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送音乐消息</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendMusic(USER_ID, {
+  <span class="hljs-attr">musicurl</span>: <span class="hljs-string">'MUSIC_URL'</span>,
+  <span class="hljs-attr">hqmusicurl</span>: <span class="hljs-string">'HQ_MUSIC_URL'</span>,
+  <span class="hljs-attr">thumbMediaId</span>: <span class="hljs-string">'THUMB_MEDIA_ID'</span>,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">'MUSIC_TITLE'</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">'MUSIC_DESCRIPTION'</span>,
+});</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>music: <span class="tsd-signature-type">Types.Music</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -415,7 +544,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L362">packages/messaging-api-wechat/src/WechatClient.ts:362</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L511">packages/messaging-api-wechat/src/WechatClient.ts:511</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,20 +552,53 @@
 									<p>发送图文消息（点击跳转到外链）</p>
 								</div>
 								<p>图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendNews(USER_ID, {
+  <span class="hljs-attr">articles</span>: [
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Happy Day'</span>,
+      <span class="hljs-attr">description</span>: <span class="hljs-string">'Is Really A Happy Day'</span>,
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'URL'</span>,
+      <span class="hljs-attr">picurl</span>: <span class="hljs-string">'PIC_URL'</span>,
+    },
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Happy Day'</span>,
+      <span class="hljs-attr">description</span>: <span class="hljs-string">'Is Really A Happy Day'</span>,
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'URL'</span>,
+      <span class="hljs-attr">picurl</span>: <span class="hljs-string">'PIC_URL'</span>,
+    },
+  ],
+});</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>news: <span class="tsd-signature-type">Types.News</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Data of the news to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -450,7 +612,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L198">packages/messaging-api-wechat/src/WechatClient.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L243">packages/messaging-api-wechat/src/WechatClient.ts:243</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -458,8 +620,10 @@
 									<p>发送消息-客服消息</p>
 								</div>
 								<dl class="tsd-comment-tags">
+									<dt>internal</dt>
+									<dd></dd>
 									<dt>see</dt>
-									<dd><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140547">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140547</a></p>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
 									</dd>
 								</dl>
 							</div>
@@ -483,27 +647,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L274">packages/messaging-api-wechat/src/WechatClient.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L332">packages/messaging-api-wechat/src/WechatClient.ts:332</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送文本消息</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendText(USER_ID, <span class="hljs-string">'Hello!'</span>);</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>text: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Text to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -517,27 +699,50 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L328">packages/messaging-api-wechat/src/WechatClient.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L430">packages/messaging-api-wechat/src/WechatClient.ts:430</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送视频消息</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendVideo(USER_ID, {
+  <span class="hljs-attr">mediaId</span>: <span class="hljs-string">'MEDIA_ID'</span>,
+  <span class="hljs-attr">thumbMediaId</span>: <span class="hljs-string">'THUMB_MEDIA_ID'</span>,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">'VIDEO_TITLE'</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">'VIDEO_DESCRIPTION'</span>,
+});</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>video: <span class="tsd-signature-type">Types.Video</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Info of the video to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -551,27 +756,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L310">packages/messaging-api-wechat/src/WechatClient.ts:310</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L394">packages/messaging-api-wechat/src/WechatClient.ts:394</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送语音消息</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendVoice(USER_ID, <span class="hljs-string">'MEDIA_ID'</span>);</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>mediaId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of the media to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -585,27 +808,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L414">packages/messaging-api-wechat/src/WechatClient.ts:414</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L615">packages/messaging-api-wechat/src/WechatClient.ts:615</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>发送卡券</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7">https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendWXCard(USER_ID, <span class="hljs-string">'123dsdajkasd231jhksad'</span>);</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>User ID of the recipient</p>
+									</div>
 								</li>
 								<li>
 									<h5>cardId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ID of the card to be sent.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendMessageOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.SucceededResponseData</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Error code and error message.</p>
 						</li>
 					</ul>
 				</section>
@@ -619,7 +860,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L146">packages/messaging-api-wechat/src/WechatClient.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L177">packages/messaging-api-wechat/src/WechatClient.ts:177</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -630,18 +871,37 @@
 									<dt>see</dt>
 									<dd><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1444738726">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1444738726</a></p>
 									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+<span class="hljs-keyword">const</span> buffer = fs.readFileSync(<span class="hljs-string">'test.jpg'</span>);
+
+<span class="hljs-keyword">await</span> client.uploadMedia(<span class="hljs-string">'image'</span>, buffer);
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   type: 'image',</span>
+<span class="hljs-comment">//   mediaId: 'MEDIA_ID',</span>
+<span class="hljs-comment">//   createdAt: 123456789</span>
+<span class="hljs-comment">// }</span></code></pre>
+									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>type: <a href="../enums/messaging_api_wechat.mediatype.html" class="tsd-signature-type">MediaType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Type of the media to upload.</p>
+									</div>
 								</li>
 								<li>
 									<h5>media: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadStream</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Buffer or stream of the media to upload.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.UploadedMedia</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Info of the uploaded media.</p>
 						</li>
 					</ul>
 				</section>
@@ -655,7 +915,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/eda8c5e/packages/messaging-api-wechat/src/WechatClient.ts#L33">packages/messaging-api-wechat/src/WechatClient.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/bd2df84/packages/messaging-api-wechat/src/WechatClient.ts#L33">packages/messaging-api-wechat/src/WechatClient.ts:33</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
