@@ -174,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L43">packages/messaging-api-telegram/src/TelegramClient.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L43">packages/messaging-api-telegram/src/TelegramClient.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -196,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L38">packages/messaging-api-telegram/src/TelegramClient.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L38">packages/messaging-api-telegram/src/TelegramClient.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">axios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AxiosInstance</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L33">packages/messaging-api-telegram/src/TelegramClient.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L33">packages/messaging-api-telegram/src/TelegramClient.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -233,7 +233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1476">packages/messaging-api-telegram/src/TelegramClient.ts:1476</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1701">packages/messaging-api-telegram/src/TelegramClient.ts:1701</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +297,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1219">packages/messaging-api-telegram/src/TelegramClient.ts:1219</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1419">packages/messaging-api-telegram/src/TelegramClient.ts:1419</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -343,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1545">packages/messaging-api-telegram/src/TelegramClient.ts:1545</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1790">packages/messaging-api-telegram/src/TelegramClient.ts:1790</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +355,26 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#answerinlinequery">https://core.telegram.org/bots/api#answerinlinequery</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.answerInlineQuery(
+  <span class="hljs-string">&#x27;INLINE_QUERY_ID&#x27;</span>,
+  [
+    {
+      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;photo&#x27;</span>,
+      <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;UNIQUE_ID&#x27;</span>,
+      <span class="hljs-attr">photoFileId</span>: <span class="hljs-string">&#x27;FILE_ID&#x27;</span>,
+      <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;PHOTO_TITLE&#x27;</span>,
+    },
+    {
+      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;audio&#x27;</span>,
+      <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;UNIQUE_ID&#x27;</span>,
+      <span class="hljs-attr">audioFileId</span>: <span class="hljs-string">&#x27;FILE_ID&#x27;</span>,
+      <span class="hljs-attr">caption</span>: <span class="hljs-string">&#x27;AUDIO_TITLE&#x27;</span>,
+    },
+  ],
+  {
+    <span class="hljs-attr">cacheTime</span>: <span class="hljs-number">1000</span>,
+  }
+);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -395,19 +414,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1629">packages/messaging-api-telegram/src/TelegramClient.ts:1629</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1890">packages/messaging-api-telegram/src/TelegramClient.ts:1890</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</p>
+									<p>Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#answerprecheckoutquery">https://core.telegram.org/bots/api#answerprecheckoutquery</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.answerPreCheckoutQuery(<span class="hljs-string">&#x27;UNIQUE_ID&#x27;</span>, <span class="hljs-literal">true</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -433,6 +452,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, True is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -446,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1603">packages/messaging-api-telegram/src/TelegramClient.ts:1603</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1862">packages/messaging-api-telegram/src/TelegramClient.ts:1862</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -458,7 +478,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#answershippingquery">https://core.telegram.org/bots/api#answershippingquery</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.answerShippingQuery(<span class="hljs-string">&#x27;UNIQUE_ID&#x27;</span>, <span class="hljs-literal">true</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -497,7 +517,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1441">packages/messaging-api-telegram/src/TelegramClient.ts:1441</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1666">packages/messaging-api-telegram/src/TelegramClient.ts:1666</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -561,12 +581,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L973">packages/messaging-api-telegram/src/TelegramClient.ts:973</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1121">packages/messaging-api-telegram/src/TelegramClient.ts:1121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to delete a chat photo. Photos can&#39;t be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.</p>
+									<p>Use this method to delete a chat photo. Photos can&#39;t be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.</p>
 								</div>
 								<p>Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.</p>
 								<dl class="tsd-comment-tags">
@@ -574,7 +594,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#deletechatphoto">https://core.telegram.org/bots/api#deletechatphoto</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.deleteChatPhoto(CHAT_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -588,6 +608,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -601,19 +622,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1198">packages/messaging-api-telegram/src/TelegramClient.ts:1198</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1398">packages/messaging-api-telegram/src/TelegramClient.ts:1398</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method. Returns True on success.</p>
+									<p>Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#deletechatstickerset">https://core.telegram.org/bots/api#deletechatstickerset</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.deleteChatStickerSet(CHAT_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -627,6 +648,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -640,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1369">packages/messaging-api-telegram/src/TelegramClient.ts:1369</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1591">packages/messaging-api-telegram/src/TelegramClient.ts:1591</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -660,7 +682,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#deletemessage">https://core.telegram.org/bots/api#deletemessage</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.deleteMessage(CHAT_ID, MESSAGE_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -668,9 +690,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>chatId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Unique identifier for the target chat or username of the target channel (in the format <code>@channelusername</code>)</p>
+									</div>
 								</li>
 								<li>
 									<h5>messageId: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Identifier of the message to delete</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -688,7 +716,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1526">packages/messaging-api-telegram/src/TelegramClient.ts:1526</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1751">packages/messaging-api-telegram/src/TelegramClient.ts:1751</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -728,7 +756,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L229">packages/messaging-api-telegram/src/TelegramClient.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L229">packages/messaging-api-telegram/src/TelegramClient.ts:229</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -759,7 +787,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1267">packages/messaging-api-telegram/src/TelegramClient.ts:1267</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1475">packages/messaging-api-telegram/src/TelegramClient.ts:1475</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -771,7 +799,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#editmessagecaption">https://core.telegram.org/bots/api#editmessagecaption</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.editMessageCaption(<span class="hljs-string">&#x27;new_caption&#x27;</span>, { <span class="hljs-attr">messageId</span>: MESSAGE_ID });</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -786,7 +814,7 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.EditMessageCaptionOption</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Optional parameters for other parameters.</p>
+										<p>Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.</p>
 									</div>
 								</li>
 							</ul>
@@ -799,13 +827,13 @@
 					<a name="editmessagelivelocation" class="tsd-anchor"></a>
 					<h3>edit<wbr>Message<wbr>Live<wbr>Location</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">edit<wbr>Message<wbr>Live<wbr>Location<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Types.EditMessageLiveLocationOption</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">edit<wbr>Message<wbr>Live<wbr>Location<span class="tsd-signature-symbol">(</span>location<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Types.EditMessageLiveLocationOption</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L599">packages/messaging-api-telegram/src/TelegramClient.ts:599</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L658">packages/messaging-api-telegram/src/TelegramClient.ts:658</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -817,14 +845,25 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#editmessagelivelocation">https://core.telegram.org/bots/api#editmessagelivelocation</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.editMessageLiveLocation(
+  {
+    <span class="hljs-attr">latitude</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">longitude</span>: <span class="hljs-number">45</span>,
+  },
+  {
+    <span class="hljs-attr">messageId</span>: MESSAGE_ID,
+  }
+);</code></pre>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5>location: <span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Object contains new latitude and longitude.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
@@ -842,6 +881,9 @@
 								</li>
 								<li>
 									<h5>options: <span class="tsd-signature-type">Types.EditMessageLiveLocationOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>One of chatId, messageId or inlineMessageId is required.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -858,7 +900,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1290">packages/messaging-api-telegram/src/TelegramClient.ts:1290</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1498">packages/messaging-api-telegram/src/TelegramClient.ts:1498</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -903,7 +945,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1314">packages/messaging-api-telegram/src/TelegramClient.ts:1314</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1533">packages/messaging-api-telegram/src/TelegramClient.ts:1533</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -915,7 +957,14 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#editmessagereplymarkup">https://core.telegram.org/bots/api#editmessagereplymarkup</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.editMessageReplyMarkup(
+  {
+    <span class="hljs-attr">keyboard</span>: [[{ <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;new_button_1&#x27;</span> }, { <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;new_button_2&#x27;</span> }]],
+    <span class="hljs-attr">resizeKeyboard</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">oneTimeKeyboard</span>: <span class="hljs-literal">true</span>,
+  },
+  { <span class="hljs-attr">messageId</span>: MESSAGE_ID }
+);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -930,7 +979,7 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.EditMessageReplyMarkupOption</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Optional parameters for other parameters.</p>
+										<p>Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.</p>
 									</div>
 								</li>
 							</ul>
@@ -949,7 +998,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1243">packages/messaging-api-telegram/src/TelegramClient.ts:1243</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1447">packages/messaging-api-telegram/src/TelegramClient.ts:1447</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -961,7 +1010,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#editmessagetext">https://core.telegram.org/bots/api#editmessagetext</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.editMessageText(<span class="hljs-string">&#x27;new_text&#x27;</span>, { <span class="hljs-attr">messageId</span>: MESSAGE_ID });</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -976,7 +1025,7 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.EditMessageTextOption</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Options for other optional parameters.</p>
+										<p>Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.</p>
 									</div>
 								</li>
 							</ul>
@@ -995,12 +1044,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L940">packages/messaging-api-telegram/src/TelegramClient.ts:940</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1085">packages/messaging-api-telegram/src/TelegramClient.ts:1085</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to generate a new invite link for a chat; any previously generated link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns the new invite link as String on success.</p>
+									<p>Use this method to generate a new invite link for a chat; any previously generated link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.</p>
 								</div>
 								<p>Note: Each administrator in a chat generates their own invite links. Bots can&#39;t use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using exportChatInviteLink – after this the link will become available to the bot via the getChat method. If your bot needs to generate a new invite link replacing its previous one, use exportChatInviteLink again.</p>
 								<dl class="tsd-comment-tags">
@@ -1008,7 +1057,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#exportchatinvitelink">https://core.telegram.org/bots/api#exportchatinvitelink</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.exportChatInviteLink(CHAT_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1022,6 +1071,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns the new invite link as String on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1035,7 +1085,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L302">packages/messaging-api-telegram/src/TelegramClient.ts:302</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L306">packages/messaging-api-telegram/src/TelegramClient.ts:306</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1047,7 +1097,9 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#forwardmessage">https://core.telegram.org/bots/api#forwardmessage</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1068,11 +1120,14 @@
 								<li>
 									<h5>messageId: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Message identifier in the chat specified in from_chat_id</p>
+										<p>Message identifier in the chat specified in fromChatId</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.ForwardMessageOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Options for other optional parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1090,19 +1145,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1098">packages/messaging-api-telegram/src/TelegramClient.ts:1098</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1265">packages/messaging-api-telegram/src/TelegramClient.ts:1265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.</p>
+									<p>Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#getchat">https://core.telegram.org/bots/api#getchat</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getChat(CHAT_ID);
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   id: 313534466,</span>
+<span class="hljs-comment">//   firstName: &#x27;first&#x27;,</span>
+<span class="hljs-comment">//   lastName: &#x27;last&#x27;,</span>
+<span class="hljs-comment">//   username: &#x27;username&#x27;,</span>
+<span class="hljs-comment">//   type: &#x27;private&#x27;,</span>
+<span class="hljs-comment">// }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1116,6 +1178,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Chat</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns a Chat object on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1129,19 +1192,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1116">packages/messaging-api-telegram/src/TelegramClient.ts:1116</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1297">packages/messaging-api-telegram/src/TelegramClient.ts:1297</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to get a list of administrators in a chat. On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.</p>
+									<p>Use this method to get a list of administrators in a chat.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#getchatmemberscount">https://core.telegram.org/bots/api#getchatmemberscount</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getChatAdministrators(CHAT_ID);
+<span class="hljs-comment">// [</span>
+<span class="hljs-comment">//   {</span>
+<span class="hljs-comment">//     user: {</span>
+<span class="hljs-comment">//       id: 313534466,</span>
+<span class="hljs-comment">//       firstName: &#x27;first&#x27;,</span>
+<span class="hljs-comment">//       lastName: &#x27;last&#x27;,</span>
+<span class="hljs-comment">//       username: &#x27;username&#x27;,</span>
+<span class="hljs-comment">//       languangeCode: &#x27;zh-TW&#x27;,</span>
+<span class="hljs-comment">//     },</span>
+<span class="hljs-comment">//     status: &#x27;creator&#x27;,</span>
+<span class="hljs-comment">//   },</span>
+<span class="hljs-comment">// ]</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1155,6 +1230,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.ChatMember</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -1168,19 +1244,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1153">packages/messaging-api-telegram/src/TelegramClient.ts:1153</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1349">packages/messaging-api-telegram/src/TelegramClient.ts:1349</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to get information about a member of a chat. Returns a ChatMember object on success.</p>
+									<p>Use this method to get information about a member of a chat.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#getchatmember">https://core.telegram.org/bots/api#getchatmember</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getChatMember(CHAT_ID, USER_ID);
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   user: {</span>
+<span class="hljs-comment">//     id: 313534466,</span>
+<span class="hljs-comment">//     firstName: &#x27;first&#x27;,</span>
+<span class="hljs-comment">//     lastName: &#x27;last&#x27;,</span>
+<span class="hljs-comment">//     username: &#x27;username&#x27;,</span>
+<span class="hljs-comment">//     languangeCode: &#x27;zh-TW&#x27;,</span>
+<span class="hljs-comment">//   },</span>
+<span class="hljs-comment">//   status: &#x27;creator&#x27;,</span>
+<span class="hljs-comment">// }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1200,6 +1286,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.ChatMember</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns a ChatMember object on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1213,19 +1300,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1134">packages/messaging-api-telegram/src/TelegramClient.ts:1134</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1318">packages/messaging-api-telegram/src/TelegramClient.ts:1318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to get the number of members in a chat. Returns Int on success.</p>
+									<p>Use this method to get the number of members in a chat.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#getchatmemberscount">https://core.telegram.org/bots/api#getchatmemberscount</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getChatMembersCount(CHAT_ID);
+<span class="hljs-comment">// &#x27;6&#x27;</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1239,6 +1327,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns Int on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1252,19 +1341,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L779">packages/messaging-api-telegram/src/TelegramClient.ts:779</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L902">packages/messaging-api-telegram/src/TelegramClient.ts:902</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link <code>https://api.telegram.org/file/bot&lt;token&gt;/&lt;file_path&gt;</code>, where <code>&lt;file_path&gt;</code> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.</p>
+									<p>Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#getfile">https://core.telegram.org/bots/api#getfile</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">&#x27;UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2&#x27;</span>)
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   fileId: &#x27;UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2&#x27;,</span>
+<span class="hljs-comment">//   fileSize: 106356,</span>
+<span class="hljs-comment">//   filePath: &#x27;photos/1068230105874016297.jpg&#x27;,</span>
+<span class="hljs-comment">// }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1278,6 +1372,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.File</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, a File object is returned. The file can then be downloaded via the link <code>https://api.telegram.org/file/bot&lt;token&gt;/&lt;file_path&gt;</code>, where <code>&lt;file_path&gt;</code> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.</p>
 						</li>
 					</ul>
 				</section>
@@ -1291,16 +1386,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L793">packages/messaging-api-telegram/src/TelegramClient.ts:793</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L923">packages/messaging-api-telegram/src/TelegramClient.ts:923</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get link for file. This is extension method of getFile()</p>
+									<p>Get link for file. This is an extension method of getFile()</p>
 								</div>
 								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://core.telegram.org/bots/api#getfile">https://core.telegram.org/bots/api#getfile</a></p>
+									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getFileLink(<span class="hljs-string">&#x27;UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2&#x27;</span>)
+<span class="hljs-comment">// &#x27;https://api.telegram.org/file/bot&lt;ACCESS_TOKEN&gt;/photos/1068230105874016297.jpg&#x27;</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1308,9 +1407,13 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fileId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>File identifier to get info about</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, a File URL is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -1324,7 +1427,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1715">packages/messaging-api-telegram/src/TelegramClient.ts:1715</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1993">packages/messaging-api-telegram/src/TelegramClient.ts:1993</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1337,7 +1440,18 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#getgamehighscores">https://core.telegram.org/bots/api#getgamehighscores</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getGameHighScores(USER_ID);
+<span class="hljs-comment">// [</span>
+<span class="hljs-comment">//   {</span>
+<span class="hljs-comment">//     position: 1,</span>
+<span class="hljs-comment">//     user: {</span>
+<span class="hljs-comment">//       id: 427770117,</span>
+<span class="hljs-comment">//       isBot: false,</span>
+<span class="hljs-comment">//       firstName: &#x27;first&#x27;,</span>
+<span class="hljs-comment">//     },</span>
+<span class="hljs-comment">//     score: 999,</span>
+<span class="hljs-comment">//   },</span>
+<span class="hljs-comment">// ]</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1357,6 +1471,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.GameHighScore</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Will return the score of the specified user and several of his neighbors in a game. On success, returns an Array of GameHighScore objects.</p>
 						</li>
 					</ul>
 				</section>
@@ -1370,7 +1485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L251">packages/messaging-api-telegram/src/TelegramClient.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L251">packages/messaging-api-telegram/src/TelegramClient.ts:251</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1406,7 +1521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1416">packages/messaging-api-telegram/src/TelegramClient.ts:1416</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1641">packages/messaging-api-telegram/src/TelegramClient.ts:1641</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1446,7 +1561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L154">packages/messaging-api-telegram/src/TelegramClient.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L154">packages/messaging-api-telegram/src/TelegramClient.ts:154</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1514,19 +1629,47 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L757">packages/messaging-api-telegram/src/TelegramClient.ts:757</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L873">packages/messaging-api-telegram/src/TelegramClient.ts:873</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.</p>
+									<p>Use this method to get a list of profile pictures for a user.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#getuserprofilephotos">https://core.telegram.org/bots/api#getuserprofilephotos</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.getUserProfilePhotos(USER_ID, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> });
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   totalCount: 3,</span>
+<span class="hljs-comment">//   photos: [</span>
+<span class="hljs-comment">//     [</span>
+<span class="hljs-comment">//       {</span>
+<span class="hljs-comment">//         fileId:</span>
+<span class="hljs-comment">//           &#x27;AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050&#x27;,</span>
+<span class="hljs-comment">//         fileSize: 14650,</span>
+<span class="hljs-comment">//         width: 160,</span>
+<span class="hljs-comment">//         height: 160,</span>
+<span class="hljs-comment">//       },</span>
+<span class="hljs-comment">//       {</span>
+<span class="hljs-comment">//         fileId:</span>
+<span class="hljs-comment">//           &#x27;AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C&#x27;,</span>
+<span class="hljs-comment">//         fileSize: 39019,</span>
+<span class="hljs-comment">//         width: 320,</span>
+<span class="hljs-comment">//         height: 320,</span>
+<span class="hljs-comment">//       },</span>
+<span class="hljs-comment">//       {</span>
+<span class="hljs-comment">//         fileId:</span>
+<span class="hljs-comment">//           &#x27;AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C&#x27;,</span>
+<span class="hljs-comment">//         fileSize: 132470,</span>
+<span class="hljs-comment">//         width: 640,</span>
+<span class="hljs-comment">//         height: 640,</span>
+<span class="hljs-comment">//       },</span>
+<span class="hljs-comment">//     ],</span>
+<span class="hljs-comment">//   ],</span>
+<span class="hljs-comment">// }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1546,6 +1689,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.UserProfilePhotos</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns a UserProfilePhotos object.</p>
 						</li>
 					</ul>
 				</section>
@@ -1559,7 +1703,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L179">packages/messaging-api-telegram/src/TelegramClient.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L179">packages/messaging-api-telegram/src/TelegramClient.ts:179</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1596,12 +1740,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L816">packages/messaging-api-telegram/src/TelegramClient.ts:816</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L948">packages/messaging-api-telegram/src/TelegramClient.ts:948</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.</p>
+									<p>Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.</p>
 								</div>
 								<p>Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group. Otherwise members may only be removed by the group&#39;s creator or by the member that added them.</p>
 								<dl class="tsd-comment-tags">
@@ -1609,7 +1753,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#kickchatmember">https://core.telegram.org/bots/api#kickchatmember</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.kickChatMember(CHAT_ID, USER_ID, { <span class="hljs-attr">untilDate</span>: UNIX_TIME });</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1632,6 +1776,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1645,19 +1790,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1080">packages/messaging-api-telegram/src/TelegramClient.ts:1080</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1238">packages/messaging-api-telegram/src/TelegramClient.ts:1238</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method for your bot to leave a group, supergroup or channel. Returns True on success.</p>
+									<p>Use this method for your bot to leave a group, supergroup or channel.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#leavechat">https://core.telegram.org/bots/api#leavechat</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.leaveChat(CHAT_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1671,6 +1816,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1684,19 +1830,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1038">packages/messaging-api-telegram/src/TelegramClient.ts:1038</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1192">packages/messaging-api-telegram/src/TelegramClient.ts:1192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel. Returns True on success.</p>
+									<p>Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#pinchatmessage">https://core.telegram.org/bots/api#pinchatmessage</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.pinChatMessage(CHAT_ID, MESSAGE_ID, { <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span> });</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1722,6 +1868,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1735,19 +1882,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L891">packages/messaging-api-telegram/src/TelegramClient.ts:891</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1033">packages/messaging-api-telegram/src/TelegramClient.ts:1033</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user. Returns True on success.</p>
+									<p>Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#promotechatmember">https://core.telegram.org/bots/api#promotechatmember</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.promoteChatMember(CHAT_ID, USER_ID, {
+  <span class="hljs-attr">canChangeInfo</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">canInviteUsers</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1773,6 +1923,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1786,19 +1937,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L863">packages/messaging-api-telegram/src/TelegramClient.ts:863</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1000">packages/messaging-api-telegram/src/TelegramClient.ts:1000</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.</p>
+									<p>Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#restrictchatmember">https://core.telegram.org/bots/api#restrictchatmember</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.restrictChatMember(CHAT_ID, USER_ID, { <span class="hljs-attr">canSendMessages</span>: <span class="hljs-literal">true</span> });</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1824,9 +1975,13 @@
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.RestrictChatMemberOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Other optional parameters.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -1840,7 +1995,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L457">packages/messaging-api-telegram/src/TelegramClient.ts:457</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L479">packages/messaging-api-telegram/src/TelegramClient.ts:479</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1892,7 +2047,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L359">packages/messaging-api-telegram/src/TelegramClient.ts:359</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L372">packages/messaging-api-telegram/src/TelegramClient.ts:372</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1905,7 +2060,10 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#sendaudio">https://core.telegram.org/bots/api#sendaudio</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendAudio(CHAT_ID, <span class="hljs-string">&#x27;https://example.com/audio.mp3&#x27;</span>, {
+  <span class="hljs-attr">caption</span>: <span class="hljs-string">&#x27;gooooooodAudio&#x27;</span>,
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1945,12 +2103,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L734">packages/messaging-api-telegram/src/TelegramClient.ts:734</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L820">packages/messaging-api-telegram/src/TelegramClient.ts:820</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method when you need to tell the user that something is happening on the bot&#39;s side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.</p>
+									<p>Use this method when you need to tell the user that something is happening on the bot&#39;s side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).</p>
 								</div>
 								<p>Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo. The user will see a “sending photo” status for the bot.</p>
 								<dl class="tsd-comment-tags">
@@ -1958,7 +2116,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#sendchataction">https://core.telegram.org/bots/api#sendchataction</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendChatAction(CHAT_ID, <span class="hljs-string">&#x27;typing&#x27;</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -1985,25 +2143,32 @@
 					<a name="sendcontact" class="tsd-anchor"></a>
 					<h3>send<wbr>Contact</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Contact<span class="tsd-signature-symbol">(</span>chatId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, requiredOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Types.SendContactRequiredOption</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Types.SendContactOption</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Contact<span class="tsd-signature-symbol">(</span>chatId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, requiredOption<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Types.SendContactRequiredOption</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Types.SendContactOption</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L678">packages/messaging-api-telegram/src/TelegramClient.ts:678</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L761">packages/messaging-api-telegram/src/TelegramClient.ts:761</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send phone contacts. On success, the sent Message is returned.</p>
+									<p>Use this method to send phone contacts.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendcontact">https://core.telegram.org/bots/api#sendcontact</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendContact(
+  CHAT_ID,
+  {
+    <span class="hljs-attr">phoneNumber</span>: <span class="hljs-string">&#x27;886123456789&#x27;</span>,
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&#x27;first&#x27;</span>,
+  },
+  { <span class="hljs-attr">lastName</span>: <span class="hljs-string">&#x27;last&#x27;</span> }
+);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2016,7 +2181,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>requiredOptions: <span class="tsd-signature-type">Types.SendContactRequiredOption</span></h5>
+									<h5>requiredOption: <span class="tsd-signature-type">Types.SendContactRequiredOption</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendContactOption</span></h5>
@@ -2026,6 +2191,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2039,7 +2205,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L400">packages/messaging-api-telegram/src/TelegramClient.ts:400</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L417">packages/messaging-api-telegram/src/TelegramClient.ts:417</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2051,7 +2217,10 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#senddocument">https://core.telegram.org/bots/api#senddocument</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendDocument(CHAT_ID, <span class="hljs-string">&#x27;https://example.com/doc.gif&#x27;</span>, {
+  <span class="hljs-attr">caption</span>: <span class="hljs-string">&#x27;gooooooodDocument&#x27;</span>,
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2091,7 +2260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1661">packages/messaging-api-telegram/src/TelegramClient.ts:1661</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1925">packages/messaging-api-telegram/src/TelegramClient.ts:1925</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2103,7 +2272,9 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#sendgame">https://core.telegram.org/bots/api#sendgame</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendGame(CHAT_ID, <span class="hljs-string">&#x27;Mario Bros.&#x27;</span>, {
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2143,19 +2314,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1577">packages/messaging-api-telegram/src/TelegramClient.ts:1577</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1835">packages/messaging-api-telegram/src/TelegramClient.ts:1835</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send invoices. On success, the sent Message is returned.</p>
+									<p>Use this method to send invoices.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendinvoice">https://core.telegram.org/bots/api#sendinvoice</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendInvoice(CHAT_ID, {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;product name&#x27;</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;product description&#x27;</span>,
+  <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;bot-defined invoice payload&#x27;</span>,
+  <span class="hljs-attr">providerToken</span>: <span class="hljs-string">&#x27;PROVIDER_TOKEN&#x27;</span>,
+  <span class="hljs-attr">startParameter</span>: <span class="hljs-string">&#x27;pay&#x27;</span>,
+  <span class="hljs-attr">currency</span>: <span class="hljs-string">&#x27;USD&#x27;</span>,
+  <span class="hljs-attr">prices</span>: [
+    { <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;product&#x27;</span>, <span class="hljs-attr">amount</span>: <span class="hljs-number">11000</span> },
+    { <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;tax&#x27;</span>, <span class="hljs-attr">amount</span>: <span class="hljs-number">11000</span> },
+  ],
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2178,6 +2360,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2185,25 +2368,34 @@
 					<a name="sendlocation" class="tsd-anchor"></a>
 					<h3>send<wbr>Location</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Location<span class="tsd-signature-symbol">(</span>chatId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, __namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Types.SendLocationOption</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Location<span class="tsd-signature-symbol">(</span>chatId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, location<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Types.SendLocationOption</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L569">packages/messaging-api-telegram/src/TelegramClient.ts:569</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L617">packages/messaging-api-telegram/src/TelegramClient.ts:617</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send point on the map. On success, the sent Message is returned.</p>
+									<p>Use this method to send point on the map.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendlocation">https://core.telegram.org/bots/api#sendlocation</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendLocation(
+  CHAT_ID,
+  {
+    <span class="hljs-attr">latitude</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">longitude</span>: <span class="hljs-number">45</span>,
+  },
+  {
+    <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+  }
+);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2216,18 +2408,21 @@
 									</div>
 								</li>
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5>location: <span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Object contains latitude and longitude.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
 											<div class="tsd-comment tsd-typography">
-												<p>Latitude of the location</p>
+												<p>Latitude of the location.</p>
 											</div>
 										</li>
 										<li class="tsd-parameter">
 											<h5>longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
 											<div class="tsd-comment tsd-typography">
-												<p>Longitude of the location</p>
+												<p>Longitude of the location.</p>
 											</div>
 										</li>
 									</ul>
@@ -2240,6 +2435,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2253,19 +2449,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L539">packages/messaging-api-telegram/src/TelegramClient.ts:539</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L575">packages/messaging-api-telegram/src/TelegramClient.ts:575</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.</p>
+									<p>Use this method to send a group of photos or videos as an album.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendmediagroup">https://core.telegram.org/bots/api#sendmediagroup</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendMediaGroup(CHAT_ID, [
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;photo&#x27;</span>, <span class="hljs-attr">media</span>: <span class="hljs-string">&#x27;BQADBAADApYAAgcZZAfj2-xeidueWwI&#x27;</span> },
+]);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2291,6 +2489,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, an array of the sent Messages is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2304,7 +2503,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L274">packages/messaging-api-telegram/src/TelegramClient.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L274">packages/messaging-api-telegram/src/TelegramClient.ts:274</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2359,19 +2558,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L330">packages/messaging-api-telegram/src/TelegramClient.ts:330</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L339">packages/messaging-api-telegram/src/TelegramClient.ts:339</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send photos. On success, the sent Message is returned.</p>
+									<p>Use this method to send photos.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendphoto">https://core.telegram.org/bots/api#sendphoto</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendPhoto(CHAT_ID, <span class="hljs-string">&#x27;https://example.com/image.png&#x27;</span>, {
+  <span class="hljs-attr">caption</span>: <span class="hljs-string">&#x27;gooooooodPhoto&#x27;</span>,
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2397,6 +2599,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2410,12 +2613,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L705">packages/messaging-api-telegram/src/TelegramClient.ts:705</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L789">packages/messaging-api-telegram/src/TelegramClient.ts:789</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send a native poll. A native poll can&#39;t be sent to a private chat. On success, the sent Message is returned.</p>
+									<p>Use this method to send a native poll. A native poll can&#39;t be sent to a private chat.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
@@ -2454,6 +2657,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2467,7 +2671,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1391">packages/messaging-api-telegram/src/TelegramClient.ts:1391</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1616">packages/messaging-api-telegram/src/TelegramClient.ts:1616</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2479,7 +2683,9 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#sendsticker">https://core.telegram.org/bots/api#sendsticker</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendSticker(CHAT_ID, <span class="hljs-string">&#x27;CAADAgADQAADyIsGAAE7MpzFPFQX5QI&#x27;</span>, {
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2519,19 +2725,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L650">packages/messaging-api-telegram/src/TelegramClient.ts:650</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L725">packages/messaging-api-telegram/src/TelegramClient.ts:725</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send information about a venue. On success, the sent Message is returned.</p>
+									<p>Use this method to send information about a venue.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendvenue">https://core.telegram.org/bots/api#sendvenue</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendVenue(
+  CHAT_ID,
+  {
+    <span class="hljs-attr">latitude</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">longitude</span>: <span class="hljs-number">45</span>,
+    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;a_title&#x27;</span>,
+    <span class="hljs-attr">address</span>: <span class="hljs-string">&#x27;an_address&#x27;</span>,
+  },
+  {
+    <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+  }
+);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2545,6 +2762,9 @@
 								</li>
 								<li>
 									<h5>venue: <span class="tsd-signature-type">Types.Venue</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Object contains information of the venue.                                |</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Types.SendVenueOption</span></h5>
@@ -2554,6 +2774,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2567,19 +2788,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L428">packages/messaging-api-telegram/src/TelegramClient.ts:428</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L450">packages/messaging-api-telegram/src/TelegramClient.ts:450</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</p>
+									<p>Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendvideo">https://core.telegram.org/bots/api#sendvideo</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendVideo(CHAT_ID, <span class="hljs-string">&#x27;https://example.com/video.mp4&#x27;</span>, {
+  <span class="hljs-attr">caption</span>: <span class="hljs-string">&#x27;gooooooodVideo&#x27;</span>,
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2605,6 +2829,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2618,19 +2843,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L511">packages/messaging-api-telegram/src/TelegramClient.ts:511</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L543">packages/messaging-api-telegram/src/TelegramClient.ts:543</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.</p>
+									<p>As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendvideonote">https://core.telegram.org/bots/api#sendvideonote</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendVideoNote(CHAT_ID, <span class="hljs-string">&#x27;https://example.com/video_note.mp4&#x27;</span>, {
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">40</span>,
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2656,6 +2884,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2669,19 +2898,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L485">packages/messaging-api-telegram/src/TelegramClient.ts:485</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L512">packages/messaging-api-telegram/src/TelegramClient.ts:512</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.</p>
+									<p>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#sendvoice">https://core.telegram.org/bots/api#sendvoice</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendVoice(CHAT_ID, <span class="hljs-string">&#x27;https://example.com/voice.ogg&#x27;</span>, {
+  <span class="hljs-attr">caption</span>: <span class="hljs-string">&#x27;gooooooodVoice&#x27;</span>,
+  <span class="hljs-attr">disableNotification</span>: <span class="hljs-literal">true</span>,
+});</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2707,6 +2939,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>On success, the sent Message is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -2720,19 +2953,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1014">packages/messaging-api-telegram/src/TelegramClient.ts:1014</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1166">packages/messaging-api-telegram/src/TelegramClient.ts:1166</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.</p>
+									<p>Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#setchatdescription">https://core.telegram.org/bots/api#setchatdescription</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.setChatDescription(CHAT_ID, <span class="hljs-string">&#x27;New Description&#x27;</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2752,6 +2985,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -2765,12 +2999,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L916">packages/messaging-api-telegram/src/TelegramClient.ts:916</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1059">packages/messaging-api-telegram/src/TelegramClient.ts:1059</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.</p>
+									<p>Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
@@ -2797,6 +3031,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -2810,19 +3045,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1176">packages/messaging-api-telegram/src/TelegramClient.ts:1176</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1374">packages/messaging-api-telegram/src/TelegramClient.ts:1374</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method. Returns True on success.</p>
+									<p>Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#setchatstickerset">https://core.telegram.org/bots/api#setchatstickerset</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.setChatStickerSet(CHAT_ID, <span class="hljs-string">&#x27;Sticker Set Name&#x27;</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2842,6 +3077,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -2855,12 +3091,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L994">packages/messaging-api-telegram/src/TelegramClient.ts:994</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1144">packages/messaging-api-telegram/src/TelegramClient.ts:1144</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to change the title of a chat. Titles can&#39;t be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.</p>
+									<p>Use this method to change the title of a chat. Titles can&#39;t be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.</p>
 								</div>
 								<p>Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.</p>
 								<dl class="tsd-comment-tags">
@@ -2868,7 +3104,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#setchattitle">https://core.telegram.org/bots/api#setchattitle</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.setChatTitle(CHAT_ID, <span class="hljs-string">&#x27;New Title&#x27;</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2888,6 +3124,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -2901,7 +3138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1688">packages/messaging-api-telegram/src/TelegramClient.ts:1688</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1953">packages/messaging-api-telegram/src/TelegramClient.ts:1953</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2913,7 +3150,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#setgamescore">https://core.telegram.org/bots/api#setgamescore</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.setGameScore(USER_ID, <span class="hljs-number">999</span>);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -2953,7 +3190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1506">packages/messaging-api-telegram/src/TelegramClient.ts:1506</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1731">packages/messaging-api-telegram/src/TelegramClient.ts:1731</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2999,7 +3236,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L203">packages/messaging-api-telegram/src/TelegramClient.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L203">packages/messaging-api-telegram/src/TelegramClient.ts:203</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3046,7 +3283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L625">packages/messaging-api-telegram/src/TelegramClient.ts:625</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L686">packages/messaging-api-telegram/src/TelegramClient.ts:686</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3058,7 +3295,7 @@
 									<dd><p><a href="https://core.telegram.org/bots/api#stopmessagelivelocation">https://core.telegram.org/bots/api#stopmessagelivelocation</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.stopMessageLiveLocation({ <span class="hljs-attr">messageId</span>: MESSAGE_ID });</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -3066,6 +3303,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <span class="tsd-signature-type">Types.StopMessageLiveLocationOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>One of chatId, messageId or inlineMessageId is required.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Types.Message</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -3082,7 +3322,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1339">packages/messaging-api-telegram/src/TelegramClient.ts:1339</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1558">packages/messaging-api-telegram/src/TelegramClient.ts:1558</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3134,19 +3374,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L841">packages/messaging-api-telegram/src/TelegramClient.ts:841</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L975">packages/messaging-api-telegram/src/TelegramClient.ts:975</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. Returns True on success.</p>
+									<p>Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#unbanchatmember">https://core.telegram.org/bots/api#unbanchatmember</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.unbanChatMember(CHAT_ID, USER_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -3166,6 +3406,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -3179,19 +3420,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L1062">packages/messaging-api-telegram/src/TelegramClient.ts:1062</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L1218">packages/messaging-api-telegram/src/TelegramClient.ts:1218</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Use this method to unpin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel. Returns True on success.</p>
+									<p>Use this method to unpin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
 									<dd><p><a href="https://core.telegram.org/bots/api#unpinchatmessage">https://core.telegram.org/bots/api#unpinchatmessage</a></p>
 									</dd>
 									<dt>example</dt>
-									<dd><pre><code class="language-js"></code></pre>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.unpinChatMessage(CHAT_ID);</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -3205,6 +3446,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Returns True on success.</p>
 						</li>
 					</ul>
 				</section>
@@ -3218,7 +3460,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f5af4cb/packages/messaging-api-telegram/src/TelegramClient.ts#L22">packages/messaging-api-telegram/src/TelegramClient.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/6990119/packages/messaging-api-telegram/src/TelegramClient.ts#L22">packages/messaging-api-telegram/src/TelegramClient.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
