@@ -119,8 +119,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#getconversationmembers" class="tsd-kind-icon">get<wbr>Conversation<wbr>Members</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#getuserinfo" class="tsd-kind-icon">get<wbr>User<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#getuserlist" class="tsd-kind-icon">get<wbr>User<wbr>List</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#postephemeral" class="tsd-kind-icon">post<wbr>Ephemeral</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#postmessage" class="tsd-kind-icon">post<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#postephemeral-1" class="tsd-kind-icon">post<wbr>Ephemeral</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackoauthclient.html#postmessage-1" class="tsd-kind-icon">post<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="messaging_api_slack.slackoauthclient.html#connect" class="tsd-kind-icon">connect</a></li>
 							</ul>
 						</section>
@@ -139,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L293">packages/messaging-api-slack/src/SlackOAuthClient.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L541">packages/messaging-api-slack/src/SlackOAuthClient.ts:541</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -161,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L53">packages/messaging-api-slack/src/SlackOAuthClient.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L53">packages/messaging-api-slack/src/SlackOAuthClient.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -176,7 +176,7 @@
 					<div class="tsd-signature tsd-kind-icon">axios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AxiosInstance</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L48">packages/messaging-api-slack/src/SlackOAuthClient.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L48">packages/messaging-api-slack/src/SlackOAuthClient.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,16 +188,468 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="chat" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> chat</h3>
-					<div class="tsd-signature tsd-kind-icon">chat<span class="tsd-signature-symbol">:</span> <a href="../modules/messaging_api_slack.slacktypes.html#chatapi" class="tsd-signature-type">ChatAPI</a></div>
+					<div class="tsd-signature tsd-kind-icon">chat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>delete<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#deletemessageoptions" class="tsd-signature-type">DeleteMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>deleteScheduledMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#deletescheduledmessageoptions" class="tsd-signature-type">DeleteScheduledMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>getPermalink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getpermalinkoptions" class="tsd-signature-type">GetPermalinkOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>meMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#memessageoptions" class="tsd-signature-type">MeMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>postEphemeral<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#postephemeraloptions" class="tsd-signature-type">PostEphemeralOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>postMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#postmessageoptions" class="tsd-signature-type">PostMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>scheduleMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#schedulemessageoptions" class="tsd-signature-type">ScheduleMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>scheduledMessages<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getscheduledmessagesoptions" class="tsd-signature-type">GetScheduledMessagesOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>unfurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#unfurloptions" class="tsd-signature-type">UnfurlOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>update<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#updatemessageoptions" class="tsd-signature-type">UpdateMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L58">packages/messaging-api-slack/src/SlackOAuthClient.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L58">packages/messaging-api-slack/src/SlackOAuthClient.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>chat.* APIs.</p>
 						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>delete<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#deletemessageoptions" class="tsd-signature-type">DeleteMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Deletes a message.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd></dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.delete">https://api.slack.com/methods/chat.delete</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.delete({
+
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#deletemessageoptions" class="tsd-signature-type">DeleteMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#deletemessageoptions" class="tsd-signature-type">DeleteMessageOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>delete<wbr>Scheduled<wbr>Message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#deletescheduledmessageoptions" class="tsd-signature-type">DeleteScheduledMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Deletes a pending scheduled message from the queue.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd><p>Typical success response</p>
+											<pre><code class="language-js">{
+  <span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">true</span>
+}</code></pre>
+										</dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.deleteScheduledMessage">https://api.slack.com/methods/chat.deleteScheduledMessage</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.deleteScheduledMessage({
+  <span class="hljs-attr">channel</span>: <span class="hljs-string">&#x27;C123456789&#x27;</span>,
+  <span class="hljs-attr">scheduledMessageId</span>: <span class="hljs-string">&#x27;Q1234ABCD&#x27;</span>,
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#deletescheduledmessageoptions" class="tsd-signature-type">DeleteScheduledMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#deletescheduledmessageoptions" class="tsd-signature-type">DeleteScheduledMessageOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>get<wbr>Permalink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getpermalinkoptions" class="tsd-signature-type">GetPermalinkOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Retrieve a permalink URL for a specific extant message.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd></dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.getPermalink">https://api.slack.com/methods/chat.getPermalink</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.getPermalink({
+
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getpermalinkoptions" class="tsd-signature-type">GetPermalinkOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#getpermalinkoptions" class="tsd-signature-type">GetPermalinkOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>me<wbr>Message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#memessageoptions" class="tsd-signature-type">MeMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Share a me message into a channel.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd></dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.meMessage">https://api.slack.com/methods/chat.meMessage</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.meMessage({
+
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#memessageoptions" class="tsd-signature-type">MeMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#memessageoptions" class="tsd-signature-type">MeMessageOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>post<wbr>Ephemeral<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#postephemeraloptions" class="tsd-signature-type">PostEphemeralOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Sends an ephemeral message to a user in a channel.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd><p>Typical success response</p>
+											<pre><code class="language-js">{
+  <span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">&quot;messageTs&quot;</span>: <span class="hljs-string">&quot;1502210682.580145&quot;</span>
+}</code></pre>
+										</dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.postEphemeral">https://api.slack.com/methods/chat.postEphemeral</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.postEphemeral({
+  <span class="hljs-attr">channel</span>: <span class="hljs-string">&#x27;C1234567890&#x27;</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello world&#x27;</span>,
+  <span class="hljs-attr">user</span>: <span class="hljs-string">&#x27;U0BPQUNTA&#x27;</span>,
+  <span class="hljs-attr">attachments</span>: <span class="hljs-string">&#x27;[{&quot;pretext&quot;: &quot;pre-hello&quot;, &quot;text&quot;: &quot;text-world&quot;}]&#x27;</span>,
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#postephemeraloptions" class="tsd-signature-type">PostEphemeralOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#postephemeraloptions" class="tsd-signature-type">PostEphemeralOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>post<wbr>Message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#postmessageoptions" class="tsd-signature-type">PostMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Sends a message to a channel.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd><p>Typical success response</p>
+											<pre><code class="language-js">{
+  <span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">&quot;channel&quot;</span>: <span class="hljs-string">&quot;C1H9RESGL&quot;</span>,
+  <span class="hljs-string">&quot;ts&quot;</span>: <span class="hljs-string">&quot;1503435956.000247&quot;</span>,
+  <span class="hljs-string">&quot;message&quot;</span>: {
+     <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;Here&#x27;s a message for you&quot;</span>,
+     <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;ecto1&quot;</span>,
+     <span class="hljs-string">&quot;botId&quot;</span>: <span class="hljs-string">&quot;B19LU7CSY&quot;</span>,
+     <span class="hljs-string">&quot;attachments&quot;</span>: [
+        {
+          <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;This is an attachment&quot;</span>,
+          <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">1</span>,
+          <span class="hljs-string">&quot;fallback&quot;</span>: <span class="hljs-string">&quot;This is an attachment&#x27;s fallback&quot;</span>
+        }
+      ],
+      <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;message&quot;</span>,
+      <span class="hljs-string">&quot;subtype&quot;</span>: <span class="hljs-string">&quot;bot_message&quot;</span>,
+      <span class="hljs-string">&quot;ts&quot;</span>: <span class="hljs-string">&quot;1503435956.000247&quot;</span>
+    }
+  }
+}</code></pre>
+										</dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.postMessage">https://api.slack.com/methods/chat.postMessage</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.postMessage({
+  <span class="hljs-attr">channel</span>: <span class="hljs-string">&#x27;C1234567890&#x27;</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello world&#x27;</span>,
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#postmessageoptions" class="tsd-signature-type">PostMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#postmessageoptions" class="tsd-signature-type">PostMessageOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>schedule<wbr>Message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#schedulemessageoptions" class="tsd-signature-type">ScheduleMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Schedules a message to be sent to a channel.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd></dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.scheduleMessage">https://api.slack.com/methods/chat.scheduleMessage</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.scheduleMessage({
+
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#schedulemessageoptions" class="tsd-signature-type">ScheduleMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#schedulemessageoptions" class="tsd-signature-type">ScheduleMessageOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>scheduled<wbr>Messages<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getscheduledmessagesoptions" class="tsd-signature-type">GetScheduledMessagesOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter">
+										<h5>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getscheduledmessagesoptions" class="tsd-signature-type">GetScheduledMessagesOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Returns a list of scheduled messages.</p>
+											</div>
+											<dl class="tsd-comment-tags">
+												<dt>returns</dt>
+												<dd><p>Typical success response</p>
+													<pre><code class="language-js">{
+  <span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">&quot;scheduledMessages&quot;</span>: [
+    {
+      <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">1298393284</span>,
+      <span class="hljs-string">&quot;channelId&quot;</span>: <span class="hljs-string">&quot;C1H9RESGL&quot;</span>,
+      <span class="hljs-string">&quot;postAt&quot;</span>: <span class="hljs-number">1551991428</span>,
+      <span class="hljs-string">&quot;dateCreated&quot;</span>: <span class="hljs-number">1551891734</span>,
+      <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;Here&#x27;s a message for you in the future&quot;</span>
+    }
+  ],
+  <span class="hljs-string">&quot;responseMetadata&quot;</span>: {
+    <span class="hljs-string">&quot;nextCursor&quot;</span>: <span class="hljs-string">&quot;&quot;</span>
+  }
+}</code></pre>
+												</dd>
+												<dt>see</dt>
+												<dd><p><a href="https://api.slack.com/methods/chat.scheduledMessages.list">https://api.slack.com/methods/chat.scheduledMessages.list</a></p>
+												</dd>
+												<dt>example</dt>
+												<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.scheduledMessages.list({
+  <span class="hljs-attr">channel</span>: <span class="hljs-string">&#x27;C123456789&#x27;</span>,
+});</code></pre>
+												</dd>
+											</dl>
+										</div>
+										<ul class="tsd-parameters">
+											<li class="tsd-parameter-signature">
+												<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+													<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#getscheduledmessagesoptions" class="tsd-signature-type">GetScheduledMessagesOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+												</ul>
+												<ul class="tsd-descriptions">
+													<li class="tsd-description">
+														<h4 class="tsd-parameters-title">Parameters</h4>
+														<ul class="tsd-parameters">
+															<li>
+																<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#getscheduledmessagesoptions" class="tsd-signature-type">GetScheduledMessagesOptions</a></h5>
+															</li>
+														</ul>
+														<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>unfurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#unfurloptions" class="tsd-signature-type">UnfurlOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Provide custom unfurl behavior for user-posted URLs.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd><p>Typical, minimal success response</p>
+											<pre><code class="language-js">{
+  <span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">true</span>
+}</code></pre>
+										</dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.unfurl">https://api.slack.com/methods/chat.unfurl</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.unfurl({
+  <span class="hljs-attr">channel</span>: <span class="hljs-string">&#x27;C123456789&#x27;</span>,
+  <span class="hljs-attr">ts</span>: <span class="hljs-string">&#x27;1502210682.580145&#x27;</span>,
+  <span class="hljs-attr">unfurls</span>: {
+    <span class="hljs-string">&#x27;https://example.com/&#x27;</span>: {
+      <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Every day is the test.&#x27;</span>,
+    },
+  },
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#unfurloptions" class="tsd-signature-type">UnfurlOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#unfurloptions" class="tsd-signature-type">UnfurlOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>update<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#updatemessageoptions" class="tsd-signature-type">UpdateMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Updates a message.</p>
+									</div>
+									<dl class="tsd-comment-tags">
+										<dt>returns</dt>
+										<dd></dd>
+										<dt>see</dt>
+										<dd><p><a href="https://api.slack.com/methods/chat.update">https://api.slack.com/methods/chat.update</a></p>
+										</dd>
+										<dt>example</dt>
+										<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.chat.update({
+
+});</code></pre>
+										</dd>
+									</dl>
+								</div>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#updatemessageoptions" class="tsd-signature-type">UpdateMessageOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../modules/messaging_api_slack.slacktypes.html#updatemessageoptions" class="tsd-signature-type">UpdateMessageOptions</a></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
@@ -206,7 +658,7 @@
 					<div class="tsd-signature tsd-kind-icon">views<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#openviewoptions" class="tsd-signature-type">OpenViewOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>publish<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#publishviewoptions" class="tsd-signature-type">PublishViewOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>push<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#pushviewoptions" class="tsd-signature-type">PushViewOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>update<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#updateviewoptions" class="tsd-signature-type">UpdateViewOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L63">packages/messaging-api-slack/src/SlackOAuthClient.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L311">packages/messaging-api-slack/src/SlackOAuthClient.ts:311</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -542,7 +994,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L601">packages/messaging-api-slack/src/SlackOAuthClient.ts:601</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L849">packages/messaging-api-slack/src/SlackOAuthClient.ts:849</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -575,7 +1027,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L646">packages/messaging-api-slack/src/SlackOAuthClient.ts:646</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L894">packages/messaging-api-slack/src/SlackOAuthClient.ts:894</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -608,7 +1060,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L621">packages/messaging-api-slack/src/SlackOAuthClient.ts:621</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L869">packages/messaging-api-slack/src/SlackOAuthClient.ts:869</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -641,7 +1093,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L657">packages/messaging-api-slack/src/SlackOAuthClient.ts:657</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L905">packages/messaging-api-slack/src/SlackOAuthClient.ts:905</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -674,7 +1126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L612">packages/messaging-api-slack/src/SlackOAuthClient.ts:612</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L860">packages/messaging-api-slack/src/SlackOAuthClient.ts:860</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -707,7 +1159,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L680">packages/messaging-api-slack/src/SlackOAuthClient.ts:680</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L928">packages/messaging-api-slack/src/SlackOAuthClient.ts:928</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -740,7 +1192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L576">packages/messaging-api-slack/src/SlackOAuthClient.ts:576</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L824">packages/messaging-api-slack/src/SlackOAuthClient.ts:824</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -776,7 +1228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L533">packages/messaging-api-slack/src/SlackOAuthClient.ts:533</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L781">packages/messaging-api-slack/src/SlackOAuthClient.ts:781</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -822,7 +1274,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L692">packages/messaging-api-slack/src/SlackOAuthClient.ts:692</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L940">packages/messaging-api-slack/src/SlackOAuthClient.ts:940</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -855,7 +1307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L720">packages/messaging-api-slack/src/SlackOAuthClient.ts:720</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L968">packages/messaging-api-slack/src/SlackOAuthClient.ts:968</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -888,7 +1340,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L632">packages/messaging-api-slack/src/SlackOAuthClient.ts:632</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L880">packages/messaging-api-slack/src/SlackOAuthClient.ts:880</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -921,7 +1373,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L668">packages/messaging-api-slack/src/SlackOAuthClient.ts:668</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L916">packages/messaging-api-slack/src/SlackOAuthClient.ts:916</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -954,7 +1406,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L590">packages/messaging-api-slack/src/SlackOAuthClient.ts:590</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L838">packages/messaging-api-slack/src/SlackOAuthClient.ts:838</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -987,7 +1439,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L706">packages/messaging-api-slack/src/SlackOAuthClient.ts:706</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L954">packages/messaging-api-slack/src/SlackOAuthClient.ts:954</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1020,7 +1472,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L340">packages/messaging-api-slack/src/SlackOAuthClient.ts:340</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L588">packages/messaging-api-slack/src/SlackOAuthClient.ts:588</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1046,7 +1498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L470">packages/messaging-api-slack/src/SlackOAuthClient.ts:470</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L718">packages/messaging-api-slack/src/SlackOAuthClient.ts:718</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1069,7 +1521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L426">packages/messaging-api-slack/src/SlackOAuthClient.ts:426</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L674">packages/messaging-api-slack/src/SlackOAuthClient.ts:674</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1095,7 +1547,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L758">packages/messaging-api-slack/src/SlackOAuthClient.ts:758</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L1006">packages/messaging-api-slack/src/SlackOAuthClient.ts:1006</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1118,7 +1570,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L380">packages/messaging-api-slack/src/SlackOAuthClient.ts:380</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L628">packages/messaging-api-slack/src/SlackOAuthClient.ts:628</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1154,7 +1606,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L395">packages/messaging-api-slack/src/SlackOAuthClient.ts:395</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L643">packages/messaging-api-slack/src/SlackOAuthClient.ts:643</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1190,7 +1642,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L458">packages/messaging-api-slack/src/SlackOAuthClient.ts:458</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L706">packages/messaging-api-slack/src/SlackOAuthClient.ts:706</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1223,7 +1675,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L410">packages/messaging-api-slack/src/SlackOAuthClient.ts:410</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L658">packages/messaging-api-slack/src/SlackOAuthClient.ts:658</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1259,7 +1711,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L732">packages/messaging-api-slack/src/SlackOAuthClient.ts:732</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L980">packages/messaging-api-slack/src/SlackOAuthClient.ts:980</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1295,7 +1747,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L746">packages/messaging-api-slack/src/SlackOAuthClient.ts:746</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L994">packages/messaging-api-slack/src/SlackOAuthClient.ts:994</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1319,7 +1771,7 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="postephemeral" class="tsd-anchor"></a>
+					<a name="postephemeral-1" class="tsd-anchor"></a>
 					<h3>post<wbr>Ephemeral</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">post<wbr>Ephemeral<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, inputMessage<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#message" class="tsd-signature-type">Message</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../modules/messaging_api_slack.slacktypes.html#postephemeraloptionaloptions" class="tsd-signature-type">PostEphemeralOptionalOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
@@ -1328,7 +1780,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L544">packages/messaging-api-slack/src/SlackOAuthClient.ts:544</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L792">packages/messaging-api-slack/src/SlackOAuthClient.ts:792</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1361,7 +1813,7 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="postmessage" class="tsd-anchor"></a>
+					<a name="postmessage-1" class="tsd-anchor"></a>
 					<h3>post<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">post<wbr>Message<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, inputMessage<span class="tsd-signature-symbol">: </span><a href="../modules/messaging_api_slack.slacktypes.html#message" class="tsd-signature-type">Message</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/messaging_api_slack.slacktypes.postmessageoptionaloptions.html" class="tsd-signature-type">PostMessageOptionalOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#oauthapiresponse" class="tsd-signature-type">OAuthAPIResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
@@ -1370,7 +1822,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L492">packages/messaging-api-slack/src/SlackOAuthClient.ts:492</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L740">packages/messaging-api-slack/src/SlackOAuthClient.ts:740</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1399,7 +1851,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/100647a/packages/messaging-api-slack/src/SlackOAuthClient.ts#L37">packages/messaging-api-slack/src/SlackOAuthClient.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/d171f14/packages/messaging-api-slack/src/SlackOAuthClient.ts#L37">packages/messaging-api-slack/src/SlackOAuthClient.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1548,10 +2000,10 @@
 								<a href="messaging_api_slack.slackoauthclient.html#getuserlist" class="tsd-kind-icon">get<wbr>User<wbr>List</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="messaging_api_slack.slackoauthclient.html#postephemeral" class="tsd-kind-icon">post<wbr>Ephemeral</a>
+								<a href="messaging_api_slack.slackoauthclient.html#postephemeral-1" class="tsd-kind-icon">post<wbr>Ephemeral</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="messaging_api_slack.slackoauthclient.html#postmessage" class="tsd-kind-icon">post<wbr>Message</a>
+								<a href="messaging_api_slack.slackoauthclient.html#postmessage-1" class="tsd-kind-icon">post<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="messaging_api_slack.slackoauthclient.html#connect" class="tsd-kind-icon">connect</a>
