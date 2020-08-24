@@ -114,7 +114,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L37">packages/messaging-api-slack/src/SlackWebhookClient.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L37">packages/messaging-api-slack/src/SlackWebhookClient.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -136,7 +136,7 @@
 					<div class="tsd-signature tsd-kind-icon">axios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AxiosInstance</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L32">packages/messaging-api-slack/src/SlackWebhookClient.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L32">packages/messaging-api-slack/src/SlackWebhookClient.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -158,13 +158,38 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L81">packages/messaging-api-slack/src/SlackWebhookClient.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L160">packages/messaging-api-slack/src/SlackWebhookClient.ts:160</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send only one attachment.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/message-attachments">https://api.slack.com/docs/message-attachments</a></p>
+										<pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendAttachment({
+  <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some text&#x27;</span>,
+  <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pretext&#x27;</span>,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;good&#x27;</span>,
+  <span class="hljs-attr">fields</span>: [
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;aaa&#x27;</span>,
+      <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;bbb&#x27;</span>,
+      <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
+    },
+  ],
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>attachment: <a href="../modules/messaging_api_slack.slacktypes.html#attachment" class="tsd-signature-type">Attachment</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Message is an attachment. The object contains the parameters to customize the appearance of a message attachment.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#sendmessagesuccessresponse" class="tsd-signature-type">SendMessageSuccessResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -181,19 +206,52 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L75">packages/messaging-api-slack/src/SlackWebhookClient.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L132">packages/messaging-api-slack/src/SlackWebhookClient.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Attachments</p>
+									<p>Send multiple attachments which let you add more context to a message.</p>
 								</div>
-								<p><a href="https://api.slack.com/docs/message-attachments">https://api.slack.com/docs/message-attachments</a></p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/message-attachments">https://api.slack.com/docs/message-attachments</a></p>
+										<pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendAttachments([
+  {
+    <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some text&#x27;</span>,
+    <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pretext&#x27;</span>,
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;good&#x27;</span>,
+    <span class="hljs-attr">fields</span>: [
+      {
+        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;aaa&#x27;</span>,
+        <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;bbb&#x27;</span>,
+        <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
+      },
+    ],
+  },
+  {
+    <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some other text&#x27;</span>,
+    <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pther pretext&#x27;</span>,
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;#FF0000&#x27;</span>,
+    <span class="hljs-attr">fields</span>: [
+      {
+        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;ccc&#x27;</span>,
+        <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;ddd&#x27;</span>,
+        <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
+      },
+    ],
+  },
+]);</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>attachments: <a href="../modules/messaging_api_slack.slacktypes.html#attachment" class="tsd-signature-type">Attachment</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#sendmessagesuccessresponse" class="tsd-signature-type">SendMessageSuccessResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -210,13 +268,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L59">packages/messaging-api-slack/src/SlackWebhookClient.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L72">packages/messaging-api-slack/src/SlackWebhookClient.ts:72</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send message by using raw body.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/messages">https://api.slack.com/docs/messages</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendRawBody({ <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello!&#x27;</span> });</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>body: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Raw data to be sent.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#sendmessagesuccessresponse" class="tsd-signature-type">SendMessageSuccessResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -233,13 +307,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L65">packages/messaging-api-slack/src/SlackWebhookClient.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L91">packages/messaging-api-slack/src/SlackWebhookClient.ts:91</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send text message.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/messages">https://api.slack.com/docs/messages</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendText(<span class="hljs-string">&#x27;Hello!&#x27;</span>);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>text: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Text of the message to be sent.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/messaging_api_slack.slacktypes.html#sendmessagesuccessresponse" class="tsd-signature-type">SendMessageSuccessResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -256,7 +346,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/f64585a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L21">packages/messaging-api-slack/src/SlackWebhookClient.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/4bfe2f5/packages/messaging-api-slack/src/SlackWebhookClient.ts#L21">packages/messaging-api-slack/src/SlackWebhookClient.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

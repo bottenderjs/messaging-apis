@@ -177,27 +177,6 @@
 							<blockquote>
 								<p>Warning: Don&#39;t do this on your production server.</p>
 							</blockquote>
-							<a href="#manual-mock-with-jest" id="manual-mock-with-jest" style="color: inherit; text-decoration: none;">
-								<h3>Manual Mock with <a href="https://facebook.github.io/jest/">Jest</a></h3>
-							</a>
-							<p>create <code>__mocks__/messaging-api-wechat.js</code> in your project root:</p>
-							<pre><code class="language-js"><span class="hljs-comment">// __mocks__/messaging-api-wechat.js</span>
-<span class="hljs-keyword">const</span> jestMock = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jest-mock&#x27;</span>);
-<span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>.requireActual(<span class="hljs-string">&#x27;messaging-api-wechat&#x27;</span>);
-
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">WechatClient</span>: {
-    <span class="hljs-attr">connect</span>: jest.fn(<span class="hljs-function">() =&gt;</span> {
-      <span class="hljs-keyword">const</span> Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(WechatClient)
-      );
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Mock();
-    }),
-  },
-};</code></pre>
-							<p>Then, mock <code>messaging-api-wechat</code> package in your tests:</p>
-							<pre><code class="language-js"><span class="hljs-comment">// __tests__/mytest.spec.js</span>
-jest.mock(<span class="hljs-string">&#x27;messaging-api-wechat&#x27;</span>);</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">

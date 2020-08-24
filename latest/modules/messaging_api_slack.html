@@ -678,123 +678,12 @@ client.getConversationList().then(<span class="hljs-function">(<span class="hljs
 					<a href="#send-api---official-docs" id="send-api---official-docs" style="color: inherit; text-decoration: none;">
 						<h3>Send API - <a href="https://api.slack.com/docs/messages">Official docs</a></h3>
 					</a>
-					<a href="#sendrawbodybody" id="sendrawbodybody" style="color: inherit; text-decoration: none;">
-						<h2><code>sendRawBody(body)</code></h2>
-					</a>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>body</td>
-								<td><code>Object</code></td>
-								<td>Raw data to be sent.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.sendRawBody({ <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello!&#x27;</span> });</code></pre>
-					<br />
-					<a href="#sendtexttext" id="sendtexttext" style="color: inherit; text-decoration: none;">
-						<h2><code>sendText(text)</code></h2>
-					</a>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>text</td>
-								<td><code>String</code></td>
-								<td>Text of the message to be sent.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.sendText(<span class="hljs-string">&#x27;Hello!&#x27;</span>);</code></pre>
-					<br />
-					<a href="#sendattachmentsattachments---official-docs" id="sendattachmentsattachments---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>sendAttachments(attachments)</code> - <a href="https://api.slack.com/docs/message-attachments">Official docs</a></h2>
-					</a>
-					<p>Send multiple attachments which let you add more context to a message.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>attachments</td>
-								<td><code>Array&lt;Object&gt;</code></td>
-								<td>Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.sendAttachments([
-  {
-    <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some text&#x27;</span>,
-    <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pretext&#x27;</span>,
-    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;good&#x27;</span>,
-    <span class="hljs-attr">fields</span>: [
-      {
-        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;aaa&#x27;</span>,
-        <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;bbb&#x27;</span>,
-        <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
-      },
-    ],
-  },
-  {
-    <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some other text&#x27;</span>,
-    <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pther pretext&#x27;</span>,
-    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;#FF0000&#x27;</span>,
-    <span class="hljs-attr">fields</span>: [
-      {
-        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;ccc&#x27;</span>,
-        <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;ddd&#x27;</span>,
-        <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
-      },
-    ],
-  },
-]);</code></pre>
-					<br />
-					<a href="#sendattachmentattachment---official-docs" id="sendattachmentattachment---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>sendAttachment(attachment)</code> - <a href="https://api.slack.com/docs/message-attachments">Official docs</a></h2>
-					</a>
-					<p>Send only one attachment.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>attachments</td>
-								<td><code>Object</code></td>
-								<td>Message is an attachment. The object contains the parameters to customize the appearance of a message attachment.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.sendAttachment({
-  <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some text&#x27;</span>,
-  <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pretext&#x27;</span>,
-  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;good&#x27;</span>,
-  <span class="hljs-attr">fields</span>: [
-    {
-      <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;aaa&#x27;</span>,
-      <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;bbb&#x27;</span>,
-      <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
-    },
-  ],
-});</code></pre>
+					<ul>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendrawbody">sendRawBody</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendtext">sendText</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendattachments">sendAttachments</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendattachment">sendAttachment</a></li>
+					</ul>
 					<br />
 					<a href="#debug-tips" id="debug-tips" style="color: inherit; text-decoration: none;">
 						<h2>Debug Tips</h2>
@@ -836,37 +725,6 @@ client.getConversationList().then(<span class="hljs-function">(<span class="hljs
 					<blockquote>
 						<p>Warning: Don&#39;t do this on your production server.</p>
 					</blockquote>
-					<a href="#manual-mock-with-jest" id="manual-mock-with-jest" style="color: inherit; text-decoration: none;">
-						<h3>Manual Mock with <a href="https://facebook.github.io/jest/">Jest</a></h3>
-					</a>
-					<p>create <code>__mocks__/messaging-api-slack.js</code> in your project root:</p>
-					<pre><code class="language-js"><span class="hljs-comment">// __mocks__/messaging-api-slack.js</span>
-<span class="hljs-keyword">const</span> jestMock = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jest-mock&#x27;</span>);
-<span class="hljs-keyword">const</span> { SlackOAuthClient, SlackWebhookClient } = <span class="hljs-built_in">require</span>.requireActual(
-  <span class="hljs-string">&#x27;messaging-api-slack&#x27;</span>
-);
-
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">SlackOAuthClient</span>: {
-    <span class="hljs-attr">connect</span>: jest.fn(<span class="hljs-function">() =&gt;</span> {
-      <span class="hljs-keyword">const</span> Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(SlackOAuthClient)
-      );
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Mock();
-    }),
-  },
-  <span class="hljs-attr">SlackWebhookClient</span>: {
-    <span class="hljs-attr">connect</span>: jest.fn(<span class="hljs-function">() =&gt;</span> {
-      <span class="hljs-keyword">const</span> Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(SlackWebhookClient)
-      );
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Mock();
-    }),
-  },
-};</code></pre>
-					<p>Then, mock <code>messaging-api-slack</code> package in your tests:</p>
-					<pre><code class="language-js"><span class="hljs-comment">// __tests__/mytest.spec.js</span>
-jest.mock(<span class="hljs-string">&#x27;messaging-api-slack&#x27;</span>);</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
