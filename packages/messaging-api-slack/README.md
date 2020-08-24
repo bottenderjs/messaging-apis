@@ -169,157 +169,23 @@ client.postEphemeral('C8763', 'U56781234', 'Hello!', { as_user: true });
 
 #### Users API
 
-## `getUserList(options?)` - [Official docs](https://api.slack.com/methods/users.list)
-
-Lists all users in a Slack team.
-
-| Param               | Type     | Description                                                                                                                                               |
-| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| options             | `Object` | Other optional parameters.                                                                                                                                |
-| options.cursor      | `String` | Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. |
-| options.accessToken | `String` | Custom access token of the request.                                                                                                                       |
-
-Example:
-
-```js
-client.getUserList({ cursor }).then((res) => {
-  console.log(res);
-  // {
-  //   members: [
-  //     { ... },
-  //     { ... },
-  //   ],
-  //   next: 'abcdefg',
-  // }
-});
-```
-
-<br />
-
-## `getAllUserList(options?)` - [Official docs](https://api.slack.com/methods/users.list)
-
-Recursively lists all users in a Slack team using cursor.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| options             | `Object` | Other optional parameters.          |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getAllUserList().then((res) => {
-  console.log(res);
-  // [
-  //   { ... },
-  //   { ... },
-  // ]
-});
-```
-
-<br />
-
-## `getUserInfo(userId, options?)` - [Official docs](https://api.slack.com/methods/users.info)
-
-Gets information about an user.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| userId              | `String` | User to get info on.                |
-| options             | `Object` | Other optional parameters.          |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getUserInfo(userId).then((res) => {
-  console.log(res);
-  // {
-  //   id: 'U123456',
-  //   name: 'bobby',
-  //   ...
-  // }
-});
-```
+- [getUserList]()
+- [getAllUserList]()
+- [getUserInfo]()
 
 <br />
 
 #### Channels API
 
-## `getChannelList(options?)` - [Official docs](https://api.slack.com/methods/channels.list)
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| options             | `Object` | Other optional parameters.          |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Lists all channels in a Slack team.
-
-Example:
-
-```js
-client.getChannelList().then((res) => {
-  console.log(res);
-  // [
-  //   { ... },
-  //   { ... },
-  // ]
-});
-```
+- [getChannelInfo]()
 
 <br />
 
-## `getChannelInfo(channelId, options?)` - [Official docs](https://api.slack.com/methods/channels.info)
+#### Conversations API
 
-Gets information about a channel.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| channelId           | `String` | Channel to get info on.             |
-| options             | `Object` | Other optional parameters.          |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getChannelInfo(channelId).then((res) => {
-  console.log(res);
-  // {
-  //   id: 'C8763',
-  //   name: 'fun',
-  //   ...
-  // }
-});
-```
-
-<br />
-
-#### Conversasions API
-
-## `getConversationInfo(channelId, options?)` - [Official docs](https://api.slack.com/methods/conversations.info)
-
-Retrieve information about a conversation.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| channelId           | `String` | Channel to get info on.             |
-| options             | `Object` | Other optional parameters.          |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getConversationInfo(channelId).then((res) => {
-  console.log(res);
-  // {
-  //   id: 'C8763',
-  //   name: 'fun',
-  //   ...
-  // }
-});
-```
-
-<br />
+- [getConversationInfo]()
+- [getConversationMembers]()
+- [getAllConversationMembers]()
 
 ## `getConversationMembers(channelId, options?)` - [Official docs](https://api.slack.com/methods/conversations.members)
 

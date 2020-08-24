@@ -516,25 +516,19 @@ export namespace SlackTypes {
     members?: User[];
   };
 
-  // Slack API Payloads
-  type CommonOptions = {
-    token?: string;
-    accessToken?: string;
-  };
-
   // channels.info
   // https://api.slack.com/methods/channels.info
-  export type GetInfoOptions = CommonOptions & {
+  export type GetInfoOptions = {
     includeLocale?: boolean;
   };
 
   // users.info
   // https://api.slack.com/methods/users.info
-  export type UserInfoOptions = CommonOptions & {
+  export type UserInfoOptions = {
     includeLocale?: boolean;
   };
 
-  export interface PostMessageOptionalOptions extends CommonOptions {
+  export type PostMessageOptionalOptions = {
     asUser?: boolean;
     attachments?: string | Attachment[];
     iconEmoji?: string;
@@ -546,9 +540,9 @@ export namespace SlackTypes {
     unfurlLinks?: boolean;
     unfurlMedia?: boolean;
     username?: string;
-  }
+  };
 
-  export type PostEphemeralOptionalOptions = CommonOptions & {
+  export type PostEphemeralOptionalOptions = {
     /**
      * Pass true to post the message as the authed user. Defaults to true if the chat:write:bot scope is not included. Otherwise, defaults to false.
      */
@@ -590,45 +584,44 @@ export namespace SlackTypes {
 
   // chat.update
   // https://api.slack.com/methods/chat.update
-  export type UpdateMessageOptions = CommonOptions &
-    Message & {
-      /**
-       * Channel containing the message to be updated.
-       */
-      channel: string;
-      /**
-       * Timestamp of the message to be updated.
-       */
-      ts: string;
-      /**
-       * Pass true to update the message as the authed user. Bot users in this context are considered authed users.
-       */
-      asUser?: boolean;
-      /**
-       * A JSON-based array of structured attachments, presented as a URL-encoded string. This field is required when not presenting text. If you don't include this field, the message's previous attachments will be retained. To remove previous attachments, include an empty array for this field.
-       */
-      attachments?: string | Attachment[];
-      /**
-       * A JSON-based array of structured blocks, presented as a URL-encoded string. If you don't include this field, the message's previous blocks will be retained. To remove previous blocks, include an empty array for this field.
-       */
-      blocks?: any; // FIXME
-      /**
-       * Find and link channel names and usernames. Defaults to none. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, none.
-       */
-      linkNames?: boolean;
-      /**
-       * Change how messages are treated. Defaults to client, unlike chat.postMessage. Accepts either none or full. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, client.
-       */
-      parse?: 'none' | 'full';
-      /**
-       * New text for the message, using the default formatting rules. It's not required when presenting blocks or attachments.
-       */
-      text?: string;
-    };
+  export type UpdateMessageOptions = Message & {
+    /**
+     * Channel containing the message to be updated.
+     */
+    channel: string;
+    /**
+     * Timestamp of the message to be updated.
+     */
+    ts: string;
+    /**
+     * Pass true to update the message as the authed user. Bot users in this context are considered authed users.
+     */
+    asUser?: boolean;
+    /**
+     * A JSON-based array of structured attachments, presented as a URL-encoded string. This field is required when not presenting text. If you don't include this field, the message's previous attachments will be retained. To remove previous attachments, include an empty array for this field.
+     */
+    attachments?: string | Attachment[];
+    /**
+     * A JSON-based array of structured blocks, presented as a URL-encoded string. If you don't include this field, the message's previous blocks will be retained. To remove previous blocks, include an empty array for this field.
+     */
+    blocks?: any; // FIXME
+    /**
+     * Find and link channel names and usernames. Defaults to none. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, none.
+     */
+    linkNames?: boolean;
+    /**
+     * Change how messages are treated. Defaults to client, unlike chat.postMessage. Accepts either none or full. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, client.
+     */
+    parse?: 'none' | 'full';
+    /**
+     * New text for the message, using the default formatting rules. It's not required when presenting blocks or attachments.
+     */
+    text?: string;
+  };
 
   // chat.delete
   // https://api.slack.com/methods/chat.delete
-  export type DeleteMessageOptions = CommonOptions & {
+  export type DeleteMessageOptions = {
     /**
      * Channel containing the message to be deleted.
      */
@@ -645,7 +638,7 @@ export namespace SlackTypes {
 
   // chat.getPermalink
   // https://api.slack.com/methods/chat.getPermalink
-  export type GetPermalinkOptions = CommonOptions & {
+  export type GetPermalinkOptions = {
     /**
      * The ID of the conversation or channel containing the message
      */
@@ -658,7 +651,7 @@ export namespace SlackTypes {
 
   // chat.meMessage
   // https://api.slack.com/methods/chat.meMessage
-  export type MeMessageOptions = CommonOptions & {
+  export type MeMessageOptions = {
     /**
      * Channel to send message to. Can be a public channel, private group or IM channel. Can be an encoded ID, or a name.
      */
@@ -671,7 +664,7 @@ export namespace SlackTypes {
 
   // chat.deleteScheduledMessage
   // https://api.slack.com/methods/chat.deleteScheduledMessage
-  export type DeleteScheduledMessageOptions = CommonOptions & {
+  export type DeleteScheduledMessageOptions = {
     /**
      * The channel the scheduled message is posting to
      */
@@ -688,53 +681,52 @@ export namespace SlackTypes {
 
   // chat.scheduleMessage
   // https://api.slack.com/methods/chat.scheduleMessage
-  export type ScheduleMessageOptions = CommonOptions &
-    Message & {
-      /**
-       * Channel, private group, or DM channel to send message to. Can be an encoded ID, or a name. See below for more details.
-       */
-      channel: string;
-      /**
-       * Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See chat.postMessage.
-       */
-      asUser?: boolean;
-      /**
-       * A JSON-based array of structured attachments, presented as a URL-encoded string.
-       */
-      attachments?: string | Attachment[];
-      /**
-       * Find and link channel names and usernames.
-       */
-      linkNames?: boolean;
-      /**
-       * Change how messages are treated. Defaults to none. See chat.postMessage.
-       */
-      parse?: 'none' | 'full';
-      /**
-       * Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.
-       */
-      replyBroadcast?: boolean;
-      /**
-       * Provide another message's ts value to make this message a reply. Avoid using a reply's ts value; use its parent instead.
-       */
-      threadTs?: string;
-      /**
-       * Pass true to enable unfurling of primarily text-based content.
-       */
-      unfurlLinks?: boolean;
-      /**
-       * Pass false to disable unfurling of media content.
-       */
-      unfurlMedia?: boolean;
-      /**
-       * Unix EPOCH timestamp of time in future to send the message.
-       */
-      postAt?: string;
-    };
+  export type ScheduleMessageOptions = Message & {
+    /**
+     * Channel, private group, or DM channel to send message to. Can be an encoded ID, or a name. See below for more details.
+     */
+    channel: string;
+    /**
+     * Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See chat.postMessage.
+     */
+    asUser?: boolean;
+    /**
+     * A JSON-based array of structured attachments, presented as a URL-encoded string.
+     */
+    attachments?: string | Attachment[];
+    /**
+     * Find and link channel names and usernames.
+     */
+    linkNames?: boolean;
+    /**
+     * Change how messages are treated. Defaults to none. See chat.postMessage.
+     */
+    parse?: 'none' | 'full';
+    /**
+     * Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.
+     */
+    replyBroadcast?: boolean;
+    /**
+     * Provide another message's ts value to make this message a reply. Avoid using a reply's ts value; use its parent instead.
+     */
+    threadTs?: string;
+    /**
+     * Pass true to enable unfurling of primarily text-based content.
+     */
+    unfurlLinks?: boolean;
+    /**
+     * Pass false to disable unfurling of media content.
+     */
+    unfurlMedia?: boolean;
+    /**
+     * Unix EPOCH timestamp of time in future to send the message.
+     */
+    postAt?: string;
+  };
 
   // chat.scheduledMessages.list
   // https://api.slack.com/methods/chat.scheduledMessages.list
-  export type GetScheduledMessagesOptions = CommonOptions & {
+  export type GetScheduledMessagesOptions = {
     /**
      * The channel of the scheduled messages
      */
@@ -759,14 +751,14 @@ export namespace SlackTypes {
 
   // conversations.members
   // https://api.slack.com/methods/conversations.members
-  export type ConversationMembersOptions = CommonOptions & {
+  export type ConversationMembersOptions = {
     cursor?: string;
     limit?: number;
   };
 
   // conversations.list
   // https://api.slack.com/methods/conversations.list
-  export type ConversationListOptions = CommonOptions & {
+  export type ConversationListOptions = {
     cursor?: string;
     excludeArchived?: boolean;
     limit?: number;
@@ -775,7 +767,7 @@ export namespace SlackTypes {
 
   // users.list
   // https://api.slack.com/methods/users.list
-  export type UserListOptions = CommonOptions & {
+  export type UserListOptions = {
     cursor?: string;
     includeLocale?: boolean;
     limit?: number;
@@ -789,7 +781,7 @@ export namespace SlackTypes {
 
   // chat.unfurl
   // https://api.slack.com/methods/chat.unfurl
-  export type UnfurlOptions = CommonOptions & {
+  export type UnfurlOptions = {
     /**
      * Channel ID of the message
      */
