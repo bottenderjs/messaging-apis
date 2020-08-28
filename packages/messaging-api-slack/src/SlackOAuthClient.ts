@@ -174,11 +174,14 @@ export default class SlackOAuthClient {
       if (!data.ok) {
         const { config, request } = response;
 
-        throw new AxiosError(`Slack API - ${data.error}`, {
-          config,
-          request,
-          response,
-        });
+        throw new AxiosError(
+          `Slack API - ${data.error}\n${JSON.stringify(data, null, 2)}`,
+          {
+            config,
+            request,
+            response,
+          }
+        );
       }
 
       return data;
