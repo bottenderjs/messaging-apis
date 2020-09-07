@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>messaging-api-viber | messaging-apis - v1.0.0-beta.27</title>
-	<meta name="description" content="Documentation for messaging-apis - v1.0.0-beta.27">
+	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -88,7 +88,7 @@
 							</ul>
 						</li>
 						<li><a href="#debug-tips">Debug Tips</a></li>
-						<li><a href="#testing">Testing</a></li>
+						<li><a href="#test">Test</a></li>
 					</ul>
 					<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 						<h2>Installation</h2>
@@ -103,19 +103,14 @@
 					<a href="#initialize" id="initialize" style="color: inherit; text-decoration: none;">
 						<h3>Initialize</h3>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">const</span> { ViberClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-viber&#x27;</span>);
+					<pre><code class="language-js"><span class="hljs-keyword">const</span> { ViberClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-viber'</span>);
 
-<span class="hljs-comment">// get authToken from the &quot;edit info&quot; screen of your Public Account.</span>
-<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ViberClient({
-  <span class="hljs-attr">accessToken</span>: authToken,
-  <span class="hljs-attr">sender</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Sender&#x27;</span>,
-  },
-});</code></pre>
+<span class="hljs-comment">// get authToken from the "edit info" screen of your Public Account.</span>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ViberClient(authToken);</code></pre>
 					<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
 						<h3>Error Handling</h3>
 					</a>
-					<p><code>messaging-api-viber</code> uses <a href="https://github.com/axios/axios">axios</a> as HTTP client. We use <a href="https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error">axios-error</a> package to wrap API error instances for better formatting error messages. Directly calling <code>console.log</code> with the error instance will return formatted message. If you&#39;d like to get the axios <code>request</code>, <code>response</code>, or <code>config</code>, you can still get them via those keys on the error instance.</p>
+					<p><code>messaging-api-viber</code> uses <a href="https://github.com/axios/axios">axios</a> as HTTP client. We use <a href="https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error">axios-error</a> package to wrap API error instances for better formatting error messages. Directly <code>console.log</code> on the error instance will return formatted message. If you&#39;d like to get the axios <code>request</code>, <code>response</code>, or <code>config</code>, you can still get them via those keys on the error instance.</p>
 					<pre><code class="language-js">client.setWebhook(url).catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(error); <span class="hljs-comment">// formatted error message</span>
   <span class="hljs-built_in">console</span>.log(error.stack); <span class="hljs-comment">// error stack trace</span>
@@ -132,56 +127,582 @@
 					<a href="#webhook-api" id="webhook-api" style="color: inherit; text-decoration: none;">
 						<h3>Webhook API</h3>
 					</a>
-					<ul>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#setwebhook">setWebhook</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#removewebhook">removeWebhook</a></li>
-					</ul>
+					<a href="#setwebhookurl--eventtypes" id="setwebhookurl--eventtypes" style="color: inherit; text-decoration: none;">
+						<h2><code>setWebhook(url [, eventTypes])</code></h2>
+					</a>
+					<p>Setting a Webhook.</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>url</td>
+								<td><code>String</code></td>
+								<td>HTTPS Account webhook URL to receive callbacks &amp; messages from users.</td>
+							</tr>
+							<tr>
+								<td>eventTypes</td>
+								<td><code>Array&lt;String&gt;</code></td>
+								<td>Indicates the types of Viber events that the account owner would like to be notified about. Possible values: <code>delivered</code>, <code>seen</code>, <code>failed</code>, <code>subscribed</code>, <code>unsubscribed</code> and <code>conversation_started</code>.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.setWebhook(<span class="hljs-string">'https://4a16faff.ngrok.io/'</span>);</code></pre>
+					<p>You can filter event types using optional parameter:</p>
+					<pre><code class="language-js">client.setWebhook(<span class="hljs-string">'https://4a16faff.ngrok.io/'</span>, [
+  <span class="hljs-string">'delivered'</span>,
+  <span class="hljs-string">'seen'</span>,
+  <span class="hljs-string">'conversation_started'</span>,
+]);</code></pre>
+					<br />
+					<a href="#removewebhook" id="removewebhook" style="color: inherit; text-decoration: none;">
+						<h2><code>removeWebhook</code></h2>
+					</a>
+					<p>Removing your webhook.</p>
+					<p>Example:</p>
+					<pre><code class="language-js">client.removeWebhook();</code></pre>
 					<br />
 					<a href="#send-api" id="send-api" style="color: inherit; text-decoration: none;">
 						<h3>Send API</h3>
 					</a>
-					<ul>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendmessage">sendMessage</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendtext">sendText</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendpicture">sendPicture</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendvideo">sendVideo</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendfile">sendFile</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendcontact">sendContact</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendlocation">sendLocation</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendurl">sendURL</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendsticker">sendSticker</a></li>
-						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#sendcarouselcontent">sendCarouselContent</a></li>
-					</ul>
+					<a href="#sendmessagereceiver-message---official-docs" id="sendmessagereceiver-message---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendMessage(receiver, message)</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#send-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a message to a user.</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>message</td>
+								<td><code>Object</code></td>
+								<td>Message and options to be sent.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendMessage(USER_ID, {
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'text'</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">'Hello'</span>,
+});</code></pre>
+					<blockquote>
+						<p>Note: Maximum total JSON size of the request is 30kb.</p>
+					</blockquote>
+					<br />
+					<a href="#sendtextreceiver-text--options---official-docs" id="sendtextreceiver-text--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendText(receiver, text [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#text-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a text message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481925-61e46008-aeeb-11e7-842f-79fee8066c6a.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>text</td>
+								<td><code>String</code></td>
+								<td>The text of the message.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendText(USER_ID, <span class="hljs-string">'Hello'</span>);</code></pre>
+					<br />
+					<a href="#sendpicturereceiver-picture--options---official-docs" id="sendpicturereceiver-picture--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendPicture(receiver, picture [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#picture-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a picture message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481916-5ec6cdac-aeeb-11e7-878b-6c8c4211a760.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>picture</td>
+								<td><code>Object</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>picture.text</td>
+								<td><code>String</code></td>
+								<td>Description of the photo. Can be an empty string if irrelevant. Max 120 characters.</td>
+							</tr>
+							<tr>
+								<td>picture.media</td>
+								<td><code>String</code></td>
+								<td>URL of the image (JPEG). Max size 1 MB. Only JPEG format is supported. Other image formats as well as animated GIFs can be sent as URL messages or file messages.</td>
+							</tr>
+							<tr>
+								<td>picture.thumbnail</td>
+								<td><code>String</code></td>
+								<td>URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendPicture(USER_ID, {
+  <span class="hljs-attr">text</span>: <span class="hljs-string">'Photo description'</span>,
+  <span class="hljs-attr">media</span>: <span class="hljs-string">'http://www.images.com/img.jpg'</span>,
+  <span class="hljs-attr">thumbnail</span>: <span class="hljs-string">'http://www.images.com/thumb.jpg'</span>,
+});</code></pre>
+					<br />
+					<a href="#sendvideoreceiver-video--options---official-docs" id="sendvideoreceiver-video--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendVideo(receiver, video [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#video-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a video message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481918-5fa12074-aeeb-11e7-8287-830197d93b5b.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>video</td>
+								<td><code>Object</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>video.media</td>
+								<td><code>String</code></td>
+								<td>URL of the video (MP4, H264). Max size 50 MB. Only MP4 and H264 are supported.</td>
+							</tr>
+							<tr>
+								<td>video.size</td>
+								<td><code>Number</code></td>
+								<td>Size of the video in bytes.</td>
+							</tr>
+							<tr>
+								<td>video.duration</td>
+								<td><code>Number</code></td>
+								<td>Video duration in seconds; will be displayed to the receiver. Max 180 seconds.</td>
+							</tr>
+							<tr>
+								<td>video.thumbnail</td>
+								<td><code>String</code></td>
+								<td>URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendVideo(USER_ID, {
+  <span class="hljs-attr">media</span>: <span class="hljs-string">'http://www.images.com/video.mp4'</span>,
+  <span class="hljs-attr">size</span>: <span class="hljs-number">10000</span>,
+  <span class="hljs-attr">thumbnail</span>: <span class="hljs-string">'http://www.images.com/thumb.jpg'</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">10</span>,
+});</code></pre>
+					<br />
+					<a href="#sendfilereceiver-file--options---official-docs" id="sendfilereceiver-file--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendFile(receiver, file [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#file-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a file message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481919-600f437e-aeeb-11e7-9f13-7269a055cb86.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>file</td>
+								<td><code>Object</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>file.media</td>
+								<td><code>String</code></td>
+								<td>URL of the file. Max size 50 MB. See <a href="https://developers.viber.com/docs/api/rest-bot-api/#forbiddenFileFormats">forbidden file formats</a> for unsupported file types.</td>
+							</tr>
+							<tr>
+								<td>file.size</td>
+								<td><code>Number</code></td>
+								<td>Size of the file in bytes.</td>
+							</tr>
+							<tr>
+								<td>file.file_name</td>
+								<td><code>String</code></td>
+								<td>Name of the file. File name should include extension. Max 256 characters (including file extension).</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendFile(USER_ID, {
+  <span class="hljs-attr">media</span>: <span class="hljs-string">'http://www.images.com/file.doc'</span>,
+  <span class="hljs-attr">size</span>: <span class="hljs-number">10000</span>,
+  <span class="hljs-attr">file_name</span>: <span class="hljs-string">'name_of_file.doc'</span>,
+});</code></pre>
+					<br />
+					<a href="#sendcontactreceiver-contact--options---official-docs" id="sendcontactreceiver-contact--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendContact(receiver, contact [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#contact-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a contact message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481924-615ce8b2-aeeb-11e7-8425-2d3bfa115fc1.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>contact</td>
+								<td><code>Object</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>contact.name</td>
+								<td><code>String</code></td>
+								<td>Name of the contact. Max 28 characters.</td>
+							</tr>
+							<tr>
+								<td>contact.phone_number</td>
+								<td><code>String</code></td>
+								<td>Phone number of the contact. Max 18 characters.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendContact(USER_ID, {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'Itamar'</span>,
+  <span class="hljs-attr">phone_number</span>: <span class="hljs-string">'+972511123123'</span>,
+});</code></pre>
+					<br />
+					<a href="#sendlocationreceiver-location--options---official-docs" id="sendlocationreceiver-location--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendLocation(receiver, location [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#location-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a location message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481923-61199a9e-aeeb-11e7-8a25-e3813eceb25b.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>location</td>
+								<td><code>Object</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>location.lat</td>
+								<td><code>String</code></td>
+								<td>Latitude (±90°) within valid ranges.</td>
+							</tr>
+							<tr>
+								<td>location.lon</td>
+								<td><code>String</code></td>
+								<td>Longitude (±180°) within valid ranges.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendLocation(USER_ID, {
+  <span class="hljs-attr">lat</span>: <span class="hljs-string">'37.7898'</span>,
+  <span class="hljs-attr">lon</span>: <span class="hljs-string">'-122.3942'</span>,
+});</code></pre>
+					<br />
+					<a href="#sendurlreceiver-url--options---official-docs" id="sendurlreceiver-url--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendURL(receiver, url [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#url-message">Official Docs</a></h2>
+					</a>
+					<p>Sending an URL message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481921-6069f346-aeeb-11e7-97bf-83a17da0bc7a.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>url</td>
+								<td><code>String</code></td>
+								<td>URL. Max 2,000 characters.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendURL(USER_ID, <span class="hljs-string">'http://developers.viber.com'</span>);</code></pre>
+					<br />
+					<a href="#sendstickerreceiver-stickerid--options---official-docs" id="sendstickerreceiver-stickerid--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendSticker(receiver, stickerId [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#sticker-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a sticker message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481922-60c2c444-aeeb-11e7-8fc9-bce2e5d06c42.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>stickerId</td>
+								<td><code>Number</code></td>
+								<td>Unique Viber sticker ID. For examples visit the <a href="https://viber.github.io/docs/tools/sticker-ids/">sticker IDs</a> page.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendSticker(USER_ID, <span class="hljs-number">46105</span>);</code></pre>
+					<br />
+					<a href="#sendcarouselcontentreceiver-richmedia--options---official-docs" id="sendcarouselcontentreceiver-richmedia--options---official-docs" style="color: inherit; text-decoration: none;">
+						<h2><code>sendCarouselContent(receiver, richMedia [, options])</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message">Official Docs</a></h2>
+					</a>
+					<p>Sending a carousel content message to a user.</p>
+					<img src="https://user-images.githubusercontent.com/3382565/31481917-5f1b43b4-aeeb-11e7-8557-e25951d69b53.jpg" width="300" />
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>receiver</td>
+								<td><code>String</code></td>
+								<td>Unique Viber user id.</td>
+							</tr>
+							<tr>
+								<td>richMedia.ButtonsGroupColumns</td>
+								<td><code>Number</code></td>
+								<td>Number of columns per carousel content block. Default 6 columns. Possible values: 1 - 6.</td>
+							</tr>
+							<tr>
+								<td>richMedia.ButtonsGroupRows</td>
+								<td><code>Number</code></td>
+								<td>Number of rows per carousel content block. Default 7 rows. Possible values: 1 - 7.</td>
+							</tr>
+							<tr>
+								<td>richMedia.Buttons</td>
+								<td><code>Array&lt;Object&gt;</code></td>
+								<td>Array of buttons. Max of 6 _ ButtonsGroupColumns _ ButtonsGroupRows.</td>
+							</tr>
+							<tr>
+								<td>options</td>
+								<td><code>Object</code></td>
+								<td>Other optional parameters.</td>
+							</tr>
+					</tbody></table>
+					<p>Example:</p>
+					<pre><code class="language-js">client.sendCarouselContent(USER_ID, {
+  <span class="hljs-attr">Type</span>: <span class="hljs-string">'rich_media'</span>,
+  <span class="hljs-attr">ButtonsGroupColumns</span>: <span class="hljs-number">6</span>,
+  <span class="hljs-attr">ButtonsGroupRows</span>: <span class="hljs-number">7</span>,
+  <span class="hljs-attr">BgColor</span>: <span class="hljs-string">'#FFFFFF'</span>,
+  <span class="hljs-attr">Buttons</span>: [
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">3</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'open-url'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">Image</span>: <span class="hljs-string">'http://html-test:8080/myweb/guy/assets/imageRMsmall2.png'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">Text</span>:
+        <span class="hljs-string">'&lt;font color=#323232&gt;&lt;b&gt;Headphones with Microphone, On-ear Wired earphones&lt;/b&gt;&lt;/font&gt;&lt;font color=#777777&gt;&lt;br&gt;Sound Intone &lt;/font&gt;&lt;font color=#6fc133&gt;$17.99&lt;/font&gt;'</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'open-url'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'medium'</span>,
+      <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'left'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'reply'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">Text</span>: <span class="hljs-string">'&lt;font color=#ffffff&gt;Buy&lt;/font&gt;'</span>,
+      <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'large'</span>,
+      <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">Image</span>: <span class="hljs-string">'https://s14.postimg.org/4mmt4rw1t/Button.png'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'reply'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">Text</span>: <span class="hljs-string">'&lt;font color=#8367db&gt;MORE DETAILS&lt;/font&gt;'</span>,
+      <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'small'</span>,
+      <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'middle'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">3</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'open-url'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">Image</span>: <span class="hljs-string">'https://s16.postimg.org/wi8jx20wl/image_RMsmall2.png'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">Text</span>:
+        <span class="hljs-string">"&lt;font color=#323232&gt;&lt;b&gt;Hanes Men's Humor Graphic T-Shirt&lt;/b&gt;&lt;/font&gt;&lt;font color=#777777&gt;&lt;br&gt;Hanes&lt;/font&gt;&lt;font color=#6fc133&gt;$10.99&lt;/font&gt;"</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'open-url'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'medium'</span>,
+      <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'left'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'reply'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">Text</span>: <span class="hljs-string">'&lt;font color=#ffffff&gt;Buy&lt;/font&gt;'</span>,
+      <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'large'</span>,
+      <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">Image</span>: <span class="hljs-string">'https://s14.postimg.org/4mmt4rw1t/Button.png'</span>,
+    },
+    {
+      <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">Rows</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'reply'</span>,
+      <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'https://www.google.com'</span>,
+      <span class="hljs-attr">Text</span>: <span class="hljs-string">'&lt;font color=#8367db&gt;MORE DETAILS&lt;/font&gt;'</span>,
+      <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'small'</span>,
+      <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+      <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'middle'</span>,
+    },
+  ],
+});</code></pre>
 					<br />
 					<a id="keyboards" />
 						<a href="#keyboards---official-docs" id="keyboards---official-docs" style="color: inherit; text-decoration: none;">
 							<h3>Keyboards - <a href="https://developers.viber.com/docs/api/rest-bot-api/#keyboards">Official Docs</a></h3>
 						</a>
 						<p>The Viber API allows sending a custom keyboard using the send_message API, to supply the user with a set of predefined replies or actions. Keyboards can be attached to any message type and be sent and displayed together. To attach a keyboard to a message simply add the keyboard’s parameters to the options:</p>
-						<pre><code class="language-js">client.sendText(USER_ID, <span class="hljs-string">&#x27;Hello&#x27;</span>, {
+						<pre><code class="language-js">client.sendText(USER_ID, <span class="hljs-string">'Hello'</span>, {
   <span class="hljs-attr">keyboard</span>: {
-    <span class="hljs-attr">defaultHeight</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">bgColor</span>: <span class="hljs-string">&#x27;#FFFFFF&#x27;</span>,
-    <span class="hljs-attr">buttons</span>: [
+    <span class="hljs-attr">DefaultHeight</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">BgColor</span>: <span class="hljs-string">'#FFFFFF'</span>,
+    <span class="hljs-attr">Buttons</span>: [
       {
-        <span class="hljs-attr">columns</span>: <span class="hljs-number">6</span>,
-        <span class="hljs-attr">rows</span>: <span class="hljs-number">1</span>,
-        <span class="hljs-attr">bgColor</span>: <span class="hljs-string">&#x27;#2db9b9&#x27;</span>,
-        <span class="hljs-attr">bgMediaType</span>: <span class="hljs-string">&#x27;gif&#x27;</span>,
-        <span class="hljs-attr">bgMedia</span>: <span class="hljs-string">&#x27;http://www.url.by/test.gif&#x27;</span>,
-        <span class="hljs-attr">bgLoop</span>: <span class="hljs-literal">true</span>,
-        <span class="hljs-attr">actionType</span>: <span class="hljs-string">&#x27;open-url&#x27;</span>,
-        <span class="hljs-attr">actionBody</span>: <span class="hljs-string">&#x27;www.tut.by&#x27;</span>,
-        <span class="hljs-attr">image</span>: <span class="hljs-string">&#x27;www.tut.by/img.jpg&#x27;</span>,
-        <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Key text&#x27;</span>,
-        <span class="hljs-attr">textVAlign</span>: <span class="hljs-string">&#x27;middle&#x27;</span>,
-        <span class="hljs-attr">textHAlign</span>: <span class="hljs-string">&#x27;center&#x27;</span>,
-        <span class="hljs-attr">textOpacity</span>: <span class="hljs-number">60</span>,
-        <span class="hljs-attr">textSize</span>: <span class="hljs-string">&#x27;regular&#x27;</span>,
+        <span class="hljs-attr">Columns</span>: <span class="hljs-number">6</span>,
+        <span class="hljs-attr">Rows</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">BgColor</span>: <span class="hljs-string">'#2db9b9'</span>,
+        <span class="hljs-attr">BgMediaType</span>: <span class="hljs-string">'gif'</span>,
+        <span class="hljs-attr">BgMedia</span>: <span class="hljs-string">'http://www.url.by/test.gif'</span>,
+        <span class="hljs-attr">BgLoop</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">ActionType</span>: <span class="hljs-string">'open-url'</span>,
+        <span class="hljs-attr">ActionBody</span>: <span class="hljs-string">'www.tut.by'</span>,
+        <span class="hljs-attr">Image</span>: <span class="hljs-string">'www.tut.by/img.jpg'</span>,
+        <span class="hljs-attr">Text</span>: <span class="hljs-string">'Key text'</span>,
+        <span class="hljs-attr">TextVAlign</span>: <span class="hljs-string">'middle'</span>,
+        <span class="hljs-attr">TextHAlign</span>: <span class="hljs-string">'center'</span>,
+        <span class="hljs-attr">TextOpacity</span>: <span class="hljs-number">60</span>,
+        <span class="hljs-attr">TextSize</span>: <span class="hljs-string">'regular'</span>,
       },
     ],
   },
 });</code></pre>
+						<p>Which in turn will look like this:</p>
 						<img src="https://developers.viber.com/docs/img/example_keyboard.png" width="300" />
 						<br />
 						<a id="broadcast-api" />
@@ -190,16 +711,16 @@
 							</a>
 							<p>Those API methods use the same parameters as the send methods with a few variations described below. You should specify a list of receivers instead of a single receiver.</p>
 							<ul>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastmessage">broadcastMessage</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcasttext">broadcastText</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastpicture">broadcastPicture</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastvideo">broadcastVideo</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastfile">broadcastFile</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastcontact">broadcastContact</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastlocation">broadcastLocation</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcasturl">broadcastURL</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcaststicker">broadcastSticker</a></li>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#broadcastcarouselcontent">broadcastCarouselContent</a></li>
+								<li><code>broadcastMessage(broadcastList, message)</code></li>
+								<li><code>broadcastText(broadcastList, text [, options])</code></li>
+								<li><code>broadcastPicture(broadcastList, picture [, options])</code></li>
+								<li><code>broadcastVideo(broadcastList, video [, options])</code></li>
+								<li><code>broadcastFile(broadcastList, file [, options])</code></li>
+								<li><code>broadcastContact(broadcastList, contact [, options])</code></li>
+								<li><code>broadcastLocation(broadcastList, location [, options])</code></li>
+								<li><code>broadcastURL(broadcastList, url [, options])</code></li>
+								<li><code>broadcastSticker(broadcastList, stickerId [, options])</code></li>
+								<li><code>broadcastCarouselContent(broadcastList, richMedia [, options])</code></li>
 							</ul>
 							<table>
 								<thead>
@@ -216,85 +737,212 @@
 									</tr>
 							</tbody></table>
 							<p>Example:</p>
-							<pre><code class="language-js"><span class="hljs-keyword">await</span> client.broadcastText(
-  [
-    <span class="hljs-string">&#x27;pttm25kSGUo1919sBORWyA==&#x27;</span>,
-    <span class="hljs-string">&#x27;2yBSIsbzs7sSrh4oLm2hdQ==&#x27;</span>,
-    <span class="hljs-string">&#x27;EGAZ3SZRi6zW1D0uNYhQHg==&#x27;</span>,
-    <span class="hljs-string">&#x27;kBQYX9LrGyF5mm8JTxdmpw==&#x27;</span>,
-  ],
-  <span class="hljs-string">&#x27;a broadcast to everybody&#x27;</span>
-);
-<span class="hljs-comment">// {</span>
-<span class="hljs-comment">//   messageToken: 40808912438712,</span>
-<span class="hljs-comment">//   status: 0,</span>
-<span class="hljs-comment">//   statusMessage: &#x27;ok&#x27;,</span>
-<span class="hljs-comment">//   failedList: [</span>
-<span class="hljs-comment">//     {</span>
-<span class="hljs-comment">//       receiver: &#x27;pttm25kSGUo1919sBORWyA==&#x27;,</span>
-<span class="hljs-comment">//       status: 6,</span>
-<span class="hljs-comment">//       statusMessage: &#x27;Not subscribed&#x27;,</span>
-<span class="hljs-comment">//     },</span>
-<span class="hljs-comment">//     {</span>
-<span class="hljs-comment">//       receiver: &#x27;EGAZ3SZRi6zW1D0uNYhQHg==&#x27;,</span>
-<span class="hljs-comment">//       status: 5,</span>
-<span class="hljs-comment">//       statusMessage: &#x27;Not found&#x27;,</span>
-<span class="hljs-comment">//     },</span>
-<span class="hljs-comment">//   ],</span>
-<span class="hljs-comment">// }</span></code></pre>
+							<pre><code class="language-js">client
+  .broadcastText(
+    [
+      <span class="hljs-string">'pttm25kSGUo1919sBORWyA=='</span>,
+      <span class="hljs-string">'2yBSIsbzs7sSrh4oLm2hdQ=='</span>,
+      <span class="hljs-string">'EGAZ3SZRi6zW1D0uNYhQHg=='</span>,
+      <span class="hljs-string">'kBQYX9LrGyF5mm8JTxdmpw=='</span>,
+    ],
+    <span class="hljs-string">'a broadcast to everybody'</span>
+  )
+  .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(result);
+    <span class="hljs-comment">// {</span>
+    <span class="hljs-comment">//   message_token: 40808912438712,</span>
+    <span class="hljs-comment">//   status: 0,</span>
+    <span class="hljs-comment">//   status_message: 'ok',</span>
+    <span class="hljs-comment">//   failed_list: [</span>
+    <span class="hljs-comment">//     {</span>
+    <span class="hljs-comment">//       receiver: 'pttm25kSGUo1919sBORWyA==',</span>
+    <span class="hljs-comment">//       status: 6,</span>
+    <span class="hljs-comment">//       status_message: 'Not subscribed',</span>
+    <span class="hljs-comment">//     },</span>
+    <span class="hljs-comment">//     {</span>
+    <span class="hljs-comment">//       receiver: 'EGAZ3SZRi6zW1D0uNYhQHg==',</span>
+    <span class="hljs-comment">//       status: 5,</span>
+    <span class="hljs-comment">//       status_message: 'Not found',</span>
+    <span class="hljs-comment">//     },</span>
+    <span class="hljs-comment">//   ],</span>
+    <span class="hljs-comment">// }</span>
+  });</code></pre>
 							<br />
 							<a href="#get-account-info" id="get-account-info" style="color: inherit; text-decoration: none;">
 								<h3>Get Account Info</h3>
 							</a>
-							<ul>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#getaccountinfo">getAccountInfo</a></li>
-							</ul>
+							<a href="#getaccountinfo---official-docs" id="getaccountinfo---official-docs" style="color: inherit; text-decoration: none;">
+								<h2><code>getAccountInfo()</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#get-account-info">Official Docs</a></h2>
+							</a>
+							<p>It will fetch the account’s details as registered in Viber.</p>
+							<p>Example:</p>
+							<pre><code class="language-js">client.getAccountInfo().then(<span class="hljs-function">(<span class="hljs-params">info</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(info);
+  <span class="hljs-comment">// {</span>
+  <span class="hljs-comment">//   status: 0,</span>
+  <span class="hljs-comment">//   status_message: 'ok',</span>
+  <span class="hljs-comment">//   id: 'pa:75346594275468546724',</span>
+  <span class="hljs-comment">//   name: 'account name',</span>
+  <span class="hljs-comment">//   uri: 'accountUri',</span>
+  <span class="hljs-comment">//   icon: 'http://example.com',</span>
+  <span class="hljs-comment">//   background: 'http://example.com',</span>
+  <span class="hljs-comment">//   category: 'category',</span>
+  <span class="hljs-comment">//   subcategory: 'sub category',</span>
+  <span class="hljs-comment">//   location: {</span>
+  <span class="hljs-comment">//     lon: 0.1,</span>
+  <span class="hljs-comment">//     lat: 0.2,</span>
+  <span class="hljs-comment">//   },</span>
+  <span class="hljs-comment">//   country: 'UK',</span>
+  <span class="hljs-comment">//   webhook: 'https://my.site.com',</span>
+  <span class="hljs-comment">//   event_types: ['delivered', 'seen'],</span>
+  <span class="hljs-comment">//   subscribers_count: 35,</span>
+  <span class="hljs-comment">//   members: [</span>
+  <span class="hljs-comment">//     {</span>
+  <span class="hljs-comment">//       id: '01234567890A=',</span>
+  <span class="hljs-comment">//       name: 'my name',</span>
+  <span class="hljs-comment">//       avatar: 'http://example.com',</span>
+  <span class="hljs-comment">//       role: 'admin',</span>
+  <span class="hljs-comment">//     },</span>
+  <span class="hljs-comment">//   ],</span>
+  <span class="hljs-comment">// }</span>
+});</code></pre>
 							<br />
 							<a href="#get-user-details" id="get-user-details" style="color: inherit; text-decoration: none;">
 								<h3>Get User Details</h3>
 							</a>
-							<ul>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#getuserdetails">getUserDetails</a></li>
-							</ul>
+							<a href="#getuserdetailsid---official-docs" id="getuserdetailsid---official-docs" style="color: inherit; text-decoration: none;">
+								<h2><code>getUserDetails(id)</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#get-user-details">Official Docs</a></h2>
+							</a>
+							<p>It will fetch the details of a specific Viber user based on his unique user ID.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Param</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody><tr>
+										<td>id</td>
+										<td><code>String</code></td>
+										<td>Unique Viber user id.</td>
+									</tr>
+							</tbody></table>
+							<p>Example:</p>
+							<pre><code class="language-js">client.getUserDetails(<span class="hljs-string">'01234567890A='</span>).then(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(user);
+  <span class="hljs-comment">// {</span>
+  <span class="hljs-comment">//   id: '01234567890A=',</span>
+  <span class="hljs-comment">//   name: 'John McClane',</span>
+  <span class="hljs-comment">//   avatar: 'http://avatar.example.com',</span>
+  <span class="hljs-comment">//   country: 'UK',</span>
+  <span class="hljs-comment">//   language: 'en',</span>
+  <span class="hljs-comment">//   primary_device_os: 'android 7.1',</span>
+  <span class="hljs-comment">//   api_version: 1,</span>
+  <span class="hljs-comment">//   viber_version: '6.5.0',</span>
+  <span class="hljs-comment">//   mcc: 1,</span>
+  <span class="hljs-comment">//   mnc: 1,</span>
+  <span class="hljs-comment">//   device_type: 'iPhone9,4',</span>
+  <span class="hljs-comment">// };</span>
+});</code></pre>
 							<br />
 							<a href="#get-online" id="get-online" style="color: inherit; text-decoration: none;">
 								<h3>Get Online</h3>
 							</a>
-							<ul>
-								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.viberclient.html#getonlinestatus">getOnlineStatus</a></li>
-							</ul>
-							<br />
+							<a href="#getonlinestatusids---official-docs" id="getonlinestatusids---official-docs" style="color: inherit; text-decoration: none;">
+								<h2><code>getOnlineStatus(ids)</code> - <a href="https://developers.viber.com/docs/api/rest-bot-api/#get-online">Official Docs</a></h2>
+							</a>
+							<p>It will fetch the online status of a given subscribed account members.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Param</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody><tr>
+										<td>id</td>
+										<td><code>Array&lt;String&gt;</code></td>
+										<td>Array of unique Viber user id. 100 ids per request.</td>
+									</tr>
+							</tbody></table>
+							<p>Example:</p>
+							<pre><code class="language-js">client
+  .getOnlineStatus([<span class="hljs-string">'01234567890='</span>, <span class="hljs-string">'01234567891='</span>, <span class="hljs-string">'01234567893='</span>])
+  .then(<span class="hljs-function">(<span class="hljs-params">status</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(status);
+    <span class="hljs-comment">// [</span>
+    <span class="hljs-comment">//   {</span>
+    <span class="hljs-comment">//     id: '01234567890=',</span>
+    <span class="hljs-comment">//     online_status: 0,</span>
+    <span class="hljs-comment">//     online_status_message: 'online',</span>
+    <span class="hljs-comment">//   },</span>
+    <span class="hljs-comment">//   {</span>
+    <span class="hljs-comment">//     id: '01234567891=',</span>
+    <span class="hljs-comment">//     online_status: 1,</span>
+    <span class="hljs-comment">//     online_status_message: 'offline',</span>
+    <span class="hljs-comment">//     last_online: 1457764197627,</span>
+    <span class="hljs-comment">//   },</span>
+    <span class="hljs-comment">//   {</span>
+    <span class="hljs-comment">//     id: '01234567893=',</span>
+    <span class="hljs-comment">//     online_status: 3,</span>
+    <span class="hljs-comment">//     online_status_message: 'tryLater',</span>
+    <span class="hljs-comment">//   },</span>
+    <span class="hljs-comment">// ];</span>
+  });</code></pre>
 							<a href="#debug-tips" id="debug-tips" style="color: inherit; text-decoration: none;">
 								<h2>Debug Tips</h2>
 							</a>
 							<a href="#log-requests-details" id="log-requests-details" style="color: inherit; text-decoration: none;">
-								<h3>Log Requests Details</h3>
+								<h3>Log requests details</h3>
 							</a>
 							<p>To enable default request debugger, use following <code>DEBUG</code> env variable:</p>
-							<pre><code class="language-sh">DEBUG=messaging-api:request</code></pre>
-							<p>If you want to use a custom request logging function, just provide your own <code>onRequest</code>:</p>
+							<pre><code class="language-sh">DEBUG=messaging-api-viber</code></pre>
+							<p>If you want to use custom request logging function, just define your own <code>onRequest</code>:</p>
 							<pre><code class="language-js"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ViberClient({
   <span class="hljs-attr">accessToken</span>: ACCESS_TOKEN,
   <span class="hljs-attr">onRequest</span>: <span class="hljs-function">(<span class="hljs-params">{ method, url, headers, body }</span>) =&gt;</span> {
     <span class="hljs-comment">/* */</span>
   },
 });</code></pre>
-							<a href="#testing" id="testing" style="color: inherit; text-decoration: none;">
-								<h2>Testing</h2>
+							<a href="#test" id="test" style="color: inherit; text-decoration: none;">
+								<h2>Test</h2>
 							</a>
 							<a href="#point-requests-to-your-dummy-server" id="point-requests-to-your-dummy-server" style="color: inherit; text-decoration: none;">
-								<h3>Point Requests to Your Dummy Server</h3>
+								<h3>Point requests to your dummy server</h3>
 							</a>
-							<p>To avoid sending requests to real Viber server, specify the <code>origin</code> option when constructing your client:</p>
-							<pre><code class="language-js"><span class="hljs-keyword">const</span> { ViberClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-viber&#x27;</span>);
+							<p>To avoid sending requests to real Viber server, specify <code>origin</code> option when constructing your client:</p>
+							<pre><code class="language-js"><span class="hljs-keyword">const</span> { ViberClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-viber'</span>);
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ViberClient({
   <span class="hljs-attr">accessToken</span>: ACCESS_TOKEN,
-  <span class="hljs-attr">origin</span>: <span class="hljs-string">&#x27;https://mydummytestserver.com&#x27;</span>,
+  <span class="hljs-attr">origin</span>: <span class="hljs-string">'https://mydummytestserver.com'</span>,
 });</code></pre>
 							<blockquote>
-								<p>Warning: Don&#39;t do this on your production server.</p>
+								<p>Warning: Don&#39;t do this on production server.</p>
 							</blockquote>
+							<a href="#manual-mock-with-jest" id="manual-mock-with-jest" style="color: inherit; text-decoration: none;">
+								<h3>Manual Mock with <a href="https://facebook.github.io/jest/">Jest</a></h3>
+							</a>
+							<p>create <code>__mocks__/messaging-api-viber.js</code> in your project root:</p>
+							<pre><code class="language-js"><span class="hljs-comment">// __mocks__/messaging-api-viber.js</span>
+<span class="hljs-keyword">const</span> jestMock = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jest-mock'</span>);
+<span class="hljs-keyword">const</span> { ViberClient } = <span class="hljs-built_in">require</span>.requireActual(<span class="hljs-string">'messaging-api-viber'</span>);
+
+<span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">ViberClient</span>: {
+    <span class="hljs-attr">connect</span>: jest.fn(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">const</span> Mock = jestMock.generateFromMetadata(
+        jestMock.getMetadata(ViberClient)
+      );
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Mock();
+    }),
+  },
+};</code></pre>
+							<p>Then, mock <code>messaging-api-viber</code> package in your tests:</p>
+							<pre><code class="language-js"><span class="hljs-comment">// __tests__/mytest.spec.js</span>
+jest.mock(<span class="hljs-string">'messaging-api-viber'</span>);</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -302,9 +950,9 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Namespaces</h3>
+							<h3>Enumerations</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="messaging_api_viber.vibertypes.html" class="tsd-kind-icon">Viber<wbr>Types</a></li>
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/messaging_api_viber.eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -313,7 +961,869 @@
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/messaging_api_viber.viberclient.html" class="tsd-kind-icon">Viber<wbr>Client</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#accountinfo" class="tsd-kind-icon">Account<wbr>Info</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#broadcastresponsedata" class="tsd-kind-icon">Broadcast<wbr>Response<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#clientconfig" class="tsd-kind-icon">Client<wbr>Config</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#contact" class="tsd-kind-icon">Contact</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#contactmessage" class="tsd-kind-icon">Contact<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#failed" class="tsd-kind-icon">Failed</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="messaging_api_viber.html#failedresponsedata" class="tsd-kind-icon">Failed<wbr>Response<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#file" class="tsd-kind-icon">File</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#filemessage" class="tsd-kind-icon">File<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#keyboard" class="tsd-kind-icon">Keyboard</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#keyboardbutton" class="tsd-kind-icon">Keyboard<wbr>Button</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#keyboardbuttonframe" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Frame</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#keyboardbuttoninternalbrowser" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Internal<wbr>Browser</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#keyboardbuttonmap" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Map</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#keyboardbuttonmediaplayer" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Media<wbr>Player</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#location-1" class="tsd-kind-icon">Location</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#locationmessage" class="tsd-kind-icon">Location<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#message" class="tsd-kind-icon">Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#messageoptions" class="tsd-kind-icon">Message<wbr>Options</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#picture" class="tsd-kind-icon">Picture</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#picturemessage" class="tsd-kind-icon">Picture<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="messaging_api_viber.html#responsedata" class="tsd-kind-icon">Response<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#richmedia" class="tsd-kind-icon">Rich<wbr>Media</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#richmediabutton" class="tsd-kind-icon">Rich<wbr>Media<wbr>Button</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#richmediamessage" class="tsd-kind-icon">Rich<wbr>Media<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#sender-2" class="tsd-kind-icon">Sender</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#stickermessage" class="tsd-kind-icon">Sticker<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#succeededbroadcastresponsedata" class="tsd-kind-icon">Succeeded<wbr>Broadcast<wbr>Response<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="messaging_api_viber.html#succeededresponsedata" class="tsd-kind-icon">Succeeded<wbr>Response<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#textmessage" class="tsd-kind-icon">Text<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#urlmessage" class="tsd-kind-icon">Url<wbr>Message</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#userdetails" class="tsd-kind-icon">User<wbr>Details</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#useronlinestatus" class="tsd-kind-icon">User<wbr>Online<wbr>Status</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#video" class="tsd-kind-icon">Video</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_viber.html#videomessage" class="tsd-kind-icon">Video<wbr>Message</a></li>
+							</ul>
+						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="accountinfo" class="tsd-anchor"></a>
+					<h3>Account<wbr>Info</h3>
+					<div class="tsd-signature tsd-kind-icon">Account<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>background<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>category<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>country<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>eventTypes<span class="tsd-signature-symbol">: </span><a href="../enums/messaging_api_viber.eventtype.html#delivered" class="tsd-signature-type">Delivered</a><span class="tsd-signature-symbol"> | </span><a href="../enums/messaging_api_viber.eventtype.html#seen" class="tsd-signature-type">Seen</a><span class="tsd-signature-symbol"> | </span><a href="../enums/messaging_api_viber.eventtype.html#failed" class="tsd-signature-type">Failed</a><span class="tsd-signature-symbol"> | </span><a href="../enums/messaging_api_viber.eventtype.html#conversationstarted" class="tsd-signature-type">ConversationStarted</a><span class="tsd-signature-symbol">; </span>icon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>location<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>lat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>lon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>members<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>role<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>subcategory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>subscribersCount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>uri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>webhook<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L240">packages/messaging-api-viber/src/ViberTypes.ts:240</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>background<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>category<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>country<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>event<wbr>Types<span class="tsd-signature-symbol">: </span><a href="../enums/messaging_api_viber.eventtype.html#delivered" class="tsd-signature-type">Delivered</a><span class="tsd-signature-symbol"> | </span><a href="../enums/messaging_api_viber.eventtype.html#seen" class="tsd-signature-type">Seen</a><span class="tsd-signature-symbol"> | </span><a href="../enums/messaging_api_viber.eventtype.html#failed" class="tsd-signature-type">Failed</a><span class="tsd-signature-symbol"> | </span><a href="../enums/messaging_api_viber.eventtype.html#conversationstarted" class="tsd-signature-type">ConversationStarted</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>icon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>location<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>lat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>lon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter">
+										<h5>lat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									</li>
+									<li class="tsd-parameter">
+										<h5>lon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>members<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>role<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>subcategory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>subscribers<wbr>Count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>uri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>webhook<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="broadcastresponsedata" class="tsd-anchor"></a>
+					<h3>Broadcast<wbr>Response<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Broadcast<wbr>Response<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="messaging_api_viber.html#succeededbroadcastresponsedata" class="tsd-signature-type">SucceededBroadcastResponseData</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#failedresponsedata" class="tsd-signature-type">FailedResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L110">packages/messaging-api-viber/src/ViberTypes.ts:110</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="clientconfig" class="tsd-anchor"></a>
+					<h3>Client<wbr>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">Client<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>accessToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>onRequest<span class="tsd-signature-symbol">?: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a><span class="tsd-signature-symbol">; </span>origin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#sender-2" class="tsd-signature-type">Sender</a><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L3">packages/messaging-api-viber/src/ViberTypes.ts:3</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>access<wbr>Token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Request<span class="tsd-signature-symbol">?: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> origin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>sender<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#sender-2" class="tsd-signature-type">Sender</a></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="contact" class="tsd-anchor"></a>
+					<h3>Contact</h3>
+					<div class="tsd-signature tsd-kind-icon">Contact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>phoneNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L185">packages/messaging-api-viber/src/ViberTypes.ts:185</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>phone<wbr>Number<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="contactmessage" class="tsd-anchor"></a>
+					<h3>Contact<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Contact<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>contact<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#contact" class="tsd-signature-type">Contact</a><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"contact"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L190">packages/messaging-api-viber/src/ViberTypes.ts:190</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="failed" class="tsd-anchor"></a>
+					<h3>Failed</h3>
+					<div class="tsd-signature tsd-kind-icon">Failed<span class="tsd-signature-symbol">:</span> <a href="messaging_api_viber.html#failedresponsedata" class="tsd-signature-type">FailedResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>receiver<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L104">packages/messaging-api-viber/src/ViberTypes.ts:104</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="failedresponsedata" class="tsd-anchor"></a>
+					<h3>Failed<wbr>Response<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Failed<wbr>Response<wbr>Data&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"invalidUrl"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"invalidAuthToken"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">3</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"badData"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">4</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"missingData"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">5</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"receiverNotRegistered"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">6</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"receiverNotSubscribed"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">7</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"publicAccountBlocked"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">8</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"publicAccountNotFound"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">9</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"publicAccountSuspended"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">10</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"webhookNotSet"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">11</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"receiverNoSuitableDevice"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">12</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"tooManyRequests"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">13</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"apiVersionNotSupported"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">14</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"incompatibleWithVersion"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">15</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"publicAccountNotAuthorized"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">16</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"inchatReplyMessageNotAllowed"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">17</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"publicAccountIsNotInline"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">18</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"noPublicChat"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">19</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"cannotSendBroadcast"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">20</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"broadcastNotAllowed"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">T</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L15">packages/messaging-api-viber/src/ViberTypes.ts:15</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="file" class="tsd-anchor"></a>
+					<h3>File</h3>
+					<div class="tsd-signature tsd-kind-icon">File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L174">packages/messaging-api-viber/src/ViberTypes.ts:174</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>file<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="filemessage" class="tsd-anchor"></a>
+					<h3>File<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">File<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"file"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#file" class="tsd-signature-type">File</a><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L180">packages/messaging-api-viber/src/ViberTypes.ts:180</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="keyboard" class="tsd-anchor"></a>
+					<h3>Keyboard</h3>
+					<div class="tsd-signature tsd-kind-icon">Keyboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>bgColor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>buttons<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#keyboardbutton" class="tsd-signature-type">KeyboardButton</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>buttonsGroupColumns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>buttonsGroupRows<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>customDefaultHeight<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>defaultHeight<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>favoritesMetadata<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>heightScale<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>inputFieldState<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"regular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"minimized"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hidden"</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L288">packages/messaging-api-viber/src/ViberTypes.ts:288</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> bg<wbr>Color<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>buttons<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#keyboardbutton" class="tsd-signature-type">KeyboardButton</a><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> buttons<wbr>Group<wbr>Columns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> buttons<wbr>Group<wbr>Rows<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> custom<wbr>Default<wbr>Height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> default<wbr>Height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> favorites<wbr>Metadata<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> height<wbr>Scale<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> input<wbr>Field<wbr>State<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"regular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"minimized"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hidden"</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="keyboardbutton" class="tsd-anchor"></a>
+					<h3>Keyboard<wbr>Button</h3>
+					<div class="tsd-signature tsd-kind-icon">Keyboard<wbr>Button<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>actionBody<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>actionType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"reply"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"open-url"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"location-picker"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"share-phone"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"none"</span><span class="tsd-signature-symbol">; </span>bgColor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>bgLoop<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>bgMedia<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>bgMediaScaleType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"crop"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fill"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fit"</span><span class="tsd-signature-symbol">; </span>bgMediaType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"picture"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"gif"</span><span class="tsd-signature-symbol">; </span>columns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frame<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttonframe" class="tsd-signature-type">KeyboardButtonFrame</a><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>imageScaleType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"crop"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fill"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fit"</span><span class="tsd-signature-symbol">; </span>internalBrowser<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttoninternalbrowser" class="tsd-signature-type">KeyboardButtonInternalBrowser</a><span class="tsd-signature-symbol">; </span>map<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttonmap" class="tsd-signature-type">KeyboardButtonMap</a><span class="tsd-signature-symbol">; </span>mediaPlayer<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttonmediaplayer" class="tsd-signature-type">KeyboardButtonMediaPlayer</a><span class="tsd-signature-symbol">; </span>openURLMediaType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"not-media"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"video"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"gif"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"picture"</span><span class="tsd-signature-symbol">; </span>openURLType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"internal"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"external"</span><span class="tsd-signature-symbol">; </span>rows<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>silent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>text<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>textBgGradientColor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>textHAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"left"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"center"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"right"</span><span class="tsd-signature-symbol">; </span>textOpacity<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>textPaddings<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>textShouldFit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>textSize<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"small"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"regular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"large"</span><span class="tsd-signature-symbol">; </span>textVAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"top"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"middle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"bottom"</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L300">packages/messaging-api-viber/src/ViberTypes.ts:300</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>action<wbr>Body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> action<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"reply"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"open-url"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"location-picker"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"share-phone"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"none"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> bg<wbr>Color<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> bg<wbr>Loop<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> bg<wbr>Media<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> bg<wbr>Media<wbr>Scale<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"crop"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fill"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fit"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> bg<wbr>Media<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"picture"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"gif"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> columns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> frame<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttonframe" class="tsd-signature-type">KeyboardButtonFrame</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> image<wbr>Scale<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"crop"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fill"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fit"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> internal<wbr>Browser<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttoninternalbrowser" class="tsd-signature-type">KeyboardButtonInternalBrowser</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> map<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttonmap" class="tsd-signature-type">KeyboardButtonMap</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> media<wbr>Player<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboardbuttonmediaplayer" class="tsd-signature-type">KeyboardButtonMediaPlayer</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> openURLMedia<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"not-media"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"video"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"gif"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"picture"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> openURLType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"internal"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"external"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> rows<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> silent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>BgGradient<wbr>Color<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> textHAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"left"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"center"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"right"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Opacity<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Paddings<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Should<wbr>Fit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"small"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"regular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"large"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> textVAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"top"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"middle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"bottom"</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="keyboardbuttonframe" class="tsd-anchor"></a>
+					<h3>Keyboard<wbr>Button<wbr>Frame</h3>
+					<div class="tsd-signature tsd-kind-icon">Keyboard<wbr>Button<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>borderColor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>borderWidth<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>cornerRadius<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L358">packages/messaging-api-viber/src/ViberTypes.ts:358</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> border<wbr>Color<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> border<wbr>Width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> corner<wbr>Radius<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="keyboardbuttoninternalbrowser" class="tsd-anchor"></a>
+					<h3>Keyboard<wbr>Button<wbr>Internal<wbr>Browser</h3>
+					<div class="tsd-signature tsd-kind-icon">Keyboard<wbr>Button<wbr>Internal<wbr>Browser<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>actionButton<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"forward"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"send"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"open-externally"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"send-to-bot"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"none"</span><span class="tsd-signature-symbol">; </span>actionPredefinedURL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>actionReplyData<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>customTitle<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>footerType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"default"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hidden"</span><span class="tsd-signature-symbol">; </span>mode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"fullscreen"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullscreen-portrait"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullscreen-landscape"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"partial-size"</span><span class="tsd-signature-symbol">; </span>titleType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"domain"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"default"</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L334">packages/messaging-api-viber/src/ViberTypes.ts:334</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> action<wbr>Button<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"forward"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"send"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"open-externally"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"send-to-bot"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"none"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> action<wbr>PredefinedURL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> action<wbr>Reply<wbr>Data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> custom<wbr>Title<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> footer<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"default"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hidden"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> mode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"fullscreen"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullscreen-portrait"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullscreen-landscape"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"partial-size"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> title<wbr>Type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"domain"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"default"</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="keyboardbuttonmap" class="tsd-anchor"></a>
+					<h3>Keyboard<wbr>Button<wbr>Map</h3>
+					<div class="tsd-signature tsd-kind-icon">Keyboard<wbr>Button<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>latitude<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>longitude<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L353">packages/messaging-api-viber/src/ViberTypes.ts:353</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> latitude<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> longitude<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="keyboardbuttonmediaplayer" class="tsd-anchor"></a>
+					<h3>Keyboard<wbr>Button<wbr>Media<wbr>Player</h3>
+					<div class="tsd-signature tsd-kind-icon">Keyboard<wbr>Button<wbr>Media<wbr>Player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>loop<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>subtitle<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbnailURL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L364">packages/messaging-api-viber/src/ViberTypes.ts:364</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> loop<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> subtitle<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> thumbnailURL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> title<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="location-1" class="tsd-anchor"></a>
+					<h3>Location</h3>
+					<div class="tsd-signature tsd-kind-icon">Location<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>lat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>lon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L195">packages/messaging-api-viber/src/ViberTypes.ts:195</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>lat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>lon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="locationmessage" class="tsd-anchor"></a>
+					<h3>Location<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Location<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>location<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#location-1" class="tsd-signature-type">Location</a><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"location"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L200">packages/messaging-api-viber/src/ViberTypes.ts:200</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="message" class="tsd-anchor"></a>
+					<h3>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Message<span class="tsd-signature-symbol">:</span> <a href="messaging_api_viber.html#textmessage" class="tsd-signature-type">TextMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#picturemessage" class="tsd-signature-type">PictureMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#videomessage" class="tsd-signature-type">VideoMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#filemessage" class="tsd-signature-type">FileMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#contactmessage" class="tsd-signature-type">ContactMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#locationmessage" class="tsd-signature-type">LocationMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#urlmessage" class="tsd-signature-type">UrlMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#stickermessage" class="tsd-signature-type">StickerMessage</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#richmediamessage" class="tsd-signature-type">RichMediaMessage</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L128">packages/messaging-api-viber/src/ViberTypes.ts:128</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="messageoptions" class="tsd-anchor"></a>
+					<h3>Message<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">Message<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>keyboard<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboard" class="tsd-signature-type">Keyboard</a><span class="tsd-signature-symbol">; </span>minApiVersion<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#sender-2" class="tsd-signature-type">Sender</a><span class="tsd-signature-symbol">; </span>trackingData<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L139">packages/messaging-api-viber/src/ViberTypes.ts:139</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> keyboard<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#keyboard" class="tsd-signature-type">Keyboard</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> min<wbr>Api<wbr>Version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> sender<span class="tsd-signature-symbol">?: </span><a href="messaging_api_viber.html#sender-2" class="tsd-signature-type">Sender</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> tracking<wbr>Data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="picture" class="tsd-anchor"></a>
+					<h3>Picture</h3>
+					<div class="tsd-signature tsd-kind-icon">Picture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbnail<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L151">packages/messaging-api-viber/src/ViberTypes.ts:151</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> thumbnail<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="picturemessage" class="tsd-anchor"></a>
+					<h3>Picture<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Picture<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"picture"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#picture" class="tsd-signature-type">Picture</a><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L157">packages/messaging-api-viber/src/ViberTypes.ts:157</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="responsedata" class="tsd-anchor"></a>
+					<h3>Response<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Response<wbr>Data&lt;T&gt;<span class="tsd-signature-symbol">:</span> <a href="messaging_api_viber.html#succeededresponsedata" class="tsd-signature-type">SucceededResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="messaging_api_viber.html#failedresponsedata" class="tsd-signature-type">FailedResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L106">packages/messaging-api-viber/src/ViberTypes.ts:106</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="richmedia" class="tsd-anchor"></a>
+					<h3>Rich<wbr>Media</h3>
+					<div class="tsd-signature tsd-kind-icon">Rich<wbr>Media<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>bgColor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>buttons<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#richmediabutton" class="tsd-signature-type">RichMediaButton</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>buttonsGroupColumns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>buttonsGroupRows<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"rich_media"</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L215">packages/messaging-api-viber/src/ViberTypes.ts:215</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>bg<wbr>Color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>buttons<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#richmediabutton" class="tsd-signature-type">RichMediaButton</a><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>buttons<wbr>Group<wbr>Columns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>buttons<wbr>Group<wbr>Rows<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"rich_media"</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="richmediabutton" class="tsd-anchor"></a>
+					<h3>Rich<wbr>Media<wbr>Button</h3>
+					<div class="tsd-signature tsd-kind-icon">Rich<wbr>Media<wbr>Button<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>actionBody<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>actionType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"open-url"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"reply"</span><span class="tsd-signature-symbol">; </span>columns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>rows<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>text<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>textHAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"left"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"middle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"right"</span><span class="tsd-signature-symbol">; </span>textSize<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"small"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"medium"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"large"</span><span class="tsd-signature-symbol">; </span>textVAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"middle"</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L223">packages/messaging-api-viber/src/ViberTypes.ts:223</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>action<wbr>Body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>action<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"open-url"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"reply"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>columns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>rows<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> textHAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"left"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"middle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"right"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"small"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"medium"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"large"</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> textVAlign<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"middle"</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="richmediamessage" class="tsd-anchor"></a>
+					<h3>Rich<wbr>Media<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Rich<wbr>Media<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>richMedia<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#richmedia" class="tsd-signature-type">RichMedia</a><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"rich_media"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L235">packages/messaging-api-viber/src/ViberTypes.ts:235</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="sender-2" class="tsd-anchor"></a>
+					<h3>Sender</h3>
+					<div class="tsd-signature tsd-kind-icon">Sender<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>avatar<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L123">packages/messaging-api-viber/src/ViberTypes.ts:123</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> avatar<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="stickermessage" class="tsd-anchor"></a>
+					<h3>Sticker<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Sticker<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>stickerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"sticker"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L210">packages/messaging-api-viber/src/ViberTypes.ts:210</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="succeededbroadcastresponsedata" class="tsd-anchor"></a>
+					<h3>Succeeded<wbr>Broadcast<wbr>Response<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Succeeded<wbr>Broadcast<wbr>Response<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="messaging_api_viber.html#succeededresponsedata" class="tsd-signature-type">SucceededResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>failedList<span class="tsd-signature-symbol">: </span><a href="messaging_api_viber.html#failed" class="tsd-signature-type">Failed</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>messageToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L99">packages/messaging-api-viber/src/ViberTypes.ts:99</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="succeededresponsedata" class="tsd-anchor"></a>
+					<h3>Succeeded<wbr>Response<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Succeeded<wbr>Response<wbr>Data&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol">; </span>statusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"ok"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">T</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L10">packages/messaging-api-viber/src/ViberTypes.ts:10</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="textmessage" class="tsd-anchor"></a>
+					<h3>Text<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Text<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"text"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L146">packages/messaging-api-viber/src/ViberTypes.ts:146</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="urlmessage" class="tsd-anchor"></a>
+					<h3>Url<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Url<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"url"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L205">packages/messaging-api-viber/src/ViberTypes.ts:205</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="userdetails" class="tsd-anchor"></a>
+					<h3>User<wbr>Details</h3>
+					<div class="tsd-signature tsd-kind-icon">User<wbr>Details<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>apiVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>country<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>deviceType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mcc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>mnc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>primaryDeviceOs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>viberVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L268">packages/messaging-api-viber/src/ViberTypes.ts:268</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>api<wbr>Version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>country<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>device<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>mcc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>mnc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>primary<wbr>Device<wbr>Os<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>viber<wbr>Version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="useronlinestatus" class="tsd-anchor"></a>
+					<h3>User<wbr>Online<wbr>Status</h3>
+					<div class="tsd-signature tsd-kind-icon">User<wbr>Online<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>onlineStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">3</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">4</span><span class="tsd-signature-symbol">; </span>onlineStatusMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"online"</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L282">packages/messaging-api-viber/src/ViberTypes.ts:282</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>online<wbr>Status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">3</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">4</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>online<wbr>Status<wbr>Message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"online"</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="video" class="tsd-anchor"></a>
+					<h3>Video</h3>
+					<div class="tsd-signature tsd-kind-icon">Video<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>duration<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>thumbnail<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L162">packages/messaging-api-viber/src/ViberTypes.ts:162</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> duration<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>media<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> thumbnail<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="videomessage" class="tsd-anchor"></a>
+					<h3>Video<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">Video<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"video"</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#video" class="tsd-signature-type">Video</a><span class="tsd-signature-symbol"> &amp; </span><a href="messaging_api_viber.html#messageoptions" class="tsd-signature-type">MessageOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-viber/src/ViberTypes.ts#L169">packages/messaging-api-viber/src/ViberTypes.ts:169</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -351,8 +1861,116 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/messaging_api_viber.eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a>
+					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="../classes/messaging_api_viber.viberclient.html" class="tsd-kind-icon">Viber<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#accountinfo" class="tsd-kind-icon">Account<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#broadcastresponsedata" class="tsd-kind-icon">Broadcast<wbr>Response<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#clientconfig" class="tsd-kind-icon">Client<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#contact" class="tsd-kind-icon">Contact</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#contactmessage" class="tsd-kind-icon">Contact<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#failed" class="tsd-kind-icon">Failed</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="messaging_api_viber.html#failedresponsedata" class="tsd-kind-icon">Failed<wbr>Response<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#file" class="tsd-kind-icon">File</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#filemessage" class="tsd-kind-icon">File<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#keyboard" class="tsd-kind-icon">Keyboard</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#keyboardbutton" class="tsd-kind-icon">Keyboard<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#keyboardbuttonframe" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Frame</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#keyboardbuttoninternalbrowser" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Internal<wbr>Browser</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#keyboardbuttonmap" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#keyboardbuttonmediaplayer" class="tsd-kind-icon">Keyboard<wbr>Button<wbr>Media<wbr>Player</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#location-1" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#locationmessage" class="tsd-kind-icon">Location<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#message" class="tsd-kind-icon">Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#messageoptions" class="tsd-kind-icon">Message<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#picture" class="tsd-kind-icon">Picture</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#picturemessage" class="tsd-kind-icon">Picture<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="messaging_api_viber.html#responsedata" class="tsd-kind-icon">Response<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#richmedia" class="tsd-kind-icon">Rich<wbr>Media</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#richmediabutton" class="tsd-kind-icon">Rich<wbr>Media<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#richmediamessage" class="tsd-kind-icon">Rich<wbr>Media<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#sender-2" class="tsd-kind-icon">Sender</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#stickermessage" class="tsd-kind-icon">Sticker<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#succeededbroadcastresponsedata" class="tsd-kind-icon">Succeeded<wbr>Broadcast<wbr>Response<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="messaging_api_viber.html#succeededresponsedata" class="tsd-kind-icon">Succeeded<wbr>Response<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#textmessage" class="tsd-kind-icon">Text<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#urlmessage" class="tsd-kind-icon">Url<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#userdetails" class="tsd-kind-icon">User<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#useronlinestatus" class="tsd-kind-icon">User<wbr>Online<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#video" class="tsd-kind-icon">Video</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="messaging_api_viber.html#videomessage" class="tsd-kind-icon">Video<wbr>Message</a>
 					</li>
 				</ul>
 			</nav>
@@ -363,15 +1981,6 @@
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-			</ul>
 		</div>
 	</div>
 </footer>
@@ -380,5 +1989,6 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
