@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>facebook-batch | messaging-apis - v1.0.0-beta.27</title>
-	<meta name="description" content="Documentation for messaging-apis - v1.0.0-beta.27">
+	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -88,31 +88,33 @@
 					<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 						<h2>Usage</h2>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">const</span> { MessengerClient, MessengerBatch } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-messenger&#x27;</span>);
-<span class="hljs-keyword">const</span> { FacebookBatchQueue } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;facebook-batch&#x27;</span>);
+					<pre><code class="language-js"><span class="hljs-keyword">const</span> { MessengerClient, MessengerBatch } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-messenger'</span>);
+<span class="hljs-keyword">const</span> { FacebookBatchQueue } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'facebook-batch'</span>);
 
-<span class="hljs-keyword">const</span> queue = <span class="hljs-keyword">new</span> FacebookBatchQueue({
+<span class="hljs-keyword">const</span> client = MessengerClient.connect({
   <span class="hljs-attr">accessToken</span>: ACCESS_TOKEN,
 });
 
-(<span class="hljs-keyword">async</span> () =&gt; {
+<span class="hljs-keyword">const</span> queue = <span class="hljs-keyword">new</span> FacebookBatchQueue(client);
+
+<span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (</span>) =&gt;</span> {
   <span class="hljs-keyword">await</span> queue.push(
-    MessengerBatch.sendText(<span class="hljs-string">&#x27;psid&#x27;</span>, <span class="hljs-string">&#x27;hello!&#x27;</span>);
+    MessengerBatch.sendText(<span class="hljs-string">'psid'</span>, <span class="hljs-string">'hello!'</span>);
   );
 
   <span class="hljs-keyword">await</span> queue.push(
-    MessengerBatch.sendMessage(<span class="hljs-string">&#x27;psid&#x27;</span>, {
+    MessengerBatch.sendMessage(<span class="hljs-string">'psid'</span>, {
       <span class="hljs-attr">attachment</span>: {
-        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;image&#x27;</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-string">'image'</span>,
         <span class="hljs-attr">payload</span>: {
           <span class="hljs-attr">url</span>:
-            <span class="hljs-string">&#x27;https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg&#x27;</span>,
+            <span class="hljs-string">'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg'</span>,
         },
       },
     })
   );
 
-  <span class="hljs-keyword">const</span> profile = <span class="hljs-keyword">await</span> queue.push(MessengerBatch.getUserProfile(<span class="hljs-string">&#x27;psid&#x27;</span>));
+  <span class="hljs-keyword">const</span> profile = <span class="hljs-keyword">await</span> queue.push(MessengerBatch.getUserProfile(<span class="hljs-string">'psid'</span>));
 
 
   <span class="hljs-built_in">console</span>.log(profile);
@@ -120,17 +122,12 @@
   queue.stop();
 })();</code></pre>
 					<p>Retry for error: <code>(#613) Calls to this api have exceeded the rate limit.</code>.</p>
-					<pre><code class="language-js"><span class="hljs-keyword">const</span> { FacebookBatchQueue, isError613 } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;facebook-batch&#x27;</span>);
+					<pre><code class="language-js"><span class="hljs-keyword">const</span> { FacebookBatchQueue, isError613 } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'facebook-batch'</span>);
 
-<span class="hljs-keyword">const</span> queue = <span class="hljs-keyword">new</span> FacebookBatchQueue(
-  {
-    <span class="hljs-attr">accessToken</span>: ACCESS_TOKEN,
-  },
-  {
-    <span class="hljs-attr">shouldRetry</span>: isError613,
-    <span class="hljs-attr">retryTimes</span>: <span class="hljs-number">2</span>,
-  }
-);</code></pre>
+<span class="hljs-keyword">const</span> queue = <span class="hljs-keyword">new</span> FacebookBatchQueue(client, {
+  <span class="hljs-attr">shouldRetry</span>: isError613,
+  <span class="hljs-attr">retryTimes</span>: <span class="hljs-number">2</span>,
+});</code></pre>
 					<a href="#options" id="options" style="color: inherit; text-decoration: none;">
 						<h2>Options</h2>
 					</a>
@@ -239,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>delay<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>includeHeaders<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>retryTimes<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>shouldRetry<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><a href="facebook_batch.html#batchrequesterrorinfo-1" class="tsd-signature-type">BatchRequestErrorInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L43">packages/facebook-batch/src/types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L43">packages/facebook-batch/src/types.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -284,7 +281,7 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Error<wbr>Response<span class="tsd-signature-symbol">:</span> <a href="facebook_batch.html#batchresponse-1" class="tsd-signature-type">BatchResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L30">packages/facebook-batch/src/types.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L30">packages/facebook-batch/src/types.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -294,7 +291,7 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Request<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>body<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JsonObject</span><span class="tsd-signature-symbol">; </span>method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>relativeUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>responseAccessPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> &amp; </span><a href="facebook_batch.html#batchrequestoptions-1" class="tsd-signature-type">BatchRequestOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L8">packages/facebook-batch/src/types.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L8">packages/facebook-batch/src/types.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -304,7 +301,7 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Request<wbr>Error<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>request<span class="tsd-signature-symbol">: </span><a href="facebook_batch.html#batchrequest-1" class="tsd-signature-type">BatchRequest</a><span class="tsd-signature-symbol">; </span>response<span class="tsd-signature-symbol">: </span><a href="facebook_batch.html#batcherrorresponse-1" class="tsd-signature-type">BatchErrorResponse</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L38">packages/facebook-batch/src/types.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L38">packages/facebook-batch/src/types.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -325,7 +322,7 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Request<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>dependsOn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L3">packages/facebook-batch/src/types.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L3">packages/facebook-batch/src/types.ts:3</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -346,7 +343,7 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Response&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">; </span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>headers<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L24">packages/facebook-batch/src/types.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L24">packages/facebook-batch/src/types.ts:24</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -376,7 +373,7 @@
 					<div class="tsd-signature tsd-kind-icon">Queue<wbr>Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>reject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>reason<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>request<span class="tsd-signature-symbol">: </span><a href="facebook_batch.html#batchrequest-1" class="tsd-signature-type">BatchRequest</a><span class="tsd-signature-symbol">; </span>resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>retry<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/types.ts#L16">packages/facebook-batch/src/types.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/types.ts#L16">packages/facebook-batch/src/types.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -446,7 +443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/utils.ts#L3">packages/facebook-batch/src/utils.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/utils.ts#L3">packages/facebook-batch/src/utils.ts:3</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -469,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/facebook-batch/src/utils.ts#L12">packages/facebook-batch/src/utils.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/dffb3ad/packages/facebook-batch/src/utils.ts#L12">packages/facebook-batch/src/utils.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -581,15 +578,6 @@
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-			</ul>
 		</div>
 	</div>
 </footer>
@@ -598,5 +586,6 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
