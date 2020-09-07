@@ -1116,7 +1116,9 @@ export default class ViberClient {
    * // }
    * ```
    */
-  getAccountInfo(): Promise<ViberTypes.SucceededResponseData<ViberTypes.AccountInfo>> {
+  getAccountInfo(): Promise<
+    ViberTypes.SucceededResponseData<ViberTypes.AccountInfo>
+  > {
     return this.callAPI<ViberTypes.AccountInfo>('/get_account_info');
   }
 

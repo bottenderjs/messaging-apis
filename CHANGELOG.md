@@ -2,7 +2,9 @@
 
 ## Breaking Changes
 
-The whole project has been rewritten with TypeScript. Please checkout [the new API document](https://yoctol.github.io/messaging-apis/latest/globals.html).
+The whole project has been rewritten with TypeScript and all APIs now accept camelcase keys instead of snakecase keys. 
+
+Please checkout [the new API document](https://yoctol.github.io/messaging-apis/latest/globals.html).
 
 # 0.8.4 / 2019-09-29
 

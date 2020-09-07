@@ -108,13 +108,13 @@ export default class WechatClient {
 
   /**
    * 获取 access_token
-   * 
+   *
    * @returns Access token info
    *
    * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.getAccessToken();
    * // {
@@ -126,7 +126,8 @@ export default class WechatClient {
   getAccessToken(): Promise<WechatTypes.AccessToken> {
     return this.axios
       .get<
-        { access_token: string; expires_in: number } | WechatTypes.FailedResponseData
+        | { access_token: string; expires_in: number }
+        | WechatTypes.FailedResponseData
       >(
         `/token?grant_type=client_credential&appid=${this.appId}&secret=${this.appSecret}`
       )
@@ -152,20 +153,20 @@ export default class WechatClient {
 
   /**
    * 多媒体文件上传接口
-   * 
+   *
    * @param type - Type of the media to upload.
    * @param media - Buffer or stream of the media to upload.
    * @returns Info of the uploaded media.
    *
    * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * const fs = require('fs');
-   * 
+   *
    * const buffer = fs.readFileSync('test.jpg');
-   * 
+   *
    * await client.uploadMedia('image', buffer);
    * // {
    * //   type: 'image',
@@ -202,14 +203,14 @@ export default class WechatClient {
 
   /**
    * 下载多媒体文件接口
-   * 
+   *
    * @param mediaId - ID of the media to get.
    * @returns Info of the media.
    *
    * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.getMedia(MEDIA_ID);
    * // {
@@ -237,7 +238,7 @@ export default class WechatClient {
    * 发送消息-客服消息
    *
    * @internal
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
    */
   async sendRawBody(
@@ -315,16 +316,16 @@ export default class WechatClient {
 
   /**
    * 发送文本消息
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param text - Text to be sent.
    * @param options - The other parameters.
    * @returns Error code and error message.
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendText(USER_ID, 'Hello!');
    * ```
@@ -346,16 +347,16 @@ export default class WechatClient {
 
   /**
    * 发送图片消息
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param mediaId - ID of the media to be sent.
    * @param options - The other parameters.
-   * @returns Error code and error message.   
-   * 
+   * @returns Error code and error message.
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendImage(USER_ID, 'MEDIA_ID');
    * ```
@@ -377,16 +378,16 @@ export default class WechatClient {
 
   /**
    * 发送语音消息
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param mediaId - ID of the media to be sent.
    * @param options - The other parameters.
-   * @returns Error code and error message.   
-   * 
+   * @returns Error code and error message.
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *    
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendVoice(USER_ID, 'MEDIA_ID');
    * ```
@@ -408,16 +409,16 @@ export default class WechatClient {
 
   /**
    * 发送视频消息
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param video - Info of the video to be sent.
    * @param options - The other parameters.
    * @returns Error code and error message.
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendVideo(USER_ID, {
    *   mediaId: 'MEDIA_ID',
@@ -442,16 +443,16 @@ export default class WechatClient {
 
   /**
    * 发送音乐消息
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param news - Data of the music to be sent.
    * @param options - The other parameters.
    * @returns Error code and error message.
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *    
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendMusic(USER_ID, {
    *   musicurl: 'MUSIC_URL',
@@ -460,7 +461,7 @@ export default class WechatClient {
    *   title: 'MUSIC_TITLE',
    *   description: 'MUSIC_DESCRIPTION',
    * });
-   * ```   
+   * ```
    */
   sendMusic(
     userId: string,
@@ -479,16 +480,16 @@ export default class WechatClient {
    * 发送图文消息（点击跳转到外链）
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param news - Data of the news to be sent.
    * @param options - The other parameters.
    * @returns Error code and error message.
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendNews(USER_ID, {
    *   articles: [
@@ -506,7 +507,7 @@ export default class WechatClient {
    *     },
    *   ],
    * });
-   * ``` 
+   * ```
    */
   sendNews(
     userId: string,
@@ -525,19 +526,19 @@ export default class WechatClient {
    * 发送图文消息（点击跳转到图文消息页面）
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param mediaId - ID of the media to be sent.
    * @param options - The other parameters.
    * @returns Error code and error message.
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendMPNews(USER_ID, 'MEDIA_ID');
-   * ```    
+   * ```
    */
   sendMPNews(
     userId: string,
@@ -556,16 +557,16 @@ export default class WechatClient {
 
   /**
    * 发送菜单消息
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param msgMenu - Data of the msg menu to be sent.
    * @param options - The other parameters.
-   * @returns Error code and error message. 
-   * 
+   * @returns Error code and error message.
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendMsgMenu(USER_ID, {
    *   headContent: 'HEAD',
@@ -581,7 +582,7 @@ export default class WechatClient {
    *   ],
    *   'tailContent': 'Tail',
    * });
-   * ``` 
+   * ```
    */
   sendMsgMenu(
     userId: string,
@@ -598,19 +599,19 @@ export default class WechatClient {
 
   /**
    * 发送卡券
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param cardId - ID of the card to be sent.
    * @param options - The other parameters.
-   * @returns Error code and error message. 
-   * 
+   * @returns Error code and error message.
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendWXCard(USER_ID, '123dsdajkasd231jhksad');
-   * ```    
+   * ```
    */
   sendWXCard(
     userId: string,
@@ -629,16 +630,16 @@ export default class WechatClient {
 
   /**
    * 发送小程序卡片（要求小程序与公众号已关联）
-   * 
+   *
    * @param userId - User ID of the recipient
    * @param miniProgramPage - Info of the mini program page to be sent.
    * @param options - The other parameters.
    * @returns Error code and error message.
-   * 
+   *
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   * 
+   *
    * @example
-   * 
+   *
    * ```js
    * await client.sendMiniProgramPage(USER_ID, {
    *   title: 'title',
@@ -646,7 +647,7 @@ export default class WechatClient {
    *   pagepath: 'pagepath',
    *   thumbMediaId: 'thumb_media_id',
    * });
-   * ```    
+   * ```
    */
   sendMiniProgramPage(
     userId: string,

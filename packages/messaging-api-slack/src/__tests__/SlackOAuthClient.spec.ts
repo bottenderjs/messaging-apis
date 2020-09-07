@@ -292,74 +292,6 @@ describe('#callMethod', () => {
     expect(res).toEqual(reply);
   });
 
-  it('should call slack api with custom token', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      ts: '1405895017.000506',
-      channel: 'C024BE91L',
-      message: {},
-    };
-
-    mock
-      .onPost(
-        '/chat.postMessage',
-        querystring.stringify({
-          channel: CHANNEL,
-          text: 'hello',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.callMethod('chat.postMessage', {
-      token: 'custom token',
-      channel: CHANNEL,
-      text: 'hello',
-    });
-
-    expect(res).toEqual(reply);
-  });
-
-  it('should call slack api with custom token using `accessToken` key', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      ts: '1405895017.000506',
-      channel: 'C024BE91L',
-      message: {},
-    };
-
-    mock
-      .onPost(
-        '/chat.postMessage',
-        querystring.stringify({
-          channel: CHANNEL,
-          text: 'hello',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.callMethod('chat.postMessage', {
-      accessToken: 'custom token',
-      channel: CHANNEL,
-      text: 'hello',
-    });
-
-    expect(res).toEqual(reply);
-  });
-
   it('should throw if slack api return not ok', async () => {
     expect.assertions(1);
     const { client, mock } = createMock();
@@ -529,42 +461,6 @@ describe('#chat.postMessage', () => {
     const res = await client.chat.postMessage({
       channel: CHANNEL,
       text: 'hello',
-    });
-
-    expect(res).toEqual(reply);
-  });
-
-  it('should call chat.postMessage with channel and text and optional options, including custom token', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      ts: '1405895017.000506',
-      channel: 'C024BE91L',
-      message: {},
-    };
-
-    mock
-      .onPost(
-        '/chat.postMessage',
-        querystring.stringify({
-          channel: CHANNEL,
-          text: 'hello',
-          as_user: true,
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.chat.postMessage({
-      channel: CHANNEL,
-      text: 'hello',
-      asUser: true,
-      accessToken: 'custom token',
     });
 
     expect(res).toEqual(reply);
@@ -833,44 +729,6 @@ describe('#chat.postEphemeral', () => {
     expect(res).toEqual(reply);
   });
 
-  it('should call chat.postEphemeral with channel, user and text and optional options, including custom token', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      ts: '1405895017.000506',
-      channel: 'C024BE91L',
-      message: {},
-    };
-
-    mock
-      .onPost(
-        '/chat.postEphemeral',
-        querystring.stringify({
-          channel: CHANNEL,
-          user: USER,
-          text: 'hello',
-          as_user: true,
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.chat.postEphemeral({
-      channel: CHANNEL,
-      user: USER,
-      text: 'hello',
-      asUser: true,
-      accessToken: 'custom token',
-    });
-
-    expect(res).toEqual(reply);
-  });
-
   it('should support blocks', async () => {
     const { client, mock } = createMock();
 
@@ -1021,44 +879,6 @@ describe('#chat.update', () => {
       ],
       asUser: true,
       ts: '1405894322.332768',
-    });
-
-    expect(res).toEqual(reply);
-  });
-
-  it('should call chat.update with channel, text, ts and optional options, including custom token', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      ts: '1405895017.000506',
-      channel: 'C024BE91L',
-      message: {},
-    };
-
-    mock
-      .onPost(
-        '/chat.update',
-        querystring.stringify({
-          channel: CHANNEL,
-          text: 'hello',
-          as_user: true,
-          ts: '1405895017.000506',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.chat.update({
-      channel: CHANNEL,
-      text: 'hello',
-      asUser: true,
-      ts: '1405895017.000506',
-      accessToken: 'custom token',
     });
 
     expect(res).toEqual(reply);
@@ -1350,44 +1170,6 @@ describe('#chat.scheduleMessage', () => {
       ],
       asUser: true,
       postAt: '299876400',
-    });
-
-    expect(res).toEqual(reply);
-  });
-
-  it('should call chat.scheduleMessage with channel, text, post_at and optional options, including custom token', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      ts: '1405895017.000506',
-      channel: 'C024BE91L',
-      message: {},
-    };
-
-    mock
-      .onPost(
-        '/chat.scheduleMessage',
-        querystring.stringify({
-          channel: CHANNEL,
-          text: 'hello',
-          as_user: true,
-          post_at: '299876400',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.chat.scheduleMessage({
-      channel: CHANNEL,
-      text: 'hello',
-      asUser: true,
-      postAt: '299876400',
-      accessToken: 'custom token',
     });
 
     expect(res).toEqual(reply);
@@ -1878,76 +1660,6 @@ describe('#getUserList', () => {
 
     expect(res).toEqual({ members: camelcaseMembers, next: undefined });
   });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      members: snakecaseMembers,
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'dXNlcjpVMEc5V0ZYTlo=',
-      },
-    };
-
-    mock
-      .onPost(
-        '/users.list',
-        querystring.stringify({
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getUserList({ accessToken: 'custom token' });
-
-    expect(res).toEqual({
-      members: camelcaseMembers,
-      next: 'dXNlcjpVMEc5V0ZYTlo=',
-    });
-  });
-
-  it('support cursor and custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      members: snakecaseMembers,
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'dXNlcjpVMEc5V0ZYTlo=',
-      },
-    };
-
-    mock
-      .onPost(
-        '/users.list',
-        querystring.stringify({
-          cursor: 'cursor',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getUserList({
-      cursor: 'cursor',
-      accessToken: 'custom token',
-    });
-
-    expect(res).toEqual({
-      members: camelcaseMembers,
-      next: 'dXNlcjpVMEc5V0ZYTlo=',
-    });
-  });
 });
 
 describe('#getAllUserList', () => {
@@ -1999,55 +1711,6 @@ describe('#getAllUserList', () => {
 
     expect(res).toEqual(camelcaseMembers);
   });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply1 = {
-      ok: true,
-      members: [snakecaseMembers[0]],
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'cursor1',
-      },
-    };
-
-    const reply2 = {
-      ok: true,
-      members: [snakecaseMembers[1]],
-      cache_ts: 1498777272,
-    };
-
-    mock
-      .onPost(
-        '/users.list',
-        querystring.stringify({
-          cursor: undefined,
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .replyOnce(200, reply1)
-      .onPost(
-        '/users.list',
-        querystring.stringify({
-          cursor: 'cursor1',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .replyOnce(200, reply2);
-
-    const res = await client.getAllUserList({ accessToken: 'custom token' });
-
-    expect(res).toEqual(camelcaseMembers);
-  });
 });
 
 describe('#getUserInfo', () => {
@@ -2074,35 +1737,6 @@ describe('#getUserInfo', () => {
       .reply(200, reply);
 
     const res = await client.getUserInfo('U023BECGF');
-
-    expect(res).toEqual(camelcaseUser);
-  });
-
-  it('cupport custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      user: snakecaseUser,
-    };
-
-    mock
-      .onPost(
-        '/users.info',
-        querystring.stringify({
-          user: 'U023BECGF',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getUserInfo('U023BECGF', {
-      accessToken: 'custom token',
-    });
 
     expect(res).toEqual(camelcaseUser);
   });
@@ -2178,35 +1812,6 @@ describe('#getChannelInfo', () => {
       .reply(200, reply);
 
     const res = await client.getChannelInfo('C024BE91L');
-
-    expect(res).toEqual(camelcaseChannelInfo);
-  });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      channel: snakecaseChannelInfo,
-    };
-
-    mock
-      .onPost(
-        '/channels.info',
-        querystring.stringify({
-          channel: 'C024BE91L',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getChannelInfo('C024BE91L', {
-      accessToken: 'custom token',
-    });
 
     expect(res).toEqual(camelcaseChannelInfo);
   });
@@ -2313,35 +1918,6 @@ describe('#getConversationInfo', () => {
 
     expect(res).toEqual(camelcaseChannelInfo);
   });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      channel: snakecaseChannelInfo,
-    };
-
-    mock
-      .onPost(
-        '/conversations.info',
-        querystring.stringify({
-          channel: 'C024BE91L',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getConversationInfo('C024BE91L', {
-      accessToken: 'custom token',
-    });
-
-    expect(res).toEqual(camelcaseChannelInfo);
-  });
 });
 
 describe('#getConversationMembers', () => {
@@ -2407,41 +1983,6 @@ describe('#getConversationMembers', () => {
 
     expect(res).toEqual({ members, next: undefined });
   });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const members = ['U023BECGF', 'U061F7AUR', 'W012A3CDE'];
-
-    const reply = {
-      ok: true,
-      members,
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'e3VzZXJfaWQ6IFcxMjM0NTY3fQ==',
-      },
-    };
-
-    mock
-      .onPost(
-        '/conversations.members',
-        querystring.stringify({
-          channel: 'C012AB3CD',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getConversationMembers('C012AB3CD', {
-      accessToken: 'custom token',
-    });
-
-    expect(res).toEqual({ members, next: 'e3VzZXJfaWQ6IFcxMjM0NTY3fQ==' });
-  });
 });
 
 describe('#getAllConversationMembers', () => {
@@ -2494,61 +2035,6 @@ describe('#getAllConversationMembers', () => {
       .replyOnce(200, reply2);
 
     const res = await client.getAllConversationMembers('C012AB3CD');
-
-    expect(res).toEqual(members);
-  });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const members = ['U023BECGF', 'U061F7AUR'];
-
-    const reply1 = {
-      ok: true,
-      members: [members[0]],
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'cursor1',
-      },
-    };
-
-    const reply2 = {
-      ok: true,
-      members: [members[1]],
-      cache_ts: 1498777272,
-    };
-
-    mock
-      .onPost(
-        '/conversations.members',
-        querystring.stringify({
-          channel: 'C012AB3CD',
-          cursor: undefined,
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .replyOnce(200, reply1)
-      .onPost(
-        '/conversations.members',
-        querystring.stringify({
-          channel: 'C012AB3CD',
-          cursor: 'cursor1',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .replyOnce(200, reply2);
-
-    const res = await client.getAllConversationMembers('C012AB3CD', {
-      accessToken: 'custom token',
-    });
 
     expect(res).toEqual(members);
   });
@@ -2740,41 +2226,6 @@ describe('#getConversationList', () => {
 
     expect(res).toEqual({ channels: camelcaseChannels, next: undefined });
   });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: true,
-      channels: snakecaseChannels,
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'aW1faWQ6RDBCSDk1RExI',
-      },
-    };
-
-    mock
-      .onPost(
-        '/conversations.list',
-        querystring.stringify({
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .reply(200, reply);
-
-    const res = await client.getConversationList({
-      accessToken: 'custom token',
-    });
-
-    expect(res).toEqual({
-      channels: camelcaseChannels,
-      next: 'aW1faWQ6RDBCSDk1RExI',
-    });
-  });
 });
 
 describe('#getAllConversationList', () => {
@@ -2964,56 +2415,6 @@ describe('#getAllConversationList', () => {
       .replyOnce(200, reply2);
 
     const res = await client.getAllConversationList();
-
-    expect(res).toEqual(camelcaseChannels);
-  });
-
-  it('support custom token in options', async () => {
-    const { client, mock } = createMock();
-
-    const reply1 = {
-      ok: true,
-      channels: [snakecaseChannels[0]],
-      cache_ts: 1498777272,
-      response_metadata: {
-        next_cursor: 'cursor1',
-      },
-    };
-
-    const reply2 = {
-      ok: true,
-      channels: [snakecaseChannels[1]],
-      cache_ts: 1498777272,
-    };
-
-    mock
-      .onPost(
-        '/conversations.list',
-        querystring.stringify({
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .replyOnce(200, reply1)
-      .onPost(
-        '/conversations.list',
-        querystring.stringify({
-          cursor: 'cursor1',
-          token: 'custom token',
-        }),
-        {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      )
-      .replyOnce(200, reply2);
-
-    const res = await client.getAllConversationList({
-      accessToken: 'custom token',
-    });
 
     expect(res).toEqual(camelcaseChannels);
   });

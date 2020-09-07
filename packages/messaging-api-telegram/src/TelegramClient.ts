@@ -154,7 +154,9 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getUpdates(options?: TelegramTypes.GetUpdatesOption): Promise<TelegramTypes.Update[]> {
+  getUpdates(
+    options?: TelegramTypes.GetUpdatesOption
+  ): Promise<TelegramTypes.Update[]> {
     return this.request('/getUpdates', {
       ...options,
     });
@@ -1297,7 +1299,9 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getChatAdministrators(chatId: string | number): Promise<TelegramTypes.ChatMember[]> {
+  getChatAdministrators(
+    chatId: string | number
+  ): Promise<TelegramTypes.ChatMember[]> {
     return this.request('/getChatAdministrators', {
       chatId,
     });

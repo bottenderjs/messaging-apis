@@ -234,7 +234,9 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getPageInfo({ fields }: { fields?: string[] } = {}): Promise<MessengerTypes.PageInfo> {
+  getPageInfo({ fields }: { fields?: string[] } = {}): Promise<
+    MessengerTypes.PageInfo
+  > {
     return this.axios
       .get('/me', {
         params: {
@@ -468,7 +470,9 @@ export default class MessengerClient {
    * //   "status": "<pending|rejected|approved|limited>"
    * // }]
    */
-  getMessagingFeatureReview(): Promise<MessengerTypes.MessagingFeatureReview[]> {
+  getMessagingFeatureReview(): Promise<
+    MessengerTypes.MessagingFeatureReview[]
+  > {
     return this.axios
       .get<{ data: MessengerTypes.MessagingFeatureReview[] }>(
         `/me/messaging_feature_review?access_token=${this.accessToken}`
@@ -547,7 +551,9 @@ export default class MessengerClient {
    * // ]
    * ```
    */
-  getMessengerProfile(fields: string[]): Promise<MessengerTypes.MessengerProfile[]> {
+  getMessengerProfile(
+    fields: string[]
+  ): Promise<MessengerTypes.MessengerProfile[]> {
     return this.axios
       .get<{ data: MessengerTypes.MessengerProfile[] }>(
         `/me/messenger_profile?fields=${fields.join(',')}&access_token=${
@@ -670,7 +676,9 @@ export default class MessengerClient {
    * await client.setGetStarted('GET_STARTED');
    * ```
    */
-  setGetStarted(payload: string): Promise<MessengerTypes.MutationSuccessResponse> {
+  setGetStarted(
+    payload: string
+  ): Promise<MessengerTypes.MutationSuccessResponse> {
     return this.setMessengerProfile({
       getStarted: {
         payload,
@@ -827,7 +835,9 @@ export default class MessengerClient {
    * ```js
    * ```
    */
-  getUserPersistentMenu(userId: string): Promise<MessengerTypes.PersistentMenu | null> {
+  getUserPersistentMenu(
+    userId: string
+  ): Promise<MessengerTypes.PersistentMenu | null> {
     return this.axios
       .get(
         `/me/custom_user_settings?psid=${userId}&access_token=${this.accessToken}`
@@ -835,7 +845,8 @@ export default class MessengerClient {
       .then(
         (res) =>
           res.data.data[0]
-            ? (res.data.data[0].userLevelPersistentMenu as MessengerTypes.PersistentMenu)
+            ? (res.data.data[0]
+                .userLevelPersistentMenu as MessengerTypes.PersistentMenu)
             : null,
         handleError
       );
@@ -1409,7 +1420,10 @@ export default class MessengerClient {
    */
   sendAudio(
     psidOrRecipient: MessengerTypes.PsidOrRecipient,
-    audio: string | MessengerTypes.FileData | MessengerTypes.MediaAttachmentPayload,
+    audio:
+      | string
+      | MessengerTypes.FileData
+      | MessengerTypes.MediaAttachmentPayload,
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(audio) || audio instanceof fs.ReadStream) {
@@ -1451,7 +1465,10 @@ export default class MessengerClient {
    */
   sendImage(
     psidOrRecipient: MessengerTypes.PsidOrRecipient,
-    image: string | MessengerTypes.FileData | MessengerTypes.MediaAttachmentPayload,
+    image:
+      | string
+      | MessengerTypes.FileData
+      | MessengerTypes.MediaAttachmentPayload,
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(image) || image instanceof fs.ReadStream) {
@@ -1493,7 +1510,10 @@ export default class MessengerClient {
    */
   sendVideo(
     psidOrRecipient: MessengerTypes.PsidOrRecipient,
-    video: string | MessengerTypes.FileData | MessengerTypes.MediaAttachmentPayload,
+    video:
+      | string
+      | MessengerTypes.FileData
+      | MessengerTypes.MediaAttachmentPayload,
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(video) || video instanceof fs.ReadStream) {
@@ -1535,7 +1555,10 @@ export default class MessengerClient {
    */
   sendFile(
     psidOrRecipient: MessengerTypes.PsidOrRecipient,
-    file: string | MessengerTypes.FileData | MessengerTypes.MediaAttachmentPayload,
+    file:
+      | string
+      | MessengerTypes.FileData
+      | MessengerTypes.MediaAttachmentPayload,
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(file) || file instanceof fs.ReadStream) {

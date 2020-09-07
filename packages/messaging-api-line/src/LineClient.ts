@@ -1043,7 +1043,10 @@ export default class LineClient {
     messages: LineTypes.Message[];
   }): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/multicast', body)
+      .post<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/message/multicast',
+        body
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1580,7 +1583,10 @@ export default class LineClient {
    * pictureUrl:
    * - Profile image URL. "https" image URL. Not included in the response if the user doesn't have a profile image.
    */
-  getGroupMemberProfile(groupId: string, userId: string): Promise<LineTypes.User> {
+  getGroupMemberProfile(
+    groupId: string,
+    userId: string
+  ): Promise<LineTypes.User> {
     return this.axios
       .get(`/v2/bot/group/${groupId}/member/${userId}`)
       .then((res) => res.data, handleError);
@@ -1606,7 +1612,10 @@ export default class LineClient {
    * pictureUrl:
    * - Profile image URL. "https" image URL. Not included in the response if the user doesn't have a profile image.
    */
-  getRoomMemberProfile(roomId: string, userId: string): Promise<LineTypes.User> {
+  getRoomMemberProfile(
+    roomId: string,
+    userId: string
+  ): Promise<LineTypes.User> {
     return this.axios
       .get(`/v2/bot/room/${roomId}/member/${userId}`)
       .then((res) => res.data, handleError);
@@ -1898,7 +1907,9 @@ export default class LineClient {
    * @param richMenu - The rich menu represented as a rich menu object.
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    */
-  createRichMenu(richMenu: LineTypes.RichMenu): Promise<{ richMenuId: string }> {
+  createRichMenu(
+    richMenu: LineTypes.RichMenu
+  ): Promise<{ richMenuId: string }> {
     return this.axios
       .post('/v2/bot/richmenu', richMenu)
       .then((res) => res.data, handleError);
@@ -1916,7 +1927,9 @@ export default class LineClient {
    * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and an empty JSON object.
    */
-  deleteRichMenu(richMenuId: string): Promise<LineTypes.MutationSuccessResponse> {
+  deleteRichMenu(
+    richMenuId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
       .delete(`/v2/bot/richmenu/${richMenuId}`)
       .then((res) => res.data, handleError);
@@ -2188,7 +2201,10 @@ export default class LineClient {
    * @param liffApp - Partial LIFF app settings. Only the properties specified in the request body are updated.
    * @returns Status code `200` is returned.
    */
-  updateLiffApp(liffId: string, liffApp: LineTypes.PartialLiffApp): Promise<void> {
+  updateLiffApp(
+    liffId: string,
+    liffApp: LineTypes.PartialLiffApp
+  ): Promise<void> {
     return this.axios
       .put(`/liff/v1/apps/${liffId}/view`, liffApp)
       .then((res) => res.data, handleError);
@@ -2451,7 +2467,9 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and a [[NumberOfFollowersResponse]].
    */
-  getNumberOfFollowers(date: string): Promise<LineTypes.NumberOfFollowersResponse> {
+  getNumberOfFollowers(
+    date: string
+  ): Promise<LineTypes.NumberOfFollowersResponse> {
     return this.axios
       .get<LineTypes.NumberOfFollowersResponse>('/v2/bot/insight/followers', {
         params: {
@@ -2876,7 +2894,9 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and an [[AudienceGroupAuthorityLevel]].
    */
-  getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
+  getAudienceGroupAuthorityLevel(): Promise<
+    LineTypes.AudienceGroupAuthorityLevel
+  > {
     return this.axios
       .get(`/v2/bot/audienceGroup/authorityLevel`)
       .then((res) => res.data, handleError);
