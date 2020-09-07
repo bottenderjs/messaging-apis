@@ -7,7 +7,7 @@ export type ClientConfig = {
 };
 
 export type Update = {
-  updateId: string;
+  updateId: number;
   message?: Message;
   editedMessage?: Message;
   channelPost?: Message;
