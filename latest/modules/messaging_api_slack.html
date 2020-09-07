@@ -107,9 +107,9 @@
 
 <span class="hljs-comment">// get access token by setup OAuth &amp; Permissions function to your app.</span>
 <span class="hljs-comment">// https://api.slack.com/docs/oauth</span>
-<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SlackOAuthClient(
-  <span class="hljs-string">&#x27;xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>
-);</code></pre>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SlackOAuthClient({
+  <span class="hljs-attr">accessToken</span>: <span class="hljs-string">&#x27;xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>,
+});</code></pre>
 					<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
 						<h4>Error Handling</h4>
 					</a>
@@ -202,9 +202,9 @@
 
 <span class="hljs-comment">// get webhook URL by adding a Incoming Webhook integration to your team.</span>
 <span class="hljs-comment">// https://my.slack.com/services/new/incoming-webhook/</span>
-<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SlackWebhookClient(
-  <span class="hljs-string">&#x27;https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ&#x27;</span>
-);</code></pre>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SlackWebhookClient({
+  <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ&#x27;</span>,
+});</code></pre>
 					<br />
 					<a href="#api-reference-1" id="api-reference-1" style="color: inherit; text-decoration: none;">
 						<h2>API Reference</h2>

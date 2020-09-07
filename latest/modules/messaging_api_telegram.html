@@ -108,7 +108,9 @@
 					<pre><code class="language-js"><span class="hljs-keyword">const</span> { TelegramClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-telegram&#x27;</span>);
 
 <span class="hljs-comment">// get accessToken from telegram [@BotFather](https://telegram.me/BotFather)</span>
-<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> TelegramClient(<span class="hljs-string">&#x27;12345678:AaBbCcDdwhatever&#x27;</span>);</code></pre>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> TelegramClient({
+  <span class="hljs-attr">accessToken</span>: <span class="hljs-string">&#x27;12345678:AaBbCcDdwhatever&#x27;</span>,
+});</code></pre>
 					<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
 						<h3>Error Handling</h3>
 					</a>
