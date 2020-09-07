@@ -38,6 +38,7 @@ export default class FacebookBatchQueue {
    * @param options - Optional batch config.
    *
    * @example
+   *
    * ```js
    * const client = new MessengerClient();
    * new FacebookBatchQueue(client);
@@ -72,6 +73,7 @@ export default class FacebookBatchQueue {
    * @returns A promise resolves the response of the request.
    *
    * @example
+   *
    * ```js
    * await bq.push({
    *   method: 'POST',
@@ -83,9 +85,9 @@ export default class FacebookBatchQueue {
    *   },
    * });
    * //=> {
-   *   recipientId: '...',
-   *   messageId: '...',
-   * }
+   * //  recipientId: '...',
+   * //  messageId: '...',
+   * // }
    * ```
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,10 +106,10 @@ export default class FacebookBatchQueue {
   /**
    * Flushes the queue proactively.
    *
-   * @remarks
    * This queue has a timer to flush items at a time interval, so normally you don't need to call this method.
    *
    * @example
+   *
    * ```js
    * await bq.flush();
    * ```
@@ -161,6 +163,7 @@ export default class FacebookBatchQueue {
    * Stops the internal timer.
    *
    * @example
+   *
    * ```js
    * bq.stop();
    * ```

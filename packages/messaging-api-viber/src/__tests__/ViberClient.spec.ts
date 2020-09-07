@@ -1,7 +1,9 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import ViberClient from '../ViberClient';
-import { EventType } from '../ViberTypes';
+import { ViberTypes } from '../ViberTypes';
+
+const { EventType } = ViberTypes;
 
 const AUTH_TOKEN = '445da6az1s345z78-dazcczb2542zv51a-e0vc5fva17480im9';
 

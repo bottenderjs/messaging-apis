@@ -29,11 +29,9 @@ yarn add facebook-batch
 const { MessengerClient, MessengerBatch } = require('messaging-api-messenger');
 const { FacebookBatchQueue } = require('facebook-batch');
 
-const client = MessengerClient.connect({
+const queue = new FacebookBatchQueue({
   accessToken: ACCESS_TOKEN,
 });
-
-const queue = new FacebookBatchQueue(client);
 
 (async () => {
   await queue.push(
@@ -66,10 +64,15 @@ Retry for error: `(#613) Calls to this api have exceeded the rate limit.`.
 ```js
 const { FacebookBatchQueue, isError613 } = require('facebook-batch');
 
-const queue = new FacebookBatchQueue(client, {
-  shouldRetry: isError613,
-  retryTimes: 2,
-});
+const queue = new FacebookBatchQueue(
+  {
+    accessToken: ACCESS_TOKEN,
+  },
+  {
+    shouldRetry: isError613,
+    retryTimes: 2,
+  }
+);
 ```
 
 ## Options

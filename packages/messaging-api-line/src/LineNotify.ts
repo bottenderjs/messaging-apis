@@ -9,7 +9,7 @@ import axios, {
 import warning from 'warning';
 import { JsonObject } from 'type-fest';
 
-import * as Types from './LineTypes';
+import type { LineTypes } from './LineTypes';
 
 function handleError(
   err: BaseAxiosError<{
@@ -56,7 +56,7 @@ export default class LineNotify {
   /**
    * @deprecated Use `new LineNotify(...)` instead.
    */
-  static connect(config: Types.LineNotifyConfig): LineNotify {
+  static connect(config: LineTypes.LineNotifyConfig): LineNotify {
     warning(
       false,
       '`LineNotify.connect(...)` is deprecated. Use `new LineNotify(...)` instead.'
@@ -104,7 +104,7 @@ export default class LineNotify {
    *
    * @param config - LINE Notify configuration from LINE Notify services website.
    */
-  constructor(config: Types.LineNotifyConfig) {
+  constructor(config: LineTypes.LineNotifyConfig) {
     this.clientId = config.clientId;
     this.clientSecret = config.clientSecret;
     this.redirectUri = config.redirectUri;
@@ -225,7 +225,7 @@ export default class LineNotify {
   async sendNotify(
     accessToken: string,
     message: string,
-    options: Types.LineNotifyOptions = {}
+    options: LineTypes.LineNotifyOptions = {}
   ): Promise<{
     status: string;
     message: string;

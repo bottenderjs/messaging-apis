@@ -32,7 +32,7 @@
   - [LINE Front-end Framework API](#liff-api)
   - [LINE Pay](#line-pay)
 - [Debug Tips](#debug-tips)
-- [Test](#test)
+- [Testing](#testing)
 
 ## Installation
 
@@ -64,7 +64,7 @@ const client = new LineClient({
 
 ### Error Handling
 
-`messaging-api-line` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly `console.log` on the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
+`messaging-api-line` uses [axios](https://github.com/axios/axios) as HTTP client. We use [axios-error](https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error) package to wrap API error instances for better formatting error messages. Directly calling `console.log` with the error instance will return formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via those keys on the error instance.
 
 ```js
 client.replyText(token, text).catch((error) => {
@@ -2829,15 +2829,15 @@ linePay.refund(TRANSACTION_ID).then((result) => {
 
 ## Debug Tips
 
-### Log requests details
+### Log Requests Details
 
 To enable default request debugger, use following `DEBUG` env variable:
 
 ```sh
-DEBUG=messaging-api-line
+DEBUG=messaging-api:request
 ```
 
-If you want to use custom request logging function, just define your own `onRequest`:
+If you want to use a custom request logging function, just provide your own `onRequest`:
 
 ```js
 const client = new LineClient({
@@ -2849,11 +2849,11 @@ const client = new LineClient({
 });
 ```
 
-## Test
+## Testing
 
-### Point requests to your dummy server
+### Point Requests to Your Dummy Server
 
-To avoid sending requests to real LINE server, specify `origin` option when constructing your client:
+To avoid sending requests to real LINE server, specify the `origin` option when constructing your client:
 
 ```js
 const { LineClient } = require('messaging-api-line');
@@ -2865,33 +2865,4 @@ const client = new LineClient({
 });
 ```
 
-> Warning: Don't do this on production server.
-
-### Manual Mock with [Jest](https://facebook.github.io/jest/)
-
-create `__mocks__/messaging-api-line.js` in your project root:
-
-```js
-// __mocks__/messaging-api-line.js
-const jestMock = require('jest-mock');
-const { Line, LineClient } = require.requireActual('messaging-api-line');
-
-module.exports = {
-  Line,
-  LineClient: {
-    connect: jest.fn(() => {
-      const Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(LineClient)
-      );
-      return new Mock();
-    }),
-  },
-};
-```
-
-Then, mock `messaging-api-line` package in your tests:
-
-```js
-// __tests__/mytest.spec.js
-jest.mock('messaging-api-line');
-```
+> Warning: Don't do this on your production server.

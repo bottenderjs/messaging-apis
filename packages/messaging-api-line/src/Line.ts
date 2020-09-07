@@ -1,9 +1,9 @@
-import * as Types from './LineTypes';
+import type { LineTypes } from './LineTypes';
 
 function createText(
   text: string,
-  options: Types.MessageOptions & { emojis?: Types.Emoji[] } = {}
-): Types.TextMessage {
+  options: LineTypes.MessageOptions & { emojis?: LineTypes.Emoji[] } = {}
+): LineTypes.TextMessage {
   return {
     type: 'text',
     text,
@@ -16,8 +16,8 @@ function createImage(
     originalContentUrl: string;
     previewImageUrl?: string;
   },
-  options: Types.MessageOptions = {}
-): Types.ImageMessage {
+  options: LineTypes.MessageOptions = {}
+): LineTypes.ImageMessage {
   return {
     type: 'image',
     originalContentUrl: image.originalContentUrl,
@@ -31,8 +31,8 @@ function createVideo(
     originalContentUrl: string;
     previewImageUrl: string;
   },
-  options: Types.MessageOptions = {}
-): Types.VideoMessage {
+  options: LineTypes.MessageOptions = {}
+): LineTypes.VideoMessage {
   return {
     type: 'video',
     originalContentUrl: video.originalContentUrl,
@@ -46,8 +46,8 @@ function createAudio(
     originalContentUrl: string;
     duration: number;
   },
-  options: Types.MessageOptions = {}
-): Types.AudioMessage {
+  options: LineTypes.MessageOptions = {}
+): LineTypes.AudioMessage {
   return {
     type: 'audio',
     originalContentUrl: audio.originalContentUrl,
@@ -57,9 +57,9 @@ function createAudio(
 }
 
 function createLocation(
-  { title, address, latitude, longitude }: Types.Location,
-  options: Types.MessageOptions = {}
-): Types.LocationMessage {
+  { title, address, latitude, longitude }: LineTypes.Location,
+  options: LineTypes.MessageOptions = {}
+): LineTypes.LocationMessage {
   return {
     type: 'location',
     title,
@@ -71,9 +71,9 @@ function createLocation(
 }
 
 function createSticker(
-  sticker: Omit<Types.StickerMessage, 'type'>,
-  options: Types.MessageOptions = {}
-): Types.StickerMessage {
+  sticker: Omit<LineTypes.StickerMessage, 'type'>,
+  options: LineTypes.MessageOptions = {}
+): LineTypes.StickerMessage {
   return {
     type: 'sticker',
     packageId: sticker.packageId,
@@ -89,9 +89,9 @@ function createImagemap(
     baseSize,
     video,
     actions,
-  }: Omit<Types.ImagemapMessage, 'type' | 'altText'>,
-  options: Types.MessageOptions = {}
-): Types.ImagemapMessage {
+  }: Omit<LineTypes.ImagemapMessage, 'type' | 'altText'>,
+  options: LineTypes.MessageOptions = {}
+): LineTypes.ImagemapMessage {
   return {
     type: 'imagemap',
     baseUrl,
@@ -103,11 +103,11 @@ function createImagemap(
   };
 }
 
-function createTemplate<T extends Types.Template>(
+function createTemplate<T extends LineTypes.Template>(
   altText: string,
   template: T,
-  options: Types.MessageOptions = {}
-): Types.TemplateMessage<T> {
+  options: LineTypes.MessageOptions = {}
+): LineTypes.TemplateMessage<T> {
   return {
     type: 'template',
     altText,
@@ -134,11 +134,11 @@ function createButtonTemplate(
     imageBackgroundColor?: string;
     title?: string;
     text: string;
-    defaultAction?: Types.Action;
-    actions: Types.Action[];
+    defaultAction?: LineTypes.Action;
+    actions: LineTypes.Action[];
   },
-  options: Types.MessageOptions = {}
-): Types.TemplateMessage<Types.ButtonsTemplate> {
+  options: LineTypes.MessageOptions = {}
+): LineTypes.TemplateMessage<LineTypes.ButtonsTemplate> {
   return createTemplate(
     altText,
     {
@@ -163,10 +163,10 @@ function createConfirmTemplate(
     actions,
   }: {
     text: string;
-    actions: Types.Action[];
+    actions: LineTypes.Action[];
   },
-  options: Types.MessageOptions = {}
-): Types.TemplateMessage<Types.ConfirmTemplate> {
+  options: LineTypes.MessageOptions = {}
+): LineTypes.TemplateMessage<LineTypes.ConfirmTemplate> {
   return createTemplate(
     altText,
     {
@@ -180,7 +180,7 @@ function createConfirmTemplate(
 
 function createCarouselTemplate(
   altText: string,
-  columns: Types.ColumnObject[],
+  columns: LineTypes.ColumnObject[],
   {
     imageAspectRatio,
     imageSize,
@@ -188,9 +188,9 @@ function createCarouselTemplate(
   }: {
     imageAspectRatio?: 'rectangle' | 'square';
     imageSize?: 'cover' | 'contain';
-    quickReply?: Types.QuickReply;
+    quickReply?: LineTypes.QuickReply;
   } = {}
-): Types.TemplateMessage<Types.CarouselTemplate> {
+): LineTypes.TemplateMessage<LineTypes.CarouselTemplate> {
   return createTemplate(
     altText,
     {
@@ -205,9 +205,9 @@ function createCarouselTemplate(
 
 function createImageCarouselTemplate(
   altText: string,
-  columns: Types.ImageCarouselColumnObject[],
-  options: Types.MessageOptions = {}
-): Types.TemplateMessage<Types.ImageCarouselTemplate> {
+  columns: LineTypes.ImageCarouselColumnObject[],
+  options: LineTypes.MessageOptions = {}
+): LineTypes.TemplateMessage<LineTypes.ImageCarouselTemplate> {
   return createTemplate(
     altText,
     {
@@ -220,9 +220,9 @@ function createImageCarouselTemplate(
 
 function createFlex(
   altText: string,
-  contents: Types.FlexContainer,
-  options: Types.MessageOptions = {}
-): Types.FlexMessage {
+  contents: LineTypes.FlexContainer,
+  options: LineTypes.MessageOptions = {}
+): LineTypes.FlexMessage {
   return {
     type: 'flex',
     altText,

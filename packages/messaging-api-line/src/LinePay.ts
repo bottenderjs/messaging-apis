@@ -9,7 +9,7 @@ import axios, {
 import invariant from 'ts-invariant';
 import warning from 'warning';
 
-import * as Types from './LineTypes';
+import type { LineTypes } from './LineTypes';
 
 function handleError(
   err: BaseAxiosError<{
@@ -48,7 +48,7 @@ export default class LinePay {
   /**
    * @deprecated Use `new LinePay(...)` instead.
    */
-  static connect(config: Types.LinePayConfig): LinePay {
+  static connect(config: LineTypes.LinePayConfig): LinePay {
     warning(
       false,
       '`LineNotify.connect(...)` is deprecated. Use `new LineNotify(...)` instead.'
@@ -66,7 +66,7 @@ export default class LinePay {
     channelSecret,
     sandbox = false,
     origin,
-  }: Types.LinePayConfig) {
+  }: LineTypes.LinePayConfig) {
     const linePayOrigin = sandbox
       ? 'https://sandbox-api-pay.line.me'
       : 'https://api-pay.line.me';
@@ -151,7 +151,7 @@ export default class LinePay {
   }: {
     productName: string;
     amount: number;
-    currency: Types.LinePayCurrency;
+    currency: LineTypes.LinePayCurrency;
     confirmUrl: string;
     orderId: string;
     productImageUrl?: string;
@@ -186,7 +186,7 @@ export default class LinePay {
       currency,
     }: {
       amount: number;
-      currency: Types.LinePayCurrency;
+      currency: LineTypes.LinePayCurrency;
     }
   ) {
     return this.axios
@@ -204,7 +204,7 @@ export default class LinePay {
       currency,
     }: {
       amount: number;
-      currency: Types.LinePayCurrency;
+      currency: LineTypes.LinePayCurrency;
     }
   ) {
     return this.axios

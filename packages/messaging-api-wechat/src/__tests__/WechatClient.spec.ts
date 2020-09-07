@@ -1,7 +1,9 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import WechatClient from '../WechatClient';
-import { MediaType } from '../WechatTypes';
+import { WechatTypes } from '../WechatTypes';
+
+const { MediaType } = WechatTypes;
 
 const APP_ID = 'APP_ID';
 const APP_SECRET = 'APP_SECRET';

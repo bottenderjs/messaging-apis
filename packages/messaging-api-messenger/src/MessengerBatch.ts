@@ -2,19 +2,19 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
 import Messenger from './Messenger';
-import * as Types from './MessengerTypes';
+import type { MessengerTypes } from './MessengerTypes';
 
 function omitUndefinedFields(obj = {}): object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function pickBatchOptions<T extends Types.BatchRequestOptions>(
+function pickBatchOptions<T extends MessengerTypes.BatchRequestOptions>(
   options: T
 ): Pick<T, 'name' | 'dependsOn' | 'omitResponseOnSuccess'> {
   return pick(options, ['name', 'dependsOn', 'omitResponseOnSuccess']);
 }
 
-function omitBatchOptions<T extends Types.BatchRequestOptions>(
+function omitBatchOptions<T extends MessengerTypes.BatchRequestOptions>(
   options: T
 ): Omit<T, 'name' | 'dependsOn' | 'omitResponseOnSuccess'> {
   return omit(options, ['name', 'dependsOn', 'omitResponseOnSuccess']);
@@ -22,8 +22,8 @@ function omitBatchOptions<T extends Types.BatchRequestOptions>(
 
 function sendRequest(
   body: object,
-  options?: Types.BatchRequestOptions
-): Types.BatchItem {
+  options?: MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return {
     method: 'POST',
     relativeUrl: 'me/messages',
@@ -33,10 +33,10 @@ function sendRequest(
 }
 
 function sendMessage(
-  psidOrRecipient: Types.PsidOrRecipient,
-  msg: Types.Message,
-  options: Types.SendOption & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  msg: MessengerTypes.Message,
+  options: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const recipient =
     typeof psidOrRecipient === 'string'
       ? {
@@ -64,10 +64,10 @@ function sendMessage(
 }
 
 function sendText(
-  psidOrRecipient: Types.PsidOrRecipient,
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
   text: string,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createText(text, options),
@@ -76,10 +76,10 @@ function sendText(
 }
 
 function sendAttachment(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attachment: Types.Attachment,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  attachment: MessengerTypes.Attachment,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createAttachment(attachment, options),
@@ -88,10 +88,10 @@ function sendAttachment(
 }
 
 function sendAudio(
-  psidOrRecipient: Types.PsidOrRecipient,
-  audio: string | Types.MediaAttachmentPayload,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  audio: string | MessengerTypes.MediaAttachmentPayload,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createAudio(audio, options),
@@ -100,10 +100,10 @@ function sendAudio(
 }
 
 function sendImage(
-  psidOrRecipient: Types.PsidOrRecipient,
-  image: string | Types.MediaAttachmentPayload,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  image: string | MessengerTypes.MediaAttachmentPayload,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createImage(image, options),
@@ -112,10 +112,10 @@ function sendImage(
 }
 
 function sendVideo(
-  psidOrRecipient: Types.PsidOrRecipient,
-  video: string | Types.MediaAttachmentPayload,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  video: string | MessengerTypes.MediaAttachmentPayload,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createVideo(video, options),
@@ -124,10 +124,10 @@ function sendVideo(
 }
 
 function sendFile(
-  psidOrRecipient: Types.PsidOrRecipient,
-  file: string | Types.MediaAttachmentPayload,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  file: string | MessengerTypes.MediaAttachmentPayload,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createFile(file, options),
@@ -136,10 +136,10 @@ function sendFile(
 }
 
 function sendTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  payload: Types.TemplateAttachmentPayload,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  payload: MessengerTypes.TemplateAttachmentPayload,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createTemplate(payload, options),
@@ -148,11 +148,11 @@ function sendTemplate(
 }
 
 function sendButtonTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
   text: string,
-  buttons: Types.TemplateButton[],
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  buttons: MessengerTypes.TemplateButton[],
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createButtonTemplate(text, buttons, options),
@@ -161,15 +161,15 @@ function sendButtonTemplate(
 }
 
 function sendGenericTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  elements: Types.TemplateElement[],
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  elements: MessengerTypes.TemplateElement[],
   {
     imageAspectRatio = 'horizontal',
     ...options
   }: {
     imageAspectRatio?: 'horizontal' | 'square';
-  } & Types.SendOption = {}
-): Types.BatchItem {
+  } & MessengerTypes.SendOption = {}
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createGenericTemplate(elements, {
@@ -182,22 +182,22 @@ function sendGenericTemplate(
 }
 
 function sendReceiptTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attrs: Types.ReceiptAttributes,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  receipt: MessengerTypes.ReceiptAttributes,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createReceiptTemplate(attrs, options),
+    Messenger.createReceiptTemplate(receipt, options),
     options
   );
 }
 
 function sendMediaTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  elements: Types.MediaElement[],
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  elements: MessengerTypes.MediaElement[],
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createMediaTemplate(elements, options),
@@ -206,10 +206,10 @@ function sendMediaTemplate(
 }
 
 function sendAirlineBoardingPassTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attrs: Types.AirlineBoardingPassAttributes,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  attrs: MessengerTypes.AirlineBoardingPassAttributes,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createAirlineBoardingPassTemplate(attrs, options),
@@ -218,10 +218,10 @@ function sendAirlineBoardingPassTemplate(
 }
 
 function sendAirlineCheckinTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attrs: Types.AirlineCheckinAttributes,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  attrs: MessengerTypes.AirlineCheckinAttributes,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createAirlineCheckinTemplate(attrs, options),
@@ -230,10 +230,10 @@ function sendAirlineCheckinTemplate(
 }
 
 function sendAirlineItineraryTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attrs: Types.AirlineItineraryAttributes,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  attrs: MessengerTypes.AirlineItineraryAttributes,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createAirlineItineraryTemplate(attrs, options),
@@ -242,10 +242,10 @@ function sendAirlineItineraryTemplate(
 }
 
 function sendAirlineUpdateTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attrs: Types.AirlineUpdateAttributes,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  attrs: MessengerTypes.AirlineUpdateAttributes,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createAirlineUpdateTemplate(attrs, options),
@@ -254,10 +254,10 @@ function sendAirlineUpdateTemplate(
 }
 
 function sendOneTimeNotifReqTemplate(
-  psidOrRecipient: Types.PsidOrRecipient,
-  attrs: Types.OneTimeNotifReqAttributes,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  attrs: MessengerTypes.OneTimeNotifReqAttributes,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
     Messenger.createOneTimeNotifReqTemplate(attrs, options),
@@ -268,10 +268,10 @@ function sendOneTimeNotifReqTemplate(
 function getUserProfile(
   userId: string,
   options: {
-    fields?: Types.UserProfileField[];
+    fields?: MessengerTypes.UserProfileField[];
     accessToken?: string;
-  } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   const fields = options.fields || [
@@ -295,8 +295,8 @@ function getUserPersistentMenu(
   userId: string,
   options: {
     accessToken?: string;
-  } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -310,16 +310,16 @@ function getUserPersistentMenu(
 
 function setUserPersistentMenu(
   userId: string,
-  menuItems: Types.MenuItem[] | Types.PersistentMenuItem[],
+  menuItems: MessengerTypes.MenuItem[] | MessengerTypes.PersistentMenuItem[],
   options: {
     accessToken?: string;
-  } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   if (
     menuItems.some(
-      (item: Types.MenuItem | Types.PersistentMenuItem) =>
+      (item: MessengerTypes.MenuItem | MessengerTypes.PersistentMenuItem) =>
         'locale' in item && item.locale === 'default'
     )
   ) {
@@ -347,7 +347,7 @@ function setUserPersistentMenu(
         {
           locale: 'default',
           composerInputDisabled: false,
-          callToActions: menuItems as Types.MenuItem[],
+          callToActions: menuItems as MessengerTypes.MenuItem[],
         },
       ],
     },
@@ -359,8 +359,8 @@ function deleteUserPersistentMenu(
   userId: string,
   options: {
     accessToken?: string;
-  } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -373,10 +373,10 @@ function deleteUserPersistentMenu(
 }
 
 function sendSenderAction(
-  psidOrRecipient: Types.PsidOrRecipient,
-  senderAction: Types.SenderAction,
-  options: Types.SendOption & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  psidOrRecipient: MessengerTypes.PsidOrRecipient,
+  senderAction: MessengerTypes.SenderAction,
+  options: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const recipient =
     typeof psidOrRecipient === 'string'
       ? {
@@ -397,23 +397,23 @@ function sendSenderAction(
 }
 
 function typingOn(
-  idOrRecipient: Types.PsidOrRecipient,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  idOrRecipient: MessengerTypes.PsidOrRecipient,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
 function typingOff(
-  idOrRecipient: Types.PsidOrRecipient,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  idOrRecipient: MessengerTypes.PsidOrRecipient,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
 function markSeen(
-  idOrRecipient: Types.PsidOrRecipient,
-  options?: Types.SendOption & Types.BatchRequestOptions
-): Types.BatchItem {
+  idOrRecipient: MessengerTypes.PsidOrRecipient,
+  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
 
@@ -421,8 +421,8 @@ function passThreadControl(
   recipientId: string,
   targetAppId: number,
   metadata?: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -441,16 +441,16 @@ function passThreadControl(
 function passThreadControlToPageInbox(
   recipientId: string,
   metadata?: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   return passThreadControl(recipientId, 263902037430900, metadata, options);
 }
 
 function takeThreadControl(
   recipientId: string,
   metadata?: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -468,8 +468,8 @@ function takeThreadControl(
 function requestThreadControl(
   recipientId: string,
   metadata?: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -486,8 +486,8 @@ function requestThreadControl(
 
 function getThreadOwner(
   recipientId: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -503,8 +503,8 @@ function getThreadOwner(
 function associateLabel(
   userId: string,
   labelId: number,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -521,8 +521,8 @@ function associateLabel(
 function dissociateLabel(
   userId: string,
   labelId: number,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {
@@ -538,8 +538,8 @@ function dissociateLabel(
 
 function getAssociatedLabels(
   userId: string,
-  options: { accessToken?: string } & Types.BatchRequestOptions = {}
-): Types.BatchItem {
+  options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
+): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
   return {

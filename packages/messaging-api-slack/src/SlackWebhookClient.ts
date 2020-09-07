@@ -7,7 +7,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import * as Types from './SlackTypes';
+import type { SlackTypes } from './SlackTypes';
 
 interface ClientConfig {
   url: string;
@@ -56,31 +56,110 @@ export default class SlackWebhookClient {
     );
   }
 
+  /**
+   * Send message by using raw body.
+   *
+   * @param body - Raw data to be sent.
+   *
+   * @see https://api.slack.com/docs/messages
+   *
+   * @example
+   *
+   * ```js
+   * await client.sendRawBody({ text: 'Hello!' });
+   * ```
+   */
   sendRawBody(
     body: Record<string, any>
-  ): Promise<Types.SendMessageSuccessResponse> {
+  ): Promise<SlackTypes.SendMessageSuccessResponse> {
     return this.axios.post('', snakecaseKeysDeep(body)).then((res) => res.data);
   }
 
-  sendText(text: string): Promise<Types.SendMessageSuccessResponse> {
+  /**
+   * Send text message.
+   *
+   * @param text - Text of the message to be sent.
+   *
+   * @see https://api.slack.com/docs/messages
+   *
+   * @example
+   *
+   * ```js
+   * await client.sendText('Hello!');
+   * ```
+   */
+  sendText(text: string): Promise<SlackTypes.SendMessageSuccessResponse> {
     return this.sendRawBody({ text });
   }
 
   /**
-   * Attachments
+   * Send multiple attachments which let you add more context to a message.
    *
-   * https://api.slack.com/docs/message-attachments
+   * @param attachments -  Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment.
+   *
+   * @see https://api.slack.com/docs/message-attachments
+   *
+   * ```js
+   * await client.sendAttachments([
+   *   {
+   *     fallback: 'some text',
+   *     pretext: 'some pretext',
+   *     color: 'good',
+   *     fields: [
+   *       {
+   *         title: 'aaa',
+   *         value: 'bbb',
+   *         short: false,
+   *       },
+   *     ],
+   *   },
+   *   {
+   *     fallback: 'some other text',
+   *     pretext: 'some pther pretext',
+   *     color: '#FF0000',
+   *     fields: [
+   *       {
+   *         title: 'ccc',
+   *         value: 'ddd',
+   *         short: false,
+   *       },
+   *     ],
+   *   },
+   * ]);
+   * ```
    */
 
   sendAttachments(
-    attachments: Types.Attachment[]
-  ): Promise<Types.SendMessageSuccessResponse> {
+    attachments: SlackTypes.Attachment[]
+  ): Promise<SlackTypes.SendMessageSuccessResponse> {
     return this.sendRawBody({ attachments });
   }
 
+  /**
+   * Send only one attachment.
+   *
+   * @param attachment - Message is an attachment. The object contains the parameters to customize the appearance of a message attachment.
+   *
+   * @see https://api.slack.com/docs/message-attachments
+   *
+   * ```js
+   * await client.sendAttachment({
+   *   fallback: 'some text',
+   *   pretext: 'some pretext',
+   *   color: 'good',
+   *   fields: [
+   *     {
+   *       title: 'aaa',
+   *       value: 'bbb',
+   *       short: false,
+   *     },
+   *   ],
+   * });
+   * ```
+   */
   sendAttachment(
-    attachment: Types.Attachment
-  ): Promise<Types.SendMessageSuccessResponse> {
+    attachment: SlackTypes.Attachment
+  ): Promise<SlackTypes.SendMessageSuccessResponse> {
     return this.sendAttachments([attachment]);
   }
 }

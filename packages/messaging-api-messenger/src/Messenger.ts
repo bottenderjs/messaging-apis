@@ -2,12 +2,12 @@ import FormData from 'form-data';
 import omit from 'lodash/omit';
 import { camelcaseKeysDeep, snakecaseKeysDeep } from 'messaging-api-common';
 
-import * as Types from './MessengerTypes';
+import type { MessengerTypes } from './MessengerTypes';
 
 function createMessage(
-  payload: Types.Message,
-  options: { quickReplies?: Types.QuickReply[] } = {}
-): Types.Message {
+  payload: MessengerTypes.Message,
+  options: { quickReplies?: MessengerTypes.QuickReply[] } = {}
+): MessengerTypes.Message {
   const message = {
     ...payload,
   };
@@ -27,17 +27,17 @@ function createMessage(
 
 function createText(
   text: string,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createMessage({ text }, options);
 }
 
 function createMessageFormData(
-  payload: Types.FileDataMediaAttachmentMessage,
-  filedata: Types.FileData,
-  options: { quickReplies?: Types.QuickReply[] } = {}
+  payload: MessengerTypes.FileDataMediaAttachmentMessage,
+  filedata: MessengerTypes.FileData,
+  options: { quickReplies?: MessengerTypes.QuickReply[] } = {}
 ): FormData {
-  const message: Types.FileDataMediaAttachmentMessage = {
+  const message: MessengerTypes.FileDataMediaAttachmentMessage = {
     ...payload,
   };
 
@@ -65,9 +65,9 @@ function createMessageFormData(
 }
 
 function createAttachment(
-  attachment: Types.Attachment,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  attachment: MessengerTypes.Attachment,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createMessage(
     {
       attachment,
@@ -77,9 +77,9 @@ function createAttachment(
 }
 
 function createAttachmentFormData(
-  attachment: Types.FileDataMediaAttachment,
-  filedata: Types.FileData,
-  options?: { quickReplies?: Types.QuickReply[] }
+  attachment: MessengerTypes.FileDataMediaAttachment,
+  filedata: MessengerTypes.FileData,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
   return createMessageFormData(
     {
@@ -91,11 +91,11 @@ function createAttachmentFormData(
 }
 
 function createAudio(
-  audio: string | Types.MediaAttachmentPayload,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  audio: string | MessengerTypes.MediaAttachmentPayload,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   if (typeof audio === 'string') {
-    const attachment: Types.Attachment = {
+    const attachment: MessengerTypes.Attachment = {
       type: 'audio',
       payload: {
         url: audio,
@@ -104,18 +104,18 @@ function createAudio(
     return createAttachment(attachment, options);
   }
 
-  const attachment: Types.Attachment = {
+  const attachment: MessengerTypes.Attachment = {
     type: 'audio',
-    payload: audio as Types.MediaAttachmentPayload,
+    payload: audio as MessengerTypes.MediaAttachmentPayload,
   };
   return createAttachment(attachment, options);
 }
 
 function createAudioFormData(
-  audio: Types.FileData,
-  options?: { quickReplies?: Types.QuickReply[] }
+  audio: MessengerTypes.FileData,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
-  const attachment: Types.FileDataMediaAttachment = {
+  const attachment: MessengerTypes.FileDataMediaAttachment = {
     type: 'audio',
     payload: {},
   };
@@ -124,11 +124,11 @@ function createAudioFormData(
 }
 
 function createImage(
-  image: string | Types.MediaAttachmentPayload,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  image: string | MessengerTypes.MediaAttachmentPayload,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   if (typeof image === 'string') {
-    const attachment: Types.Attachment = {
+    const attachment: MessengerTypes.Attachment = {
       type: 'image',
       payload: {
         url: image,
@@ -137,18 +137,18 @@ function createImage(
     return createAttachment(attachment, options);
   }
 
-  const attachment: Types.Attachment = {
+  const attachment: MessengerTypes.Attachment = {
     type: 'image',
-    payload: image as Types.MediaAttachmentPayload,
+    payload: image as MessengerTypes.MediaAttachmentPayload,
   };
   return createAttachment(attachment, options);
 }
 
 function createImageFormData(
-  image: Types.FileData,
-  options?: { quickReplies?: Types.QuickReply[] }
+  image: MessengerTypes.FileData,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
-  const attachment: Types.FileDataMediaAttachment = {
+  const attachment: MessengerTypes.FileDataMediaAttachment = {
     type: 'image',
     payload: {},
   };
@@ -157,11 +157,11 @@ function createImageFormData(
 }
 
 function createVideo(
-  video: string | Types.MediaAttachmentPayload,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  video: string | MessengerTypes.MediaAttachmentPayload,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   if (typeof video === 'string') {
-    const attachment: Types.Attachment = {
+    const attachment: MessengerTypes.Attachment = {
       type: 'video',
       payload: {
         url: video,
@@ -170,18 +170,18 @@ function createVideo(
     return createAttachment(attachment, options);
   }
 
-  const attachment: Types.Attachment = {
+  const attachment: MessengerTypes.Attachment = {
     type: 'video',
-    payload: video as Types.MediaAttachmentPayload,
+    payload: video as MessengerTypes.MediaAttachmentPayload,
   };
   return createAttachment(attachment, options);
 }
 
 function createVideoFormData(
-  video: Types.FileData,
-  options?: { quickReplies?: Types.QuickReply[] }
+  video: MessengerTypes.FileData,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
-  const attachment: Types.FileDataMediaAttachment = {
+  const attachment: MessengerTypes.FileDataMediaAttachment = {
     type: 'video',
     payload: {},
   };
@@ -190,11 +190,11 @@ function createVideoFormData(
 }
 
 function createFile(
-  file: string | Types.MediaAttachmentPayload,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  file: string | MessengerTypes.MediaAttachmentPayload,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   if (typeof file === 'string') {
-    const attachment: Types.Attachment = {
+    const attachment: MessengerTypes.Attachment = {
       type: 'file',
       payload: {
         url: file,
@@ -203,18 +203,18 @@ function createFile(
     return createAttachment(attachment, options);
   }
 
-  const attachment: Types.Attachment = {
+  const attachment: MessengerTypes.Attachment = {
     type: 'file',
-    payload: file as Types.MediaAttachmentPayload,
+    payload: file as MessengerTypes.MediaAttachmentPayload,
   };
   return createAttachment(attachment, options);
 }
 
 function createFileFormData(
-  file: Types.FileData,
-  options?: { quickReplies?: Types.QuickReply[] }
+  file: MessengerTypes.FileData,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
-  const attachment: Types.FileDataMediaAttachment = {
+  const attachment: MessengerTypes.FileDataMediaAttachment = {
     type: 'file',
     payload: {},
   };
@@ -223,9 +223,9 @@ function createFileFormData(
 }
 
 function createTemplate(
-  payload: Types.TemplateAttachmentPayload,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  payload: MessengerTypes.TemplateAttachmentPayload,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createAttachment(
     {
       type: 'template',
@@ -237,9 +237,9 @@ function createTemplate(
 
 function createButtonTemplate(
   text: string,
-  buttons: Types.TemplateButton[],
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  buttons: MessengerTypes.TemplateButton[],
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'button',
@@ -251,12 +251,12 @@ function createButtonTemplate(
 }
 
 function createGenericTemplate(
-  elements: Types.TemplateElement[],
+  elements: MessengerTypes.TemplateElement[],
   options: {
     imageAspectRatio?: 'horizontal' | 'square';
-    quickReplies?: Types.QuickReply[];
+    quickReplies?: MessengerTypes.QuickReply[];
   } = {}
-): Types.Message {
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'generic',
@@ -270,9 +270,9 @@ function createGenericTemplate(
 }
 
 function createMediaTemplate(
-  elements: Types.MediaElement[],
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  elements: MessengerTypes.MediaElement[],
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'media',
@@ -283,22 +283,22 @@ function createMediaTemplate(
 }
 
 function createReceiptTemplate(
-  attrs: Types.ReceiptAttributes,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  receipt: MessengerTypes.ReceiptAttributes,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'receipt',
-      ...attrs,
+      ...receipt,
     },
     options
   );
 }
 
 function createAirlineBoardingPassTemplate(
-  attrs: Types.AirlineBoardingPassAttributes,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  attrs: MessengerTypes.AirlineBoardingPassAttributes,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'airline_boardingpass',
@@ -309,9 +309,9 @@ function createAirlineBoardingPassTemplate(
 }
 
 function createAirlineCheckinTemplate(
-  attrs: Types.AirlineCheckinAttributes,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  attrs: MessengerTypes.AirlineCheckinAttributes,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'airline_checkin',
@@ -322,9 +322,9 @@ function createAirlineCheckinTemplate(
 }
 
 function createAirlineItineraryTemplate(
-  attrs: Types.AirlineItineraryAttributes,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  attrs: MessengerTypes.AirlineItineraryAttributes,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'airline_itinerary',
@@ -335,9 +335,9 @@ function createAirlineItineraryTemplate(
 }
 
 function createAirlineUpdateTemplate(
-  attrs: Types.AirlineUpdateAttributes,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  attrs: MessengerTypes.AirlineUpdateAttributes,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'airline_update',
@@ -348,9 +348,9 @@ function createAirlineUpdateTemplate(
 }
 
 function createOneTimeNotifReqTemplate(
-  attrs: Types.OneTimeNotifReqAttributes,
-  options?: { quickReplies?: Types.QuickReply[] }
-): Types.Message {
+  attrs: MessengerTypes.OneTimeNotifReqAttributes,
+  options?: { quickReplies?: MessengerTypes.QuickReply[] }
+): MessengerTypes.Message {
   return createTemplate(
     {
       templateType: 'one_time_notif_req',
