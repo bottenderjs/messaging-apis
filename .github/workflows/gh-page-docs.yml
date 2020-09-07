@@ -6,8 +6,7 @@ name: GitHub Page Docs
 on:
   push:
     branches:
-      # - master
-      - v1
+      - master
 
 env:
   CI: true
