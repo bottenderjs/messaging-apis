@@ -89,213 +89,32 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-- [chat.postMessage]
-
-## `postMessage(channel, message [, options])` - [Official docs](https://api.slack.com/methods/chat.postMessage)
-
-Sends a message to a channel.
-
-| Param               | Type                              | Description                                                                                |
-| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------------ |
-| channel             | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. |
-| message             | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                         |
-| options             | `Object`                          | Other optional parameters.                                                                 |
-| options.accessToken | `String`                          | Custom access token of the request.                                                        |
-
-Example:
-
-```js
-client.postMessage('C8763', { text: 'Hello!' });
-client.postMessage('C8763', { attachments: [someAttachments] });
-client.postMessage('C8763', 'Hello!');
-client.postMessage('C8763', 'Hello!', { as_user: true });
-```
-
-If you send message with `attachments`, `messaging-api-slack` will automatically stringify the `attachments` field for you.
-
-```js
-client.postMessage(
-  'C8763',
-  {
-    text: 'Hello!',
-    attachments: [
-      {
-        text: 'Choose a game to play',
-        fallback: 'You are unable to choose a game',
-        callback_id: 'wopr_game',
-        color: '#3AA3E3',
-        attachment_type: 'default',
-        actions: [
-          {
-            name: 'game',
-            text: 'Chess',
-            type: 'button',
-            value: 'chess',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    as_user: true,
-  }
-);
-```
-
-<br />
-
-## `postEphemeral(channel, user, message [, options])` - [Official docs](https://api.slack.com/methods/chat.postEphemeral)
-
-Sends an ephemeral message to a user in a channel.
-
-| Param               | Type                              | Description                                                                                                                     |
-| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| channel             | `String`                          | Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.                                      |
-| user                | `String`                          | `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument. |
-| message             | <code>String &#124; Object</code> | The message to be sent, can be text message or attachment message.                                                              |
-| options             | `Object`                          | Other optional parameters.                                                                                                      |
-| options.accessToken | `String`                          | Custom access token of the request.                                                                                             |
-
-Example:
-
-```js
-client.postEphemeral('C8763', 'U56781234', { text: 'Hello!' });
-client.postEphemeral('C8763', 'U56781234', { attachments: [someAttachments] });
-client.postEphemeral('C8763', 'U56781234', 'Hello!');
-client.postEphemeral('C8763', 'U56781234', 'Hello!', { as_user: true });
-```
+- [chat.postMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#chat)
+- [chat.postEphemeral](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#chat)
 
 <br />
 
 #### Users API
 
-- [getUserList]()
-- [getAllUserList]()
-- [getUserInfo]()
+- [getUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getuserlist)
+- [getAllUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getalluserlist)
+- [getUserInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getuserinfo)
 
 <br />
 
 #### Channels API
 
-- [getChannelInfo]()
+- [getChannelInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getchannelinfo)
 
 <br />
 
 #### Conversations API
 
-- [getConversationInfo]()
-- [getConversationMembers]()
-- [getAllConversationMembers]()
-
-## `getConversationMembers(channelId, options?)` - [Official docs](https://api.slack.com/methods/conversations.members)
-
-Retrieve members of a conversation.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| channelId           | `String` | Channel to get info on.             |
-| options             | `Object` | Optional arguments.                 |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getConversationMembers(channelId, { cursor: 'xxx' });
-client.getConversationMembers(channelId).then((res) => {
-  console.log(res);
-  // {
-  //   members: ['U061F7AUR', 'U0C0NS9HN'],
-  //   next: 'cursor',
-  // }
-});
-```
-
-<br />
-
-## `getAllConversationMembers(channelId, options?)` - [Official docs](https://api.slack.com/methods/conversations.members)
-
-Recursively retrieve members of a conversation using cursor.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| channelId           | `String` | Channel to get info on.             |
-| options             | `Object` | Other optional parameters.          |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getAllConversationMembers(channelId).then((res) => {
-  console.log(res);
-  // ['U061F7AUR', 'U0C0NS9HN', ...]
-});
-```
-
-<br />
-
-## `getConversationList(options?)` - [Official docs](https://api.slack.com/methods/conversations.list)
-
-Lists all channels in a Slack team.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| options             | `Object` | Optional arguments.                 |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getConversationList({ cursor: 'xxx' });
-client.getConversationList().then((res) => {
-  console.log(res);
-  // {
-  //   channels: [
-  //     {
-  //       id: 'C012AB3CD',
-  //       name: 'general',
-  //       ...
-  //     },
-  //     {
-  //       id: 'C012AB3C5',
-  //       name: 'random',
-  //       ...
-  //     },
-  //   ],
-  //   next: 'cursor',
-  // }
-});
-```
-
-<br />
-
-## `getAllConversationList(options?)` - [Official docs](https://api.slack.com/methods/conversations.list)
-
-Recursively lists all channels in a Slack team using cursor.
-
-| Param               | Type     | Description                         |
-| ------------------- | -------- | ----------------------------------- |
-| options             | `Object` | Optional arguments.                 |
-| options.accessToken | `String` | Custom access token of the request. |
-
-Example:
-
-```js
-client.getAllConversationList().then((res) => {
-  console.log(res);
-  // [
-  //   {
-  //     id: 'C012AB3CD',
-  //     name: 'general',
-  //     ...
-  //   },
-  //   {
-  //     id: 'C012AB3C5',
-  //     name: 'random',
-  //     ...
-  //   },
-  // ],
-});
-```
+- [getConversationInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationinfo)
+- [getConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationmembers)
+- [getAllConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getallconversationmembers)
+- [getConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationlist)
+- [getAllConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getallconversationlist)
 
 <br />
 

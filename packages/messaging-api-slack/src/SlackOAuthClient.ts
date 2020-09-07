@@ -767,8 +767,8 @@ export default class SlackOAuthClient {
   /**
    * Retrieve members of a conversation.
    *
-   * @param channelId -
-   * @param options -
+   * @param channelId - Channel to get info on.
+   * @param options - Optional arguments.
    *
    * @see https://api.slack.com/methods/conversations.members
    *
@@ -799,6 +799,21 @@ export default class SlackOAuthClient {
     }));
   }
 
+  /**
+   * Recursively retrieve members of a conversation using cursor.
+   *
+   * @param channelId - Channel to get info on.
+   * @param options - Optional arguments.
+   *
+   * @see https://api.slack.com/methods/conversations.members
+   *
+   * @example
+   *
+   * ```js
+   * await client.getAllConversationMembers(channelId);
+   * // ['U061F7AUR', 'U0C0NS9HN', ...]
+   * ```
+   */
   async getAllConversationMembers(
     channelId: string,
     options?: Omit<SlackTypes.ConversationMembersOptions, 'cursor'>
@@ -829,7 +844,31 @@ export default class SlackOAuthClient {
   /**
    * Lists all channels in a Slack team.
    *
+   * @param options - Optional arguments.
+   *
    * @see https://api.slack.com/methods/conversations.list
+   *
+   * @example
+   *
+   * ```js
+   * await client.getConversationList({ cursor: 'xxx' });
+   * await client.getConversationList();
+   * // {
+   * //   channels: [
+   * //     {
+   * //       id: 'C012AB3CD',
+   * //       name: 'general',
+   * //       ...
+   * //     },
+   * //     {
+   * //       id: 'C012AB3C5',
+   * //       name: 'random',
+   * //       ...
+   * //     },
+   * //   ],
+   * //   next: 'cursor',
+   * // }
+   * ```
    */
   getConversationList(
     options?: SlackTypes.ConversationListOptions
@@ -843,6 +882,31 @@ export default class SlackOAuthClient {
     }));
   }
 
+  /**
+   * Recursively lists all channels in a Slack team using cursor.
+   *
+   * @param options - Optional arguments.
+   *
+   * @see https://api.slack.com/methods/conversations.list
+   *
+   * @example
+   *
+   * ```js
+   * await client.getAllConversationList();
+   * // [
+   * //   {
+   * //     id: 'C012AB3CD',
+   * //     name: 'general',
+   * //     ...
+   * //   },
+   * //   {
+   * //     id: 'C012AB3C5',
+   * //     name: 'random',
+   * //     ...
+   * //   },
+   * // ],
+   * ```
+   */
   async getAllConversationList(
     options?: Omit<SlackTypes.ConversationListOptions, 'cursor'>
   ): Promise<SlackTypes.Channel[]> {
