@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>messaging-api-wechat | messaging-apis - v1.0.0-beta.27</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for messaging-apis - v1.0.0-beta.27">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -82,7 +82,7 @@
 							</ul>
 						</li>
 						<li><a href="#debug-tips">Debug Tips</a></li>
-						<li><a href="#test">Test</a></li>
+						<li><a href="#testing">Testing</a></li>
 					</ul>
 					<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 						<h2>Installation</h2>
@@ -97,7 +97,7 @@
 					<a href="#initialize" id="initialize" style="color: inherit; text-decoration: none;">
 						<h3>Initialize</h3>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-wechat'</span>);
+					<pre><code class="language-js"><span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-wechat&#x27;</span>);
 
 <span class="hljs-comment">// get appId, appSecret from「微信公众平台-开发-基本配置」page</span>
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> WechatClient({
@@ -107,7 +107,7 @@
 					<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
 						<h3>Error Handling</h3>
 					</a>
-					<p><code>messaging-api-wechat</code> uses <a href="https://github.com/axios/axios">axios</a> as HTTP client. We use <a href="https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error">axios-error</a> package to wrap API error instances for better formatting error messages. Directly <code>console.log</code> on the error instance will return formatted message. If you&#39;d like to get the axios <code>request</code>, <code>response</code>, or <code>config</code>, you can still get them via those keys on the error instance.</p>
+					<p><code>messaging-api-wechat</code> uses <a href="https://github.com/axios/axios">axios</a> as HTTP client. We use <a href="https://github.com/Yoctol/messaging-apis/tree/master/packages/axios-error">axios-error</a> package to wrap API error instances for better formatting error messages. Directly calling <code>console.log</code> with the error instance will return formatted message. If you&#39;d like to get the axios <code>request</code>, <code>response</code>, or <code>config</code>, you can still get them via those keys on the error instance.</p>
 					<pre><code class="language-js">client.sendText(userId, text).catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(error); <span class="hljs-comment">// formatted error message</span>
   <span class="hljs-built_in">console</span>.log(error.stack); <span class="hljs-comment">// error stack trace</span>
@@ -125,183 +125,34 @@
 						<a href="#send-api---official-docs" id="send-api---official-docs" style="color: inherit; text-decoration: none;">
 							<h3>Send API - <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140547">Official Docs</a></h3>
 						</a>
-						<a href="#sendtextuserid-text" id="sendtextuserid-text" style="color: inherit; text-decoration: none;">
-							<h2><code>sendText(userId, text)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送文本消息</p>
-						</blockquote>
-						<table>
-							<thead>
-								<tr>
-									<th>Param</th>
-									<th>Type</th>
-									<th>Description</th>
-								</tr>
-							</thead>
-							<tbody><tr>
-									<td>userId</td>
-									<td><code>String</code></td>
-									<td>user ID of the recipient.</td>
-								</tr>
-								<tr>
-									<td>text</td>
-									<td><code>String</code></td>
-									<td>Text of the message to be sent.</td>
-								</tr>
-						</tbody></table>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendText(USER_ID, <span class="hljs-string">'Hello!'</span>);</code></pre>
-						<br />
-						<a href="#sendimageuserid-mediaid" id="sendimageuserid-mediaid" style="color: inherit; text-decoration: none;">
-							<h2><code>sendImage(userId, mediaId)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送图片消息</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendImage(USER_ID, <span class="hljs-string">'MEDIA_ID'</span>);</code></pre>
-						<br />
-						<a href="#sendvoiceuserid-mediaid" id="sendvoiceuserid-mediaid" style="color: inherit; text-decoration: none;">
-							<h2><code>sendVoice(userId, mediaId)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送语音消息</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendVoice(USER_ID, <span class="hljs-string">'MEDIA_ID'</span>);</code></pre>
-						<br />
-						<a href="#sendvideouserid-video" id="sendvideouserid-video" style="color: inherit; text-decoration: none;">
-							<h2><code>sendVideo(userId, video)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送视频消息</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendVideo(USER_ID, {
-  <span class="hljs-attr">media_id</span>: <span class="hljs-string">'MEDIA_ID'</span>,
-  <span class="hljs-attr">thumb_media_id</span>: <span class="hljs-string">'THUMB_MEDIA_ID'</span>,
-  <span class="hljs-attr">title</span>: <span class="hljs-string">'VIDEO_TITLE'</span>,
-  <span class="hljs-attr">description</span>: <span class="hljs-string">'VIDEO_DESCRIPTION'</span>,
-});</code></pre>
-						<br />
-						<a href="#sendmusicuserid-music" id="sendmusicuserid-music" style="color: inherit; text-decoration: none;">
-							<h2><code>sendMusic(userId, music)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送音乐消息</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendMusic(USER_ID, {
-  <span class="hljs-attr">musicurl</span>: <span class="hljs-string">'MUSIC_URL'</span>,
-  <span class="hljs-attr">hqmusicurl</span>: <span class="hljs-string">'HQ_MUSIC_URL'</span>,
-  <span class="hljs-attr">thumb_media_id</span>: <span class="hljs-string">'THUMB_MEDIA_ID'</span>,
-  <span class="hljs-attr">title</span>: <span class="hljs-string">'MUSIC_TITLE'</span>,
-  <span class="hljs-attr">description</span>: <span class="hljs-string">'MUSIC_DESCRIPTION'</span>,
-});</code></pre>
-						<br />
-						<a href="#sendnewsuserid-news" id="sendnewsuserid-news" style="color: inherit; text-decoration: none;">
-							<h2><code>sendNews(userId, news)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送图文消息（点击跳转到外链）</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendNews(USER_ID, {
-  <span class="hljs-attr">articles</span>: [
-    {
-      <span class="hljs-attr">title</span>: <span class="hljs-string">'Happy Day'</span>,
-      <span class="hljs-attr">description</span>: <span class="hljs-string">'Is Really A Happy Day'</span>,
-      <span class="hljs-attr">url</span>: <span class="hljs-string">'URL'</span>,
-      <span class="hljs-attr">picurl</span>: <span class="hljs-string">'PIC_URL'</span>,
-    },
-    {
-      <span class="hljs-attr">title</span>: <span class="hljs-string">'Happy Day'</span>,
-      <span class="hljs-attr">description</span>: <span class="hljs-string">'Is Really A Happy Day'</span>,
-      <span class="hljs-attr">url</span>: <span class="hljs-string">'URL'</span>,
-      <span class="hljs-attr">picurl</span>: <span class="hljs-string">'PIC_URL'</span>,
-    },
-  ],
-});</code></pre>
-						<br />
-						<a href="#sendmpnewsuserid-mediaid" id="sendmpnewsuserid-mediaid" style="color: inherit; text-decoration: none;">
-							<h2><code>sendMPNews(userId, mediaId)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送图文消息（点击跳转到图文消息页面）</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendMPNews(USER_ID, <span class="hljs-string">'MEDIA_ID'</span>);</code></pre>
-						<br />
-						<a href="#sendwxcarduserid-cardid" id="sendwxcarduserid-cardid" style="color: inherit; text-decoration: none;">
-							<h2><code>sendWXCard(userId, cardId)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送卡券</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendWXCard(USER_ID, <span class="hljs-string">'123dsdajkasd231jhksad'</span>);</code></pre>
-						<br />
-						<a href="#sendminiprogrampageuserid-miniprogrampage" id="sendminiprogrampageuserid-miniprogrampage" style="color: inherit; text-decoration: none;">
-							<h2><code>sendMiniProgramPage(userId, miniProgramPage)</code></h2>
-						</a>
-						<blockquote>
-							<p>发送小程序卡片</p>
-						</blockquote>
-						<p>Example:</p>
-						<pre><code class="language-js">client.sendMiniProgramPage(USER_ID, {
-  <span class="hljs-attr">title</span>: <span class="hljs-string">'title'</span>,
-  <span class="hljs-attr">appid</span>: <span class="hljs-string">'appid'</span>,
-  <span class="hljs-attr">pagepath</span>: <span class="hljs-string">'pagepath'</span>,
-  <span class="hljs-attr">thumb_media_id</span>: <span class="hljs-string">'thumb_media_id'</span>,
-});</code></pre>
-						<br />
+						<ul>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendtext">sendText</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendimage">sendImage</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendvoice">sendVoice</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendvideo">sendVideo</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendmusic">sendMusic</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendnews">sendNews</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendmpnews">sendMPNews</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendwxcard">sendWXCard</a></li>
+							<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#sendminiprogrampage">sendMiniProgramPage</a></li>
+						</ul>
 						<a id="media-api" />
 							<a href="#media-api---official-docs" id="media-api---official-docs" style="color: inherit; text-decoration: none;">
 								<h3>Media API - <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140547">Official Docs</a></h3>
 							</a>
-							<a href="#uploadmediatype-media" id="uploadmediatype-media" style="color: inherit; text-decoration: none;">
-								<h2><code>uploadMedia(type, media)</code></h2>
-							</a>
-							<blockquote>
-								<p>多媒体文件上传接口</p>
-							</blockquote>
-							<p>Example:</p>
-							<pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
-
-<span class="hljs-keyword">const</span> buffer = fs.readFileSync(<span class="hljs-string">'test.jpg'</span>);
-
-client.uploadMedia(<span class="hljs-string">'image'</span>, buffer).then(<span class="hljs-function">(<span class="hljs-params">media</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(media);
-  <span class="hljs-comment">// {</span>
-  <span class="hljs-comment">//   type: 'image',</span>
-  <span class="hljs-comment">//   media_id: 'MEDIA_ID',</span>
-  <span class="hljs-comment">//   created_at: 123456789</span>
-  <span class="hljs-comment">// }</span>
-});</code></pre>
-							<br />
-							<a href="#getmediamediaid" id="getmediamediaid" style="color: inherit; text-decoration: none;">
-								<h2><code>getMedia(mediaiD)</code></h2>
-							</a>
-							<blockquote>
-								<p>下载多媒体文件接口</p>
-							</blockquote>
-							<p>Example:</p>
-							<pre><code class="language-js">client.getMedia(MEDIA_ID).then(<span class="hljs-function">(<span class="hljs-params">media</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(media);
-  <span class="hljs-comment">// {</span>
-  <span class="hljs-comment">//   video_url: "..."</span>
-  <span class="hljs-comment">// }</span>
-});</code></pre>
+							<ul>
+								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#uploadmedia">uploadMedia</a></li>
+								<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.wechatclient.html#getmedia">getMedia</a></li>
+							</ul>
 							<a href="#debug-tips" id="debug-tips" style="color: inherit; text-decoration: none;">
 								<h2>Debug Tips</h2>
 							</a>
 							<a href="#log-requests-details" id="log-requests-details" style="color: inherit; text-decoration: none;">
-								<h3>Log requests details</h3>
+								<h3>Log Requests Details</h3>
 							</a>
 							<p>To enable default request debugger, use following <code>DEBUG</code> env variable:</p>
-							<pre><code class="language-sh">DEBUG=messaging-api-wechat</code></pre>
-							<p>If you want to use custom request logging function, just define your own <code>onRequest</code>:</p>
+							<pre><code class="language-sh">DEBUG=messaging-api:request</code></pre>
+							<p>If you want to use a custom request logging function, just provide your own <code>onRequest</code>:</p>
 							<pre><code class="language-js"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> WechatClient({
   <span class="hljs-attr">appId</span>: APP_ID,
   <span class="hljs-attr">appSecret</span>: APP_SECRET,
@@ -309,44 +160,23 @@ client.uploadMedia(<span class="hljs-string">'image'</span>, buffer).then(<span 
     <span class="hljs-comment">/* */</span>
   },
 });</code></pre>
-							<a href="#test" id="test" style="color: inherit; text-decoration: none;">
-								<h2>Test</h2>
+							<a href="#testing" id="testing" style="color: inherit; text-decoration: none;">
+								<h2>Testing</h2>
 							</a>
 							<a href="#point-requests-to-your-dummy-server" id="point-requests-to-your-dummy-server" style="color: inherit; text-decoration: none;">
-								<h3>Point requests to your dummy server</h3>
+								<h3>Point Requests to Your Dummy Server</h3>
 							</a>
-							<p>To avoid sending requests to real WeChat server, specify <code>origin</code> option when constructing your client:</p>
-							<pre><code class="language-js"><span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-wechat'</span>);
+							<p>To avoid sending requests to real WeChat server, specify the <code>origin</code> option when constructing your client:</p>
+							<pre><code class="language-js"><span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-wechat&#x27;</span>);
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> WechatClient({
   <span class="hljs-attr">appId</span>: APP_ID,
   <span class="hljs-attr">appSecret</span>: APP_SECRET,
-  <span class="hljs-attr">origin</span>: <span class="hljs-string">'https://mydummytestserver.com'</span>,
+  <span class="hljs-attr">origin</span>: <span class="hljs-string">&#x27;https://mydummytestserver.com&#x27;</span>,
 });</code></pre>
 							<blockquote>
-								<p>Warning: Don&#39;t do this on production server.</p>
+								<p>Warning: Don&#39;t do this on your production server.</p>
 							</blockquote>
-							<a href="#manual-mock-with-jest" id="manual-mock-with-jest" style="color: inherit; text-decoration: none;">
-								<h3>Manual Mock with <a href="https://facebook.github.io/jest/">Jest</a></h3>
-							</a>
-							<p>create <code>__mocks__/messaging-api-wechat.js</code> in your project root:</p>
-							<pre><code class="language-js"><span class="hljs-comment">// __mocks__/messaging-api-wechat.js</span>
-<span class="hljs-keyword">const</span> jestMock = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jest-mock'</span>);
-<span class="hljs-keyword">const</span> { WechatClient } = <span class="hljs-built_in">require</span>.requireActual(<span class="hljs-string">'messaging-api-wechat'</span>);
-
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">WechatClient</span>: {
-    <span class="hljs-attr">connect</span>: jest.fn(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-      <span class="hljs-keyword">const</span> Mock = jestMock.generateFromMetadata(
-        jestMock.getMetadata(WechatClient)
-      );
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Mock();
-    }),
-  },
-};</code></pre>
-							<p>Then, mock <code>messaging-api-wechat</code> package in your tests:</p>
-							<pre><code class="language-js"><span class="hljs-comment">// __tests__/mytest.spec.js</span>
-jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -354,9 +184,9 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumerations</h3>
+							<h3>Namespaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/messaging_api_wechat.mediatype.html" class="tsd-kind-icon">Media<wbr>Type</a></li>
+								<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="messaging_api_wechat.wechattypes.html" class="tsd-kind-icon">Wechat<wbr>Types</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -365,346 +195,6 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/messaging_api_wechat.wechatclient.html" class="tsd-kind-icon">Wechat<wbr>Client</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#accesstoken" class="tsd-kind-icon">Access<wbr>Token</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#article" class="tsd-kind-icon">Article</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#clientconfig" class="tsd-kind-icon">Client<wbr>Config</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#failedresponsedata" class="tsd-kind-icon">Failed<wbr>Response<wbr>Data</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#media" class="tsd-kind-icon">Media</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#miniprogrampage" class="tsd-kind-icon">Mini<wbr>Program<wbr>Page</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#msgmenu" class="tsd-kind-icon">Msg<wbr>Menu</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#music" class="tsd-kind-icon">Music</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#news" class="tsd-kind-icon">News</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#responsedata" class="tsd-kind-icon">Response<wbr>Data</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#sendmessageoptions" class="tsd-kind-icon">Send<wbr>Message<wbr>Options</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#succeededresponsedata" class="tsd-kind-icon">Succeeded<wbr>Response<wbr>Data</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#uploadedmedia" class="tsd-kind-icon">Uploaded<wbr>Media</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="messaging_api_wechat.html#video" class="tsd-kind-icon">Video</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="accesstoken" class="tsd-anchor"></a>
-					<h3>Access<wbr>Token</h3>
-					<div class="tsd-signature tsd-kind-icon">Access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>accessToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>expiresIn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L22">packages/messaging-api-wechat/src/WechatTypes.ts:22</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>access<wbr>Token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>expires<wbr>In<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="article" class="tsd-anchor"></a>
-					<h3>Article</h3>
-					<div class="tsd-signature tsd-kind-icon">Article<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>picurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L52">packages/messaging-api-wechat/src/WechatTypes.ts:52</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>picurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="clientconfig" class="tsd-anchor"></a>
-					<h3>Client<wbr>Config</h3>
-					<div class="tsd-signature tsd-kind-icon">Client<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>appId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>appSecret<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>onRequest<span class="tsd-signature-symbol">?: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a><span class="tsd-signature-symbol">; </span>origin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L3">packages/messaging-api-wechat/src/WechatTypes.ts:3</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>app<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>app<wbr>Secret<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Request<span class="tsd-signature-symbol">?: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> origin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="failedresponsedata" class="tsd-anchor"></a>
-					<h3>Failed<wbr>Response<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Failed<wbr>Response<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>errcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>errmsg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L15">packages/messaging-api-wechat/src/WechatTypes.ts:15</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>errcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>errmsg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="media" class="tsd-anchor"></a>
-					<h3>Media</h3>
-					<div class="tsd-signature tsd-kind-icon">Media<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>videoUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L33">packages/messaging-api-wechat/src/WechatTypes.ts:33</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>video<wbr>Url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="miniprogrampage" class="tsd-anchor"></a>
-					<h3>Mini<wbr>Program<wbr>Page</h3>
-					<div class="tsd-signature tsd-kind-icon">Mini<wbr>Program<wbr>Page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>appid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>pagepath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbMediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L72">packages/messaging-api-wechat/src/WechatTypes.ts:72</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>appid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>pagepath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>thumb<wbr>Media<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="msgmenu" class="tsd-anchor"></a>
-					<h3>Msg<wbr>Menu</h3>
-					<div class="tsd-signature tsd-kind-icon">Msg<wbr>Menu<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>headContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>tailContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L63">packages/messaging-api-wechat/src/WechatTypes.ts:63</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>head<wbr>Content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>tail<wbr>Content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="music" class="tsd-anchor"></a>
-					<h3>Music</h3>
-					<div class="tsd-signature tsd-kind-icon">Music<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>hqmusicurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>musicurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbMediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L44">packages/messaging-api-wechat/src/WechatTypes.ts:44</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>hqmusicurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>musicurl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>thumb<wbr>Media<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="news" class="tsd-anchor"></a>
-					<h3>News</h3>
-					<div class="tsd-signature tsd-kind-icon">News<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>articles<span class="tsd-signature-symbol">: </span><a href="messaging_api_wechat.html#article" class="tsd-signature-type">Article</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L59">packages/messaging-api-wechat/src/WechatTypes.ts:59</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>articles<span class="tsd-signature-symbol">: </span><a href="messaging_api_wechat.html#article" class="tsd-signature-type">Article</a><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="responsedata" class="tsd-anchor"></a>
-					<h3>Response<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Response<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="messaging_api_wechat.html#succeededresponsedata" class="tsd-signature-type">SucceededResponseData</a><span class="tsd-signature-symbol"> | </span><a href="messaging_api_wechat.html#failedresponsedata" class="tsd-signature-type">FailedResponseData</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L20">packages/messaging-api-wechat/src/WechatTypes.ts:20</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="sendmessageoptions" class="tsd-anchor"></a>
-					<h3>Send<wbr>Message<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Send<wbr>Message<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>customservice<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>kfAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L86">packages/messaging-api-wechat/src/WechatTypes.ts:86</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> customservice<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>kfAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter">
-										<h5>kf<wbr>Account<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="succeededresponsedata" class="tsd-anchor"></a>
-					<h3>Succeeded<wbr>Response<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Succeeded<wbr>Response<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>errcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol">; </span>errmsg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"ok"</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L10">packages/messaging-api-wechat/src/WechatTypes.ts:10</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>errcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>errmsg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"ok"</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="uploadedmedia" class="tsd-anchor"></a>
-					<h3>Uploaded<wbr>Media</h3>
-					<div class="tsd-signature tsd-kind-icon">Uploaded<wbr>Media<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>createdAt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>mediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L27">packages/messaging-api-wechat/src/WechatTypes.ts:27</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>created<wbr>At<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>media<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="video" class="tsd-anchor"></a>
-					<h3>Video</h3>
-					<div class="tsd-signature tsd-kind-icon">Video<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>thumbMediaId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-wechat/src/WechatTypes.ts#L37">packages/messaging-api-wechat/src/WechatTypes.ts:37</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>media<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>thumb<wbr>Media<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
 					</div>
 				</section>
 			</section>
@@ -743,53 +233,8 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/messaging_api_wechat.mediatype.html" class="tsd-kind-icon">Media<wbr>Type</a>
-					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="../classes/messaging_api_wechat.wechatclient.html" class="tsd-kind-icon">Wechat<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#accesstoken" class="tsd-kind-icon">Access<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#article" class="tsd-kind-icon">Article</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#clientconfig" class="tsd-kind-icon">Client<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#failedresponsedata" class="tsd-kind-icon">Failed<wbr>Response<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#media" class="tsd-kind-icon">Media</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#miniprogrampage" class="tsd-kind-icon">Mini<wbr>Program<wbr>Page</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#msgmenu" class="tsd-kind-icon">Msg<wbr>Menu</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#music" class="tsd-kind-icon">Music</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#news" class="tsd-kind-icon">News</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#responsedata" class="tsd-kind-icon">Response<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#sendmessageoptions" class="tsd-kind-icon">Send<wbr>Message<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#succeededresponsedata" class="tsd-kind-icon">Succeeded<wbr>Response<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#uploadedmedia" class="tsd-kind-icon">Uploaded<wbr>Media</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="messaging_api_wechat.html#video" class="tsd-kind-icon">Video</a>
 					</li>
 				</ul>
 			</nav>
@@ -800,6 +245,15 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
 		</div>
 	</div>
 </footer>
@@ -808,6 +262,5 @@ jest.mock(<span class="hljs-string">'messaging-api-wechat'</span>);</code></pre>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>messaging-api-common | messaging-apis - v1.0.0-beta.27</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for messaging-apis - v1.0.0-beta.27">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -98,30 +98,30 @@
   pascalcase,
   pascalcaseKeys,
   pascalcaseKeysDeep,
-} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-common'</span>);
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-common&#x27;</span>);
 
-snakecase(<span class="hljs-string">'fooBar'</span>);
-<span class="hljs-comment">//=&gt; 'foo_bar'</span>
+snakecase(<span class="hljs-string">&#x27;fooBar&#x27;</span>);
+<span class="hljs-comment">//=&gt; &#x27;foo_bar&#x27;</span>
 snakecaseKeys({ <span class="hljs-attr">fooBar</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">//=&gt; { 'foo_bar': true }</span>
+<span class="hljs-comment">//=&gt; { &#x27;foo_bar&#x27;: true }</span>
 snakecaseKeysDeep({ <span class="hljs-attr">fooBar</span>: { <span class="hljs-attr">barFoo</span>: <span class="hljs-literal">true</span> } });
-<span class="hljs-comment">//=&gt; { 'foo_bar': { 'bar_foo': true } }</span>
+<span class="hljs-comment">//=&gt; { &#x27;foo_bar&#x27;: { &#x27;bar_foo&#x27;: true } }</span>
 
-camelcase(<span class="hljs-string">'foo_bar'</span>);
-<span class="hljs-comment">//=&gt; 'fooBar'</span>
+camelcase(<span class="hljs-string">&#x27;foo_bar&#x27;</span>);
+<span class="hljs-comment">//=&gt; &#x27;fooBar&#x27;</span>
 camelcaseKeys({ <span class="hljs-attr">foo_bar</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">//=&gt; { 'fooBar': true }</span>
+<span class="hljs-comment">//=&gt; { &#x27;fooBar&#x27;: true }</span>
 camelcaseKeysDeep({ <span class="hljs-attr">foo_bar</span>: { <span class="hljs-attr">bar_foo</span>: <span class="hljs-literal">true</span> } });
-<span class="hljs-comment">//=&gt; { 'fooBar': { 'barFoo': true } }</span>
+<span class="hljs-comment">//=&gt; { &#x27;fooBar&#x27;: { &#x27;barFoo&#x27;: true } }</span>
 
-pascalcase(<span class="hljs-string">'fooBar'</span>);
-<span class="hljs-comment">//=&gt; 'FooBar'</span>
+pascalcase(<span class="hljs-string">&#x27;fooBar&#x27;</span>);
+<span class="hljs-comment">//=&gt; &#x27;FooBar&#x27;</span>
 pascalcaseKeys({ <span class="hljs-attr">fooBar</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">//=&gt; { 'FooBar': true }</span>
+<span class="hljs-comment">//=&gt; { &#x27;FooBar&#x27;: true }</span>
 pascalcaseKeysDeep({ <span class="hljs-attr">fooBar</span>: { <span class="hljs-attr">barFoo</span>: <span class="hljs-literal">true</span> } });
-<span class="hljs-comment">//=&gt; { 'FooBar': { 'BarFoo': true } }</span></code></pre>
+<span class="hljs-comment">//=&gt; { &#x27;FooBar&#x27;: { &#x27;BarFoo&#x27;: true } }</span></code></pre>
 					<p>Axios Request Interceptors:</p>
-					<pre><code class="language-js"><span class="hljs-keyword">const</span> { onRequest, createRequestInterceptor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messaging-api-common'</span>);
+					<pre><code class="language-js"><span class="hljs-keyword">const</span> { onRequest, createRequestInterceptor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;messaging-api-common&#x27;</span>);
 
 <span class="hljs-comment">// use the default onRequest function</span>
 axios.interceptors.request.use(createRequestInterceptor());
@@ -241,7 +241,7 @@ axios.interceptors.request.use(
 					<div class="tsd-signature tsd-kind-icon">On<wbr>Request<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#requestpayload" class="tsd-signature-type">RequestPayload</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/index.ts#L15">packages/messaging-api-common/src/index.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/index.ts#L15">packages/messaging-api-common/src/index.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -272,7 +272,7 @@ axios.interceptors.request.use(
 					<div class="tsd-signature tsd-kind-icon">Request<wbr>Payload<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>headers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>method<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Method</span><span class="tsd-signature-symbol">; </span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/index.ts#L8">packages/messaging-api-common/src/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/index.ts#L8">packages/messaging-api-common/src/index.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -306,7 +306,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L102">packages/messaging-api-common/src/case.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L102">packages/messaging-api-common/src/case.ts:102</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -315,8 +315,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">camelcase(<span class="hljs-string">'foo_bar'</span>);
-<span class="hljs-comment">//=&gt; 'fooBar'</span></code></pre>
+									<dd><pre><code class="language-js">camelcase(<span class="hljs-string">&#x27;foo_bar&#x27;</span>);
+<span class="hljs-comment">//=&gt; &#x27;fooBar&#x27;</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -344,7 +344,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L127">packages/messaging-api-common/src/case.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L127">packages/messaging-api-common/src/case.ts:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -353,8 +353,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">camelcaseKeys({ <span class="hljs-string">'foo_bar'</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">//=&gt; { 'fooBar': true }</span></code></pre>
+									<dd><pre><code class="language-js">camelcaseKeys({ <span class="hljs-string">&#x27;foo_bar&#x27;</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-comment">//=&gt; { &#x27;fooBar&#x27;: true }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -388,7 +388,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L148">packages/messaging-api-common/src/case.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L148">packages/messaging-api-common/src/case.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,8 +397,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">camelcaseKeysDeep({ <span class="hljs-string">'foo_bar'</span>: { <span class="hljs-string">'bar_foo'</span>: <span class="hljs-literal">true</span> } });
-<span class="hljs-comment">//=&gt; { 'fooBar': { 'barFoo': true } }</span></code></pre>
+									<dd><pre><code class="language-js">camelcaseKeysDeep({ <span class="hljs-string">&#x27;foo_bar&#x27;</span>: { <span class="hljs-string">&#x27;bar_foo&#x27;</span>: <span class="hljs-literal">true</span> } });
+<span class="hljs-comment">//=&gt; { &#x27;fooBar&#x27;: { &#x27;barFoo&#x27;: true } }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -420,40 +420,22 @@ axios.interceptors.request.use(
 					<a name="createrequestinterceptor" class="tsd-anchor"></a>
 					<h3>create<wbr>Request<wbr>Interceptor</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Request<wbr>Interceptor<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>onRequest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#requestpayload" class="tsd-signature-type">RequestPayload</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Request<wbr>Interceptor<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>onRequest<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/index.ts#L29">packages/messaging-api-common/src/index.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/index.ts#L29">packages/messaging-api-common/src/index.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <span class="tsd-signature-symbol">{ </span>onRequest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#requestpayload" class="tsd-signature-type">RequestPayload</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <span class="tsd-signature-symbol">{ </span>onRequest<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
-											<h5>on<wbr>Request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#requestpayload" class="tsd-signature-type">RequestPayload</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
-											<ul class="tsd-parameters">
-												<li class="tsd-parameter-signature">
-													<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
-														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#requestpayload" class="tsd-signature-type">RequestPayload</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-													</ul>
-													<ul class="tsd-descriptions">
-														<li class="tsd-description">
-															<h4 class="tsd-parameters-title">Parameters</h4>
-															<ul class="tsd-parameters">
-																<li>
-																	<h5>request: <a href="messaging_api_common.html#requestpayload" class="tsd-signature-type">RequestPayload</a></h5>
-																</li>
-															</ul>
-															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-														</li>
-													</ul>
-												</li>
-											</ul>
+											<h5>on<wbr>Request<span class="tsd-signature-symbol">: </span><a href="messaging_api_common.html#onrequestfunction" class="tsd-signature-type">OnRequestFunction</a></h5>
 										</li>
 									</ul>
 								</li>
@@ -472,7 +454,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L164">packages/messaging-api-common/src/case.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L164">packages/messaging-api-common/src/case.ts:164</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -481,8 +463,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">pascalcase(<span class="hljs-string">'fooBar'</span>);
-<span class="hljs-comment">//=&gt; 'FooBar'</span></code></pre>
+									<dd><pre><code class="language-js">pascalcase(<span class="hljs-string">&#x27;fooBar&#x27;</span>);
+<span class="hljs-comment">//=&gt; &#x27;FooBar&#x27;</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -507,7 +489,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L181">packages/messaging-api-common/src/case.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L181">packages/messaging-api-common/src/case.ts:181</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,8 +498,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">pascalcaseKeys({ <span class="hljs-string">'fooBar'</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">//=&gt; { 'FooBar': true }</span></code></pre>
+									<dd><pre><code class="language-js">pascalcaseKeys({ <span class="hljs-string">&#x27;fooBar&#x27;</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-comment">//=&gt; { &#x27;FooBar&#x27;: true }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -551,7 +533,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L202">packages/messaging-api-common/src/case.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L202">packages/messaging-api-common/src/case.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -560,8 +542,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">pascalcaseKeysDeep({ <span class="hljs-string">'fooBar'</span>: { <span class="hljs-string">'barFoo'</span>: <span class="hljs-literal">true</span> } });
-<span class="hljs-comment">//=&gt; { 'FooBar': { 'BarFoo': true } }</span></code></pre>
+									<dd><pre><code class="language-js">pascalcaseKeysDeep({ <span class="hljs-string">&#x27;fooBar&#x27;</span>: { <span class="hljs-string">&#x27;barFoo&#x27;</span>: <span class="hljs-literal">true</span> } });
+<span class="hljs-comment">//=&gt; { &#x27;FooBar&#x27;: { &#x27;BarFoo&#x27;: true } }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -589,7 +571,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L33">packages/messaging-api-common/src/case.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L33">packages/messaging-api-common/src/case.ts:33</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -598,8 +580,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">snakecase(<span class="hljs-string">'fooBar'</span>);
-<span class="hljs-comment">//=&gt; 'foo_bar'</span></code></pre>
+									<dd><pre><code class="language-js">snakecase(<span class="hljs-string">&#x27;fooBar&#x27;</span>);
+<span class="hljs-comment">//=&gt; &#x27;foo_bar&#x27;</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -627,7 +609,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L65">packages/messaging-api-common/src/case.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L65">packages/messaging-api-common/src/case.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -636,8 +618,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">snakecaseKeys({ <span class="hljs-string">'fooBar'</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">//=&gt; { 'foo_bar': true }</span></code></pre>
+									<dd><pre><code class="language-js">snakecaseKeys({ <span class="hljs-string">&#x27;fooBar&#x27;</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-comment">//=&gt; { &#x27;foo_bar&#x27;: true }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -671,7 +653,7 @@ axios.interceptors.request.use(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/85a81d3/packages/messaging-api-common/src/case.ts#L86">packages/messaging-api-common/src/case.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/5ce9567/packages/messaging-api-common/src/case.ts#L86">packages/messaging-api-common/src/case.ts:86</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -680,8 +662,8 @@ axios.interceptors.request.use(
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">snakecaseKeysDeep({ <span class="hljs-string">'fooBar'</span>: { <span class="hljs-string">'barFoo'</span>: <span class="hljs-literal">true</span> } });
-<span class="hljs-comment">//=&gt; { 'foo_bar': { 'bar_foo': true } }</span></code></pre>
+									<dd><pre><code class="language-js">snakecaseKeysDeep({ <span class="hljs-string">&#x27;fooBar&#x27;</span>: { <span class="hljs-string">&#x27;barFoo&#x27;</span>: <span class="hljs-literal">true</span> } });
+<span class="hljs-comment">//=&gt; { &#x27;foo_bar&#x27;: { &#x27;bar_foo&#x27;: true } }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -810,6 +792,15 @@ axios.interceptors.request.use(
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
 		</div>
 	</div>
 </footer>
@@ -818,6 +809,5 @@ axios.interceptors.request.use(
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
