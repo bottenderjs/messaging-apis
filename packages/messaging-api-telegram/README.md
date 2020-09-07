@@ -43,7 +43,9 @@ yarn add messaging-api-telegram
 const { TelegramClient } = require('messaging-api-telegram');
 
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-const client = new TelegramClient('12345678:AaBbCcDdwhatever');
+const client = new TelegramClient({
+  accessToken: '12345678:AaBbCcDdwhatever',
+});
 ```
 
 ### Error Handling

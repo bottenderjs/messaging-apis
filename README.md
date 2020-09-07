@@ -47,7 +47,9 @@ Then, create a `MessengerClient` to call Messenger APIs:
 const { MessengerClient } = require('messaging-api-messenger');
 
 // get accessToken from facebook developers website
-const client = MessengerClient.connect(accessToken);
+const client = new MessengerClient({
+  accessToken: 'ACCESS_TOKEN',
+});
 
 client.sendText(userId, 'Hello World').then(() => {
   console.log('sent');
@@ -78,7 +80,10 @@ Then, create a `LineClient` to call LINE APIs:
 const { LineClient } = require('messaging-api-line');
 
 // get accessToken and channelSecret from LINE developers website
-const client = LineClient.connect(accessToken, channelSecret);
+const client = new LineClient({
+  accessToken: 'ACCESS_TOKEN',
+  channelSecret: 'CHANNEL_SECRET',
+});
 
 client.pushText(userId, 'Hello World').then(() => {
   console.log('pushed');
@@ -110,9 +115,9 @@ const { SlackOAuthClient } = require('messaging-api-slack');
 
 // get access token by setup OAuth & Permissions function to your app.
 // https://api.slack.com/docs/oauth
-const client = SlackOAuthClient.connect(
-  'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx'
-);
+const client = new SlackOAuthClient({
+  accessToken: 'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx',
+});
 
 client.postMessage('#random', 'Hello World').then(() => {
   console.log('sent');
@@ -124,9 +129,9 @@ const { SlackWebhookClient } = require('messaging-api-slack');
 
 // get webhook URL by adding a Incoming Webhook integration to your team.
 // https://my.slack.com/services/new/incoming-webhook/
-const client = SlackWebhookClient.connect(
-  'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ'
-);
+const client = new SlackWebhookClient({
+  url: 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ',
+});
 
 client.sendText('Hello World').then(() => {
   console.log('sent');
@@ -157,7 +162,9 @@ Then, create a `TelegramClient` to call Telegram APIs:
 const { TelegramClient } = require('messaging-api-telegram');
 
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-const client = TelegramClient.connect('12345678:AaBbCcDdwhatever');
+const client = new TelegramClient({
+  accessToken: '12345678:AaBbCcDdwhatever',
+});
 
 client.sendMessage(chatId, 'Hello World').then(() => {
   console.log('sent');
@@ -188,7 +195,12 @@ Then, create a `ViberClient` to call Viber APIs:
 const { ViberClient } = require('messaging-api-viber');
 
 // get authToken from the "edit info" screen of your Public Account.
-const client = ViberClient.connect(authToken);
+const client = new ViberClient({
+  accessToken: 'AUTH_TOKEN',
+  sender: {
+    name: 'Sender',
+  },
+});
 
 client.sendText(userId, 'Hello World').then(() => {
   console.log('sent');
@@ -219,7 +231,10 @@ Then, create a `WechatClient` to call Wechat APIs:
 const { WechatClient } = require('messaging-api-wechat');
 
 // get appId, appSecret from「微信公众平台-开发-基本配置」page
-const client = WechatClient.connect(appId, appSecret);
+const client = new WechatClient({
+  appId: 'APP_ID',
+  appSecret: 'APP_SECRET',
+});
 
 client.sendText(userId, 'Hello World').then(() => {
   console.log('sent');
