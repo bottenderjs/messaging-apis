@@ -160,297 +160,36 @@
 						<h4>Chat API</h4>
 					</a>
 					<ul>
-						<li>[chat.postMessage]</li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#chat">chat.postMessage</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#chat">chat.postEphemeral</a></li>
 					</ul>
-					<a href="#postmessagechannel-message--options---official-docs" id="postmessagechannel-message--options---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>postMessage(channel, message [, options])</code> - <a href="https://api.slack.com/methods/chat.postMessage">Official docs</a></h2>
-					</a>
-					<p>Sends a message to a channel.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>channel</td>
-								<td><code>String</code></td>
-								<td>Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.</td>
-							</tr>
-							<tr>
-								<td>message</td>
-								<td><code>String &#124; Object</code></td>
-								<td>The message to be sent, can be text message or attachment message.</td>
-							</tr>
-							<tr>
-								<td>options</td>
-								<td><code>Object</code></td>
-								<td>Other optional parameters.</td>
-							</tr>
-							<tr>
-								<td>options.accessToken</td>
-								<td><code>String</code></td>
-								<td>Custom access token of the request.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.postMessage(<span class="hljs-string">&#x27;C8763&#x27;</span>, { <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello!&#x27;</span> });
-client.postMessage(<span class="hljs-string">&#x27;C8763&#x27;</span>, { <span class="hljs-attr">attachments</span>: [someAttachments] });
-client.postMessage(<span class="hljs-string">&#x27;C8763&#x27;</span>, <span class="hljs-string">&#x27;Hello!&#x27;</span>);
-client.postMessage(<span class="hljs-string">&#x27;C8763&#x27;</span>, <span class="hljs-string">&#x27;Hello!&#x27;</span>, { <span class="hljs-attr">as_user</span>: <span class="hljs-literal">true</span> });</code></pre>
-					<p>If you send message with <code>attachments</code>, <code>messaging-api-slack</code> will automatically stringify the <code>attachments</code> field for you.</p>
-					<pre><code class="language-js">client.postMessage(
-  <span class="hljs-string">&#x27;C8763&#x27;</span>,
-  {
-    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello!&#x27;</span>,
-    <span class="hljs-attr">attachments</span>: [
-      {
-        <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Choose a game to play&#x27;</span>,
-        <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;You are unable to choose a game&#x27;</span>,
-        <span class="hljs-attr">callback_id</span>: <span class="hljs-string">&#x27;wopr_game&#x27;</span>,
-        <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;#3AA3E3&#x27;</span>,
-        <span class="hljs-attr">attachment_type</span>: <span class="hljs-string">&#x27;default&#x27;</span>,
-        <span class="hljs-attr">actions</span>: [
-          {
-            <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;game&#x27;</span>,
-            <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Chess&#x27;</span>,
-            <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;button&#x27;</span>,
-            <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;chess&#x27;</span>,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    <span class="hljs-attr">as_user</span>: <span class="hljs-literal">true</span>,
-  }
-);</code></pre>
-					<br />
-					<a href="#postephemeralchannel-user-message--options---official-docs" id="postephemeralchannel-user-message--options---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>postEphemeral(channel, user, message [, options])</code> - <a href="https://api.slack.com/methods/chat.postEphemeral">Official docs</a></h2>
-					</a>
-					<p>Sends an ephemeral message to a user in a channel.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>channel</td>
-								<td><code>String</code></td>
-								<td>Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.</td>
-							</tr>
-							<tr>
-								<td>user</td>
-								<td><code>String</code></td>
-								<td><code>id</code> of the user who will receive the ephemeral message. The user should be in the channel specified by the <code>channel</code> argument.</td>
-							</tr>
-							<tr>
-								<td>message</td>
-								<td><code>String &#124; Object</code></td>
-								<td>The message to be sent, can be text message or attachment message.</td>
-							</tr>
-							<tr>
-								<td>options</td>
-								<td><code>Object</code></td>
-								<td>Other optional parameters.</td>
-							</tr>
-							<tr>
-								<td>options.accessToken</td>
-								<td><code>String</code></td>
-								<td>Custom access token of the request.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.postEphemeral(<span class="hljs-string">&#x27;C8763&#x27;</span>, <span class="hljs-string">&#x27;U56781234&#x27;</span>, { <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello!&#x27;</span> });
-client.postEphemeral(<span class="hljs-string">&#x27;C8763&#x27;</span>, <span class="hljs-string">&#x27;U56781234&#x27;</span>, { <span class="hljs-attr">attachments</span>: [someAttachments] });
-client.postEphemeral(<span class="hljs-string">&#x27;C8763&#x27;</span>, <span class="hljs-string">&#x27;U56781234&#x27;</span>, <span class="hljs-string">&#x27;Hello!&#x27;</span>);
-client.postEphemeral(<span class="hljs-string">&#x27;C8763&#x27;</span>, <span class="hljs-string">&#x27;U56781234&#x27;</span>, <span class="hljs-string">&#x27;Hello!&#x27;</span>, { <span class="hljs-attr">as_user</span>: <span class="hljs-literal">true</span> });</code></pre>
 					<br />
 					<a href="#users-api" id="users-api" style="color: inherit; text-decoration: none;">
 						<h4>Users API</h4>
 					</a>
 					<ul>
-						<li><a href="">getUserList</a></li>
-						<li><a href="">getAllUserList</a></li>
-						<li><a href="">getUserInfo</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getuserlist">getUserList</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getalluserlist">getAllUserList</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getuserinfo">getUserInfo</a></li>
 					</ul>
 					<br />
 					<a href="#channels-api" id="channels-api" style="color: inherit; text-decoration: none;">
 						<h4>Channels API</h4>
 					</a>
 					<ul>
-						<li><a href="">getChannelInfo</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getchannelinfo">getChannelInfo</a></li>
 					</ul>
 					<br />
 					<a href="#conversations-api" id="conversations-api" style="color: inherit; text-decoration: none;">
 						<h4>Conversations API</h4>
 					</a>
 					<ul>
-						<li><a href="">getConversationInfo</a></li>
-						<li><a href="">getConversationMembers</a></li>
-						<li><a href="">getAllConversationMembers</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationinfo">getConversationInfo</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationmembers">getConversationMembers</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getallconversationmembers">getAllConversationMembers</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationlist">getConversationList</a></li>
+						<li><a href="https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getallconversationlist">getAllConversationList</a></li>
 					</ul>
-					<a href="#getconversationmemberschannelid-options---official-docs" id="getconversationmemberschannelid-options---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>getConversationMembers(channelId, options?)</code> - <a href="https://api.slack.com/methods/conversations.members">Official docs</a></h2>
-					</a>
-					<p>Retrieve members of a conversation.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>channelId</td>
-								<td><code>String</code></td>
-								<td>Channel to get info on.</td>
-							</tr>
-							<tr>
-								<td>options</td>
-								<td><code>Object</code></td>
-								<td>Optional arguments.</td>
-							</tr>
-							<tr>
-								<td>options.accessToken</td>
-								<td><code>String</code></td>
-								<td>Custom access token of the request.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.getConversationMembers(channelId, { <span class="hljs-attr">cursor</span>: <span class="hljs-string">&#x27;xxx&#x27;</span> });
-client.getConversationMembers(channelId).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(res);
-  <span class="hljs-comment">// {</span>
-  <span class="hljs-comment">//   members: [&#x27;U061F7AUR&#x27;, &#x27;U0C0NS9HN&#x27;],</span>
-  <span class="hljs-comment">//   next: &#x27;cursor&#x27;,</span>
-  <span class="hljs-comment">// }</span>
-});</code></pre>
-					<br />
-					<a href="#getallconversationmemberschannelid-options---official-docs" id="getallconversationmemberschannelid-options---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>getAllConversationMembers(channelId, options?)</code> - <a href="https://api.slack.com/methods/conversations.members">Official docs</a></h2>
-					</a>
-					<p>Recursively retrieve members of a conversation using cursor.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>channelId</td>
-								<td><code>String</code></td>
-								<td>Channel to get info on.</td>
-							</tr>
-							<tr>
-								<td>options</td>
-								<td><code>Object</code></td>
-								<td>Other optional parameters.</td>
-							</tr>
-							<tr>
-								<td>options.accessToken</td>
-								<td><code>String</code></td>
-								<td>Custom access token of the request.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.getAllConversationMembers(channelId).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(res);
-  <span class="hljs-comment">// [&#x27;U061F7AUR&#x27;, &#x27;U0C0NS9HN&#x27;, ...]</span>
-});</code></pre>
-					<br />
-					<a href="#getconversationlistoptions---official-docs" id="getconversationlistoptions---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>getConversationList(options?)</code> - <a href="https://api.slack.com/methods/conversations.list">Official docs</a></h2>
-					</a>
-					<p>Lists all channels in a Slack team.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>options</td>
-								<td><code>Object</code></td>
-								<td>Optional arguments.</td>
-							</tr>
-							<tr>
-								<td>options.accessToken</td>
-								<td><code>String</code></td>
-								<td>Custom access token of the request.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.getConversationList({ <span class="hljs-attr">cursor</span>: <span class="hljs-string">&#x27;xxx&#x27;</span> });
-client.getConversationList().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(res);
-  <span class="hljs-comment">// {</span>
-  <span class="hljs-comment">//   channels: [</span>
-  <span class="hljs-comment">//     {</span>
-  <span class="hljs-comment">//       id: &#x27;C012AB3CD&#x27;,</span>
-  <span class="hljs-comment">//       name: &#x27;general&#x27;,</span>
-  <span class="hljs-comment">//       ...</span>
-  <span class="hljs-comment">//     },</span>
-  <span class="hljs-comment">//     {</span>
-  <span class="hljs-comment">//       id: &#x27;C012AB3C5&#x27;,</span>
-  <span class="hljs-comment">//       name: &#x27;random&#x27;,</span>
-  <span class="hljs-comment">//       ...</span>
-  <span class="hljs-comment">//     },</span>
-  <span class="hljs-comment">//   ],</span>
-  <span class="hljs-comment">//   next: &#x27;cursor&#x27;,</span>
-  <span class="hljs-comment">// }</span>
-});</code></pre>
-					<br />
-					<a href="#getallconversationlistoptions---official-docs" id="getallconversationlistoptions---official-docs" style="color: inherit; text-decoration: none;">
-						<h2><code>getAllConversationList(options?)</code> - <a href="https://api.slack.com/methods/conversations.list">Official docs</a></h2>
-					</a>
-					<p>Recursively lists all channels in a Slack team using cursor.</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Param</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td>options</td>
-								<td><code>Object</code></td>
-								<td>Optional arguments.</td>
-							</tr>
-							<tr>
-								<td>options.accessToken</td>
-								<td><code>String</code></td>
-								<td>Custom access token of the request.</td>
-							</tr>
-					</tbody></table>
-					<p>Example:</p>
-					<pre><code class="language-js">client.getAllConversationList().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(res);
-  <span class="hljs-comment">// [</span>
-  <span class="hljs-comment">//   {</span>
-  <span class="hljs-comment">//     id: &#x27;C012AB3CD&#x27;,</span>
-  <span class="hljs-comment">//     name: &#x27;general&#x27;,</span>
-  <span class="hljs-comment">//     ...</span>
-  <span class="hljs-comment">//   },</span>
-  <span class="hljs-comment">//   {</span>
-  <span class="hljs-comment">//     id: &#x27;C012AB3C5&#x27;,</span>
-  <span class="hljs-comment">//     name: &#x27;random&#x27;,</span>
-  <span class="hljs-comment">//     ...</span>
-  <span class="hljs-comment">//   },</span>
-  <span class="hljs-comment">// ],</span>
-});</code></pre>
 					<br />
 					<a href="#webhook-client" id="webhook-client" style="color: inherit; text-decoration: none;">
 						<h2>Webhook Client</h2>
