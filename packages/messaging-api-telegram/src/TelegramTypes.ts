@@ -8,7 +8,7 @@ export namespace TelegramTypes {
   };
 
   export type Update = {
-    updateId: string;
+    updateId: number;
     message?: Message;
     editedMessage?: Message;
     channelPost?: Message;
