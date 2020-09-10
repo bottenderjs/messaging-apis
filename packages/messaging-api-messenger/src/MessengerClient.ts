@@ -234,9 +234,9 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getPageInfo({ fields }: { fields?: string[] } = {}): Promise<
-    MessengerTypes.PageInfo
-  > {
+  getPageInfo({
+    fields,
+  }: { fields?: string[] } = {}): Promise<MessengerTypes.PageInfo> {
     return this.axios
       .get('/me', {
         params: {
@@ -2562,9 +2562,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getLabelList(
-    options: { fields?: string[] } = {}
-  ): Promise<{
+  getLabelList(options: { fields?: string[] } = {}): Promise<{
     data: { name: string; id: string }[];
     paging: {
       cursors: {
@@ -3090,9 +3088,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getBlockedConversations(
-    options: MessengerTypes.InsightOptions
-  ): Promise<{
+  getBlockedConversations(options: MessengerTypes.InsightOptions): Promise<{
     name: 'page_messages_blocked_conversations_unique';
     period: 'day';
     values: {
@@ -3135,9 +3131,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getReportedConversations(
-    options: MessengerTypes.InsightOptions
-  ): Promise<{
+  getReportedConversations(options: MessengerTypes.InsightOptions): Promise<{
     name: 'page_messages_reported_conversations_unique';
     period: 'day';
     values: {
@@ -3223,9 +3217,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getNewConversations(
-    options: MessengerTypes.InsightOptions
-  ): Promise<{
+  getNewConversations(options: MessengerTypes.InsightOptions): Promise<{
     name: 'page_messages_new_conversations_unique';
     period: 'day';
     values: {
@@ -3616,9 +3608,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getPersona(
-    personaId: string
-  ): Promise<{
+  getPersona(personaId: string): Promise<{
     id: string;
     name: string;
     profilePictureUrl: string;
@@ -3666,9 +3656,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getPersonas(
-    cursor?: string
-  ): Promise<{
+  getPersonas(cursor?: string): Promise<{
     data: {
       id: string;
       name: string;

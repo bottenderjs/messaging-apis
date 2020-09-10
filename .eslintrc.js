@@ -21,6 +21,12 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
 
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'error',
+
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
+
     '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/camelcase': 'off',

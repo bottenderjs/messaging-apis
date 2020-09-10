@@ -1104,8 +1104,7 @@ describe('send api', () => {
           headers: [
             { name: 'Content-Type', value: 'text/javascript; charset=UTF-8' },
           ],
-          body:
-            '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
+          body: '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
         },
       ];
 
@@ -1154,8 +1153,7 @@ describe('send api', () => {
       const reply = [
         {
           code: 200,
-          body:
-            '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
+          body: '{"recipient_id":"1QAZ2WSX","message_id":"mid.1489394984387:3dd22de509"}',
         },
       ];
 

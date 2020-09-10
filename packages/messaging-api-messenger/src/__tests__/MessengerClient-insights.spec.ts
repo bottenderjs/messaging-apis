@@ -115,8 +115,7 @@ describe('Page Messaging Insights API', () => {
             title: 'Daily unique blocked conversations count',
             description:
               'Daily: The number of conversations with the Page that have been blocked.',
-            id:
-              '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+            id: '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
           },
         ],
       };
@@ -149,8 +148,7 @@ describe('Page Messaging Insights API', () => {
         title: 'Daily unique blocked conversations count',
         description:
           'Daily: The number of conversations with the Page that have been blocked.',
-        id:
-          '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
+        id: '1234567/insights/?metric=page_messages_blocked_conversations_unique/day',
       });
     });
   });
@@ -181,8 +179,7 @@ describe('Page Messaging Insights API', () => {
             title: 'Daily unique reported conversations count',
             description:
               'Daily: The number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.',
-            id:
-              '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
+            id: '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
           },
         ],
       };
@@ -215,8 +212,7 @@ describe('Page Messaging Insights API', () => {
         title: 'Daily unique reported conversations count',
         description:
           'Daily: The number of conversations from your Page that have been reported by people for reasons such as spam, or containing inappropriate content.',
-        id:
-          '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
+        id: '1234567/insights/?metric=page_messages_reported_conversations_unique/day',
       });
     });
   });
@@ -237,8 +233,7 @@ describe('Page Messaging Insights API', () => {
             title: 'Messaging connections',
             description:
               'Daily: The number of people who have sent a message to your business, not including people who have blocked or reported your business on Messenger. (This number only includes connections made since October 2016.)',
-            id:
-              '1386473101668063/insights/page_messages_total_messaging_connections/day',
+            id: '1386473101668063/insights/page_messages_total_messaging_connections/day',
           },
         ],
       };
@@ -261,8 +256,7 @@ describe('Page Messaging Insights API', () => {
         title: 'Messaging connections',
         description:
           'Daily: The number of people who have sent a message to your business, not including people who have blocked or reported your business on Messenger. (This number only includes connections made since October 2016.)',
-        id:
-          '1386473101668063/insights/page_messages_total_messaging_connections/day',
+        id: '1386473101668063/insights/page_messages_total_messaging_connections/day',
       });
     });
   });
@@ -283,8 +277,7 @@ describe('Page Messaging Insights API', () => {
             title: 'Daily unique new conversations count',
             description:
               'Daily: The number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.',
-            id:
-              '1386473101668063/insights/page_messages_new_conversations_unique/day',
+            id: '1386473101668063/insights/page_messages_new_conversations_unique/day',
           },
         ],
       };
@@ -307,8 +300,7 @@ describe('Page Messaging Insights API', () => {
         title: 'Daily unique new conversations count',
         description:
           'Daily: The number of messaging conversations on Facebook Messenger that began with people who had never messaged with your business before.',
-        id:
-          '1386473101668063/insights/page_messages_new_conversations_unique/day',
+        id: '1386473101668063/insights/page_messages_new_conversations_unique/day',
       });
     });
   });

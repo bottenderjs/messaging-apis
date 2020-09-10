@@ -10,7 +10,7 @@ module.exports = {
   resetMocks: true,
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.test.json',
+      tsconfig: '<rootDir>/tsconfig.test.json',
       diagnostics: false,
     },
   },

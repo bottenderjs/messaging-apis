@@ -102,9 +102,9 @@ export default class ViberClient {
 
       const { config, request } = response;
 
-      const data = (camelcaseKeysDeep(
+      const data = camelcaseKeysDeep(
         response.data
-      ) as any) as ViberTypes.ResponseData<R>;
+      ) as any as ViberTypes.ResponseData<R>;
 
       if (data.status !== 0) {
         throw new AxiosError(`Viber API - ${data.statusMessage}`, {
@@ -115,7 +115,7 @@ export default class ViberClient {
       }
 
       return data;
-    } catch (err) {
+    } catch (err: any) {
       throw new AxiosError(err.message, err);
     }
   }

@@ -686,9 +686,9 @@ export default class SlackOAuthClient {
         querystring.stringify(snakecaseKeysDeep(body) as any)
       );
 
-      const data = (camelcaseKeysDeep(
+      const data = camelcaseKeysDeep(
         response.data
-      ) as any) as SlackTypes.OAuthAPIResponse;
+      ) as any as SlackTypes.OAuthAPIResponse;
 
       if (!data.ok) {
         const { config, request } = response;
@@ -701,7 +701,7 @@ export default class SlackOAuthClient {
       }
 
       return data;
-    } catch (err) {
+    } catch (err: any) {
       throw new AxiosError(err.message, err);
     }
   }
@@ -870,9 +870,7 @@ export default class SlackOAuthClient {
    * // }
    * ```
    */
-  getConversationList(
-    options?: SlackTypes.ConversationListOptions
-  ): Promise<{
+  getConversationList(options?: SlackTypes.ConversationListOptions): Promise<{
     channels: SlackTypes.Channel[];
     next?: string;
   }> {
@@ -1218,9 +1216,7 @@ export default class SlackOAuthClient {
    * // }
    * ```
    */
-  getUserList(
-    options?: SlackTypes.UserListOptions
-  ): Promise<{
+  getUserList(options?: SlackTypes.UserListOptions): Promise<{
     members: SlackTypes.User[];
     next?: string;
   }> {
