@@ -375,7 +375,8 @@ function deleteUserPersistentMenu(
 function sendSenderAction(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   senderAction: MessengerTypes.SenderAction,
-  options: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions = {}
+  options: MessengerTypes.SenderActionOption &
+    MessengerTypes.BatchRequestOptions = {}
 ): MessengerTypes.BatchItem {
   const recipient =
     typeof psidOrRecipient === 'string'
@@ -398,21 +399,23 @@ function sendSenderAction(
 
 function typingOn(
   idOrRecipient: MessengerTypes.PsidOrRecipient,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+  options?: MessengerTypes.SenderActionOption &
+    MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
 function typingOff(
   idOrRecipient: MessengerTypes.PsidOrRecipient,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+  options?: MessengerTypes.SenderActionOption &
+    MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
 function markSeen(
   idOrRecipient: MessengerTypes.PsidOrRecipient,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
+  options?: MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
