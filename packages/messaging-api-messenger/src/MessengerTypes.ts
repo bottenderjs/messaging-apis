@@ -185,6 +185,11 @@ export type SendOption = {
   messagingType?: MessagingType;
   tag?: MessageTag;
   quickReplies?: QuickReply[];
+  personaId?: string;
+};
+
+export type SenderActionOption = {
+  personaId?: string;
 };
 
 export type UploadOption = {

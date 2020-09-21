@@ -2161,6 +2161,8 @@ export default class MessengerClient {
    *
    * @param psidOrRecipient - A facebook page-scoped ID of the recipient or a recipient object
    * @param senderAction - Message state to display to the user. One of `typing_on`, `typing_off` or `mark_seen`
+   * @param options - Other optional parameters.
+   * @param options.personaId - ID of the persona.
    * @returns An object includes recipientId
    *
    * @see https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions
@@ -2169,11 +2171,15 @@ export default class MessengerClient {
    *
    * ```js
    * await client.sendSenderAction(USER_ID, 'typing_on');
+   *
+   * // Or with persona:
+   * await client.sendSenderAction(USER_ID, 'typing_on', { personaId: '<PERSONA_ID>' });
    * ```
    */
   sendSenderAction(
     psidOrRecipient: MessengerTypes.PsidOrRecipient,
-    senderAction: MessengerTypes.SenderAction
+    senderAction: MessengerTypes.SenderAction,
+    options?: MessengerTypes.SenderActionOption
   ): Promise<MessengerTypes.SendSenderActionResponse> {
     const recipient =
       typeof psidOrRecipient === 'string'
@@ -2184,6 +2190,7 @@ export default class MessengerClient {
     return this.sendRawBody({
       recipient,
       senderAction,
+      ...options,
     });
   }
 
@@ -2211,6 +2218,8 @@ export default class MessengerClient {
    * Turns typing indicators on for the specified user.
    *
    * @param psidOrRecipient - A facebook page-scoped ID of the recipient or a recipient object
+   * @param options - Other optional parameters.
+   * @param options.personaId - ID of the persona.
    * @returns An object includes recipientId
    *
    * @see https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions#supported_actions
@@ -2219,18 +2228,24 @@ export default class MessengerClient {
    *
    * ```js
    * await client.typingOn(USER_ID);
+   *
+   * // Or with persona:
+   * await client.typingOn(USER_ID, { personaId: '<PERSONA_ID>' });
    * ```
    * */
   typingOn(
-    psidOrRecipient: MessengerTypes.PsidOrRecipient
+    psidOrRecipient: MessengerTypes.PsidOrRecipient,
+    options?: MessengerTypes.SenderActionOption
   ): Promise<MessengerTypes.SendSenderActionResponse> {
-    return this.sendSenderAction(psidOrRecipient, 'typing_on');
+    return this.sendSenderAction(psidOrRecipient, 'typing_on', options);
   }
 
   /**
    * Turns typing indicators off for the specified user.
    *
    * @param psidOrRecipient - A facebook page-scoped ID of the recipient or a recipient object
+   * @param options - Other optional parameters.
+   * @param options.personaId - ID of the persona.
    * @returns An object includes recipientId
    *
    * @see https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions#supported_actions
@@ -2239,12 +2254,16 @@ export default class MessengerClient {
    *
    * ```js
    * await client.typingOff(USER_ID);
+   *
+   * // Or with persona:
+   * await client.typingOff(USER_ID, { personaId: '<PERSONA_ID>' });
    * ```
    */
   typingOff(
-    psidOrRecipient: MessengerTypes.PsidOrRecipient
+    psidOrRecipient: MessengerTypes.PsidOrRecipient,
+    options?: MessengerTypes.SenderActionOption
   ): Promise<MessengerTypes.SendSenderActionResponse> {
-    return this.sendSenderAction(psidOrRecipient, 'typing_off');
+    return this.sendSenderAction(psidOrRecipient, 'typing_off', options);
   }
 
   /**
