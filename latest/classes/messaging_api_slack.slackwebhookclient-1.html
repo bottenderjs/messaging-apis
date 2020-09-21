@@ -1,0 +1,473 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SlackWebhookClient | messaging-apis - v1.0.0</title>
+	<meta name="description" content="Documentation for messaging-apis - v1.0.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">messaging-apis - v1.0.0</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/messaging_api_slack.html">messaging-api-slack</a>
+				</li>
+				<li>
+					<a href="messaging_api_slack.slackwebhookclient-1.html">SlackWebhookClient</a>
+				</li>
+			</ul>
+			<h1>Class SlackWebhookClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">SlackWebhookClient</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="messaging_api_slack.slackwebhookclient-1.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messaging_api_slack.slackwebhookclient-1.html#axios" class="tsd-kind-icon">axios</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackwebhookclient-1.html#sendattachment" class="tsd-kind-icon">send<wbr>Attachment</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackwebhookclient-1.html#sendattachments" class="tsd-kind-icon">send<wbr>Attachments</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackwebhookclient-1.html#sendrawbody" class="tsd-kind-icon">send<wbr>Raw<wbr>Body</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messaging_api_slack.slackwebhookclient-1.html#sendtext" class="tsd-kind-icon">send<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="messaging_api_slack.slackwebhookclient-1.html#connect" class="tsd-kind-icon">connect</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Slack<wbr>Webhook<wbr>Client<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientConfig</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="messaging_api_slack.slackwebhookclient-1.html" class="tsd-signature-type">SlackWebhookClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L37">packages/messaging-api-slack/src/SlackWebhookClient.ts:37</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <span class="tsd-signature-type">ClientConfig</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="messaging_api_slack.slackwebhookclient-1.html" class="tsd-signature-type">SlackWebhookClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="axios" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> axios</h3>
+					<div class="tsd-signature tsd-kind-icon">axios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AxiosInstance</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L32">packages/messaging-api-slack/src/SlackWebhookClient.ts:32</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The underlying axios instance.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendattachment" class="tsd-anchor"></a>
+					<h3>send<wbr>Attachment</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Attachment<span class="tsd-signature-symbol">(</span>attachment<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SlackTypes.Attachment</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L160">packages/messaging-api-slack/src/SlackWebhookClient.ts:160</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send only one attachment.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/message-attachments">https://api.slack.com/docs/message-attachments</a></p>
+										<pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendAttachment({
+  <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some text&#x27;</span>,
+  <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pretext&#x27;</span>,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;good&#x27;</span>,
+  <span class="hljs-attr">fields</span>: [
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;aaa&#x27;</span>,
+      <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;bbb&#x27;</span>,
+      <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
+    },
+  ],
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>attachment: <span class="tsd-signature-type">SlackTypes.Attachment</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Message is an attachment. The object contains the parameters to customize the appearance of a message attachment.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendattachments" class="tsd-anchor"></a>
+					<h3>send<wbr>Attachments</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Attachments<span class="tsd-signature-symbol">(</span>attachments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SlackTypes.Attachment</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L132">packages/messaging-api-slack/src/SlackWebhookClient.ts:132</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send multiple attachments which let you add more context to a message.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/message-attachments">https://api.slack.com/docs/message-attachments</a></p>
+										<pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendAttachments([
+  {
+    <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some text&#x27;</span>,
+    <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pretext&#x27;</span>,
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;good&#x27;</span>,
+    <span class="hljs-attr">fields</span>: [
+      {
+        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;aaa&#x27;</span>,
+        <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;bbb&#x27;</span>,
+        <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
+      },
+    ],
+  },
+  {
+    <span class="hljs-attr">fallback</span>: <span class="hljs-string">&#x27;some other text&#x27;</span>,
+    <span class="hljs-attr">pretext</span>: <span class="hljs-string">&#x27;some pther pretext&#x27;</span>,
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;#FF0000&#x27;</span>,
+    <span class="hljs-attr">fields</span>: [
+      {
+        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;ccc&#x27;</span>,
+        <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;ddd&#x27;</span>,
+        <span class="hljs-attr">short</span>: <span class="hljs-literal">false</span>,
+      },
+    ],
+  },
+]);</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>attachments: <span class="tsd-signature-type">SlackTypes.Attachment</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Messages are attachments, defined as an array. Each object contains the parameters to customize the appearance of a message attachment.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendrawbody" class="tsd-anchor"></a>
+					<h3>send<wbr>Raw<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Raw<wbr>Body<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L72">packages/messaging-api-slack/src/SlackWebhookClient.ts:72</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send message by using raw body.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/messages">https://api.slack.com/docs/messages</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendRawBody({ <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hello!&#x27;</span> });</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>body: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Raw data to be sent.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendtext" class="tsd-anchor"></a>
+					<h3>send<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Text<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L91">packages/messaging-api-slack/src/SlackWebhookClient.ts:91</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send text message.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://api.slack.com/docs/messages">https://api.slack.com/docs/messages</a></p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-js"><span class="hljs-keyword">await</span> client.sendText(<span class="hljs-string">&#x27;Hello!&#x27;</span>);</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>text: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Text of the message to be sent.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SlackTypes.SendMessageSuccessResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="connect" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> connect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientConfig</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="messaging_api_slack.slackwebhookclient-1.html" class="tsd-signature-type">SlackWebhookClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Yoctol/messaging-apis/blob/829349a/packages/messaging-api-slack/src/SlackWebhookClient.ts#L21">packages/messaging-api-slack/src/SlackWebhookClient.ts:21</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>Use <code>new SlackWebhookClient(...)</code> instead.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <span class="tsd-signature-type">ClientConfig</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="messaging_api_slack.slackwebhookclient-1.html" class="tsd-signature-type">SlackWebhookClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/facebook_batch.html">facebook-<wbr>batch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_common.html">messaging-<wbr>api-<wbr>common</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_line.html">messaging-<wbr>api-<wbr>line</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_messenger.html">messaging-<wbr>api-<wbr>messenger</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/messaging_api_slack.html">messaging-<wbr>api-<wbr>slack</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_telegram.html">messaging-<wbr>api-<wbr>telegram</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_viber.html">messaging-<wbr>api-<wbr>viber</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/messaging_api_wechat.html">messaging-<wbr>api-<wbr>wechat</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="messaging_api_slack.slackwebhookclient-1.html" class="tsd-kind-icon">Slack<wbr>Webhook<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#axios" class="tsd-kind-icon">axios</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#sendattachment" class="tsd-kind-icon">send<wbr>Attachment</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#sendattachments" class="tsd-kind-icon">send<wbr>Attachments</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#sendrawbody" class="tsd-kind-icon">send<wbr>Raw<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#sendtext" class="tsd-kind-icon">send<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="messaging_api_slack.slackwebhookclient-1.html#connect" class="tsd-kind-icon">connect</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
