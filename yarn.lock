@@ -2020,7 +2020,7 @@ aws4@^1.8.0:
   integrity sha512-wMHVg2EOHaMRxbzgFJ9gtjOOCrI80OHLG14rxi28XwOW8ux6IiEbRCGGGqCtdAIg4FQCbW20k9RsT4y3gJlFug==
 
 "axios-error@file:packages/axios-error":
-  version "1.0.0-beta.27"
+  version "1.0.0"
   dependencies:
     axios "^0.19.2"
     type-fest "^0.15.1"
@@ -5671,7 +5671,7 @@ merge2@^1.2.3:
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
 "messaging-api-common@file:packages/messaging-api-common":
-  version "1.0.0-beta.29"
+  version "1.0.0"
   dependencies:
     "@types/debug" "^4.1.5"
     "@types/lodash" "^4.14.156"
@@ -5686,17 +5686,17 @@ merge2@^1.2.3:
     url-join "^4.0.1"
 
 "messaging-api-messenger@file:packages/messaging-api-messenger":
-  version "1.0.0-beta.33"
+  version "1.0.0"
   dependencies:
     "@types/append-query" "^2.0.0"
     "@types/lodash" "^4.14.156"
     "@types/warning" "^3.0.0"
     append-query "^2.1.0"
     axios "^0.19.2"
-    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.0.0-beta.33-164b6df6-0fbb-43d4-aa8f-4a342f78d769-1597893704071/node_modules/axios-error"
+    axios-error "file:packages/axios-error"
     form-data "^3.0.0"
     lodash "^4.17.15"
-    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.0.0-beta.33-164b6df6-0fbb-43d4-aa8f-4a342f78d769-1597893704071/node_modules/messaging-api-common"
+    messaging-api-common "file:packages/messaging-api-common"
     ts-invariant "^0.4.4"
     warning "^4.0.3"
 
@@ -5938,9 +5938,9 @@ node-fetch-npm@^2.0.2:
     safe-buffer "^5.1.1"
 
 node-fetch@^2.3.0, node-fetch@^2.5.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 node-gyp@^5.0.2:
   version "5.1.0"
