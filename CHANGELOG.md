@@ -1,8 +1,12 @@
+# 1.0.1 / 2020-09-21
+
+- chore: remove namespace and export types from module instead #627
+
 # 1.0.0 / 2020-09-07
 
 ## Breaking Changes
 
-The whole project has been rewritten with TypeScript and all APIs now accept camelcase keys instead of snakecase keys. 
+The whole project has been rewritten with TypeScript and all APIs now accept camelcase keys instead of snakecase keys.
 
 Please checkout [the new API document](https://yoctol.github.io/messaging-apis/latest/globals.html).
 
@@ -10,7 +14,7 @@ Please checkout [the new API document](https://yoctol.github.io/messaging-apis/l
 
 ### messaging-api-wechat
 
-- fix(WechatClient): apply throwErrorIfAny to getAccessToken #502
+- [fix] WechatClient: apply throwErrorIfAny to getAccessToken #502
 
 # 0.8.3 / 2019-09-28
 
