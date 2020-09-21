@@ -1,3 +1,9 @@
+# 1.0.2 / 2020-09-21
+
+### messaging-api-messenger
+
+- feat: add persona support to typing_on and typing_off
+
 # 1.0.1 / 2020-09-21
 
 - chore: remove namespace and export types from module instead #627
