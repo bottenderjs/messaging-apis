@@ -1,6 +1,5 @@
-import BatchRequestError from './BatchRequestError';
-import FacebookBatchQueue from './FacebookBatchQueue';
-import { getErrorMessage, isError613 } from './utils';
+export { default as BatchRequestError } from './BatchRequestError';
+export { default as FacebookBatchQueue } from './FacebookBatchQueue';
+export { getErrorMessage, isError613 } from './utils';
 
-export { getErrorMessage, isError613, FacebookBatchQueue, BatchRequestError };
 export * from './types';

@@ -11,7 +11,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import type { SlackTypes } from './SlackTypes';
+import * as SlackTypes from './SlackTypes';
 
 const DEFAULT_PAYLOAD_FIELDS_TO_STRINGIFY = ['attachments', 'blocks'];
 

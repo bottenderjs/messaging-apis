@@ -9,7 +9,7 @@ import axios, {
 import warning from 'warning';
 import { JsonObject } from 'type-fest';
 
-import type { LineTypes } from './LineTypes';
+import * as LineTypes from './LineTypes';
 
 function handleError(
   err: BaseAxiosError<{

@@ -12,7 +12,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import type { ViberTypes } from './ViberTypes';
+import * as ViberTypes from './ViberTypes';
 
 function transformMessageCase(message: ViberTypes.Message): any {
   const { keyboard, richMedia, ...others } = message as any;

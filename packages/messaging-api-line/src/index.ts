@@ -1,7 +1,6 @@
-import Line from './Line';
-import LineClient from './LineClient';
-import LineNotify from './LineNotify';
-import LinePay from './LinePay';
-import type { LineTypes } from './LineTypes';
+export { default as Line } from './Line';
+export { default as LineClient } from './LineClient';
+export { default as LineNotify } from './LineNotify';
+export { default as LinePay } from './LinePay';
 
-export { Line, LineClient, LinePay, LineNotify, LineTypes };
+export * as LineTypes from './LineTypes';

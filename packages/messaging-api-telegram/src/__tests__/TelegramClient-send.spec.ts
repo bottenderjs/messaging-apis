@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import TelegramClient from '../TelegramClient';
-import { TelegramTypes } from '../TelegramTypes';
+import * as TelegramTypes from '../TelegramTypes';
 
 const { ChatAction, InputMediaType, ParseMode } = TelegramTypes;
 

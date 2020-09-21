@@ -1,3 +1,3 @@
-import Line from './Line';
+export { default as Line } from './Line';
 
-export { Line };
+export * as LineTypes from './LineTypes';

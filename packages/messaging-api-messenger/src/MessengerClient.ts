@@ -24,7 +24,7 @@ import {
 } from 'messaging-api-common';
 
 import Messenger from './Messenger';
-import type { MessengerTypes } from './MessengerTypes';
+import * as MessengerTypes from './MessengerTypes';
 
 function extractVersion(version: string): string {
   if (version.startsWith('v')) {

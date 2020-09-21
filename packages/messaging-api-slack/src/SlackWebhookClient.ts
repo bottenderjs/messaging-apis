@@ -7,7 +7,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import type { SlackTypes } from './SlackTypes';
+import * as SlackTypes from './SlackTypes';
 
 interface ClientConfig {
   url: string;

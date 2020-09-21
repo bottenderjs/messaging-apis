@@ -1,4 +1,4 @@
-import type { LineTypes } from './LineTypes';
+import * as LineTypes from './LineTypes';
 
 function createText(
   text: string,
