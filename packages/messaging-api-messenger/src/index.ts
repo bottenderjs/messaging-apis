@@ -1,6 +1,5 @@
-import Messenger from './Messenger';
-import MessengerBatch from './MessengerBatch';
-import MessengerClient from './MessengerClient';
-import type { MessengerTypes } from './MessengerTypes';
+export { default as Messenger } from './Messenger';
+export { default as MessengerBatch } from './MessengerBatch';
+export { default as MessengerClient } from './MessengerClient';
 
-export { Messenger, MessengerBatch, MessengerClient, MessengerTypes };
+export * as MessengerTypes from './MessengerTypes';

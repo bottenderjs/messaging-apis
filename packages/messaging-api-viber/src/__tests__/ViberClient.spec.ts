@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import ViberClient from '../ViberClient';
-import { ViberTypes } from '../ViberTypes';
+import * as ViberTypes from '../ViberTypes';
 
 const { EventType } = ViberTypes;
 

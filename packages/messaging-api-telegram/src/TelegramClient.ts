@@ -13,7 +13,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import type { TelegramTypes } from './TelegramTypes';
+import * as TelegramTypes from './TelegramTypes';
 
 export default class TelegramClient {
   /**

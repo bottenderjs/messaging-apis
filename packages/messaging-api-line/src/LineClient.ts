@@ -12,7 +12,7 @@ import {
 } from 'messaging-api-common';
 
 import Line from './Line';
-import type { LineTypes } from './LineTypes';
+import * as LineTypes from './LineTypes';
 
 function handleError(
   err: BaseAxiosError<{

@@ -1,4 +1,3 @@
-import TelegramClient from './TelegramClient';
-import type { TelegramTypes } from './TelegramTypes';
+export { default as TelegramClient } from './TelegramClient';
 
-export { TelegramClient, TelegramTypes };
+export * as TelegramTypes from './TelegramTypes';

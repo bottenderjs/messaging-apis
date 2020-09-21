@@ -1,4 +1,3 @@
-import ViberClient from './ViberClient';
-import type { ViberTypes } from './ViberTypes';
+export { default as ViberClient } from './ViberClient';
 
-export { ViberClient, ViberTypes };
+export * as ViberTypes from './ViberTypes';

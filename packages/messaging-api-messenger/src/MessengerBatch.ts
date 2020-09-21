@@ -2,7 +2,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
 import Messenger from './Messenger';
-import type { MessengerTypes } from './MessengerTypes';
+import * as MessengerTypes from './MessengerTypes';
 
 function omitUndefinedFields(obj = {}): object {
   return JSON.parse(JSON.stringify(obj));

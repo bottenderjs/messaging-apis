@@ -2,7 +2,7 @@ import FormData from 'form-data';
 import omit from 'lodash/omit';
 import { camelcaseKeysDeep, snakecaseKeysDeep } from 'messaging-api-common';
 
-import type { MessengerTypes } from './MessengerTypes';
+import * as MessengerTypes from './MessengerTypes';
 
 function createMessage(
   payload: MessengerTypes.Message,

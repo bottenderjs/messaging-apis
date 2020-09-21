@@ -13,7 +13,7 @@ import {
   snakecaseKeys,
 } from 'messaging-api-common';
 
-import type { WechatTypes } from './WechatTypes';
+import * as WechatTypes from './WechatTypes';
 
 function throwErrorIfAny(response: AxiosResponse): AxiosResponse {
   const { errcode, errmsg } = response.data;
