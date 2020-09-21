@@ -2453,7 +2453,7 @@ export default class MessengerClient {
    */
   getAssociatedLabels(
     userId: string,
-    options: { accessToken?: string; fields?: string[] } = {}
+    options: { fields?: string[] } = {}
   ): Promise<{
     data: { name: string; id: string }[];
     paging: {
