@@ -1,3 +1,9 @@
+# 1.0.3 / 2020-10-20
+
+### messaging-api-slack
+
+- fix: add the missing `warning` package.
+
 # 1.0.2 / 2020-09-21
 
 ### messaging-api-messenger
