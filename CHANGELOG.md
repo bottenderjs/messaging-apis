@@ -1,3 +1,7 @@
+# 1.0.4 / 2021-01-11
+
+- deps: bump axios.
+
 # 1.0.3 / 2020-10-20
 
 ### messaging-api-slack
