@@ -144,7 +144,7 @@ describe('#axios', () => {
 
     mock.onPost('/deleteWebhook').reply(200, reply);
 
-    expect(client.deleteWebhook().then).toThrow();
+    await expect(client.deleteWebhook()).rejects.toThrow();
   });
 });
 
