@@ -286,6 +286,7 @@ export type UserOnlineStatus = {
 };
 
 export type Keyboard = {
+  type: 'keyboard';
   buttons: KeyboardButton[];
   bgColor?: string;
   defaultHeight?: boolean;
