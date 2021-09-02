@@ -102,6 +102,7 @@ The Viber API allows sending a custom keyboard using the send_message API, to su
 ```js
 client.sendText(USER_ID, 'Hello', {
   keyboard: {
+    type: 'keyboard',
     defaultHeight: true,
     bgColor: '#FFFFFF',
     buttons: [
