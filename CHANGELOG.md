@@ -1,3 +1,9 @@
+# 1.0.6 / 2021-09-03
+
+### messaging-api-viber
+
+- fix: add `type: 'keyboard'` to the `Keyboard` type
+
 # 1.0.5 / 2021-04-15
 
 ### messaging-api-messenger
