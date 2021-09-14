@@ -285,7 +285,7 @@ describe('Rich Menu', () => {
 
       mock.onPost().reply((config) => {
         expect(config.url).toEqual('/v2/bot/user/1/richmenu/2');
-        expect(config.data).toEqual(null);
+        expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
@@ -456,7 +456,7 @@ describe('Rich Menu', () => {
         expect(config.url).toEqual(
           '/v2/bot/user/all/richmenu/richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
         );
-        expect(config.data).toEqual(null);
+        expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });
