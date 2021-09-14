@@ -16,6 +16,7 @@
     "lint:fix": "yarn lint:fix:md && yarn lint --fix",
     "lint:fix:md": "prettier --write **/*.md",
     "lint:staged": "lint-staged",
+    "prepare": "husky install",
     "publish": "lerna publish",
     "prepublishOnly": "yarn clean && yarn && yarn test",
     "test": "yarn compile && yarn lint && yarn testonly",
@@ -32,9 +33,9 @@
     "@types/jest": "^26.0.10",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
-    "axios": "^0.21.1",
-    "axios-mock-adapter": "^1.18.2",
-    "chalk": "^4.1.0",
+    "axios": "^0.21.4",
+    "axios-mock-adapter": "^1.20.0",
+    "chalk": "^4.1.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-yoctol-base": "^0.24.1",
@@ -43,11 +44,11 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-tsdoc": "^0.2.14",
-    "husky": "^4.2.5",
+    "husky": "^7.0.2",
     "jest": "^26.4.0",
     "lerna": "^3.22.1",
-    "lint-staged": "^10.2.11",
-    "micromatch": "^4.0.2",
+    "lint-staged": "^11.1.2",
+    "micromatch": "^4.0.4",
     "mkdir": "^0.0.2",
     "prettier": "^2.4.0",
     "prettier-package-json": "^2.6.0",
@@ -59,10 +60,5 @@
   },
   "engines": {
     "node": ">=10"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
