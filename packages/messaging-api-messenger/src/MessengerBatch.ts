@@ -365,9 +365,10 @@ function deleteUserPersistentMenu(
 
   return {
     method: 'DELETE',
-    relativeUrl: `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]`.concat(
-      options.accessToken ? `&access_token=${options.accessToken}` : ''
-    ),
+    relativeUrl:
+      `/me/custom_user_settings?psid=${userId}&params=[%22persistent_menu%22]`.concat(
+        options.accessToken ? `&access_token=${options.accessToken}` : ''
+      ),
     ...batchRequestOptions,
   };
 }

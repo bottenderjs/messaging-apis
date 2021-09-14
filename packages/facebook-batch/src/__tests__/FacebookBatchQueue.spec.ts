@@ -13,17 +13,14 @@ const image = {
   attachment: {
     type: 'image',
     payload: {
-      url:
-        'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
+      url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
     },
   },
 };
 
 let queue: FacebookBatchQueue;
 
-function setup(
-  options = {}
-): {
+function setup(options = {}): {
   client: MessengerClient;
   timeout: NodeJS.Timeout;
 } {
@@ -90,8 +87,7 @@ it('should flush when length >= 50', async () => {
       message: {
         attachment: {
           payload: {
-            url:
-              'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
+            url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
           },
           type: 'image',
         },
@@ -136,8 +132,7 @@ it('should flush with 1000 timeout', async () => {
         message: {
           attachment: {
             payload: {
-              url:
-                'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
+              url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
             },
             type: 'image',
           },
@@ -238,8 +233,7 @@ it('should throw request and response', async () => {
       message: {
         attachment: {
           payload: {
-            url:
-              'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
+            url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
           },
           type: 'image',
         },

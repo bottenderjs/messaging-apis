@@ -897,8 +897,7 @@ describe('ID Matching', () => {
             id: '12345123', // The psid for the user for that page
             page: {
               category: 'Musician',
-              link:
-                'https://www.facebook.com/Johns-Next-Great-Thing-380374449010653/',
+              link: 'https://www.facebook.com/Johns-Next-Great-Thing-380374449010653/',
               name: "John's Next Great Thing",
               id: '380374449010653',
             },

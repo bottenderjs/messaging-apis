@@ -1,12 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: [
-    'yoctol-base',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
-  ],
+  extends: ['yoctol-base', 'plugin:@typescript-eslint/recommended', 'prettier'],
   env: {
     node: true,
     jest: true,
@@ -20,6 +15,12 @@ module.exports = {
 
     'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
+
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'error',
+
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
 
     '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/no-namespace': 'off',

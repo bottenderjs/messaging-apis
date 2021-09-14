@@ -2271,13 +2271,14 @@ export type CreateUploadAudienceGroupOptions = {
   uploadDescription?: string;
 };
 
-export type UpdateUploadAudienceGroupOptions = CreateUploadAudienceGroupOptions & {
-  /**
-   * The audience's name. Audience names must be unique. This is case-insensitive, meaning AUDIENCE and audience are considered identical.
-   * - Max character limit: 120
-   */
-  description?: string;
-};
+export type UpdateUploadAudienceGroupOptions =
+  CreateUploadAudienceGroupOptions & {
+    /**
+     * The audience's name. Audience names must be unique. This is case-insensitive, meaning AUDIENCE and audience are considered identical.
+     * - Max character limit: 120
+     */
+    description?: string;
+  };
 
 export type CreateClickAudienceGroupOptions = {
   /**

@@ -187,9 +187,7 @@ export default class LineNotify {
    * - targetType: If the notification target is a user: "USER". If the notification target is a group: "GROUP".
    * - target: If the notification target is a user, displays user name. If acquisition fails, displays "null". If the notification target is a group, displays group name. If the target user has already left the group, displays "null".
    */
-  async getStatus(
-    accessToken: string
-  ): Promise<{
+  async getStatus(accessToken: string): Promise<{
     status: number;
     message: string;
     targetType: 'USER' | 'GROUP';
@@ -265,9 +263,7 @@ export default class LineNotify {
    * - status: Value according to HTTP status code
    * - message: Message visible to end-user
    */
-  async revokeToken(
-    accessToken: string
-  ): Promise<{
+  async revokeToken(accessToken: string): Promise<{
     status: string;
     message: string;
   }> {

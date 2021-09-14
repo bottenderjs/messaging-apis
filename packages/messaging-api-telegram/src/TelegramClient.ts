@@ -86,7 +86,7 @@ export default class TelegramClient {
         return camelcaseKeysDeep(data.result);
       }
       return data.result;
-    } catch (err) {
+    } catch (err: any) {
       if (err.response && err.response.data) {
         const { error_code, description } = err.response.data;
         const msg = `Telegram API - ${error_code} ${description || ''}`;

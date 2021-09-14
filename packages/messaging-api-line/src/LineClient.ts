@@ -2246,9 +2246,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and a [[TargetLimitForAdditionalMessages]].
    */
-  getTargetLimitForAdditionalMessages(): Promise<
-    LineTypes.TargetLimitForAdditionalMessages
-  > {
+  getTargetLimitForAdditionalMessages(): Promise<LineTypes.TargetLimitForAdditionalMessages> {
     return this.axios
       .get<LineTypes.TargetLimitForAdditionalMessages>('/v2/bot/message/quota')
       .then((res) => res.data, handleError);
@@ -2269,9 +2267,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and a [[NumberOfMessagesSentThisMonth]].
    */
-  getNumberOfMessagesSentThisMonth(): Promise<
-    LineTypes.NumberOfMessagesSentThisMonth
-  > {
+  getNumberOfMessagesSentThisMonth(): Promise<LineTypes.NumberOfMessagesSentThisMonth> {
     return this.axios
       .get<LineTypes.NumberOfMessagesSentThisMonth>(
         '/v2/bot/message/quota/consumption'
@@ -2894,9 +2890,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and an [[AudienceGroupAuthorityLevel]].
    */
-  getAudienceGroupAuthorityLevel(): Promise<
-    LineTypes.AudienceGroupAuthorityLevel
-  > {
+  getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
     return this.axios
       .get(`/v2/bot/audienceGroup/authorityLevel`)
       .then((res) => res.data, handleError);
