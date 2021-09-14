@@ -54,8 +54,8 @@
     "prettier-package-json": "^2.6.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.2.0",
-    "typedoc": "^0.18.0",
-    "typedoc-plugin-lerna-packages": "0.3.0",
+    "typedoc": "^0.22.3",
+    "typedoc-plugin-lerna-packages": "github:marcj/typedoc-plugin-lerna-packages#f5d8f7d",
     "typescript": "^4.4.3"
   },
   "engines": {
