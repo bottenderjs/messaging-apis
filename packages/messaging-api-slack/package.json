@@ -1,21 +1,21 @@
 {
   "name": "messaging-api-slack",
+  "version": "1.0.6",
   "description": "Messaging API client for Slack",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/lodash": "^4.14.156",
     "@types/warning": "^3.0.0",
-    "axios": "^0.21.1",
-    "axios-error": "^1.0.4",
+    "axios": "^0.22.0",
+    "axios-error": "file:../axios-error",
     "lodash": "^4.17.15",
-    "messaging-api-common": "^1.0.4",
+    "messaging-api-common": "file:../messaging-api-common",
     "ts-invariant": "^0.4.4",
     "warning": "^4.0.3"
   },

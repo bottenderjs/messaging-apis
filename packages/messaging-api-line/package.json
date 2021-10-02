@@ -1,18 +1,18 @@
 {
   "name": "messaging-api-line",
+  "version": "1.0.6",
   "description": "Messaging API client for LINE",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
   "browser": "lib/browser.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/warning": "^3.0.0",
-    "axios": "^0.21.1",
+    "axios": "^0.22.0",
     "axios-error": "file:../axios-error",
     "image-type": "^4.1.0",
     "messaging-api-common": "file:../messaging-api-common",

@@ -1,12 +1,12 @@
 {
   "name": "messaging-api-messenger",
+  "version": "1.0.6",
   "description": "Messaging API client for Messenger",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
   "browser": "lib/browser.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "@types/lodash": "^4.14.156",
     "@types/warning": "^3.0.0",
     "append-query": "^2.1.0",
-    "axios": "^0.21.1",
+    "axios": "^0.22.0",
     "axios-error": "file:../axios-error",
     "form-data": "^3.0.0",
     "lodash": "^4.17.15",
