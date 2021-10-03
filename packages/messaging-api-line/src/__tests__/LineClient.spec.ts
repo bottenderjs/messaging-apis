@@ -100,7 +100,7 @@ describe('Account link', () => {
 
       mock.onPost().reply((config) => {
         expect(config.url).toEqual(`/v2/bot/user/${RECIPIENT_ID}/linkToken`);
-        expect(config.data).toEqual(null);
+        expect(config.data).toEqual(undefined);
         expect(config.headers).toEqual(headers);
         return [200, reply];
       });

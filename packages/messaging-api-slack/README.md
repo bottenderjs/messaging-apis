@@ -89,32 +89,32 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-- [chat.postMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#chat)
-- [chat.postEphemeral](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#chat)
+- [chat.postMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#chat)
+- [chat.postEphemeral](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#chat)
 
 <br />
 
 #### Users API
 
-- [getUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getuserlist)
-- [getAllUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getalluserlist)
-- [getUserInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getuserinfo)
+- [getUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getuserlist)
+- [getAllUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getalluserlist)
+- [getUserInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getuserinfo)
 
 <br />
 
 #### Channels API
 
-- [getChannelInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getchannelinfo)
+- [getChannelInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getchannelinfo)
 
 <br />
 
 #### Conversations API
 
-- [getConversationInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationinfo)
-- [getConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationmembers)
-- [getAllConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getallconversationmembers)
-- [getConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getconversationlist)
-- [getAllConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient.html#getallconversationlist)
+- [getConversationInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getconversationinfo)
+- [getConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getconversationmembers)
+- [getAllConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getallconversationmembers)
+- [getConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getconversationlist)
+- [getAllConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackoauthclient-1.html#getallconversationlist)
 
 <br />
 
@@ -144,10 +144,10 @@ All methods return a Promise.
 
 ### Send API - [Official docs](https://api.slack.com/docs/messages)
 
-- [sendRawBody](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendrawbody)
-- [sendText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendtext)
-- [sendAttachments](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendattachments)
-- [sendAttachment](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient.html#sendattachment)
+- [sendRawBody](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient-1.html#sendrawbody)
+- [sendText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient-1.html#sendtext)
+- [sendAttachments](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient-1.html#sendattachments)
+- [sendAttachment](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.slackwebhookclient-1.html#sendattachment)
 
 <br />
 

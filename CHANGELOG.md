@@ -1,3 +1,19 @@
+# 1.0.6 / 2021-09-03
+
+### messaging-api-viber
+
+- fix: add `type: 'keyboard'` to the `Keyboard` type
+
+# 1.0.5 / 2021-04-15
+
+### messaging-api-messenger
+
+- fix: type TemplateElement should allow optional attributes
+
+# 1.0.4 / 2021-01-11
+
+- deps: bump axios.
+
 # 1.0.3 / 2020-10-20
 
 ### messaging-api-slack

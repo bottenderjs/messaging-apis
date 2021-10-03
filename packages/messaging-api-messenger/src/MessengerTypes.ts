@@ -209,16 +209,16 @@ export type MenuItem = TemplateButton;
 
 export type TemplateElement = {
   title: string;
-  imageUrl: string;
-  subtitle: string;
-  defaultAction: {
+  imageUrl?: string;
+  subtitle?: string;
+  defaultAction?: {
     type: string;
     url: string;
-    messengerExtensions: boolean;
-    webviewHeightRatio: string;
-    fallbackUrl: string;
+    messengerExtensions?: boolean;
+    webviewHeightRatio?: string;
+    fallbackUrl?: string;
   };
-  buttons: TemplateButton[];
+  buttons?: TemplateButton[];
 };
 
 export type MediaElement = {

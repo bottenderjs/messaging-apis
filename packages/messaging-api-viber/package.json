@@ -6,12 +6,12 @@
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.1",
+  "version": "1.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/warning": "^3.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "axios-error": "file:../axios-error",
     "messaging-api-common": "file:../messaging-api-common",
     "ts-invariant": "^0.4.4",

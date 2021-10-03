@@ -72,10 +72,10 @@ All methods return a Promise.
 
 ### Webhook API
 
-- [getWebhookInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getwebhookinfo)
-- [getUpdates](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getupdates)
-- [setWebhook](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#setwebhook)
-- [deleteWebhook](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#deletewebhook)
+- [getWebhookInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getwebhookinfo)
+- [getUpdates](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getupdates)
+- [setWebhook](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#setwebhook)
+- [deleteWebhook](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#deletewebhook)
 
 <br />
 
@@ -83,89 +83,89 @@ All methods return a Promise.
 
 ### Send API - [Official Docs](https://core.telegram.org/bots/api#available-methods)
 
-- [sendMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendmessage)
-- [sendPhoto](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendphoto)
-- [sendAudio](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendaudio)
-- [sendDocument](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#senddocument)
-- [sendSticker](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendsticker)
-- [sendVideo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendvideo)
-- [sendVoice](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendvoice)
-- [sendVideoNote](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendvideonote)
-- [sendMediaGroup](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendmediagroup)
-- [sendLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendlocation)
-- [sendVenue](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendvenue)
-- [sendContact](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendcontact)
-- [sendChatAction](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendchataction)
+- [sendMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendmessage)
+- [sendPhoto](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendphoto)
+- [sendAudio](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendaudio)
+- [sendDocument](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#senddocument)
+- [sendSticker](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendsticker)
+- [sendVideo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendvideo)
+- [sendVoice](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendvoice)
+- [sendVideoNote](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendvideonote)
+- [sendMediaGroup](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendmediagroup)
+- [sendLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendlocation)
+- [sendVenue](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendvenue)
+- [sendContact](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendcontact)
+- [sendChatAction](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendchataction)
 
 <br />
 
 ### Get API
 
-- [getMe](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getme)
-- [getUserProfilePhotos](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getuserprofilephotos)
-- [getFile](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getfile)
-- [getFileLink](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getfilelink)
-- [getChat](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getchat)
-- [getChatAdministrators](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getchatadministrators)
-- [getChatMembersCount](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getchatmemberscount)
-- [getChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getchatmember)
+- [getMe](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getme)
+- [getUserProfilePhotos](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getuserprofilephotos)
+- [getFile](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getfile)
+- [getFileLink](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getfilelink)
+- [getChat](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getchat)
+- [getChatAdministrators](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getchatadministrators)
+- [getChatMembersCount](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getchatmemberscount)
+- [getChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getchatmember)
 
 <br />
 
 ### Updating API
 
-- [editMessageText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#editmessagetext)
-- [editMessageCaption](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#editmessagecaption)
-- [editMessageReplyMarkup](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#editmessagereplymarkup)
-- [deleteMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#deletemessage)
-- [editMessageLiveLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#editmessagelivelocation)
-- [stopMessageLiveLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#stopmessagelivelocation)
+- [editMessageText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#editmessagetext)
+- [editMessageCaption](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#editmessagecaption)
+- [editMessageReplyMarkup](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#editmessagereplymarkup)
+- [deleteMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#deletemessage)
+- [editMessageLiveLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#editmessagelivelocation)
+- [stopMessageLiveLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#stopmessagelivelocation)
 
 <br />
 
 ### Group API
 
-- [kickChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#kickchatmember)
-- [unbanChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#unbanchatmember)
-- [restrictChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#restrictchatmember)
-- [promoteChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#promotechatmember)
-- [exportChatInviteLink](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#exportchatinvitelink)
-- [deleteChatPhoto](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#deletechatphoto)
-- [setChatTitle](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#setchattitle)
-- [setChatDescription](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#setchatdescription)
-- [setChatStickerSet](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#setchatstickerset)
-- [deleteChatStickerSet](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#deletechatstickerset)
-- [pinChatMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#pinchatmessage)
-- [unpinChatMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#unpinchatmessage)
-- [leaveChat](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#leavechat)
+- [kickChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#kickchatmember)
+- [unbanChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#unbanchatmember)
+- [restrictChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#restrictchatmember)
+- [promoteChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#promotechatmember)
+- [exportChatInviteLink](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#exportchatinvitelink)
+- [deleteChatPhoto](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#deletechatphoto)
+- [setChatTitle](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#setchattitle)
+- [setChatDescription](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#setchatdescription)
+- [setChatStickerSet](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#setchatstickerset)
+- [deleteChatStickerSet](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#deletechatstickerset)
+- [pinChatMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#pinchatmessage)
+- [unpinChatMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#unpinchatmessage)
+- [leaveChat](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#leavechat)
 
 <br />
 
 ### Payments API
 
-- [sendInvoice](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendinvoice)
-- [answerShippingQuery](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#answershippingquery)
-- [answerPreCheckoutQuery](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#answerprecheckoutquery)
+- [sendInvoice](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendinvoice)
+- [answerShippingQuery](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#answershippingquery)
+- [answerPreCheckoutQuery](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#answerprecheckoutquery)
 
 <br />
 
 ### Inline mode API
 
-- [answerInlineQuery](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#answerinlinequery)
+- [answerInlineQuery](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#answerinlinequery)
 
 <br />
 
 ### Game API
 
-- [sendGame](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#sendgame)
-- [setGameScore](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#setgamescore)
-- [getGameHighScores](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#getgamehighscores)
+- [sendGame](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#sendgame)
+- [setGameScore](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#setgamescore)
+- [getGameHighScores](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#getgamehighscores)
 
 <br />
 
 ### Others
 
-- [forwardMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient.html#forwardmessage)
+- [forwardMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.telegramclient-1.html#forwardmessage)
 
 <br />
 

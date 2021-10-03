@@ -1888,7 +1888,7 @@ export default class LineClient {
    */
   leaveGroup(groupId: string): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post(`/v2/bot/group/${groupId}/leave`, null)
+      .post(`/v2/bot/group/${groupId}/leave`)
       .then((res) => res.data, handleError);
   }
 
@@ -1904,7 +1904,7 @@ export default class LineClient {
    */
   leaveRoom(roomId: string): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post(`/v2/bot/room/${roomId}/leave`, null)
+      .post(`/v2/bot/room/${roomId}/leave`)
       .then((res) => res.data, handleError);
   }
 
@@ -2037,7 +2037,7 @@ export default class LineClient {
     richMenuId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post(`/v2/bot/user/${userId}/richmenu/${richMenuId}`, null)
+      .post(`/v2/bot/user/${userId}/richmenu/${richMenuId}`)
       .then((res) => res.data, handleError);
   }
 
@@ -2098,7 +2098,7 @@ export default class LineClient {
     richMenuId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post(`/v2/bot/user/all/richmenu/${richMenuId}`, null)
+      .post(`/v2/bot/user/all/richmenu/${richMenuId}`)
       .then((res) => res.data, handleError);
   }
 
@@ -2188,7 +2188,7 @@ export default class LineClient {
       '`issueLinkToken` is deprecated. Use `getLinkToken` instead. Note: It returns a string instead of an object.'
     );
     return this.axios
-      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`, null)
+      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`)
       .then((res) => res.data, handleError);
   }
 
@@ -2206,7 +2206,7 @@ export default class LineClient {
    */
   getLinkToken(userId: string): Promise<string> {
     return this.axios
-      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`, null)
+      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`)
       .then((res) => res.data.linkToken, handleError);
   }
 
@@ -2304,9 +2304,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and a [[TargetLimitForAdditionalMessages]].
    */
-  getTargetLimitForAdditionalMessages(): Promise<
-    LineTypes.TargetLimitForAdditionalMessages
-  > {
+  getTargetLimitForAdditionalMessages(): Promise<LineTypes.TargetLimitForAdditionalMessages> {
     return this.axios
       .get<LineTypes.TargetLimitForAdditionalMessages>('/v2/bot/message/quota')
       .then((res) => res.data, handleError);
@@ -2327,9 +2325,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and a [[NumberOfMessagesSentThisMonth]].
    */
-  getNumberOfMessagesSentThisMonth(): Promise<
-    LineTypes.NumberOfMessagesSentThisMonth
-  > {
+  getNumberOfMessagesSentThisMonth(): Promise<LineTypes.NumberOfMessagesSentThisMonth> {
     return this.axios
       .get<LineTypes.NumberOfMessagesSentThisMonth>(
         '/v2/bot/message/quota/consumption'
@@ -2952,9 +2948,7 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and an [[AudienceGroupAuthorityLevel]].
    */
-  getAudienceGroupAuthorityLevel(): Promise<
-    LineTypes.AudienceGroupAuthorityLevel
-  > {
+  getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
     return this.axios
       .get(`/v2/bot/audienceGroup/authorityLevel`)
       .then((res) => res.data, handleError);
