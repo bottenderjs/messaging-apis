@@ -1,12 +1,12 @@
 {
   "name": "facebook-batch",
+  "version": "1.1.0",
   "description": "Gracefully batching facebook requests.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {

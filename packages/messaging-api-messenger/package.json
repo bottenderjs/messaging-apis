@@ -1,12 +1,12 @@
 {
   "name": "messaging-api-messenger",
+  "version": "1.1.0",
   "description": "Messaging API client for Messenger",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
   "browser": "lib/browser.js",
   "types": "dist/index.d.ts",
