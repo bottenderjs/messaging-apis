@@ -1,3 +1,51 @@
+# 1.1.0 / 2021-10-04
+
+### messaging-api-line
+
+- [new] Added support for broadcast API:
+
+```js
+await client.broadcast([
+  {
+    type: 'text',
+    text: 'Hello, world1',
+  },
+]);
+```
+
+- [new] Added `.getBotInfo()`:
+
+```js
+await client.getBotInfo();
+// {
+//   "userId": "Ub9952f8...",
+//   "basicId": "@216ru...",
+//   "displayName": "Example name",
+//   "pictureUrl": "https://obs.line-apps.com/...",
+//   "chatMode": "chat",
+//   "markAsReadMode": "manual"
+// }
+```
+
+- [new] Added support for webhook APIs:
+
+```js
+await client.getWebhookEndpointInfo();
+// {
+//   "endpoint": "https://example.com/test",
+//   "active": true
+// }
+await client.setWebhookEndpointUrl('https://www.example.com/callback');
+await client.testWebhookEndpoint();
+// {
+//   "success": true,
+//   "timestamp": "2020-09-30T05:38:20.031Z",
+//   "statusCode": 200,
+//   "reason": "OK",
+//   "detail": "200"
+// }
+```
+
 # 1.0.6 / 2021-09-03
 
 ### messaging-api-viber
