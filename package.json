@@ -23,7 +23,7 @@
     "testonly": "jest",
     "testonly:cov": "jest --coverage",
     "testonly:watch": "jest --watch",
-    "typedoc": "typedoc ./packages",
+    "typedoc": "typedoc --entryPointStrategy packages .",
     "watch": "tsc --build tsconfig.build.json --watch"
   },
   "workspaces": [
@@ -56,7 +56,6 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.2.0",
     "typedoc": "^0.22.3",
-    "typedoc-plugin-lerna-packages": "github:marcj/typedoc-plugin-lerna-packages#f5d8f7d",
     "typescript": "^4.4.3"
   },
   "engines": {

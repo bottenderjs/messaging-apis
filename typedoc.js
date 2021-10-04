@@ -1,5 +1,4 @@
 module.exports = {
-  mode: 'modules',
   out: 'docs',
   exclude: [
     '**/node_modules/**',
@@ -9,8 +8,6 @@ module.exports = {
   ],
   name: 'messaging-apis',
   excludePrivate: true,
-  excludeNotExported: true,
   excludeExternals: true,
-  esModuleInterop: true,
   includeVersion: true,
 };
