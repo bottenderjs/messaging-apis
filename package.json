@@ -46,7 +46,7 @@
     "eslint-plugin-tsdoc": "^0.2.14",
     "husky": "^7.0.2",
     "jest": "^26.4.0",
-    "lerna": "^3.22.1",
+    "lerna": "^4.0.0",
     "lint-staged": "^11.1.2",
     "micromatch": "^4.0.4",
     "mkdir": "^0.0.2",
