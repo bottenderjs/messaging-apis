@@ -1487,6 +1487,45 @@ export default class LineClient {
   }
 
   /**
+   * Broadcast Message
+   *
+   * Sends push messages to multiple users at any time.
+   *
+   * [Official document](https://developers.line.biz/en/reference/messaging-api/#send-broadcast-message)
+   *
+   * @param body - Request body
+   * @param body.messages - Messages to send (Max: 5)
+   *
+   * @returns Returns status code `200` and an empty JSON object.
+   */
+  broadcastRawBody(body: {
+    messages: LineTypes.Message[];
+  }): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/message/broadcast',
+        body
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Broadcast Message
+   *
+   * Sends push messages to multiple users at any time.
+   *
+   * [Official document - send broadcast message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
+   *
+   * @param messages - Messages to send (Max: 5)
+   * @returns Returns status code `200` and an empty JSON object.
+   */
+  broadcast(
+    messages: LineTypes.Message[]
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.broadcastRawBody({ messages });
+  }
+
+  /**
    * Get Message Content
    *
    * Gets images, videos, audio, and files sent by users.
