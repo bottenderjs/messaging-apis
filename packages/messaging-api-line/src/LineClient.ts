@@ -161,9 +161,14 @@ export default class LineClient {
    *
    * @returns Returns status code `200` and an empty JSON object.
    */
-  setWebhookEndpointUrl(endpoint: string): Promise<{}> {
+  setWebhookEndpointUrl(
+    endpoint: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .put<{}>('/v2/bot/channel/webhook/endpoint', { endpoint })
+      .put<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/channel/webhook/endpoint',
+        { endpoint }
+      )
       .then((res) => res.data, handleError);
   }
 

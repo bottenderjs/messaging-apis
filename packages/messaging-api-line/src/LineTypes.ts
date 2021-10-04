@@ -1724,7 +1724,7 @@ export type LiffFeatures = {
   ble: boolean;
 };
 
-export type MutationSuccessResponse = {};
+export type MutationSuccessResponse = Record<string, never>;
 
 export type ImageMapVideo = {
   /**
