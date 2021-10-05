@@ -5,61 +5,6 @@ import WechatClient from '../WechatClient';
 const APP_ID = 'APP_ID';
 const APP_SECRET = 'APP_SECRET';
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with WeChat API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      WechatClient.connect({ appId: APP_ID, appSecret: APP_SECRET });
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.weixin.qq.com/cgi-bin/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    WechatClient.connect({
-      appId: APP_ID,
-      appSecret: APP_SECRET,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/cgi-bin/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  });
-});
-
 describe('constructor', () => {
   let axios;
   let _create;

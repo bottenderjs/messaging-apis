@@ -40,17 +40,6 @@ function handleError(
  */
 export default class LineClient {
   /**
-   * @deprecated Use `new LineClient(...)` instead.
-   */
-  static connect(config: LineTypes.ClientConfig): LineClient {
-    warning(
-      false,
-      '`LineClient.connect(...)` is deprecated. Use `new LineClient(...)` instead.'
-    );
-    return new LineClient(config);
-  }
-
-  /**
    * The underlying axios instance.
    */
   readonly axios: AxiosInstance;

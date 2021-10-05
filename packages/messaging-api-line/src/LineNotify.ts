@@ -6,7 +6,6 @@ import axios, {
   AxiosResponse,
   AxiosError as BaseAxiosError,
 } from 'axios';
-import warning from 'warning';
 import { JsonObject } from 'type-fest';
 
 import * as LineTypes from './LineTypes';
@@ -53,17 +52,6 @@ function throwWhenNotSuccess<T extends JsonObject = {}>(
  * LINE Notify
  */
 export default class LineNotify {
-  /**
-   * @deprecated Use `new LineNotify(...)` instead.
-   */
-  static connect(config: LineTypes.LineNotifyConfig): LineNotify {
-    warning(
-      false,
-      '`LineNotify.connect(...)` is deprecated. Use `new LineNotify(...)` instead.'
-    );
-    return new LineNotify(config);
-  }
-
   /**
    * The underlying axios instance.
    */

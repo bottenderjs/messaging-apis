@@ -31,17 +31,6 @@ function stringifyPayloadFields(
 
 export default class SlackOAuthClient {
   /**
-   * @deprecated Use `new SlackOAuthClient(...)` instead.
-   */
-  static connect(config: SlackTypes.ClientConfig): SlackOAuthClient {
-    warning(
-      false,
-      '`SlackOAuthClient.connect(...)` is deprecated. Use `new SlackOAuthClient(...)` instead.'
-    );
-    return new SlackOAuthClient(config);
-  }
-
-  /**
    * The underlying axios instance.
    */
   readonly axios: AxiosInstance;

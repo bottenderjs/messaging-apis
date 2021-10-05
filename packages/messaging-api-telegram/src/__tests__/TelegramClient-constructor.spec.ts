@@ -12,62 +12,6 @@ const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
   return { client, mock };
 };
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with Telegram API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      TelegramClient.connect({ accessToken: ACCESS_TOKEN });
-
-      expect(axios.create).toBeCalledWith({
-        baseURL:
-          'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    TelegramClient.connect({
-      accessToken: ACCESS_TOKEN,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL:
-        'https://mydummytestserver.com/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  });
-});
-
 describe('constructor', () => {
   let axios;
   let _create;

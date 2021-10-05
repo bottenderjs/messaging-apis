@@ -1,12 +1,12 @@
 {
   "name": "messaging-api-wechat",
+  "version": "1.0.6",
   "description": "Messaging API client for WeChat",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
@@ -15,8 +15,7 @@
     "axios-error": "file:../axios-error",
     "form-data": "^3.0.0",
     "messaging-api-common": "file:../messaging-api-common",
-    "ts-invariant": "^0.4.4",
-    "warning": "^4.0.3"
+    "ts-invariant": "^0.4.4"
   },
   "keywords": [
     "bot",

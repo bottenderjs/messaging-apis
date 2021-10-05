@@ -15,7 +15,6 @@ import get from 'lodash/get';
 import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
-import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -53,17 +52,6 @@ function handleError(
 }
 
 export default class MessengerClient {
-  /**
-   * @deprecated Use `new MessengerClient(...)` instead.
-   */
-  static connect(config: MessengerTypes.ClientConfig): MessengerClient {
-    warning(
-      false,
-      '`MessengerClient.connect(...)` is deprecated. Use `new MessengerClient(...)` instead.'
-    );
-    return new MessengerClient(config);
-  }
-
   /**
    * The underlying axios instance.
    */

@@ -23,36 +23,6 @@ const createMock = (): {
   return { client, mock, apiMock };
 };
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  it('create axios with LINE Notify API', () => {
-    axios.create = jest.fn();
-    LineNotify.connect({
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-      redirectUri: REDIRECT_URI,
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://notify-bot.line.me/',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://notify-api.line.me/',
-    });
-  });
-});
-
 describe('constructor', () => {
   let axios;
   let _create;
