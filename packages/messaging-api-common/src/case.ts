@@ -2,7 +2,18 @@ import mapObject from 'map-obj';
 import { camelCase } from 'camel-case';
 import { pascalCase } from 'pascal-case';
 import { snakeCase } from 'snake-case';
-import type { Options } from 'map-obj';
+import type {
+  CamelCase,
+  CamelCasedProperties,
+  CamelCasedPropertiesDeep,
+  PascalCase,
+  PascalCasedProperties,
+  PascalCasedPropertiesDeep,
+  SnakeCase,
+  SnakeCasedProperties,
+  SnakeCasedPropertiesDeep,
+} from 'type-fest';
+import type { Options as MapOptions } from 'map-obj';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PlainObject = Record<string, any>;
@@ -30,13 +41,13 @@ function splitLastChar(key: string): string {
  * //=> 'foo_bar'
  * ```
  */
-function snakecase(text: string): string {
+function snakecase<T extends string>(text: T): SnakeCase<T> {
   const matches = text.match(/\d+/g);
   if (!matches) {
-    return snakeCase(text);
+    return snakeCase(text) as SnakeCase<T>;
   }
 
-  let modifiedStr = text;
+  let modifiedStr: string = text;
   for (let i = 0; i < matches.length; i++) {
     const match = matches[i];
     const mathIndex = modifiedStr.indexOf(match);
@@ -46,7 +57,7 @@ function snakecase(text: string): string {
     )}`;
   }
 
-  return snakeCase(modifiedStr);
+  return snakeCase(modifiedStr) as SnakeCase<T>;
 }
 
 /**
@@ -62,13 +73,19 @@ function snakecase(text: string): string {
  * //=> { 'foo_bar': true }
  * ```
  */
-function snakecaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
+function snakecaseKeys<T extends PlainObject, O extends MapOptions>(
+  obj: T,
+  options?: O
+): O['deep'] extends true
+  ? SnakeCasedPropertiesDeep<T>
+  : SnakeCasedProperties<T> {
   return mapObject(
     obj,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (key: string, val: any) => [snakecase(key), val],
+    (key, val) => [snakecase(key as string), val],
     options
-  );
+  ) as O['deep'] extends true
+    ? SnakeCasedPropertiesDeep<T>
+    : SnakeCasedProperties<T>;
 }
 
 /**
@@ -83,7 +100,9 @@ function snakecaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
  * //=> { 'foo_bar': { 'bar_foo': true } }
  * ```
  */
-function snakecaseKeysDeep(obj: PlainObject): PlainObject {
+function snakecaseKeysDeep<T extends PlainObject>(
+  obj: T
+): SnakeCasedPropertiesDeep<T> {
   return snakecaseKeys(obj, { deep: true });
 }
 
@@ -99,7 +118,7 @@ function snakecaseKeysDeep(obj: PlainObject): PlainObject {
  * //=> 'fooBar'
  * ```
  */
-function camelcase(text: string): string {
+function camelcase<T extends string>(text: T): CamelCase<T> {
   const parts = text.split('_');
   const modifiedStr = parts.reduce((acc, part) => {
     if (acc === '') return part;
@@ -108,7 +127,7 @@ function camelcase(text: string): string {
     }
     return `${acc}_${part}`;
   }, '');
-  return camelCase(modifiedStr);
+  return camelCase(modifiedStr) as CamelCase<T>;
 }
 
 /**
@@ -124,13 +143,19 @@ function camelcase(text: string): string {
  * //=> { 'fooBar': true }
  * ```
  */
-function camelcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
+function camelcaseKeys<T extends PlainObject, O extends MapOptions>(
+  obj: T,
+  options?: O
+): O['deep'] extends true
+  ? CamelCasedPropertiesDeep<T>
+  : CamelCasedProperties<T> {
   return mapObject(
     obj,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (key: string, val: any) => [camelcase(key), val],
+    (key, val) => [camelcase(key as string), val],
     options
-  );
+  ) as O['deep'] extends true
+    ? CamelCasedPropertiesDeep<T>
+    : CamelCasedProperties<T>;
 }
 
 /**
@@ -145,7 +170,9 @@ function camelcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
  * //=> { 'fooBar': { 'barFoo': true } }
  * ```
  */
-function camelcaseKeysDeep(obj: PlainObject): PlainObject {
+function camelcaseKeysDeep<T extends PlainObject>(
+  obj: T
+): CamelCasedPropertiesDeep<T> {
   return camelcaseKeys(obj, { deep: true });
 }
 
@@ -161,8 +188,10 @@ function camelcaseKeysDeep(obj: PlainObject): PlainObject {
  * //=> 'FooBar'
  * ```
  */
-function pascalcase(str: string): string {
-  return pascalCase(isLastCharNumber(str) ? splitLastChar(str) : str);
+function pascalcase<T extends string>(str: T): PascalCase<T> {
+  return pascalCase(
+    isLastCharNumber(str) ? splitLastChar(str) : str
+  ) as PascalCase<T>;
 }
 
 /**
@@ -178,13 +207,19 @@ function pascalcase(str: string): string {
  * //=> { 'FooBar': true }
  * ```
  */
-function pascalcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
+function pascalcaseKeys<T extends PlainObject, O extends MapOptions>(
+  obj: T,
+  options?: O
+): O['deep'] extends true
+  ? PascalCasedPropertiesDeep<T>
+  : PascalCasedProperties<T> {
   return mapObject(
     obj,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (key: string, val: any) => [pascalcase(key), val],
+    (key, val) => [pascalcase(key as string), val],
     options
-  );
+  ) as O['deep'] extends true
+    ? PascalCasedPropertiesDeep<T>
+    : PascalCasedProperties<T>;
 }
 
 /**
@@ -199,7 +234,9 @@ function pascalcaseKeys(obj: PlainObject, options: Options = {}): PlainObject {
  * //=> { 'FooBar': { 'BarFoo': true } }
  * ```
  */
-function pascalcaseKeysDeep(obj: PlainObject): PlainObject {
+function pascalcaseKeysDeep<T extends PlainObject>(
+  obj: T
+): PascalCasedPropertiesDeep<T> {
   return pascalcaseKeys(obj, { deep: true });
 }
 
