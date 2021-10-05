@@ -181,34 +181,3 @@ describe('#onRequest', () => {
     });
   });
 });
-
-describe('Client instance', () => {
-  it('prototype should be defined', () => {
-    const sendTypes = ['reply', 'push', 'multicast'];
-    const messageTypes = [
-      'Text',
-      'Image',
-      'Video',
-      'Audio',
-      'Location',
-      'Sticker',
-      'Imagemap',
-      'Template',
-      'ButtonTemplate',
-      'ConfirmTemplate',
-      'CarouselTemplate',
-      'ImageCarouselTemplate',
-    ];
-
-    const client = new LineClient({
-      accessToken: ACCESS_TOKEN,
-      channelSecret: CHANNEL_SECRET,
-    });
-
-    sendTypes.forEach((sendType) => {
-      messageTypes.forEach((messageType) => {
-        expect(client[`${sendType}${messageType}`]).toBeDefined();
-      });
-    });
-  });
-});

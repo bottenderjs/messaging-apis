@@ -1,5 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 
+import Line from '../Line';
 import LineClient from '../LineClient';
 
 const RECIPIENT_ID = '1QAZ2WSX';
@@ -124,7 +125,7 @@ describe('Error', () => {
 
     let error;
     try {
-      await client.replyText(REPLY_TOKEN, 'Hello!');
+      await client.reply(REPLY_TOKEN, [Line.createText('Hello!')]);
     } catch (err) {
       error = err;
     }
@@ -151,7 +152,7 @@ describe('Error', () => {
 
     let error;
     try {
-      await client.replyText(REPLY_TOKEN, 'Hello!');
+      await client.reply(REPLY_TOKEN, [Line.createText('Hello!')]);
     } catch (err) {
       error = err;
     }
