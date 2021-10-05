@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'ts-invariant';
-import warning from 'warning';
 import {
   OnRequestFunction,
   createRequestInterceptor,
@@ -15,17 +14,6 @@ interface ClientConfig {
 }
 
 export default class SlackWebhookClient {
-  /**
-   * @deprecated Use `new SlackWebhookClient(...)` instead.
-   */
-  static connect(config: ClientConfig): SlackWebhookClient {
-    warning(
-      false,
-      '`SlackWebhookClient.connect(...)` is deprecated. Use `new SlackWebhookClient(...)` instead.'
-    );
-    return new SlackWebhookClient(config);
-  }
-
   /**
    * The underlying axios instance.
    */

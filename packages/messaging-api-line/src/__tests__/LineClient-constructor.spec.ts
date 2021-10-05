@@ -5,66 +5,6 @@ import LineClient from '../LineClient';
 const ACCESS_TOKEN = '1234567890';
 const CHANNEL_SECRET = 'so-secret';
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with Line API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      LineClient.connect({
-        accessToken: ACCESS_TOKEN,
-        channelSecret: CHANNEL_SECRET,
-      });
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/',
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    LineClient.connect({
-      accessToken: ACCESS_TOKEN,
-      channelSecret: CHANNEL_SECRET,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/',
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    });
-  });
-});
-
 describe('constructor', () => {
   let axios;
   let _create;

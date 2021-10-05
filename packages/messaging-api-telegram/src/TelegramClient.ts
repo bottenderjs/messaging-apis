@@ -4,7 +4,6 @@ import difference from 'lodash/difference';
 import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import pick from 'lodash/pick';
-import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -16,17 +15,6 @@ import {
 import * as TelegramTypes from './TelegramTypes';
 
 export default class TelegramClient {
-  /**
-   * @deprecated Use `new TelegramClient(...)` instead.
-   */
-  static connect(config: TelegramTypes.ClientConfig): TelegramClient {
-    warning(
-      false,
-      '`TelegramClient.connect(...)` is deprecated. Use `new TelegramClient(...)` instead.'
-    );
-    return new TelegramClient(config);
-  }
-
   /**
    * The underlying axios instance.
    */

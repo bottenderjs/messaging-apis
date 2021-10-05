@@ -4,38 +4,6 @@ import SlackWebhookClient from '../SlackWebhookClient';
 
 const URL = 'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ';
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with webhook url', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      SlackWebhookClient.connect({ url: URL });
-
-      expect(axios.create).toBeCalledWith({
-        baseURL:
-          'https://hooks.slack.com/services/XXXXXXXX/YYYYYYYY/zzzzzZZZZZ',
-        headers: { 'Content-Type': 'application/json' },
-      });
-    });
-  });
-});
-
 describe('constructor', () => {
   let axios;
   let _create;

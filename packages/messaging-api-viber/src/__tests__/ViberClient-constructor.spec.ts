@@ -9,63 +9,6 @@ const SENDER = {
   avatar: 'http://avatar.example.com',
 };
 
-describe('connect', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
-  });
-
-  afterEach(() => {
-    axios.create = _create;
-  });
-
-  describe('create axios with Viber API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      ViberClient.connect({ accessToken: AUTH_TOKEN, sender: SENDER });
-
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://chatapi.viber.com/pa/',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Viber-Auth-Token': AUTH_TOKEN,
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    ViberClient.connect({
-      accessToken: AUTH_TOKEN,
-      sender: SENDER,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/pa/',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Viber-Auth-Token': AUTH_TOKEN,
-      },
-    });
-  });
-});
-
 describe('constructor', () => {
   let axios;
   let _create;
