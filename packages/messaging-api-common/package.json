@@ -1,12 +1,12 @@
 {
   "name": "messaging-api-common",
+  "version": "1.0.4",
   "description": "Helpers for common usages in Messaging API clients",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
@@ -20,6 +20,7 @@
     "map-obj": "^4.1.0",
     "pascal-case": "^3.1.1",
     "snake-case": "^3.0.3",
+    "type-fest": "1.4.0",
     "url-join": "^4.0.1"
   },
   "keywords": [
