@@ -1988,16 +1988,6 @@ export type FriendDemographics = {
   >;
 };
 
-/* LINE Pay */
-export type LinePayConfig = {
-  channelId: string;
-  channelSecret: string;
-  sandbox?: boolean;
-  origin?: string;
-};
-
-export type LinePayCurrency = 'USD' | 'JPY' | 'TWD' | 'THB';
-
 /* Narrowcast */
 
 export type NarrowcastOptions = {
