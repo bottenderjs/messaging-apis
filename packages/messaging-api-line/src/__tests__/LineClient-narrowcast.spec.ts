@@ -160,31 +160,6 @@ describe('Narrowcast', () => {
     });
   });
 
-  describe('#narrowcastMessages', () => {
-    const reply = { requestId: 'abc' };
-
-    it('should call narrowcast api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/narrowcast');
-        expect(JSON.parse(config.data)).toEqual(rawBody);
-        expect(config.headers).toEqual(headers);
-        return [200, reply, { 'x-line-request-id': 'abc' }];
-      });
-
-      const res = await client.narrowcastMessages(messages, {
-        recipient,
-        demographic,
-        max: 100,
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
   describe('#getNarrowcastProgress', () => {
     const requestId = '123';
     const reply = {
