@@ -1679,6 +1679,7 @@ export default class MessengerClient {
    *   ],
    *   { imageAspectRatio: 'square' }
    * );
+   * ```
    */
   sendGenericTemplate(
     psidOrRecipient: MessengerTypes.PsidOrRecipient,
