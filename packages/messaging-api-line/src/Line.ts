@@ -1,6 +1,6 @@
 import * as LineTypes from './LineTypes';
 
-function createText(
+export function createText(
   text: string,
   options: LineTypes.MessageOptions & { emojis?: LineTypes.Emoji[] } = {}
 ): LineTypes.TextMessage {
@@ -11,7 +11,7 @@ function createText(
   };
 }
 
-function createImage(
+export function createImage(
   image: {
     originalContentUrl: string;
     previewImageUrl?: string;
@@ -26,7 +26,7 @@ function createImage(
   };
 }
 
-function createVideo(
+export function createVideo(
   video: {
     originalContentUrl: string;
     previewImageUrl: string;
@@ -41,7 +41,7 @@ function createVideo(
   };
 }
 
-function createAudio(
+export function createAudio(
   audio: {
     originalContentUrl: string;
     duration: number;
@@ -56,7 +56,7 @@ function createAudio(
   };
 }
 
-function createLocation(
+export function createLocation(
   { title, address, latitude, longitude }: LineTypes.Location,
   options: LineTypes.MessageOptions = {}
 ): LineTypes.LocationMessage {
@@ -70,7 +70,7 @@ function createLocation(
   };
 }
 
-function createSticker(
+export function createSticker(
   sticker: Omit<LineTypes.StickerMessage, 'type'>,
   options: LineTypes.MessageOptions = {}
 ): LineTypes.StickerMessage {
@@ -82,7 +82,7 @@ function createSticker(
   };
 }
 
-function createImagemap(
+export function createImagemap(
   altText: string,
   {
     baseUrl,
@@ -103,7 +103,7 @@ function createImagemap(
   };
 }
 
-function createTemplate<T extends LineTypes.Template>(
+export function createTemplate<T extends LineTypes.Template>(
   altText: string,
   template: T,
   options: LineTypes.MessageOptions = {}
@@ -116,7 +116,7 @@ function createTemplate<T extends LineTypes.Template>(
   };
 }
 
-function createButtonTemplate(
+export function createButtonTemplate(
   altText: string,
   {
     thumbnailImageUrl,
@@ -156,7 +156,47 @@ function createButtonTemplate(
   );
 }
 
-function createConfirmTemplate(
+export function createButtonsTemplate(
+  altText: string,
+  {
+    thumbnailImageUrl,
+    imageAspectRatio,
+    imageSize,
+    imageBackgroundColor,
+    title,
+    text,
+    defaultAction,
+    actions,
+  }: {
+    thumbnailImageUrl?: string;
+    imageAspectRatio?: 'rectangle' | 'square';
+    imageSize?: 'cover' | 'contain';
+    imageBackgroundColor?: string;
+    title?: string;
+    text: string;
+    defaultAction?: LineTypes.Action;
+    actions: LineTypes.Action[];
+  },
+  options: LineTypes.MessageOptions = {}
+): LineTypes.TemplateMessage<LineTypes.ButtonsTemplate> {
+  return createTemplate(
+    altText,
+    {
+      type: 'buttons',
+      thumbnailImageUrl,
+      imageAspectRatio,
+      imageSize,
+      imageBackgroundColor,
+      title,
+      text,
+      defaultAction,
+      actions,
+    },
+    options
+  );
+}
+
+export function createConfirmTemplate(
   altText: string,
   {
     text,
@@ -178,7 +218,7 @@ function createConfirmTemplate(
   );
 }
 
-function createCarouselTemplate(
+export function createCarouselTemplate(
   altText: string,
   columns: LineTypes.ColumnObject[],
   {
@@ -203,7 +243,7 @@ function createCarouselTemplate(
   );
 }
 
-function createImageCarouselTemplate(
+export function createImageCarouselTemplate(
   altText: string,
   columns: LineTypes.ImageCarouselColumnObject[],
   options: LineTypes.MessageOptions = {}
@@ -218,7 +258,7 @@ function createImageCarouselTemplate(
   );
 }
 
-function createFlex(
+export function createFlex(
   altText: string,
   contents: LineTypes.FlexContainer,
   options: LineTypes.MessageOptions = {}
@@ -230,22 +270,3 @@ function createFlex(
     ...options,
   };
 }
-
-const Line = {
-  createText,
-  createImage,
-  createVideo,
-  createAudio,
-  createLocation,
-  createSticker,
-  createImagemap,
-  createTemplate,
-  createButtonsTemplate: createButtonTemplate,
-  createButtonTemplate,
-  createConfirmTemplate,
-  createCarouselTemplate,
-  createImageCarouselTemplate,
-  createFlex,
-};
-
-export default Line;

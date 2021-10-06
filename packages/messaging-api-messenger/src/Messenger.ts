@@ -4,7 +4,7 @@ import { camelcaseKeysDeep, snakecaseKeysDeep } from 'messaging-api-common';
 
 import * as MessengerTypes from './MessengerTypes';
 
-function createMessage(
+export function createMessage(
   payload: MessengerTypes.Message,
   options: { quickReplies?: MessengerTypes.QuickReply[] } = {}
 ): MessengerTypes.Message {
@@ -25,14 +25,14 @@ function createMessage(
   return camelcaseKeysDeep(message);
 }
 
-function createText(
+export function createText(
   text: string,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
   return createMessage({ text }, options);
 }
 
-function createMessageFormData(
+export function createMessageFormData(
   payload: MessengerTypes.FileDataMediaAttachmentMessage,
   filedata: MessengerTypes.FileData,
   options: { quickReplies?: MessengerTypes.QuickReply[] } = {}
@@ -64,7 +64,7 @@ function createMessageFormData(
   return formdata;
 }
 
-function createAttachment(
+export function createAttachment(
   attachment: MessengerTypes.Attachment,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -76,7 +76,7 @@ function createAttachment(
   );
 }
 
-function createAttachmentFormData(
+export function createAttachmentFormData(
   attachment: MessengerTypes.FileDataMediaAttachment,
   filedata: MessengerTypes.FileData,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
@@ -90,7 +90,7 @@ function createAttachmentFormData(
   );
 }
 
-function createAudio(
+export function createAudio(
   audio: string | MessengerTypes.MediaAttachmentPayload,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -111,7 +111,7 @@ function createAudio(
   return createAttachment(attachment, options);
 }
 
-function createAudioFormData(
+export function createAudioFormData(
   audio: MessengerTypes.FileData,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
@@ -123,7 +123,7 @@ function createAudioFormData(
   return createAttachmentFormData(attachment, audio, options);
 }
 
-function createImage(
+export function createImage(
   image: string | MessengerTypes.MediaAttachmentPayload,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -144,7 +144,7 @@ function createImage(
   return createAttachment(attachment, options);
 }
 
-function createImageFormData(
+export function createImageFormData(
   image: MessengerTypes.FileData,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
@@ -156,7 +156,7 @@ function createImageFormData(
   return createAttachmentFormData(attachment, image, options);
 }
 
-function createVideo(
+export function createVideo(
   video: string | MessengerTypes.MediaAttachmentPayload,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -177,7 +177,7 @@ function createVideo(
   return createAttachment(attachment, options);
 }
 
-function createVideoFormData(
+export function createVideoFormData(
   video: MessengerTypes.FileData,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
@@ -189,7 +189,7 @@ function createVideoFormData(
   return createAttachmentFormData(attachment, video, options);
 }
 
-function createFile(
+export function createFile(
   file: string | MessengerTypes.MediaAttachmentPayload,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -210,7 +210,7 @@ function createFile(
   return createAttachment(attachment, options);
 }
 
-function createFileFormData(
+export function createFileFormData(
   file: MessengerTypes.FileData,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): FormData {
@@ -222,7 +222,7 @@ function createFileFormData(
   return createAttachmentFormData(attachment, file, options);
 }
 
-function createTemplate(
+export function createTemplate(
   payload: MessengerTypes.TemplateAttachmentPayload,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -235,7 +235,7 @@ function createTemplate(
   );
 }
 
-function createButtonTemplate(
+export function createButtonTemplate(
   text: string,
   buttons: MessengerTypes.TemplateButton[],
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
@@ -250,7 +250,7 @@ function createButtonTemplate(
   );
 }
 
-function createGenericTemplate(
+export function createGenericTemplate(
   elements: MessengerTypes.TemplateElement[],
   options: {
     imageAspectRatio?: 'horizontal' | 'square';
@@ -269,7 +269,7 @@ function createGenericTemplate(
   );
 }
 
-function createMediaTemplate(
+export function createMediaTemplate(
   elements: MessengerTypes.MediaElement[],
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -282,7 +282,7 @@ function createMediaTemplate(
   );
 }
 
-function createReceiptTemplate(
+export function createReceiptTemplate(
   receipt: MessengerTypes.ReceiptAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -295,7 +295,7 @@ function createReceiptTemplate(
   );
 }
 
-function createAirlineBoardingPassTemplate(
+export function createAirlineBoardingPassTemplate(
   attrs: MessengerTypes.AirlineBoardingPassAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -308,7 +308,7 @@ function createAirlineBoardingPassTemplate(
   );
 }
 
-function createAirlineCheckinTemplate(
+export function createAirlineCheckinTemplate(
   attrs: MessengerTypes.AirlineCheckinAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -321,7 +321,7 @@ function createAirlineCheckinTemplate(
   );
 }
 
-function createAirlineItineraryTemplate(
+export function createAirlineItineraryTemplate(
   attrs: MessengerTypes.AirlineItineraryAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -334,7 +334,7 @@ function createAirlineItineraryTemplate(
   );
 }
 
-function createAirlineUpdateTemplate(
+export function createAirlineUpdateTemplate(
   attrs: MessengerTypes.AirlineUpdateAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -347,7 +347,7 @@ function createAirlineUpdateTemplate(
   );
 }
 
-function createOneTimeNotifReqTemplate(
+export function createOneTimeNotifReqTemplate(
   attrs: MessengerTypes.OneTimeNotifReqAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }
 ): MessengerTypes.Message {
@@ -359,29 +359,3 @@ function createOneTimeNotifReqTemplate(
     options
   );
 }
-
-const Messenger = {
-  createMessage,
-  createText,
-  createAttachment,
-  createAudio,
-  createAudioFormData,
-  createImage,
-  createImageFormData,
-  createVideo,
-  createVideoFormData,
-  createFile,
-  createFileFormData,
-  createTemplate,
-  createButtonTemplate,
-  createGenericTemplate,
-  createMediaTemplate,
-  createReceiptTemplate,
-  createAirlineBoardingPassTemplate,
-  createAirlineCheckinTemplate,
-  createAirlineItineraryTemplate,
-  createAirlineUpdateTemplate,
-  createOneTimeNotifReqTemplate,
-};
-
-export default Messenger;

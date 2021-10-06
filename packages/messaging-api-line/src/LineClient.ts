@@ -11,7 +11,7 @@ import {
   createRequestInterceptor,
 } from 'messaging-api-common';
 
-import Line from './Line';
+import * as Line from './Line';
 import * as LineTypes from './LineTypes';
 
 function handleError(
