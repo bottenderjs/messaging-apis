@@ -1,4 +1,4 @@
-import MessengerBatch from '../MessengerBatch';
+import { MessengerBatch } from '..';
 
 const RECIPIENT_ID = '1QAZ2WSX';
 const LABEL_ID = 123456;

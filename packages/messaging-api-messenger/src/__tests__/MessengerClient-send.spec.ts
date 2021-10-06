@@ -3,12 +3,10 @@ import fs from 'fs';
 import FormData from 'form-data';
 import MockAdapter from 'axios-mock-adapter';
 
-import MessengerBatch from '../MessengerBatch';
-import MessengerClient from '../MessengerClient';
+import { MessengerBatch, MessengerClient } from '..';
 
 const USER_ID = '1QAZ2WSX';
 const ACCESS_TOKEN = '1234567890';
-const CUSTOM_ACCESS_TOKEN = '0987654321';
 
 let axios;
 let _create;

@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 
-import MessengerClient from '../MessengerClient';
+import { MessengerClient } from '..';
 
 const ACCESS_TOKEN = '1234567890';
 
