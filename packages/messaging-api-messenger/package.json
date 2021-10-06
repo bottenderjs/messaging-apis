@@ -13,7 +13,6 @@
   "dependencies": {
     "@types/append-query": "^2.0.0",
     "@types/lodash": "^4.14.156",
-    "@types/warning": "^3.0.0",
     "append-query": "^2.1.0",
     "axios": "^0.21.1",
     "axios-error": "file:../axios-error",
