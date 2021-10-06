@@ -22,7 +22,7 @@ import {
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 
-import Messenger from './Messenger';
+import * as Messenger from './Messenger';
 import * as MessengerTypes from './MessengerTypes';
 
 function extractVersion(version: string): string {

@@ -1,4 +1,4 @@
-import Line from '../Line';
+import * as Line from '../Line';
 import * as Types from '../LineTypes';
 
 const quickReply: Types.QuickReply = {

@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 
-import MessengerBatch from '../MessengerBatch';
-import MessengerClient from '../MessengerClient';
+import { MessengerBatch, MessengerClient } from '..';
 
 const ACCESS_TOKEN = 'foo_token';
 const APP_SECRET = 'shhhhh!is.my.secret';

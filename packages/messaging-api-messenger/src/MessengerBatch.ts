@@ -1,7 +1,7 @@
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-import Messenger from './Messenger';
+import * as Messenger from './Messenger';
 import * as MessengerTypes from './MessengerTypes';
 
 function omitUndefinedFields(obj = {}): object {
@@ -20,7 +20,7 @@ function omitBatchOptions<T extends MessengerTypes.BatchRequestOptions>(
   return omit(options, ['name', 'dependsOn', 'omitResponseOnSuccess']);
 }
 
-function sendRequest(
+export function sendRequest(
   body: object,
   options?: MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
@@ -32,7 +32,7 @@ function sendRequest(
   };
 }
 
-function sendMessage(
+export function sendMessage(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   msg: MessengerTypes.Message,
   options: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions = {}
@@ -63,7 +63,7 @@ function sendMessage(
   );
 }
 
-function sendText(
+export function sendText(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   text: string,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -75,7 +75,7 @@ function sendText(
   );
 }
 
-function sendAttachment(
+export function sendAttachment(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attachment: MessengerTypes.Attachment,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -87,7 +87,7 @@ function sendAttachment(
   );
 }
 
-function sendAudio(
+export function sendAudio(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   audio: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -99,7 +99,7 @@ function sendAudio(
   );
 }
 
-function sendImage(
+export function sendImage(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   image: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -111,7 +111,7 @@ function sendImage(
   );
 }
 
-function sendVideo(
+export function sendVideo(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   video: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -123,7 +123,7 @@ function sendVideo(
   );
 }
 
-function sendFile(
+export function sendFile(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   file: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -135,7 +135,7 @@ function sendFile(
   );
 }
 
-function sendTemplate(
+export function sendTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   payload: MessengerTypes.TemplateAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -147,7 +147,7 @@ function sendTemplate(
   );
 }
 
-function sendButtonTemplate(
+export function sendButtonTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   text: string,
   buttons: MessengerTypes.TemplateButton[],
@@ -160,7 +160,7 @@ function sendButtonTemplate(
   );
 }
 
-function sendGenericTemplate(
+export function sendGenericTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   elements: MessengerTypes.TemplateElement[],
   {
@@ -181,7 +181,7 @@ function sendGenericTemplate(
   );
 }
 
-function sendReceiptTemplate(
+export function sendReceiptTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   receipt: MessengerTypes.ReceiptAttributes,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -193,7 +193,7 @@ function sendReceiptTemplate(
   );
 }
 
-function sendMediaTemplate(
+export function sendMediaTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   elements: MessengerTypes.MediaElement[],
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -205,7 +205,7 @@ function sendMediaTemplate(
   );
 }
 
-function sendAirlineBoardingPassTemplate(
+export function sendAirlineBoardingPassTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attrs: MessengerTypes.AirlineBoardingPassAttributes,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -217,7 +217,7 @@ function sendAirlineBoardingPassTemplate(
   );
 }
 
-function sendAirlineCheckinTemplate(
+export function sendAirlineCheckinTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attrs: MessengerTypes.AirlineCheckinAttributes,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -229,7 +229,7 @@ function sendAirlineCheckinTemplate(
   );
 }
 
-function sendAirlineItineraryTemplate(
+export function sendAirlineItineraryTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attrs: MessengerTypes.AirlineItineraryAttributes,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -241,7 +241,7 @@ function sendAirlineItineraryTemplate(
   );
 }
 
-function sendAirlineUpdateTemplate(
+export function sendAirlineUpdateTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attrs: MessengerTypes.AirlineUpdateAttributes,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -253,7 +253,7 @@ function sendAirlineUpdateTemplate(
   );
 }
 
-function sendOneTimeNotifReqTemplate(
+export function sendOneTimeNotifReqTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attrs: MessengerTypes.OneTimeNotifReqAttributes,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
@@ -265,7 +265,7 @@ function sendOneTimeNotifReqTemplate(
   );
 }
 
-function getUserProfile(
+export function getUserProfile(
   userId: string,
   options: {
     fields?: MessengerTypes.UserProfileField[];
@@ -291,7 +291,7 @@ function getUserProfile(
   };
 }
 
-function getUserPersistentMenu(
+export function getUserPersistentMenu(
   userId: string,
   options: {
     accessToken?: string;
@@ -308,7 +308,7 @@ function getUserPersistentMenu(
   };
 }
 
-function setUserPersistentMenu(
+export function setUserPersistentMenu(
   userId: string,
   menuItems: MessengerTypes.MenuItem[] | MessengerTypes.PersistentMenuItem[],
   options: {
@@ -355,7 +355,7 @@ function setUserPersistentMenu(
   };
 }
 
-function deleteUserPersistentMenu(
+export function deleteUserPersistentMenu(
   userId: string,
   options: {
     accessToken?: string;
@@ -373,7 +373,7 @@ function deleteUserPersistentMenu(
   };
 }
 
-function sendSenderAction(
+export function sendSenderAction(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   senderAction: MessengerTypes.SenderAction,
   options: MessengerTypes.SenderActionOption &
@@ -398,7 +398,7 @@ function sendSenderAction(
   );
 }
 
-function typingOn(
+export function typingOn(
   idOrRecipient: MessengerTypes.PsidOrRecipient,
   options?: MessengerTypes.SenderActionOption &
     MessengerTypes.BatchRequestOptions
@@ -406,7 +406,7 @@ function typingOn(
   return sendSenderAction(idOrRecipient, 'typing_on', options);
 }
 
-function typingOff(
+export function typingOff(
   idOrRecipient: MessengerTypes.PsidOrRecipient,
   options?: MessengerTypes.SenderActionOption &
     MessengerTypes.BatchRequestOptions
@@ -414,14 +414,14 @@ function typingOff(
   return sendSenderAction(idOrRecipient, 'typing_off', options);
 }
 
-function markSeen(
+export function markSeen(
   idOrRecipient: MessengerTypes.PsidOrRecipient,
   options?: MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
   return sendSenderAction(idOrRecipient, 'mark_seen', options);
 }
 
-function passThreadControl(
+export function passThreadControl(
   recipientId: string,
   targetAppId: number,
   metadata?: string,
@@ -442,7 +442,7 @@ function passThreadControl(
   };
 }
 
-function passThreadControlToPageInbox(
+export function passThreadControlToPageInbox(
   recipientId: string,
   metadata?: string,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
@@ -450,7 +450,7 @@ function passThreadControlToPageInbox(
   return passThreadControl(recipientId, 263902037430900, metadata, options);
 }
 
-function takeThreadControl(
+export function takeThreadControl(
   recipientId: string,
   metadata?: string,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
@@ -469,7 +469,7 @@ function takeThreadControl(
   };
 }
 
-function requestThreadControl(
+export function requestThreadControl(
   recipientId: string,
   metadata?: string,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
@@ -488,7 +488,7 @@ function requestThreadControl(
   };
 }
 
-function getThreadOwner(
+export function getThreadOwner(
   recipientId: string,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
 ): MessengerTypes.BatchItem {
@@ -504,7 +504,7 @@ function getThreadOwner(
   };
 }
 
-function associateLabel(
+export function associateLabel(
   userId: string,
   labelId: number,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
@@ -522,7 +522,7 @@ function associateLabel(
   };
 }
 
-function dissociateLabel(
+export function dissociateLabel(
   userId: string,
   labelId: number,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
@@ -540,7 +540,7 @@ function dissociateLabel(
   };
 }
 
-function getAssociatedLabels(
+export function getAssociatedLabels(
   userId: string,
   options: { accessToken?: string } & MessengerTypes.BatchRequestOptions = {}
 ): MessengerTypes.BatchItem {
@@ -554,46 +554,3 @@ function getAssociatedLabels(
     ...batchRequestOptions,
   };
 }
-
-const MessengerBatch = {
-  sendRequest,
-  sendMessage,
-  sendText,
-  sendAttachment,
-  sendAudio,
-  sendImage,
-  sendVideo,
-  sendFile,
-  sendTemplate,
-  sendButtonTemplate,
-  sendGenericTemplate,
-  sendReceiptTemplate,
-  sendMediaTemplate,
-  sendAirlineBoardingPassTemplate,
-  sendAirlineCheckinTemplate,
-  sendAirlineItineraryTemplate,
-  sendAirlineUpdateTemplate,
-  sendOneTimeNotifReqTemplate,
-
-  getUserProfile,
-  getUserPersistentMenu,
-  setUserPersistentMenu,
-  deleteUserPersistentMenu,
-
-  sendSenderAction,
-  typingOn,
-  typingOff,
-  markSeen,
-
-  passThreadControl,
-  passThreadControlToPageInbox,
-  takeThreadControl,
-  requestThreadControl,
-  getThreadOwner,
-
-  associateLabel,
-  dissociateLabel,
-  getAssociatedLabels,
-};
-
-export default MessengerBatch;
