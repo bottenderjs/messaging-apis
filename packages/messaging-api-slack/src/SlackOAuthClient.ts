@@ -3,7 +3,6 @@ import querystring from 'querystring';
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'ts-invariant';
-import warning from 'warning';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -916,26 +915,6 @@ export default class SlackOAuthClient {
     return allChannels;
   }
 
-  postMessage(
-    channel: string,
-    inputMessage: SlackTypes.Message | string,
-    options: SlackTypes.PostMessageOptionalOptions = {}
-  ): Promise<SlackTypes.OAuthAPIResponse> {
-    warning(
-      false,
-      '`postMessage` is deprecated. Use `chat.postMessage` instead.'
-    );
-
-    const message =
-      typeof inputMessage === 'string' ? { text: inputMessage } : inputMessage;
-
-    return this._postMessage({
-      channel,
-      ...message,
-      ...options,
-    });
-  }
-
   /**
    * Sends a message to the channel.
    *
@@ -961,33 +940,6 @@ export default class SlackOAuthClient {
     options: SlackTypes.PostMessageOptions
   ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.postMessage', stringifyPayloadFields(options));
-  }
-
-  /**
-   * Sends an ephemeral message to a user in a channel.
-   *
-   * @see https://api.slack.com/methods/chat.postEphemeral
-   */
-  postEphemeral(
-    channel: string,
-    user: string,
-    inputMessage: SlackTypes.Message | string,
-    options: SlackTypes.PostEphemeralOptionalOptions = {}
-  ): Promise<SlackTypes.OAuthAPIResponse> {
-    warning(
-      false,
-      '`postEphemeral` is deprecated. Use `chat.postEphemeral` instead.'
-    );
-
-    const message =
-      typeof inputMessage === 'string' ? { text: inputMessage } : inputMessage;
-
-    return this._postEphemeral({
-      channel,
-      user,
-      ...message,
-      ...options,
-    });
   }
 
   /**

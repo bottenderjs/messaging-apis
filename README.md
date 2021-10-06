@@ -119,9 +119,14 @@ const client = new SlackOAuthClient({
   accessToken: 'xoxb-000000000000-xxxxxxxxxxxxxxxxxxxxxxxx',
 });
 
-client.postMessage('#random', 'Hello World').then(() => {
-  console.log('sent');
-});
+client.chat
+  .postMessage({
+    channel: 'C1234567890',
+    text: 'Hello world',
+  })
+  .then(() => {
+    console.log('sent');
+  });
 ```
 
 ```js
