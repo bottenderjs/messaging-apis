@@ -5,7 +5,6 @@ import AxiosError from 'axios-error';
 import axios, { AxiosInstance, AxiosError as BaseAxiosError } from 'axios';
 import imageType from 'image-type';
 import invariant from 'ts-invariant';
-import warning from 'warning';
 import {
   OnRequestFunction,
   createRequestInterceptor,
@@ -451,17 +450,6 @@ export default class LineClient {
         responseType: 'stream',
       })
       .then((res) => res.data, handleError);
-  }
-
-  /**
-   * `retrieveMessageContent` is deprecated. Use `getMessageContent` instead.
-   */
-  retrieveMessageContent(messageId: string): Promise<Buffer> {
-    warning(
-      false,
-      '`retrieveMessageContent` is deprecated. Use `getMessageContent` instead.'
-    );
-    return this.getMessageContent(messageId);
   }
 
   /**
@@ -1054,19 +1042,6 @@ export default class LineClient {
         }
         return handleError(err);
       });
-  }
-
-  /**
-   * `issueLinkToken` is deprecated. Use `getLinkToken` instead. Note: It returns a string instead of an object.
-   */
-  issueLinkToken(userId: string): Promise<{ linkToken: string }> {
-    warning(
-      false,
-      '`issueLinkToken` is deprecated. Use `getLinkToken` instead. Note: It returns a string instead of an object.'
-    );
-    return this.axios
-      .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`)
-      .then((res) => res.data, handleError);
   }
 
   /**
