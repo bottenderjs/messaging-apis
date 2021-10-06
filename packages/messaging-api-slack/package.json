@@ -11,13 +11,11 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/lodash": "^4.14.156",
-    "@types/warning": "^3.0.0",
     "axios": "^0.21.1",
     "axios-error": "^1.0.4",
     "lodash": "^4.17.15",
     "messaging-api-common": "^1.0.4",
-    "ts-invariant": "^0.4.4",
-    "warning": "^4.0.3"
+    "ts-invariant": "^0.4.4"
   },
   "keywords": [
     "bot",

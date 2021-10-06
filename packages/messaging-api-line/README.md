@@ -1907,7 +1907,7 @@ context.replyText(
 
 ### Content API - [Official Docs](https://developers.line.me/en/reference/messaging-api/#get-content)
 
-## `retrieveMessageContent(messageId)`
+## `getMessageContent(messageId)`
 
 Retrieves image, video, and audio data sent in specified message.
 
@@ -1918,7 +1918,7 @@ Retrieves image, video, and audio data sent in specified message.
 Example:
 
 ```js
-client.retrieveMessageContent(MESSAGE_ID).then((buffer) => {
+client.getMessageContent(MESSAGE_ID).then((buffer) => {
   console.log(buffer);
   // <Buffer 61 61 73 64 ...>
 });
@@ -2446,7 +2446,7 @@ client.deleteDefaultRichMenu();
 
 ### Account Link API - [Official Docs](https://developers.line.me/en/reference/messaging-api/#account-link)
 
-## `issueLinkToken(userId)` - [Official Docs](https://developers.line.me/en/reference/messaging-api/#issue-link-token)
+## `getLinkToken(userId)` - [Official Docs](https://developers.line.me/en/reference/messaging-api/#issue-link-token)
 
 Issues a link token used for the [account link](https://developers.line.me/en/docs/messaging-api/linking-accounts/) feature.
 
@@ -2457,11 +2457,9 @@ Issues a link token used for the [account link](https://developers.line.me/en/do
 Example:
 
 ```js
-client.issueLinkToken(USER_ID).then((result) => {
+client.getLinkToken(USER_ID).then((result) => {
   console.log(result);
-  // {
-  //   linkToken: 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY',
-  // }
+  // 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY'
 });
 ```
 
