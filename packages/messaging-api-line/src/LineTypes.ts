@@ -42,7 +42,7 @@ export type Group = {
   pictureUrl: string;
 };
 
-export type ImageMessage = {
+export type ImageMessage = MessageCommon & {
   type: 'image';
 
   /**
@@ -137,7 +137,7 @@ export type ImageMapMessageAction = {
  *
  * [Official document - imagemap message](https://developers.line.biz/en/reference/messaging-api/#imagemap-message)
  */
-export type ImagemapMessage = {
+export type ImagemapMessage = MessageCommon & {
   type: 'imagemap';
 
   /**
@@ -181,7 +181,7 @@ export type ImagemapMessage = {
   actions: (ImageMapUriAction | ImageMapMessageAction)[];
 };
 
-export type VideoMessage = {
+export type VideoMessage = MessageCommon & {
   type: 'video';
 
   /**
@@ -205,9 +205,19 @@ export type VideoMessage = {
    * - Max: 1 MB
    */
   previewImageUrl: string;
+
+  /**
+   * ID used to identify the video when Video viewing complete event occurs.
+   * If you send a video message with trackingId added, the video viewing complete event occurs when the user finishes watching the video.
+   *
+   * You can use the same ID in multiple messages.
+   * - Max character limit: 100
+   * - Supported character types: Half-width alphanumeric characters (`a-z`, `A-Z`, `0-9`) and symbols `(-.=,+*()%$&;:@{}!?<>[])`
+   */
+  trackingId?: string;
 };
 
-export type AudioMessage = {
+export type AudioMessage = MessageCommon & {
   type: 'audio';
 
   /**
@@ -246,7 +256,7 @@ export type Location = {
   longitude: number;
 };
 
-export type LocationMessage = {
+export type LocationMessage = MessageCommon & {
   type: 'location';
 
   /**
@@ -268,7 +278,7 @@ export type LocationMessage = {
   longitude: number;
 };
 
-export type StickerMessage = {
+export type StickerMessage = MessageCommon & {
   type: 'sticker';
 
   /**
@@ -555,7 +565,7 @@ export type MessageOptions = {
  * - Carousel
  * - Image carousel
  */
-export type TemplateMessage<Template> = {
+export type TemplateMessage<Template> = MessageCommon & {
   type: 'template';
 
   /**
@@ -1575,7 +1585,7 @@ export type FlexSpan = {
  *
  * Flex Messages are messages with a customizable layout. You can customize the layout freely based on the specification for [CSS Flexible Box (CSS Flexbox)](https://www.w3.org/TR/css-flexbox-1/). For more information, see [Sending Flex Messages](https://developers.line.biz/en/docs/messaging-api/using-flex-messages/) in the API documentation.
  */
-export type FlexMessage = {
+export type FlexMessage = MessageCommon & {
   type: 'flex';
 
   /**
@@ -1779,6 +1789,27 @@ The available schemes are http, https, line, and tel. For more information about
   };
 };
 
+/**
+ * @see [Common properties for messages](https://developers.line.biz/en/reference/messaging-api/#common-properties-for-messages)
+ */
+export type MessageCommon = {
+  /**
+   * For the quick reply feature.
+   * For more information, see [Using quick replies](https://developers.line.biz/en/docs/messaging-api/using-quick-reply/).
+   *
+   * If the user receives multiple
+   * [message objects](https://developers.line.biz/en/reference/messaging-api/#message-objects),
+   * the quickReply property of the last message object is displayed.
+   */
+  quickReply?: QuickReply;
+  /**
+   * [Change icon and display name](https://developers.line.biz/en/docs/messaging-api/icon-nickname-switch/)
+   *
+   * When sending a message from the LINE Official Account, you can specify the `sender.name` and the `sender.iconUrl` properties in [Message objects](https://developers.line.biz/en/reference/messaging-api/#message-objects).
+   */
+  sender?: Sender;
+};
+
 export type Emoji = {
   /**
    * Index position for a character in text, with the first character being at position 0.
@@ -1797,7 +1828,7 @@ export type Emoji = {
   emojiId: string;
 };
 
-export type TextMessage = {
+export type TextMessage = MessageCommon & {
   type: 'text';
   /**
    * Message text. You can include the following emoji:
