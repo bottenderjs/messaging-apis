@@ -125,7 +125,7 @@ describe('Error', () => {
 
     let error;
     try {
-      await client.reply(REPLY_TOKEN, [Line.createText('Hello!')]);
+      await client.reply(REPLY_TOKEN, [Line.text('Hello!')]);
     } catch (err) {
       error = err;
     }
@@ -152,7 +152,7 @@ describe('Error', () => {
 
     let error;
     try {
-      await client.reply(REPLY_TOKEN, [Line.createText('Hello!')]);
+      await client.reply(REPLY_TOKEN, [Line.text('Hello!')]);
     } catch (err) {
       error = err;
     }

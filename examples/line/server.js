@@ -29,9 +29,9 @@ const handleEvent = (event) => {
   }
   if (verifyEvents.includes(replyToken)) return Promise.resolve(null);
   return client.reply(replyToken, [
-    Line.createText('Hello'),
-    Line.createImage(imageUrl),
-    Line.createText('End'),
+    Line.text('Hello'),
+    Line.image(imageUrl),
+    Line.text('End'),
   ]);
 };
 

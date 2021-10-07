@@ -116,30 +116,27 @@ client.reply(REPLY_TOKEN, [
 const { Line } = require('messaging-api-line');
 
 client.reply(REPLY_TOKEN, [
-  Line.createText('Hello'),
-  Line.createImage({
-    originalContentUrl: 'https://example.com/original.jpg',
-    previewImageUrl: 'https://example.com/preview.jpg',
-  }),
-  Line.createText('End'),
+  Line.text('Hello'),
+  Line.image('https://example.com/original.jpg'),
+  Line.text('End'),
 ]);
 ```
 
-There are a bunch of factory methods can be used to create messages:
+There are a bunch of factory methods can be used to create message objects:
 
-- `Line.createText(text, options)`
-- `Line.createImage(image, options)`
-- `Line.createVideo(video, options)`
-- `Line.createAudio(audio, options)`
-- `Line.createLocation(location, options)`
-- `Line.createSticker(sticker, options)`
-- `Line.createImagemap(altText, imagemap, options)`
-- `Line.createTemplate(altText, template, options)`
-- `Line.createButtonTemplate(altText, buttonTemplate, options)`
-- `Line.createConfirmTemplate(altText, confirmTemplate, options)`
-- `Line.createCarouselTemplate(altText, columns, options)`
-- `Line.createImageCarouselTemplate(altText, columns, options)`
-- `Line.createFlex(altText, contents, options)`
+- `Line.text`
+- `Line.image`
+- `Line.video`
+- `Line.audio`
+- `Line.location`
+- `Line.sticker`
+- `Line.imagemap`
+- `Line.template`
+- `Line.buttonsTemplate`
+- `Line.confirmTemplate`
+- `Line.carouselTemplate`
+- `Line.imageCarouselTemplate`
+- `Line.flex`
 
 <br />
 
@@ -336,7 +333,7 @@ Responds imagemap message using specified reply token.
 Example:
 
 ```js
-client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
+client.replyImagemap(REPLY_TOKEN, 'This is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
   baseSize: {
     width: 1040,
@@ -387,7 +384,7 @@ Responds template message using specified reply token.
 Example:
 
 ```js
-client.replyTemplate(REPLY_TOKEN, 'this is a template', {
+client.replyTemplate(REPLY_TOKEN, 'This is a template', {
   type: 'buttons',
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
@@ -442,7 +439,7 @@ Responds button template message using specified reply token.
 Example:
 
 ```js
-client.replyButtonTemplate(REPLY_TOKEN, 'this is a template', {
+client.replyButtonTemplate(REPLY_TOKEN, 'This is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
   text: 'Please select',
@@ -488,7 +485,7 @@ Responds confirm template message using specified reply token.
 Example:
 
 ```js
-client.replyConfirmTemplate(REPLY_TOKEN, 'this is a confirm template', {
+client.replyConfirmTemplate(REPLY_TOKEN, 'This is a confirm template', {
   text: 'Are you sure?',
   actions: [
     {
@@ -527,7 +524,7 @@ Responds carousel template message using specified reply token.
 Example:
 
 ```js
-client.replyCarouselTemplate(REPLY_TOKEN, 'this is a carousel template', [
+client.replyCarouselTemplate(REPLY_TOKEN, 'This is a carousel template', [
   {
     thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
     title: 'this is menu',
@@ -597,7 +594,7 @@ Example:
 ```js
 client.replyImageCarouselTemplate(
   REPLY_TOKEN,
-  'this is an image carousel template',
+  'This is an image carousel template',
   [
     {
       imageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -649,7 +646,7 @@ Responds flex message using specified reply token.
 Example:
 
 ```js
-client.replyFlex(REPLY_TOKEN, 'this is a flex', {
+client.replyFlex(REPLY_TOKEN, 'This is a flex', {
   type: 'bubble',
   header: {
     type: 'box',
@@ -914,7 +911,7 @@ Sends imagemap message using ID of the receiver.
 Example:
 
 ```js
-client.pushImagemap(USER_ID, 'this is an imagemap', {
+client.pushImagemap(USER_ID, 'This is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
   baseSize: {
     width: 1040,
@@ -965,7 +962,7 @@ Sends template message using ID of the receiver.
 Example:
 
 ```js
-client.pushTemplate(USER_ID, 'this is a template', {
+client.pushTemplate(USER_ID, 'This is a template', {
   type: 'buttons',
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
@@ -1020,7 +1017,7 @@ Sends button template message using ID of the receiver.
 Example:
 
 ```js
-client.pushButtonTemplate(USER_ID, 'this is a template', {
+client.pushButtonTemplate(USER_ID, 'This is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
   text: 'Please select',
@@ -1066,7 +1063,7 @@ Sends confirm template message using ID of the receiver.
 Example:
 
 ```js
-client.pushConfirmTemplate(USER_ID, 'this is a confirm template', {
+client.pushConfirmTemplate(USER_ID, 'This is a confirm template', {
   text: 'Are you sure?',
   actions: [
     {
@@ -1105,7 +1102,7 @@ Sends carousel template message using ID of the receiver.
 Example:
 
 ```js
-client.pushCarouselTemplate(USER_ID, 'this is a carousel template', [
+client.pushCarouselTemplate(USER_ID, 'This is a carousel template', [
   {
     thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
     title: 'this is menu',
@@ -1175,7 +1172,7 @@ Example:
 ```js
 client.pushImageCarouselTemplate(
   USER_ID,
-  'this is an image carousel template',
+  'This is an image carousel template',
   [
     {
       imageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -1227,7 +1224,7 @@ Sends flex message using ID of the receiver.
 Example:
 
 ```js
-client.pushFlex(USER_ID, 'this is a flex', {
+client.pushFlex(USER_ID, 'This is a flex', {
   type: 'bubble',
   header: {
     type: 'box',
@@ -1498,7 +1495,7 @@ Sends imagemap message to multiple users.
 Example:
 
 ```js
-client.multicastImagemap([USER_ID], 'this is an imagemap', {
+client.multicastImagemap([USER_ID], 'This is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
   baseSize: {
     width: 1040,
@@ -1549,7 +1546,7 @@ Sends template message to multiple users.
 Example:
 
 ```js
-client.multicastTemplate([USER_ID], 'this is a template', {
+client.multicastTemplate([USER_ID], 'This is a template', {
   type: 'buttons',
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
@@ -1604,7 +1601,7 @@ Sends button template message to multiple users.
 Example:
 
 ```js
-client.multicastButtonTemplate([USER_ID], 'this is a template', {
+client.multicastButtonTemplate([USER_ID], 'This is a template', {
   thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
   title: 'Menu',
   text: 'Please select',
@@ -1650,7 +1647,7 @@ Sends confirm template message to multiple users.
 Example:
 
 ```js
-client.multicastConfirmTemplate([USER_ID], 'this is a confirm template', {
+client.multicastConfirmTemplate([USER_ID], 'This is a confirm template', {
   text: 'Are you sure?',
   actions: [
     {
@@ -1689,7 +1686,7 @@ Sends carousel template message to multiple users.
 Example:
 
 ```js
-client.multicastCarouselTemplate([USER_ID], 'this is a carousel template', [
+client.multicastCarouselTemplate([USER_ID], 'This is a carousel template', [
   {
     thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
     title: 'this is menu',
@@ -1759,7 +1756,7 @@ Example:
 ```js
 client.multicastImageCarouselTemplate(
   [USER_ID],
-  'this is an image carousel template',
+  'This is an image carousel template',
   [
     {
       imageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -1811,7 +1808,7 @@ Sends flex message to multiple users.
 Example:
 
 ```js
-client.multicastFlex([USER_ID], 'this is a flex', {
+client.multicastFlex([USER_ID], 'This is a flex', {
   type: 'bubble',
   header: {
     type: 'box',

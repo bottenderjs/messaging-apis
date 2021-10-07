@@ -342,7 +342,7 @@ describe('#imagemap', () => {
   it('should support multi-object creation', () => {
     expect(
       Line.imagemap(
-        'this is an imagemap',
+        'This is an imagemap',
         {
           baseUrl: 'https://example.com/bot/images/rm001',
           baseSize: {
@@ -362,7 +362,7 @@ describe('#imagemap', () => {
             {
               type: 'uri',
               linkUri: 'https://example.com/',
-              area: { x: 0, y: 0, width: 520, height: 1040 },
+              area: { x: 0, y: 586, width: 520, height: 454 },
             },
           ],
         },
@@ -402,7 +402,7 @@ describe('#template', () => {
   it('should create a template message object', () => {
     expect(
       Line.template({
-        altText: 'this is a confirm template',
+        altText: 'This is a confirm template',
         template: {
           type: 'confirm',
           text: 'Are you sure?',
@@ -416,7 +416,7 @@ describe('#template', () => {
       })
     ).toEqual({
       type: 'template',
-      altText: 'this is a confirm template',
+      altText: 'This is a confirm template',
       template: {
         type: 'confirm',
         text: 'Are you sure?',
@@ -433,7 +433,7 @@ describe('#template', () => {
   it('should support multi-object creation', () => {
     expect(
       Line.template(
-        'this is a confirm template',
+        'This is a confirm template',
         {
           type: 'confirm',
           text: 'Are you sure?',
@@ -449,7 +449,7 @@ describe('#template', () => {
       )
     ).toEqual({
       type: 'template',
-      altText: 'this is a confirm template',
+      altText: 'This is a confirm template',
       template: {
         type: 'confirm',
         text: 'Are you sure?',
@@ -470,8 +470,11 @@ describe.each(['buttonsTemplate', 'buttonTemplate'] as const)(
     it('should create a buttons template message object', () => {
       expect(
         Line[method]({
-          altText: 'this is a buttons template',
+          altText: 'This is a buttons template',
           thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+          imageBackgroundColor: '#FFFFFF',
           title: 'Menu',
           text: 'Please select',
           defaultAction: {
@@ -501,10 +504,13 @@ describe.each(['buttonsTemplate', 'buttonTemplate'] as const)(
         })
       ).toEqual({
         type: 'template',
-        altText: 'this is a buttons template',
+        altText: 'This is a buttons template',
         template: {
           type: 'buttons',
           thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
+          imageAspectRatio: 'rectangle',
+          imageSize: 'cover',
+          imageBackgroundColor: '#FFFFFF',
           title: 'Menu',
           text: 'Please select',
           defaultAction: {
@@ -530,13 +536,15 @@ describe.each(['buttonsTemplate', 'buttonTemplate'] as const)(
             },
           ],
         },
+        sender,
+        quickReply,
       });
     });
 
     it('should support multi-object creation', () => {
       expect(
         Line[method](
-          'this is a buttons template',
+          'This is a buttons template',
           {
             thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
             title: 'Menu',
@@ -563,7 +571,7 @@ describe.each(['buttonsTemplate', 'buttonTemplate'] as const)(
         )
       ).toEqual({
         type: 'template',
-        altText: 'this is a buttons template',
+        altText: 'This is a buttons template',
         template: {
           type: 'buttons',
           thumbnailImageUrl: 'https://example.com/bot/images/image.jpg',
@@ -598,7 +606,7 @@ describe('#confirmTemplate', () => {
   it('should create a confirm template message object', () => {
     expect(
       Line.confirmTemplate({
-        altText: 'this is a confirm template',
+        altText: 'This is a confirm template',
         text: 'Are you sure?',
         actions: [
           { type: 'message', label: 'Yes', text: 'yes' },
@@ -609,7 +617,7 @@ describe('#confirmTemplate', () => {
       })
     ).toEqual({
       type: 'template',
-      altText: 'this is a confirm template',
+      altText: 'This is a confirm template',
       template: {
         type: 'confirm',
         text: 'Are you sure?',
@@ -626,7 +634,7 @@ describe('#confirmTemplate', () => {
   it('should support multi-object creation', () => {
     expect(
       Line.confirmTemplate(
-        'this is a confirm template',
+        'This is a confirm template',
         {
           text: 'Are you sure?',
           actions: [
@@ -638,7 +646,7 @@ describe('#confirmTemplate', () => {
       )
     ).toEqual({
       type: 'template',
-      altText: 'this is a confirm template',
+      altText: 'This is a confirm template',
       template: {
         type: 'confirm',
         text: 'Are you sure?',
@@ -657,7 +665,7 @@ describe('#carouselTemplate', () => {
   it('should create a carousel template message object', () => {
     expect(
       Line.carouselTemplate({
-        altText: 'this is a carousel template',
+        altText: 'This is a carousel template',
         columns: [
           {
             thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -723,7 +731,7 @@ describe('#carouselTemplate', () => {
       })
     ).toEqual({
       type: 'template',
-      altText: 'this is a carousel template',
+      altText: 'This is a carousel template',
       template: {
         type: 'carousel',
         columns: [
@@ -795,7 +803,7 @@ describe('#carouselTemplate', () => {
   it('should support multi-object creation', () => {
     expect(
       Line.carouselTemplate(
-        'this is a carousel template',
+        'This is a carousel template',
         [
           {
             thumbnailImageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -863,7 +871,7 @@ describe('#carouselTemplate', () => {
       )
     ).toEqual({
       type: 'template',
-      altText: 'this is a carousel template',
+      altText: 'This is a carousel template',
       template: {
         type: 'carousel',
         columns: [
@@ -937,7 +945,7 @@ describe('#imageCarouselTemplate', () => {
   it('should create an image carousel template message object', () => {
     expect(
       Line.imageCarouselTemplate({
-        altText: 'this is an image carousel template',
+        altText: 'This is an image carousel template',
         columns: [
           {
             imageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -969,7 +977,7 @@ describe('#imageCarouselTemplate', () => {
       })
     ).toEqual({
       type: 'template',
-      altText: 'this is an image carousel template',
+      altText: 'This is an image carousel template',
       template: {
         type: 'image_carousel',
         columns: [
@@ -1007,7 +1015,7 @@ describe('#imageCarouselTemplate', () => {
   it('should support multi-object creation', () => {
     expect(
       Line.imageCarouselTemplate(
-        'this is an image carousel template',
+        'This is an image carousel template',
         [
           {
             imageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -1038,7 +1046,7 @@ describe('#imageCarouselTemplate', () => {
       )
     ).toEqual({
       type: 'template',
-      altText: 'this is a image carousel template',
+      altText: 'This is an image carousel template',
       template: {
         type: 'image_carousel',
         columns: [
@@ -1078,7 +1086,7 @@ describe('#flex', () => {
   it('should create a flex message object', () => {
     expect(
       Line.flex({
-        altText: 'this is a flex message',
+        altText: 'This is a flex message',
         contents: {
           type: 'bubble',
           header: {
@@ -1126,7 +1134,7 @@ describe('#flex', () => {
       })
     ).toEqual({
       type: 'flex',
-      altText: 'this is a flex message',
+      altText: 'This is a flex message',
       contents: {
         type: 'bubble',
         header: {
@@ -1177,7 +1185,7 @@ describe('#flex', () => {
   it('should support multi-object creation', () => {
     expect(
       Line.flex(
-        'this is a flex message',
+        'This is a flex message',
         {
           type: 'bubble',
           header: {
@@ -1227,7 +1235,7 @@ describe('#flex', () => {
       )
     ).toEqual({
       type: 'flex',
-      altText: 'this is a flex message',
+      altText: 'This is a flex message',
       contents: {
         type: 'bubble',
         header: {

@@ -259,7 +259,7 @@ client.multicastFlex([USER_ID], 'this is a flex', {
 - [new] support `video` for imagemap:
 
 ```js
-const res = await client.replyImagemap(REPLY_TOKEN, 'this is an imagemap', {
+const res = await client.replyImagemap(REPLY_TOKEN, 'This is an imagemap', {
   baseUrl: 'https://example.com/bot/images/rm001',
   baseSize: {
     height: 1040,

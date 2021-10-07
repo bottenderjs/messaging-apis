@@ -417,7 +417,7 @@ export function imagemap(
  * @example
  * ```js
  * await client.reply(Line.template({
- *   altText: 'this is a confirm template',
+ *   altText: 'This is a confirm template',
  *   template: {
  *     type: 'confirm',
  *     text: 'Are you sure?',
@@ -479,7 +479,7 @@ export function template<T extends LineTypes.Template>(
  * @example
  * ```js
  * await client.reply(Line.buttonsTemplate({
- *   altText: 'this is a buttons template',
+ *   altText: 'This is a buttons template',
  *   text: 'Please select',
  *   actions: [
  *     {
@@ -642,7 +642,7 @@ export function buttonTemplate(
  * @example
  * ```js
  * await client.reply(Line.confirmTemplate({
- *   altText: 'this is a confirm template',
+ *   altText: 'This is a confirm template',
  *   text: 'Are you sure?',
  *   actions: [
  *     { type: 'message', label: 'Yes', text: 'yes' },
@@ -727,7 +727,7 @@ export function confirmTemplate(
  * @example
  * ```js
  * await client.reply(Line.carouselTemplate({
- *   altText: 'this is a carousel template',
+ *   altText: 'This is a carousel template',
  *   columns: [
  *     {
  *       thumbnailImageUrl': 'https://example.com/bot/images/item1.jpg',
@@ -833,7 +833,7 @@ export function carouselTemplate(
  * @example
  * ```js
  * await client.reply(Line.imageCarouselTemplate({
- *   altText: 'this is an image carousel template',
+ *   altText: 'This is an image carousel template',
  *   columns: [
  *     {
  *       imageUrl: 'https://example.com/bot/images/item1.jpg',
@@ -920,7 +920,7 @@ export function imageCarouselTemplate(
  * @example
  * ```js
  * await client.reply(Line.flex({
- *   altText: 'this is a flex message',
+ *   altText: 'This is a flex message',
  *   contents: {
  *     type: 'bubble',
  *     body: {
