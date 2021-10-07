@@ -6,18 +6,18 @@ import * as LineTypes from './LineTypes';
 /**
  * Factory function of text messages.
  *
- * @param text - Message text.
+ * @param txt - Message text.
  * @param options - Text message options.
  * @returns - Text message object.
  *
  * @example
  *
  * ```js
- * await client.reply(Line.createText('hi'));
+ * await client.reply(Line.text('hi'));
  * ```
  */
-export function createText(
-  text: string,
+export function text(
+  txt: string,
   options?: Omit<LineTypes.TextMessage, 'type' | 'text'>
 ): LineTypes.TextMessage;
 /**
@@ -27,7 +27,7 @@ export function createText(
  * @returns - Text message object.
  * @example
  * ```js
- * await client.reply(Line.createText({
+ * await client.reply(Line.text({
  *   text: '$ LINE emoji',
  *   emojis: [
  *     {
@@ -39,10 +39,10 @@ export function createText(
  * }));
  * ```
  */
-export function createText(
+export function text(
   options: Omit<LineTypes.TextMessage, 'type'>
 ): LineTypes.TextMessage;
-export function createText(
+export function text(
   textOrOptions: string | Omit<LineTypes.TextMessage, 'type'>,
   options?: Omit<LineTypes.TextMessage, 'type' | 'text'>
 ): LineTypes.TextMessage {
@@ -67,28 +67,28 @@ export function createText(
  * @returns Sticker message object.
  * @example
  * ```js
- * await client.reply(Line.createSticker({
+ * await client.reply(Line.sticker({
  *   packageId: '446',
  *   stickerId: '1988',
  * }));
  * ```
  */
-export function createSticker(
+export function sticker(
   options: Omit<LineTypes.StickerMessage, 'type'>
 ): LineTypes.StickerMessage;
 /**
  * Factory function of sticker messages.
  *
- * @param sticker - Package ID and sticker ID of the sticker.
+ * @param stickerIds - Package ID and sticker ID of the sticker.
  * @param options - Sticker message options.
  * @returns Sticker message object.
  * @deprecated - This overload is no longer recommended.
  */
-export function createSticker(
-  sticker: Pick<LineTypes.StickerMessage, 'packageId' | 'stickerId'>,
+export function sticker(
+  stickerIds: Pick<LineTypes.StickerMessage, 'packageId' | 'stickerId'>,
   options?: Omit<LineTypes.StickerMessage, 'type' | 'packageId' | 'stickerId'>
 ): LineTypes.StickerMessage;
-export function createSticker(
+export function sticker(
   stickerOrOptions:
     | Omit<LineTypes.StickerMessage, 'type'>
     | Pick<LineTypes.StickerMessage, 'packageId' | 'stickerId'>,
@@ -96,7 +96,7 @@ export function createSticker(
 ): LineTypes.StickerMessage {
   warning(
     !options,
-    '`Line.createSticker(sticker, options)` is no longer recommended. Use `Line.createSticker(options)` instead.'
+    '`Line.sticker(stickerIds, options)` is no longer recommended. Use `Line.sticker(options)` instead.'
   );
 
   return {
@@ -114,10 +114,10 @@ export function createSticker(
  * @returns Image message object.
  * @example
  * ```js
- * await client.reply(Line.createImage('https://example.com/original.jpg'));
+ * await client.reply(Line.image('https://example.com/original.jpg'));
  * ```
  */
-export function createImage(
+export function image(
   originalContentUrl: string,
   options?: Omit<LineTypes.ImageMessage, 'type' | 'originalContentUrl'>
 ): LineTypes.ImageMessage;
@@ -128,16 +128,16 @@ export function createImage(
  * @returns Image message object.
  * @example
  * ```js
- * await client.reply(Line.createImage({
+ * await client.reply(Line.image({
  *   originalContentUrl: 'https://example.com/original.jpg',
  *   previewImageUrl: 'https://example.com/preview.jpg',
  * }));
  * ```
  */
-export function createImage(
+export function image(
   options: Omit<LineTypes.ImageMessage, 'type'>
 ): LineTypes.ImageMessage;
-export function createImage(
+export function image(
   urlOrOptions: string | Omit<LineTypes.ImageMessage, 'type'>,
   options?: Omit<LineTypes.ImageMessage, 'type' | 'originalContentUrl'>
 ): LineTypes.ImageMessage {
@@ -165,25 +165,25 @@ export function createImage(
  * @returns Video message object.
  * @example
  * ```js
- * await client.reply(Line.createVideo({
+ * await client.reply(Line.video({
  *   originalContentUrl: 'https://example.com/original.mp4',
  *   previewImageUrl: 'https://example.com/preview.jpg',
  * }));
  * ```
  */
-export function createVideo(
+export function video(
   options: Omit<LineTypes.VideoMessage, 'type'>
 ): LineTypes.VideoMessage;
 /**
  * Factory function of video messages.
  *
- * @param video - Original content URL and preview image URL of the video.
+ * @param videoOptions - Original content URL and preview image URL of the video.
  * @param options - Video message options.
  * @returns Video message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createVideo(
-  video: Pick<
+export function video(
+  videoOptions: Pick<
     LineTypes.VideoMessage,
     'originalContentUrl' | 'previewImageUrl' | 'trackingId'
   >,
@@ -192,7 +192,7 @@ export function createVideo(
     'type' | 'originalContentUrl' | 'previewImageUrl' | 'trackingId'
   >
 ): LineTypes.VideoMessage;
-export function createVideo(
+export function video(
   videoOrOptions:
     | Omit<LineTypes.VideoMessage, 'type'>
     | Pick<
@@ -206,7 +206,7 @@ export function createVideo(
 ): LineTypes.VideoMessage {
   warning(
     !options,
-    '`Line.createVideo(video, options)` is no longer recommended. Use `Line.createVideo(options)` instead.'
+    '`Line.video(videoOptions, options)` is no longer recommended. Use `Line.video(options)` instead.'
   );
 
   return {
@@ -223,31 +223,31 @@ export function createVideo(
  * @returns Audio message object.
  * @example
  * ```js
- * await client.reply(Line.createAudio({
+ * await client.reply(Line.audio({
  *   originalContentUrl: 'https://example.com/original.m4a',
  *   duration: 60000,
  * }));
  * ```
  */
-export function createAudio(
+export function audio(
   options: Omit<LineTypes.AudioMessage, 'type'>
 ): LineTypes.AudioMessage;
 /**
  * Factory function of audio messages.
  *
- * @param audio - Original content URL and duration of the audio.
+ * @param audioOptions - Original content URL and duration of the audio.
  * @param options - Audio message options.
  * @returns Audio message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createAudio(
-  audio: Pick<LineTypes.AudioMessage, 'originalContentUrl' | 'duration'>,
+export function audio(
+  audioOptions: Pick<LineTypes.AudioMessage, 'originalContentUrl' | 'duration'>,
   options?: Omit<
     LineTypes.AudioMessage,
     'type' | 'originalContentUrl' | 'duration'
   >
 ): LineTypes.AudioMessage;
-export function createAudio(
+export function audio(
   audioOrOptions:
     | Omit<LineTypes.AudioMessage, 'type'>
     | Pick<LineTypes.AudioMessage, 'originalContentUrl' | 'duration'>,
@@ -258,7 +258,7 @@ export function createAudio(
 ): LineTypes.AudioMessage {
   warning(
     !options,
-    '`Line.createAudio(audio, options)` is no longer recommended. Use `Line.createAudio(options)` instead.'
+    '`Line.audio(audioOptions, options)` is no longer recommended. Use `Line.audio(options)` instead.'
   );
 
   return {
@@ -275,7 +275,7 @@ export function createAudio(
  * @returns Location message object.
  * @example
  * ```js
- * await client.reply(Line.createLocation({
+ * await client.reply(Line.location({
  *   title: 'my location',
  *   address: '1-6-1 Yotsuya, Shinjuku-ku, Tokyo, 160-0004, Japan',
  *   latitude: 35.687574,
@@ -283,19 +283,19 @@ export function createAudio(
  * }));
  * ```
  */
-export function createLocation(
+export function location(
   options: Omit<LineTypes.LocationMessage, 'type'>
 ): LineTypes.LocationMessage;
 /**
  * Factory function of location messages.
  *
- * @param location - Title, address, latitude and longitude of the location.
+ * @param locationOptions - Title, address, latitude and longitude of the location.
  * @param options - Location message options.
  * @returns Location message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createLocation(
-  location: Pick<
+export function location(
+  locationOptions: Pick<
     LineTypes.LocationMessage,
     'title' | 'address' | 'latitude' | 'longitude'
   >,
@@ -304,7 +304,7 @@ export function createLocation(
     'type' | 'title' | 'address' | 'latitude' | 'longitude'
   >
 ): LineTypes.LocationMessage;
-export function createLocation(
+export function location(
   locationOrOptions:
     | Omit<LineTypes.LocationMessage, 'type'>
     | Pick<
@@ -318,7 +318,7 @@ export function createLocation(
 ): LineTypes.LocationMessage {
   warning(
     !options,
-    '`Line.createLocation(location, options)` is no longer recommended. Use `Line.createLocation(options)` instead.'
+    '`Line.location(locationOptions, options)` is no longer recommended. Use `Line.location(options)` instead.'
   );
 
   return {
@@ -335,7 +335,7 @@ export function createLocation(
  * @returns Imagemap message object.
  * @example
  * ```js
- * await client.reply(Line.createLocation({
+ * await client.reply(Line.location({
  *   baseUrl: 'https://example.com/bot/images/rm001',
  *   altText: 'This is an imagemap',
  *   baseSize: {
@@ -352,21 +352,21 @@ export function createLocation(
  * }));
  * ```
  */
-export function createImagemap(
+export function imagemap(
   options: Omit<LineTypes.ImagemapMessage, 'type'>
 ): LineTypes.ImagemapMessage;
 /**
  * Factory function of imagemap messages.
  *
  * @param altText - Alternative text.
- * @param imagemap - Base URL, base size, video and actions of the imagemap.
+ * @param imagemapOptions - Base URL, base size, video and actions of the imagemap.
  * @param options - Imagemap message options.
  * @returns Imagemap message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createImagemap(
+export function imagemap(
   altText: string,
-  imagemap: Pick<
+  imagemapOptions: Pick<
     LineTypes.ImagemapMessage,
     'baseUrl' | 'baseSize' | 'video' | 'actions'
   >,
@@ -375,9 +375,9 @@ export function createImagemap(
     'type' | 'altText' | 'baseUrl' | 'baseSize' | 'video' | 'actions'
   >
 ): LineTypes.ImagemapMessage;
-export function createImagemap(
+export function imagemap(
   altTextOrOptions: string | Omit<LineTypes.ImagemapMessage, 'type'>,
-  imagemap?: Pick<
+  imagemapOptions?: Pick<
     LineTypes.ImagemapMessage,
     'baseUrl' | 'baseSize' | 'video' | 'actions'
   >,
@@ -389,13 +389,13 @@ export function createImagemap(
   if (typeof altTextOrOptions === 'string') {
     warning(
       false,
-      '`Line.createImagemap(altText, imagemap, options)` is no longer recommended. Use `Line.createImagemap(options)` instead.'
+      '`Line.imagemap(altText, imagemap, options)` is no longer recommended. Use `Line.imagemap(options)` instead.'
     );
 
     return {
       type: 'imagemap',
       altText: altTextOrOptions,
-      ...(imagemap as Pick<
+      ...(imagemapOptions as Pick<
         LineTypes.ImagemapMessage,
         'baseUrl' | 'baseSize' | 'video' | 'actions'
       >),
@@ -416,7 +416,7 @@ export function createImagemap(
  * @returns Template message object.
  * @example
  * ```js
- * await client.reply(Line.createTemplate({
+ * await client.reply(Line.template({
  *   altText: 'this is a confirm template',
  *   template: {
  *     type: 'confirm',
@@ -429,7 +429,7 @@ export function createImagemap(
  * }));
  * ```
  */
-export function createTemplate<T extends LineTypes.Template>(
+export function template<T extends LineTypes.Template>(
   options: Omit<LineTypes.TemplateMessage<T>, 'type'>
 ): LineTypes.TemplateMessage<T>;
 /**
@@ -441,26 +441,26 @@ export function createTemplate<T extends LineTypes.Template>(
  * @returns Template message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createTemplate<T extends LineTypes.Template>(
+export function template<T extends LineTypes.Template>(
   altText: string,
-  template: T,
+  tmpl: T,
   options?: Omit<LineTypes.TemplateMessage<T>, 'type' | 'altText' | 'template'>
 ): LineTypes.TemplateMessage<T>;
-export function createTemplate<T extends LineTypes.Template>(
+export function template<T extends LineTypes.Template>(
   altTextOroptions: string | Omit<LineTypes.TemplateMessage<T>, 'type'>,
-  template?: T,
+  tmpl?: T,
   options?: Omit<LineTypes.TemplateMessage<T>, 'type' | 'altText' | 'template'>
 ): LineTypes.TemplateMessage<T> {
   if (typeof altTextOroptions === 'string') {
     warning(
       false,
-      '`Line.createTemplate(altText, template, options)` is no longer recommended. Use `Line.createTemplate(options)` instead.'
+      '`Line.template(altText, tmpl, options)` is no longer recommended. Use `Line.template(options)` instead.'
     );
 
     return {
       type: 'template',
       altText: altTextOroptions,
-      template: template as T,
+      template: tmpl as T,
       ...options,
     };
   }
@@ -478,7 +478,7 @@ export function createTemplate<T extends LineTypes.Template>(
  * @returns Buttons template message object.
  * @example
  * ```js
- * await client.reply(Line.createButtonsTemplate({
+ * await client.reply(Line.buttonsTemplate({
  *   altText: 'this is a buttons template',
  *   text: 'Please select',
  *   actions: [
@@ -491,7 +491,7 @@ export function createTemplate<T extends LineTypes.Template>(
  * }));
  * ```
  */
-export function createButtonsTemplate(
+export function buttonsTemplate(
   options: Omit<
     LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>,
     'type' | 'template'
@@ -507,15 +507,15 @@ export function createButtonsTemplate(
  * @returns Buttons template message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createButtonsTemplate(
+export function buttonsTemplate(
   altText: string,
-  template: Omit<LineTypes.ButtonsTemplate, 'type'>,
+  tmpl: Omit<LineTypes.ButtonsTemplate, 'type'>,
   options?: Omit<
     LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>,
     'type' | 'altText' | 'template'
   >
 ): LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>;
-export function createButtonsTemplate(
+export function buttonsTemplate(
   altTextOrOptions:
     | string
     | (Omit<
@@ -523,7 +523,7 @@ export function createButtonsTemplate(
         'type' | 'template'
       > &
         Omit<LineTypes.ButtonsTemplate, 'type'>),
-  template?: Omit<LineTypes.ButtonsTemplate, 'type'>,
+  tmpl?: Omit<LineTypes.ButtonsTemplate, 'type'>,
   options?: Omit<
     LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>,
     'type' | 'altText' | 'template'
@@ -532,11 +532,11 @@ export function createButtonsTemplate(
   if (typeof altTextOrOptions === 'string') {
     warning(
       false,
-      '`Line.createButtonsTemplate(altText, template, options)` is no longer recommended. Use `Line.createButtonsTemplate(options)` instead.'
+      '`Line.buttonsTemplate(altText, template, options)` is no longer recommended. Use `Line.buttonsTemplate(options)` instead.'
     );
 
-    const templateOptions = template as Omit<LineTypes.ButtonsTemplate, 'type'>;
-    return createTemplate({
+    const templateOptions = tmpl as Omit<LineTypes.ButtonsTemplate, 'type'>;
+    return template({
       altText: altTextOrOptions,
       template: {
         type: 'buttons',
@@ -557,7 +557,7 @@ export function createButtonsTemplate(
     'actions',
   ]);
 
-  return createTemplate({
+  return template({
     template: {
       type: 'buttons',
       thumbnailImageUrl: altTextOrOptions.thumbnailImageUrl,
@@ -578,9 +578,9 @@ export function createButtonsTemplate(
  *
  * @param options - Buttons template message options.
  * @returns Buttons template message object.
- * @deprecated Use `createButtonsTemplate` instead.
+ * @deprecated Use `buttonsTemplate` instead.
  */
-export function createButtonTemplate(
+export function buttonTemplate(
   options: Omit<
     LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>,
     'type' | 'template'
@@ -594,17 +594,17 @@ export function createButtonTemplate(
  * @param template - Buttons template options.
  * @param options - Buttons template message options.
  * @returns Buttons template message object.
- * @deprecated Use `createButtonsTemplate` instead.
+ * @deprecated Use `buttonsTemplate` instead.
  */
-export function createButtonTemplate(
+export function buttonTemplate(
   altText: string,
-  template: Omit<LineTypes.ButtonsTemplate, 'type'>,
+  tmpl: Omit<LineTypes.ButtonsTemplate, 'type'>,
   options?: Omit<
     LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>,
     'type' | 'altText' | 'template'
   >
 ): LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>;
-export function createButtonTemplate(
+export function buttonTemplate(
   altTextOrOptions:
     | string
     | (Omit<
@@ -612,7 +612,7 @@ export function createButtonTemplate(
         'type' | 'template'
       > &
         Omit<LineTypes.ButtonsTemplate, 'type'>),
-  template?: Omit<LineTypes.ButtonsTemplate, 'type'>,
+  tmpl?: Omit<LineTypes.ButtonsTemplate, 'type'>,
   options?: Omit<
     LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>,
     'type' | 'altText' | 'template'
@@ -620,18 +620,18 @@ export function createButtonTemplate(
 ): LineTypes.TemplateMessage<LineTypes.ButtonsTemplate> {
   warning(
     false,
-    '`Line.createButtonTemplate(...)` is no longer recommended. Use `Line.createButtonsTemplate(...)` instead.'
+    '`Line.buttonTemplate(...)` is no longer recommended. Use `Line.buttonsTemplate(...)` instead.'
   );
 
   if (typeof altTextOrOptions === 'string') {
-    return createButtonsTemplate(
+    return buttonsTemplate(
       altTextOrOptions,
-      template as Omit<LineTypes.ButtonsTemplate, 'type'>,
+      tmpl as Omit<LineTypes.ButtonsTemplate, 'type'>,
       options
     );
   }
 
-  return createButtonsTemplate(altTextOrOptions);
+  return buttonsTemplate(altTextOrOptions);
 }
 
 /**
@@ -641,7 +641,7 @@ export function createButtonTemplate(
  * @returns Confirm template message object.
  * @example
  * ```js
- * await client.reply(Line.createConfirmTemplate({
+ * await client.reply(Line.confirmTemplate({
  *   altText: 'this is a confirm template',
  *   text: 'Are you sure?',
  *   actions: [
@@ -651,7 +651,7 @@ export function createButtonTemplate(
  * }));
  * ```
  */
-export function createConfirmTemplate(
+export function confirmTemplate(
   options: Omit<
     LineTypes.TemplateMessage<LineTypes.ConfirmTemplate>,
     'type' | 'template'
@@ -667,15 +667,15 @@ export function createConfirmTemplate(
  * @returns Confirm template message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createConfirmTemplate(
+export function confirmTemplate(
   altText: string,
-  template: Omit<LineTypes.ConfirmTemplate, 'type'>,
+  tmpl: Omit<LineTypes.ConfirmTemplate, 'type'>,
   options?: Omit<
     LineTypes.TemplateMessage<LineTypes.ConfirmTemplate>,
     'type' | 'altText' | 'template'
   >
 ): LineTypes.TemplateMessage<LineTypes.ConfirmTemplate>;
-export function createConfirmTemplate(
+export function confirmTemplate(
   altTextOrOptions:
     | string
     | (Omit<
@@ -683,7 +683,7 @@ export function createConfirmTemplate(
         'type' | 'template'
       > &
         Omit<LineTypes.ConfirmTemplate, 'type'>),
-  template?: Omit<LineTypes.ConfirmTemplate, 'type'>,
+  tmpl?: Omit<LineTypes.ConfirmTemplate, 'type'>,
   options?: Omit<
     LineTypes.TemplateMessage<LineTypes.ConfirmTemplate>,
     'type' | 'altText' | 'template'
@@ -692,11 +692,11 @@ export function createConfirmTemplate(
   if (typeof altTextOrOptions === 'string') {
     warning(
       false,
-      '`Line.createConfirmTemplate(altText, template, options)` is no longer recommended. Use `Line.createConfirmTemplate(options)` instead.'
+      '`Line.confirmTemplate(altText, tmpl, options)` is no longer recommended. Use `Line.confirmTemplate(options)` instead.'
     );
 
-    const templateOptions = template as Omit<LineTypes.ConfirmTemplate, 'type'>;
-    return createTemplate({
+    const templateOptions = tmpl as Omit<LineTypes.ConfirmTemplate, 'type'>;
+    return template({
       altText: altTextOrOptions,
       template: {
         type: 'confirm',
@@ -709,7 +709,7 @@ export function createConfirmTemplate(
 
   const restOptions = omit(altTextOrOptions, ['text', 'actions']);
 
-  return createTemplate({
+  return template({
     template: {
       type: 'confirm',
       text: altTextOrOptions.text,
@@ -726,7 +726,7 @@ export function createConfirmTemplate(
  * @returns Carousel template message object.
  * @example
  * ```js
- * await client.reply(Line.createCarouselTemplate({
+ * await client.reply(Line.carouselTemplate({
  *   altText: 'this is a carousel template',
  *   columns: [
  *     {
@@ -748,7 +748,7 @@ export function createConfirmTemplate(
  * }));
  * ```
  */
-export function createCarouselTemplate(
+export function carouselTemplate(
   options: Omit<
     LineTypes.TemplateMessage<LineTypes.CarouselTemplate>,
     'type' | 'template'
@@ -764,7 +764,7 @@ export function createCarouselTemplate(
  * @returns Carousel template message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createCarouselTemplate(
+export function carouselTemplate(
   altText: string,
   columns: LineTypes.ColumnObject[],
   options?: Omit<
@@ -773,7 +773,7 @@ export function createCarouselTemplate(
   > &
     Omit<LineTypes.CarouselTemplate, 'type' | 'columns'>
 ): LineTypes.TemplateMessage<LineTypes.CarouselTemplate>;
-export function createCarouselTemplate(
+export function carouselTemplate(
   altTextOrOptions:
     | string
     | (Omit<
@@ -791,12 +791,12 @@ export function createCarouselTemplate(
   if (typeof altTextOrOptions === 'string') {
     warning(
       false,
-      '`Line.createCarouselTemplate(altText, columns, options)` is no longer recommended. Use `Line.createCarouselTemplate(options)` instead.'
+      '`Line.carouselTemplate(altText, columns, options)` is no longer recommended. Use `Line.carouselTemplate(options)` instead.'
     );
 
     const restOptions = omit(options, ['imageAspectRatio', 'imageSize']);
 
-    return createTemplate({
+    return template({
       altText: altTextOrOptions,
       template: {
         type: 'carousel',
@@ -814,7 +814,7 @@ export function createCarouselTemplate(
     'imageSize',
   ]);
 
-  return createTemplate({
+  return template({
     template: {
       type: 'carousel',
       columns: altTextOrOptions.columns,
@@ -832,7 +832,7 @@ export function createCarouselTemplate(
  * @returns Image carousel template message object.
  * @example
  * ```js
- * await client.reply(Line.createImageCarouselTemplate({
+ * await client.reply(Line.imageCarouselTemplate({
  *   altText: 'this is an image carousel template',
  *   columns: [
  *     {
@@ -847,7 +847,7 @@ export function createCarouselTemplate(
  * }));
  * ```
  */
-export function createImageCarouselTemplate(
+export function imageCarouselTemplate(
   options: Omit<
     LineTypes.TemplateMessage<LineTypes.ImageCarouselTemplate>,
     'type' | 'template'
@@ -863,7 +863,7 @@ export function createImageCarouselTemplate(
  * @returns Image carousel template message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createImageCarouselTemplate(
+export function imageCarouselTemplate(
   altText: string,
   columns: LineTypes.ImageCarouselColumnObject[],
   options?: Omit<
@@ -871,7 +871,7 @@ export function createImageCarouselTemplate(
     'type' | 'altText' | 'template'
   >
 ): LineTypes.TemplateMessage<LineTypes.ImageCarouselTemplate>;
-export function createImageCarouselTemplate(
+export function imageCarouselTemplate(
   altTextOrOptions:
     | string
     | (Omit<
@@ -888,10 +888,10 @@ export function createImageCarouselTemplate(
   if (typeof altTextOrOptions === 'string') {
     warning(
       false,
-      '`Line.createImageCarouselTemplate(altText, columns, options)` is no longer recommended. Use `Line.createImageCarouselTemplate(options)` instead.'
+      '`Line.imageCarouselTemplate(altText, columns, options)` is no longer recommended. Use `Line.imageCarouselTemplate(options)` instead.'
     );
 
-    return createTemplate({
+    return template({
       altText: altTextOrOptions,
       template: {
         type: 'image_carousel',
@@ -903,7 +903,7 @@ export function createImageCarouselTemplate(
 
   const restOptions = omit(altTextOrOptions, ['columns']);
 
-  return createTemplate({
+  return template({
     template: {
       type: 'image_carousel',
       columns: altTextOrOptions.columns,
@@ -919,7 +919,7 @@ export function createImageCarouselTemplate(
  * @returns Flex message object.
  * @example
  * ```js
- * await client.reply(Line.createFlex({
+ * await client.reply(Line.flex({
  *   altText: 'this is a flex message',
  *   contents: {
  *     type: 'bubble',
@@ -935,7 +935,7 @@ export function createImageCarouselTemplate(
  * }));
  * ```
  */
-export function createFlex(
+export function flex(
   options: Omit<LineTypes.FlexMessage, 'type'>
 ): LineTypes.FlexMessage;
 /**
@@ -947,12 +947,12 @@ export function createFlex(
  * @returns Flex message object.
  * @deprecated This overload is no longer recommended.
  */
-export function createFlex(
+export function flex(
   altText: string,
   contents: LineTypes.FlexContainer,
   options?: Omit<LineTypes.FlexMessage, 'type' | 'altText' | 'contents'>
 ): LineTypes.FlexMessage;
-export function createFlex(
+export function flex(
   altTextOrOptions: string | Omit<LineTypes.FlexMessage, 'type'>,
   contents?: LineTypes.FlexContainer,
   options?: Omit<LineTypes.FlexMessage, 'type' | 'altText' | 'contents'>
@@ -960,7 +960,7 @@ export function createFlex(
   if (typeof altTextOrOptions === 'string') {
     warning(
       false,
-      '`Line.createFlex(altText, contents, options)` is no longer recommended. Use `Line.createFlex(options)` instead.'
+      '`Line.flex(altText, contents, options)` is no longer recommended. Use `Line.flex(options)` instead.'
     );
 
     return {

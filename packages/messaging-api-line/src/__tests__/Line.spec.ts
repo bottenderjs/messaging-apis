@@ -17,11 +17,11 @@ const quickReply: Types.QuickReply = {
   ],
 };
 
-describe('#createText', () => {
+describe('#text', () => {
   it('should support shorthand', () => {
-    expect(Line.createText('hi')).toEqual({ type: 'text', text: 'hi' });
+    expect(Line.text('hi')).toEqual({ type: 'text', text: 'hi' });
     expect(
-      Line.createText('$ LINE emoji', {
+      Line.text('$ LINE emoji', {
         emojis: [
           {
             index: 0,
@@ -48,12 +48,12 @@ describe('#createText', () => {
   });
 
   it('should support creating with full object', () => {
-    expect(Line.createText({ text: 'hi' })).toEqual({
+    expect(Line.text({ text: 'hi' })).toEqual({
       type: 'text',
       text: 'hi',
     });
     expect(
-      Line.createText({
+      Line.text({
         text: '$ LINE emoji',
         emojis: [
           {
@@ -81,10 +81,10 @@ describe('#createText', () => {
   });
 });
 
-describe('#createSticker', () => {
+describe('#sticker', () => {
   it('should create a sticker message object', () => {
     expect(
-      Line.createSticker({
+      Line.sticker({
         packageId: '446',
         stickerId: '1988',
         sender,
@@ -101,7 +101,7 @@ describe('#createSticker', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createSticker(
+      Line.sticker(
         {
           packageId: '446',
           stickerId: '1988',
@@ -118,15 +118,15 @@ describe('#createSticker', () => {
   });
 });
 
-describe('#createImage', () => {
+describe('#image', () => {
   it('should support shorthand', () => {
-    expect(Line.createImage('https://example.com/original.jpg')).toEqual({
+    expect(Line.image('https://example.com/original.jpg')).toEqual({
       type: 'image',
       originalContentUrl: 'https://example.com/original.jpg',
       previewImageUrl: 'https://example.com/original.jpg',
     });
     expect(
-      Line.createImage('https://example.com/original', {
+      Line.image('https://example.com/original', {
         previewImageUrl: 'https://example.com/preview.jpg',
         sender,
         quickReply,
@@ -142,7 +142,7 @@ describe('#createImage', () => {
 
   it('should support creating with full object', () => {
     expect(
-      Line.createImage({
+      Line.image({
         originalContentUrl: 'https://example.com/original.jpg',
         previewImageUrl: 'https://example.com/original.jpg',
         sender,
@@ -158,10 +158,10 @@ describe('#createImage', () => {
   });
 });
 
-describe('#createVideo', () => {
+describe('#video', () => {
   it('should create a video message object', () => {
     expect(
-      Line.createVideo({
+      Line.video({
         originalContentUrl: 'https://example.com/original.mp4',
         previewImageUrl: 'https://example.com/preview.jpg',
         trackingId: 'track-id',
@@ -180,7 +180,7 @@ describe('#createVideo', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createVideo(
+      Line.video(
         {
           originalContentUrl: 'https://example.com/original.mp4',
           previewImageUrl: 'http://example.com/img.jpg',
@@ -199,10 +199,10 @@ describe('#createVideo', () => {
   });
 });
 
-describe('#createAudio', () => {
+describe('#audio', () => {
   it('should create an audio message object', () => {
     expect(
-      Line.createAudio({
+      Line.audio({
         originalContentUrl: 'https://example.com/original.m4a',
         duration: 60000,
         sender,
@@ -219,7 +219,7 @@ describe('#createAudio', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createAudio(
+      Line.audio(
         {
           originalContentUrl: 'https://example.com/original.m4a',
           duration: 60000,
@@ -236,10 +236,10 @@ describe('#createAudio', () => {
   });
 });
 
-describe('#createLocation', () => {
+describe('#location', () => {
   it('should create a location message object', () => {
     expect(
-      Line.createLocation({
+      Line.location({
         title: 'my location',
         address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
         latitude: 35.65910807942215,
@@ -260,7 +260,7 @@ describe('#createLocation', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createLocation(
+      Line.location(
         {
           title: 'my location',
           address: '〒150-0002 東京都渋谷区渋谷２丁目２１−１',
@@ -281,10 +281,10 @@ describe('#createLocation', () => {
   });
 });
 
-describe('#createImagemap', () => {
+describe('#imagemap', () => {
   it('should create an imagemap message object', () => {
     expect(
-      Line.createImagemap({
+      Line.imagemap({
         baseUrl: 'https://example.com/bot/images/rm001',
         altText: 'This is an imagemap',
         baseSize: {
@@ -341,7 +341,7 @@ describe('#createImagemap', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createImagemap(
+      Line.imagemap(
         'this is an imagemap',
         {
           baseUrl: 'https://example.com/bot/images/rm001',
@@ -398,10 +398,10 @@ describe('#createImagemap', () => {
   });
 });
 
-describe('#createTemplate', () => {
+describe('#template', () => {
   it('should create a template message object', () => {
     expect(
-      Line.createTemplate({
+      Line.template({
         altText: 'this is a confirm template',
         template: {
           type: 'confirm',
@@ -432,7 +432,7 @@ describe('#createTemplate', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createTemplate(
+      Line.template(
         'this is a confirm template',
         {
           type: 'confirm',
@@ -464,7 +464,7 @@ describe('#createTemplate', () => {
   });
 });
 
-describe.each(['createButtonsTemplate', 'createButtonTemplate'] as const)(
+describe.each(['buttonsTemplate', 'buttonTemplate'] as const)(
   '%s',
   (method) => {
     it('should create a buttons template message object', () => {
@@ -594,10 +594,10 @@ describe.each(['createButtonsTemplate', 'createButtonTemplate'] as const)(
   }
 );
 
-describe('#createConfirmTemplate', () => {
+describe('#confirmTemplate', () => {
   it('should create a confirm template message object', () => {
     expect(
-      Line.createConfirmTemplate({
+      Line.confirmTemplate({
         altText: 'this is a confirm template',
         text: 'Are you sure?',
         actions: [
@@ -625,7 +625,7 @@ describe('#createConfirmTemplate', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createConfirmTemplate(
+      Line.confirmTemplate(
         'this is a confirm template',
         {
           text: 'Are you sure?',
@@ -653,10 +653,10 @@ describe('#createConfirmTemplate', () => {
   });
 });
 
-describe('#createCarouselTemplate', () => {
+describe('#carouselTemplate', () => {
   it('should create a carousel template message object', () => {
     expect(
-      Line.createCarouselTemplate({
+      Line.carouselTemplate({
         altText: 'this is a carousel template',
         columns: [
           {
@@ -794,7 +794,7 @@ describe('#createCarouselTemplate', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createCarouselTemplate(
+      Line.carouselTemplate(
         'this is a carousel template',
         [
           {
@@ -933,10 +933,10 @@ describe('#createCarouselTemplate', () => {
   });
 });
 
-describe('#createImageCarouselTemplate', () => {
+describe('#imageCarouselTemplate', () => {
   it('should create an image carousel template message object', () => {
     expect(
-      Line.createImageCarouselTemplate({
+      Line.imageCarouselTemplate({
         altText: 'this is an image carousel template',
         columns: [
           {
@@ -1006,7 +1006,7 @@ describe('#createImageCarouselTemplate', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createImageCarouselTemplate(
+      Line.imageCarouselTemplate(
         'this is an image carousel template',
         [
           {
@@ -1074,10 +1074,10 @@ describe('#createImageCarouselTemplate', () => {
   });
 });
 
-describe('#createFlex', () => {
+describe('#flex', () => {
   it('should create a flex message object', () => {
     expect(
-      Line.createFlex({
+      Line.flex({
         altText: 'this is a flex message',
         contents: {
           type: 'bubble',
@@ -1176,7 +1176,7 @@ describe('#createFlex', () => {
 
   it('should support multi-object creation', () => {
     expect(
-      Line.createFlex(
+      Line.flex(
         'this is a flex message',
         {
           type: 'bubble',
