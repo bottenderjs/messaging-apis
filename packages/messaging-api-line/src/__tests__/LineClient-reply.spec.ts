@@ -1,92 +1,143 @@
-import MockAdapter from 'axios-mock-adapter';
+import { RestRequest, rest } from 'msw';
+import { setupServer } from 'msw/node';
 
-import LineClient from '../LineClient';
+import { LineClient } from '..';
+
+const lineServer = setupServer();
+beforeAll(() => {
+  // Establish requests interception layer before all tests.
+  lineServer.listen();
+});
+afterEach(() => {
+  // Reset any runtime handlers tests may use.
+  lineServer.resetHandlers();
+});
+afterAll(() => {
+  // Clean up after all tests are done, preventing this
+  // interception layer from affecting irrelevant tests.
+  lineServer.close();
+});
 
 const REPLY_TOKEN = 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA';
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
+function setup() {
+  const context: { request: RestRequest | undefined } = {
+    request: undefined,
   };
-} => {
+  lineServer.use(
+    rest.post('https://api.line.me/v2/bot/message/reply', (req, res, ctx) => {
+      context.request = req;
+      return res(ctx.json({}));
+    })
+  );
+
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
-  });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
-
-describe('Reply Message', () => {
-  describe('#replyRawBody', () => {
-    it('should call reply api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      const reply = {};
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/reply');
-        expect(JSON.parse(config.data)).toEqual({
-          replyToken: REPLY_TOKEN,
-          messages: [{ type: 'text', text: 'Hello!' }],
-        });
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.replyRawBody({
-        replyToken: REPLY_TOKEN,
-        messages: [
-          {
-            type: 'text',
-            text: 'Hello!',
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
+    accessToken: 'ACCESS_TOKEN',
+    channelSecret: 'CHANNEL_SECRET',
   });
 
-  describe('#reply', () => {
-    it('should call reply api', async () => {
-      expect.assertions(4);
+  return { context, client };
+}
 
-      const { client, mock, headers } = createMock();
+it('should support sending request body', async () => {
+  const { context, client } = setup();
 
-      const reply = {};
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/reply');
-        expect(JSON.parse(config.data)).toEqual({
-          replyToken: REPLY_TOKEN,
-          messages: [{ type: 'text', text: 'Hello!' }],
-        });
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.reply(REPLY_TOKEN, [
-        {
-          type: 'text',
-          text: 'Hello!',
-        },
-      ]);
-
-      expect(res).toEqual(reply);
-    });
+  await client.reply({
+    replyToken: REPLY_TOKEN,
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
   });
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/reply'
+  );
+  expect(request?.body).toEqual({
+    replyToken: REPLY_TOKEN,
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support sending a message array', async () => {
+  const { context, client } = setup();
+
+  await client.reply(
+    REPLY_TOKEN,
+    [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    true
+  );
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/reply'
+  );
+  expect(request?.body).toEqual({
+    replyToken: REPLY_TOKEN,
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support sending a message', async () => {
+  const { context, client } = setup();
+
+  await client.reply(
+    REPLY_TOKEN,
+    {
+      type: 'text',
+      text: 'Hello, world',
+    },
+    true
+  );
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request.method).toBe('POST');
+  expect(request.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/reply'
+  );
+  expect(request.body).toEqual({
+    replyToken: REPLY_TOKEN,
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
+  });
+  expect(request.headers.get('Content-Type')).toBe('application/json');
+  expect(request.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

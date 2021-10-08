@@ -8,7 +8,7 @@
 await client.broadcast([
   {
     type: 'text',
-    text: 'Hello, world1',
+    text: 'Hello, world',
   },
 ]);
 ```

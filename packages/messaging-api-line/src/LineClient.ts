@@ -34,6 +34,10 @@ function handleError(
   throw new AxiosError(err.message, err);
 }
 
+function toArray<T>(arrOrItem: T | T[]): T[] {
+  return Array.isArray(arrOrItem) ? arrOrItem : [arrOrItem];
+}
+
 /**
  * LineClient is a client for LINE API calls.
  */
@@ -175,118 +179,175 @@ export default class LineClient {
   }
 
   /**
-   * Reply Message
    * Sends a reply message in response to an event from a user, group, or room.
    *
-   * To send reply messages, you must have a reply token which is included in a webhook event object.
+   * [LINE official document - Send reply message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
    *
-   * [Webhooks](https://developers.line.biz/en/reference/messaging-api/#webhooks) are used to notify you when an event occurs. For events that you can respond to, a reply token is issued for replying to messages.
-   *
-   * Because the reply token becomes invalid after a certain period of time, responses should be sent as soon as a message is received. Reply tokens can only be used once.
-   *
-   * [Official document](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
-   *
-   * @param body - Request body
-   * @param body.replyToken - Reply token received via webhook
-   * @param body.messages - Messages to send (Max: 5)
-   *
+   * @param body - Reply request body.
    * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.reply({
+   *   replyToken: '<REPLY_TOKEN>',
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
    */
-  replyRawBody(body: {
-    replyToken: string;
-    messages: LineTypes.Message[];
-  }): Promise<LineTypes.MutationSuccessResponse> {
+  reply(body: LineTypes.ReplyBody): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends a reply message in response to an event from a user, group, or room.
+   *
+   * @param replyToken - Reply token received via webhook.
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.reply('<REPLY_TOKEN>', Line.text('Hello, world'));
+   * ```
+   */
+  reply(
+    replyToken: string,
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  reply(
+    bodyOrReplyToken: string | LineTypes.ReplyBody,
+    messages?: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body =
+      typeof bodyOrReplyToken === 'string'
+        ? {
+            replyToken: bodyOrReplyToken,
+            messages: toArray(messages),
+            notificationDisabled,
+          }
+        : {
+            ...bodyOrReplyToken,
+            messages: toArray(bodyOrReplyToken.messages),
+          };
     return this.axios
       .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/reply', body)
       .then((res) => res.data, handleError);
   }
 
   /**
-   * Reply Message
-   *
-   * Sends a reply message in response to an event from a user, group, or room.
-   *
-   * To send reply messages, you must have a reply token which is included in a webhook event object.
-   *
-   * [Webhooks](https://developers.line.biz/en/reference/messaging-api/#webhooks) are used to notify you when an event occurs. For events that you can respond to, a reply token is issued for replying to messages.
-   *
-   * Because the reply token becomes invalid after a certain period of time, responses should be sent as soon as a message is received. Reply tokens can only be used once.
-   *
-   * [Official document - send reply message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
-   *
-   * @param replyToken - Reply token received via webhook
-   * @param messages - Messages to send (Max: 5)
-   * @returns Returns status code `200` and an empty JSON object.
-   */
-  reply(
-    replyToken: string,
-    messages: LineTypes.Message[]
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.replyRawBody({ replyToken, messages });
-  }
-
-  /**
-   * Push Message
-   *
    * Sends a push message to a user, group, or room at any time.
    *
-   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
+   * [LINE official document - Send push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message)
    *
-   * [Official document - send push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message)
-   *
-   * @param body - Request body
-   * @param body.to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param body.messages - Messages to send (Max: 5)
+   * @param body - Push request body.
    * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.push({
+   *   to: '<USER_ID>',
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
    */
-  pushRawBody(body: {
-    to: string;
-    messages: LineTypes.Message[];
-  }): Promise<LineTypes.MutationSuccessResponse> {
+  push(body: LineTypes.PushBody): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends a push message to a user, group, or room at any time.
+   *
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.push('<USER_ID>', Line.text('Hello, world'));
+   * ```
+   */
+  push(
+    to: string,
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  push(
+    bodyOrTo: string | LineTypes.PushBody,
+    messages?: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body =
+      typeof bodyOrTo === 'string'
+        ? {
+            to: bodyOrTo,
+            messages: toArray(messages),
+            notificationDisabled,
+          }
+        : {
+            ...bodyOrTo,
+            messages: toArray(bodyOrTo.messages),
+          };
     return this.axios
       .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/push', body)
       .then((res) => res.data, handleError);
   }
 
   /**
-   * Push Message
-   *
-   * Sends a push message to a user, group, or room at any time.
-   *
-   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
-   *
-   * [Official document - send push message](https://developers.line.biz/en/reference/messaging-api/#send-push-message)
-   *
-   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param messages - Messages to send (Max: 5)
-   * @returns Returns status code `200` and an empty JSON object.
-   */
-  push(
-    to: string,
-    messages: LineTypes.Message[]
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.pushRawBody({ to, messages });
-  }
-
-  /**
-   * Multicast Message
-   *
    * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
    *
-   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
+   * [Official document - Send multicast message](https://developers.line.biz/en/reference/messaging-api/#send-multicast-message)
    *
-   * [Official document - send multicast message](https://developers.line.biz/en/reference/messaging-api/#send-multicast-message)
-   *
-   * @param body - Request body
-   * @param body.to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
-   * - Max: 150 user IDs
-   * @param body.messages - Messages to send (Max: 5)
+   * @param body - Multicast request body.
    * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.multicast({
+   *   to: ['<USER_ID_1>', '<USER_ID_2>'],
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
    */
-  multicastRawBody(body: {
-    to: string[];
-    messages: LineTypes.Message[];
-  }): Promise<LineTypes.MutationSuccessResponse> {
+  multicast(
+    body: LineTypes.MulticastBody
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
+   *
+   * @param to - Array of user IDs. Use userId values which are returned in webhook event objects.
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.multicast(
+   *   ['<USER_ID_1>', '<USER_ID_2>'],
+   *   Line.text('Hello, world')
+   * );
+   * ```
+   */
+  multicast(
+    to: string[],
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  multicast(
+    bodyOrTo: string[] | LineTypes.MulticastBody,
+    messages?: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body = Array.isArray(bodyOrTo)
+      ? {
+          to: bodyOrTo,
+          messages: toArray(messages),
+          notificationDisabled,
+        }
+      : {
+          ...bodyOrTo,
+          messages: toArray(bodyOrTo.messages),
+        };
     return this.axios
       .post<LineTypes.MutationSuccessResponse>(
         '/v2/bot/message/multicast',
@@ -296,41 +357,57 @@ export default class LineClient {
   }
 
   /**
-   * Multicast Message
-   *
-   * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
-   *
-   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
-   *
-   * [Official document - send multicast message](https://developers.line.biz/en/reference/messaging-api/#send-multicast-message)
-   *
-   * @param to - Array of user IDs. Use userId values which are returned in [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use LINE IDs found on LINE.
-   * - Max: 500 user IDs
-   * @param messages - Messages to send (Max: 5)
-   * @returns Returns status code `200` and an empty JSON object.
-   */
-  multicast(
-    to: string[],
-    messages: LineTypes.Message[]
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.multicastRawBody({ to, messages });
-  }
-
-  /**
-   * Broadcast Message
-   *
    * Sends push messages to multiple users at any time.
    *
-   * [Official document](https://developers.line.biz/en/reference/messaging-api/#send-broadcast-message)
+   * [LINE official document - Send broadcast message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
    *
-   * @param body - Request body
-   * @param body.messages - Messages to send (Max: 5)
-   *
+   * @param messages - Messages to send (Max: 5)
    * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.broadcast({
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
    */
-  broadcastRawBody(body: {
-    messages: LineTypes.Message[];
-  }): Promise<LineTypes.MutationSuccessResponse> {
+  broadcast(
+    body: LineTypes.BroadcastBody
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends push messages to multiple users at any time.
+   *
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await client.multicast(Line.text('Hello, world'));
+   * ```
+   */
+  broadcast(
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  broadcast(
+    bodyOrMessages:
+      | LineTypes.BroadcastBody
+      | LineTypes.Message
+      | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body =
+      'messages' in bodyOrMessages
+        ? {
+            ...bodyOrMessages,
+            messages: toArray(bodyOrMessages.messages),
+          }
+        : {
+            messages: toArray(bodyOrMessages),
+            notificationDisabled,
+          };
     return this.axios
       .post<LineTypes.MutationSuccessResponse>(
         '/v2/bot/message/broadcast',
@@ -340,19 +417,89 @@ export default class LineClient {
   }
 
   /**
-   * Broadcast Message
+   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
    *
-   * Sends push messages to multiple users at any time.
+   * [LINE official document - Send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
    *
-   * [Official document - send broadcast message](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)
+   * @param body - Request body
+   * @param body.messages - Messages to send
+   * - Max: 5
+   * @param body.recipient - [[RecipientObject]]. You can specify recipients of the message using up to 10 audiences.
    *
-   * @param messages - Messages to send (Max: 5)
-   * @returns Returns status code `200` and an empty JSON object.
+   * If this is omitted, messages will be sent to all users who have added your LINE Official Account as a friend.
+   * @param body.filter - demographic:
+   * - [[DemographicFilterObject]].
+   * - You can use friends' attributes to filter the list of recipients.
+   *
+   * If this is omitted, messages are sent to everyone—including users with attribute values of "unknown".
+   * @param body.limit - max:
+   * - The maximum number of narrowcast messages to send.
+   * - Use this parameter to limit the number of narrowcast messages sent. The recipients will be chosen at random.
+   *
+   * @returns Returns the `202` HTTP status code and a JSON object with the following information.
+   *
+   * requestId: string
+   * - The narrowcast message's request ID
+   *
+   * For more information on how to check the status of a narrowcast message, see [Get narrowcast message status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status).
    */
-  broadcast(
-    messages: LineTypes.Message[]
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.broadcastRawBody({ messages });
+  narrowcastRawBody(body: {
+    messages: LineTypes.Message[];
+    recipient?: LineTypes.RecipientObject;
+    filter?: { demographic: LineTypes.DemographicFilterObject };
+    limit?: {
+      max: number;
+    };
+  }): Promise<{ requestId: string }> {
+    return this.axios.post('/v2/bot/message/narrowcast', body).then((res) => {
+      return {
+        requestId: res.headers['x-line-request-id'],
+        ...res.data,
+      };
+    }, handleError);
+  }
+
+  /**
+   * Send Narrowcast Message
+   *
+   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
+   *
+   *  LINE Official Account migration
+   *
+   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
+   *
+   * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
+   *
+   * @param messages - Messages to send
+   * - Max: 5
+   * @param options - Narrowcast options
+   * @returns Returns the `202` HTTP status code and a JSON object with the following information.
+   *
+   * requestId: string
+   * - The narrowcast message's request ID
+   *
+   * For more information on how to check the status of a narrowcast message, see [Get narrowcast message status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status).
+   */
+  narrowcast(
+    messages: LineTypes.Message[],
+    options?: LineTypes.NarrowcastOptions
+  ): Promise<{ requestId: string }> {
+    const filter = options?.demographic
+      ? {
+          demographic: options.demographic,
+        }
+      : undefined;
+    const limit = options?.max
+      ? {
+          max: options?.max,
+        }
+      : undefined;
+    return this.narrowcastRawBody({
+      messages,
+      recipient: options?.recipient,
+      filter,
+      limit,
+    });
   }
 
   /**
@@ -1341,102 +1488,6 @@ export default class LineClient {
     return this.axios
       .get<LineTypes.FriendDemographics>('/v2/bot/insight/demographic')
       .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Narrowcast Message
-   */
-
-  /**
-   * Send Narrowcast Message
-   *
-   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
-   *
-   *  LINE Official Account migration
-   *
-   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
-   *
-   * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
-   *
-   * @param body - Request body
-   * @param body.messages - Messages to send
-   * - Max: 5
-   * @param body.recipient - [[RecipientObject]]. You can specify recipients of the message using up to 10 audiences.
-   *
-   * If this is omitted, messages will be sent to all users who have added your LINE Official Account as a friend.
-   * @param body.filter - demographic:
-   * - [[DemographicFilterObject]].
-   * - You can use friends' attributes to filter the list of recipients.
-   *
-   * If this is omitted, messages are sent to everyone—including users with attribute values of "unknown".
-   * @param body.limit - max:
-   * - The maximum number of narrowcast messages to send.
-   * - Use this parameter to limit the number of narrowcast messages sent. The recipients will be chosen at random.
-   *
-   * @returns Returns the `202` HTTP status code and a JSON object with the following information.
-   *
-   * requestId: string
-   * - The narrowcast message's request ID
-   *
-   * For more information on how to check the status of a narrowcast message, see [Get narrowcast message status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status).
-   */
-  narrowcastRawBody(body: {
-    messages: LineTypes.Message[];
-    recipient?: LineTypes.RecipientObject;
-    filter?: { demographic: LineTypes.DemographicFilterObject };
-    limit?: {
-      max: number;
-    };
-  }): Promise<{ requestId: string }> {
-    return this.axios.post('/v2/bot/message/narrowcast', body).then((res) => {
-      return {
-        requestId: res.headers['x-line-request-id'],
-        ...res.data,
-      };
-    }, handleError);
-  }
-
-  /**
-   * Send Narrowcast Message
-   *
-   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
-   *
-   *  LINE Official Account migration
-   *
-   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
-   *
-   * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
-   *
-   * @param messages - Messages to send
-   * - Max: 5
-   * @param options - Narrowcast options
-   * @returns Returns the `202` HTTP status code and a JSON object with the following information.
-   *
-   * requestId: string
-   * - The narrowcast message's request ID
-   *
-   * For more information on how to check the status of a narrowcast message, see [Get narrowcast message status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status).
-   */
-  narrowcast(
-    messages: LineTypes.Message[],
-    options?: LineTypes.NarrowcastOptions
-  ): Promise<{ requestId: string }> {
-    const filter = options?.demographic
-      ? {
-          demographic: options.demographic,
-        }
-      : undefined;
-    const limit = options?.max
-      ? {
-          max: options?.max,
-        }
-      : undefined;
-    return this.narrowcastRawBody({
-      messages,
-      recipient: options?.recipient,
-      filter,
-      limit,
-    });
   }
 
   /**
