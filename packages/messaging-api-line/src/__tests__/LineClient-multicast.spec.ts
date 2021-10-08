@@ -1,95 +1,146 @@
-import MockAdapter from 'axios-mock-adapter';
+import { RestRequest, rest } from 'msw';
+import { setupServer } from 'msw/node';
 
-import LineClient from '../LineClient';
+import { LineClient } from '..';
 
-const RECIPIENT_ID = '1QAZ2WSX';
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+const lineServer = setupServer();
+beforeAll(() => {
+  // Establish requests interception layer before all tests.
+  lineServer.listen();
+});
+afterEach(() => {
+  // Reset any runtime handlers tests may use.
+  lineServer.resetHandlers();
+});
+afterAll(() => {
+  // Clean up after all tests are done, preventing this
+  // interception layer from affecting irrelevant tests.
+  lineServer.close();
+});
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
+const RECIPIENT_ID = 'U00000000000000000000000000000000';
+
+function setup() {
+  const context: { request: RestRequest | undefined } = {
+    request: undefined,
   };
-} => {
+  lineServer.use(
+    rest.post(
+      'https://api.line.me/v2/bot/message/multicast',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    )
+  );
+
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
-  });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
-
-describe('Multicast', () => {
-  describe('#multicastRawBody', () => {
-    it('should call multicast api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      const reply = {};
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/multicast');
-        expect(JSON.parse(config.data)).toEqual({
-          to: [RECIPIENT_ID],
-          messages: [{ type: 'text', text: 'Hello!' }],
-        });
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.multicastRawBody({
-        to: [RECIPIENT_ID],
-        messages: [
-          {
-            type: 'text',
-            text: 'Hello!',
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
+    accessToken: 'ACCESS_TOKEN',
+    channelSecret: 'CHANNEL_SECRET',
   });
 
-  describe('#multicast', () => {
-    it('should call multicast api', async () => {
-      expect.assertions(4);
+  return { context, client };
+}
 
-      const { client, mock, headers } = createMock();
+it('should support sending request body', async () => {
+  const { context, client } = setup();
 
-      const reply = {};
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/multicast');
-        expect(JSON.parse(config.data)).toEqual({
-          to: [RECIPIENT_ID],
-          messages: [{ type: 'text', text: 'Hello!' }],
-        });
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.multicast(
-        [RECIPIENT_ID],
-        [
-          {
-            type: 'text',
-            text: 'Hello!',
-          },
-        ]
-      );
-
-      expect(res).toEqual(reply);
-    });
+  await client.multicast({
+    to: [RECIPIENT_ID],
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
   });
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/multicast'
+  );
+  expect(request?.body).toEqual({
+    to: [RECIPIENT_ID],
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support sending a message array', async () => {
+  const { context, client } = setup();
+
+  await client.multicast(
+    [RECIPIENT_ID],
+    [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    true
+  );
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/multicast'
+  );
+  expect(request?.body).toEqual({
+    to: [RECIPIENT_ID],
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support sending a message', async () => {
+  const { context, client } = setup();
+
+  await client.multicast(
+    [RECIPIENT_ID],
+    {
+      type: 'text',
+      text: 'Hello, world',
+    },
+    true
+  );
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/multicast'
+  );
+  expect(request?.body).toEqual({
+    to: [RECIPIENT_ID],
+    messages: [
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+    ],
+    notificationDisabled: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
