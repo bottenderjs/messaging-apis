@@ -14,7 +14,7 @@ const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
 
 describe('webhooks', () => {
   describe('#getUpdates', () => {
-    it('should response array of Update objects', async () => {
+    it('should respond array of Update objects', async () => {
       const { client, mock } = createMock();
       const result = [
         {
@@ -153,7 +153,7 @@ describe('webhooks', () => {
   });
 
   describe('#getWebhookInfo', () => {
-    it('should response webhook info', async () => {
+    it('should respond webhook info', async () => {
       const { client, mock } = createMock();
       const result = {
         url: 'https://4a16faff.ngrok.io/',
@@ -187,7 +187,7 @@ describe('webhooks', () => {
       description: 'Webhook was set',
     };
 
-    it('should response webhook was set', async () => {
+    it('should respond webhook was set', async () => {
       const { client, mock } = createMock();
       mock.onPost('/setWebhook').reply(200, reply);
 
@@ -237,7 +237,7 @@ describe('webhooks', () => {
   });
 
   describe('#deleteWebhook', () => {
-    it('should response webhook is already deleted', async () => {
+    it('should respond webhook is already deleted', async () => {
       const { client, mock } = createMock();
       const result = true;
       const reply = {
@@ -257,7 +257,7 @@ describe('webhooks', () => {
 
 describe('get api', () => {
   describe('#getMe', () => {
-    it('should response bot profile', async () => {
+    it('should respond bot profile', async () => {
       const { client, mock } = createMock();
       const result = {
         id: 313534466,
@@ -382,7 +382,7 @@ describe('get api', () => {
       },
     };
 
-    it('should response a list of profile pictures for the user', async () => {
+    it('should respond a list of profile pictures for the user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/getUserProfilePhotos', {
@@ -402,7 +402,7 @@ describe('get api', () => {
   });
 
   describe('#getFile', () => {
-    it('should response info about the file', async () => {
+    it('should respond info about the file', async () => {
       const { client, mock } = createMock();
       const result = {
         fileId: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
@@ -433,7 +433,7 @@ describe('get api', () => {
   });
 
   describe('#getFileLink', () => {
-    it('should response file link about the file', async () => {
+    it('should respond file link about the file', async () => {
       const { client, mock } = createMock();
       const filePath = 'photos/1068230105874016297.jpg';
       const reply = {
@@ -462,7 +462,7 @@ describe('get api', () => {
   });
 
   describe('#getChat', () => {
-    it('should response information about the chat', async () => {
+    it('should respond information about the chat', async () => {
       const { client, mock } = createMock();
       const result = {
         id: 313534466,
@@ -495,7 +495,7 @@ describe('get api', () => {
   });
 
   describe('#getChatAdministrators', () => {
-    it('should response a list of administrators in the chat.', async () => {
+    it('should respond a list of administrators in the chat.', async () => {
       const { client, mock } = createMock();
       const result = [
         {
@@ -538,7 +538,7 @@ describe('get api', () => {
   });
 
   describe('#getChatMembersCount', () => {
-    it('should response the number of members in the chat.', async () => {
+    it('should respond the number of members in the chat.', async () => {
       const { client, mock } = createMock();
       const result = '6';
       const reply = {
@@ -559,7 +559,7 @@ describe('get api', () => {
   });
 
   describe('#getChatMember', () => {
-    it('should response information about a member of the chat.', async () => {
+    it('should respond information about a member of the chat.', async () => {
       const { client, mock } = createMock();
       const result = {
         user: {

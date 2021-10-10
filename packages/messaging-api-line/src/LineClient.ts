@@ -1,4 +1,3 @@
-import querystring from 'querystring';
 import { Readable } from 'stream';
 
 import AxiosError from 'axios-error';
@@ -460,46 +459,61 @@ export default class LineClient {
   }
 
   /**
-   * Send Narrowcast Message
-   *
    * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
    *
-   *  LINE Official Account migration
+   * [LINE Official document - Send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
    *
-   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
-   *
-   * [Official document - send narrowcast message](https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message)
-   *
-   * @param messages - Messages to send
-   * - Max: 5
+   * @param messages - Messages to send (Max: 5).
    * @param options - Narrowcast options
    * @returns Returns the `202` HTTP status code and a JSON object with the following information.
+   */
+  narrowcast(body: LineTypes.NarrowcastBody): Promise<{ requestId: string }>;
+
+  /**
+   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
    *
-   * requestId: string
-   * - The narrowcast message's request ID
-   *
-   * For more information on how to check the status of a narrowcast message, see [Get narrowcast message status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status).
+   * @param messages - Messages to send (Max: 5).
+   * @param options - Narrowcast options
+   * @returns Returns the `202` HTTP status code and a JSON object with the following information.
    */
   narrowcast(
-    messages: LineTypes.Message[],
-    options?: LineTypes.NarrowcastOptions
+    messages: LineTypes.Message | LineTypes.Message[],
+    recipient?: LineTypes.RecipientObject,
+    filter?: { demographic: LineTypes.DemographicFilterObject },
+    limit?: LineTypes.NarrowcastLimit,
+    notificationDisabled?: boolean
+  ): Promise<{ requestId: string }>;
+
+  narrowcast(
+    bodyOrMessages:
+      | LineTypes.NarrowcastBody
+      | LineTypes.Message
+      | LineTypes.Message[],
+    recipient?: LineTypes.RecipientObject,
+    filter?: { demographic: LineTypes.DemographicFilterObject },
+    limit?: LineTypes.NarrowcastLimit,
+    notificationDisabled = false
   ): Promise<{ requestId: string }> {
-    const filter = options?.demographic
-      ? {
-          demographic: options.demographic,
-        }
-      : undefined;
-    const limit = options?.max
-      ? {
-          max: options?.max,
-        }
-      : undefined;
-    return this.narrowcastRawBody({
-      messages,
-      recipient: options?.recipient,
-      filter,
-      limit,
-    });
+    const body =
+      'messages' in bodyOrMessages
+        ? {
+            ...bodyOrMessages,
+            messages: toArray(bodyOrMessages.messages),
+          }
+        : {
+            messages: toArray(bodyOrMessages),
+            recipient,
+            filter,
+            limit,
+            notificationDisabled,
+          };
+    return this.axios.post('/v2/bot/message/narrowcast', body).then(
+      (res) => ({
+        requestId: res.headers['x-line-request-id'],
+        ...res.data,
+      }),
+      handleError
+    );
   }
 
   /**
@@ -695,9 +709,9 @@ export default class LineClient {
     start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this.axios
-      .get(
-        `/v2/bot/group/${groupId}/members/ids${start ? `?start=${start}` : ''}`
-      )
+      .get(`/v2/bot/group/${groupId}/members/ids`, {
+        params: start ? { start } : {},
+      })
       .then((res) => res.data, handleError);
   }
 
@@ -781,9 +795,9 @@ export default class LineClient {
     start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this.axios
-      .get(
-        `/v2/bot/room/${roomId}/members/ids${start ? `?start=${start}` : ''}`
-      )
+      .get(`/v2/bot/room/${roomId}/members/ids`, {
+        params: start ? { start } : {},
+      })
       .then((res) => res.data, handleError);
   }
 
@@ -1438,15 +1452,9 @@ export default class LineClient {
   }
 
   /**
-   * Get Number of Followers
-   *
    * Returns the number of users who have added the LINE Official Account on or before a specified date.
    *
-   * 【LINE Official Account migration】
-   *
-   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
-   *
-   * [Official document - get number of followers](https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers)
+   * [LINE official document - Get number of followers](https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers)
    *
    * @param date - Date for which to retrieve the number of followers.
    *
@@ -1468,19 +1476,9 @@ export default class LineClient {
   }
 
   /**
-   * Get Friend Demographics
-   *
    * Retrieves the demographic attributes for a LINE Official Account's friends. You can only retrieve information about friends for LINE Official Accounts created by users in Japan (JP), Thailand (TH) and Taiwan (TW).
    *
-   * 【LINE Official Account migration】
-   *
-   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
-   *
-   * Not real-time data
-   *
-   * It can take up to 3 days for demographic information to be calculated. This means the information the API returns may be 3 days old. Furthermore, your ["Target reach"](https://developers.line.biz/en/docs/glossary/#target-reach) number must be at least 20 to retrieve demographic information.
-   *
-   * [Official document - get number of followers](https://developers.line.biz/en/reference/messaging-api/#get-demographic)
+   * [LINE official document - Get number of followers](https://developers.line.biz/en/reference/messaging-api/#get-demographic)
    *
    * @returns Returns status code `200` and a [[FriendDemographics]].
    */
@@ -1491,23 +1489,9 @@ export default class LineClient {
   }
 
   /**
-   * Get Narrowcast Message Status
-   *
    * Gets the status of a narrowcast message.
    *
-   * 【LINE Official Account migration】
-   *
-   * You can't call this API with a LINE\@ account or LINE Official Account that hasn't been migrated to the account plans implemented on April 18, 2019. Please migrate your account first. For more information, see [Migration of LINE\@ accounts](https://developers.line.biz/en/docs/messaging-api/migrating-line-at/).
-   *
-   * 【Messages must have a minimum number of recipients】
-   *
-   * Narrowcast messages cannot be sent when the number of recipients is below a certain minimum amount, to prevent someone from guessing the recipients' attributes. The minimum number of recipients is a private value defined by the LINE Platform.
-   *
-   * 【Window of availability for status requests】
-   *
-   * You can get the status of a narrowcast message for up to 7 days after you have requested that it be sent.
-   *
-   * [Official document - get narrowcast progress status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status)
+   * [LINE official document - Get narrowcast progress status](https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status)
    *
    * @param requestId - The narrowcast message's request ID. Each Messaging API request has a request ID.
    * @returns Returns a `200` HTTP status code and a [[NarrowcastProgressResponse]]
@@ -1516,7 +1500,11 @@ export default class LineClient {
     requestId: string
   ): Promise<LineTypes.NarrowcastProgressResponse> {
     return this.axios
-      .get(`/v2/bot/message/progress/narrowcast?requestId=${requestId}`)
+      .get('/v2/bot/message/progress/narrowcast', {
+        params: {
+          requestId,
+        },
+      })
       .then((res) => res.data, handleError);
   }
 
@@ -1740,12 +1728,13 @@ export default class LineClient {
   getAudienceGroups(
     options: LineTypes.GetAudienceGroupsOptions = {}
   ): Promise<LineTypes.AudienceGroups> {
-    const query = querystring.stringify({
-      page: 1,
-      ...options,
-    });
     return this.axios
-      .get(`/v2/bot/audienceGroup/list?${query}`)
+      .get(`/v2/bot/audienceGroup/list`, {
+        params: {
+          page: 1,
+          ...options,
+        },
+      })
       .then((res) => res.data, handleError);
   }
 
@@ -1760,7 +1749,7 @@ export default class LineClient {
    */
   getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
     return this.axios
-      .get(`/v2/bot/audienceGroup/authorityLevel`)
+      .get('/v2/bot/audienceGroup/authorityLevel')
       .then((res) => res.data, handleError);
   }
 

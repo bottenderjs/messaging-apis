@@ -1,6 +1,8 @@
 import * as Line from '../Line';
 import * as Types from '../LineTypes';
 
+jest.mock('warning');
+
 const sender = {
   name: 'Cony',
   iconUrl: 'https://line.me/conyprof',

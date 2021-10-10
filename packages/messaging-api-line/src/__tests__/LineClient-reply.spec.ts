@@ -1,22 +1,10 @@
 import { RestRequest, rest } from 'msw';
-import { setupServer } from 'msw/node';
 
 import { LineClient } from '..';
 
-const lineServer = setupServer();
-beforeAll(() => {
-  // Establish requests interception layer before all tests.
-  lineServer.listen();
-});
-afterEach(() => {
-  // Reset any runtime handlers tests may use.
-  lineServer.resetHandlers();
-});
-afterAll(() => {
-  // Clean up after all tests are done, preventing this
-  // interception layer from affecting irrelevant tests.
-  lineServer.close();
-});
+import { setupLineServer } from './testing-library';
+
+const lineServer = setupLineServer();
 
 const REPLY_TOKEN = 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA';
 
@@ -42,7 +30,7 @@ function setup() {
 it('should support sending request body', async () => {
   const { context, client } = setup();
 
-  await client.reply({
+  const res = await client.reply({
     replyToken: REPLY_TOKEN,
     messages: [
       {
@@ -52,6 +40,8 @@ it('should support sending request body', async () => {
     ],
     notificationDisabled: true,
   });
+
+  expect(res).toEqual({});
 
   const { request } = context;
 
@@ -77,7 +67,7 @@ it('should support sending request body', async () => {
 it('should support sending a message array', async () => {
   const { context, client } = setup();
 
-  await client.reply(
+  const res = await client.reply(
     REPLY_TOKEN,
     [
       {
@@ -87,6 +77,8 @@ it('should support sending a message array', async () => {
     ],
     true
   );
+
+  expect(res).toEqual({});
 
   const { request } = context;
 
@@ -112,7 +104,7 @@ it('should support sending a message array', async () => {
 it('should support sending a message', async () => {
   const { context, client } = setup();
 
-  await client.reply(
+  const res = await client.reply(
     REPLY_TOKEN,
     {
       type: 'text',
@@ -121,14 +113,16 @@ it('should support sending a message', async () => {
     true
   );
 
+  expect(res).toEqual({});
+
   const { request } = context;
 
   expect(request).toBeDefined();
-  expect(request.method).toBe('POST');
-  expect(request.url.toString()).toBe(
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
     'https://api.line.me/v2/bot/message/reply'
   );
-  expect(request.body).toEqual({
+  expect(request?.body).toEqual({
     replyToken: REPLY_TOKEN,
     messages: [
       {
@@ -138,6 +132,6 @@ it('should support sending a message', async () => {
     ],
     notificationDisabled: true,
   });
-  expect(request.headers.get('Content-Type')).toBe('application/json');
-  expect(request.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

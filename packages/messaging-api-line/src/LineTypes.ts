@@ -2701,3 +2701,43 @@ export type BroadcastBody = {
    */
   notificationDisabled?: boolean;
 };
+
+export type NarrowcastLimit = {
+  /**
+   * The maximum number of narrowcast messages to send. Use this parameter to limit the number of narrowcast messages sent. The recipients will be chosen at random.
+   */
+  max?: number;
+  /**
+   * If `true`, the message will be sent within the maximum number of deliverable messages. The default value is `false`.
+   *
+   * Targets will be selected at random.
+   */
+  upToRemainingQuota?: boolean;
+};
+
+export type NarrowcastBody = {
+  /**
+   * Messages to send
+   * Max: 5
+   */
+  messages: Message | Message[];
+  /**
+   * Recipient object. You can use up to a combined total of 10 audiences and request IDs of the narrowcast messages previously sent to specify message recipients. There is no upper limit on the number of operator objects that you can specify.
+   * If this is omitted, messages will be sent to all users who have added your LINE Official Account as a friend.
+   */
+  recipient?: RecipientObject;
+  filter?: {
+    /**
+     * Demographic filter object. You can use friends' attributes to filter the list of recipients.
+     * If this is omitted, messages are sent to everyone—including users with attribute values of "unknown".
+     */
+    demographic: DemographicFilterObject;
+  };
+  limit?: NarrowcastLimit;
+  /**
+   * - `true`: The user doesn't receive a push notification when the message is sent.
+   * - `false`: The user receives a push notification when the message is sent (unless they have disabled push notifications in LINE and/or their device).
+   * Default: `false`
+   */
+  notificationDisabled?: boolean;
+};

@@ -1,413 +1,427 @@
-import MockAdapter from 'axios-mock-adapter';
+import { RestRequest, rest } from 'msw';
 
-import LineClient from '../LineClient';
+import { LineClient } from '..';
 
-const RECIPIENT_ID = '1QAZ2WSX';
-const GROUP_ID = 'G1QAZ2WSX';
-const ROOM_ID = 'R1QAZ2WSX';
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+import { setupLineServer } from './testing-library';
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
+const lineServer = setupLineServer();
+
+const USER_ID = 'U00000000000000000000000000000000';
+const GROUP_ID = 'G00000000000000000000000000000000';
+const ROOM_ID = 'R00000000000000000000000000000000';
+const CONTINUATION_TOKEN = 'jxEWCEEP...';
+
+function setup() {
+  const context: { request: RestRequest | undefined } = {
+    request: undefined,
   };
-} => {
+  lineServer.use(
+    rest.get(
+      'https://api.line.me/v2/bot/group/:groupId/summary',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            groupId: req.params.groupId,
+            groupName: 'LINE Group',
+            pictureUrl: 'http:/obs.line-apps.com/...',
+          })
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/group/:groupId/member/:userId',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            displayName: 'LINE taro',
+            userId: USER_ID,
+            pictureUrl: 'http://obs.line-apps.com/...',
+          })
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/group/:groupId/members/count',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            count: 3,
+          })
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/group/:groupId/members/ids',
+      (req, res, ctx) => {
+        context.request = req;
+
+        if (req.url.searchParams.get('start') === CONTINUATION_TOKEN) {
+          return res(
+            ctx.json({
+              memberIds: [
+                'U00000000000000000000000000000004',
+                'U00000000000000000000000000000005',
+                'U00000000000000000000000000000006',
+              ],
+            })
+          );
+        }
+        return res(
+          ctx.json({
+            memberIds: [
+              'U00000000000000000000000000000001',
+              'U00000000000000000000000000000002',
+              'U00000000000000000000000000000003',
+            ],
+            next: CONTINUATION_TOKEN,
+          })
+        );
+      }
+    ),
+    rest.post(
+      'https://api.line.me/v2/bot/group/:groupId/leave',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/room/:roomId/member/:userId',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            displayName: 'LINE taro',
+            userId: USER_ID,
+            pictureUrl: 'http://obs.line-apps.com/...',
+          })
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/room/:roomId/members/count',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            count: 3,
+          })
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/room/:roomId/members/ids',
+      (req, res, ctx) => {
+        context.request = req;
+        if (req.url.searchParams.get('start') === CONTINUATION_TOKEN) {
+          return res(
+            ctx.json({
+              memberIds: [
+                'U00000000000000000000000000000004',
+                'U00000000000000000000000000000005',
+                'U00000000000000000000000000000006',
+              ],
+            })
+          );
+        }
+        return res(
+          ctx.json({
+            memberIds: [
+              'U00000000000000000000000000000001',
+              'U00000000000000000000000000000002',
+              'U00000000000000000000000000000003',
+            ],
+            next: CONTINUATION_TOKEN,
+          })
+        );
+      }
+    ),
+    rest.post(
+      'https://api.line.me/v2/bot/room/:roomId/leave',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    )
+  );
+
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
-  });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
-
-describe('Group/Room Member', () => {
-  describe('#getGroupSummary', () => {
-    it('should response group summary', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-      const reply = {
-        groupId: GROUP_ID,
-        groupName: 'LINE Group',
-        pictureUrl: 'http:/obs.line-apps.com/...',
-      };
-
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/summary`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getGroupSummary(GROUP_ID);
-
-      expect(res).toEqual(reply);
-    });
+    accessToken: 'ACCESS_TOKEN',
+    channelSecret: 'CHANNEL_SECRET',
   });
 
-  describe('#getGroupMemberProfile', () => {
-    it('should response group member profile', async () => {
-      expect.assertions(4);
+  return { context, client };
+}
 
-      const { client, mock, headers } = createMock();
-      const reply = {
-        displayName: 'LINE taro',
-        userId: RECIPIENT_ID,
-        pictureUrl: 'http://obs.line-apps.com/...',
-      };
+it('#getGroupSummary should respond group summary', async () => {
+  const { context, client } = setup();
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/group/${GROUP_ID}/member/${RECIPIENT_ID}`
-        );
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+  const res = await client.getGroupSummary(GROUP_ID);
 
-      const res = await client.getGroupMemberProfile(GROUP_ID, RECIPIENT_ID);
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    groupId: GROUP_ID,
+    groupName: 'LINE Group',
+    pictureUrl: 'http:/obs.line-apps.com/...',
   });
 
-  describe('#getRoomMemberProfile', () => {
-    it('should response room member profile', async () => {
-      expect.assertions(4);
+  const { request } = context;
 
-      const { client, mock, headers } = createMock();
-      const reply = {
-        displayName: 'LINE taro',
-        userId: RECIPIENT_ID,
-        pictureUrl: 'http://obs.line-apps.com/...',
-      };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/group/${GROUP_ID}/summary`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/room/${ROOM_ID}/member/${RECIPIENT_ID}`
-        );
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+it('#getGroupMemberProfile should respond group member profile', async () => {
+  const { context, client } = setup();
 
-      const res = await client.getRoomMemberProfile(ROOM_ID, RECIPIENT_ID);
+  const res = await client.getGroupMemberProfile(GROUP_ID, USER_ID);
 
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    displayName: 'LINE taro',
+    userId: USER_ID,
+    pictureUrl: 'http://obs.line-apps.com/...',
   });
 
-  describe('getGroupMembersCount', () => {
-    it('should response group members count', async () => {
-      expect.assertions(4);
+  const { request } = context;
 
-      const { client, mock, headers } = createMock();
-      const reply = {
-        count: 2,
-      };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/group/${GROUP_ID}/member/${USER_ID}`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/members/count`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+it('#getRoomMemberProfile should respond room member profile', async () => {
+  const { context, client } = setup();
 
-      const res = await client.getGroupMembersCount(GROUP_ID);
+  const res = await client.getRoomMemberProfile(ROOM_ID, USER_ID);
 
-      expect(res).toBe(2);
-    });
+  expect(res).toEqual({
+    displayName: 'LINE taro',
+    userId: USER_ID,
+    pictureUrl: 'http://obs.line-apps.com/...',
   });
 
-  describe('getRoomMembersCount', () => {
-    it('should response room members count', async () => {
-      expect.assertions(4);
+  const { request } = context;
 
-      const { client, mock, headers } = createMock();
-      const reply = {
-        count: 2,
-      };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/room/${ROOM_ID}/member/${USER_ID}`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/room/${ROOM_ID}/members/count`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+it('#getGroupMembersCount should respond group members count', async () => {
+  const { context, client } = setup();
 
-      const res = await client.getRoomMembersCount(ROOM_ID);
+  const res = await client.getGroupMembersCount(GROUP_ID);
 
-      expect(res).toBe(2);
+  expect(res).toBe(3);
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/group/${GROUP_ID}/members/count`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('#getRoomMembersCount should respond room members count', async () => {
+  const { context, client } = setup();
+
+  const res = await client.getRoomMembersCount(ROOM_ID);
+
+  expect(res).toBe(3);
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/room/${ROOM_ID}/members/count`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+describe('#getGroupMemberIds', () => {
+  it('should respond group member ids', async () => {
+    const { context, client } = setup();
+
+    const res = await client.getGroupMemberIds(GROUP_ID);
+
+    expect(res).toEqual({
+      memberIds: [
+        'U00000000000000000000000000000001',
+        'U00000000000000000000000000000002',
+        'U00000000000000000000000000000003',
+      ],
+      next: CONTINUATION_TOKEN,
     });
+
+    const { request } = context;
+
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('GET');
+    expect(request?.url.toString()).toBe(
+      `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
+    );
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
 
-  describe('#getGroupMemberIds', () => {
-    it('should response group member ids', async () => {
-      expect.assertions(4);
+  it('should call api with provided continuation token', async () => {
+    const { context, client } = setup();
 
-      const { client, mock, headers } = createMock();
-      const reply = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-        ],
-      };
+    const res = await client.getGroupMemberIds(GROUP_ID, CONTINUATION_TOKEN);
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/members/ids`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getGroupMemberIds(GROUP_ID);
-
-      expect(res).toEqual(reply);
+    expect(res).toEqual({
+      memberIds: [
+        'U00000000000000000000000000000004',
+        'U00000000000000000000000000000005',
+        'U00000000000000000000000000000006',
+      ],
     });
 
-    it('should call api with provided continuationToken', async () => {
-      expect.assertions(4);
+    const { request } = context;
 
-      const { client, mock, headers } = createMock();
-      const reply = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-        ],
-      };
-
-      const continuationToken = 'TOKEN';
-
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
-        );
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getGroupMemberIds(GROUP_ID, continuationToken);
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#getAllGroupMemberIds', () => {
-    it('should fetch all member ids until it is finished', async () => {
-      expect.assertions(7);
-
-      const { client, mock, headers } = createMock();
-      const continuationToken = 'TOKEN';
-      const reply1 = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx..1',
-          'Uxxxxxxxxxxxxxx..2',
-          'Uxxxxxxxxxxxxxx..3',
-        ],
-        next: continuationToken,
-      };
-      const reply2 = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx..4',
-          'Uxxxxxxxxxxxxxx..5',
-          'Uxxxxxxxxxxxxxx..6',
-        ],
-      };
-
-      mock
-        .onGet(`/v2/bot/group/${GROUP_ID}/members/ids`)
-        .replyOnce((config) => {
-          expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/members/ids`);
-          expect(config.data).toEqual(undefined);
-          expect(config.headers).toEqual(headers);
-          return [200, reply1];
-        })
-        .onGet(
-          `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
-        )
-        .replyOnce((config) => {
-          expect(config.url).toEqual(
-            `/v2/bot/group/${GROUP_ID}/members/ids?start=${continuationToken}`
-          );
-          expect(config.data).toEqual(undefined);
-          expect(config.headers).toEqual(headers);
-          return [200, reply2];
-        });
-
-      const res = await client.getAllGroupMemberIds(GROUP_ID);
-
-      expect(res).toEqual([
-        'Uxxxxxxxxxxxxxx..1',
-        'Uxxxxxxxxxxxxxx..2',
-        'Uxxxxxxxxxxxxxx..3',
-        'Uxxxxxxxxxxxxxx..4',
-        'Uxxxxxxxxxxxxxx..5',
-        'Uxxxxxxxxxxxxxx..6',
-      ]);
-    });
-  });
-
-  describe('#getRoomMemberIds', () => {
-    it('should response room member ids', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-      const reply = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-        ],
-      };
-
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/room/${ROOM_ID}/members/ids`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getRoomMemberIds(ROOM_ID);
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should call api with provided continuationToken', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-      const reply = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-          'Uxxxxxxxxxxxxxx...',
-        ],
-      };
-
-      const continuationToken = 'TOKEN';
-
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
-        );
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getRoomMemberIds(ROOM_ID, continuationToken);
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#getAllRoomMemberIds', () => {
-    it('should fetch all member ids until it is finished', async () => {
-      expect.assertions(7);
-
-      const { client, mock, headers } = createMock();
-      const continuationToken = 'TOKEN';
-      const reply1 = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx..1',
-          'Uxxxxxxxxxxxxxx..2',
-          'Uxxxxxxxxxxxxxx..3',
-        ],
-        next: continuationToken,
-      };
-      const reply2 = {
-        memberIds: [
-          'Uxxxxxxxxxxxxxx..4',
-          'Uxxxxxxxxxxxxxx..5',
-          'Uxxxxxxxxxxxxxx..6',
-        ],
-      };
-
-      mock
-        .onGet()
-        .replyOnce((config) => {
-          expect(config.url).toEqual(`/v2/bot/room/${ROOM_ID}/members/ids`);
-          expect(config.data).toEqual(undefined);
-          expect(config.headers).toEqual(headers);
-          return [200, reply1];
-        })
-        .onGet()
-        .replyOnce((config) => {
-          expect(config.url).toEqual(
-            `/v2/bot/room/${ROOM_ID}/members/ids?start=${continuationToken}`
-          );
-          expect(config.data).toEqual(undefined);
-          expect(config.headers).toEqual(headers);
-          return [200, reply2];
-        });
-
-      const res = await client.getAllRoomMemberIds(ROOM_ID);
-
-      expect(res).toEqual([
-        'Uxxxxxxxxxxxxxx..1',
-        'Uxxxxxxxxxxxxxx..2',
-        'Uxxxxxxxxxxxxxx..3',
-        'Uxxxxxxxxxxxxxx..4',
-        'Uxxxxxxxxxxxxxx..5',
-        'Uxxxxxxxxxxxxxx..6',
-      ]);
-    });
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('GET');
+    expect(request?.url.toString()).toBe(
+      `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${CONTINUATION_TOKEN}`
+    );
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
 });
 
-describe('Leave', () => {
-  describe('#leaveGroup', () => {
-    it('should call leave api', async () => {
-      expect.assertions(4);
+it('#getAllGroupMemberIds should fetch all member ids until it is finished', async () => {
+  const { client } = setup();
 
-      const { client, mock, headers } = createMock();
+  const res = await client.getAllGroupMemberIds(GROUP_ID);
 
-      const reply = {};
+  expect(res).toEqual([
+    'U00000000000000000000000000000001',
+    'U00000000000000000000000000000002',
+    'U00000000000000000000000000000003',
+    'U00000000000000000000000000000004',
+    'U00000000000000000000000000000005',
+    'U00000000000000000000000000000006',
+  ]);
+});
 
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/group/${GROUP_ID}/leave`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+describe('#getRoomMemberIds', () => {
+  it('should respond room member ids', async () => {
+    const { context, client } = setup();
 
-      const res = await client.leaveGroup(GROUP_ID);
+    const res = await client.getRoomMemberIds(ROOM_ID);
 
-      expect(res).toEqual(reply);
+    expect(res).toEqual({
+      memberIds: [
+        'U00000000000000000000000000000001',
+        'U00000000000000000000000000000002',
+        'U00000000000000000000000000000003',
+      ],
+      next: CONTINUATION_TOKEN,
     });
+
+    const { request } = context;
+
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('GET');
+    expect(request?.url.toString()).toBe(
+      `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
+    );
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
 
-  describe('#leaveRoom', () => {
-    it('should call leave api', async () => {
-      expect.assertions(4);
+  it('should call api with provided continuation token', async () => {
+    const { context, client } = setup();
 
-      const { client, mock, headers } = createMock();
+    const res = await client.getRoomMemberIds(ROOM_ID, CONTINUATION_TOKEN);
 
-      const reply = {};
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/room/${ROOM_ID}/leave`);
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.leaveRoom(ROOM_ID);
-
-      expect(res).toEqual(reply);
+    expect(res).toEqual({
+      memberIds: [
+        'U00000000000000000000000000000004',
+        'U00000000000000000000000000000005',
+        'U00000000000000000000000000000006',
+      ],
     });
+
+    const { request } = context;
+
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('GET');
+    expect(request?.url.toString()).toBe(
+      `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${CONTINUATION_TOKEN}`
+    );
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
+});
+
+it('#getAllRoomMemberIds should fetch all member ids until it is finished', async () => {
+  const { client } = setup();
+
+  const res = await client.getAllRoomMemberIds(ROOM_ID);
+
+  expect(res).toEqual([
+    'U00000000000000000000000000000001',
+    'U00000000000000000000000000000002',
+    'U00000000000000000000000000000003',
+    'U00000000000000000000000000000004',
+    'U00000000000000000000000000000005',
+    'U00000000000000000000000000000006',
+  ]);
+});
+
+it('#leaveGroup should call leave api', async () => {
+  const { context, client } = setup();
+
+  const res = await client.leaveGroup(GROUP_ID);
+
+  expect(res).toEqual({});
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/group/${GROUP_ID}/leave`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('#leaveRoom should call leave api', async () => {
+  const { context, client } = setup();
+
+  const res = await client.leaveRoom(ROOM_ID);
+
+  expect(res).toEqual({});
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/room/${ROOM_ID}/leave`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

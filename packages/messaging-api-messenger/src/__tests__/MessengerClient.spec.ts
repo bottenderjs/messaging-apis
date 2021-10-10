@@ -35,7 +35,7 @@ const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
 
 describe('page info', () => {
   describe('#getPageInfo', () => {
-    it('should response page info', async () => {
+    it('should respond page info', async () => {
       const { client, mock } = createMock();
       const reply = {
         name: 'Bot Demo',
@@ -92,7 +92,7 @@ describe('page info', () => {
 
 describe('token', () => {
   describe('#debugToken', () => {
-    it('should response token info', async () => {
+    it('should respond token info', async () => {
       expect.assertions(3);
 
       const { client, mock } = createMock();
@@ -319,7 +319,7 @@ describe('subscription', () => {
 });
 
 describe('#getMessagingFeatureReview', () => {
-  it('should response feature array', async () => {
+  it('should respond feature array', async () => {
     const { client, mock } = createMock();
     const reply = {
       data: [

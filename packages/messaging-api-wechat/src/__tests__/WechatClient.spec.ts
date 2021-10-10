@@ -30,7 +30,7 @@ const createMock = (): { client: WechatClient; mock: MockAdapter } => {
 
 describe('access token', () => {
   describe('#getAccessToken', () => {
-    it('should response access_token and expires_in', async () => {
+    it('should respond access_token and expires_in', async () => {
       const { client } = createMock();
 
       const reply = {

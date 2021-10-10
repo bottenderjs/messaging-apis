@@ -1,22 +1,10 @@
 import { RestRequest, rest } from 'msw';
-import { setupServer } from 'msw/node';
 
 import { LineClient } from '..';
 
-const lineServer = setupServer();
-beforeAll(() => {
-  // Establish requests interception layer before all tests.
-  lineServer.listen();
-});
-afterEach(() => {
-  // Reset any runtime handlers tests may use.
-  lineServer.resetHandlers();
-});
-afterAll(() => {
-  // Clean up after all tests are done, preventing this
-  // interception layer from affecting irrelevant tests.
-  lineServer.close();
-});
+import { setupLineServer } from './testing-library';
+
+const lineServer = setupLineServer();
 
 const RECIPIENT_ID = 'U00000000000000000000000000000000';
 
@@ -45,7 +33,7 @@ function setup() {
 it('should support sending request body', async () => {
   const { context, client } = setup();
 
-  await client.multicast({
+  const res = await client.multicast({
     to: [RECIPIENT_ID],
     messages: [
       {
@@ -55,6 +43,8 @@ it('should support sending request body', async () => {
     ],
     notificationDisabled: true,
   });
+
+  expect(res).toEqual({});
 
   const { request } = context;
 
@@ -80,7 +70,7 @@ it('should support sending request body', async () => {
 it('should support sending a message array', async () => {
   const { context, client } = setup();
 
-  await client.multicast(
+  const res = await client.multicast(
     [RECIPIENT_ID],
     [
       {
@@ -90,6 +80,8 @@ it('should support sending a message array', async () => {
     ],
     true
   );
+
+  expect(res).toEqual({});
 
   const { request } = context;
 
@@ -115,7 +107,7 @@ it('should support sending a message array', async () => {
 it('should support sending a message', async () => {
   const { context, client } = setup();
 
-  await client.multicast(
+  const res = await client.multicast(
     [RECIPIENT_ID],
     {
       type: 'text',
@@ -123,6 +115,8 @@ it('should support sending a message', async () => {
     },
     true
   );
+
+  expect(res).toEqual({});
 
   const { request } = context;
 

@@ -25,7 +25,7 @@ const createMock = (): { client: ViberClient; mock: MockAdapter } => {
 
 describe('webhooks', () => {
   describe('#setWebhook', () => {
-    it('should response eventTypes was set', async () => {
+    it('should respond eventTypes was set', async () => {
       const { client, mock } = createMock();
       const reply = {
         status: 0,

@@ -1245,7 +1245,7 @@ describe('#userPersistentMenu', () => {
       });
     });
 
-    it('should response correctly if input is not a full Persistent Menu', () => {
+    it('should respond correctly if input is not a full Persistent Menu', () => {
       expect(
         MessengerBatch.setUserPersistentMenu(RECIPIENT_ID, [
           {

@@ -52,7 +52,7 @@ describe('Content', () => {
 
 describe('Profile', () => {
   describe('#getUserProfile', () => {
-    it('should response user profile', async () => {
+    it('should respond user profile', async () => {
       expect.assertions(4);
 
       const { client, mock, headers } = createMock();
@@ -91,7 +91,7 @@ describe('Profile', () => {
 
 describe('Account link', () => {
   describe('#getLinkToken', () => {
-    it('should response data with link token', async () => {
+    it('should respond data with link token', async () => {
       expect.assertions(4);
 
       const { client, mock, headers } = createMock();

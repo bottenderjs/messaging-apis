@@ -1,190 +1,607 @@
-import MockAdapter from 'axios-mock-adapter';
+import { RestRequest, rest } from 'msw';
 
-import LineClient from '../LineClient';
-import * as Types from '../LineTypes';
+import { LineClient } from '..';
 
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+import { setupLineServer } from './testing-library';
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
+const lineServer = setupLineServer();
+
+function setup() {
+  const context: { request: RestRequest | undefined } = {
+    request: undefined,
   };
-} => {
+  lineServer.use(
+    rest.post(
+      'https://api.line.me/v2/bot/message/narrowcast',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.status(202),
+          ctx.json({}),
+          ctx.set('X-Line-Request-Id', '5b59509c-c57b-11e9-aa8c-2a2ae2dbcce4')
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/message/progress/narrowcast',
+      (req, res, ctx) => {
+        context.request = req;
+
+        if (
+          req.url.searchParams.get('requestId') ===
+          '5b59509c-c57b-11e9-aa8c-2a2ae2dbcce4'
+        ) {
+          return res(
+            ctx.json({
+              phase: 'succeeded',
+              successCount: 1,
+              failureCount: 1,
+              targetCount: 2,
+            })
+          );
+        }
+
+        return res(ctx.status(400));
+      }
+    )
+  );
+
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
+    accessToken: 'ACCESS_TOKEN',
+    channelSecret: 'CHANNEL_SECRET',
   });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
 
-describe('Narrowcast', () => {
-  const messages: Types.Message[] = [
-    {
-      type: 'text',
-      text: 'test message',
-    },
-  ];
+  return { context, client };
+}
 
-  const recipient: Types.RecipientObject = {
-    type: 'operator',
-    and: [
-      {
-        type: 'audience',
-        audienceGroupId: 5614991017776,
-      },
-      {
-        type: 'operator',
-        not: {
-          type: 'audience',
-          audienceGroupId: 4389303728991,
+describe('#narrowcast', () => {
+  it('should support sending request body', async () => {
+    const { context, client } = setup();
+
+    await client.narrowcast({
+      messages: [
+        {
+          type: 'text',
+          text: 'Hello, world',
         },
-      },
-    ],
-  };
-
-  const demographic: Types.DemographicFilterObject = {
-    type: 'operator' as const,
-    or: [
-      {
-        type: 'operator' as const,
+      ],
+      notificationDisabled: true,
+      recipient: {
+        type: 'operator',
         and: [
           {
-            type: 'gender',
-            oneOf: ['male', 'female'],
+            type: 'audience',
+            audienceGroupId: 5614991017776,
           },
           {
-            type: 'age',
-            gte: 'age_20',
-            lt: 'age_25',
-          },
-          {
-            type: 'appType',
-            oneOf: ['android', 'ios'],
-          },
-          {
-            type: 'area',
-            oneOf: ['jp_23', 'jp_05'],
-          },
-          {
-            type: 'subscriptionPeriod',
-            gte: 'day_7',
-            lt: 'day_30',
-          },
-        ],
-      },
-      {
-        type: 'operator' as const,
-        and: [
-          {
-            type: 'age',
-            gte: 'age_35',
-            lt: 'age_40',
-          },
-          {
-            type: 'operator' as const,
+            type: 'operator',
             not: {
-              type: 'gender',
-              oneOf: ['male'],
+              type: 'audience',
+              audienceGroupId: 4389303728991,
             },
           },
         ],
       },
-    ],
-  };
-
-  const rawBody = {
-    messages,
-    recipient,
-    filter: {
-      demographic,
-    },
-    limit: {
-      max: 100,
-    },
-  };
-
-  describe('#narrowcastRawBody', () => {
-    const reply = { requestId: 'abc' };
-
-    it('should call narrowcast api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/narrowcast');
-        expect(JSON.parse(config.data)).toEqual(rawBody);
-        expect(config.headers).toEqual(headers);
-        return [200, reply, { 'x-line-request-id': 'abc' }];
-      });
-
-      const res = await client.narrowcastRawBody(rawBody);
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#narrowcast', () => {
-    const reply = { requestId: 'abc' };
-
-    it('should call narrowcast api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/message/narrowcast');
-        expect(JSON.parse(config.data)).toEqual(rawBody);
-        expect(config.headers).toEqual(headers);
-        return [200, reply, { 'x-line-request-id': 'abc' }];
-      });
-
-      const res = await client.narrowcast(messages, {
-        recipient,
-        demographic,
+      filter: {
+        demographic: {
+          type: 'operator',
+          or: [
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'gender',
+                  oneOf: ['male', 'female'],
+                },
+                {
+                  type: 'age',
+                  gte: 'age_20',
+                  lt: 'age_25',
+                },
+                {
+                  type: 'appType',
+                  oneOf: ['android', 'ios'],
+                },
+                {
+                  type: 'area',
+                  oneOf: ['jp_23', 'jp_05'],
+                },
+                {
+                  type: 'subscriptionPeriod',
+                  gte: 'day_7',
+                  lt: 'day_30',
+                },
+              ],
+            },
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'age',
+                  gte: 'age_35',
+                  lt: 'age_40',
+                },
+                {
+                  type: 'operator',
+                  not: {
+                    type: 'gender',
+                    oneOf: ['male'],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      limit: {
         max: 100,
-      });
-
-      expect(res).toEqual(reply);
+        upToRemainingQuota: false,
+      },
     });
+
+    const { request } = context;
+
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('POST');
+    expect(request?.url.toString()).toBe(
+      'https://api.line.me/v2/bot/message/narrowcast'
+    );
+    expect(request?.body).toEqual({
+      messages: [
+        {
+          type: 'text',
+          text: 'Hello, world',
+        },
+      ],
+      notificationDisabled: true,
+      recipient: {
+        type: 'operator',
+        and: [
+          {
+            type: 'audience',
+            audienceGroupId: 5614991017776,
+          },
+          {
+            type: 'operator',
+            not: {
+              type: 'audience',
+              audienceGroupId: 4389303728991,
+            },
+          },
+        ],
+      },
+      filter: {
+        demographic: {
+          type: 'operator',
+          or: [
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'gender',
+                  oneOf: ['male', 'female'],
+                },
+                {
+                  type: 'age',
+                  gte: 'age_20',
+                  lt: 'age_25',
+                },
+                {
+                  type: 'appType',
+                  oneOf: ['android', 'ios'],
+                },
+                {
+                  type: 'area',
+                  oneOf: ['jp_23', 'jp_05'],
+                },
+                {
+                  type: 'subscriptionPeriod',
+                  gte: 'day_7',
+                  lt: 'day_30',
+                },
+              ],
+            },
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'age',
+                  gte: 'age_35',
+                  lt: 'age_40',
+                },
+                {
+                  type: 'operator',
+                  not: {
+                    type: 'gender',
+                    oneOf: ['male'],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      limit: {
+        max: 100,
+        upToRemainingQuota: false,
+      },
+    });
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
 
-  describe('#getNarrowcastProgress', () => {
-    const requestId = '123';
-    const reply = {
-      phase: 'succeeded',
-      successCount: 1,
-      failureCount: 1,
-      targetCount: 2,
-    };
+  it('should support sending a message array', async () => {
+    const { context, client } = setup();
 
-    it('should call getNarrowcastProgress api', async () => {
-      expect.assertions(3);
+    await client.narrowcast(
+      [
+        {
+          type: 'text',
+          text: 'Hello, world',
+        },
+      ],
+      {
+        type: 'operator',
+        and: [
+          {
+            type: 'audience',
+            audienceGroupId: 5614991017776,
+          },
+          {
+            type: 'operator',
+            not: {
+              type: 'audience',
+              audienceGroupId: 4389303728991,
+            },
+          },
+        ],
+      },
+      {
+        demographic: {
+          type: 'operator',
+          or: [
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'gender',
+                  oneOf: ['male', 'female'],
+                },
+                {
+                  type: 'age',
+                  gte: 'age_20',
+                  lt: 'age_25',
+                },
+                {
+                  type: 'appType',
+                  oneOf: ['android', 'ios'],
+                },
+                {
+                  type: 'area',
+                  oneOf: ['jp_23', 'jp_05'],
+                },
+                {
+                  type: 'subscriptionPeriod',
+                  gte: 'day_7',
+                  lt: 'day_30',
+                },
+              ],
+            },
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'age',
+                  gte: 'age_35',
+                  lt: 'age_40',
+                },
+                {
+                  type: 'operator',
+                  not: {
+                    type: 'gender',
+                    oneOf: ['male'],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      {
+        max: 100,
+        upToRemainingQuota: false,
+      },
+      true
+    );
 
-      const { client, mock, headers } = createMock();
+    const { request } = context;
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/message/progress/narrowcast?requestId=${requestId}`
-        );
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getNarrowcastProgress(requestId);
-
-      expect(res).toEqual(reply);
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('POST');
+    expect(request?.url.toString()).toBe(
+      'https://api.line.me/v2/bot/message/narrowcast'
+    );
+    expect(request?.body).toEqual({
+      messages: [
+        {
+          type: 'text',
+          text: 'Hello, world',
+        },
+      ],
+      notificationDisabled: true,
+      recipient: {
+        type: 'operator',
+        and: [
+          {
+            type: 'audience',
+            audienceGroupId: 5614991017776,
+          },
+          {
+            type: 'operator',
+            not: {
+              type: 'audience',
+              audienceGroupId: 4389303728991,
+            },
+          },
+        ],
+      },
+      filter: {
+        demographic: {
+          type: 'operator',
+          or: [
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'gender',
+                  oneOf: ['male', 'female'],
+                },
+                {
+                  type: 'age',
+                  gte: 'age_20',
+                  lt: 'age_25',
+                },
+                {
+                  type: 'appType',
+                  oneOf: ['android', 'ios'],
+                },
+                {
+                  type: 'area',
+                  oneOf: ['jp_23', 'jp_05'],
+                },
+                {
+                  type: 'subscriptionPeriod',
+                  gte: 'day_7',
+                  lt: 'day_30',
+                },
+              ],
+            },
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'age',
+                  gte: 'age_35',
+                  lt: 'age_40',
+                },
+                {
+                  type: 'operator',
+                  not: {
+                    type: 'gender',
+                    oneOf: ['male'],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      limit: {
+        max: 100,
+        upToRemainingQuota: false,
+      },
     });
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
+
+  it('should support sending a message', async () => {
+    const { context, client } = setup();
+
+    await client.narrowcast(
+      {
+        type: 'text',
+        text: 'Hello, world',
+      },
+      {
+        type: 'operator',
+        and: [
+          {
+            type: 'audience',
+            audienceGroupId: 5614991017776,
+          },
+          {
+            type: 'operator',
+            not: {
+              type: 'audience',
+              audienceGroupId: 4389303728991,
+            },
+          },
+        ],
+      },
+      {
+        demographic: {
+          type: 'operator',
+          or: [
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'gender',
+                  oneOf: ['male', 'female'],
+                },
+                {
+                  type: 'age',
+                  gte: 'age_20',
+                  lt: 'age_25',
+                },
+                {
+                  type: 'appType',
+                  oneOf: ['android', 'ios'],
+                },
+                {
+                  type: 'area',
+                  oneOf: ['jp_23', 'jp_05'],
+                },
+                {
+                  type: 'subscriptionPeriod',
+                  gte: 'day_7',
+                  lt: 'day_30',
+                },
+              ],
+            },
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'age',
+                  gte: 'age_35',
+                  lt: 'age_40',
+                },
+                {
+                  type: 'operator',
+                  not: {
+                    type: 'gender',
+                    oneOf: ['male'],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      {
+        max: 100,
+        upToRemainingQuota: false,
+      },
+      true
+    );
+
+    const { request } = context;
+
+    expect(request).toBeDefined();
+    expect(request?.method).toBe('POST');
+    expect(request?.url.toString()).toBe(
+      'https://api.line.me/v2/bot/message/narrowcast'
+    );
+    expect(request?.body).toEqual({
+      messages: [
+        {
+          type: 'text',
+          text: 'Hello, world',
+        },
+      ],
+      notificationDisabled: true,
+      recipient: {
+        type: 'operator',
+        and: [
+          {
+            type: 'audience',
+            audienceGroupId: 5614991017776,
+          },
+          {
+            type: 'operator',
+            not: {
+              type: 'audience',
+              audienceGroupId: 4389303728991,
+            },
+          },
+        ],
+      },
+      filter: {
+        demographic: {
+          type: 'operator',
+          or: [
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'gender',
+                  oneOf: ['male', 'female'],
+                },
+                {
+                  type: 'age',
+                  gte: 'age_20',
+                  lt: 'age_25',
+                },
+                {
+                  type: 'appType',
+                  oneOf: ['android', 'ios'],
+                },
+                {
+                  type: 'area',
+                  oneOf: ['jp_23', 'jp_05'],
+                },
+                {
+                  type: 'subscriptionPeriod',
+                  gte: 'day_7',
+                  lt: 'day_30',
+                },
+              ],
+            },
+            {
+              type: 'operator',
+              and: [
+                {
+                  type: 'age',
+                  gte: 'age_35',
+                  lt: 'age_40',
+                },
+                {
+                  type: 'operator',
+                  not: {
+                    type: 'gender',
+                    oneOf: ['male'],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      limit: {
+        max: 100,
+        upToRemainingQuota: false,
+      },
+    });
+    expect(request?.headers.get('Content-Type')).toBe('application/json');
+    expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+  });
+});
+
+it('#getNarrowcastProgress should get the status of a narrowcast message', async () => {
+  const { context, client } = setup();
+
+  const { requestId } = await client.narrowcast({
+    type: 'text',
+    text: 'Hello, world',
+  });
+  const res = await client.getNarrowcastProgress(requestId);
+
+  expect(res).toEqual({
+    phase: 'succeeded',
+    successCount: 1,
+    failureCount: 1,
+    targetCount: 2,
+  });
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/message/progress/narrowcast?requestId=5b59509c-c57b-11e9-aa8c-2a2ae2dbcce4'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

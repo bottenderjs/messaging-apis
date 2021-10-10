@@ -5,7 +5,7 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   coverageDirectory: './coverage/',
   transformIgnorePatterns: ['/node_modules/'],
-  testMatch: ['**/__tests__/*.+(ts|tsx)'],
+  testMatch: ['**/__tests__/*.spec.(ts|tsx)'],
   timers: 'fake',
   resetMocks: true,
   globals: {

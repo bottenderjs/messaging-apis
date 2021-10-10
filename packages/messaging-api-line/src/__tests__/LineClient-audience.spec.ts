@@ -1,378 +1,451 @@
-import MockAdapter from 'axios-mock-adapter';
+import { RestRequest, rest } from 'msw';
 
-import LineClient from '../LineClient';
+import { LineClient } from '..';
 
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+import { setupLineServer } from './testing-library';
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
+const lineServer = setupLineServer();
+
+const AUDIENCE_GROUP_ID = 4389303728991;
+
+function setup() {
+  const context: { request: RestRequest | undefined } = {
+    request: undefined,
   };
-} => {
+  lineServer.use(
+    rest.post(
+      'https://api.line.me/v2/bot/audienceGroup/upload',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            audienceGroupId: 4389303728991,
+            type: 'UPLOAD',
+            description: 'test',
+            created: 1500351844,
+          })
+        );
+      }
+    ),
+    rest.put(
+      'https://api.line.me/v2/bot/audienceGroup/upload',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    ),
+    rest.post(
+      'https://api.line.me/v2/bot/audienceGroup/click',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            audienceGroupId: 4389303728991,
+            type: 'CLICK',
+            description: 'test',
+            created: 1500351844,
+            requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+            clickUrl: null,
+          })
+        );
+      }
+    ),
+    rest.post(
+      'https://api.line.me/v2/bot/audienceGroup/imp',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            audienceGroupId: 4389303728991,
+            type: 'IMP',
+            description: 'test',
+            created: 1500351844,
+            requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+          })
+        );
+      }
+    ),
+    rest.put(
+      'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId/updateDescription',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/audienceGroup/authorityLevel',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            authorityLevel: 'PUBLIC',
+          })
+        );
+      }
+    ),
+    rest.put(
+      'https://api.line.me/v2/bot/audienceGroup/authorityLevel',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/audienceGroup/list',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            audienceGroups: [
+              {
+                audienceGroupId: 4389303728991,
+                type: 'CLICK',
+                description: 'audienceGroupName',
+                status: 'READY',
+                audienceCount: 2,
+                created: 1500351844,
+                requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+                clickUrl: 'https://line.me/en',
+              },
+            ],
+            hasNextPage: false,
+            totalCount: 1,
+            page: 1,
+            size: 40,
+          })
+        );
+      }
+    ),
+    rest.delete(
+      'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(ctx.json({}));
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId',
+      (req, res, ctx) => {
+        context.request = req;
+        return res(
+          ctx.json({
+            audienceGroupId: 4389303728991,
+            type: 'CLICK',
+            description: 'audienceGroupName',
+            status: 'READY',
+            audienceCount: 2,
+            created: 1500351844,
+            requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+            clickUrl: 'https://line.me/en',
+            jobs: null,
+          })
+        );
+      }
+    )
+  );
+
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
+    accessToken: 'ACCESS_TOKEN',
+    channelSecret: 'CHANNEL_SECRET',
   });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
 
-describe('Audience', () => {
-  describe('#createUploadAudienceGroup', () => {
-    const reply = {
-      audienceGroupId: 4389303728991,
-      type: 'UPLOAD',
-      description: 'test',
-      created: 1500351844,
-    };
+  return { context, client };
+}
 
-    const body = {
-      description: 'audienceGroupName',
-      isIfaAudience: false,
-      audiences: [
-        {
-          id: '1',
-        },
-      ],
+it('#createUploadAudienceGroup should call createUploadAudienceGroup api', async () => {
+  const { context, client } = setup();
+
+  const res = await client.createUploadAudienceGroup(
+    'audienceGroupName',
+    false,
+    [
+      {
+        id: '1',
+      },
+    ],
+    {
       uploadDescription: 'audience1',
-    };
+    }
+  );
 
-    it('should call createUploadAudienceGroup api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createUploadAudienceGroup(
-        'audienceGroupName',
-        false,
-        [
-          {
-            id: '1',
-          },
-        ],
-        {
-          uploadDescription: 'audience1',
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    audienceGroupId: 4389303728991,
+    type: 'UPLOAD',
+    description: 'test',
+    created: 1500351844,
   });
 
-  describe('#updateUploadAudienceGroup', () => {
-    const reply = {};
+  const { request } = context;
 
-    const body = {
-      audienceGroupId: 1,
-      audiences: [
-        {
-          id: '1',
-        },
-      ],
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/audienceGroup/upload'
+  );
+  expect(request?.body).toEqual({
+    description: 'audienceGroupName',
+    isIfaAudience: false,
+    audiences: [
+      {
+        id: '1',
+      },
+    ],
+    uploadDescription: 'audience1',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('#updateUploadAudienceGroup should call updateUploadAudienceGroup api', async () => {
+  const { context, client } = setup();
+
+  const res = await client.updateUploadAudienceGroup(
+    1,
+    [
+      {
+        id: '1',
+      },
+    ],
+    {
       description: 'audienceGroupName',
       uploadDescription: 'audience1',
-    };
+    }
+  );
 
-    it('should call updateUploadAudienceGroup api', async () => {
-      expect.assertions(4);
+  expect(res).toEqual({});
 
-      const { client, mock, headers } = createMock();
+  const { request } = context;
 
-      mock.onPut().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/upload');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.updateUploadAudienceGroup(
-        1,
-        [
-          {
-            id: '1',
-          },
-        ],
-        {
-          description: 'audienceGroupName',
-          uploadDescription: 'audience1',
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('PUT');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/audienceGroup/upload'
+  );
+  expect(request?.body).toEqual({
+    audienceGroupId: 1,
+    audiences: [
+      {
+        id: '1',
+      },
+    ],
+    description: 'audienceGroupName',
+    uploadDescription: 'audience1',
   });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-  describe('#createClickAudienceGroup', () => {
-    const reply = {
-      audienceGroupId: 4389303728991,
-      type: 'CLICK',
-      description: 'test',
-      created: 1500351844,
-      requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
-      clickUrl: null,
-    };
+it('#createClickAudienceGroup should call createClickAudienceGroup api', async () => {
+  const { context, client } = setup();
 
-    const body = {
-      description: 'audienceGroupName',
-      requestId: '12222',
+  const res = await client.createClickAudienceGroup(
+    'audienceGroupName',
+    '12222',
+    {
       clickUrl: 'https://line.me/en',
-    };
+    }
+  );
 
-    it('should call createClickAudienceGroup api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/click');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createClickAudienceGroup(
-        'audienceGroupName',
-        '12222',
-        {
-          clickUrl: 'https://line.me/en',
-        }
-      );
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    audienceGroupId: 4389303728991,
+    type: 'CLICK',
+    description: 'test',
+    created: 1500351844,
+    requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+    clickUrl: null,
   });
 
-  describe('#createImpAudienceGroup', () => {
-    const reply = {
-      audienceGroupId: 4389303728991,
-      type: 'IMP',
-      description: 'test',
-      created: 1500351844,
-      requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
-    };
+  const { request } = context;
 
-    const body = {
-      description: 'audienceGroupName',
-      requestId: '12222',
-    };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/audienceGroup/click'
+  );
+  expect(request?.body).toEqual({
+    description: 'audienceGroupName',
+    requestId: '12222',
+    clickUrl: 'https://line.me/en',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-    it('should call createImpAudienceGroup api', async () => {
-      expect.assertions(4);
+it('#createImpAudienceGroup should call createImpAudienceGroup api', async () => {
+  const { context, client } = setup();
 
-      const { client, mock, headers } = createMock();
+  const res = await client.createImpAudienceGroup('audienceGroupName', '12222');
 
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/imp');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createImpAudienceGroup(
-        'audienceGroupName',
-        '12222'
-      );
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    audienceGroupId: 4389303728991,
+    type: 'IMP',
+    description: 'test',
+    created: 1500351844,
+    requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
   });
 
-  describe('#setDescriptionAudienceGroup', () => {
-    const reply = {};
+  const { request } = context;
 
-    const body = {
-      description: 'audienceGroupName',
-    };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/audienceGroup/imp'
+  );
+  expect(request?.body).toEqual({
+    description: 'audienceGroupName',
+    requestId: '12222',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-    const audienceGroupId = 4389303728991;
+it('#setDescriptionAudienceGroup should call setDescriptionAudienceGroup api', async () => {
+  const { context, client } = setup();
 
-    it('should call setDescriptionAudienceGroup api', async () => {
-      expect.assertions(4);
+  const res = await client.setDescriptionAudienceGroup(
+    'audienceGroupName',
+    AUDIENCE_GROUP_ID
+  );
 
-      const { client, mock, headers } = createMock();
+  expect(res).toEqual({});
 
-      mock.onPut().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`
-        );
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+  const { request } = context;
 
-      const res = await client.setDescriptionAudienceGroup(
-        'audienceGroupName',
-        audienceGroupId
-      );
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('PUT');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/audienceGroup/${AUDIENCE_GROUP_ID}/updateDescription`
+  );
+  expect(request?.body).toEqual({
+    description: 'audienceGroupName',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-      expect(res).toEqual(reply);
-    });
+it('#deleteAudienceGroup should call deleteAudienceGroup api', async () => {
+  const { context, client } = setup();
+
+  const res = await client.deleteAudienceGroup(AUDIENCE_GROUP_ID);
+
+  expect(res).toEqual({});
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/audienceGroup/${AUDIENCE_GROUP_ID}`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('#getAudienceGroup should call getAudienceGroup api', async () => {
+  const { context, client } = setup();
+
+  const res = await client.getAudienceGroup(AUDIENCE_GROUP_ID);
+
+  expect(res).toEqual({
+    audienceGroupId: 4389303728991,
+    type: 'CLICK',
+    description: 'audienceGroupName',
+    status: 'READY',
+    audienceCount: 2,
+    created: 1500351844,
+    requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+    clickUrl: 'https://line.me/en',
+    jobs: null,
   });
 
-  describe('#deleteAudienceGroup', () => {
-    const reply = {};
+  const { request } = context;
 
-    const audienceGroupId = 4389303728991;
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/audienceGroup/${AUDIENCE_GROUP_ID}`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-    it('should call deleteAudienceGroup api', async () => {
-      expect.assertions(3);
+it('#getAudienceGroups should call getAudienceGroups api', async () => {
+  const { context, client } = setup();
 
-      const { client, mock, headers } = createMock();
-
-      mock.onDelete().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.deleteAudienceGroup(audienceGroupId);
-
-      expect(res).toEqual(reply);
-    });
+  const res = await client.getAudienceGroups({
+    page: 1,
+    description: 'audienceGroupName',
+    status: 'READY',
+    size: 40,
   });
 
-  describe('#getAudienceGroup', () => {
-    const reply = {
-      audienceGroupId: 4389303728991,
-      type: 'CLICK',
-      description: 'audienceGroupName',
-      status: 'READY',
-      audienceCount: 2,
-      created: 1500351844,
-      requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
-      clickUrl: 'https://line.me/en',
-      jobs: null,
-    };
-
-    const audienceGroupId = 4389303728991;
-
-    it('should call getAudienceGroup api', async () => {
-      expect.assertions(3);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(`/v2/bot/audienceGroup/${audienceGroupId}`);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getAudienceGroup(audienceGroupId);
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    audienceGroups: [
+      {
+        audienceGroupId: 4389303728991,
+        type: 'CLICK',
+        description: 'audienceGroupName',
+        status: 'READY',
+        audienceCount: 2,
+        created: 1500351844,
+        requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+        clickUrl: 'https://line.me/en',
+      },
+    ],
+    hasNextPage: false,
+    totalCount: 1,
+    page: 1,
+    size: 40,
   });
 
-  describe('#getAudienceGroups', () => {
-    const reply = {
-      audienceGroups: [
-        {
-          audienceGroupId: 4389303728991,
-          type: 'CLICK',
-          description: 'audienceGroupName',
-          status: 'READY',
-          audienceCount: 2,
-          created: 1500351844,
-          requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
-          clickUrl: 'https://line.me/en',
-        },
-      ],
-      hasNextPage: false,
-      totalCount: 1,
-      page: 1,
-      size: 40,
-    };
+  const { request } = context;
 
-    const page = 1;
-    const description = 'audienceGroupName';
-    const status = 'READY';
-    const size = 40;
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    `https://api.line.me/v2/bot/audienceGroup/list?page=1&description=audienceGroupName&status=READY&size=40`
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-    it('should call getAudienceGroups api', async () => {
-      expect.assertions(3);
+it('#getAudienceGroupAuthorityLevel should call getAudienceGroupAuthorityLevel api', async () => {
+  const { context, client } = setup();
 
-      const { client, mock, headers } = createMock();
+  const res = await client.getAudienceGroupAuthorityLevel();
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual(
-          `/v2/bot/audienceGroup/list?page=${page}&description=${description}&status=${status}&size=${size}`
-        );
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getAudienceGroups({
-        page,
-        description,
-        status,
-        size,
-      });
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    authorityLevel: 'PUBLIC',
   });
 
-  describe('#getAudienceGroupAuthorityLevel', () => {
-    const reply = {
-      authorityLevel: 'PUBLIC',
-    };
+  const { request } = context;
 
-    it('should call getAudienceGroupAuthorityLevel api', async () => {
-      expect.assertions(3);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-      const { client, mock, headers } = createMock();
+it('#changeAudienceGroupAuthorityLevel should call changeAudienceGroupAuthorityLevel api', async () => {
+  const { context, client } = setup();
 
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+  const res = await client.changeAudienceGroupAuthorityLevel('PUBLIC');
 
-      const res = await client.getAudienceGroupAuthorityLevel();
+  expect(res).toEqual({});
 
-      expect(res).toEqual(reply);
-    });
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('PUT');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
+  );
+  expect(request?.body).toEqual({
+    authorityLevel: 'PUBLIC',
   });
-
-  describe('#changeAudienceGroupAuthorityLevel', () => {
-    const reply = {};
-
-    const body = {
-      authorityLevel: 'PUBLIC',
-    };
-
-    it('should call changeAudienceGroupAuthorityLevel api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      mock.onPut().reply((config) => {
-        expect(config.url).toEqual('/v2/bot/audienceGroup/authorityLevel');
-        expect(JSON.parse(config.data)).toEqual(body);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.changeAudienceGroupAuthorityLevel('PUBLIC');
-
-      expect(res).toEqual(reply);
-    });
-  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
