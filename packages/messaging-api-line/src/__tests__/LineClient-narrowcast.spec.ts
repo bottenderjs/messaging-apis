@@ -1,51 +1,15 @@
-import { RestRequest, rest } from 'msw';
-
 import { LineClient } from '..';
 
-import { setupLineServer } from './testing-library';
+import {
+  getCurrentContext,
+  setNarrowcastProgress,
+  setupLineServer,
+} from './testing-library';
 
-const lineServer = setupLineServer();
+setupLineServer();
 
 function setup() {
-  const context: { request: RestRequest | undefined } = {
-    request: undefined,
-  };
-  lineServer.use(
-    rest.post(
-      'https://api.line.me/v2/bot/message/narrowcast',
-      (req, res, ctx) => {
-        context.request = req;
-        return res(
-          ctx.status(202),
-          ctx.json({}),
-          ctx.set('X-Line-Request-Id', '5b59509c-c57b-11e9-aa8c-2a2ae2dbcce4')
-        );
-      }
-    ),
-    rest.get(
-      'https://api.line.me/v2/bot/message/progress/narrowcast',
-      (req, res, ctx) => {
-        context.request = req;
-
-        if (
-          req.url.searchParams.get('requestId') ===
-          '5b59509c-c57b-11e9-aa8c-2a2ae2dbcce4'
-        ) {
-          return res(
-            ctx.json({
-              phase: 'succeeded',
-              successCount: 1,
-              failureCount: 1,
-              targetCount: 2,
-            })
-          );
-        }
-
-        return res(ctx.status(400));
-      }
-    )
-  );
-
+  const context = getCurrentContext();
   const client = new LineClient({
     accessToken: 'ACCESS_TOKEN',
     channelSecret: 'CHANNEL_SECRET',
@@ -586,13 +550,31 @@ it('#getNarrowcastProgress should get the status of a narrowcast message', async
     type: 'text',
     text: 'Hello, world',
   });
-  const res = await client.getNarrowcastProgress(requestId);
+
+  let res = await client.getNarrowcastProgress(requestId);
+
+  expect(res).toEqual({
+    phase: 'waiting',
+  });
+
+  setNarrowcastProgress(requestId, {
+    phase: 'succeeded',
+    successCount: 1,
+    failureCount: 1,
+    targetCount: 2,
+    acceptedTime: '2020-12-03T10:15:30.121Z',
+    completedTime: '2020-12-03T10:15:30.121Z',
+  });
+
+  res = await client.getNarrowcastProgress(requestId);
 
   expect(res).toEqual({
     phase: 'succeeded',
     successCount: 1,
     failureCount: 1,
     targetCount: 2,
+    acceptedTime: '2020-12-03T10:15:30.121Z',
+    completedTime: '2020-12-03T10:15:30.121Z',
   });
 
   const { request } = context;
@@ -600,7 +582,7 @@ it('#getNarrowcastProgress should get the status of a narrowcast message', async
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
   expect(request?.url.toString()).toBe(
-    'https://api.line.me/v2/bot/message/progress/narrowcast?requestId=5b59509c-c57b-11e9-aa8c-2a2ae2dbcce4'
+    `https://api.line.me/v2/bot/message/progress/narrowcast?requestId=${requestId}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');

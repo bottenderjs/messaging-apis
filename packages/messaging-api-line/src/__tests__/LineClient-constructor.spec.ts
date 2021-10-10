@@ -1,123 +1,82 @@
-import MockAdapter from 'axios-mock-adapter';
+import { rest } from 'msw';
 
 import LineClient from '../LineClient';
 
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+import { constants, setupLineServer } from './testing-library';
 
-describe('constructor', () => {
-  let axios;
-  let _create;
-  beforeEach(() => {
-    axios = require('axios');
-    _create = axios.create;
+const server = setupLineServer();
+
+const { ACCESS_TOKEN, CHANNEL_SECRET } = constants;
+
+it('should support origin', async () => {
+  const client = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
+    origin: 'https://mydummytestserver.com',
   });
 
-  afterEach(() => {
-    axios.create = _create;
-  });
+  server.use(
+    rest.post('https://mydummytestserver.com/path', (_, res, ctx) => {
+      return res(ctx.json({ y: 2 }));
+    })
+  );
 
-  describe('create axios with Line API', () => {
-    it('with config', () => {
-      axios.create = jest.fn().mockReturnValue({
-        interceptors: {
-          request: {
-            use: jest.fn(),
-          },
-        },
-      });
-      // eslint-disable-next-line no-new
-      new LineClient({
-        accessToken: ACCESS_TOKEN,
-        channelSecret: CHANNEL_SECRET,
-      });
+  const res = await client.axios.post('/path', { x: 1 });
 
-      expect(axios.create).toBeCalledWith({
-        baseURL: 'https://api.line.me/',
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
-  it('support origin', () => {
-    axios.create = jest.fn().mockReturnValue({
-      interceptors: {
-        request: {
-          use: jest.fn(),
-        },
-      },
-    });
-    // eslint-disable-next-line no-new
-    new LineClient({
-      accessToken: ACCESS_TOKEN,
-      channelSecret: CHANNEL_SECRET,
-      origin: 'https://mydummytestserver.com',
-    });
-
-    expect(axios.create).toBeCalledWith({
-      baseURL: 'https://mydummytestserver.com/',
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    });
-  });
+  expect(res.data).toEqual({ y: 2 });
 });
 
-describe('#axios', () => {
-  it('should return underlying http client', () => {
-    const client = new LineClient({
-      accessToken: ACCESS_TOKEN,
-      channelSecret: CHANNEL_SECRET,
-    });
-
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
+it('#axios should return underlying http client', () => {
+  const client = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
   });
+
+  expect(client.axios).toBeDefined();
 });
 
-describe('#accessToken', () => {
-  it('should return underlying access token', () => {
-    const client = new LineClient({
-      accessToken: ACCESS_TOKEN,
-      channelSecret: CHANNEL_SECRET,
-    });
-
-    expect(client.accessToken).toBe(ACCESS_TOKEN);
+it('#accessToken should return underlying access token', () => {
+  const client = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
   });
+
+  expect(client.accessToken).toBe(ACCESS_TOKEN);
 });
 
-describe('#onRequest', () => {
-  it('should call onRequest when calling any API', async () => {
-    const onRequest = jest.fn();
-    const client = new LineClient({
-      accessToken: ACCESS_TOKEN,
-      channelSecret: CHANNEL_SECRET,
-      onRequest,
-    });
+it('#onRequest should intercept API calls', async () => {
+  const onRequest = jest.fn();
 
-    const mock = new MockAdapter(client.axios);
+  const client = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
+    onRequest,
+  });
 
-    mock.onPost('/path').reply(200, {});
+  const REPLY_TOKEN = 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA';
 
-    await client.axios.post('/path', { x: 1 });
+  await client.reply(REPLY_TOKEN, {
+    type: 'text',
+    text: 'Hello, world',
+  });
 
-    expect(onRequest).toBeCalledWith({
-      method: 'post',
-      url: 'https://api.line.me/path',
-      body: {
-        x: 1,
-      },
-      headers: {
-        Authorization: 'Bearer 1234567890',
-        'Content-Type': 'application/json',
-        Accept: 'application/json, text/plain, */*',
-      },
-    });
+  expect(onRequest).toBeCalledWith({
+    method: 'post',
+    url: 'https://api.line.me/v2/bot/message/reply',
+    body: {
+      messages: [
+        {
+          text: 'Hello, world',
+          type: 'text',
+        },
+      ],
+      notificationDisabled: false,
+      replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+    },
+    headers: {
+      Authorization: 'Bearer ACCESS_TOKEN',
+      'Content-Type': 'application/json',
+      Accept: 'application/json, text/plain, */*',
+    },
   });
 });

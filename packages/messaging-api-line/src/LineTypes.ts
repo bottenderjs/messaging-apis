@@ -2274,15 +2274,45 @@ export type NarrowcastProgressResponse = (
            * - failed: Messages failed to be sent. Use the failedDescription property to find the cause of the failure.
            */
           phase: 'failed';
+          /**
+           * The reason the message failed to be sent. This is only included with a phase property value of failed.
+           */
           failedDescription: string;
         }
     ) & {
+      /**
+       * The number of users who successfully received the message. *
+       */
       successCount: number;
+      /**
+       * The number of users who failed to send the message. *
+       */
       failureCount: number;
-      targetCount: string;
+      /**
+       * The number of intended recipients of the message. *
+       */
+      targetCount: number;
+      /**
+       * Narrowcast message request accepted time in milliseconds.
+       * - Format: ISO 8601 (Example: 2020-12-03T10:15:30.121Z)
+       * - Timezone: UTC
+       */
+      acceptedTime: string;
+      /**
+       * Processing of narrowcast message request completion time in milliseconds. Returned when the phase property is succeeded or failed.
+       * - Format: ISO 8601 (Example: 2020-12-03T10:15:30.121Z)
+       * - Timezone: UTC
+       */
+      completedTime: string;
     })
 ) & {
-  errorCode?: 1 | 2;
+  /**
+   * Error summary. One of:
+   * 1: An internal error occurred.
+   * 2: An error occurred because there weren't enough recipients.
+   * 3: A conflict error of requests occurs because a request that has already been accepted is retried.
+   */
+  errorCode?: 1 | 2 | 3;
 };
 
 /* Audience */

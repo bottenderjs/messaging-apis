@@ -1,28 +1,20 @@
-import { RestRequest, rest } from 'msw';
-
 import { LineClient } from '..';
 
-import { setupLineServer } from './testing-library';
+import {
+  constants,
+  getCurrentContext,
+  setupLineServer,
+} from './testing-library';
 
-const lineServer = setupLineServer();
+setupLineServer();
+
+const { ACCESS_TOKEN, CHANNEL_SECRET } = constants;
 
 function setup() {
-  const context: { request: RestRequest | undefined } = {
-    request: undefined,
-  };
-  lineServer.use(
-    rest.post(
-      'https://api.line.me/v2/bot/message/broadcast',
-      (req, res, ctx) => {
-        context.request = req;
-        return res(ctx.json({}));
-      }
-    )
-  );
-
+  const context = getCurrentContext();
   const client = new LineClient({
-    accessToken: 'ACCESS_TOKEN',
-    channelSecret: 'CHANNEL_SECRET',
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
   });
 
   return { context, client };

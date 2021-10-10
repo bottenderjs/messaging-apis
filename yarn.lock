@@ -1646,6 +1646,11 @@
   resolved "https://registry.yarnpkg.com/@types/url-join/-/url-join-4.0.1.tgz#4989c97f969464647a8586c7252d97b449cdc045"
   integrity sha512-wDXw9LEEUHyV+7UWy7U315nrJGJ7p1BzaCxDpEoLr789Dk1WDVMMlf3iBfbG2F8NdWnYyFbtTxUn2ZNbm1Q4LQ==
 
+"@types/uuid@^8.3.1":
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.1.tgz#1a32969cf8f0364b3d8c8af9cc3555b7805df14f"
+  integrity sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==
+
 "@types/warning@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/warning/-/warning-3.0.0.tgz#0d2501268ad8f9962b740d387c4654f5f8e23e52"
@@ -5561,10 +5566,10 @@ merge2@^1.3.0:
     "@types/lodash" "^4.14.156"
     append-query "^2.1.0"
     axios "^0.21.1"
-    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-3e386b9f-1bbc-4b4e-8792-88cc8cc1ac85-1633605827329/node_modules/axios-error"
+    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-28fc053f-0647-441f-b99f-a6416f486b69-1633855410276/node_modules/axios-error"
     form-data "^3.0.0"
     lodash "^4.17.15"
-    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-3e386b9f-1bbc-4b4e-8792-88cc8cc1ac85-1633605827329/node_modules/messaging-api-common"
+    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-28fc053f-0647-441f-b99f-a6416f486b69-1633855410276/node_modules/messaging-api-common"
     ts-invariant "^0.4.4"
 
 micromatch@^3.1.4:
@@ -8073,7 +8078,7 @@ uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-uuid@^8.3.0:
+uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
