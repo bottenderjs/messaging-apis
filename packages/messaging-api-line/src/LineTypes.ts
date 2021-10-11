@@ -2578,7 +2578,7 @@ export type LineNotifyOptions = {
 /**
  * Response body of get bot info.
  *
- * @see [Get bot info](https://developers.line.biz/en/reference/messaging-api/#get-bot-info)
+ * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
  */
 export type BotInfoResponse = {
   /**

@@ -1,138 +1,90 @@
-import MockAdapter from 'axios-mock-adapter';
+import { LineClient } from '..';
 
-import LineClient from '../LineClient';
+import {
+  constants,
+  getCurrentContext,
+  setupLineServer,
+} from './testing-library';
 
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+setupLineServer();
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
-  };
-} => {
+const { ACCESS_TOKEN, CHANNEL_SECRET } = constants;
+
+function setup() {
+  const context = getCurrentContext();
   const client = new LineClient({
     accessToken: ACCESS_TOKEN,
     channelSecret: CHANNEL_SECRET,
   });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
 
-describe('#getBotInfo', () => {
-  it('should call api', async () => {
-    const { client, mock } = createMock();
+  return { context, client };
+}
 
-    const reply = {
-      userId: 'Ub9952f8...',
-      basicId: '@216ru...',
-      displayName: 'Example name',
-      pictureUrl: 'https://obs.line-apps.com/...',
-      chatMode: 'chat',
-      markAsReadMode: 'manual',
-    };
+it('#setWebhookEndpointUrl should call api', async () => {
+  const { context, client } = setup();
 
-    let url;
-    let headers;
-    mock.onGet().reply((config) => {
-      url = config.url;
-      headers = config.headers;
-      return [200, reply];
-    });
+  const res = await client.setWebhookEndpointUrl(
+    'https://www.example.com/webhook'
+  );
 
-    const res = await client.getBotInfo();
+  expect(res).toEqual({});
 
-    expect(url).toEqual('/v2/bot/info');
-    expect(headers).toEqual(headers);
+  const { request } = context;
 
-    expect(res).toEqual(reply);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('PUT');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/channel/webhook/endpoint'
+  );
+  expect(request?.body).toEqual({
+    endpoint: 'https://www.example.com/webhook',
   });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-describe('#getWebhookEndpointInfo', () => {
-  it('should call api', async () => {
-    const { client, mock } = createMock();
+it('#getWebhookEndpointInfo should call api', async () => {
+  const { context, client } = setup();
 
-    const reply = {
-      endpoint: 'https://example.herokuapp.com/test',
-      active: true,
-    };
+  await client.setWebhookEndpointUrl('https://www.example.com/webhook');
+  const res = await client.getWebhookEndpointInfo();
 
-    let url;
-    let headers;
-    mock.onGet().reply((config) => {
-      url = config.url;
-      headers = config.headers;
-      return [200, reply];
-    });
-
-    const res = await client.getWebhookEndpointInfo();
-
-    expect(url).toEqual('/v2/bot/channel/webhook/endpoint');
-    expect(headers).toEqual(headers);
-
-    expect(res).toEqual(reply);
+  expect(res).toEqual({
+    endpoint: 'https://www.example.com/webhook',
+    active: true,
   });
+
+  const { request } = context;
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/channel/webhook/endpoint'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-describe('#setWebhookEndpointUrl', () => {
-  it('should call api', async () => {
-    const { client, mock } = createMock();
+it('#testWebhookEndpoint should call api', async () => {
+  const { context, client } = setup();
 
-    const reply = {};
+  const res = await client.testWebhookEndpoint();
 
-    let url;
-    let headers;
-    mock.onPut().reply((config) => {
-      url = config.url;
-      headers = config.headers;
-      return [200, reply];
-    });
-
-    const res = await client.setWebhookEndpointUrl(
-      'https://example.herokuapp.com/test'
-    );
-
-    expect(url).toEqual('/v2/bot/channel/webhook/endpoint');
-    expect(headers).toEqual(headers);
-
-    expect(res).toEqual(reply);
+  expect(res).toEqual({
+    success: true,
+    timestamp: '2020-09-30T05:38:20.031Z',
+    statusCode: 200,
+    reason: 'OK',
+    detail: '200',
   });
-});
 
-describe('#testWebhookEndpoint', () => {
-  it('should call api', async () => {
-    const { client, mock } = createMock();
+  const { request } = context;
 
-    const reply = {
-      success: true,
-      timestamp: '2020-09-30T05:38:20.031Z',
-      statusCode: 200,
-      reason: 'OK',
-      detail: '200',
-    };
-
-    let url;
-    let headers;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      headers = config.headers;
-      return [200, reply];
-    });
-
-    const res = await client.testWebhookEndpoint();
-
-    expect(url).toEqual('/v2/bot/channel/webhook/test');
-    expect(headers).toEqual(headers);
-
-    expect(res).toEqual(reply);
-  });
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.toString()).toBe(
+    'https://api.line.me/v2/bot/channel/webhook/test'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

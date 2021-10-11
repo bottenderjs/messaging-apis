@@ -117,8 +117,7 @@ export default class LineClient {
   /**
    * Gets a bot's basic information.
    *
-   * [Official document](https://developers.line.biz/en/reference/messaging-api/#get-bot-info)
-   *
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
    * @returns Returns status code 200 and a JSON object with the bot information.
    */
   getBotInfo(): Promise<LineTypes.BotInfoResponse> {
