@@ -1622,6 +1622,11 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.3.2.tgz#fc8c2825e4ed2142473b4a81064e6e081463d1b3"
   integrity sha512-eI5Yrz3Qv4KPUa/nSIAi0h+qX0XyewOliug5F2QAtuRg6Kjg6jfmxe1GIwoIRhZspD1A0RP8ANrPwvEXXtRFog==
 
+"@types/qs@^6.9.7":
+  version "6.9.7"
+  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
+  integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
+
 "@types/set-cookie-parser@^2.4.0":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@types/set-cookie-parser/-/set-cookie-parser-2.4.1.tgz#49403d3150f6f296da8e51b3e9e7e562eaf105b4"
@@ -2806,6 +2811,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-fns@^2.25.0:
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.25.0.tgz#8c5c8f1d958be3809a9a03f4b742eba894fc5680"
+  integrity sha512-ovYRFnTrbGPD4nqaEqescPEv1mNwvt+UTqI3Ay9SzNtey9NZnYu6E2qCcBBgJ6/2VF1zGGygpyTDITqpQQ5e+w==
 
 dateformat@^3.0.0:
   version "3.0.3"
@@ -5566,10 +5576,10 @@ merge2@^1.3.0:
     "@types/lodash" "^4.14.156"
     append-query "^2.1.0"
     axios "^0.21.1"
-    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-6905de85-d435-4570-a976-21927ae64794-1634406901923/node_modules/axios-error"
+    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-fb32dc1f-5605-4bfc-b5ae-efd154e49612-1634454556140/node_modules/axios-error"
     form-data "^3.0.0"
     lodash "^4.17.15"
-    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-6905de85-d435-4570-a976-21927ae64794-1634406901923/node_modules/messaging-api-common"
+    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-fb32dc1f-5605-4bfc-b5ae-efd154e49612-1634454556140/node_modules/messaging-api-common"
     ts-invariant "^0.9.3"
 
 micromatch@^3.1.4:
@@ -6683,7 +6693,7 @@ q@^1.5.1:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qs@^6.9.4:
+qs@^6.10.1, qs@^6.9.4:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.1.tgz#4931482fa8d647a5aab799c5271d2133b981fb6a"
   integrity sha512-M528Hph6wsSVOBiYUnGf+K/7w0hNshs/duGsNXPUCLH5XAqjEtiPGwNONLV0tBH8NoGb0mvD5JubnUTrujKDTg==
