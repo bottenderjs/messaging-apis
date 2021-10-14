@@ -14,7 +14,7 @@ export function createMessage(
 
   // snakecase support for backward compatibility
   const quickReplies =
-    options.quickReplies ||
+    options.quickReplies ??
     // @ts-expect-error
     options.quick_replies;
 
@@ -43,7 +43,7 @@ export function createMessageFormData(
 
   // snakecase support for backward compatibility
   const quickReplies =
-    options.quickReplies ||
+    options.quickReplies ??
     // @ts-expect-error
     options.quick_replies;
 

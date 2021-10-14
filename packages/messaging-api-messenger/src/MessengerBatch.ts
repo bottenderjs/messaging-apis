@@ -274,7 +274,7 @@ export function getUserProfile(
 ): MessengerTypes.BatchItem {
   const batchRequestOptions = pickBatchOptions(options);
 
-  const fields = options.fields || [
+  const fields = options.fields ?? [
     'id',
     'name',
     'first_name',

@@ -96,7 +96,7 @@ export default class MessengerClient {
 
     this.appId = config.appId;
     this.appSecret = config.appSecret;
-    this.version = extractVersion(config.version || '6.0');
+    this.version = extractVersion(config.version ?? '6.0');
     this.onRequest = config.onRequest;
     const { origin } = config;
 
@@ -108,7 +108,7 @@ export default class MessengerClient {
     }
 
     this.axios = axios.create({
-      baseURL: `${origin || 'https://graph.facebook.com'}/v${this.version}/`,
+      baseURL: `${origin ?? 'https://graph.facebook.com'}/v${this.version}/`,
       headers: { 'Content-Type': 'application/json' },
       transformRequest: [
         // axios use any as type of the data in AxiosTransformer
@@ -183,7 +183,7 @@ export default class MessengerClient {
           );
         }
 
-        const urlParts = url.parse(requestConfig.url || '', true);
+        const urlParts = url.parse(requestConfig.url ?? '', true);
         const accessToken = get(
           urlParts,
           'query.access_token',
@@ -196,7 +196,7 @@ export default class MessengerClient {
           .digest('hex');
 
         // eslint-disable-next-line no-param-reassign
-        requestConfig.url = appendQuery(requestConfig.url || '', {
+        requestConfig.url = appendQuery(requestConfig.url ?? '', {
           appsecret_proof: appSecretProof,
         });
 
@@ -336,7 +336,7 @@ export default class MessengerClient {
       'App Secret or App Token is required to create subscription'
     );
 
-    const accessToken = appAccessToken || `${appId}|${this.appSecret}`;
+    const accessToken = appAccessToken ?? `${appId}|${this.appSecret}`;
 
     return this.axios
       .post(`/${appId}/subscriptions?access_token=${accessToken}`, {
@@ -389,7 +389,7 @@ export default class MessengerClient {
       'App Secret or App Token is required to get subscriptions'
     );
 
-    const accessToken = appAccessToken || `${appId}|${this.appSecret}`;
+    const accessToken = appAccessToken ?? `${appId}|${this.appSecret}`;
 
     return this.axios
       .get(`/${appId}/subscriptions?access_token=${accessToken}`)
@@ -430,7 +430,7 @@ export default class MessengerClient {
       'App Secret or App Token is required to get subscription'
     );
 
-    const accessToken = appAccessToken || `${appId}|${this.appSecret}`;
+    const accessToken = appAccessToken ?? `${appId}|${this.appSecret}`;
 
     return this.getSubscriptions({
       accessToken,
@@ -438,7 +438,7 @@ export default class MessengerClient {
       (subscriptions: MessengerTypes.MessengerSubscription[]) =>
         subscriptions.filter(
           (subscription) => subscription.object === 'page'
-        )[0] || null
+        )[0] ?? null
     );
   }
 
@@ -2630,7 +2630,7 @@ export default class MessengerClient {
   ): Promise<{ attachmentId: string }> {
     const args = [];
 
-    const isReusable = options.isReusable || false;
+    const isReusable = options.isReusable ?? false;
 
     if (typeof attachment === 'string') {
       args.push({

@@ -626,7 +626,7 @@ export default class SlackOAuthClient {
     // Web API
     // https://api.slack.com/web
     this.axios = axios.create({
-      baseURL: `${config.origin || 'https://slack.com'}/api/`,
+      baseURL: `${config.origin ?? 'https://slack.com'}/api/`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },

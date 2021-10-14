@@ -96,8 +96,8 @@ export default class LineNotify {
     this.clientId = config.clientId;
     this.clientSecret = config.clientSecret;
     this.redirectUri = config.redirectUri;
-    this.origin = config.origin || this.origin;
-    this.apiOrigin = config.apiOrigin || this.apiOrigin;
+    this.origin = config.origin ?? this.origin;
+    this.apiOrigin = config.apiOrigin ?? this.apiOrigin;
     this.axios = axios.create({
       baseURL: this.origin,
     });

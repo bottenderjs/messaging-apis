@@ -54,11 +54,11 @@ Error Message - Batch Request Error
 Request -
 
 ${this.request.method.toUpperCase()} ${this.request.relativeUrl}
-${JSON.stringify(this.request.body, null, 2) || ''}
+${JSON.stringify(this.request.body, null, 2)}
 
 Response -
 ${this.response.code}
-${JSON.stringify(this.response.body, null, 2) || ''}
+${JSON.stringify(this.response.body, null, 2)}
     `;
   }
 }

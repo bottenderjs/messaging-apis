@@ -59,11 +59,11 @@ export default class ViberClient {
 
     this.accessToken = config.accessToken;
     this.sender = config.sender;
-    this.onRequest = config.onRequest || onRequest;
+    this.onRequest = config.onRequest ?? onRequest;
     const { origin } = config;
 
     this.axios = axios.create({
-      baseURL: `${origin || 'https://chatapi.viber.com'}/pa/`,
+      baseURL: `${origin ?? 'https://chatapi.viber.com'}/pa/`,
       headers: {
         'Content-Type': 'application/json',
         'X-Viber-Auth-Token': this.accessToken,

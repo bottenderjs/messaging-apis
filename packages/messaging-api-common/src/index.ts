@@ -32,7 +32,7 @@ function createRequestInterceptor({
   return (config: AxiosRequestConfig): AxiosRequestConfig => {
     onRequest({
       method: config.method,
-      url: urlJoin(config.baseURL || '', config.url || '/'),
+      url: urlJoin(config.baseURL ?? '', config.url ?? '/'),
       headers: {
         ...config.headers.common,
         ...(config.method ? config.headers[config.method] : {}),

@@ -90,7 +90,7 @@ export default class LineClient {
     const { origin, dataOrigin } = config;
 
     this.axios = axios.create({
-      baseURL: `${origin || 'https://api.line.me'}/`,
+      baseURL: `${origin ?? 'https://api.line.me'}/`,
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export default class LineClient {
     );
 
     this.dataAxios = axios.create({
-      baseURL: `${dataOrigin || 'https://api-data.line.me'}/`,
+      baseURL: `${dataOrigin ?? 'https://api-data.line.me'}/`,
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json',

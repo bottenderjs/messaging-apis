@@ -41,7 +41,7 @@ export default class TelegramClient {
     const { origin } = config;
 
     this.axios = axios.create({
-      baseURL: `${origin || 'https://api.telegram.org'}/bot${
+      baseURL: `${origin ?? 'https://api.telegram.org'}/bot${
         this.accessToken
       }/`,
       headers: {
@@ -63,7 +63,7 @@ export default class TelegramClient {
       const { data, config, request } = response;
 
       if (!data.ok) {
-        throw new AxiosError(`Telegram API - ${data.description || ''}`, {
+        throw new AxiosError(`Telegram API - ${data.description ?? ''}`, {
           config,
           request,
           response,
@@ -77,7 +77,7 @@ export default class TelegramClient {
     } catch (err: any) {
       if (err.response && err.response.data) {
         const { error_code, description } = err.response.data;
-        const msg = `Telegram API - ${error_code} ${description || ''}`;
+        const msg = `Telegram API - ${error_code} ${description ?? ''}`;
 
         throw new AxiosError(msg, err);
       }

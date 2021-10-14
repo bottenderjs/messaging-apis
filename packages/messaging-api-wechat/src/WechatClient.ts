@@ -64,11 +64,11 @@ export default class WechatClient {
 
     this.appId = config.appId;
     this.appSecret = config.appSecret;
-    this.onRequest = config.onRequest || onRequest;
+    this.onRequest = config.onRequest ?? onRequest;
     const { origin } = config;
 
     this.axios = axios.create({
-      baseURL: `${origin || 'https://api.weixin.qq.com'}/cgi-bin/`,
+      baseURL: `${origin ?? 'https://api.weixin.qq.com'}/cgi-bin/`,
       headers: {
         'Content-Type': 'application/json',
       },
