@@ -18,8 +18,8 @@
     "image-type": "^4.1.0",
     "lodash": "^4.17.21",
     "messaging-api-common": "file:../messaging-api-common",
-    "ts-invariant": "^0.4.4",
-    "type-fest": "^0.15.1",
+    "ts-invariant": "^0.9.3",
+    "type-fest": "^2.5.0",
     "warning": "^4.0.3"
   },
   "keywords": [

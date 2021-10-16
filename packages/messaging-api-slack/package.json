@@ -15,7 +15,7 @@
     "axios-error": "^1.0.4",
     "lodash": "^4.17.15",
     "messaging-api-common": "^1.0.4",
-    "ts-invariant": "^0.4.4"
+    "ts-invariant": "^0.9.3"
   },
   "keywords": [
     "bot",

@@ -14,7 +14,7 @@
     "axios-error": "file:../axios-error",
     "form-data": "^3.0.0",
     "messaging-api-common": "file:../messaging-api-common",
-    "ts-invariant": "^0.4.4"
+    "ts-invariant": "^0.9.3"
   },
   "keywords": [
     "bot",
