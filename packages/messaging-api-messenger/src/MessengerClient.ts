@@ -3,14 +3,9 @@ import fs from 'fs';
 import querystring from 'querystring';
 import url from 'url';
 
-import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import appendQuery from 'append-query';
-import axios, {
-  AxiosInstance,
-  AxiosTransformer,
-  AxiosError as BaseAxiosError,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosTransformer } from 'axios';
 import get from 'lodash/get';
 import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
@@ -21,6 +16,7 @@ import {
   createRequestInterceptor,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as Messenger from './Messenger';
 import * as MessengerTypes from './MessengerTypes';
@@ -33,7 +29,7 @@ function extractVersion(version: string): string {
 }
 
 function handleError(
-  err: BaseAxiosError<{
+  err: AxiosError<{
     error: {
       code: number;
       type: string;
@@ -45,10 +41,10 @@ function handleError(
     const error = get(err, 'response.data.error');
     if (error) {
       const msg = `Messenger API - ${error.code} ${error.type} ${error.message}`;
-      throw new AxiosError(msg, err);
+      throw new PrintableAxiosError(msg, err);
     }
   }
-  throw new AxiosError(err.message, err);
+  throw new PrintableAxiosError(err.message, err);
 }
 
 export default class MessengerClient {

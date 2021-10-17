@@ -1,4 +1,3 @@
-import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import difference from 'lodash/difference';
 import invariant from 'ts-invariant';
@@ -11,6 +10,7 @@ import {
   snakecase,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as TelegramTypes from './TelegramTypes';
 
@@ -63,11 +63,14 @@ export default class TelegramClient {
       const { data, config, request } = response;
 
       if (!data.ok) {
-        throw new AxiosError(`Telegram API - ${data.description ?? ''}`, {
-          config,
-          request,
-          response,
-        });
+        throw new PrintableAxiosError(
+          `Telegram API - ${data.description ?? ''}`,
+          {
+            config,
+            request,
+            response,
+          }
+        );
       }
 
       if (isPlainObject(data.result) || Array.isArray(data.result)) {
@@ -79,9 +82,9 @@ export default class TelegramClient {
         const { error_code, description } = err.response.data;
         const msg = `Telegram API - ${error_code} ${description ?? ''}`;
 
-        throw new AxiosError(msg, err);
+        throw new PrintableAxiosError(msg, err);
       }
-      throw new AxiosError(err.message, err);
+      throw new PrintableAxiosError(err.message, err);
     }
   }
 

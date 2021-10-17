@@ -19,16 +19,16 @@ yarn add axios-error
 ## Usage
 
 ```js
-const AxiosError = require('axios-error');
+const { PrintableAxiosError } = require('axios-error');
 
 // You can construct it from the error thrown by axios
-const error = new AxiosError(errorThrownByAxios);
+const error = new PrintableAxiosError(errorThrownByAxios);
 
 // Or with an custom error message
-const error = new AxiosError(message, errorThrownByAxios);
+const error = new PrintableAxiosError(message, errorThrownByAxios);
 
 // Or construct it from axios config, axios request and axios response
-const error = new AxiosError(message, { config, request, response });
+const error = new PrintableAxiosError(message, { config, request, response });
 ```
 
 Calling `console.log` on the error instance returns the formatted message. If you'd like to get the axios `request`, `response`, or `config`, you can still get them via the following keys on the error instance:
