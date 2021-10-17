@@ -179,7 +179,7 @@ it('#createUploadAudienceGroup should call createUploadAudienceGroup api', async
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/audienceGroup/upload'
   );
   expect(request?.body).toEqual({
@@ -218,7 +218,7 @@ it('#updateUploadAudienceGroup should call updateUploadAudienceGroup api', async
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('PUT');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/audienceGroup/upload'
   );
   expect(request?.body).toEqual({
@@ -259,7 +259,7 @@ it('#createClickAudienceGroup should call createClickAudienceGroup api', async (
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/audienceGroup/click'
   );
   expect(request?.body).toEqual({
@@ -288,7 +288,7 @@ it('#createImpAudienceGroup should call createImpAudienceGroup api', async () =>
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/audienceGroup/imp'
   );
   expect(request?.body).toEqual({
@@ -313,7 +313,7 @@ it('#setDescriptionAudienceGroup should call setDescriptionAudienceGroup api', a
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('PUT');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/audienceGroup/${AUDIENCE_GROUP_ID}/updateDescription`
   );
   expect(request?.body).toEqual({
@@ -334,7 +334,7 @@ it('#deleteAudienceGroup should call deleteAudienceGroup api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('DELETE');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/audienceGroup/${AUDIENCE_GROUP_ID}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -362,7 +362,7 @@ it('#getAudienceGroup should call getAudienceGroup api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/audienceGroup/${AUDIENCE_GROUP_ID}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -402,7 +402,7 @@ it('#getAudienceGroups should call getAudienceGroups api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/audienceGroup/list?page=1&description=audienceGroupName&status=READY&size=40`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -422,7 +422,7 @@ it('#getAudienceGroupAuthorityLevel should call getAudienceGroupAuthorityLevel a
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -440,7 +440,7 @@ it('#changeAudienceGroupAuthorityLevel should call changeAudienceGroupAuthorityL
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('PUT');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/audienceGroup/authorityLevel'
   );
   expect(request?.body).toEqual({

@@ -17,7 +17,7 @@ export type FailedResponseData = {
   errmsg: string;
 };
 
-export type ResponseData = SucceededResponseData | FailedResponseData;
+export type ResponseData = SucceededResponseData;
 
 export type AccessToken = {
   accessToken: string;
@@ -33,6 +33,62 @@ export type UploadedMedia = {
 export type Media = {
   videoUrl: string;
 };
+
+export type MessageOptions = {
+  touser: string;
+} & SendMessageOptions &
+  (
+    | {
+        msgtype: 'text';
+        text: {
+          content: string;
+        };
+      }
+    | {
+        msgtype: 'image';
+        image: {
+          mediaId: string;
+        };
+      }
+    | {
+        msgtype: 'voice';
+        voice: {
+          mediaId: string;
+        };
+      }
+    | {
+        msgtype: 'video';
+        video: Video;
+      }
+    | {
+        msgtype: 'music';
+        music: Music;
+      }
+    | {
+        msgtype: 'news';
+        news: News;
+      }
+    | {
+        msgtype: 'mpnews';
+        mpnews: {
+          mediaId: string;
+        };
+      }
+    | {
+        msgtype: 'msgmenu';
+        msgmenu: MsgMenu;
+      }
+    | {
+        msgtype: 'wxcard';
+        wxcard: {
+          cardId: string;
+        };
+      }
+    | {
+        msgtype: 'miniprogrampage';
+        miniprogrampage: MiniProgramPage;
+      }
+  );
 
 export type Video = {
   mediaId: string;
@@ -76,15 +132,12 @@ export type MiniProgramPage = {
   thumbMediaId: string;
 };
 
-export enum MediaType {
-  Image = 'image',
-  Voice = 'voice',
-  Video = 'video',
-  Thumb = 'thumb',
-}
+export type MediaType = 'image' | 'voice' | 'video' | 'thumb';
 
 export type SendMessageOptions = {
   customservice?: {
     kfAccount: string;
   };
 };
+
+export type TypingCommand = 'Typing' | 'CancelTyping';

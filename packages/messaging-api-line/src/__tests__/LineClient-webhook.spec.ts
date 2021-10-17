@@ -33,7 +33,7 @@ it('#setWebhookEndpointUrl should call api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('PUT');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/channel/webhook/endpoint'
   );
   expect(request?.body).toEqual({
@@ -58,7 +58,7 @@ it('#getWebhookEndpointInfo should call api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/channel/webhook/endpoint'
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -82,7 +82,7 @@ it('#testWebhookEndpoint should call api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/channel/webhook/test'
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');

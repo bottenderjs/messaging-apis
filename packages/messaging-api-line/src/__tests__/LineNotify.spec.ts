@@ -54,24 +54,6 @@ describe('constructor', () => {
   });
 });
 
-describe('#axios', () => {
-  it('should return underlying http client', () => {
-    const client = new LineNotify({
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-      redirectUri: REDIRECT_URI,
-    });
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
-    expect(client.apiAxios.get).toBeDefined();
-    expect(client.apiAxios.post).toBeDefined();
-    expect(client.apiAxios.put).toBeDefined();
-    expect(client.apiAxios.delete).toBeDefined();
-  });
-});
-
 describe('#getAuthLink', () => {
   it('should work', async () => {
     const { client } = createMock();

@@ -39,7 +39,7 @@ it('should support sending request body', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/message/broadcast'
   );
   expect(request?.body).toEqual({
@@ -74,7 +74,7 @@ it('should support sending a message array', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/message/broadcast'
   );
   expect(request?.body).toEqual({
@@ -107,7 +107,7 @@ it('should support sending a message', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/message/broadcast'
   );
   expect(request?.body).toEqual({

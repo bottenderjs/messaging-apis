@@ -5,7 +5,7 @@ import qs from 'qs';
 import { CamelCasedPropertiesDeep } from 'type-fest';
 import {
   OnRequestFunction,
-  camelcaseKeys,
+  camelcaseKeysDeep,
   createRequestInterceptor,
   pascalcaseKeys,
 } from 'messaging-api-common';
@@ -113,7 +113,7 @@ export default class TwilioClient {
    *
    * @param config - the config object
    * @example
-   * ```ts
+   * ```js
    * const twilio = new TwilioClient({
    *   accountSid: TWILIO_ACCOUNT_SID,
    *   authToken: TWILIO_AUTH_TOKEN,
@@ -157,7 +157,7 @@ export default class TwilioClient {
           : []),
         (data, headers) => {
           if (headers['content-type'] !== 'application/json') return data;
-          return camelcaseKeys(data);
+          return camelcaseKeysDeep(data);
         },
       ],
     });

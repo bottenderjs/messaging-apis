@@ -1,7 +1,7 @@
+import axios, { AxiosRequestConfig, Method } from 'axios';
 import debug from 'debug';
 import omit from 'lodash/omit';
 import urlJoin from 'url-join';
-import { AxiosRequestConfig, Method } from 'axios';
 
 const debugRequest = debug('messaging-api:request');
 
@@ -32,7 +32,7 @@ function createRequestInterceptor({
   return (config: AxiosRequestConfig): AxiosRequestConfig => {
     onRequest({
       method: config.method,
-      url: urlJoin(config.baseURL ?? '', config.url ?? '/'),
+      url: urlJoin(config.baseURL ?? '', axios.getUri(config)),
       headers: {
         ...config.headers.common,
         ...(config.method ? config.headers[config.method] : {}),

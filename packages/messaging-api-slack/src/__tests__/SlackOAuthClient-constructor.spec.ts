@@ -55,17 +55,6 @@ describe('constructor', () => {
   });
 });
 
-describe('#axios', () => {
-  it('should return underlying http client', () => {
-    const client = new SlackOAuthClient({ accessToken: TOKEN });
-
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
-  });
-});
-
 describe('#accessToken', () => {
   it('should return underlying access token', () => {
     const client = new SlackOAuthClient({ accessToken: TOKEN });

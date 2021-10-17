@@ -30,7 +30,7 @@ it('should support origin', async () => {
     body: 'This is a message that I want to send over WhatsApp with Twilio',
   });
 
-  expect(getCurrentContext().request?.url.toString()).toBe(
+  expect(getCurrentContext().request?.url.href).toBe(
     'https://mydummytestserver.com/2010-04-01/Accounts/ACCOUNT_SID/Messages.json'
   );
 });
@@ -124,7 +124,7 @@ it('should support #messages.create', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     'https://ACCOUNT_SID:AUTH_TOKEN@api.twilio.com/2010-04-01/Accounts/ACCOUNT_SID/Messages.json'
   );
   expect(request?.body).toEqual(

@@ -171,7 +171,7 @@ it('#getGroupSummary should respond group summary', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/group/${GROUP_ID}/summary`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -193,7 +193,7 @@ it('#getGroupMemberProfile should respond group member profile', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/group/${GROUP_ID}/member/${USER_ID}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -215,7 +215,7 @@ it('#getRoomMemberProfile should respond room member profile', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/room/${ROOM_ID}/member/${USER_ID}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -233,7 +233,7 @@ it('#getGroupMembersCount should respond group members count', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/group/${GROUP_ID}/members/count`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -251,7 +251,7 @@ it('#getRoomMembersCount should respond room members count', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/room/${ROOM_ID}/members/count`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -277,7 +277,7 @@ describe('#getGroupMemberIds', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -301,7 +301,7 @@ describe('#getGroupMemberIds', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${CONTINUATION_TOKEN}`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -343,7 +343,7 @@ describe('#getRoomMemberIds', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -367,7 +367,7 @@ describe('#getRoomMemberIds', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${CONTINUATION_TOKEN}`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -401,7 +401,7 @@ it('#leaveGroup should call leave api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/group/${GROUP_ID}/leave`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -419,7 +419,7 @@ it('#leaveRoom should call leave api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/room/${ROOM_ID}/leave`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');

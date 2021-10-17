@@ -42,9 +42,7 @@ it('should support sending request body', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
-    'https://api.line.me/v2/bot/message/push'
-  );
+  expect(request?.url.href).toBe('https://api.line.me/v2/bot/message/push');
   expect(request?.body).toEqual({
     to: RECIPIENT_ID,
     messages: [
@@ -79,9 +77,7 @@ it('should support sending a message array', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
-    'https://api.line.me/v2/bot/message/push'
-  );
+  expect(request?.url.href).toBe('https://api.line.me/v2/bot/message/push');
   expect(request?.body).toEqual({
     to: RECIPIENT_ID,
     messages: [
@@ -114,9 +110,7 @@ it('should support sending a message', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
-  expect(request?.url.toString()).toBe(
-    'https://api.line.me/v2/bot/message/push'
-  );
+  expect(request?.url.href).toBe('https://api.line.me/v2/bot/message/push');
   expect(request?.body).toEqual({
     to: RECIPIENT_ID,
     messages: [
