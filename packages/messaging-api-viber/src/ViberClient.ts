@@ -1,4 +1,3 @@
-import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'ts-invariant';
 import {
@@ -10,6 +9,7 @@ import {
   snakecaseKeys,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as ViberTypes from './ViberTypes';
 
@@ -95,7 +95,7 @@ export default class ViberClient {
       ) as any as ViberTypes.ResponseData<R>;
 
       if (data.status !== 0) {
-        throw new AxiosError(`Viber API - ${data.statusMessage}`, {
+        throw new PrintableAxiosError(`Viber API - ${data.statusMessage}`, {
           config,
           request,
           response,
@@ -104,7 +104,7 @@ export default class ViberClient {
 
       return data;
     } catch (err: any) {
-      throw new AxiosError(err.message, err);
+      throw new PrintableAxiosError(err.message, err);
     }
   }
 

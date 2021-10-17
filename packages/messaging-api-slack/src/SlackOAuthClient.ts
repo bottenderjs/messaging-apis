@@ -1,6 +1,5 @@
 import querystring from 'querystring';
 
-import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'ts-invariant';
 import {
@@ -9,6 +8,7 @@ import {
   createRequestInterceptor,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as SlackTypes from './SlackTypes';
 
@@ -681,7 +681,7 @@ export default class SlackOAuthClient {
       if (!data.ok) {
         const { config, request } = response;
 
-        throw new AxiosError(`Slack API - ${data.error}`, {
+        throw new PrintableAxiosError(`Slack API - ${data.error}`, {
           config,
           request,
           response,
@@ -690,7 +690,7 @@ export default class SlackOAuthClient {
 
       return data;
     } catch (err: any) {
-      throw new AxiosError(err.message, err);
+      throw new PrintableAxiosError(err.message, err);
     }
   }
 

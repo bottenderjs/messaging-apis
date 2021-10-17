@@ -1,18 +1,18 @@
 import { Readable } from 'stream';
 
-import AxiosError from 'axios-error';
-import axios, { AxiosInstance, AxiosError as BaseAxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import imageType from 'image-type';
 import invariant from 'ts-invariant';
 import {
   OnRequestFunction,
   createRequestInterceptor,
 } from 'messaging-api-common';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as LineTypes from './LineTypes';
 
 function handleError(
-  err: BaseAxiosError<{
+  err: AxiosError<{
     message: string;
     details: {
       property: string;
@@ -28,9 +28,9 @@ function handleError(
         msg += `\n- ${detail.property}: ${detail.message}`;
       });
     }
-    throw new AxiosError(msg, err);
+    throw new PrintableAxiosError(msg, err);
   }
-  throw new AxiosError(err.message, err);
+  throw new PrintableAxiosError(err.message, err);
 }
 
 function toArray<T>(arrOrItem: T | T[]): T[] {

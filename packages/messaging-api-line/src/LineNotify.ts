@@ -1,17 +1,13 @@
 import querystring from 'querystring';
 
-import AxiosError from 'axios-error';
-import axios, {
-  AxiosInstance,
-  AxiosResponse,
-  AxiosError as BaseAxiosError,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { JsonObject } from 'type-fest';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as LineTypes from './LineTypes';
 
 function handleError(
-  err: BaseAxiosError<{
+  err: AxiosError<{
     error: {
       message: string;
     };
@@ -20,9 +16,9 @@ function handleError(
   if (err.response && err.response.data && err.response.data.error) {
     const { message } = err.response.data.error;
     const msg = `LINE Notify API - ${message}`;
-    throw new AxiosError(msg, err);
+    throw new PrintableAxiosError(msg, err);
   }
-  throw new AxiosError(err.message, err);
+  throw new PrintableAxiosError(err.message, err);
 }
 
 function throwWhenNotSuccess<T extends JsonObject = {}>(
@@ -39,7 +35,7 @@ function throwWhenNotSuccess<T extends JsonObject = {}>(
   if (res.data.status !== 200) {
     const { status, message } = res.data;
     const msg = `LINE NOTIFY API - ${status} ${message}`;
-    throw new AxiosError(msg, {
+    throw new PrintableAxiosError(msg, {
       response: res,
       config: res.config,
       request: res.request,

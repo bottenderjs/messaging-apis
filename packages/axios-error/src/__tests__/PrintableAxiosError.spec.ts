@@ -3,7 +3,7 @@ import util from 'util';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 
-import AxiosError from '..';
+import PrintableAxiosError from '../PrintableAxiosError';
 
 const mock = new MockAdapter(axios);
 
@@ -26,13 +26,13 @@ it('should work', async () => {
     // overwrite because axios-mock-adapter set it to undefined
     err.response.statusText = 'Bad Request';
 
-    const error = new AxiosError(err.response.data.error_status, err);
+    const error = new PrintableAxiosError(err.response.data.error_status, err);
 
     // overwrite stack to test it
     error.stack = stack;
 
     expect(error[util.inspect.custom]()).toMatchSnapshot();
-    expect(error.name).toBe('AxiosError');
+    expect(error.name).toBe('PrintableAxiosError');
   }
 });
 
@@ -43,7 +43,7 @@ it('should set `.status` property', async () => {
     // overwrite because axios-mock-adapter set it to undefined
     err.response.statusText = 'Bad Request';
 
-    const error = new AxiosError(err);
+    const error = new PrintableAxiosError(err);
 
     expect(error.status).toBe(400);
   }
@@ -56,13 +56,13 @@ it('should work with construct using error instance only', async () => {
     // overwrite because axios-mock-adapter set it to undefined
     err.response.statusText = 'Bad Request';
 
-    const error = new AxiosError(err);
+    const error = new PrintableAxiosError(err);
 
     // overwrite stack to test it
     error.stack = stack;
 
     expect(error[util.inspect.custom]()).toMatchSnapshot();
-    expect(error.name).toBe('AxiosError');
+    expect(error.name).toBe('PrintableAxiosError');
   }
 });
 
@@ -74,12 +74,12 @@ it('should work with undefined response', async () => {
     // https://github.com/Yoctol/bottender/issues/246
     err.response = undefined;
 
-    const error = new AxiosError('read ECONNRESET', err);
+    const error = new PrintableAxiosError('read ECONNRESET', err);
 
     // overwrite stack to test it
     error.stack = stack;
 
     expect(error[util.inspect.custom]()).toMatchSnapshot();
-    expect(error.name).toBe('AxiosError');
+    expect(error.name).toBe('PrintableAxiosError');
   }
 });

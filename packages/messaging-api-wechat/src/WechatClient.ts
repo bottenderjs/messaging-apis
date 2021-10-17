@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-import AxiosError from 'axios-error';
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import invariant from 'ts-invariant';
@@ -11,6 +10,7 @@ import {
   onRequest,
   snakecaseKeys,
 } from 'messaging-api-common';
+import { PrintableAxiosError } from 'axios-error';
 
 import * as WechatTypes from './WechatTypes';
 
@@ -18,7 +18,7 @@ function throwErrorIfAny(response: AxiosResponse): AxiosResponse {
   const { errcode, errmsg } = response.data;
   if (!errcode || errcode === 0) return response;
   const msg = `WeChat API - ${errcode} ${errmsg}`;
-  throw new AxiosError(msg, {
+  throw new PrintableAxiosError(msg, {
     response,
     config: response.config,
     request: response.request,
