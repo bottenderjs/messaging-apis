@@ -27,7 +27,7 @@ export function getCurrentContext(): Context {
  * @returns MSW setup server API.
  */
 export function setupLineServer(): SetupServerApi {
-  const lineServer = setupServer(
+  const server = setupServer(
     ...botRequestHandlers,
     rest.post('https://api.line.me/v2/bot/message/reply', (req, res, ctx) => {
       currentContext.request = req;
@@ -57,21 +57,21 @@ export function setupLineServer(): SetupServerApi {
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
       // Establish requests interception layer before all tests.
-      lineServer.listen();
+      server.listen();
     });
   }
 
   afterEach(() => {
     // Reset any runtime handlers tests may use.
-    lineServer.resetHandlers();
+    server.resetHandlers();
   });
   afterAll(() => {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
-    lineServer.close();
+    server.close();
   });
 
-  return lineServer;
+  return server;
 }
 
 export const constants = {
