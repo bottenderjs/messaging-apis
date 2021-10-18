@@ -53,30 +53,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send text message to user with snakecase options', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendMessage', {
-          chat_id: 427770117,
-          text: 'hi',
-          parse_mode: 'Markdown',
-          disable_web_page_preview: true,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMessage(427770117, 'hi', {
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-        disable_notification: true,
-        reply_to_message_id: 9527,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send text message to user with camelcase options', async () => {
+    it('should send text message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendMessage', {
@@ -357,34 +334,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send photo message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendPhoto', {
-          chat_id: 427770117,
-          photo: 'https://example.com/image.png',
-          caption: 'gooooooodPhoto',
-          parse_mode: 'Markdown',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendPhoto(
-        427770117,
-        'https://example.com/image.png',
-        {
-          caption: 'gooooooodPhoto',
-          parse_mode: 'Markdown',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send photo message to user with camelcase', async () => {
+    it('should send photo message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendPhoto', {
@@ -465,42 +415,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send audio message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-
-      mock
-        .onPost('/sendAudio', {
-          chat_id: 427770117,
-          audio: 'https://example.com/audio.mp3',
-          caption: 'gooooooodAudio',
-          parse_mode: 'Markdown',
-          duration: 1,
-          performer: 'performer',
-          title: 'title',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendAudio(
-        427770117,
-        'https://example.com/audio.mp3',
-        {
-          caption: 'gooooooodAudio',
-          parse_mode: 'Markdown',
-          duration: 1,
-          performer: 'performer',
-          title: 'title',
-          thumb: 'thumb',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send audio message to user with camelcase', async () => {
+    it('should send audio message to user', async () => {
       const { client, mock } = createMock();
 
       mock
@@ -597,35 +512,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send document message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendDocument', {
-          chat_id: 427770117,
-          document: 'https://example.com/doc.gif',
-          caption: 'gooooooodDocument',
-          parse_mode: 'Markdown',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendDocument(
-        427770117,
-        'https://example.com/doc.gif',
-        {
-          caption: 'gooooooodDocument',
-          thumb: 'thumb',
-          parse_mode: 'Markdown',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send document message to user with camelcase', async () => {
+    it('should send document message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendDocument', {
@@ -715,30 +602,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send sticker message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendSticker', {
-          chat_id: 427770117,
-          sticker: 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendSticker(
-        427770117,
-        'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
-        {
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send sticker message to user with camelcase', async () => {
+    it('should send sticker message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendSticker', {
@@ -822,43 +686,6 @@ describe('send api', () => {
         caption: 'gooooooodVideo',
       },
     };
-
-    it('should send video message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-
-      mock
-        .onPost('/sendVideo', {
-          chat_id: 427770117,
-          video: 'https://example.com/video.mp4',
-          duration: 1,
-          width: 2,
-          height: 3,
-          caption: 'gooooooodVideo',
-          parse_mode: 'Markdown',
-          supports_streaming: true,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVideo(
-        427770117,
-        'https://example.com/video.mp4',
-        {
-          duration: 1,
-          width: 2,
-          height: 3,
-          thumb: 'thumb',
-          caption: 'gooooooodVideo',
-          parse_mode: 'Markdown',
-          supports_streaming: true,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
 
     it('should send video message to user with camelcase', async () => {
       const { client, mock } = createMock();
@@ -989,42 +816,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send animation message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-
-      mock
-        .onPost('/sendAnimation', {
-          chat_id: 427770117,
-          animation: 'https://example.com/animation.mp4',
-          duration: 1,
-          width: 2,
-          height: 3,
-          caption: 'gooooooodAnimation',
-          parse_mode: 'Markdown',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendAnimation(
-        427770117,
-        'https://example.com/animation.mp4',
-        {
-          duration: 1,
-          width: 2,
-          height: 3,
-          thumb: 'thumb',
-          caption: 'gooooooodAnimation',
-          parse_mode: 'Markdown',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send animation message to user with camelcase', async () => {
+    it('should send animation message to user', async () => {
       const { client, mock } = createMock();
 
       mock
@@ -1109,36 +901,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send voice message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendVoice', {
-          chat_id: 427770117,
-          voice: 'https://example.com/voice.ogg',
-          caption: 'gooooooodVoice',
-          parse_mode: 'Markdown',
-          duration: 1,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVoice(
-        427770117,
-        'https://example.com/voice.ogg',
-        {
-          caption: 'gooooooodVoice',
-          parse_mode: 'Markdown',
-          duration: 1,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send voice message to user with camelcase', async () => {
+    it('should send voice message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendVoice', {
@@ -1227,35 +990,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send video note message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendVideoNote', {
-          chat_id: 427770117,
-          video_note: 'https://example.com/video_note.mp4',
-          duration: 40,
-          length: 1,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVideoNote(
-        427770117,
-        'https://example.com/video_note.mp4',
-        {
-          duration: 40,
-          length: 1,
-          thumb: 'thumb',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send video note message to user with camelecase', async () => {
+    it('should send video note message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendVideoNote', {
@@ -1334,61 +1069,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send a group of photos and videos as an album with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendMediaGroup', {
-          chat_id: 427770117,
-          media: [
-            {
-              type: 'photo',
-              media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-              caption: 'caption',
-              parse_mode: 'Markdown',
-            },
-            {
-              type: 'video',
-              media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
-              caption: 'caption',
-              parse_mode: 'Markdown',
-              width: 1,
-              height: 2,
-              duration: 3,
-              supports_streaming: true,
-            },
-          ],
-          disable_notification: true,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMediaGroup(
-        427770117,
-        [
-          {
-            type: InputMediaType.Photo,
-            media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
-            caption: 'caption',
-            parse_mode: 'Markdown',
-          },
-          {
-            type: InputMediaType.Video,
-            media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
-            caption: 'caption',
-            thumb: 'thumb',
-            parse_mode: 'Markdown',
-            width: 1,
-            height: 2,
-            duration: 3,
-            supports_streaming: true,
-          },
-        ],
-        { disable_notification: true }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send a group of photos and videos as an album with camelcase', async () => {
+    it('should send a group of photos and videos as an album', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendMediaGroup', {
@@ -1486,35 +1167,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send location message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendLocation', {
-          chat_id: 427770117,
-          latitude: 30,
-          longitude: 45,
-          live_period: 60,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendLocation(
-        427770117,
-        {
-          latitude: 30,
-          longitude: 45,
-        },
-        {
-          live_period: 60,
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-    it('should send location message to user with camelcase', async () => {
+    it('should send location message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendLocation', {
@@ -1603,38 +1256,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send venue message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendVenue', {
-          chat_id: 427770117,
-          latitude: 30,
-          longitude: 45,
-          title: 'a_title',
-          address: 'an_address',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVenue(
-        427770117,
-        {
-          latitude: 30,
-          longitude: 45,
-          title: 'a_title',
-          address: 'an_address',
-        },
-        {
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send venue message to user with camelcase', async () => {
+    it('should send venue message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendVenue', {
@@ -1709,38 +1331,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send contact message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendContact', {
-          chat_id: 427770117,
-          phone_number: '886123456789',
-          first_name: 'first',
-          last_name: 'last',
-          vcard: 'vcard',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendContact(
-        427770117,
-        {
-          phone_number: '886123456789',
-          first_name: 'first',
-        },
-        {
-          last_name: 'last',
-          vcard: 'vcard',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send contact message to user with camelcase', async () => {
+    it('should send contact message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendContact', {
@@ -1845,27 +1436,7 @@ describe('send api', () => {
       },
     };
 
-    it('should send poll message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendPoll', {
-          chat_id: 427770117,
-          question: 'q',
-          options: ['a', 'b', 'c'],
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendPoll(427770117, 'q', ['a', 'b', 'c'], {
-        disable_notification: true,
-        reply_to_message_id: 9527,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send poll message to user with camelcase', async () => {
+    it('should send poll message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendPoll', {

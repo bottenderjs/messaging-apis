@@ -186,39 +186,6 @@ describe('broadcast message', () => {
 
       expect(res).toEqual(reply);
     });
-
-    it('should support snakecase', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        status: 0,
-        statusMessage: 'ok',
-        messageToken: 5098034272017990000,
-      };
-
-      mock
-        .onPost(`/broadcast_message`, {
-          broadcast_list: BROADCAST_LIST,
-          sender: {
-            name: 'John McClane',
-            avatar: 'http://avatar.example.com',
-          },
-          type: 'file',
-          media: 'http://www.images.com/file.doc',
-          size: 10000,
-          file_name: 'name_of_file.doc',
-        })
-        .reply(200, reply);
-
-      const res = await client.broadcastFile(BROADCAST_LIST, {
-        media: 'http://www.images.com/file.doc',
-        size: 10000,
-        // @ts-expect-error
-        file_name: 'name_of_file.doc',
-      });
-
-      expect(res).toEqual(reply);
-    });
   });
 
   describe('#broadcastContact', () => {
@@ -249,39 +216,6 @@ describe('broadcast message', () => {
       const res = await client.broadcastContact(BROADCAST_LIST, {
         name: 'Itamar',
         phoneNumber: '+972511123123',
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should support snakecase', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        status: 0,
-        statusMessage: 'ok',
-        messageToken: 5098034272017990000,
-      };
-
-      mock
-        .onPost(`/broadcast_message`, {
-          broadcast_list: BROADCAST_LIST,
-          sender: {
-            name: 'John McClane',
-            avatar: 'http://avatar.example.com',
-          },
-          type: 'contact',
-          contact: {
-            name: 'Itamar',
-            phone_number: '+972511123123',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.broadcastContact(BROADCAST_LIST, {
-        name: 'Itamar',
-        // @ts-expect-error
-        phone_number: '+972511123123',
       });
 
       expect(res).toEqual(reply);

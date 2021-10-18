@@ -101,31 +101,7 @@ describe('sticker set api', () => {
       },
     };
 
-    it('should create a new stickerSet with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock.onPost('/createNewStickerSet', mock_params).reply(200, reply);
-
-      const res = await client.createNewStickerSet(
-        1,
-        'sticker_set_name',
-        'title',
-        'https://example.com/sticker.png',
-        '💛',
-        {
-          contains_masks: true,
-          mask_position: {
-            point: 'eyes',
-            x_shift: 10,
-            y_shift: 10,
-            scale: 1,
-          },
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should create a new stickerSet with camelcase', async () => {
+    it('should create a new stickerSet', async () => {
       const { client, mock } = createMock();
       mock.onPost('/createNewStickerSet', mock_params).reply(200, reply);
 
@@ -170,29 +146,7 @@ describe('sticker set api', () => {
       },
     };
 
-    it('should add a sticker to set with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock.onPost('/addStickerToSet', mock_params).reply(200, reply);
-
-      const res = await client.addStickerToSet(
-        1,
-        'sticker_set_name',
-        'https://example.com/sticker.png',
-        '💛',
-        {
-          mask_position: {
-            point: 'eyes',
-            x_shift: 10,
-            y_shift: 10,
-            scale: 1,
-          },
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should add a sticker to set with camelcase', async () => {
+    it('should add a sticker to set', async () => {
       const { client, mock } = createMock();
       mock.onPost('/addStickerToSet', mock_params).reply(200, reply);
 

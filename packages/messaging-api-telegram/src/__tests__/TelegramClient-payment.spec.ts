@@ -62,41 +62,7 @@ describe('payment api', () => {
       },
     };
 
-    it('should send invoice message to user with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendInvoice', {
-          chat_id: 427770117,
-          title: 'product name',
-          description: 'product description',
-          payload: 'bot-defined invoice payload',
-          provider_token: 'PROVIDER_TOKEN',
-          start_parameter: 'pay',
-          currency: 'USD',
-          prices: [
-            { label: 'product', amount: 11000 },
-            { label: 'tax', amount: 11000 },
-          ],
-        })
-        .reply(200, reply);
-
-      const res = await client.sendInvoice(427770117, {
-        title: 'product name',
-        description: 'product description',
-        payload: 'bot-defined invoice payload',
-        provider_token: 'PROVIDER_TOKEN',
-        start_parameter: 'pay',
-        currency: 'USD',
-        prices: [
-          { label: 'product', amount: 11000 },
-          { label: 'tax', amount: 11000 },
-        ],
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send invoice message to user with camelcase', async () => {
+    it('should send invoice message to user', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendInvoice', {

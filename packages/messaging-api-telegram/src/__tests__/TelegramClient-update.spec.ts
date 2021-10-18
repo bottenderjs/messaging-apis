@@ -53,29 +53,7 @@ describe('updating api', () => {
       },
     };
 
-    it('should change message text with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/editMessageText', {
-          text: 'new_text',
-          chat_id: 427770117,
-          message_id: 66,
-          parse_mode: 'Markdown',
-          disable_web_page_preview: true,
-        })
-        .reply(200, reply);
-
-      const res = await client.editMessageText('new_text', {
-        chat_id: 427770117,
-        message_id: 66,
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should change message text with camelcase', async () => {
+    it('should change message text', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/editMessageText', {
@@ -151,27 +129,7 @@ describe('updating api', () => {
       },
     };
 
-    it('should change message caption with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/editMessageCaption', {
-          caption: 'new_caption',
-          chat_id: 427770117,
-          message_id: 66,
-          parse_mode: 'Markdown',
-        })
-        .reply(200, reply);
-
-      const res = await client.editMessageCaption('new_caption', {
-        chat_id: 427770117,
-        message_id: 66,
-        parse_mode: 'Markdown',
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should change message caption with camelcase', async () => {
+    it('should change message caption', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/editMessageCaption', {
@@ -245,44 +203,7 @@ describe('updating api', () => {
       },
     };
 
-    it('should change message media with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/editMessageMedia', {
-          media: {
-            type: 'audio',
-            media: 'https://example.com/audio.mp3',
-            caption: 'caption',
-            parse_mode: 'Markdown',
-            duration: 1,
-            performer: 'performer',
-            title: 'title',
-          },
-          chat_id: 427770117,
-          message_id: 66,
-        })
-        .reply(200, reply);
-
-      const res = await client.editMessageMedia(
-        {
-          type: 'audio',
-          media: 'https://example.com/audio.mp3',
-          caption: 'caption',
-          parse_mode: 'Markdown',
-          duration: 1,
-          performer: 'performer',
-          title: 'title',
-        },
-        {
-          chat_id: 427770117,
-          message_id: 66,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should change message media with camelcase', async () => {
+    it('should change message media', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/editMessageMedia', {
@@ -357,36 +278,7 @@ describe('updating api', () => {
       },
     };
 
-    it('should change message reply_markup with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/editMessageReplyMarkup', {
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: 'new_button_1' }, { text: 'new_button_2' }],
-            ],
-          },
-          chat_id: 427770117,
-          message_id: 66,
-        })
-        .reply(200, reply);
-
-      const res = await client.editMessageReplyMarkup(
-        {
-          inline_keyboard: [
-            [{ text: 'new_button_1' }, { text: 'new_button_2' }],
-          ],
-        },
-        {
-          chat_id: 427770117,
-          message_id: 66,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-
-    it('should change message reply_markup with camelcase', async () => {
+    it('should change message reply_markup', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/editMessageReplyMarkup', {
@@ -481,31 +373,7 @@ describe('updating api', () => {
       },
     };
 
-    it('should edit live location message with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/editMessageLiveLocation', {
-          latitude: 11,
-          longitude: 22,
-          chat_id: 427770117,
-          message_id: 66,
-        })
-        .reply(200, reply);
-
-      const res = await client.editMessageLiveLocation(
-        {
-          latitude: 11,
-          longitude: 22,
-        },
-        {
-          chat_id: 427770117,
-          message_id: 66,
-        }
-      );
-
-      expect(res).toEqual(result);
-    });
-    it('should edit live location message with camelcase', async () => {
+    it('should edit live location message', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/editMessageLiveLocation', {
