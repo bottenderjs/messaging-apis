@@ -55,6 +55,29 @@ it('should support #onRequest', async () => {
   });
 });
 
+it('should handle errors', async () => {
+  viberServer.use(
+    rest.post('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(
+        ctx.json({
+          status: 2,
+          statusMessage: 'invalidAuthToken',
+        })
+      );
+    })
+  );
+
+  const viber = new ViberClient({
+    accessToken: constants.AUTH_TOKEN,
+    sender: constants.SENDER,
+  });
+
+  await expect(viber.getAccountInfo()).rejects.toThrowError(
+    'Viber API - 2 invalidAuthToken'
+  );
+});
+
 it('should support #getAccountInfo', async () => {
   const viber = new ViberClient({
     accessToken: constants.AUTH_TOKEN,
