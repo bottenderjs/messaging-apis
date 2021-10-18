@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import querystring from 'querystring';
 import url from 'url';
 
 import FormData from 'form-data';
@@ -10,6 +9,7 @@ import get from 'lodash/get';
 import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
+import qs from 'qs';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -3035,7 +3035,7 @@ export default class MessengerClient {
   ) {
     return this.axios
       .get(
-        `/me/insights/?${querystring.stringify({
+        `/me/insights/?${qs.stringify({
           metric: metrics.join(','),
           access_token: this.accessToken,
           ...options,
@@ -3239,7 +3239,7 @@ export default class MessengerClient {
   setNLPConfigs(config: MessengerTypes.MessengerNLPConfig = {}): Promise<any> {
     return this.axios
       .post(
-        `/me/nlp_configs?${querystring.stringify(
+        `/me/nlp_configs?${qs.stringify(
           snakecaseKeysDeep({
             ...config,
             accessToken: this.accessToken,
