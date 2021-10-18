@@ -1,29 +1,34 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+// import pick from 'lodash/pick';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
   createRequestInterceptor,
   onRequest,
   pascalcaseKeysDeep,
-  snakecaseKeys,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 import { PrintableAxiosError } from 'axios-error';
 
 import * as ViberTypes from './ViberTypes';
 
-function transformMessageCase(message: ViberTypes.Message): any {
-  const { keyboard, richMedia, ...others } = message as any;
+function throwErrorIfAny(response: AxiosResponse): AxiosResponse {
+  const { status, statusMessage } = response.data;
+  if (status === 0) return response;
+  const msg = `Viber API - ${statusMessage}`;
+  throw new PrintableAxiosError(msg, {
+    response,
+    config: response.config,
+    request: response.request,
+  });
+}
 
-  return {
-    ...snakecaseKeysDeep(others),
-    ...(keyboard ? { keyboard: pascalcaseKeysDeep(keyboard) } : undefined),
-    ...(richMedia
-      ? {
-          richMedia: pascalcaseKeysDeep(richMedia),
-        }
-      : undefined),
-  } as any;
+function wrapPrintableAxiosError(err: unknown) {
+  return Promise.reject(
+    axios.isAxiosError(err)
+      ? new PrintableAxiosError(`Viber API - ${err.message}`, err)
+      : err
+  );
 }
 
 /**
@@ -51,8 +56,19 @@ export default class ViberClient {
   private onRequest?: OnRequestFunction;
 
   /**
+   * The constructor of ViberClient.
    *
-   * @param config
+   * @param config - the config object
+   * @example
+   * ```js
+   * const viber = new ViberClient({
+   *   accessToken: VIBER_AUTH_TOKEN,
+   *   sender: {
+   *     name: 'John McClane',
+   *     avatar: 'http://avatar.example.com',
+   *   },
+   * });
+   * ```
    */
   constructor(config: ViberTypes.ClientConfig) {
     this.accessToken = config.accessToken;
@@ -66,44 +82,54 @@ export default class ViberClient {
         'Content-Type': 'application/json',
         'X-Viber-Auth-Token': this.accessToken,
       },
+      transformRequest: [
+        (data, headers) => {
+          if (headers['Content-Type'] !== 'application/json' || !data) {
+            return data;
+          }
+
+          const { keyboard, richMedia, ...rest } = data;
+
+          // It only accepts "PascalCase" for keyboard and rich media
+          return {
+            ...snakecaseKeysDeep(rest),
+            ...(keyboard
+              ? { keyboard: pascalcaseKeysDeep(keyboard) }
+              : undefined),
+            ...(richMedia
+              ? { rich_media: pascalcaseKeysDeep(richMedia) }
+              : undefined),
+          };
+        },
+        // eslint-disable-next-line no-nested-ternary
+        ...(Array.isArray(axios.defaults.transformRequest)
+          ? axios.defaults.transformRequest
+          : axios.defaults.transformRequest !== undefined
+          ? [axios.defaults.transformRequest]
+          : []),
+      ],
+      transformResponse: [
+        // eslint-disable-next-line no-nested-ternary
+        ...(Array.isArray(axios.defaults.transformResponse)
+          ? axios.defaults.transformResponse
+          : axios.defaults.transformResponse !== undefined
+          ? [axios.defaults.transformResponse]
+          : []),
+        (data, headers) => {
+          if (headers['content-type'] !== 'application/json') return data;
+          return camelcaseKeysDeep(data);
+        },
+      ],
     });
 
     this.axios.interceptors.request.use(
       createRequestInterceptor({ onRequest: this.onRequest })
     );
-  }
 
-  private async callAPI<R extends object>(
-    path: string,
-    body: Record<string, any> = {}
-  ): Promise<ViberTypes.SucceededResponseData<R>> {
-    try {
-      const response = await this.axios.post(
-        path,
-
-        // we can't apply a deep snake_case transform here
-        // because it accept only PascalCase for keyboard and rich media
-        snakecaseKeys(body, { deep: false })
-      );
-
-      const { config, request } = response;
-
-      const data = camelcaseKeysDeep(
-        response.data
-      ) as any as ViberTypes.ResponseData<R>;
-
-      if (data.status !== 0) {
-        throw new PrintableAxiosError(`Viber API - ${data.statusMessage}`, {
-          config,
-          request,
-          response,
-        });
-      }
-
-      return data;
-    } catch (err: any) {
-      throw new PrintableAxiosError(err.message, err);
-    }
+    this.axios.interceptors.response.use(
+      throwErrorIfAny,
+      wrapPrintableAxiosError
+    );
   }
 
   /**
@@ -113,19 +139,16 @@ export default class ViberClient {
    */
 
   /**
-   * Sets a Webhook
+   * Sets a Webhook.
    *
    * @param url - Account webhook URL to receive callbacks & messages from users.
    * @param options - The optional parameters.
    * @param options.eventTypes - Indicates the types of Viber events that the account owner would like to be notified about. Don’t include this parameter in your request to get all events. Possible values: `delivered`, `seen`, `failed`, `subscribed`, `unsubscribed` and `conversation_started`.
    * @param options.sendName - Indicates whether or not the bot should receive the user name. Default `false`.
    * @param options.sendPhoto - Indicates whether or not the bot should receive the user photo. Default `false`.
-   * @returns Status
-   *
+   * @returns status
    * @see https://developers.viber.com/docs/api/rest-bot-api/#setting-a-webhook
-   *
    * @example
-   *
    * ```js
    * await client.setWebhook('https://4a16faff.ngrok.io/');
    *
@@ -147,12 +170,16 @@ export default class ViberClient {
       eventTypes: ViberTypes.EventType[];
     }>
   > {
-    return this.callAPI<{
-      eventTypes: ViberTypes.EventType[];
-    }>('/set_webhook', {
-      url,
-      ...options,
-    });
+    return this.axios
+      .post<
+        ViberTypes.SucceededResponseData<{
+          eventTypes: ViberTypes.EventType[];
+        }>
+      >('/set_webhook', {
+        url,
+        ...options,
+      })
+      .then((res) => res.data);
   }
 
   /**
@@ -178,30 +205,27 @@ export default class ViberClient {
    *
    * @param receiver - Unique Viber user id.
    * @param message - Message and options to be sent.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#send-message
-   *
    * @example
-   *
    * ```js
    * await client.sendMessage(USER_ID, {
    *   type: 'text',
    *   text: 'Hello',
    * });
    * ```
-   *
-   * @note Maximum total JSON size of the request is 30kb.
    */
   public sendMessage(
     receiver: string,
     message: ViberTypes.Message
   ): Promise<ViberTypes.SucceededResponseData<{ messageToken: number }>> {
-    return this.callAPI('/send_message', {
-      receiver,
-      sender: this.sender,
-      ...transformMessageCase(message),
-    });
+    return this.axios
+      .post('/send_message', {
+        receiver,
+        sender: this.sender,
+        ...message,
+      })
+      .then((res) => res.data);
   }
 
   /**
@@ -212,12 +236,9 @@ export default class ViberClient {
    * @param receiver - Unique Viber user id.
    * @param text - The text of the message.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#text-message
-   *
    * @example
-   *
    * ```js
    * await client.sendText(USER_ID, 'Hello');
    * ```
@@ -245,10 +266,8 @@ export default class ViberClient {
    * @param picture.media - URL of the image (JPEG). Max size 1 MB. Only JPEG format is supported. Other image formats as well as animated GIFs can be sent as URL messages or file messages.
    * @param picture.thumbnail - URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#picture-message
-   *
    * @example
    *
    * ```js
@@ -285,12 +304,9 @@ export default class ViberClient {
    * @param video.duration - Video duration in seconds; will be displayed to the receiver. Max 180 seconds.
    * @param video.thumbnail - URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#video-message
-   *
    * @example
-   *
    * ```js
    * await client.sendVideo(USER_ID, {
    *   media: 'http://www.images.com/video.mp4',
@@ -326,12 +342,9 @@ export default class ViberClient {
    * @param file.size - Size of the file in bytes.
    * @param file.fileName - Name of the file. File name should include extension. Max 256 characters (including file extension).
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#file-message
-   *
    * @example
-   *
    * ```js
    * await client.sendFile(USER_ID, {
    *   media: 'http://www.images.com/file.doc',
@@ -362,12 +375,9 @@ export default class ViberClient {
    * @param contact.name - Name of the contact. Max 28 characters.
    * @param contact.phoneNumber - Phone number of the contact. Max 18 characters.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#contact-message
-   *
    * @example
-   *
    * ```js
    * await client.sendContact(USER_ID, {
    *   name: 'Itamar',
@@ -397,12 +407,9 @@ export default class ViberClient {
    * @param location.lat - Latitude (±90°) within valid ranges.
    * @param location.lon - Longitude (±180°) within valid ranges.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#location-message
-   *
    * @example
-   *
    * ```js
    * await client.sendLocation(USER_ID, {
    *   lat: '37.7898',
@@ -430,12 +437,9 @@ export default class ViberClient {
    * @param receiver - Unique Viber user id.
    * @param url - URL. Max 2,000 characters.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#url-message
-   *
    * @example
-   *
    * ```js
    * await client.sendURL(USER_ID, 'http://developers.viber.com');
    * ```
@@ -460,12 +464,9 @@ export default class ViberClient {
    * @param receiver - Unique Viber user id.
    * @param stickerId - Unique Viber sticker ID. For examples visit the [sticker IDs](https://viber.github.io/docs/tools/sticker-ids/) page.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#sticker-message
-   *
    * @example
-   *
    * ```js
    * await client.sendSticker(USER_ID, 46105);
    * ```
@@ -493,12 +494,9 @@ export default class ViberClient {
    * @param richMedia.buttonsGroupRows - Number of rows per carousel content block. Default 7 rows. Possible values: 1 - 7.
    * @param richMedia.buttons - Array of buttons.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message
-   *
    * @example
-   *
    * ```js
    * await client.sendCarouselContent(USER_ID, {
    *   type: 'rich_media',
@@ -604,12 +602,9 @@ export default class ViberClient {
    *
    * @param broadcastList - This mandatory parameter defines the recipients for the message. Every user must be subscribed and have a valid user id. The maximum list length is 300 receivers.
    * @param message - Message and options to be sent.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#broadcast-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastMessage(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -624,11 +619,13 @@ export default class ViberClient {
     broadcastList: string[],
     message: ViberTypes.Message
   ): Promise<ViberTypes.BroadcastResponseData> {
-    return this.callAPI('/broadcast_message', {
-      broadcastList,
-      sender: this.sender,
-      ...transformMessageCase(message),
-    });
+    return this.axios
+      .post('/broadcast_message', {
+        broadcastList,
+        sender: this.sender,
+        ...message,
+      })
+      .then((res) => res.data);
   }
 
   /**
@@ -639,12 +636,9 @@ export default class ViberClient {
    * @param broadcastList - This mandatory parameter defines the recipients for the message. Every user must be subscribed and have a valid user id. The maximum list length is 300 receivers.
    * @param text - The text of the message.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#text-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastText(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -675,12 +669,9 @@ export default class ViberClient {
    * @param picture.media - URL of the image (JPEG). Max size 1 MB. Only JPEG format is supported. Other image formats as well as animated GIFs can be sent as URL messages or file messages.
    * @param picture.thumbnail - URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#picture-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastPicture(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -718,12 +709,9 @@ export default class ViberClient {
    * @param video.duration - Video duration in seconds; will be displayed to the receiver. Max 180 seconds.
    * @param video.thumbnail - URL of a reduced size image (JPEG). Max size 100 kb. Recommended: 400x400. Only JPEG format is supported.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#video-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastVideo(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -762,12 +750,9 @@ export default class ViberClient {
    * @param file.size - Size of the file in bytes.
    * @param file.fileName - Name of the file. File name should include extension. Max 256 characters (including file extension).
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#file-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastFile(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -801,12 +786,9 @@ export default class ViberClient {
    * @param contact.name - Name of the contact. Max 28 characters.
    * @param contact.phoneNumber - Phone number of the contact. Max 18 characters.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#contact-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastContact(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -839,12 +821,9 @@ export default class ViberClient {
    * @param location.lat - Latitude (±90°) within valid ranges.
    * @param location.lon - Longitude (±180°) within valid ranges.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#location-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastLocation(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -875,12 +854,9 @@ export default class ViberClient {
    * @param broadcastList - This mandatory parameter defines the recipients for the message. Every user must be subscribed and have a valid user id. The maximum list length is 300 receivers.
    * @param url - URL. Max 2,000 characters.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#url-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastURL(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -908,12 +884,9 @@ export default class ViberClient {
    * @param broadcastList - This mandatory parameter defines the recipients for the message. Every user must be subscribed and have a valid user id. The maximum list length is 300 receivers.
    * @param stickerId - Unique Viber sticker ID. For examples visit the [sticker IDs](https://viber.github.io/docs/tools/sticker-ids/) page.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#sticker-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastSticker(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -944,12 +917,9 @@ export default class ViberClient {
    * @param richMedia.buttonsGroupRows - Number of rows per carousel content block. Default 7 rows. Possible values: 1 - 7.
    * @param richMedia.buttons - Array of buttons.
    * @param options - Other optional parameters.
-   * @returns Status and message token
-   *
+   * @returns status and message token
    * @see https://developers.viber.com/docs/api/rest-bot-api/#carousel-content-message
-   *
    * @example
-   *
    * ```js
    * await client.broadcastCarouselContent(
    *   ['pttm25kSGUo1919sBORWyA==', '2yBSIsbzs7sSrh4oLm2hdQ=='],
@@ -1093,7 +1063,12 @@ export default class ViberClient {
   public getAccountInfo(): Promise<
     ViberTypes.SucceededResponseData<ViberTypes.AccountInfo>
   > {
-    return this.callAPI<ViberTypes.AccountInfo>('/get_account_info');
+    return this.axios
+      .post<ViberTypes.SucceededResponseData<ViberTypes.AccountInfo>>(
+        '/get_account_info',
+        {}
+      )
+      .then((res) => res.data);
   }
 
   /**
@@ -1101,11 +1076,8 @@ export default class ViberClient {
    *
    * @param id - Unique Viber user id.
    * @returns Details of the Viber user.
-   *
    * @see https://developers.viber.com/docs/api/rest-bot-api/#get-user-details
-   *
    * @example
-   *
    * ```js
    * await client.getUserDetails('01234567890A=');
    * // {
@@ -1124,9 +1096,11 @@ export default class ViberClient {
    * ```
    */
   public async getUserDetails(id: string): Promise<ViberTypes.UserDetails> {
-    const { user } = await this.callAPI<{
-      user: ViberTypes.UserDetails;
-    }>('/get_user_details', { id });
+    const { user } = await this.axios
+      .post<{
+        user: ViberTypes.UserDetails;
+      }>('/get_user_details', { id })
+      .then((res) => res.data);
 
     return user;
   }
@@ -1136,11 +1110,8 @@ export default class ViberClient {
    *
    * @param ids - Array of unique Viber user id. 100 ids per request.
    * @returns An array of online status.
-   *
    * @see https://developers.viber.com/docs/api/rest-bot-api/#get-online
-   *
    * @example
-   *
    * ```js
    * await client.getOnlineStatus(['01234567890=', '01234567891=', '01234567893=']);
    * // [
@@ -1166,9 +1137,11 @@ export default class ViberClient {
   public async getOnlineStatus(
     ids: string[]
   ): Promise<ViberTypes.UserOnlineStatus[]> {
-    const data = await this.callAPI<{
-      users: ViberTypes.UserOnlineStatus[];
-    }>('/get_online', { ids });
+    const data = await this.axios
+      .post<{
+        users: ViberTypes.UserOnlineStatus[];
+      }>('/get_online', { ids })
+      .then((res) => res.data);
 
     return data.users;
   }
