@@ -1,6 +1,5 @@
-import querystring from 'querystring';
-
 import MockAdapter from 'axios-mock-adapter';
+import qs from 'qs';
 
 import LineNotify from '../LineNotify';
 
@@ -90,7 +89,7 @@ describe('#getToken', () => {
 
     mock.onPost().reply((config) => {
       expect(config.url).toEqual('/oauth/token');
-      expect(querystring.decode(config.data)).toEqual(body);
+      expect(qs.parse(config.data)).toEqual(body);
       expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
       return [200, reply];
     });
@@ -137,7 +136,7 @@ describe('#sendNotify', () => {
       message: 'message',
     };
 
-    const body = querystring.encode({
+    const body = qs.stringify({
       message: 'message',
     });
 

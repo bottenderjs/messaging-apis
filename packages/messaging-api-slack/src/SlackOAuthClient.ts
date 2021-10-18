@@ -1,7 +1,6 @@
-import querystring from 'querystring';
-
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'ts-invariant';
+import qs from 'qs';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -671,7 +670,10 @@ export default class SlackOAuthClient {
 
       const response = await this.axios.post(
         method,
-        querystring.stringify(snakecaseKeysDeep(body) as any)
+        qs.stringify(
+          // FIXME: dont do snakecase transform to url key
+          (method === 'chat.unfurl' ? body : snakecaseKeysDeep(body)) as any
+        )
       );
 
       const data = camelcaseKeysDeep(

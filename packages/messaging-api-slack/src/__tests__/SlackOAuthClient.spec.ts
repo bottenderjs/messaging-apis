@@ -1,6 +1,5 @@
-import querystring from 'querystring';
-
 import MockAdapter from 'axios-mock-adapter';
+import qs from 'qs';
 
 import SlackOAuthClient from '../SlackOAuthClient';
 
@@ -272,7 +271,7 @@ describe('#callMethod', () => {
     mock
       .onPost(
         '/chat.postMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           token: TOKEN,
@@ -305,7 +304,7 @@ describe('#callMethod', () => {
     mock
       .onPost(
         '/chat.postMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           token: TOKEN,
@@ -342,7 +341,7 @@ describe('#chat.postMessage', () => {
     mock
       .onPost(
         '/chat.postMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           token: TOKEN,
@@ -375,7 +374,7 @@ describe('#chat.postMessage', () => {
     mock
       .onPost(
         '/chat.postMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           attachments:
             '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
@@ -446,7 +445,7 @@ describe('#chat.postMessage', () => {
     mock
       .onPost(
         '/chat.postMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           token: TOKEN,
@@ -479,7 +478,7 @@ describe('#chat.postMessage', () => {
     mock
       .onPost(
         '/chat.postMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           blocks: '[{"type":"section","text":{"type":"mrkdwn","text":"..."}}]',
@@ -524,7 +523,7 @@ describe('#chat.postEphemeral', () => {
     mock
       .onPost(
         '/chat.postEphemeral',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           user: USER,
           text: 'hello',
@@ -559,7 +558,7 @@ describe('#chat.postEphemeral', () => {
     mock
       .onPost(
         '/chat.postEphemeral',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           user: USER,
           text: 'hello',
@@ -634,7 +633,7 @@ describe('#chat.postEphemeral', () => {
     mock
       .onPost(
         '/chat.postEphemeral',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           user: USER,
           attachments:
@@ -707,7 +706,7 @@ describe('#chat.postEphemeral', () => {
     mock
       .onPost(
         '/chat.postEphemeral',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           user: USER,
           text: 'hello',
@@ -742,7 +741,7 @@ describe('#chat.postEphemeral', () => {
     mock
       .onPost(
         '/chat.postEphemeral',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           user: USER,
           text: 'hello',
@@ -789,7 +788,7 @@ describe('#chat.update', () => {
     mock
       .onPost(
         '/chat.update',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           ts: '1405894322.332768',
@@ -824,7 +823,7 @@ describe('#chat.update', () => {
     mock
       .onPost(
         '/chat.update',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           attachments:
             '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
@@ -897,7 +896,7 @@ describe('#chat.update', () => {
     mock
       .onPost(
         '/chat.update',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           ts: '1405895017.000506',
@@ -943,7 +942,7 @@ describe('#chat.delete', () => {
     mock
       .onPost(
         '/chat.delete',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           ts: '1405894322.002768',
           token: TOKEN,
@@ -975,7 +974,7 @@ describe('#chat.delete', () => {
     mock
       .onPost(
         '/chat.delete',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           ts: '1405894322.022768',
           as_user: true,
@@ -1011,7 +1010,7 @@ describe('#chat.meMessage', () => {
     mock
       .onPost(
         '/chat.meMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           token: TOKEN,
@@ -1045,7 +1044,7 @@ describe('#chat.getPermalink', () => {
     mock
       .onPost(
         '/chat.getPermalink',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           message_ts: '9234567891.321456',
           token: TOKEN,
@@ -1080,7 +1079,7 @@ describe('#chat.scheduleMessage', () => {
     mock
       .onPost(
         '/chat.scheduleMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           text: 'hello',
           post_at: '299876400',
@@ -1115,7 +1114,7 @@ describe('#chat.scheduleMessage', () => {
     mock
       .onPost(
         '/chat.scheduleMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           attachments:
             '[{"text":"Choose a game to play","fallback":"You are unable to choose a game","callback_id":"wopr_game","color":"#3AA3E3","attachment_type":"default","actions":[{"name":"game","text":"Chess","type":"button","value":"chess"},{"name":"game","text":"Falken\'s Maze","type":"button","value":"maze"},{"name":"game","text":"Thermonuclear War","style":"danger","type":"button","value":"war","confirm":{"title":"Are you sure?","text":"Wouldn\'t you prefer a good game of chess?","ok_text":"Yes","dismiss_text":"No"}}]}]',
@@ -1188,7 +1187,7 @@ describe('#chat.scheduleMessage', () => {
     mock
       .onPost(
         '/chat.scheduleMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C1234567890',
           text: 'hello',
           post_at: '299876400',
@@ -1234,7 +1233,7 @@ describe('#chat.deleteScheduledMessage', () => {
     mock
       .onPost(
         '/chat.deleteScheduledMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           scheduled_message_id: 'Q1234ABCD',
           token: TOKEN,
@@ -1266,7 +1265,7 @@ describe('#chat.deleteScheduledMessage', () => {
     mock
       .onPost(
         '/chat.deleteScheduledMessage',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           scheduled_message_id: 'Q1234ABCD',
           as_user: true,
@@ -1311,7 +1310,7 @@ describe('#chat.scheduledMessages.list', () => {
     mock
       .onPost(
         '/chat.scheduledMessages.list',
-        querystring.stringify({
+        qs.stringify({
           token: TOKEN,
         }),
         {
@@ -1340,7 +1339,7 @@ describe('#chat.unfurl', () => {
     mock
       .onPost(
         '/chat.unfurl',
-        querystring.stringify({
+        qs.stringify({
           channel: CHANNEL,
           ts: '1405894322.992768',
           unfurls: {
@@ -1383,7 +1382,7 @@ describe('#views.open', () => {
     mock
       .onPost(
         '/views.open',
-        querystring.stringify({
+        qs.stringify({
           trigger_id: '12345.98765.abcd2358fdea',
           view: VIEW_PAYLOAD_STRING,
           token: TOKEN,
@@ -1416,7 +1415,7 @@ describe('#views.publish', () => {
     mock
       .onPost(
         '/views.publish',
-        querystring.stringify({
+        qs.stringify({
           user_id: 'U0BPQUNTA',
           view: VIEW_PAYLOAD_STRING,
           token: TOKEN,
@@ -1447,7 +1446,7 @@ describe('#views.publish', () => {
     mock
       .onPost(
         '/views.publish',
-        querystring.stringify({
+        qs.stringify({
           user_id: 'U0BPQUNTA',
           view: VIEW_PAYLOAD_STRING,
           hash: '156772938.1827394',
@@ -1482,7 +1481,7 @@ describe('#views.update', () => {
     mock
       .onPost(
         '/views.update',
-        querystring.stringify({
+        qs.stringify({
           external_id: 'bmarley_view2',
           view: VIEW_PAYLOAD_STRING,
           token: TOKEN,
@@ -1513,7 +1512,7 @@ describe('#views.update', () => {
     mock
       .onPost(
         '/views.update',
-        querystring.stringify({
+        qs.stringify({
           view_id: 'VMM512F2U',
           view: VIEW_PAYLOAD_STRING,
           token: TOKEN,
@@ -1544,7 +1543,7 @@ describe('#views.update', () => {
     mock
       .onPost(
         '/views.update',
-        querystring.stringify({
+        qs.stringify({
           view_id: 'VMM512F2U',
           hash: '156772938.1827394',
           view: VIEW_PAYLOAD_STRING,
@@ -1579,7 +1578,7 @@ describe('#views.push', () => {
     mock
       .onPost(
         '/views.push',
-        querystring.stringify({
+        qs.stringify({
           trigger_id: '12345.98765.abcd2358fdea',
           view: VIEW_PAYLOAD_STRING,
           token: TOKEN,
@@ -1616,7 +1615,7 @@ describe('#getUserList', () => {
     mock
       .onPost(
         '/users.list',
-        querystring.stringify({
+        qs.stringify({
           token: TOKEN,
         }),
         {
@@ -1646,7 +1645,7 @@ describe('#getUserList', () => {
     mock
       .onPost(
         '/users.list',
-        querystring.stringify({
+        qs.stringify({
           token: TOKEN,
         }),
         {
@@ -1684,7 +1683,7 @@ describe('#getAllUserList', () => {
     mock
       .onPost(
         '/users.list',
-        querystring.stringify({
+        qs.stringify({
           cursor: undefined,
           token: TOKEN,
         }),
@@ -1696,7 +1695,7 @@ describe('#getAllUserList', () => {
       .replyOnce(200, reply1)
       .onPost(
         '/users.list',
-        querystring.stringify({
+        qs.stringify({
           cursor: 'cursor1',
           token: TOKEN,
         }),
@@ -1725,7 +1724,7 @@ describe('#getUserInfo', () => {
     mock
       .onPost(
         '/users.info',
-        querystring.stringify({
+        qs.stringify({
           user: 'U023BECGF',
           token: TOKEN,
         }),
@@ -1800,7 +1799,7 @@ describe('#getChannelInfo', () => {
     mock
       .onPost(
         '/channels.info',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C024BE91L',
           token: TOKEN,
         }),
@@ -1903,7 +1902,7 @@ describe('#getConversationInfo', () => {
     mock
       .onPost(
         '/conversations.info',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C024BE91L',
           token: TOKEN,
         }),
@@ -1938,7 +1937,7 @@ describe('#getConversationMembers', () => {
     mock
       .onPost(
         '/conversations.members',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C012AB3CD',
           token: TOKEN,
         }),
@@ -1968,7 +1967,7 @@ describe('#getConversationMembers', () => {
     mock
       .onPost(
         '/conversations.members',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C012AB3CD',
           token: TOKEN,
         }),
@@ -2009,7 +2008,7 @@ describe('#getAllConversationMembers', () => {
     mock
       .onPost(
         '/conversations.members',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C012AB3CD',
           cursor: undefined,
           token: TOKEN,
@@ -2022,7 +2021,7 @@ describe('#getAllConversationMembers', () => {
       .replyOnce(200, reply1)
       .onPost(
         '/conversations.members',
-        querystring.stringify({
+        qs.stringify({
           channel: 'C012AB3CD',
           cursor: 'cursor1',
           token: TOKEN,
@@ -2182,7 +2181,7 @@ describe('#getConversationList', () => {
     mock
       .onPost(
         '/conversations.list',
-        querystring.stringify({
+        qs.stringify({
           token: TOKEN,
         }),
         {
@@ -2212,7 +2211,7 @@ describe('#getConversationList', () => {
     mock
       .onPost(
         '/conversations.list',
-        querystring.stringify({
+        qs.stringify({
           token: TOKEN,
         }),
         {
@@ -2392,7 +2391,7 @@ describe('#getAllConversationList', () => {
     mock
       .onPost(
         '/conversations.list',
-        querystring.stringify({
+        qs.stringify({
           token: TOKEN,
         }),
         {
@@ -2403,7 +2402,7 @@ describe('#getAllConversationList', () => {
       .replyOnce(200, reply1)
       .onPost(
         '/conversations.list',
-        querystring.stringify({
+        qs.stringify({
           cursor: 'cursor1',
           token: TOKEN,
         }),

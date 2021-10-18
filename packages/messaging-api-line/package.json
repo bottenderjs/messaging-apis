@@ -12,12 +12,14 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/lodash": "^4.14.175",
+    "@types/qs": "^6.9.7",
     "@types/warning": "^3.0.0",
     "axios": "^0.21.1",
     "axios-error": "file:../axios-error",
     "image-type": "^4.1.0",
     "lodash": "^4.17.21",
     "messaging-api-common": "file:../messaging-api-common",
+    "qs": "^6.10.1",
     "ts-invariant": "^0.9.3",
     "type-fest": "^2.5.0",
     "warning": "^4.0.3"

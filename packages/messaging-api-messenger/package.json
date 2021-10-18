@@ -13,12 +13,14 @@
   "dependencies": {
     "@types/append-query": "^2.0.0",
     "@types/lodash": "^4.14.156",
+    "@types/qs": "^6.9.7",
     "append-query": "^2.1.0",
     "axios": "^0.21.1",
     "axios-error": "file:../axios-error",
     "form-data": "^3.0.0",
     "lodash": "^4.17.15",
     "messaging-api-common": "file:../messaging-api-common",
+    "qs": "^6.10.1",
     "ts-invariant": "^0.9.3"
   },
   "keywords": [

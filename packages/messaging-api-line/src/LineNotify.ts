@@ -1,6 +1,5 @@
-import querystring from 'querystring';
-
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import qs from 'qs';
 import { JsonObject } from 'type-fest';
 import { PrintableAxiosError } from 'axios-error';
 
@@ -123,7 +122,7 @@ export default class LineNotify {
       state,
     };
 
-    return `${this.origin}oauth/authorize?${querystring.encode(data)}`;
+    return `${this.origin}oauth/authorize?${qs.stringify(data)}`;
   }
 
   /**
@@ -146,7 +145,7 @@ export default class LineNotify {
       code,
     };
     return this.axios
-      .post('/oauth/token', querystring.encode(formData), { headers })
+      .post('/oauth/token', qs.stringify(formData), { headers })
       .then((res) => res.data.access_token, handleError);
   }
 
@@ -221,7 +220,7 @@ export default class LineNotify {
       ...options,
     };
     return this.apiAxios
-      .post('/api/notify', querystring.encode(formData), { headers })
+      .post('/api/notify', qs.stringify(formData), { headers })
       .then(throwWhenNotSuccess, handleError);
   }
 
