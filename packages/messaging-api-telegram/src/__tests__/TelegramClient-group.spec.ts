@@ -20,23 +20,7 @@ describe('group api', () => {
       result,
     };
 
-    it('should kick chat member with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/kickChatMember', {
-          chat_id: 427770117,
-          user_id: 313534466,
-          until_date: 1502855973,
-        })
-        .reply(200, reply);
-
-      const res = await client.kickChatMember(427770117, 313534466, {
-        until_date: 1502855973,
-      });
-      expect(res).toEqual(result);
-    });
-
-    it('should kick chat member with camelcase', async () => {
+    it('should kick chat member', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/kickChatMember', {
@@ -81,46 +65,7 @@ describe('group api', () => {
       result,
     };
 
-    it('should restrict chat member with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/restrictChatMember', {
-          chat_id: 427770117,
-          user_id: 313534466,
-          permissions: {
-            can_send_messages: true,
-            can_send_media_messages: true,
-            can_send_polls: true,
-            can_send_other_messages: true,
-            can_add_web_page_previews: true,
-            can_change_info: true,
-            can_invite_users: true,
-            can_pin_messages: true,
-          },
-          until_date: 1577721600,
-        })
-        .reply(200, reply);
-
-      const res = await client.restrictChatMember(
-        427770117,
-        313534466,
-        {
-          can_send_messages: true,
-          can_send_media_messages: true,
-          can_send_polls: true,
-          can_send_other_messages: true,
-          can_add_web_page_previews: true,
-          can_change_info: true,
-          can_invite_users: true,
-          can_pin_messages: true,
-        },
-        {
-          until_date: 1577721600,
-        }
-      );
-      expect(res).toEqual(result);
-    });
-    it('should restrict chat member with camelcase', async () => {
+    it('should restrict chat member', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/restrictChatMember', {
@@ -168,37 +113,7 @@ describe('group api', () => {
       result,
     };
 
-    it('should pormote chat member with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/promoteChatMember', {
-          chat_id: 427770117,
-          user_id: 313534466,
-          can_change_info: true,
-          can_post_messages: true,
-          can_edit_messages: true,
-          can_delete_messages: true,
-          can_invite_users: true,
-          can_restrict_members: true,
-          can_pin_messages: true,
-          can_promote_members: true,
-        })
-        .reply(200, reply);
-
-      const res = await client.promoteChatMember(427770117, 313534466, {
-        can_change_info: true,
-        can_post_messages: true,
-        can_edit_messages: true,
-        can_delete_messages: true,
-        can_invite_users: true,
-        can_restrict_members: true,
-        can_pin_messages: true,
-        can_promote_members: true,
-      });
-      expect(res).toEqual(result);
-    });
-
-    it('should pormote chat member with camelcase', async () => {
+    it('should pormote chat member', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/promoteChatMember', {
@@ -236,38 +151,7 @@ describe('group api', () => {
       result,
     };
 
-    it('should set chat permissions with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/setChatPermissions', {
-          chat_id: 427770117,
-          permissions: {
-            can_send_messages: true,
-            can_send_media_messages: true,
-            can_send_polls: true,
-            can_send_other_messages: true,
-            can_add_web_page_previews: true,
-            can_change_info: true,
-            can_invite_users: true,
-            can_pin_messages: true,
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.setChatPermissions(427770117, {
-        can_send_messages: true,
-        can_send_media_messages: true,
-        can_send_polls: true,
-        can_send_other_messages: true,
-        can_add_web_page_previews: true,
-        can_change_info: true,
-        can_invite_users: true,
-        can_pin_messages: true,
-      });
-      expect(res).toEqual(result);
-    });
-
-    it('should set chat permissions with camelcase', async () => {
+    it('should set chat permissions', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/setChatPermissions', {
@@ -429,23 +313,7 @@ describe('group api', () => {
       result,
     };
 
-    it('should pin a message in chat with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/pinChatMessage', {
-          chat_id: 427770117,
-          message_id: 1,
-          disable_notification: true,
-        })
-        .reply(200, reply);
-
-      const res = await client.pinChatMessage(427770117, 1, {
-        disable_notification: true,
-      });
-      expect(res).toEqual(result);
-    });
-
-    it('should pin a message in chat with camelcase', async () => {
+    it('should pin a message in chat', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/pinChatMessage', {

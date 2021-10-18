@@ -99,26 +99,7 @@ describe('game api', () => {
       },
     };
 
-    it('should send a game with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/sendGame', {
-          chat_id: 427770117,
-          game_short_name: 'Mario Bros.',
-          disable_notification: true,
-          reply_to_message_id: 9527,
-        })
-        .reply(200, reply);
-
-      const res = await client.sendGame(427770117, 'Mario Bros.', {
-        disable_notification: true,
-        reply_to_message_id: 9527,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should send a game with camelcase', async () => {
+    it('should send a game', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/sendGame', {
@@ -226,30 +207,7 @@ describe('game api', () => {
       },
     };
 
-    it('should set the score of the specified user in a game with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/setGameScore', {
-          user_id: 427770117,
-          score: 999,
-          force: true,
-          disable_edit_message: true,
-          message_id: 1,
-          chat_id: 427770117,
-        })
-        .reply(200, reply);
-
-      const res = await client.setGameScore(427770117, 999, {
-        force: true,
-        disable_edit_message: true,
-        message_id: 1,
-        chat_id: 427770117,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should set the score of the specified user in a game with camelcase', async () => {
+    it('should set the score of the specified user in a game', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/setGameScore', {
@@ -300,26 +258,7 @@ describe('game api', () => {
       ],
     };
 
-    it('should get data for high score tables with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/getGameHighScores', {
-          user_id: 427770117,
-          chat_id: 427770117,
-          message_id: 1,
-        })
-        .reply(200, reply);
-
-      const res = await client.getGameHighScores(427770117, {
-        // @ts-expect-error
-        chat_id: 427770117,
-        message_id: 1,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should get data for high score tables with camelcase', async () => {
+    it('should get data for high score tables', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/getGameHighScores', {

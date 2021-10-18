@@ -12,11 +12,7 @@ export function createMessage(
     ...payload,
   };
 
-  // snakecase support for backward compatibility
-  const quickReplies =
-    options.quickReplies ??
-    // @ts-expect-error
-    options.quick_replies;
+  const { quickReplies } = options;
 
   if (quickReplies && Array.isArray(quickReplies) && quickReplies.length >= 1) {
     message.quickReplies = quickReplies;
@@ -41,11 +37,7 @@ export function createMessageFormData(
     ...payload,
   };
 
-  // snakecase support for backward compatibility
-  const quickReplies =
-    options.quickReplies ??
-    // @ts-expect-error
-    options.quick_replies;
+  const { quickReplies } = options;
 
   if (quickReplies && Array.isArray(quickReplies) && quickReplies.length >= 1) {
     message.quickReplies = quickReplies;

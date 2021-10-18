@@ -214,26 +214,6 @@ describe('webhooks', () => {
 
       expect(res).toEqual(result);
     });
-
-    it('should work well with snakecase options', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/setWebhook', {
-          url: 'https://4a16faff.ngrok.io/',
-          max_connections: 40,
-          allowed_updates: [],
-        })
-        .reply(200, reply);
-
-      const res = await client.setWebhook('https://4a16faff.ngrok.io/', {
-        certificate: 'qq',
-        // @ts-expect-error
-        max_connections: 40,
-        allowed_updates: [],
-      });
-
-      expect(res).toEqual(result);
-    });
   });
 
   describe('#deleteWebhook', () => {
@@ -607,55 +587,7 @@ describe('inline mode api', () => {
       result,
     };
 
-    it('should send answers to an inline query with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/answerInlineQuery', {
-          inline_query_id: 'INLINE_QUERY_ID',
-          results: [
-            {
-              type: 'photo',
-              id: 'UNIQUE_ID',
-              photo_file_id: 'FILEID',
-              title: 'PHOTO_TITLE',
-            },
-            {
-              type: 'audio',
-              id: 'UNIQUE_ID',
-              audio_file_id: 'FILEID',
-              caption: 'AUDIO_TITLE',
-            },
-          ],
-          cache_time: 1000,
-        })
-        .reply(200, reply);
-
-      const res = await client.answerInlineQuery(
-        'INLINE_QUERY_ID',
-        [
-          {
-            type: 'photo',
-            id: 'UNIQUE_ID',
-            // @ts-expect-error
-            photo_file_id: 'FILEID',
-            title: 'PHOTO_TITLE',
-          },
-          {
-            type: 'audio',
-            id: 'UNIQUE_ID',
-            // @ts-expect-error
-            audio_file_id: 'FILEID',
-            caption: 'AUDIO_TITLE',
-          },
-        ],
-        {
-          cache_time: 1000,
-        }
-      );
-      expect(res).toEqual(result);
-    });
-
-    it('should send answers to an inline query with camelcase', async () => {
+    it('should send answers to an inline query', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/answerInlineQuery', {
@@ -709,29 +641,7 @@ describe('inline mode api', () => {
       result,
     };
 
-    it('should send answers to an callback query with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/answerCallbackQuery', {
-          callback_query_id: 'CALLBACK_QUERY_ID',
-          text: 'text',
-          show_alert: true,
-          url: 'http://example.com/',
-          cache_time: 1000,
-        })
-        .reply(200, reply);
-
-      const res = await client.answerCallbackQuery('CALLBACK_QUERY_ID', {
-        text: 'text',
-        // @ts-expect-error
-        show_alert: true,
-        url: 'http://example.com/',
-        cache_time: 1000,
-      });
-      expect(res).toEqual(result);
-    });
-
-    it('should send answers to an callback query with camelcase', async () => {
+    it('should send answers to an callback query', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/answerCallbackQuery', {
@@ -806,26 +716,7 @@ describe('other api', () => {
       },
     };
 
-    it('should forward messages of any kind with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/forwardMessage', {
-          chat_id: 427770117,
-          from_chat_id: 313534466,
-          message_id: 203,
-          disable_notification: true,
-        })
-        .reply(200, reply);
-
-      const res = await client.forwardMessage(427770117, 313534466, 203, {
-        // @ts-expect-error
-        disable_notification: true,
-      });
-
-      expect(res).toEqual(result);
-    });
-
-    it('should forward messages of any kind with camelcase', async () => {
+    it('should forward messages of any kind', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/forwardMessage', {
@@ -887,24 +778,7 @@ describe('other api', () => {
       },
     };
 
-    it('should stop updating a live location message with snakecase', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/stopMessageLiveLocation', {
-          chat_id: 427770117,
-          message_id: 66,
-        })
-        .reply(200, reply);
-
-      const res = await client.stopMessageLiveLocation({
-        // @ts-expect-error
-        chat_id: 427770117,
-        message_id: 66,
-      });
-
-      expect(res).toEqual(result);
-    });
-    it('should stop updating a live location message with camelcase', async () => {
+    it('should stop updating a live location message', async () => {
       const { client, mock } = createMock();
       mock
         .onPost('/stopMessageLiveLocation', {
