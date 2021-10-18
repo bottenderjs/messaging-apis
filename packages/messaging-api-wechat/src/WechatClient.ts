@@ -304,7 +304,7 @@ export default class WechatClient {
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.public Message({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'image',
       image: {

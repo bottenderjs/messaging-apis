@@ -111,14 +111,13 @@ export type BroadcastResponseData =
   | SucceededBroadcastResponseData
   | FailedResponseData<{}>;
 
-export enum EventType {
-  Delivered = 'delivered',
-  Seen = 'seen',
-  Failed = 'failed',
-  Subscribed = 'subscribed',
-  Unsubscribed = 'unsubscribed',
-  ConversationStarted = 'conversation_started',
-}
+export type EventType =
+  | 'delivered'
+  | 'seen'
+  | 'failed'
+  | 'subscribed'
+  | 'unsubscribed'
+  | 'conversation_started';
 
 export type Sender = {
   name: string;
@@ -251,11 +250,7 @@ export type AccountInfo = {
   };
   country: string;
   webhook: string;
-  eventTypes:
-    | EventType.Delivered
-    | EventType.Seen
-    | EventType.Failed
-    | EventType.ConversationStarted;
+  eventTypes: 'delivered' | 'seen' | 'failed' | 'conversation_started';
   subscribersCount: number;
   members: {
     id: string;

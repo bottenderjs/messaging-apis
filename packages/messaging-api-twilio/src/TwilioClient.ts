@@ -96,7 +96,7 @@ export default class TwilioClient {
   /**
    * The phone number used by the client
    */
-  private phoneNumber: string;
+  public readonly phoneNumber: string;
 
   /**
    * The callback to be called when receiving requests.

@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import invariant from 'ts-invariant';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -34,12 +33,12 @@ export default class ViberClient {
   /**
    * The underlying axios instance.
    */
-  readonly axios: AxiosInstance;
+  public readonly axios: AxiosInstance;
 
   /**
    * The access token used by the client.
    */
-  readonly accessToken: string;
+  private accessToken: string;
 
   /**
    * The sender used by the client.
@@ -51,12 +50,11 @@ export default class ViberClient {
    */
   private onRequest?: OnRequestFunction;
 
+  /**
+   *
+   * @param config
+   */
   constructor(config: ViberTypes.ClientConfig) {
-    invariant(
-      typeof config !== 'string',
-      `ViberClient: do not allow constructing client with ${config} string. Use object instead.`
-    );
-
     this.accessToken = config.accessToken;
     this.sender = config.sender;
     this.onRequest = config.onRequest ?? onRequest;
@@ -137,24 +135,18 @@ export default class ViberClient {
    * });
    * ```
    */
-  setWebhook(
+  public setWebhook(
     url: string,
-    optionsOrEventTypes:
-      | ViberTypes.EventType[]
-      | {
-          eventTypes?: ViberTypes.EventType[];
-          sendName?: boolean;
-          sendPhoto?: boolean;
-        } = {}
+    options: {
+      eventTypes?: ViberTypes.EventType[];
+      sendName?: boolean;
+      sendPhoto?: boolean;
+    } = {}
   ): Promise<
     ViberTypes.SucceededResponseData<{
       eventTypes: ViberTypes.EventType[];
     }>
   > {
-    const options = Array.isArray(optionsOrEventTypes)
-      ? { eventTypes: optionsOrEventTypes }
-      : optionsOrEventTypes;
-
     return this.callAPI<{
       eventTypes: ViberTypes.EventType[];
     }>('/set_webhook', {
@@ -164,19 +156,16 @@ export default class ViberClient {
   }
 
   /**
-   * Removes your webhook
+   * Removes your webhook.
    *
    * @returns Status
-   *
    * @see https://developers.viber.com/docs/api/rest-bot-api/#removing-your-webhook
-   *
    * @example
-   *
    * ```js
    * await client.removeWebhook();
    * ```
    */
-  removeWebhook(): Promise<
+  public removeWebhook(): Promise<
     ViberTypes.SucceededResponseData<{
       eventTypes: ViberTypes.EventType[];
     }>
@@ -204,7 +193,7 @@ export default class ViberClient {
    *
    * @note Maximum total JSON size of the request is 30kb.
    */
-  sendMessage(
+  public sendMessage(
     receiver: string,
     message: ViberTypes.Message
   ): Promise<ViberTypes.SucceededResponseData<{ messageToken: number }>> {
@@ -233,7 +222,7 @@ export default class ViberClient {
    * await client.sendText(USER_ID, 'Hello');
    * ```
    */
-  sendText(
+  public sendText(
     receiver: string,
     text: string,
     options?: ViberTypes.MessageOptions
@@ -270,7 +259,7 @@ export default class ViberClient {
    * });
    * ```
    */
-  sendPicture(
+  public sendPicture(
     receiver: string,
     picture: ViberTypes.Picture,
     options?: ViberTypes.MessageOptions
@@ -311,7 +300,7 @@ export default class ViberClient {
    * });
    * ```
    */
-  sendVideo(
+  public sendVideo(
     receiver: string,
     video: ViberTypes.Video,
     options?: ViberTypes.MessageOptions
@@ -351,7 +340,7 @@ export default class ViberClient {
    * });
    * ```
    */
-  sendFile(
+  public sendFile(
     receiver: string,
     file: ViberTypes.File,
     options?: ViberTypes.MessageOptions
@@ -386,7 +375,7 @@ export default class ViberClient {
    * });
    * ```
    */
-  sendContact(
+  public sendContact(
     receiver: string,
     contact: ViberTypes.Contact,
     options?: ViberTypes.MessageOptions
@@ -421,7 +410,7 @@ export default class ViberClient {
    * });
    * ```
    */
-  sendLocation(
+  public sendLocation(
     receiver: string,
     location: ViberTypes.Location,
     options?: ViberTypes.MessageOptions
@@ -451,7 +440,7 @@ export default class ViberClient {
    * await client.sendURL(USER_ID, 'http://developers.viber.com');
    * ```
    */
-  sendURL(
+  public sendURL(
     receiver: string,
     url: string,
     options?: ViberTypes.MessageOptions
@@ -481,7 +470,7 @@ export default class ViberClient {
    * await client.sendSticker(USER_ID, 46105);
    * ```
    */
-  sendSticker(
+  public sendSticker(
     receiver: string,
     stickerId: number,
     options?: ViberTypes.MessageOptions
@@ -597,7 +586,7 @@ export default class ViberClient {
    * });
    * ```
    */
-  sendCarouselContent(
+  public sendCarouselContent(
     receiver: string,
     richMedia: ViberTypes.RichMedia,
     options?: ViberTypes.MessageOptions
@@ -631,7 +620,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastMessage(
+  public broadcastMessage(
     broadcastList: string[],
     message: ViberTypes.Message
   ): Promise<ViberTypes.BroadcastResponseData> {
@@ -663,7 +652,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastText(
+  public broadcastText(
     broadcastList: string[],
     text: string,
     options?: ViberTypes.MessageOptions
@@ -703,7 +692,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastPicture(
+  public broadcastPicture(
     broadcastList: string[],
     picture: ViberTypes.Picture,
     options?: ViberTypes.MessageOptions
@@ -747,7 +736,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastVideo(
+  public broadcastVideo(
     broadcastList: string[],
     video: ViberTypes.Video,
     options?: ViberTypes.MessageOptions
@@ -790,7 +779,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastFile(
+  public broadcastFile(
     broadcastList: string[],
     file: ViberTypes.File,
     options?: ViberTypes.MessageOptions
@@ -828,7 +817,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastContact(
+  public broadcastContact(
     broadcastList: string[],
     contact: ViberTypes.Contact,
     options?: ViberTypes.MessageOptions
@@ -866,7 +855,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastLocation(
+  public broadcastLocation(
     broadcastList: string[],
     location: ViberTypes.Location,
     options?: ViberTypes.MessageOptions
@@ -899,7 +888,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastURL(
+  public broadcastURL(
     broadcastList: string[],
     url: string,
     options?: ViberTypes.MessageOptions
@@ -932,7 +921,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastSticker(
+  public broadcastSticker(
     broadcastList: string[],
     stickerId: number,
     options?: ViberTypes.MessageOptions
@@ -1051,7 +1040,7 @@ export default class ViberClient {
    * );
    * ```
    */
-  broadcastCarouselContent(
+  public broadcastCarouselContent(
     broadcastList: string[],
     richMedia: ViberTypes.RichMedia,
     options?: ViberTypes.MessageOptions
@@ -1068,13 +1057,10 @@ export default class ViberClient {
    * Fetches the account’s details as registered in ViberTypes.
    *
    * @returns The account’s details
-   *
    * @see https://developers.viber.com/docs/api/rest-bot-api/#get-account-info
-   *
    * @example
-   *
    * ```js
-   * await client.getAccountInfo();
+   * await viber.getAccountInfo();
    * // {
    * //   status: 0,
    * //   statusMessage: 'ok',
@@ -1104,7 +1090,7 @@ export default class ViberClient {
    * // }
    * ```
    */
-  getAccountInfo(): Promise<
+  public getAccountInfo(): Promise<
     ViberTypes.SucceededResponseData<ViberTypes.AccountInfo>
   > {
     return this.callAPI<ViberTypes.AccountInfo>('/get_account_info');
@@ -1137,7 +1123,7 @@ export default class ViberClient {
    * // };
    * ```
    */
-  async getUserDetails(id: string): Promise<ViberTypes.UserDetails> {
+  public async getUserDetails(id: string): Promise<ViberTypes.UserDetails> {
     const { user } = await this.callAPI<{
       user: ViberTypes.UserDetails;
     }>('/get_user_details', { id });
@@ -1177,7 +1163,9 @@ export default class ViberClient {
    * // ];
    * ```
    */
-  async getOnlineStatus(ids: string[]): Promise<ViberTypes.UserOnlineStatus[]> {
+  public async getOnlineStatus(
+    ids: string[]
+  ): Promise<ViberTypes.UserOnlineStatus[]> {
     const data = await this.callAPI<{
       users: ViberTypes.UserOnlineStatus[];
     }>('/get_online', { ids });
