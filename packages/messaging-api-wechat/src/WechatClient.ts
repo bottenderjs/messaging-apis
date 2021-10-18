@@ -127,7 +127,7 @@ export default class WechatClient {
    * // }
    * ```
    */
-  getAccessToken(): Promise<WechatTypes.AccessToken> {
+  public getAccessToken(): Promise<WechatTypes.AccessToken> {
     return this.axios
       .get<WechatTypes.AccessToken>('/token', {
         params: {
@@ -170,7 +170,7 @@ export default class WechatClient {
    * // }
    * ```
    */
-  async uploadMedia(
+  public async uploadMedia(
     type: WechatTypes.MediaType,
     media: Buffer | fs.ReadStream
   ): Promise<WechatTypes.UploadedMedia> {
@@ -210,7 +210,7 @@ export default class WechatClient {
    * // }
    * ```
    */
-  async getMedia(mediaId: string): Promise<WechatTypes.Media> {
+  public async getMedia(mediaId: string): Promise<WechatTypes.Media> {
     await this.refreshTokenWhenExpired();
 
     return this.axios
@@ -240,7 +240,7 @@ export default class WechatClient {
    * });
    * ```
    */
-  async sendMessage(
+  public async sendMessage(
     options: WechatTypes.MessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
     await this.refreshTokenWhenExpired();
@@ -271,7 +271,7 @@ export default class WechatClient {
    * await wechat.sendText(USER_ID, 'Hello!');
    * ```
    */
-  sendText(
+  public sendText(
     userId: string,
     text: string,
     options?: WechatTypes.SendMessageOptions
@@ -299,12 +299,12 @@ export default class WechatClient {
    * await wechat.sendImage(USER_ID, 'MEDIA_ID');
    * ```
    */
-  sendImage(
+  public sendImage(
     userId: string,
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendMessage({
+    return this.public Message({
       touser: userId,
       msgtype: 'image',
       image: {
@@ -327,7 +327,7 @@ export default class WechatClient {
    * await wechat.sendVoice(USER_ID, 'MEDIA_ID');
    * ```
    */
-  sendVoice(
+  public sendVoice(
     userId: string,
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
@@ -361,7 +361,7 @@ export default class WechatClient {
    * });
    * ```
    */
-  sendVideo(
+  public sendVideo(
     userId: string,
     video: WechatTypes.Video,
     options?: WechatTypes.SendMessageOptions
@@ -393,7 +393,7 @@ export default class WechatClient {
    * });
    * ```
    */
-  sendMusic(
+  public sendMusic(
     userId: string,
     music: WechatTypes.Music,
     options?: WechatTypes.SendMessageOptions
@@ -436,7 +436,7 @@ export default class WechatClient {
    * });
    * ```
    */
-  sendNews(
+  public sendNews(
     userId: string,
     news: WechatTypes.News,
     options?: WechatTypes.SendMessageOptions
@@ -464,7 +464,7 @@ export default class WechatClient {
    * await wechat.sendMPNews(USER_ID, 'MEDIA_ID');
    * ```
    */
-  sendMPNews(
+  public sendMPNews(
     userId: string,
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
@@ -499,7 +499,7 @@ export default class WechatClient {
    * });
    * ```
    */
-  sendMsgMenu(
+  public sendMsgMenu(
     userId: string,
     msgMenu: WechatTypes.MsgMenu,
     options?: WechatTypes.SendMessageOptions
@@ -525,7 +525,7 @@ export default class WechatClient {
    * await wechat.sendWXCard(USER_ID, '123dsdajkasd231jhksad');
    * ```
    */
-  sendWXCard(
+  public sendWXCard(
     userId: string,
     cardId: string,
     options?: WechatTypes.SendMessageOptions
@@ -558,7 +558,7 @@ export default class WechatClient {
    * });
    * ```
    */
-  sendMiniProgramPage(
+  public sendMiniProgramPage(
     userId: string,
     miniProgramPage: WechatTypes.MiniProgramPage,
     options?: WechatTypes.SendMessageOptions
@@ -573,8 +573,17 @@ export default class WechatClient {
 
   /**
    * 客服输入状态
+   *
+   * @param userId - user ID of the recipient
+   * @param command - "Typing" or "CancelTyping"
+   * @returns error code and error message
+   * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
+   * @example
+   * ```js
+   * await wechat.typing(USER_ID, 'Typing');
+   * ```
    */
-  async typing(
+  public async typing(
     userId: string,
     command: WechatTypes.TypingCommand
   ): Promise<WechatTypes.SucceededResponseData> {

@@ -65,7 +65,7 @@ class MessageListInstance {
    * });
    * ```
    */
-  async create(
+  public async create(
     options: TwilioTypes.MessageListInstanceCreateOptions
   ): Promise<CamelCasedPropertiesDeep<TwilioTypes.MessageResource>> {
     try {
@@ -86,22 +86,17 @@ export default class TwilioClient {
   /**
    * The underlying axios instance.
    */
-  readonly axios: AxiosInstance;
-
-  /**
-   * The auth token used by the client
-   */
-  readonly authToken: string;
-
-  /**
-   * The phone number used by the client
-   */
-  readonly phoneNumber: string;
+  public readonly axios: AxiosInstance;
 
   /**
    * The `messages.*` methods.
    */
-  readonly messages: MessageListInstance;
+  public readonly messages: MessageListInstance;
+
+  /**
+   * The phone number used by the client
+   */
+  private phoneNumber: string;
 
   /**
    * The callback to be called when receiving requests.
@@ -124,7 +119,6 @@ export default class TwilioClient {
   constructor(config: TwilioTypes.ClientConfig) {
     const twilioOrigin = `https://${config.accountSid}:${config.authToken}@api.twilio.com`;
 
-    this.authToken = config.authToken;
     this.phoneNumber = config.phoneNumber;
 
     this.axios = axios.create({
