@@ -26,15 +26,6 @@ it('should support origin', async () => {
   expect(res.data).toEqual({ y: 2 });
 });
 
-it('#axios should return underlying http client', () => {
-  const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
-  });
-
-  expect(client.axios).toBeDefined();
-});
-
 it('#accessToken should return underlying access token', () => {
   const client = new LineClient({
     accessToken: ACCESS_TOKEN,

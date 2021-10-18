@@ -1,609 +1,103 @@
-import MockAdapter from 'axios-mock-adapter';
+import { rest } from 'msw';
 
 import WechatClient from '../WechatClient';
-import * as WechatTypes from '../WechatTypes';
 
-const { MediaType } = WechatTypes;
+import {
+  constants,
+  getCurrentContext,
+  setupWechatServer,
+} from './testing-library';
 
-const APP_ID = 'APP_ID';
-const APP_SECRET = 'APP_SECRET';
+const wechatServer = setupWechatServer();
 
-const RECIPIENT_ID = '1QAZ2WSX';
-const ACCESS_TOKEN = '1234567890';
+it('should support origin', async () => {
+  wechatServer.use(
+    rest.get('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(ctx.json({}));
+    })
+  );
 
-const createMock = (): { client: WechatClient; mock: MockAdapter } => {
-  const client = new WechatClient({
-    appId: APP_ID,
-    appSecret: APP_SECRET,
+  const wechat = new WechatClient({
+    appId: constants.APP_ID,
+    appSecret: constants.APP_SECRET,
+    origin: 'https://mydummytestserver.com',
   });
-  const mock = new MockAdapter(client.axios);
 
-  mock
-    .onGet('/token?grant_type=client_credential&appid=APP_ID&secret=APP_SECRET')
-    .reply(200, {
-      access_token: ACCESS_TOKEN,
-      expires_in: 7200,
-    });
+  await wechat.getAccessToken();
 
-  return { client, mock };
-};
+  expect(getCurrentContext().request?.url.href).toBe(
+    'https://mydummytestserver.com/cgi-bin/token?grant_type=client_credential&appid=APP_ID&secret=APP_SECRET'
+  );
+});
 
-describe('access token', () => {
-  describe('#getAccessToken', () => {
-    it('should respond access_token and expires_in', async () => {
-      const { client } = createMock();
+it('should support onRequest', async () => {
+  const onRequest = jest.fn();
 
-      const reply = {
-        accessToken: ACCESS_TOKEN,
-        expiresIn: 7200,
-      };
+  const wechat = new WechatClient({
+    appId: constants.APP_ID,
+    appSecret: constants.APP_SECRET,
+    onRequest,
+  });
 
-      const res = await client.getAccessToken();
+  await wechat.getAccessToken();
 
-      expect(res).toEqual(reply);
-    });
+  expect(onRequest).toBeCalledWith({
+    body: undefined,
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    method: 'get',
+    url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APP_ID&secret=APP_SECRET',
   });
 });
 
-describe('media', () => {
-  describe('#uploadMedia', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        type: 'image',
-        media_id: 'MEDIA_ID',
-        created_at: 123456789,
-      };
-
-      const camelcaseReply = {
-        type: 'image',
-        mediaId: 'MEDIA_ID',
-        createdAt: 123456789,
-      };
-
-      mock
-        .onPost(`/media/upload?access_token=${ACCESS_TOKEN}&type=image`)
-        .reply(200, reply);
-
-      const res = await client.uploadMedia(
-        MediaType.Image,
-        Buffer.from('1234')
-      );
-
-      expect(res).toEqual(camelcaseReply);
-    });
+it('should support #getAccessToken', async () => {
+  const wechat = new WechatClient({
+    appId: constants.APP_ID,
+    appSecret: constants.APP_SECRET,
   });
 
-  describe('#getMedia', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
+  const res = await wechat.getAccessToken();
 
-      const reply = {
-        video_url: 'http://www.example.com/image.jpg',
-      };
-
-      const camelcaseReply = {
-        videoUrl: 'http://www.example.com/image.jpg',
-      };
-
-      mock
-        .onGet(`/media/get?access_token=${ACCESS_TOKEN}&media_id=MEDIA_ID`)
-        .reply(200, reply);
-
-      const res = await client.getMedia('MEDIA_ID');
-
-      expect(res).toEqual(camelcaseReply);
-    });
+  expect(res).toEqual({
+    accessToken: '1234567890',
+    expiresIn: 7200,
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APP_ID&secret=APP_SECRET'
+  );
+  expect(request?.url.searchParams.get('grant_type')).toBe('client_credential');
+  expect(request?.url.searchParams.get('appid')).toBe('APP_ID');
+  expect(request?.url.searchParams.get('secret')).toBe('APP_SECRET');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('send api', () => {
-  describe('#sendRawBody', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'text',
-          text: {
-            content: 'Hello!',
-          },
+it('should handle request errors', async () => {
+  wechatServer.use(
+    rest.get('https://api.weixin.qq.com/cgi-bin/token', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(
+        ctx.json({
+          errcode: 40013,
+          errmsg: 'invalid appid rid: 616c12e7-5ea20f02-726b4422',
         })
-        .reply(200, reply);
-
-      const res = await client.sendRawBody({
-        touser: RECIPIENT_ID,
-        msgtype: 'text',
-        text: {
-          content: 'Hello!',
-        },
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendText', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'text',
-          text: {
-            content: 'Hello!',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendText(RECIPIENT_ID, 'Hello!');
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendImage', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'image',
-          image: {
-            media_id: 'MEDIA_ID',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendImage(RECIPIENT_ID, 'MEDIA_ID');
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendVoice', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'voice',
-          voice: {
-            media_id: 'MEDIA_ID',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVoice(RECIPIENT_ID, 'MEDIA_ID');
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendVideo', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'video',
-          video: {
-            media_id: 'MEDIA_ID',
-            thumb_media_id: 'MEDIA_ID',
-            title: 'TITLE',
-            description: 'DESCRIPTION',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVideo(RECIPIENT_ID, {
-        mediaId: 'MEDIA_ID',
-        thumbMediaId: 'MEDIA_ID',
-        title: 'TITLE',
-        description: 'DESCRIPTION',
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should support snakecase', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'video',
-          video: {
-            media_id: 'MEDIA_ID',
-            thumb_media_id: 'MEDIA_ID',
-            title: 'TITLE',
-            description: 'DESCRIPTION',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendVideo(RECIPIENT_ID, {
-        // @ts-expect-error
-        media_id: 'MEDIA_ID',
-        thumb_media_id: 'MEDIA_ID',
-        title: 'TITLE',
-        description: 'DESCRIPTION',
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendMusic', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'music',
-          music: {
-            title: 'MUSIC_TITLE',
-            description: 'MUSIC_DESCRIPTION',
-            musicurl: 'MUSIC_URL',
-            hqmusicurl: 'HQ_MUSIC_URL',
-            thumb_media_id: 'THUMB_MEDIA_ID',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMusic(RECIPIENT_ID, {
-        title: 'MUSIC_TITLE',
-        description: 'MUSIC_DESCRIPTION',
-        musicurl: 'MUSIC_URL',
-        hqmusicurl: 'HQ_MUSIC_URL',
-        thumbMediaId: 'THUMB_MEDIA_ID',
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should support snakecase', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'music',
-          music: {
-            title: 'MUSIC_TITLE',
-            description: 'MUSIC_DESCRIPTION',
-            musicurl: 'MUSIC_URL',
-            hqmusicurl: 'HQ_MUSIC_URL',
-            thumb_media_id: 'THUMB_MEDIA_ID',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMusic(RECIPIENT_ID, {
-        title: 'MUSIC_TITLE',
-        description: 'MUSIC_DESCRIPTION',
-        musicurl: 'MUSIC_URL',
-        hqmusicurl: 'HQ_MUSIC_URL',
-        // @ts-expect-error
-        thumb_media_id: 'THUMB_MEDIA_ID',
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendNews', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'news',
-          news: {
-            articles: [
-              {
-                title: 'Happy Day',
-                description: 'Is Really A Happy Day',
-                url: 'URL',
-                picurl: 'PIC_URL',
-              },
-              {
-                title: 'Happy Day',
-                description: 'Is Really A Happy Day',
-                url: 'URL',
-                picurl: 'PIC_URL',
-              },
-            ],
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendNews(RECIPIENT_ID, {
-        articles: [
-          {
-            title: 'Happy Day',
-            description: 'Is Really A Happy Day',
-            url: 'URL',
-            picurl: 'PIC_URL',
-          },
-          {
-            title: 'Happy Day',
-            description: 'Is Really A Happy Day',
-            url: 'URL',
-            picurl: 'PIC_URL',
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendMPNews', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'mpnews',
-          mpnews: {
-            media_id: 'MEDIA_ID',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMPNews(RECIPIENT_ID, 'MEDIA_ID');
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendMsgMenu', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'msgmenu',
-          msgmenu: {
-            head_content: 'HEAD',
-            list: [
-              {
-                id: '101',
-                content: 'Yes',
-              },
-              {
-                id: '102',
-                content: 'No',
-              },
-            ],
-            tail_content: 'TAIL',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMsgMenu(RECIPIENT_ID, {
-        headContent: 'HEAD',
-        list: [
-          {
-            id: '101',
-            content: 'Yes',
-          },
-          {
-            id: '102',
-            content: 'No',
-          },
-        ],
-        tailContent: 'TAIL',
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should support snakecase', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'msgmenu',
-          msgmenu: {
-            head_content: 'HEAD',
-            list: [
-              {
-                id: '101',
-                content: 'Yes',
-              },
-              {
-                id: '102',
-                content: 'No',
-              },
-            ],
-            tail_content: 'TAIL',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMsgMenu(RECIPIENT_ID, {
-        // @ts-expect-error
-        head_content: 'HEAD',
-        list: [
-          {
-            id: '101',
-            content: 'Yes',
-          },
-          {
-            id: '102',
-            content: 'No',
-          },
-        ],
-        tail_content: 'TAIL',
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#sendWXCard', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'wxcard',
-          wxcard: {
-            card_id: '123dsdajkasd231jhksad',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendWXCard(
-        RECIPIENT_ID,
-        '123dsdajkasd231jhksad'
       );
+    })
+  );
 
-      expect(res).toEqual(reply);
-    });
+  const wechat = new WechatClient({
+    appId: constants.APP_ID,
+    appSecret: constants.APP_SECRET,
   });
 
-  describe('#sendMiniProgramPage', () => {
-    it('should call wechat api', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'miniprogrampage',
-          miniprogrampage: {
-            title: 'title',
-            appid: 'appid',
-            pagepath: 'pagepath',
-            thumb_media_id: 'thumb_media_id',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMiniProgramPage(RECIPIENT_ID, {
-        title: 'title',
-        appid: 'appid',
-        pagepath: 'pagepath',
-        thumbMediaId: 'thumb_media_id',
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should support snakecase', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        errcode: 0,
-        errmsg: 'ok',
-      };
-
-      mock
-        .onPost(`/message/custom/send?access_token=${ACCESS_TOKEN}`, {
-          touser: RECIPIENT_ID,
-          msgtype: 'miniprogrampage',
-          miniprogrampage: {
-            title: 'title',
-            appid: 'appid',
-            pagepath: 'pagepath',
-            thumb_media_id: 'thumb_media_id',
-          },
-        })
-        .reply(200, reply);
-
-      const res = await client.sendMiniProgramPage(RECIPIENT_ID, {
-        title: 'title',
-        appid: 'appid',
-        pagepath: 'pagepath',
-        // @ts-expect-error
-        thumb_media_id: 'thumb_media_id',
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
+  await expect(wechat.getAccessToken()).rejects.toThrowError(
+    'WeChat API - 40013 invalid appid rid: 616c12e7-5ea20f02-726b4422'
+  );
 });

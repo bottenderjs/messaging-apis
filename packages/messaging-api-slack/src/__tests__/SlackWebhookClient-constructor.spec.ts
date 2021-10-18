@@ -39,17 +39,6 @@ describe('constructor', () => {
   });
 });
 
-describe('#axios', () => {
-  it('should return underlying http client', () => {
-    const client = new SlackWebhookClient({ url: URL });
-
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
-  });
-});
-
 describe('#onRequest', () => {
   it('should call onRequest when calling any API', async () => {
     const onRequest = jest.fn();

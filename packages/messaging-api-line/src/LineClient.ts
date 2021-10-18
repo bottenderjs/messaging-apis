@@ -70,7 +70,7 @@ export default class LineClient {
    * Constructor of LineClient
    *
    * Usage:
-   * ```ts
+   * ```js
    * new LineClient({
    *   accessToken: ACCESS_TOKEN,
    * })

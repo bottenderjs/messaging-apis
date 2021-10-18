@@ -2,13 +2,13 @@ import fs from 'fs';
 
 import FormData from 'form-data';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import invariant from 'ts-invariant';
+import { CamelCasedPropertiesDeep } from 'type-fest';
 import {
   OnRequestFunction,
-  camelcaseKeys,
+  camelcaseKeysDeep,
   createRequestInterceptor,
   onRequest,
-  snakecaseKeys,
+  snakecaseKeysDeep,
 } from 'messaging-api-common';
 import { PrintableAxiosError } from 'axios-error';
 
@@ -25,16 +25,19 @@ function throwErrorIfAny(response: AxiosResponse): AxiosResponse {
   });
 }
 
+function wrapPrintableAxiosError(err: unknown) {
+  return Promise.reject(
+    axios.isAxiosError(err)
+      ? new PrintableAxiosError(`WeChat API - ${err.message}`, err)
+      : err
+  );
+}
+
 export default class WechatClient {
   /**
    * The underlying axios instance.
    */
-  readonly axios: AxiosInstance;
-
-  /**
-   * The current access token used by the client.
-   */
-  accessToken = '';
+  public readonly axios: AxiosInstance;
 
   /**
    * The callback to be called when receiving requests.
@@ -52,16 +55,28 @@ export default class WechatClient {
   private appSecret: string;
 
   /**
+   * The current access token used by the client.
+   */
+  private accessToken = '';
+
+  /**
    * The timestamp of the token expired time.
    */
   private tokenExpiresAt = 0;
 
+  /**
+   * The constructor of WechatClient.
+   *
+   * @param config - the config object
+   * @example
+   * ```js
+   * const wechat = new WechatClient({
+   *   appId: WECHAT_APP_ID,
+   *   appSecret: WECHAT_APP_SECRET,
+   * });
+   * ```
+   */
   constructor(config: WechatTypes.ClientConfig) {
-    invariant(
-      typeof config !== 'string',
-      `WechatClient: do not allow constructing client with ${config} string. Use object instead.`
-    );
-
     this.appId = config.appId;
     this.appSecret = config.appSecret;
     this.onRequest = config.onRequest ?? onRequest;
@@ -72,6 +87,18 @@ export default class WechatClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      transformResponse: [
+        // eslint-disable-next-line no-nested-ternary
+        ...(Array.isArray(axios.defaults.transformResponse)
+          ? axios.defaults.transformResponse
+          : axios.defaults.transformResponse !== undefined
+          ? [axios.defaults.transformResponse]
+          : []),
+        (data, headers) => {
+          if (headers['content-type'] !== 'application/json') return data;
+          return camelcaseKeysDeep(data);
+        },
+      ],
     });
 
     this.axios.interceptors.request.use(
@@ -79,32 +106,21 @@ export default class WechatClient {
         onRequest: this.onRequest,
       })
     );
-  }
 
-  private async refreshToken(): Promise<void> {
-    const { accessToken, expiresIn } = await this.getAccessToken();
-
-    this.accessToken = accessToken;
-    this.tokenExpiresAt = Date.now() + expiresIn * 1000;
-  }
-
-  private async refreshTokenWhenExpired(): Promise<void> {
-    if (Date.now() > this.tokenExpiresAt) {
-      await this.refreshToken();
-    }
+    this.axios.interceptors.response.use(
+      throwErrorIfAny,
+      wrapPrintableAxiosError
+    );
   }
 
   /**
    * 获取 access_token
    *
-   * @returns Access token info
-   *
+   * @returns access token info
    * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183
-   *
    * @example
-   *
    * ```js
-   * await client.getAccessToken();
+   * await wechat.getAccessToken();
    * // {
    * //   accessToken: "ACCESS_TOKEN",
    * //   expiresIn: 7200
@@ -113,19 +129,14 @@ export default class WechatClient {
    */
   getAccessToken(): Promise<WechatTypes.AccessToken> {
     return this.axios
-      .get<
-        | { access_token: string; expires_in: number }
-        | WechatTypes.FailedResponseData
-      >(
-        `/token?grant_type=client_credential&appid=${this.appId}&secret=${this.appSecret}`
-      )
-      .then(throwErrorIfAny)
-      .then(
-        (res) =>
-          camelcaseKeys(res.data, {
-            deep: true,
-          }) as any
-      );
+      .get<WechatTypes.AccessToken>('/token', {
+        params: {
+          grant_type: 'client_credential',
+          appid: this.appId,
+          secret: this.appSecret,
+        },
+      })
+      .then((res) => res.data);
   }
 
   /**
@@ -142,20 +153,16 @@ export default class WechatClient {
   /**
    * 多媒体文件上传接口
    *
-   * @param type - Type of the media to upload.
-   * @param media - Buffer or stream of the media to upload.
-   * @returns Info of the uploaded media.
-   *
+   * @param type - the media type to upload
+   * @param media - buffer or stream of the media to upload
+   * @returns the info of the uploaded media.
    * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726
-   *
    * @example
-   *
    * ```js
    * const fs = require('fs');
    *
-   * const buffer = fs.readFileSync('test.jpg');
-   *
-   * await client.uploadMedia('image', buffer);
+   * const buffer = await fs.promises.readFile('test.jpg');
+   * await wechat.uploadMedia('image', buffer);
    * // {
    * //   type: 'image',
    * //   mediaId: 'MEDIA_ID',
@@ -170,37 +177,34 @@ export default class WechatClient {
     await this.refreshTokenWhenExpired();
 
     const form = new FormData();
-
     form.append('media', media);
 
     return this.axios
       .post<
-        | { type: string; media_id: string; created_at: number }
-        | WechatTypes.FailedResponseData
-      >(`/media/upload?access_token=${this.accessToken}&type=${type}`, form, {
+        CamelCasedPropertiesDeep<{
+          type: string;
+          media_id: string;
+          created_at: number;
+        }>
+      >('/media/upload', form, {
         headers: form.getHeaders(),
+        params: {
+          access_token: this.accessToken,
+          type,
+        },
       })
-      .then(throwErrorIfAny)
-      .then(
-        (res) =>
-          camelcaseKeys(res.data, {
-            deep: true,
-          }) as any
-      );
+      .then((res) => res.data);
   }
 
   /**
    * 下载多媒体文件接口
    *
-   * @param mediaId - ID of the media to get.
-   * @returns Info of the media.
-   *
+   * @param mediaId - ID of the media to get
+   * @returns the info of the media
    * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727
-   *
    * @example
-   *
    * ```js
-   * await client.getMedia(MEDIA_ID);
+   * await wechat.getMedia(MEDIA_ID);
    * // {
    * //   videoUrl: "..."
    * // }
@@ -210,112 +214,61 @@ export default class WechatClient {
     await this.refreshTokenWhenExpired();
 
     return this.axios
-      .get<{ video_url: string } | WechatTypes.FailedResponseData>(
-        `/media/get?access_token=${this.accessToken}&media_id=${mediaId}`
-      )
-      .then(throwErrorIfAny)
-      .then(
-        (res) =>
-          camelcaseKeys(res.data, {
-            deep: true,
-          }) as any
-      );
+      .get<WechatTypes.Media>('/media/get', {
+        params: {
+          access_token: this.accessToken,
+          media_id: mediaId,
+        },
+      })
+      .then((res) => res.data);
   }
 
   /**
    * 发送消息-客服消息
    *
-   * @internal
-   *
+   * @param options - message options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
+   * @example
+   * ```js
+   * await wechat.sendMessage({
+   *   touser: USER_ID,
+   *   msgtype: 'text',
+   *   text: {
+   *     content: 'Hello!',
+   *   },
+   * });
+   * ```
    */
-  async sendRawBody(
-    body: {
-      touser: string;
-    } & WechatTypes.SendMessageOptions &
-      (
-        | {
-            msgtype: 'text';
-            text: {
-              content: string;
-            };
-          }
-        | {
-            msgtype: 'image';
-            image: {
-              mediaId: string;
-            };
-          }
-        | {
-            msgtype: 'voice';
-            voice: {
-              mediaId: string;
-            };
-          }
-        | {
-            msgtype: 'video';
-            video: WechatTypes.Video;
-          }
-        | {
-            msgtype: 'music';
-            music: WechatTypes.Music;
-          }
-        | {
-            msgtype: 'news';
-            news: WechatTypes.News;
-          }
-        | {
-            msgtype: 'mpnews';
-            mpnews: {
-              mediaId: string;
-            };
-          }
-        | {
-            msgtype: 'msgmenu';
-            msgmenu: WechatTypes.MsgMenu;
-          }
-        | {
-            msgtype: 'wxcard';
-            wxcard: {
-              cardId: string;
-            };
-          }
-        | {
-            msgtype: 'miniprogrampage';
-            miniprogrampage: WechatTypes.MiniProgramPage;
-          }
-      )
+  async sendMessage(
+    options: WechatTypes.MessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
     await this.refreshTokenWhenExpired();
 
     return this.axios
       .post<WechatTypes.ResponseData>(
-        `/message/custom/send?access_token=${this.accessToken}`,
-        snakecaseKeys(body, { deep: true })
+        '/message/custom/send',
+        snakecaseKeysDeep(options),
+        {
+          params: {
+            access_token: this.accessToken,
+          },
+        }
       )
-      .then(throwErrorIfAny)
-      .then(
-        (res) =>
-          camelcaseKeys(res.data, {
-            deep: true,
-          }) as any
-      );
+      .then((res) => res.data);
   }
 
   /**
    * 发送文本消息
    *
-   * @param userId - User ID of the recipient
-   * @param text - Text to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param text - text to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendText(USER_ID, 'Hello!');
+   * await wechat.sendText(USER_ID, 'Hello!');
    * ```
    */
   sendText(
@@ -323,7 +276,7 @@ export default class WechatClient {
     text: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'text',
       text: {
@@ -336,17 +289,14 @@ export default class WechatClient {
   /**
    * 发送图片消息
    *
-   * @param userId - User ID of the recipient
-   * @param mediaId - ID of the media to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param mediaId - ID of the media to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendImage(USER_ID, 'MEDIA_ID');
+   * await wechat.sendImage(USER_ID, 'MEDIA_ID');
    * ```
    */
   sendImage(
@@ -354,7 +304,7 @@ export default class WechatClient {
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'image',
       image: {
@@ -367,17 +317,14 @@ export default class WechatClient {
   /**
    * 发送语音消息
    *
-   * @param userId - User ID of the recipient
-   * @param mediaId - ID of the media to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param mediaId - ID of the media to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendVoice(USER_ID, 'MEDIA_ID');
+   * await wechat.sendVoice(USER_ID, 'MEDIA_ID');
    * ```
    */
   sendVoice(
@@ -385,7 +332,7 @@ export default class WechatClient {
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'voice',
       voice: {
@@ -398,17 +345,15 @@ export default class WechatClient {
   /**
    * 发送视频消息
    *
-   * @param userId - User ID of the recipient
-   * @param video - Info of the video to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param video - info of the video to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
    *
    * ```js
-   * await client.sendVideo(USER_ID, {
+   * await wechat.sendVideo(USER_ID, {
    *   mediaId: 'MEDIA_ID',
    *   thumbMediaId: 'THUMB_MEDIA_ID',
    *   title: 'VIDEO_TITLE',
@@ -421,7 +366,7 @@ export default class WechatClient {
     video: WechatTypes.Video,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'video',
       video,
@@ -432,17 +377,14 @@ export default class WechatClient {
   /**
    * 发送音乐消息
    *
-   * @param userId - User ID of the recipient
-   * @param news - Data of the music to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param news - data of the music to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendMusic(USER_ID, {
+   * await wechat.sendMusic(USER_ID, {
    *   musicurl: 'MUSIC_URL',
    *   hqmusicurl: 'HQ_MUSIC_URL',
    *   thumbMediaId: 'THUMB_MEDIA_ID',
@@ -456,7 +398,7 @@ export default class WechatClient {
     music: WechatTypes.Music,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'music',
       music,
@@ -469,17 +411,14 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    *
-   * @param userId - User ID of the recipient
-   * @param news - Data of the news to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param news - data of the news to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendNews(USER_ID, {
+   * await wechat.sendNews(USER_ID, {
    *   articles: [
    *     {
    *       title: 'Happy Day',
@@ -502,7 +441,7 @@ export default class WechatClient {
     news: WechatTypes.News,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'news',
       news,
@@ -515,17 +454,14 @@ export default class WechatClient {
    *
    * 图文消息条数限制在 8 条以内，注意，如果图文数超过 8，则将会无响应。
    *
-   * @param userId - User ID of the recipient
-   * @param mediaId - ID of the media to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param mediaId - ID of the media to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendMPNews(USER_ID, 'MEDIA_ID');
+   * await wechat.sendMPNews(USER_ID, 'MEDIA_ID');
    * ```
    */
   sendMPNews(
@@ -533,7 +469,7 @@ export default class WechatClient {
     mediaId: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'mpnews',
       mpnews: {
@@ -546,27 +482,18 @@ export default class WechatClient {
   /**
    * 发送菜单消息
    *
-   * @param userId - User ID of the recipient
-   * @param msgMenu - Data of the msg menu to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param msgMenu - data of the msg menu to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendMsgMenu(USER_ID, {
+   * await wechat.sendMsgMenu(USER_ID, {
    *   headContent: 'HEAD',
    *   list: [
-   *     {
-   *       id: '101',
-   *       content: 'Yes',
-   *     },
-   *     {
-   *       id: '102',
-   *       content: 'No',
-   *     },
+   *     { id: '101', content: 'Yes' },
+   *     { id: '102', content: 'No' },
    *   ],
    *   'tailContent': 'Tail',
    * });
@@ -577,7 +504,7 @@ export default class WechatClient {
     msgMenu: WechatTypes.MsgMenu,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'msgmenu',
       msgmenu: msgMenu,
@@ -588,17 +515,14 @@ export default class WechatClient {
   /**
    * 发送卡券
    *
-   * @param userId - User ID of the recipient
-   * @param cardId - ID of the card to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param cardId - ID of the card to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendWXCard(USER_ID, '123dsdajkasd231jhksad');
+   * await wechat.sendWXCard(USER_ID, '123dsdajkasd231jhksad');
    * ```
    */
   sendWXCard(
@@ -606,7 +530,7 @@ export default class WechatClient {
     cardId: string,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'wxcard',
       wxcard: {
@@ -619,17 +543,14 @@ export default class WechatClient {
   /**
    * 发送小程序卡片（要求小程序与公众号已关联）
    *
-   * @param userId - User ID of the recipient
-   * @param miniProgramPage - Info of the mini program page to be sent.
-   * @param options - The other parameters.
-   * @returns Error code and error message.
-   *
+   * @param userId - user ID of the recipient
+   * @param miniProgramPage - Info of the mini program page to be sent
+   * @param options - other options
+   * @returns error code and error message
    * @see https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html#7
-   *
    * @example
-   *
    * ```js
-   * await client.sendMiniProgramPage(USER_ID, {
+   * await wechat.sendMiniProgramPage(USER_ID, {
    *   title: 'title',
    *   appid: 'appid',
    *   pagepath: 'pagepath',
@@ -642,7 +563,7 @@ export default class WechatClient {
     miniProgramPage: WechatTypes.MiniProgramPage,
     options?: WechatTypes.SendMessageOptions
   ): Promise<WechatTypes.SucceededResponseData> {
-    return this.sendRawBody({
+    return this.sendMessage({
       touser: userId,
       msgtype: 'miniprogrampage',
       miniprogrampage: miniProgramPage,
@@ -650,7 +571,43 @@ export default class WechatClient {
     });
   }
 
-  // TODO: implement typing
+  /**
+   * 客服输入状态
+   */
+  async typing(
+    userId: string,
+    command: WechatTypes.TypingCommand
+  ): Promise<WechatTypes.SucceededResponseData> {
+    await this.refreshTokenWhenExpired();
+
+    return this.axios
+      .post<WechatTypes.ResponseData>(
+        '/message/custom/typing',
+        {
+          touser: userId,
+          command,
+        },
+        {
+          params: {
+            access_token: this.accessToken,
+          },
+        }
+      )
+      .then((res) => res.data);
+  }
 
   // TODO: 客服帳號相關
+
+  private async refreshToken(): Promise<void> {
+    const { accessToken, expiresIn } = await this.getAccessToken();
+
+    this.accessToken = accessToken;
+    this.tokenExpiresAt = Date.now() + expiresIn * 1000;
+  }
+
+  private async refreshTokenWhenExpired(): Promise<void> {
+    if (Date.now() > this.tokenExpiresAt) {
+      await this.refreshToken();
+    }
+  }
 }

@@ -107,7 +107,7 @@ describe('#narrowcast', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('POST');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       'https://api.line.me/v2/bot/message/narrowcast'
     );
     expect(request?.body).toEqual({
@@ -282,7 +282,7 @@ describe('#narrowcast', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('POST');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       'https://api.line.me/v2/bot/message/narrowcast'
     );
     expect(request?.body).toEqual({
@@ -455,7 +455,7 @@ describe('#narrowcast', () => {
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('POST');
-    expect(request?.url.toString()).toBe(
+    expect(request?.url.href).toBe(
       'https://api.line.me/v2/bot/message/narrowcast'
     );
     expect(request?.body).toEqual({
@@ -581,7 +581,7 @@ it('#getNarrowcastProgress should get the status of a narrowcast message', async
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe(
+  expect(request?.url.href).toBe(
     `https://api.line.me/v2/bot/message/progress/narrowcast?requestId=${requestId}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');

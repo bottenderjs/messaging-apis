@@ -70,15 +70,6 @@ describe('constructor', () => {
 });
 
 describe('#axios', () => {
-  it('should return underlying http client', () => {
-    const client = new TelegramClient({ accessToken: ACCESS_TOKEN });
-
-    expect(client.axios.get).toBeDefined();
-    expect(client.axios.post).toBeDefined();
-    expect(client.axios.put).toBeDefined();
-    expect(client.axios.delete).toBeDefined();
-  });
-
   it('should throw error when ok is false', async () => {
     const { client, mock } = createMock();
     const reply = {

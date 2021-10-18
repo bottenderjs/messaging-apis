@@ -48,7 +48,7 @@ it('#getBotInfo should call api', async () => {
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
-  expect(request?.url.toString()).toBe('https://api.line.me/v2/bot/info');
+  expect(request?.url.href).toBe('https://api.line.me/v2/bot/info');
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
