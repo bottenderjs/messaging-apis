@@ -31,7 +31,7 @@ it('should support origin', async () => {
   );
 });
 
-it('should support #onRequest', async () => {
+it('should support onRequest', async () => {
   const onRequest = jest.fn();
 
   const viber = new ViberClient({

@@ -99,6 +99,8 @@ export function setupTwilioServer(): SetupServerApi {
   afterEach(() => {
     // Reset any runtime handlers tests may use.
     server.resetHandlers();
+
+    currentContext.request = undefined;
   });
   afterAll(() => {
     // Clean up after all tests are done, preventing this

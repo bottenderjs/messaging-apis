@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 import difference from 'lodash/difference';
-import invariant from 'ts-invariant';
 import isPlainObject from 'lodash/isPlainObject';
 import pick from 'lodash/pick';
 import {
@@ -31,11 +30,6 @@ export default class TelegramClient {
   private onRequest?: OnRequestFunction;
 
   constructor(config: TelegramTypes.ClientConfig) {
-    invariant(
-      typeof config !== 'string',
-      `TelegramClient: do not allow constructing client with ${config} string. Use object instead.`
-    );
-
     this.accessToken = config.accessToken;
     this.onRequest = config.onRequest;
     const { origin } = config;
@@ -186,7 +180,7 @@ export default class TelegramClient {
    * @param options.certificate - not supported yet.
    * @param options.maxConnections - Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40.
    * @param options.allowedUpdates - List the types of updates you want your bot to receive.
-   * @returns True on success.
+   * @returns Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#setwebhook
    *
@@ -230,22 +224,47 @@ export default class TelegramClient {
    * A simple method for testing your bot's auth token.
    *
    * @returns Returns basic information about the bot in form of a User object.
-   *
    * @see https://core.telegram.org/bots/api#getme
-   *
    * @example
-   *
    * ```js
-   * await client.getMe();
+   * await telegram.getMe();
    * // {
    * //   id: 313534466,
-   * //   firstName: 'first',
+   * //   firstName: 'Bot',
    * //   username: 'a_bot'
    * // }
    * ```
    */
-  getMe(): Promise<TelegramTypes.User> {
+  getMe(): Promise<boolean> {
     return this.request('/getMe');
+  }
+
+  /**
+   * Use this method to log out from the cloud Bot API server before launching the bot locally.
+   *
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#logout
+   * @example
+   * ```js
+   * await telegram.logOut();
+   * ```
+   */
+  logOut(): Promise<boolean> {
+    return this.request('/logOut');
+  }
+
+  /**
+   * Use this method to close the bot instance before moving it from one local server to another.
+   *
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#close
+   * @example
+   * ```js
+   * await telegram.close();
+   * ```
+   */
+  close(): Promise<TelegramTypes.User> {
+    return this.request('/close');
   }
 
   /**
@@ -803,7 +822,7 @@ export default class TelegramClient {
    *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param action - Types of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
-   * @param Returns True on success.
+   * @returns Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#sendchataction
    *
@@ -1576,7 +1595,7 @@ export default class TelegramClient {
    *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param messageId - Identifier of the message to delete
-   * @returns True on success.
+   * @returns Returns True on success.
    *
    * @see https://core.telegram.org/bots/api#deletemessage
    *
