@@ -1,25 +1,9 @@
-import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
+import { rest } from 'msw';
 import { snakecaseKeysDeep } from 'messaging-api-common';
 
-type Context = { request: RestRequest | undefined };
-
-const currentContext: { request: RestRequest | undefined } = {
-  request: undefined,
-};
-
-/**
- * Gets current HTTP request context.
- *
- * @returns current HTTP request context.
- */
-export function getCurrentContext(): Context {
-  return currentContext;
-}
-
-export const constants = {
-  ACCESS_TOKEN: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',
-};
+import { constants, getCurrentContext } from './shared';
+import { requestHandlers as messageRequestHandlers } from './message';
 
 /**
  * Sets up a mock Telegram server.
@@ -31,7 +15,7 @@ export function setupTelegramServer(): SetupServerApi {
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getMe`,
       (req, res, ctx) => {
-        currentContext.request = req;
+        getCurrentContext().request = req;
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -53,7 +37,7 @@ export function setupTelegramServer(): SetupServerApi {
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/logOut`,
       (req, res, ctx) => {
-        currentContext.request = req;
+        getCurrentContext().request = req;
         return res(
           ctx.json({
             ok: true,
@@ -65,7 +49,7 @@ export function setupTelegramServer(): SetupServerApi {
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/close`,
       (req, res, ctx) => {
-        currentContext.request = req;
+        getCurrentContext().request = req;
         return res(
           ctx.json({
             ok: true,
@@ -73,7 +57,8 @@ export function setupTelegramServer(): SetupServerApi {
           })
         );
       }
-    )
+    ),
+    ...messageRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
@@ -94,3 +79,5 @@ export function setupTelegramServer(): SetupServerApi {
 
   return server;
 }
+
+export { constants, getCurrentContext } from './shared';

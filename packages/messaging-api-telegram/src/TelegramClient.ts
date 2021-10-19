@@ -112,7 +112,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getUpdates({ limit: 10 });
+   * await telegram.getUpdates({ limit: 10 });
    * // [
    * //   {
    * //     updateId: 513400512,
@@ -157,7 +157,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getWebhookInfo();
+   * await telegram.getWebhookInfo();
    * // {
    * //   url: 'https://4a16faff.ngrok.io/',
    * //   hasCustomCertificate: false,
@@ -187,7 +187,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.setWebhook('https://4a16faff.ngrok.io/');
+   * await telegram.setWebhook('https://4a16faff.ngrok.io/');
    * ```
    */
   setWebhook(
@@ -213,7 +213,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.deleteWebhook();
+   * await telegram.deleteWebhook();
    * ```
    */
   deleteWebhook(): Promise<boolean> {
@@ -270,33 +270,77 @@ export default class TelegramClient {
   /**
    * Use this method to send text messages.
    *
-   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param text - Text of the message to be sent.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendmessage
-   *
    * @example
-   *
    * ```js
-   * await client.sendMessage(CHAT_ID, 'hi', {
+   * await telegram.sendMessage({
+   *   chatId: CHAT_ID,
+   *   text: 'hi',
    *   disableWebPagePreview: true,
    *   disableNotification: true,
    * });
    * ```
    */
   sendMessage(
+    options: TelegramTypes.SendMessageOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send text messages.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param text - Text of the message to be sent.
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendmessage
+   * @example
+   * ```js
+   * await telegram.sendMessage(CHAT_ID, 'hi');
+   * ```
+   */
+  sendMessage(
     chatId: string | number,
     text: string,
-    options?: TelegramTypes.SendMessageOption
+    options?: Omit<TelegramTypes.SendMessageOption, 'chatId' | 'text'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendMessage(
+    chatIdOrOptions: string | number | TelegramTypes.SendMessageOption,
+    text?: string,
+    options?: Omit<TelegramTypes.SendMessageOption, 'chatId' | 'text'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendMessage', {
-      chatId,
-      text,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            text,
+            ...options,
+          };
+    return this.request('/sendMessage', data);
   }
+
+  /**
+   * Use this method to forward messages of any kind.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#forwardmessage
+   * @example
+   * ```js
+   * await telegram.forwardMessage({
+   *   chatId: CHAT_ID,
+   *   fromChatId: USER_ID,
+   *   messageId: MESSAGE_ID,
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  forwardMessage(
+    options: TelegramTypes.ForwardMessageOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to forward messages of any kind.
@@ -305,15 +349,11 @@ export default class TelegramClient {
    * @param fromChatId - Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`)
    * @param messageId - Message identifier in the chat specified in fromChatId
    * @param options - Options for other optional parameters.
-   * @param options.disableNotification - Sends the message silently. Users will receive a notification with no sound
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#forwardmessage
-   *
    * @example
-   *
    * ```js
-   * await client.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
+   * await telegram.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
    *   disableNotification: true,
    * });
    * ```
@@ -322,15 +362,117 @@ export default class TelegramClient {
     chatId: string | number,
     fromChatId: string | number,
     messageId: number,
-    options?: TelegramTypes.ForwardMessageOption
+    options?: Omit<
+      TelegramTypes.ForwardMessageOption,
+      'chatId' | 'fromChatId' | 'messageId'
+    >
+  ): Promise<TelegramTypes.Message>;
+
+  forwardMessage(
+    chatIdOrOptions: string | number | TelegramTypes.ForwardMessageOption,
+    fromChatId?: string | number,
+    messageId?: number,
+    options?: Omit<
+      TelegramTypes.ForwardMessageOption,
+      'chatId' | 'fromChatId' | 'messageId'
+    >
   ): Promise<TelegramTypes.Message> {
-    return this.request('/forwardMessage', {
-      chatId,
-      fromChatId,
-      messageId,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            fromChatId,
+            messageId,
+            ...options,
+          };
+    return this.request('/forwardMessage', data);
   }
+
+  /**
+   * Use this method to copy messages of any kind.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns the MessageId of the sent message on success.
+   * @see https://core.telegram.org/bots/api#copymessage
+   * @example
+   * ```js
+   * await telegram.copyMessage({
+   *   chatId: CHAT_ID,
+   *   fromChatId: USER_ID,
+   *   messageId: MESSAGE_ID,
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  copyMessage(
+    options: TelegramTypes.CopyMessageOption
+  ): Promise<TelegramTypes.MessageId>;
+
+  /**
+   * Use this method to forward messages of any kind.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param fromChatId - Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`)
+   * @param messageId - Message identifier in the chat specified in fromChatId
+   * @param options - Options for other optional parameters.
+   * @returns Returns the MessageId of the sent message on success.
+   * @see https://core.telegram.org/bots/api#copymessage
+   * @example
+   * ```js
+   * await telegram.copyMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  copyMessage(
+    chatId: string | number,
+    fromChatId: string | number,
+    messageId: number,
+    options?: Omit<
+      TelegramTypes.CopyMessageOption,
+      'chatId' | 'fromChatId' | 'messageId'
+    >
+  ): Promise<TelegramTypes.MessageId>;
+
+  copyMessage(
+    chatIdOrOptions: string | number | TelegramTypes.CopyMessageOption,
+    fromChatId?: string | number,
+    messageId?: number,
+    options?: Omit<
+      TelegramTypes.ForwardMessageOption,
+      'chatId' | 'fromChatId' | 'messageId'
+    >
+  ): Promise<TelegramTypes.MessageId> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            fromChatId,
+            messageId,
+            ...options,
+          };
+    return this.request('/copyMessage', data);
+  }
+
+  /**
+   * Use this method to send photos.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendphoto
+   * @example
+   * ```js
+   * await telegram.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
+   *   caption: 'gooooooodPhoto',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendPhoto(
+    options: TelegramTypes.SendPhotoOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to send photos.
@@ -339,13 +481,10 @@ export default class TelegramClient {
    * @param photo - Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a photo from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendphoto
-   *
    * @example
-   *
    * ```js
-   * await client.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
+   * await telegram.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
    *   caption: 'gooooooodPhoto',
    *   disableNotification: true,
    * });
@@ -354,13 +493,23 @@ export default class TelegramClient {
   sendPhoto(
     chatId: string | number,
     photo: string,
-    options: TelegramTypes.SendPhotoOption = {}
+    options?: Omit<TelegramTypes.SendPhotoOption, 'chatId' | 'photo'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendPhoto(
+    chatIdOrOptions: string | number | TelegramTypes.SendPhotoOption,
+    photo?: string,
+    options?: Omit<TelegramTypes.SendPhotoOption, 'chatId' | 'photo'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendPhoto', {
-      chatId,
-      photo,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            photo,
+            ...options,
+          };
+    return this.request('/sendPhoto', data);
   }
 
   /**
@@ -372,13 +521,10 @@ export default class TelegramClient {
    * @param audio -Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an audio file from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendaudio
-   *
    * @example
-   *
    * ```js
-   * await client.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
+   * await telegram.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
    *   caption: 'gooooooodAudio',
    *   disableNotification: true,
    * });
@@ -423,7 +569,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
+   * await telegram.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
    *   caption: 'gooooooodDocument',
    *   disableNotification: true,
    * });
@@ -456,7 +602,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
+   * await telegram.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
    *   caption: 'gooooooodVideo',
    *   disableNotification: true,
    * });
@@ -518,7 +664,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
+   * await telegram.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
    *   caption: 'gooooooodVoice',
    *   disableNotification: true,
    * });
@@ -549,7 +695,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
+   * await telegram.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
    *   duration: 40,
    *   disableNotification: true,
    * });
@@ -582,7 +728,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendMediaGroup(CHAT_ID, [
+   * await telegram.sendMediaGroup(CHAT_ID, [
    *   { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
    * ]);
    * ```
@@ -617,7 +763,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendLocation(
+   * await telegram.sendLocation(
    *   CHAT_ID,
    *   {
    *     latitude: 30,
@@ -659,7 +805,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.editMessageLiveLocation(
+   * await telegram.editMessageLiveLocation(
    *   {
    *     latitude: 30,
    *     longitude: 45,
@@ -695,7 +841,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.stopMessageLiveLocation({ messageId: MESSAGE_ID });
+   * await telegram.stopMessageLiveLocation({ messageId: MESSAGE_ID });
    * ```
    */
   stopMessageLiveLocation(
@@ -723,7 +869,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendVenue(
+   * await telegram.sendVenue(
    *   CHAT_ID,
    *   {
    *     latitude: 30,
@@ -763,7 +909,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendContact(
+   * await telegram.sendContact(
    *   CHAT_ID,
    *   {
    *     phoneNumber: '886123456789',
@@ -829,7 +975,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendChatAction(CHAT_ID, 'typing');
+   * await telegram.sendChatAction(CHAT_ID, 'typing');
    * ```
    */
   sendChatAction(
@@ -854,7 +1000,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getUserProfilePhotos(USER_ID, { limit: 1 });
+   * await telegram.getUserProfilePhotos(USER_ID, { limit: 1 });
    * // {
    * //   totalCount: 3,
    * //   photos: [
@@ -906,7 +1052,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
+   * await telegram.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
    * // {
    * //   fileId: 'UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2',
    * //   fileSize: 106356,
@@ -931,7 +1077,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getFileLink('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
+   * await telegram.getFileLink('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
    * // 'https://api.telegram.org/file/bot<ACCESS_TOKEN>/photos/1068230105874016297.jpg'
    * ```
    */
@@ -957,7 +1103,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.kickChatMember(CHAT_ID, USER_ID, { untilDate: UNIX_TIME });
+   * await telegram.kickChatMember(CHAT_ID, USER_ID, { untilDate: UNIX_TIME });
    * ```
    */
   kickChatMember(
@@ -984,7 +1130,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.unbanChatMember(CHAT_ID, USER_ID);
+   * await telegram.unbanChatMember(CHAT_ID, USER_ID);
    * ```
    */
   unbanChatMember(chatId: string | number, userId: number): Promise<boolean> {
@@ -1009,7 +1155,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.restrictChatMember(CHAT_ID, USER_ID, { canSendMessages: true });
+   * await telegram.restrictChatMember(CHAT_ID, USER_ID, { canSendMessages: true });
    * ```
    */
   restrictChatMember(
@@ -1039,7 +1185,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.promoteChatMember(CHAT_ID, USER_ID, {
+   * await telegram.promoteChatMember(CHAT_ID, USER_ID, {
    *   canChangeInfo: true,
    *   canInviteUsers: true,
    * });
@@ -1094,7 +1240,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.exportChatInviteLink(CHAT_ID);
+   * await telegram.exportChatInviteLink(CHAT_ID);
    * ```
    */
   exportChatInviteLink(chatId: string | number): Promise<string> {
@@ -1130,7 +1276,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.deleteChatPhoto(CHAT_ID);
+   * await telegram.deleteChatPhoto(CHAT_ID);
    * ```
    */
   deleteChatPhoto(chatId: string | number): Promise<boolean> {
@@ -1153,7 +1299,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.setChatTitle(CHAT_ID, 'New Title');
+   * await telegram.setChatTitle(CHAT_ID, 'New Title');
    * ```
    */
   setChatTitle(chatId: string | number, title: string): Promise<boolean> {
@@ -1175,7 +1321,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.setChatDescription(CHAT_ID, 'New Description');
+   * await telegram.setChatDescription(CHAT_ID, 'New Description');
    * ```
    */
   setChatDescription(
@@ -1201,7 +1347,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.pinChatMessage(CHAT_ID, MESSAGE_ID, { disableNotification: true });
+   * await telegram.pinChatMessage(CHAT_ID, MESSAGE_ID, { disableNotification: true });
    * ```
    */
   pinChatMessage(
@@ -1227,7 +1373,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.unpinChatMessage(CHAT_ID);
+   * await telegram.unpinChatMessage(CHAT_ID);
    * ```
    */
   unpinChatMessage(chatId: string | number): Promise<boolean> {
@@ -1247,7 +1393,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.leaveChat(CHAT_ID);
+   * await telegram.leaveChat(CHAT_ID);
    * ```
    */
   leaveChat(chatId: string | number): Promise<boolean> {
@@ -1267,7 +1413,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getChat(CHAT_ID);
+   * await telegram.getChat(CHAT_ID);
    * // {
    * //   id: 313534466,
    * //   firstName: 'first',
@@ -1294,7 +1440,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getChatAdministrators(CHAT_ID);
+   * await telegram.getChatAdministrators(CHAT_ID);
    * // [
    * //   {
    * //     user: {
@@ -1328,7 +1474,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getChatMembersCount(CHAT_ID);
+   * await telegram.getChatMembersCount(CHAT_ID);
    * // '6'
    * ```
    */
@@ -1350,7 +1496,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getChatMember(CHAT_ID, USER_ID);
+   * await telegram.getChatMember(CHAT_ID, USER_ID);
    * // {
    * //   user: {
    * //     id: 313534466,
@@ -1385,7 +1531,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.setChatStickerSet(CHAT_ID, 'Sticker Set Name');
+   * await telegram.setChatStickerSet(CHAT_ID, 'Sticker Set Name');
    * ```
    */
   setChatStickerSet(
@@ -1409,7 +1555,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.deleteChatStickerSet(CHAT_ID);
+   * await telegram.deleteChatStickerSet(CHAT_ID);
    * ```
    */
   deleteChatStickerSet(chatId: string | number): Promise<boolean> {
@@ -1458,7 +1604,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.editMessageText('new_text', { messageId: MESSAGE_ID });
+   * await telegram.editMessageText('new_text', { messageId: MESSAGE_ID });
    * ```
    */
   editMessageText(
@@ -1486,7 +1632,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.editMessageCaption('new_caption', { messageId: MESSAGE_ID });
+   * await telegram.editMessageCaption('new_caption', { messageId: MESSAGE_ID });
    * ```
    */
   editMessageCaption(
@@ -1537,7 +1683,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.editMessageReplyMarkup(
+   * await telegram.editMessageReplyMarkup(
    *   {
    *     keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
    *     resizeKeyboard: true,
@@ -1602,7 +1748,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.deleteMessage(CHAT_ID, MESSAGE_ID);
+   * await telegram.deleteMessage(CHAT_ID, MESSAGE_ID);
    * ```
    */
   deleteMessage(chatId: string | number, messageId: number): Promise<boolean> {
@@ -1625,7 +1771,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
+   * await telegram.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
    *   disableNotification: true,
    * });
    * ```
@@ -1782,7 +1928,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.answerInlineQuery(
+   * await telegram.answerInlineQuery(
    *   'INLINE_QUERY_ID',
    *   [
    *     {
@@ -1835,7 +1981,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendInvoice(CHAT_ID, {
+   * await telegram.sendInvoice(CHAT_ID, {
    *   title: 'product name',
    *   description: 'product description',
    *   payload: 'bot-defined invoice payload',
@@ -1873,7 +2019,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.answerShippingQuery('UNIQUE_ID', true);
+   * await telegram.answerShippingQuery('UNIQUE_ID', true);
    * ```
    */
   answerShippingQuery(
@@ -1901,7 +2047,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.answerPreCheckoutQuery('UNIQUE_ID', true);
+   * await telegram.answerPreCheckoutQuery('UNIQUE_ID', true);
    * ```
    */
   answerPreCheckoutQuery(
@@ -1934,7 +2080,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.sendGame(CHAT_ID, 'Mario Bros.', {
+   * await telegram.sendGame(CHAT_ID, 'Mario Bros.', {
    *   disableNotification: true,
    * });
    * ```
@@ -1964,7 +2110,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.setGameScore(USER_ID, 999);
+   * await telegram.setGameScore(USER_ID, 999);
    * ```
    */
   setGameScore(
@@ -1993,7 +2139,7 @@ export default class TelegramClient {
    * @example
    *
    * ```js
-   * await client.getGameHighScores(USER_ID);
+   * await telegram.getGameHighScores(USER_ID);
    * // [
    * //   {
    * //     position: 1,

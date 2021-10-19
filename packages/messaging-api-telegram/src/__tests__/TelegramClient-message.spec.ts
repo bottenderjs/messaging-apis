@@ -3,20 +3,45 @@ import MockAdapter from 'axios-mock-adapter';
 import TelegramClient from '../TelegramClient';
 import * as TelegramTypes from '../TelegramTypes';
 
-const { ChatAction, InputMediaType, ParseMode } = TelegramTypes;
-
-const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
+import {
+  constants,
+  getCurrentContext,
+  setupTelegramServer,
+} from './testing-library';
 
 const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
   const client = new TelegramClient({
-    accessToken: ACCESS_TOKEN,
+    accessToken: constants.ACCESS_TOKEN,
   });
   const mock = new MockAdapter(client.axios);
   return { client, mock };
 };
 
-describe('#sendMessage', () => {
-  const result = {
+setupTelegramServer();
+
+it('should support #sendMessage', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendMessage({
+    chatId: 427770117,
+    text: 'hi',
+    parseMode: 'MarkdownV2',
+    entities: [
+      {
+        type: 'mention',
+        offset: 1,
+        length: 8,
+      },
+    ],
+    disableWebPagePreview: true,
+    disableNotification: true,
+    replyToMessageId: 9527,
+    allowSendingWithoutReply: true,
+  });
+
+  expect(res).toEqual({
     messageId: 1,
     from: {
       id: 313534466,
@@ -31,232 +56,597 @@ describe('#sendMessage', () => {
     },
     date: 1499402829,
     text: 'hi',
-  };
-  const reply = {
-    ok: true,
-    result: {
-      message_id: 1,
-      from: {
-        id: 313534466,
-        first_name: 'first',
-        username: 'a_bot',
-      },
-      chat: {
-        id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
-        type: 'private',
-      },
-      date: 1499402829,
-      text: 'hi',
-    },
-  };
-
-  it('should send text message to user', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/sendMessage', {
-        chat_id: 427770117,
-        text: 'hi',
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-        disable_notification: true,
-        reply_to_message_id: 9527,
-      })
-      .reply(200, reply);
-
-    const res = await client.sendMessage(427770117, 'hi', {
-      parseMode: ParseMode.Markdown,
-      disableWebPagePreview: true,
-      disableNotification: true,
-      replyToMessageId: 9527,
-    });
-
-    expect(res).toEqual(result);
   });
 
-  it('should send text message to user with InlineKeyboardMarkup', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/sendMessage', {
-        chat_id: 427770117,
-        text: 'hi',
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-        disable_notification: true,
-        reply_to_message_id: 9527,
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: 'text',
-                url: 'http://url.com/',
-                login_url: {
-                  url: 'http://login_url.com/',
-                  forward_text: 'forwardText',
-                  bot_username: 'botUsername',
-                  request_write_access: true,
-                },
-                callback_data: 'callback_data',
-                switch_inline_query: 'switch_inline_query',
-                switch_inline_query_current_chat:
-                  'switch_inline_query_current_chat',
-                callback_game: {},
-                pay: true,
-              },
-            ],
-          ],
-        },
-      })
-      .reply(200, reply);
+  const { request } = getCurrentContext();
 
-    const res = await client.sendMessage(427770117, 'hi', {
-      parseMode: ParseMode.Markdown,
-      disableWebPagePreview: true,
-      disableNotification: true,
-      replyToMessageId: 9527,
-      replyMarkup: {
-        inlineKeyboard: [
-          [
-            {
-              text: 'text',
-              url: 'http://url.com/',
-              loginUrl: {
-                url: 'http://login_url.com/',
-                forwardText: 'forwardText',
-                botUsername: 'botUsername',
-                requestWriteAccess: true,
-              },
-              callbackData: 'callback_data',
-              switchInlineQuery: 'switch_inline_query',
-              switchInlineQueryCurrentChat: 'switch_inline_query_current_chat',
-              callbackGame: {},
-              pay: true,
-            },
-          ],
-        ],
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendMessage'
+  );
+  expect(request?.body).toEqual({
+    allow_sending_without_reply: true,
+    chat_id: 427770117,
+    disable_notification: true,
+    disable_web_page_preview: true,
+    entities: [
+      {
+        length: 8,
+        offset: 1,
+        type: 'mention',
       },
-    });
-
-    expect(res).toEqual(result);
+    ],
+    parse_mode: 'MarkdownV2',
+    reply_to_message_id: 9527,
+    text: 'hi',
   });
-
-  it('should send text message to user with ReplyKeyboardMarkup', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/sendMessage', {
-        chat_id: 427770117,
-        text: 'hi',
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-        disable_notification: true,
-        reply_to_message_id: 9527,
-        reply_markup: {
-          keyboard: [
-            [
-              {
-                text: 'text',
-                request_contact: true,
-                request_location: true,
-              },
-            ],
-          ],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-          selective: true,
-        },
-      })
-      .reply(200, reply);
-
-    const res = await client.sendMessage(427770117, 'hi', {
-      parseMode: ParseMode.Markdown,
-      disableWebPagePreview: true,
-      disableNotification: true,
-      replyToMessageId: 9527,
-      replyMarkup: {
-        keyboard: [
-          [
-            {
-              text: 'text',
-              requestContact: true,
-              requestLocation: true,
-            },
-          ],
-        ],
-        resizeKeyboard: true,
-        oneTimeKeyboard: true,
-        selective: true,
-      },
-    });
-
-    expect(res).toEqual(result);
-  });
-
-  it('should send text message to user with ReplyKeyboardRemove', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/sendMessage', {
-        chat_id: 427770117,
-        text: 'hi',
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-        disable_notification: true,
-        reply_to_message_id: 9527,
-        reply_markup: {
-          remove_keyboard: true,
-          selective: true,
-        },
-      })
-      .reply(200, reply);
-
-    const res = await client.sendMessage(427770117, 'hi', {
-      parseMode: ParseMode.Markdown,
-      disableWebPagePreview: true,
-      disableNotification: true,
-      replyToMessageId: 9527,
-      replyMarkup: {
-        removeKeyboard: true,
-        selective: true,
-      },
-    });
-
-    expect(res).toEqual(result);
-  });
-
-  it('should send text message to user with ForceReply', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/sendMessage', {
-        chat_id: 427770117,
-        text: 'hi',
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-        disable_notification: true,
-        reply_to_message_id: 9527,
-        reply_markup: {
-          force_reply: true,
-          selective: true,
-        },
-      })
-      .reply(200, reply);
-
-    const res = await client.sendMessage(427770117, 'hi', {
-      parseMode: ParseMode.Markdown,
-      disableWebPagePreview: true,
-      disableNotification: true,
-      replyToMessageId: 9527,
-      replyMarkup: {
-        forceReply: true,
-        selective: true,
-      },
-    });
-
-    expect(res).toEqual(result);
-  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('#sendPhoto', () => {
-  const result = {
+it('should support #sendMessage shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendMessage(427770117, 'hi', {
+    parseMode: 'MarkdownV2',
+    entities: [
+      {
+        type: 'mention',
+        offset: 1,
+        length: 8,
+      },
+    ],
+    disableWebPagePreview: true,
+    disableNotification: true,
+    replyToMessageId: 9527,
+    allowSendingWithoutReply: true,
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendMessage'
+  );
+  expect(request?.body).toEqual({
+    allow_sending_without_reply: true,
+    chat_id: 427770117,
+    disable_notification: true,
+    disable_web_page_preview: true,
+    entities: [
+      {
+        length: 8,
+        offset: 1,
+        type: 'mention',
+      },
+    ],
+    parse_mode: 'MarkdownV2',
+    reply_to_message_id: 9527,
+    text: 'hi',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #sendMessage with InlineKeyboardMarkup', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendMessage({
+    chatId: 427770117,
+    text: 'hi',
+    replyMarkup: {
+      inlineKeyboard: [
+        [
+          {
+            text: 'text',
+            url: 'http://url.com/',
+            loginUrl: {
+              url: 'http://login_url.com/',
+              forwardText: 'forwardText',
+              botUsername: 'botUsername',
+              requestWriteAccess: true,
+            },
+            callbackData: 'callback_data',
+            switchInlineQuery: 'switch_inline_query',
+            switchInlineQueryCurrentChat: 'switch_inline_query_current_chat',
+            callbackGame: {},
+            pay: true,
+          },
+        ],
+      ],
+    },
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            callback_data: 'callback_data',
+            callback_game: {},
+            login_url: {
+              bot_username: 'botUsername',
+              forward_text: 'forwardText',
+              request_write_access: true,
+              url: 'http://login_url.com/',
+            },
+            pay: true,
+            switch_inline_query: 'switch_inline_query',
+            switch_inline_query_current_chat:
+              'switch_inline_query_current_chat',
+            text: 'text',
+            url: 'http://url.com/',
+          },
+        ],
+      ],
+    },
+    text: 'hi',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #sendMessage with ReplyKeyboardMarkup', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendMessage({
+    chatId: 427770117,
+    text: 'hi',
+    replyMarkup: {
+      keyboard: [
+        [
+          {
+            text: 'text',
+            requestContact: true,
+            requestLocation: true,
+          },
+        ],
+      ],
+      resizeKeyboard: true,
+      oneTimeKeyboard: true,
+      selective: true,
+    },
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    reply_markup: {
+      keyboard: [
+        [
+          {
+            request_contact: true,
+            request_location: true,
+            text: 'text',
+          },
+        ],
+      ],
+      one_time_keyboard: true,
+      resize_keyboard: true,
+      selective: true,
+    },
+    text: 'hi',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #sendMessage with ReplyKeyboardRemove', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendMessage({
+    chatId: 427770117,
+    text: 'hi',
+    replyMarkup: {
+      removeKeyboard: true,
+      selective: true,
+    },
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    text: 'hi',
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true,
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #sendMessage with ForceReply', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendMessage({
+    chatId: 427770117,
+    text: 'hi',
+    replyMarkup: {
+      forceReply: true,
+      selective: true,
+    },
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    text: 'hi',
+    reply_markup: {
+      force_reply: true,
+      selective: true,
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #forwardMessage', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.forwardMessage({
+    chatId: 427770117,
+    fromChatId: 313534466,
+    messageId: 203,
+    disableNotification: true,
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    forwardFrom: {
+      id: 357830311,
+      firstName: 'first_2',
+      lastName: 'last_2',
+      languageCode: 'zh-TW',
+    },
+    forwardDate: 1499849644,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/forwardMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    from_chat_id: 313534466,
+    message_id: 203,
+    disable_notification: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #forwardMessage shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.forwardMessage(427770117, 313534466, 203, {
+    disableNotification: true,
+  });
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499402829,
+    forwardFrom: {
+      id: 357830311,
+      firstName: 'first_2',
+      lastName: 'last_2',
+      languageCode: 'zh-TW',
+    },
+    forwardDate: 1499849644,
+    text: 'hi',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/forwardMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    from_chat_id: 313534466,
+    message_id: 203,
+    disable_notification: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #copyMessage', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.copyMessage({
+    chatId: 427770117,
+    fromChatId: 313534466,
+    messageId: 203,
+    caption: 'caption',
+    parseMode: 'MarkdownV2',
+    captionEntities: [
+      {
+        type: 'mention',
+        offset: 1,
+        length: 8,
+      },
+    ],
+    disableNotification: true,
+    replyToMessageId: 9527,
+    allowSendingWithoutReply: true,
+    replyMarkup: {
+      removeKeyboard: true,
+      selective: true,
+    },
+  });
+
+  expect(res).toEqual({
+    messageId: 5566,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/copyMessage'
+  );
+  expect(request?.body).toEqual({
+    allow_sending_without_reply: true,
+    caption: 'caption',
+    caption_entities: [
+      {
+        length: 8,
+        offset: 1,
+        type: 'mention',
+      },
+    ],
+    chat_id: 427770117,
+    disable_notification: true,
+    from_chat_id: 313534466,
+    message_id: 203,
+    parse_mode: 'MarkdownV2',
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true,
+    },
+    reply_to_message_id: 9527,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #copyMessage shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.copyMessage(427770117, 313534466, 203, {
+    caption: 'caption',
+    parseMode: 'MarkdownV2',
+    captionEntities: [
+      {
+        type: 'mention',
+        offset: 1,
+        length: 8,
+      },
+    ],
+    disableNotification: true,
+    replyToMessageId: 9527,
+    allowSendingWithoutReply: true,
+    replyMarkup: {
+      removeKeyboard: true,
+      selective: true,
+    },
+  });
+
+  expect(res).toEqual({
+    messageId: 5566,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/copyMessage'
+  );
+  expect(request?.body).toEqual({
+    allow_sending_without_reply: true,
+    caption: 'caption',
+    caption_entities: [
+      {
+        length: 8,
+        offset: 1,
+        type: 'mention',
+      },
+    ],
+    chat_id: 427770117,
+    disable_notification: true,
+    from_chat_id: 313534466,
+    message_id: 203,
+    parse_mode: 'MarkdownV2',
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true,
+    },
+    reply_to_message_id: 9527,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #sendPhoto', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendPhoto({
+    chatId: 427770117,
+    photo: 'https://example.com/image.png',
+    caption: 'gooooooodPhoto',
+    parseMode: 'MarkdownV2',
+    captionEntities: [
+      {
+        type: 'mention',
+        offset: 1,
+        length: 8,
+      },
+    ],
+    disableNotification: true,
+    replyToMessageId: 9527,
+    allowSendingWithoutReply: true,
+    replyMarkup: {
+      removeKeyboard: true,
+      selective: true,
+    },
+  });
+
+  expect(res).toEqual({
     messageId: 1,
     from: {
       id: 313534466,
@@ -291,73 +681,131 @@ describe('#sendPhoto', () => {
       },
     ],
     caption: 'gooooooodPhoto',
-  };
-  const reply = {
-    ok: true,
-    result: {
-      message_id: 1,
-      from: {
-        id: 313534466,
-        first_name: 'first',
-        username: 'a_bot',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendPhoto'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    photo: 'https://example.com/image.png',
+    caption: 'gooooooodPhoto',
+    parse_mode: 'MarkdownV2',
+    disable_notification: true,
+    reply_to_message_id: 9527,
+    allow_sending_without_reply: true,
+    caption_entities: [
+      {
+        length: 8,
+        offset: 1,
+        type: 'mention',
       },
-      chat: {
-        id: 427770117,
-        first_name: 'first',
-        last_name: 'last',
-        type: 'private',
-      },
-      date: 1499403191,
-      photo: [
+    ],
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true,
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #sendPhoto shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.sendPhoto(
+    427770117,
+    'https://example.com/image.png',
+    {
+      caption: 'gooooooodPhoto',
+      parseMode: 'MarkdownV2',
+      captionEntities: [
         {
-          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
-          file_size: 1611,
-          width: 90,
-          height: 80,
-        },
-        {
-          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
-          file_size: 17218,
-          width: 320,
-          height: 285,
-        },
-        {
-          file_id: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
-          file_size: 16209,
-          width: 374,
-          height: 333,
+          type: 'mention',
+          offset: 1,
+          length: 8,
         },
       ],
-      caption: 'gooooooodPhoto',
+      disableNotification: true,
+      replyToMessageId: 9527,
+      allowSendingWithoutReply: true,
+      replyMarkup: {
+        removeKeyboard: true,
+        selective: true,
+      },
+    }
+  );
+
+  expect(res).toEqual({
+    messageId: 1,
+    from: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
     },
-  };
-
-  it('should send photo message to user', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/sendPhoto', {
-        chat_id: 427770117,
-        photo: 'https://example.com/image.png',
-        caption: 'gooooooodPhoto',
-        parse_mode: 'Markdown',
-        disable_notification: true,
-        reply_to_message_id: 9527,
-      })
-      .reply(200, reply);
-
-    const res = await client.sendPhoto(
-      427770117,
-      'https://example.com/image.png',
+    chat: {
+      id: 427770117,
+      firstName: 'first',
+      lastName: 'last',
+      type: 'private',
+    },
+    date: 1499403191,
+    photo: [
       {
-        caption: 'gooooooodPhoto',
-        parse_mode: ParseMode.Markdown,
-        disableNotification: true,
-        replyToMessageId: 9527,
-      }
-    );
-
-    expect(res).toEqual(result);
+        fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoDAAEC',
+        fileSize: 1611,
+        width: 90,
+        height: 80,
+      },
+      {
+        fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koDAAEC',
+        fileSize: 17218,
+        width: 320,
+        height: 285,
+      },
+      {
+        fileId: 'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDAAEC',
+        fileSize: 16209,
+        width: 374,
+        height: 333,
+      },
+    ],
+    caption: 'gooooooodPhoto',
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/sendPhoto'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    photo: 'https://example.com/image.png',
+    caption: 'gooooooodPhoto',
+    parse_mode: 'MarkdownV2',
+    disable_notification: true,
+    reply_to_message_id: 9527,
+    allow_sending_without_reply: true,
+    caption_entities: [
+      {
+        length: 8,
+        offset: 1,
+        type: 'mention',
+      },
+    ],
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true,
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 describe('#sendAudio', () => {
@@ -414,7 +862,9 @@ describe('#sendAudio', () => {
   };
 
   it('should send audio message to user', async () => {
-    const { client, mock } = createMock();
+    const telegram = new TelegramClient({
+      accessToken: constants.ACCESS_TOKEN,
+    });
 
     mock
       .onPost('/sendAudio', {
@@ -435,7 +885,7 @@ describe('#sendAudio', () => {
       'https://example.com/audio.mp3',
       {
         caption: 'gooooooodAudio',
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
         duration: 1,
         performer: 'performer',
         title: 'title',
@@ -529,7 +979,7 @@ describe('#sendDocument', () => {
       {
         caption: 'gooooooodDocument',
         thumb: 'thumb',
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
         disableNotification: true,
         replyToMessageId: 9527,
       }
@@ -712,7 +1162,7 @@ describe('#sendVideo', () => {
         height: 3,
         thumb: 'thumb',
         caption: 'gooooooodVideo',
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
         supportsStreaming: true,
         disableNotification: true,
         replyToMessageId: 9527,
@@ -840,7 +1290,7 @@ describe('#sendAnimation', () => {
         height: 3,
         thumb: 'thumb',
         caption: 'gooooooodAnimation',
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
         disableNotification: true,
         replyToMessageId: 9527,
       }
@@ -918,7 +1368,7 @@ describe('#sendVoice', () => {
       'https://example.com/voice.ogg',
       {
         caption: 'gooooooodVoice',
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
         duration: 1,
         disableNotification: true,
         replyToMessageId: 9527,
@@ -1098,13 +1548,13 @@ describe('#sendMediaGroup', () => {
       427770117,
       [
         {
-          type: InputMediaType.Photo,
+          type: TelegramTypes.InputMediaType.Photo,
           media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI',
           caption: 'caption',
           parseMode: 'Markdown',
         },
         {
-          type: InputMediaType.Video,
+          type: TelegramTypes.InputMediaType.Video,
           media: 'AgADBAADAUw6G3sdZAeh53f0F11Zgsk',
           caption: 'caption',
           thumb: 'thumb',
@@ -1471,7 +1921,10 @@ describe('#sendChatAction', () => {
       })
       .reply(200, reply);
 
-    const res = await client.sendChatAction(427770117, ChatAction.Typing);
+    const res = await client.sendChatAction(
+      427770117,
+      TelegramTypes.ChatAction.Typing
+    );
 
     expect(res).toEqual(result);
   });

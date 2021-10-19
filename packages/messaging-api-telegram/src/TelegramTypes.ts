@@ -1466,6 +1466,16 @@ export type GetUpdatesOption = {
 
 export type SendMessageOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chatId: number | string;
+
+  /**
+   * Text of the message to be sent, 1-4096 characters after entities parsing
+   */
+  text: string;
+
+  /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
    *
    * - https://core.telegram.org/bots/api#markdown-style
@@ -1473,6 +1483,11 @@ export type SendMessageOption = {
    * - https://core.telegram.org/bots/api#formatting-options
    */
   parseMode?: ParseMode;
+
+  /**
+   * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+   */
+  entities?: MessageEntity[];
 
   /**
    * Disables link previews for links in this message
@@ -1492,6 +1507,11 @@ export type SendMessageOption = {
   replyToMessageId?: number;
 
   /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+
+  /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -1508,19 +1528,90 @@ export type SendMessageOption = {
     | ForceReply;
 };
 
-export enum ParseMode {
-  Markdown = 'Markdown',
-  HTML = 'HTML',
-}
+export type ParseMode = 'MarkdownV2' | 'HTML' | 'Markdown';
 
 export type ForwardMessageOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chatId: string | number;
+  /**
+   * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+   */
+  fromChatId: string | number;
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
   disableNotification?: boolean;
+  /**
+   * Message identifier in the chat specified in from_chat_id
+   */
+  messageId: number;
+};
+
+export type CopyMessageOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chatId: string | number;
+  /**
+   * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+   */
+  fromChatId: string | number;
+  /**
+   * Message identifier in the chat specified in from_chat_id
+   */
+  messageId: number;
+  /**
+   * New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
+   */
+  caption?: string;
+  /**
+   * Mode for parsing entities in the new caption. See formatting options for more details.
+   */
+  parseMode?: ParseMode;
+  /**
+   * A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   */
+  disableNotification?: boolean;
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type MessageId = {
+  /**
+   * Unique message identifier
+   */
+  messageId: number;
 };
 
 export type SendPhotoOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   */
+  chatId: string | number;
+  /**
+   * Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More info on Sending Files »
+   */
+  photo: string;
   /**
    * Photo caption (may also be used when resending photos by fileId), 0-1024 characters
    */
@@ -1536,6 +1627,11 @@ export type SendPhotoOption = {
   parseMode?: ParseMode;
 
   /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -1546,6 +1642,11 @@ export type SendPhotoOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
