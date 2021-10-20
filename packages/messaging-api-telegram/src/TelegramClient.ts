@@ -1281,15 +1281,14 @@ export default class TelegramClient {
   /**
    * Use this method to get a list of profile pictures for a user.
    *
-   * @param userId - Unique identifier of the target user
    * @param options - Options for other optional parameters.
    * @returns Returns a UserProfilePhotos object.
    * @see https://core.telegram.org/bots/api#getuserprofilephotos
    * @example
    * ```js
-   * await telegram.getUserProfilePhotos(USER_ID, { limit: 1 });
+   * await telegram.getUserProfilePhotos({ userId: USER_ID, limit: 1 });
    * // {
-   * //   totalCount: 3,
+   * //   totalCount: 2,
    * //   photos: [
    * //     [
    * //       {
@@ -1306,12 +1305,42 @@ export default class TelegramClient {
    * //         width: 320,
    * //         height: 320,
    * //       },
+   * //     ],
+   * //   ],
+   * // }
+   * ```
+   */
+  getUserProfilePhotos(
+    options: TelegramTypes.GetUserProfilePhotosOption
+  ): Promise<TelegramTypes.UserProfilePhotos>;
+
+  /**
+   * Use this method to get a list of profile pictures for a user.
+   *
+   * @param userId - Unique identifier of the target user
+   * @param options - Options for other optional parameters.
+   * @returns Returns a UserProfilePhotos object.
+   * @see https://core.telegram.org/bots/api#getuserprofilephotos
+   * @example
+   * ```js
+   * await telegram.getUserProfilePhotos(USER_ID, { limit: 1 });
+   * // {
+   * //   totalCount: 2,
+   * //   photos: [
+   * //     [
    * //       {
    * //         fileId:
-   * //           'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pC9K3UpI0koD1B1C',
-   * //         fileSize: 132470,
-   * //         width: 640,
-   * //         height: 640,
+   * //           'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABHahi76pN-aO0UoDA050',
+   * //         fileSize: 14650,
+   * //         width: 160,
+   * //         height: 160,
+   * //       },
+   * //       {
+   * //         fileId:
+   * //           'AgADBAADGTo4Gz8cZAeR-ouu4XBx78EeqRkABKCfooqTgFUX0EoD5B1C',
+   * //         fileSize: 39019,
+   * //         width: 320,
+   * //         height: 320,
    * //       },
    * //     ],
    * //   ],
@@ -1320,12 +1349,21 @@ export default class TelegramClient {
    */
   getUserProfilePhotos(
     userId: number,
-    options?: TelegramTypes.GetUserProfilePhotosOption
+    options?: Omit<TelegramTypes.GetUserProfilePhotosOption, 'userId'>
+  ): Promise<TelegramTypes.UserProfilePhotos>;
+
+  getUserProfilePhotos(
+    userIdOrOptions: number | TelegramTypes.GetUserProfilePhotosOption,
+    options?: Omit<TelegramTypes.GetUserProfilePhotosOption, 'userId'>
   ): Promise<TelegramTypes.UserProfilePhotos> {
-    return this.request('/getUserProfilePhotos', {
-      userId,
-      ...options,
-    });
+    const data =
+      typeof userIdOrOptions === 'object'
+        ? userIdOrOptions
+        : {
+            userId: userIdOrOptions,
+            ...options,
+          };
+    return this.request('/getUserProfilePhotos', data);
   }
 
   /**
@@ -1333,11 +1371,8 @@ export default class TelegramClient {
    *
    * @param fileId - File identifier to get info about
    * @returns On success, a File object is returned. The file can then be downloaded via the link `https://api.telegram.org/file/bot<token>/<file_path>`, where `<file_path>` is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
-   *
    * @see https://core.telegram.org/bots/api#getfile
-   *
    * @example
-   *
    * ```js
    * await telegram.getFile('UtAqweADGTo4Gz8cZAeR-ouu4XBx78EeqRkABPL_pM4A1UpI0koD65K2')
    * // {
@@ -1347,10 +1382,20 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getFile(fileId: string): Promise<TelegramTypes.File> {
-    return this.request('/getFile', {
-      fileId,
-    });
+  getFile(options: TelegramTypes.GetFileOption): Promise<TelegramTypes.File>;
+
+  getFile(fileId: string): Promise<TelegramTypes.File>;
+
+  getFile(
+    fileIdOrOptions: string | TelegramTypes.GetFileOption
+  ): Promise<TelegramTypes.File> {
+    const data =
+      typeof fileIdOrOptions === 'object'
+        ? fileIdOrOptions
+        : {
+            fileId: fileIdOrOptions,
+          };
+    return this.request('/getFile', data);
   }
 
   /**

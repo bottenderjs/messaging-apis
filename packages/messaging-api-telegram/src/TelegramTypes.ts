@@ -2611,6 +2611,10 @@ export type SendChatActionOption = {
 
 export type GetUserProfilePhotosOption = {
   /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+  /**
    * Sequential number of the first photo to be returned. By default, all photos are returned.
    */
   offset?: number;
@@ -2619,6 +2623,13 @@ export type GetUserProfilePhotosOption = {
    * Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
    */
   limit?: number;
+};
+
+export type GetFileOption = {
+  /**
+   * File identifier to get info about
+   */
+  fileId: string;
 };
 
 export type KickChatMemberOption = {
