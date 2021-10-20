@@ -331,3 +331,26 @@ it('should support #getFileLink', async () => {
     `https://api.telegram.org/file/bot${constants.ACCESS_TOKEN}/photos/1068230105874016297.jpg`
   );
 });
+
+describe('Error', () => {
+  it('should format correctly', async () => {
+    const { client, mock } = createMock();
+
+    const reply = {
+      ok: false,
+      error_code: 404,
+      description: 'Not Found',
+    };
+
+    mock.onAny().reply(400, reply);
+
+    let error;
+    try {
+      await client.sendMessage(427770117, 'hi');
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error.message).toEqual('Telegram API - 404 Not Found');
+  });
+});
