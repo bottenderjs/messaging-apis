@@ -353,9 +353,7 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#forwardmessage
    * @example
    * ```js
-   * await telegram.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
-   *   disableNotification: true,
-   * });
+   * await telegram.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID);
    * ```
    */
   forwardMessage(
@@ -420,9 +418,7 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#copymessage
    * @example
    * ```js
-   * await telegram.copyMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
-   *   disableNotification: true,
-   * });
+   * await telegram.copyMessage(CHAT_ID, USER_ID, MESSAGE_ID);
    * ```
    */
   copyMessage(
@@ -464,7 +460,9 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#sendphoto
    * @example
    * ```js
-   * await telegram.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
+   * await telegram.sendPhoto({
+   *   chatId: CHAT_ID,
+   *   photo: 'https://example.com/image.png',
    *   caption: 'gooooooodPhoto',
    *   disableNotification: true,
    * });
@@ -484,10 +482,7 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#sendphoto
    * @example
    * ```js
-   * await telegram.sendPhoto(CHAT_ID, 'https://example.com/image.png', {
-   *   caption: 'gooooooodPhoto',
-   *   disableNotification: true,
-   * });
+   * await telegram.sendPhoto(CHAT_ID, 'https://example.com/image.png');
    * ```
    */
   sendPhoto(
@@ -517,6 +512,28 @@ export default class TelegramClient {
    *
    * For sending voice messages, use the sendVoice method instead.
    *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendaudio
+   * @example
+   * ```js
+   * await telegram.sendAudio({
+   *   chatId: CHAT_ID,
+   *   audio: 'https://example.com/audio.mp3',
+   *   caption: 'gooooooodAudio',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendAudio(
+    options: TelegramTypes.SendAudioOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * For sending voice messages, use the sendVoice method instead.
+   *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param audio -Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an audio file from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
@@ -524,37 +541,50 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#sendaudio
    * @example
    * ```js
-   * await telegram.sendAudio(CHAT_ID, 'https://example.com/audio.mp3', {
-   *   caption: 'gooooooodAudio',
-   *   disableNotification: true,
-   * });
+   * await telegram.sendAudio(CHAT_ID, 'https://example.com/audio.mp3');
    * ```
    */
   sendAudio(
     chatId: string | number,
     audio: string,
-    options: TelegramTypes.SendAudioOption = {}
+    options?: Omit<TelegramTypes.SendAudioOption, 'chatId' | 'audio'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendAudio(
+    chatIdOrOptions: string | number | TelegramTypes.SendAudioOption,
+    audio?: string,
+    options?: Omit<TelegramTypes.SendAudioOption, 'chatId' | 'audio'>
   ): Promise<TelegramTypes.Message> {
-    const optionsWithoutThumb = pick(options, [
-      'caption',
-      'parse_mode',
-      'parseMode',
-      'duration',
-      'performer',
-      'title',
-      'disable_notification',
-      'disableNotification',
-      'reply_to_message_id',
-      'replyToMessageId',
-      'reply_markup',
-      'replyMarkup',
-    ]);
-    return this.request('/sendAudio', {
-      chatId,
-      audio,
-      ...optionsWithoutThumb,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            audio,
+            ...options,
+          };
+    return this.request('/sendAudio', data);
   }
+
+  /**
+   * Use this method to send general files. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#senddocument
+   * @example
+   * ```js
+   * await telegram.sendDocument({
+   *   chatId: CHAT_ID,
+   *   document: 'https://example.com/doc.gif',
+   *   caption: 'gooooooodDocument',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendDocument(
+    options: TelegramTypes.SendDocumentOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to send general files. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -563,31 +593,53 @@ export default class TelegramClient {
    * @param document - File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#senddocument
-   *
    * @example
-   *
    * ```js
-   * await telegram.sendDocument(CHAT_ID, 'https://example.com/doc.gif', {
-   *   caption: 'gooooooodDocument',
-   *   disableNotification: true,
-   * });
+   * await telegram.sendDocument(CHAT_ID, 'https://example.com/doc.gif');
    * ```
    */
   sendDocument(
     chatId: string | number,
     document: string,
-    options: TelegramTypes.SendDocumentOption = {}
-  ): Promise<TelegramTypes.Message> {
-    const optionsWithoutThumb = this.optionWithoutKeys(options, ['thumb']);
+    options?: Omit<TelegramTypes.SendDocumentOption, 'chatId' | 'document'>
+  ): Promise<TelegramTypes.Message>;
 
-    return this.request('/sendDocument', {
-      chatId,
-      document,
-      ...optionsWithoutThumb,
-    });
+  sendDocument(
+    chatIdOrOptions: string | number | TelegramTypes.SendDocumentOption,
+    document?: string,
+    options?: Omit<TelegramTypes.SendDocumentOption, 'chatId' | 'document'>
+  ): Promise<TelegramTypes.Message> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            document,
+            ...options,
+          };
+    return this.request('/sendDocument', data);
   }
+
+  /**
+   * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendvideo
+   * @example
+   * ```js
+   * await telegram.sendVideo({
+   *   chatId: CHAT_ID,
+   *   video: 'https://example.com/video.mp4',
+   *   caption: 'gooooooodVideo',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendVideo(
+    options: TelegramTypes.SendVideoOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
@@ -596,31 +648,53 @@ export default class TelegramClient {
    * @param video - Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a video from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendvideo
-   *
    * @example
-   *
    * ```js
-   * await telegram.sendVideo(CHAT_ID, 'https://example.com/video.mp4', {
-   *   caption: 'gooooooodVideo',
-   *   disableNotification: true,
-   * });
+   * await telegram.sendVideo(CHAT_ID, 'https://example.com/video.mp4');
    * ```
    */
   sendVideo(
     chatId: string | number,
     video: string,
-    options: TelegramTypes.SendVideoOption = {}
-  ): Promise<TelegramTypes.Message> {
-    const optionsWithoutThumb = this.optionWithoutKeys(options, ['thumb']);
+    options?: Omit<TelegramTypes.SendVideoOption, 'chatId' | 'video'>
+  ): Promise<TelegramTypes.Message>;
 
-    return this.request('/sendVideo', {
-      chatId,
-      video,
-      ...optionsWithoutThumb,
-    });
+  sendVideo(
+    chatIdOrOptions: string | number | TelegramTypes.SendVideoOption,
+    video?: string,
+    options?: Omit<TelegramTypes.SendVideoOption, 'chatId' | 'video'>
+  ): Promise<TelegramTypes.Message> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            video,
+            ...options,
+          };
+    return this.request('/sendVideo', data);
   }
+
+  /**
+   * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendanimation
+   * @example
+   * ```js
+   * await telegram.sendAnimation({
+   *   chatId: CHAT_ID,
+   *   animation: 'https://example.com/animation.mp4',
+   *   caption: 'gooooooodAnimation',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendAnimation(
+    options: TelegramTypes.SendAnimationOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
@@ -629,27 +703,54 @@ export default class TelegramClient {
    * @param animation - Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get an animation from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendanimation
-   *
    * @example
-   *
    * ```js
+   * await telegram.sendAnimation(CHAT_ID, 'https://example.com/animation.mp4');
    * ```
    */
+
   sendAnimation(
     chatId: string | number,
     animation: string,
-    options: TelegramTypes.SendAnimationOption = {}
-  ): Promise<TelegramTypes.Message> {
-    const optionsWithoutThumb = this.optionWithoutKeys(options, ['thumb']);
+    options?: Omit<TelegramTypes.SendAnimationOption, 'chatId' | 'animation'>
+  ): Promise<TelegramTypes.Message>;
 
-    return this.request('/sendAnimation', {
-      chatId,
-      animation,
-      ...optionsWithoutThumb,
-    });
+  sendAnimation(
+    chatIdOrOptions: string | number | TelegramTypes.SendAnimationOption,
+    animation?: string,
+    options?: Omit<TelegramTypes.SendAnimationOption, 'chatId' | 'animation'>
+  ): Promise<TelegramTypes.Message> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            animation,
+            ...options,
+          };
+    return this.request('/sendAnimation', data);
   }
+
+  /**
+   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendvoice
+   * @example
+   * ```js
+   * await telegram.sendVoice({
+   *   chatId: CHAT_ID,
+   *   voice: 'https://example.com/voice.ogg',
+   *   caption: 'gooooooodVoice',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendVoice(
+    options: TelegramTypes.SendVoiceOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -658,29 +759,53 @@ export default class TelegramClient {
    * @param voice - Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendvoice
-   *
    * @example
-   *
    * ```js
-   * await telegram.sendVoice(CHAT_ID, 'https://example.com/voice.ogg', {
-   *   caption: 'gooooooodVoice',
-   *   disableNotification: true,
-   * });
+   * await telegram.sendVoice(CHAT_ID, 'https://example.com/voice.ogg');
    * ```
    */
   sendVoice(
     chatId: string | number,
     voice: string,
-    options: TelegramTypes.SendVoiceOption = {}
+    options?: Omit<TelegramTypes.SendVoiceOption, 'chatId' | 'voice'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendVoice(
+    chatIdOrOptions: string | number | TelegramTypes.SendVoiceOption,
+    voice?: string,
+    options?: Omit<TelegramTypes.SendVoiceOption, 'chatId' | 'voice'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendVoice', {
-      chatId,
-      voice,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            voice,
+            ...options,
+          };
+    return this.request('/sendVoice', data);
   }
+
+  /**
+   * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendvideonote
+   * @example
+   * ```js
+   * await telegram.sendVideoNote({
+   *   chatId: CHAT_ID,
+   *   videoNote: 'https://example.com/video_note.mp4',
+   *   duration: 40,
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendVideoNote(
+    options: TelegramTypes.SendVideoNoteOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
@@ -689,11 +814,8 @@ export default class TelegramClient {
    * @param videoNote - Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers. Sending video notes by a URL is currently unsupported. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendvideonote
-   *
    * @example
-   *
    * ```js
    * await telegram.sendVideoNote(CHAT_ID, 'https://example.com/video_note.mp4', {
    *   duration: 40,
@@ -704,16 +826,44 @@ export default class TelegramClient {
   sendVideoNote(
     chatId: string | number,
     videoNote: string,
-    options: TelegramTypes.SendVideoNoteOption = {}
-  ): Promise<TelegramTypes.Message> {
-    const optionsWithoutThumb = this.optionWithoutKeys(options, ['thumb']);
+    options?: Omit<TelegramTypes.SendVideoNoteOption, 'chatId' | 'videoNote'>
+  ): Promise<TelegramTypes.Message>;
 
-    return this.request('/sendVideoNote', {
-      chatId,
-      videoNote,
-      ...optionsWithoutThumb,
-    });
+  sendVideoNote(
+    chatIdOrOptions: string | number | TelegramTypes.SendVideoNoteOption,
+    videoNote?: string,
+    options?: Omit<TelegramTypes.SendVideoNoteOption, 'chatId' | 'videoNote'>
+  ): Promise<TelegramTypes.Message> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            videoNote,
+            ...options,
+          };
+    return this.request('/sendVideoNote', data);
   }
+
+  /**
+   * Use this method to send a group of photos or videos as an album.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, an array of the sent Messages is returned.
+   * @see https://core.telegram.org/bots/api#sendmediagroup
+   * @example
+   * ```js
+   * await telegram.sendMediaGroup({
+   *   chatId: CHAT_ID,
+   *   media: [
+   *     { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
+   *   ],
+   * });
+   * ```
+   */
+  sendMediaGroup(
+    options: TelegramTypes.SendMediaGroupOption
+  ): Promise<TelegramTypes.Message[]>;
 
   /**
    * Use this method to send a group of photos or videos as an album.
@@ -722,11 +872,8 @@ export default class TelegramClient {
    * @param media - A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
    * @param options - Options for other optional parameters.
    * @returns On success, an array of the sent Messages is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendmediagroup
-   *
    * @example
-   *
    * ```js
    * await telegram.sendMediaGroup(CHAT_ID, [
    *   { type: 'photo', media: 'BQADBAADApYAAgcZZAfj2-xeidueWwI' },
@@ -736,40 +883,59 @@ export default class TelegramClient {
   sendMediaGroup(
     chatId: string | number,
     media: (TelegramTypes.InputMediaPhoto | TelegramTypes.InputMediaVideo)[],
-    options?: TelegramTypes.SendMediaGroupOption
+    options?: Omit<TelegramTypes.SendMediaGroupOption, 'chatId' | 'media'>
+  ): Promise<TelegramTypes.Message[]>;
+
+  sendMediaGroup(
+    chatIdOrOptions: string | number | TelegramTypes.SendMediaGroupOption,
+    media?: (TelegramTypes.InputMediaPhoto | TelegramTypes.InputMediaVideo)[],
+    options?: Omit<TelegramTypes.SendMediaGroupOption, 'chatId' | 'media'>
   ): Promise<TelegramTypes.Message[]> {
-    const mediaWithoutThumb = media.map((m) =>
-      this.optionWithoutKeys(m, ['thumb'])
-    );
-    return this.request('/sendMediaGroup', {
-      chatId,
-      media: mediaWithoutThumb,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            media,
+            ...options,
+          };
+    return this.request('/sendMediaGroup', data);
   }
 
   /**
    * Use this method to send point on the map.
    *
-   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param location - Object contains latitude and longitude.
-   * @param location.latitude - Latitude of the location.
-   * @param location.longitude - Longitude of the location.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendlocation
-   *
    * @example
+   * ```js
+   * await telegram.sendLocation({
+   *   chatId: CHAT_ID,
+   *   latitude: 30,
+   *   longitude: 45,
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendLocation(
+    options: TelegramTypes.SendLocationOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send point on the map.
    *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendlocation
+   * @example
    * ```js
    * await telegram.sendLocation(
    *   CHAT_ID,
    *   {
    *     latitude: 30,
    *     longitude: 45,
-   *   },
-   *   {
    *     disableNotification: true,
    *   }
    * );
@@ -777,69 +943,49 @@ export default class TelegramClient {
    */
   sendLocation(
     chatId: string | number,
-    location: { latitude: number; longitude: number },
-    options?: TelegramTypes.SendLocationOption
+    options: Omit<TelegramTypes.SendLocationOption, 'chatId'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendLocation(
+    chatIdOrOptions: string | number | TelegramTypes.SendLocationOption,
+    options?: Omit<TelegramTypes.SendLocationOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendLocation', {
-      chatId,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            ...options,
+          };
+    return this.request('/sendLocation', data);
   }
 
   /**
    * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
    *
-   * @param location - Object contains new latitude and longitude.
-   * @param location.latitude - Latitude of new location
-   * @param location.longitude - Longitude of new location
    * @param options - One of chatId, messageId or inlineMessageId is required.
-   * @param options.chatId - Required if inlineMessageId is not specified. Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param options.messageId - Required if inlineMessageId is not specified. Identifier of the message to edit
-   * @param options.inlineMessageId - Required if chatId and messageId are not specified. Identifier of the inline message
-   * @param options.replyMarkup - A JSON-serialized object for a new inline keyboard.
-   *
    * @see https://core.telegram.org/bots/api#editmessagelivelocation
-   *
    * @example
-   *
    * ```js
-   * await telegram.editMessageLiveLocation(
-   *   {
-   *     latitude: 30,
-   *     longitude: 45,
-   *   },
-   *   {
-   *     messageId: MESSAGE_ID,
-   *   }
-   * );
+   * await telegram.editMessageLiveLocation({
+   *   messageId: MESSAGE_ID,
+   *   latitude: 30,
+   *   longitude: 45,
+   * });
    * ```
    */
   editMessageLiveLocation(
-    location: { latitude: number; longitude: number },
     options: TelegramTypes.EditMessageLiveLocationOption
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/editMessageLiveLocation', {
-      latitude: location.latitude,
-      longitude: location.longitude,
-      ...options,
-    });
+    return this.request('/editMessageLiveLocation', options);
   }
 
   /**
    * Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
    *
    * @param options - One of chatId, messageId or inlineMessageId is required.
-   * @param options.chatId - Required if inlineMessageId is not specified. Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param options.messageId - Required if inlineMessageId is not specified. Identifier of the message to edit
-   * @param options.inlineMessageId - Required if chatId and messageId are not specified. Identifier of the inline message
-   * @param options.replyMarkup - A JSON-serialized object for a new inline keyboard.
-   *
    * @see https://core.telegram.org/bots/api#stopmessagelivelocation
-   *
    * @example
-   *
    * ```js
    * await telegram.stopMessageLiveLocation({ messageId: MESSAGE_ID });
    * ```
@@ -847,27 +993,39 @@ export default class TelegramClient {
   stopMessageLiveLocation(
     options: TelegramTypes.StopMessageLiveLocationOption
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/stopMessageLiveLocation', {
-      ...options,
-    });
+    return this.request('/stopMessageLiveLocation', options);
   }
 
   /**
    * Use this method to send information about a venue.
    *
-   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param venue - Object contains information of the venue.
-   * @param venue.latitude - Latitude of the venue
-   * @param venue.longitude - Longitude of the venue
-   * @param venue.title - Name of the venue
-   * @param venue.address - Address of the venue
    * @param options - Optional parameters for other parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendvenue
-   *
    * @example
+   * ```js
+   * await telegram.sendVenue({
+   *   chatId: CHAT_ID,
+   *   latitude: 30,
+   *   longitude: 45,
+   *   title: 'a_title',
+   *   address: 'an_address',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendVenue(
+    options: TelegramTypes.SendVenueOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send information about a venue.
    *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param options - Optional parameters for other parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendvenue
+   * @example
    * ```js
    * await telegram.sendVenue(
    *   CHAT_ID,
@@ -876,8 +1034,6 @@ export default class TelegramClient {
    *     longitude: 45,
    *     title: 'a_title',
    *     address: 'an_address',
-   *   },
-   *   {
    *     disableNotification: true,
    *   }
    * );
@@ -885,51 +1041,97 @@ export default class TelegramClient {
    */
   sendVenue(
     chatId: string | number,
-    venue: TelegramTypes.Venue,
-    options?: TelegramTypes.SendVenueOption
+    options: Omit<TelegramTypes.SendVenueOption, 'chatId'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendVenue(
+    chatIdOrOptions: string | number | TelegramTypes.SendVenueOption,
+    options?: Omit<TelegramTypes.SendVenueOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendVenue', {
-      chatId,
-      ...venue,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            ...options,
+          };
+    return this.request('/sendVenue', data);
   }
 
   /**
    * Use this method to send phone contacts.
    *
-   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param requiredOption.phoneNumber - Contact's phone number
-   * @param requiredOption.firstName - Contact's first name
    * @param options - Optional parameters for other parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendcontact
-   *
    * @example
-   *
    * ```js
-   * await telegram.sendContact(
-   *   CHAT_ID,
-   *   {
-   *     phoneNumber: '886123456789',
-   *     firstName: 'first',
-   *   },
-   *   { lastName: 'last' }
-   * );
+   * await telegram.sendContact(CHAT_ID, {
+   *   chatId: CHAT_ID,
+   *   phoneNumber: '886123456789',
+   *   firstName: 'first',
+   *   lastName: 'last'
+   * });
+   * ```
+   */
+  sendContact(
+    options: TelegramTypes.SendContactOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send phone contacts.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param options - Optional parameters for other parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendcontact
+   * @example
+   * ```js
+   * await telegram.sendContact(CHAT_ID, {
+   *   phoneNumber: '886123456789',
+   *   firstName: 'first',
+   *   lastName: 'last'
+   * });
    * ```
    */
   sendContact(
     chatId: string | number,
-    requiredOption: TelegramTypes.SendContactRequiredOption,
-    options?: TelegramTypes.SendContactOption
+    options: Omit<TelegramTypes.SendContactOption, 'chatId'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendContact(
+    chatIdOrOptions: string | number | TelegramTypes.SendContactOption,
+    options?: Omit<TelegramTypes.SendContactOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendContact', {
-      chatId,
-      ...requiredOption,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            ...options,
+          };
+    return this.request('/sendContact', data);
   }
+
+  /**
+   * Use this method to send a native poll. A native poll can't be sent to a private chat.
+   *
+   * @param options - Optional parameters for other parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendpoll
+   * @example
+   * ```js
+   * await telegram.sendPoll({
+   *   chatId: CHAT_ID,
+   *   question: 'question?',
+   *   options: ['A', 'B'],
+   *   isAnonymous: true,
+   * });
+   * ```
+   */
+  sendPoll(
+    options: TelegramTypes.SendPollOption
+  ): Promise<TelegramTypes.Message>;
 
   /**
    * Use this method to send a native poll. A native poll can't be sent to a private chat.
@@ -937,29 +1139,111 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`). A native poll can't be sent to a private chat.
    * @param question - Poll question, 1-255 characters
    * @param options - List of answer options, 2-10 strings 1-100 characters each
-   * @param otherOptions - Optional parameters for other parameters.
+   * @param methodOptions - Optional parameters for other parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendpoll
-   *
    * @example
-   *
    * ```js
+   * await telegram.sendPoll(CHAT_ID, 'question?', ['A', 'B']);
    * ```
    */
   sendPoll(
     chatId: string | number,
     question: string,
     options: string[],
-    otherOptions?: TelegramTypes.SendPollOption
+    methodOptions?: Omit<
+      TelegramTypes.SendPollOption,
+      'chatId' | 'question' | 'options'
+    >
+  ): Promise<TelegramTypes.Message>;
+
+  sendPoll(
+    chatIdOrOptions: string | number | TelegramTypes.SendPollOption,
+    question?: string,
+    options?: string[],
+    methodOptions?: Omit<
+      TelegramTypes.SendPollOption,
+      'chatId' | 'question' | 'options'
+    >
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendPoll', {
-      chatId,
-      question,
-      options,
-      ...otherOptions,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            question,
+            options,
+            ...methodOptions,
+          };
+    return this.request('/sendPoll', data);
   }
+
+  /**
+   * Use this method to send an animated emoji that will display a random value.
+   *
+   * @param options - Optional parameters for other parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#senddice
+   * @example
+   * ```js
+   * await telegram.sendDice({
+   *   chatId: CHAT_ID,
+   *   emoji: '🎯',
+   * });
+   * ```
+   */
+  sendDice(
+    options: TelegramTypes.SendDiceOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send an animated emoji that will display a random value.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`). A native poll can't be sent to a private chat.
+   * @param options - Optional parameters for other parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#senddice
+   * @example
+   * ```js
+   * await telegram.sendDice(CHAT_ID, { emoji: '🎯' });
+   * ```
+   */
+  sendDice(
+    chatId: string | number,
+    options?: Omit<TelegramTypes.SendDiceOption, 'chatId'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendDice(
+    chatIdOrOptions: string | number | TelegramTypes.SendDiceOption,
+    options?: Omit<TelegramTypes.SendDiceOption, 'chatId'>
+  ): Promise<TelegramTypes.Message> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            ...options,
+          };
+    return this.request('/sendDice', data);
+  }
+
+  /**
+   * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
+   *
+   * Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo. The user will see a “sending photo” status for the bot.
+   *
+   * @param options - Optional parameters for other parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#sendchataction
+   * @example
+   * ```js
+   * await telegram.sendChatAction({
+   *   chatId: CHAT_ID,
+   *   action: 'typing',
+   * });
+   * ```
+   */
+  sendChatAction(options: TelegramTypes.SendChatActionOption): Promise<boolean>;
 
   /**
    * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
@@ -969,11 +1253,8 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param action - Types of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#sendchataction
-   *
    * @example
-   *
    * ```js
    * await telegram.sendChatAction(CHAT_ID, 'typing');
    * ```
@@ -981,11 +1262,20 @@ export default class TelegramClient {
   sendChatAction(
     chatId: string | number,
     action: TelegramTypes.ChatAction
+  ): Promise<boolean>;
+
+  sendChatAction(
+    chatIdOrOptions: string | number | TelegramTypes.SendChatActionOption,
+    action?: TelegramTypes.ChatAction
   ): Promise<boolean> {
-    return this.request('/sendChatAction', {
-      chatId,
-      action,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            action,
+          };
+    return this.request('/sendChatAction', data);
   }
 
   /**
@@ -994,11 +1284,8 @@ export default class TelegramClient {
    * @param userId - Unique identifier of the target user
    * @param options - Options for other optional parameters.
    * @returns Returns a UserProfilePhotos object.
-   *
    * @see https://core.telegram.org/bots/api#getuserprofilephotos
-   *
    * @example
-   *
    * ```js
    * await telegram.getUserProfilePhotos(USER_ID, { limit: 1 });
    * // {
@@ -1315,11 +1602,8 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param description - New chat description, 0-255 characters
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#setchatdescription
-   *
    * @example
-   *
    * ```js
    * await telegram.setChatDescription(CHAT_ID, 'New Description');
    * ```
@@ -1406,7 +1690,7 @@ export default class TelegramClient {
    * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
    *
    * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`)
-   * @return Returns a Chat object on success.
+   * @returns Returns a Chat object on success.
    *
    * @see https://core.telegram.org/bots/api#getchat
    *
@@ -1525,11 +1809,8 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`)
    * @param stickerSetName - Name of the sticker set to be set as the group sticker set
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#setchatstickerset
-   *
    * @example
-   *
    * ```js
    * await telegram.setChatStickerSet(CHAT_ID, 'Sticker Set Name');
    * ```
@@ -1549,11 +1830,8 @@ export default class TelegramClient {
    *
    * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`)
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#deletechatstickerset
-   *
    * @example
-   *
    * ```js
    * await telegram.deleteChatStickerSet(CHAT_ID);
    * ```
@@ -1571,11 +1849,8 @@ export default class TelegramClient {
    *
    * @param callbackQueryId - Unique identifier for the query to be answered
    * @param options - Optional parameters for other parameters.
-   *
    * @see https://core.telegram.org/bots/api#answercallbackquery
-   *
    * @example
-   *
    * ```js
    * ```
    */
@@ -1594,15 +1869,9 @@ export default class TelegramClient {
    *
    * @param text - New text of the message
    * @param options - Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.
-   * @param options.chatId - Unique identifier for the target chat or username of the target channel.
-   * @param options.messageId - Identifier of the sent message.
-   * @param options.inlineMessageId - Identifier of the inline message.
    * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
-   *
    * @see https://core.telegram.org/bots/api#editmessagetext
-   *
    * @example
-   *
    * ```js
    * await telegram.editMessageText('new_text', { messageId: MESSAGE_ID });
    * ```
@@ -1622,15 +1891,9 @@ export default class TelegramClient {
    *
    * @param caption - New caption of the message
    * @param options - Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.
-   * @param options.chatId - Unique identifier for the target chat or username of the target channel.
-   * @param options.messageId - Identifier of the sent message.
-   * @param options.inlineMessageId - Identifier of the inline message.
    * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
-   *
    * @see https://core.telegram.org/bots/api#editmessagecaption
-   *
    * @example
-   *
    * ```js
    * await telegram.editMessageCaption('new_caption', { messageId: MESSAGE_ID });
    * ```
@@ -1650,11 +1913,8 @@ export default class TelegramClient {
    *
    * @param media - A JSON-serialized object for a new media content of the message
    * @param options - Options for other optional parameters.
-   *
    * @see https://core.telegram.org/bots/api#editmessagemedia
-   *
    * @example
-   *
    * ```js
    * ```
    */
@@ -1673,9 +1933,6 @@ export default class TelegramClient {
    *
    * @param replyMarkup - A JSON-serialized object for an inline keyboard.
    * @param options - Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.
-   * @param options.chatId - Unique identifier for the target chat or username of the target channel.
-   * @param options.messageId - Identifier of the sent message.
-   * @param options.inlineMessageId - Identifier of the inline message.
    * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
    *
    * @see https://core.telegram.org/bots/api#editmessagereplymarkup
@@ -1742,11 +1999,8 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param messageId - Identifier of the message to delete
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#deletemessage
-   *
    * @example
-   *
    * ```js
    * await telegram.deleteMessage(CHAT_ID, MESSAGE_ID);
    * ```
@@ -1765,9 +2019,7 @@ export default class TelegramClient {
    * @param sticker - Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a .webp file from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendsticker
-   *
    * @example
    *
    * ```js
@@ -1793,11 +2045,8 @@ export default class TelegramClient {
    *
    * @param name - Name of the sticker set
    * @returns On success, a StickerSet object is returned.
-   *
    * @see https://core.telegram.org/bots/api#getstickerset
-   *
    * @example
-   *
    * ```js
    * ```
    */
@@ -1818,11 +2067,8 @@ export default class TelegramClient {
    * @param title - Sticker set title, 1-64 characters
    * @param pngSticker - Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#createnewstickerset
-   *
    * @example
-   *
    * ```js
    * ```
    */
@@ -1883,11 +2129,8 @@ export default class TelegramClient {
    * @param sticker - File identifier of the sticker
    * @param position - New sticker position in the set, zero-based.
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#setstickerpositioninset
-   *
    * @example
-   *
    * ```js
    * ```
    */
@@ -1966,18 +2209,10 @@ export default class TelegramClient {
    * Use this method to send invoices.
    *
    * @param chatId - Unique identifier for the target private chat
-   * @param product.title - name, 1-32 characters
-   * @param product.description - Product description, 1-255 characters
-   * @param product.payload - Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-   * @param product.providerToken - Payments provider token, obtained via Botfather
-   * @param product.startParameter - Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
-   * @param product.currency - Three-letter ISO 4217 currency code, see more on currencies
-   * @param product.prices - Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   * @param product - product
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendinvoice
-   *
    * @example
    *
    * ```js
@@ -2013,9 +2248,7 @@ export default class TelegramClient {
    * @param shippingQueryId - Unique identifier for the query to be answered
    * @param ok - Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
    * @param options - Options for other optional parameters.
-   *
    * @see https://core.telegram.org/bots/api#answershippingquery
-   *
    * @example
    *
    * ```js

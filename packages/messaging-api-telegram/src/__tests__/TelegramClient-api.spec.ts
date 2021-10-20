@@ -639,69 +639,6 @@ describe('inline mode api', () => {
   });
 });
 
-describe('other api', () => {
-  describe('#stopMessageLiveLocation', () => {
-    const result = {
-      messageId: 66,
-      from: {
-        id: 313534466,
-        firstName: 'first',
-        username: 'a_bot',
-      },
-      chat: {
-        id: 427770117,
-        firstName: 'first',
-        lastName: 'last',
-        type: 'private',
-      },
-      date: 1499402829,
-      location: {
-        latitude: 30.000005,
-        longitude: 45,
-      },
-    };
-    const reply = {
-      ok: true,
-      result: {
-        message_id: 66,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499402829,
-        location: {
-          latitude: 30.000005,
-          longitude: 45,
-        },
-      },
-    };
-
-    it('should stop updating a live location message', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/stopMessageLiveLocation', {
-          chat_id: 427770117,
-          message_id: 66,
-        })
-        .reply(200, reply);
-
-      const res = await client.stopMessageLiveLocation({
-        chatId: 427770117,
-        messageId: 66,
-      });
-
-      expect(res).toEqual(result);
-    });
-  });
-});
-
 describe('Error', () => {
   it('should format correctly', async () => {
     const { client, mock } = createMock();

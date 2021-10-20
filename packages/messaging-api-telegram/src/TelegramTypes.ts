@@ -698,19 +698,18 @@ export type InputMedia =
   | InputMediaPhoto
   | InputMediaVideo;
 
-export enum InputMediaType {
-  Photo = 'photo',
-  Video = 'video',
-  Animation = 'animation',
-  Audio = 'audio',
-  Document = 'document',
-}
+export type InputMediaType =
+  | 'photo'
+  | 'video'
+  | 'animation'
+  | 'audio'
+  | 'document';
 
 export type InputMediaPhoto = {
   /**
    * Type of the result, must be photo
    */
-  type: InputMediaType.Photo;
+  type: 'photo';
 
   /**
    * File to send. Pass a fileId to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
@@ -732,7 +731,7 @@ export type InputMediaVideo = {
   /**
    * Type of the result, must be video
    */
-  type: InputMediaType.Video;
+  type: 'video';
 
   /**
    * File to send. Pass a fileId to send a file that exists on the Telegram servers (recommended) or pass an HTTP URL for Telegram to get a file from the Internet. Upload file is not supported yet.
@@ -776,7 +775,7 @@ export type InputMediaVideo = {
 };
 
 export type InputMediaAnimation = {
-  type: InputMediaType.Animation;
+  type: 'animation';
   media: string;
   thumb?: string;
   caption?: string;
@@ -787,7 +786,7 @@ export type InputMediaAnimation = {
 };
 
 export type InputMediaAudio = {
-  type: InputMediaType.Audio;
+  type: 'audio';
   media: string;
   thumb?: string;
   caption?: string;
@@ -798,25 +797,24 @@ export type InputMediaAudio = {
 };
 
 export type InputMediaDocument = {
-  type: InputMediaType.Document;
+  type: 'document';
   media: string;
   thumb?: string;
   caption?: string;
   parseMode?: string;
 };
 
-export enum ChatAction {
-  Typing = 'typing',
-  UploadPhoto = 'upload_photo',
-  RecordVideo = 'record_video',
-  UploadVideo = 'upload_video',
-  RecordAudio = 'record_audio',
-  UploadAudio = 'upload_audio',
-  UploadDocument = 'upload_document',
-  FindLocation = 'find_location',
-  RecordVideoNote = 'record_video_note',
-  UploadVideoNote = 'upload_video_note',
-}
+export type ChatAction =
+  | 'typing'
+  | 'upload_photo'
+  | 'record_video'
+  | 'upload_video'
+  | 'record_audio'
+  | 'upload_audio'
+  | 'upload_document'
+  | 'find_location'
+  | 'record_video_note'
+  | 'upload_video_note';
 
 // Stickers
 export type Sticker = {
@@ -1187,12 +1185,33 @@ export type Invoice = {
 };
 
 export type Product = {
+  /**
+   * name, 1-32 characters
+   */
   title: string;
+  /**
+   * Product description, 1-255 characters
+   */
   description: string;
+  /**
+   * Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+   */
   startParameter: string;
+  /**
+   * Three-letter ISO 4217 currency code, see more on currencies
+   */
   currency: string;
+  /**
+   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   */
   payload: string;
+  /**
+   * Payments provider token, obtained via Botfather
+   */
   providerToken: string;
+  /**
+   * Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   */
   prices: LabeledPrice[];
 };
 
@@ -1466,7 +1485,7 @@ export type GetUpdatesOption = {
 
 export type SendMessageOption = {
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    */
   chatId: number | string;
 
@@ -1532,11 +1551,11 @@ export type ParseMode = 'MarkdownV2' | 'HTML' | 'Markdown';
 
 export type ForwardMessageOption = {
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    */
-  chatId: string | number;
+  chatId: number | string;
   /**
-   * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+   * Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`)
    */
   fromChatId: string | number;
   /**
@@ -1551,11 +1570,11 @@ export type ForwardMessageOption = {
 
 export type CopyMessageOption = {
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    */
-  chatId: string | number;
+  chatId: number | string;
   /**
-   * Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+   * Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`)
    */
   fromChatId: string | number;
   /**
@@ -1605,9 +1624,9 @@ export type MessageId = {
 
 export type SendPhotoOption = {
   /**
-   * Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    */
-  chatId: string | number;
+  chatId: number | string;
   /**
    * Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More info on Sending Files »
    */
@@ -1667,6 +1686,16 @@ export type SendPhotoOption = {
 
 export type SendAudioOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data.
+   */
+  audio: string;
+
+  /**
    * Audio caption, 0-1024 characters
    */
   caption?: string;
@@ -1679,6 +1708,11 @@ export type SendAudioOption = {
    * - https://core.telegram.org/bots/api#formatting-options
    */
   parseMode?: ParseMode;
+
+  /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
 
   /**
    * Duration of the audio in seconds
@@ -1697,6 +1731,7 @@ export type SendAudioOption = {
 
   /**
    * Thumb is not supported yet.
+   * TODO: support it
    */
   thumb?: string;
 
@@ -1711,6 +1746,11 @@ export type SendAudioOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -1731,6 +1771,16 @@ export type SendAudioOption = {
 
 export type SendDocumentOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+   */
+  document: string;
+
+  /**
    * Thumb is not supported yet.
    */
   thumb?: string;
@@ -1750,6 +1800,16 @@ export type SendDocumentOption = {
   parseMode?: ParseMode;
 
   /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
+
+  /**
+   * Disables automatic server-side content type detection for files uploaded using multipart/form-data
+   */
+  disableContentTypeDetection?: boolean;
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -1760,6 +1820,11 @@ export type SendDocumentOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -1779,6 +1844,16 @@ export type SendDocumentOption = {
 };
 
 export type SendVideoOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data.
+   */
+  video: string;
+
   /**
    * Duration of sent video in seconds
    */
@@ -1814,6 +1889,11 @@ export type SendVideoOption = {
   parseMode?: ParseMode;
 
   /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
+
+  /**
    * Pass True, if the uploaded video is suitable for streaming
    */
   supportsStreaming?: boolean;
@@ -1829,6 +1909,11 @@ export type SendVideoOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -1848,6 +1933,16 @@ export type SendVideoOption = {
 };
 
 export type SendAnimationOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data.
+   */
+  animation: string;
+
   /**
    * Duration of sent animation in seconds
    */
@@ -1883,6 +1978,11 @@ export type SendAnimationOption = {
   parseMode?: ParseMode;
 
   /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -1893,6 +1993,11 @@ export type SendAnimationOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -1913,6 +2018,16 @@ export type SendAnimationOption = {
 
 export type SendVoiceOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+   */
+  voice: string;
+
+  /**
    * Voice message caption, 0-1024 characters
    */
   caption?: string;
@@ -1932,6 +2047,11 @@ export type SendVoiceOption = {
   parseMode?: ParseMode;
 
   /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -1942,6 +2062,11 @@ export type SendVoiceOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -1961,6 +2086,16 @@ export type SendVoiceOption = {
 };
 
 export type SendVideoNoteOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data.
+   */
+  videoNote: string;
+
   /**
    * Duration of sent video in seconds
    */
@@ -1989,6 +2124,11 @@ export type SendVideoNoteOption = {
   replyToMessageId?: number;
 
   /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+
+  /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -2007,6 +2147,16 @@ export type SendVideoNoteOption = {
 
 export type SendMediaGroupOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * A JSON-serialized array describing messages to be sent, must include 2-10 items
+   */
+  media: (InputMediaPhoto | InputMediaVideo)[];
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -2017,9 +2167,34 @@ export type SendMediaGroupOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 };
 
 export type SendLocationOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Latitude of the location
+   */
+  latitude: number;
+
+  /**
+   * Longitude of the location
+   */
+  longitude: number;
+
+  /**
+   * The radius of uncertainty for the location, measured in meters; 0-1500
+   */
+  horizontalAccuracy?: number;
+
   /**
    * Period in seconds for which the location will be updated (see Live Locations, should be between 60 and 86400.
    *
@@ -2028,6 +2203,16 @@ export type SendLocationOption = {
   livePeriod?: number;
 
   /**
+   * For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+   */
+  heading?: number;
+
+  /**
+   * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+   */
+  proximityAlertRadius?: number;
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -2038,6 +2223,11 @@ export type SendLocationOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -2077,6 +2267,31 @@ export type EditOption =
 
 export type EditMessageLiveLocationOption = EditOption & {
   /**
+   * Latitude of new location
+   */
+  latitude: number;
+
+  /**
+   * Longitude of new location
+   */
+  longitude: number;
+
+  /**
+   * The radius of uncertainty for the location, measured in meters; 0-1500
+   */
+  horizontalAccuracy?: number;
+
+  /**
+   * For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+   */
+  heading?: number;
+
+  /**
+   * For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+   */
+  proximityAlertRadius?: number;
+
+  /**
    * A JSON-serialized object for a new inline keyboard.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -2097,14 +2312,49 @@ export type StopMessageLiveLocationOption = EditOption & {
 
 export type SendVenueOption = {
   /**
-   * Foursquare identifier of the venue
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Latitude of the venue
+   */
+  latitude: number;
+
+  /**
+   * Longitude of the venue
+   */
+  longitude: number;
+
+  /**
+   * Name of the venue
+   */
+  title: string;
+
+  /**
+   * Address of the venue
+   */
+  address: string;
+
+  /**
+   * Optional. Foursquare identifier of the venue
    */
   foursquareId?: string;
 
   /**
-   * Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+   * Optional. Foursquare type of the venue. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
   foursquareType?: string;
+
+  /**
+   * Google Places identifier of the venue
+   */
+  googlePlaceId?: string;
+
+  /**
+   * Google Places type of the venue.
+   */
+  googlePlaceType?: string;
 
   /**
    * Sends the message silently. Users will receive a notification with no sound.
@@ -2117,6 +2367,11 @@ export type SendVenueOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -2135,7 +2390,12 @@ export type SendVenueOption = {
     | ForceReply;
 };
 
-export type SendContactRequiredOption = {
+export type SendContactOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
   /**
    * Contact's phone number
    */
@@ -2145,9 +2405,7 @@ export type SendContactRequiredOption = {
    * Contact's first name
    */
   firstName: string;
-};
 
-export type SendContactOption = {
   /**
    * Contact's last name
    */
@@ -2173,6 +2431,11 @@ export type SendContactOption = {
   replyToMessageId?: number;
 
   /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+
+  /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -2190,6 +2453,21 @@ export type SendContactOption = {
 };
 
 export type SendPollOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Poll question, 1-300 characters
+   */
+  question: string;
+
+  /**
+   * A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+   */
+  options: string[];
+
   /**
    * True, if the poll needs to be anonymous, defaults to True
    */
@@ -2221,6 +2499,11 @@ export type SendPollOption = {
   explanationParseMode?: string;
 
   /**
+   * A JSON-serialized list of special entities that appear in the poll explanation, which can be specified instead of parse_mode
+   */
+  explanationEntities?: MessageEntity[];
+
+  /**
    * Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
    */
   openPeriod?: number;
@@ -2248,6 +2531,11 @@ export type SendPollOption = {
   replyToMessageId?: number;
 
   /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+
+  /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -2262,6 +2550,63 @@ export type SendPollOption = {
     | ReplyKeyboardMarkup
     | ReplyKeyboardRemove
     | ForceReply;
+};
+
+export type SendDiceOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”
+   */
+  emoji?: '🎲' | '🎯' | '🏀' | '⚽' | '🎳' | '🎰';
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendChatActionOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, find_location for location data, record_video_note or upload_video_note for video notes.
+   */
+  action: ChatAction;
 };
 
 export type GetUserProfilePhotosOption = {

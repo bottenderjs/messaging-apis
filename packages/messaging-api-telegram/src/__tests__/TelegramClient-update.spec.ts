@@ -60,7 +60,7 @@ describe('updating api', () => {
           text: 'new_text',
           chat_id: 427770117,
           message_id: 66,
-          parse_mode: 'Markdown',
+          parse_mode: 'MarkdownV2',
           disable_web_page_preview: true,
         })
         .reply(200, reply);
@@ -68,7 +68,7 @@ describe('updating api', () => {
       const res = await client.editMessageText('new_text', {
         chatId: 427770117,
         messageId: 66,
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
         disableWebPagePreview: true,
       });
 
@@ -136,14 +136,14 @@ describe('updating api', () => {
           caption: 'new_caption',
           chat_id: 427770117,
           message_id: 66,
-          parse_mode: 'Markdown',
+          parse_mode: 'MarkdownV2',
         })
         .reply(200, reply);
 
       const res = await client.editMessageCaption('new_caption', {
         chatId: 427770117,
         messageId: 66,
-        parseMode: ParseMode.Markdown,
+        parseMode: 'MarkdownV2',
       });
 
       expect(res).toEqual(result);
@@ -211,7 +211,7 @@ describe('updating api', () => {
             type: 'audio',
             media: 'https://example.com/audio.mp3',
             caption: 'caption',
-            parse_mode: 'Markdown',
+            parse_mode: 'MarkdownV2',
             duration: 1,
             performer: 'performer',
             title: 'title',
@@ -226,7 +226,7 @@ describe('updating api', () => {
           type: 'audio',
           media: 'https://example.com/audio.mp3',
           caption: 'caption',
-          parseMode: ParseMode.Markdown,
+          parseMode: 'MarkdownV2',
           duration: 1,
           performer: 'performer',
           title: 'title',
@@ -325,75 +325,6 @@ describe('updating api', () => {
         .reply(200, reply);
 
       const res = await client.deleteMessage(427770117, 66);
-
-      expect(res).toEqual(result);
-    });
-  });
-
-  describe('#editMessageLiveLocation', () => {
-    const result = {
-      messageId: 66,
-      from: {
-        id: 313534466,
-        firstName: 'first',
-        username: 'a_bot',
-      },
-      chat: {
-        id: 427770117,
-        firstName: 'first',
-        lastName: 'last',
-        type: 'private',
-      },
-      date: 1499402829,
-      location: {
-        latitude: 11,
-        longitude: 22,
-      },
-    };
-    const reply = {
-      ok: true,
-      result: {
-        message_id: 66,
-        from: {
-          id: 313534466,
-          first_name: 'first',
-          username: 'a_bot',
-        },
-        chat: {
-          id: 427770117,
-          first_name: 'first',
-          last_name: 'last',
-          type: 'private',
-        },
-        date: 1499402829,
-        location: {
-          latitude: 11,
-          longitude: 22,
-        },
-      },
-    };
-
-    it('should edit live location message', async () => {
-      const { client, mock } = createMock();
-      mock
-        .onPost('/editMessageLiveLocation', {
-          latitude: 11,
-          longitude: 22,
-          chat_id: 427770117,
-          message_id: 66,
-        })
-        .reply(200, reply);
-
-      const res = await client.editMessageLiveLocation(
-        {
-          latitude: 11,
-          longitude: 22,
-        },
-        {
-          chatId: 427770117,
-          messageId: 66,
-        }
-      );
 
       expect(res).toEqual(result);
     });
