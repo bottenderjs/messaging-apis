@@ -1430,20 +1430,20 @@ export default class TelegramClient {
    * @param options.untilDate - Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
    * @returns Returns True on success.
    *
-   * @see https://core.telegram.org/bots/api#kickchatmember
+   * @see https://core.telegram.org/bots/api#banchatmember
    *
    * @example
    *
    * ```js
-   * await telegram.kickChatMember(CHAT_ID, USER_ID, { untilDate: UNIX_TIME });
+   * await telegram.banChatMember(CHAT_ID, USER_ID, { untilDate: UNIX_TIME });
    * ```
    */
-  kickChatMember(
+  banChatMember(
     chatId: string | number,
     userId: number,
-    options?: TelegramTypes.KickChatMemberOption
+    options?: TelegramTypes.BanChatMemberOption
   ): Promise<boolean> {
-    return this.request('/kickChatMember', {
+    return this.request('/banChatMember', {
       chatId,
       userId,
       ...options,

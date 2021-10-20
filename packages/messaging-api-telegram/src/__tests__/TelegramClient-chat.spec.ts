@@ -12,32 +12,28 @@ const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
   return { client, mock };
 };
 
-// kickChatMember -> banChatMember
-describe('#kickChatMember', () => {
+it('should support #banChatMember', async () => {
+  const { client, mock } = createMock();
+
   const result = true;
   const reply = {
     ok: true,
     result,
   };
 
-  it('should kick chat member', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/kickChatMember', {
-        chat_id: 427770117,
-        user_id: 313534466,
-        until_date: 1502855973,
-      })
-      .reply(200, reply);
+  mock
+    .onPost('/banChatMember', {
+      chat_id: 427770117,
+      user_id: 313534466,
+      until_date: 1502855973,
+    })
+    .reply(200, reply);
 
-    const res = await client.kickChatMember(427770117, 313534466, {
-      untilDate: 1502855973,
-    });
-    expect(res).toEqual(result);
+  const res = await client.banChatMember(427770117, 313534466, {
+    untilDate: 1502855973,
   });
+  expect(res).toEqual(result);
 });
-
-it.todo('should support #banChatMember');
 
 it('should support #unbanChatMember', async () => {
   const { client, mock } = createMock();
