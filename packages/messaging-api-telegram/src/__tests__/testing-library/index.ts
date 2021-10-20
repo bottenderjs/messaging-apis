@@ -2,6 +2,7 @@ import { SetupServerApi, setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { snakecaseKeysDeep } from 'messaging-api-common';
 
+import { requestHandlers as chatRequestHandlers } from './chat';
 import { constants, getCurrentContext } from './shared';
 import { requestHandlers as messageRequestHandlers } from './message';
 
@@ -141,7 +142,8 @@ export function setupTelegramServer(): SetupServerApi {
           )
         );
       }
-    )
+    ),
+    ...chatRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {

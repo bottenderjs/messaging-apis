@@ -608,12 +608,33 @@ export type LoginUrl = {
 };
 
 export type CallbackQuery = {
+  /**
+   * Unique identifier for this query
+   */
   id: string;
+  /**
+   * Sender
+   */
   from: User;
+  /**
+   * Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
+   */
   message?: Message;
+  /**
+   * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
+   */
   inlineMessageId?: string;
+  /**
+   * Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
+   */
   chatInstance: string;
+  /**
+   * Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
+   */
   data?: string;
+  /**
+   * Optional. Short name of a Game to be returned, serves as the unique identifier for the game
+   */
   gameShortName?: string;
 };
 
@@ -638,8 +659,57 @@ export type ForceReply = {
 };
 
 export type ChatPhoto = {
+  /**
+   * File identifier of small (160x160) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.
+   */
   smallFileId: string;
+
+  /**
+   * Unique file identifier of small (160x160) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  smallFileUniqueId: string;
+
+  /**
+   * File identifier of big (640x640) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.
+   */
   bigFileId: string;
+
+  /**
+   * Unique file identifier of big (640x640) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  bigFileUniqueId: string;
+};
+
+export type ChatInviteLink = {
+  /**
+   * The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
+   */
+  inviteLink: string;
+
+  /**
+   * Creator of the link
+   */
+  creator: User;
+
+  /**
+   * True, if the link is primary
+   */
+  isPrimary: boolean;
+
+  /**
+   * True, if the link is revoked
+   */
+  isRevoked: boolean;
+
+  /**
+   * Optional. Point in time (Unix timestamp) when the link will expire or has been expired
+   */
+  expireDate?: number;
+
+  /**
+   * Optional. Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+   */
+  memberLimit?: number;
 };
 
 export type ChatMember = any;
@@ -2634,12 +2704,59 @@ export type GetFileOption = {
 
 export type BanChatMemberOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+
+  /**
    * Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
    */
   untilDate?: number;
+
+  /**
+   * Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
+   */
+  revokeMessages?: boolean;
+};
+
+export type UnbanChatMemberOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+
+  /**
+   * Do nothing if the user is not banned
+   */
+  onlyIfBanned?: boolean;
 };
 
 export type RestrictChatMemberOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+
+  /**
+   * A JSON-serialized object for new user permissions
+   */
+  permissions: ChatPermissions;
+
   /**
    * Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
    */
@@ -2648,9 +2765,24 @@ export type RestrictChatMemberOption = {
 
 export type PromoteChatMemberOption = {
   /**
-   * Pass True, if the administrator can change chat title, photo and other settings
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    */
-  canChangeInfo?: boolean;
+  chatId: number | string;
+
+  /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+
+  /**
+   * Pass True, if the administrator's presence in the chat is hidden
+   */
+  isAnonymous?: boolean;
+
+  /**
+   * Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+   */
+  canManageChat?: boolean;
 
   /**
    * Pass True, if the administrator can create channel posts, channels only
@@ -2668,9 +2800,9 @@ export type PromoteChatMemberOption = {
   canDeleteMessages?: boolean;
 
   /**
-   * Pass True, if the administrator can invite new users to the chat
+   * Pass True, if the administrator can manage voice chats
    */
-  canInviteUsers?: boolean;
+  canManageVoiceChats?: boolean;
 
   /**
    * Pass True, if the administrator can restrict, ban or unban chat members
@@ -2678,21 +2810,237 @@ export type PromoteChatMemberOption = {
   canRestrictMembers?: boolean;
 
   /**
-   * Pass True, if the administrator can pin messages, supergroups only
-   */
-  canPinMessages?: boolean;
-
-  /**
    * Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
    */
   canPromoteMembers?: boolean;
+
+  /**
+   * Pass True, if the administrator can invite new users to the chat
+   */
+  canInviteUsers?: boolean;
+
+  /**
+   * Pass True, if the administrator can change chat title, photo and other settings
+   */
+  canChangeInfo?: boolean;
+
+  /**
+   * Pass True, if the administrator can pin messages, supergroups only
+   */
+  canPinMessages?: boolean;
+};
+
+export type SetChatAdministratorCustomTitleOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+
+  /**
+   * New custom title for the administrator; 0-16 characters, emoji are not allowed
+   */
+  customTitle: string;
+};
+
+export type SetChatPermissionsOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * A JSON-serialized object for new default chat permissions
+   */
+  permissions: ChatPermissions;
+};
+
+export type ExportChatInviteLinkOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type CreateChatInviteLinkOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Point in time (Unix timestamp) when the link will expire
+   */
+  expireDate?: number;
+
+  /**
+   * Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+   */
+  memberLimit?: number;
+};
+
+export type EditChatInviteLinkOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * The invite link to edit
+   */
+  inviteLink: string;
+
+  /**
+   * Point in time (Unix timestamp) when the link will expire
+   */
+  expireDate?: number;
+
+  /**
+   * Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+   */
+  memberLimit?: number;
+};
+
+export type RevokeChatInviteLinkOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * The invite link to edit
+   */
+  inviteLink: string;
+};
+
+export type DeleteChatPhotoOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type SetChatTitleOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * New chat title, 1-255 characters
+   */
+  title: string;
+};
+
+export type SetChatDescriptionOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * New chat description, 0-255 characters
+   */
+  description: string;
 };
 
 export type PinChatMessageOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Identifier of a message to pin
+   */
+  messageId: number;
+
+  /**
    * Pass True, if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels.
    */
   disableNotification?: boolean;
+};
+
+export type UnpinChatMessageOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Identifier of a message to pin
+   */
+  messageId: number;
+};
+
+export type UnpinAllChatMessagesOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type LeaveChatOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type GetChatOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type GetChatAdministratorsOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type GetChatMemberCountOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+};
+
+export type GetChatMemberOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Unique identifier of the target user
+   */
+  userId: number;
+};
+
+export type SetChatStickerSetOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Name of the sticker set to be set as the group sticker set
+   */
+  stickerSetName: string;
+};
+
+export type DeleteChatStickerSetOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
 };
 
 export type EditMessageTextOption = EditOption & {

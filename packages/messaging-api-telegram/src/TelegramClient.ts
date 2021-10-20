@@ -1427,13 +1427,31 @@ export default class TelegramClient {
    *
    * @param chatId - Unique identifier for the target group or username of the target supergroup or channel (in the format `@channelusername`)
    * @param userId - Unique identifier of the target user
-   * @param options.untilDate - Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
+   * @param options - Options for other optional parameters
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#banchatmember
-   *
    * @example
+   * ```js
+   * await telegram.banChatMember({
+   *   chatId: CHAT_ID,
+   *   userId: USER_ID,
+   *   untilDate: UNIX_TIME,
+   * });
+   * ```
+   */
+  banChatMember(options: TelegramTypes.BanChatMemberOption): Promise<boolean>;
+
+  /**
+   * Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
    *
+   * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group. Otherwise members may only be removed by the group's creator or by the member that added them.
+   *
+   * @param chatId - Unique identifier for the target group or username of the target supergroup or channel (in the format `@channelusername`)
+   * @param userId - Unique identifier of the target user
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#banchatmember
+   * @example
    * ```js
    * await telegram.banChatMember(CHAT_ID, USER_ID, { untilDate: UNIX_TIME });
    * ```
@@ -1441,36 +1459,96 @@ export default class TelegramClient {
   banChatMember(
     chatId: string | number,
     userId: number,
-    options?: TelegramTypes.BanChatMemberOption
+    options?: Omit<TelegramTypes.BanChatMemberOption, 'chatId' | 'userId'>
+  ): Promise<boolean>;
+
+  banChatMember(
+    chatIdOrOptions: string | number | TelegramTypes.BanChatMemberOption,
+    userId?: number,
+    options?: Omit<TelegramTypes.BanChatMemberOption, 'chatId' | 'userId'>
   ): Promise<boolean> {
-    return this.request('/banChatMember', {
-      chatId,
-      userId,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            userId,
+            ...options,
+          };
+    return this.request('/banChatMember', data);
   }
+
+  /**
+   * Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#unbanchatmember
+   * @example
+   * ```js
+   * await telegram.unbanChatMember({
+   *   chatId: CHAT_ID,
+   *   userId: USER_ID,
+   * });
+   * ```
+   */
+  unbanChatMember(
+    options: TelegramTypes.UnbanChatMemberOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work.
    *
    * @param chatId - Unique identifier for the target group or username of the target supergroup or channel (in the format `@username`)
    * @param userId - Unique identifier of the target user
+   * @param options - Options for other optional parameters
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#unbanchatmember
-   *
    * @example
-   *
    * ```js
    * await telegram.unbanChatMember(CHAT_ID, USER_ID);
    * ```
    */
-  unbanChatMember(chatId: string | number, userId: number): Promise<boolean> {
-    return this.request('/unbanChatMember', {
-      chatId,
-      userId,
-    });
+  unbanChatMember(
+    chatId: string | number,
+    userId: number,
+    options?: Omit<TelegramTypes.UnbanChatMemberOption, 'chatId' | 'userId'>
+  ): Promise<boolean>;
+
+  unbanChatMember(
+    chatIdOrOptions: string | number | TelegramTypes.UnbanChatMemberOption,
+    userId?: number,
+    options?: Omit<TelegramTypes.UnbanChatMemberOption, 'chatId' | 'userId'>
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            userId,
+            ...options,
+          };
+    return this.request('/unbanChatMember', data);
   }
+
+  /**
+   * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user.
+   *
+   * @param options - Other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#restrictchatmember
+   * @example
+   * ```js
+   * await telegram.restrictChatMember({
+   *   chatId: CHAT_ID,
+   *   userId: USER_ID,
+   *   permissions: { canSendMessages: true },
+   * });
+   * ```
+   */
+  restrictChatMember(
+    options: TelegramTypes.RestrictChatMemberOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user.
@@ -1479,13 +1557,9 @@ export default class TelegramClient {
    * @param userId - Unique identifier of the target user
    * @param permissions - New user permissions
    * @param options - Other optional parameters.
-   * @param options.untilDate - Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#restrictchatmember
-   *
    * @example
-   *
    * ```js
    * await telegram.restrictChatMember(CHAT_ID, USER_ID, { canSendMessages: true });
    * ```
@@ -1494,15 +1568,52 @@ export default class TelegramClient {
     chatId: string | number,
     userId: number,
     permissions: TelegramTypes.ChatPermissions,
-    options?: TelegramTypes.RestrictChatMemberOption
+    options?: Omit<
+      TelegramTypes.RestrictChatMemberOption,
+      'chatId' | 'userId' | 'permissions'
+    >
+  ): Promise<boolean>;
+
+  restrictChatMember(
+    chatIdOrOptions: string | number | TelegramTypes.RestrictChatMemberOption,
+    userId?: number,
+    permissions?: TelegramTypes.ChatPermissions,
+    options?: Omit<
+      TelegramTypes.RestrictChatMemberOption,
+      'chatId' | 'userId' | 'permissions'
+    >
   ): Promise<boolean> {
-    return this.request('/restrictChatMember', {
-      chatId,
-      userId,
-      permissions,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            userId,
+            permissions,
+            ...options,
+          };
+    return this.request('/restrictChatMember', data);
   }
+
+  /**
+   * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#promotechatmember
+   * @example
+   * ```js
+   * await telegram.promoteChatMember({
+   *   chatId: CHAT_ID,
+   *   userId: USER_ID,
+   *   canChangeInfo: true,
+   *   canInviteUsers: true,
+   * });
+   * ```
+   */
+  promoteChatMember(
+    options: TelegramTypes.PromoteChatMemberOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user.
@@ -1511,11 +1622,8 @@ export default class TelegramClient {
    * @param userId - Unique identifier of the target user
    * @param options - Options for other optional parameters
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#promotechatmember
-   *
    * @example
-   *
    * ```js
    * await telegram.promoteChatMember(CHAT_ID, USER_ID, {
    *   canChangeInfo: true,
@@ -1526,14 +1634,98 @@ export default class TelegramClient {
   promoteChatMember(
     chatId: string | number,
     userId: number,
-    options?: TelegramTypes.PromoteChatMemberOption
+    options?: Omit<TelegramTypes.PromoteChatMemberOption, 'chatId' | 'userId'>
+  ): Promise<boolean>;
+
+  promoteChatMember(
+    chatIdOrOptions: string | number | TelegramTypes.PromoteChatMemberOption,
+    userId?: number,
+    options?: Omit<TelegramTypes.PromoteChatMemberOption, 'chatId' | 'userId'>
   ): Promise<boolean> {
-    return this.request('/promoteChatMember', {
-      chatId,
-      userId,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            userId,
+            ...options,
+          };
+    return this.request('/promoteChatMember', data);
   }
+
+  /**
+   * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setchatadministratorcustomtitle
+   * @example
+   * ```js
+   * await telegram.setChatAdministratorCustomTitle({
+   *   chatId: CHAT_ID,
+   *   userId: USER_ID,
+   *   customTitle: 'Custom Title',
+   * });
+   * ```
+   */
+  setChatAdministratorCustomTitle(
+    options: TelegramTypes.SetChatAdministratorCustomTitleOption
+  ): Promise<boolean>;
+
+  /**
+   * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param userId - Unique identifier of the target user
+   * @param customTitle - New custom title for the administrator; 0-16 characters, emoji are not allowed
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setchatadministratorcustomtitle
+   * @example
+   * ```js
+   * await telegram.setChatAdministratorCustomTitle(CHAT_ID, USER_ID, 'Custom Title');
+   * ```
+   */
+  setChatAdministratorCustomTitle(
+    chatId: string | number,
+    userId: number,
+    customTitle: string
+  ): Promise<boolean>;
+
+  setChatAdministratorCustomTitle(
+    chatIdOrOptions:
+      | string
+      | number
+      | TelegramTypes.SetChatAdministratorCustomTitleOption,
+    userId?: number,
+    customTitle?: string
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            userId,
+            customTitle,
+          };
+    return this.request('/setChatAdministratorCustomTitle', data);
+  }
+
+  /**
+   * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setchatpermissions
+   * @example
+   * ```js
+   * await telegram.setChatPermissions(427770117, {
+   *   canSendMessages: true,
+   * });
+   * ```
+   */
+  setChatPermissions(
+    options: TelegramTypes.SetChatPermissionsOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
@@ -1541,22 +1733,31 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`)
    * @param permissions - New default chat permissions
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#setchatpermissions
-   *
    * @example
-   *
    * ```js
+   * await telegram.setChatPermissions(427770117, {
+   *   canSendMessages: true,
+   * });
    * ```
    */
   setChatPermissions(
     chatId: string | number,
     permissions: TelegramTypes.ChatPermissions
+  ): Promise<boolean>;
+
+  setChatPermissions(
+    chatIdOrOptions: string | number | TelegramTypes.SetChatPermissionsOption,
+    permissions?: TelegramTypes.ChatPermissions
   ): Promise<boolean> {
-    return this.request('/setChatPermissions', {
-      chatId,
-      permissions,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            permissions,
+          };
+    return this.request('/setChatPermissions', data);
   }
 
   /**
@@ -1566,19 +1767,204 @@ export default class TelegramClient {
    *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @returns Returns the new invite link as String on success.
-   *
    * @see https://core.telegram.org/bots/api#exportchatinvitelink
-   *
    * @example
+   * ```js
+   * await telegram.exportChatInviteLink({ chatId: CHAT_ID });
+   * ```
+   */
+  exportChatInviteLink(
+    options: TelegramTypes.ExportChatInviteLinkOption
+  ): Promise<string>;
+
+  /**
+   * Use this method to generate a new invite link for a chat; any previously generated link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
    *
+   * Note: Each administrator in a chat generates their own invite links. Bots can't use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using exportChatInviteLink – after this the link will become available to the bot via the getChat method. If your bot needs to generate a new invite link replacing its previous one, use exportChatInviteLink again.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @returns Returns the new invite link as String on success.
+   * @see https://core.telegram.org/bots/api#exportchatinvitelink
+   * @example
    * ```js
    * await telegram.exportChatInviteLink(CHAT_ID);
    * ```
    */
-  exportChatInviteLink(chatId: string | number): Promise<string> {
-    return this.request('/exportChatInviteLink', {
-      chatId,
-    });
+  exportChatInviteLink(chatId: string | number): Promise<string>;
+
+  exportChatInviteLink(
+    chatIdOrOptions: string | number | TelegramTypes.ExportChatInviteLinkOption
+  ): Promise<string> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/exportChatInviteLink', data);
+  }
+
+  /**
+   * Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns the new invite link as ChatInviteLink object.
+   * @see https://core.telegram.org/bots/api#createchatinvitelink
+   * @example
+   * ```js
+   * await telegram.createChatInviteLink({
+   *   chatId: 427770117,
+   *   memberLimit: 10,
+   * });
+   * ```
+   */
+  createChatInviteLink(
+    options: TelegramTypes.CreateChatInviteLinkOption
+  ): Promise<TelegramTypes.ChatInviteLink>;
+
+  /**
+   * Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`)
+   * @param options - Options for other optional parameters
+   * @returns Returns the new invite link as ChatInviteLink object.
+   * @see https://core.telegram.org/bots/api#createchatinvitelink
+   * @example
+   * ```js
+   * await telegram.createChatInviteLink(427770117, {
+   *   memberLimit: 10,
+   * });
+   * ```
+   */
+  createChatInviteLink(
+    chatId: string | number,
+    options?: Omit<TelegramTypes.CreateChatInviteLinkOption, 'chatId'>
+  ): Promise<TelegramTypes.ChatInviteLink>;
+
+  createChatInviteLink(
+    chatIdOrOptions: string | number | TelegramTypes.CreateChatInviteLinkOption,
+    options?: Omit<TelegramTypes.CreateChatInviteLinkOption, 'chatId'>
+  ): Promise<TelegramTypes.ChatInviteLink> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            ...options,
+          };
+    return this.request('/createChatInviteLink', data);
+  }
+
+  /**
+   * Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns the edited invite link as a ChatInviteLink object.
+   * @see https://core.telegram.org/bots/api#editchatinvitelink
+   * @example
+   * ```js
+   * await telegram.editChatInviteLink({
+   *   chatId: 427770117,
+   *   inviteLink: 'https://www.example.com/link',
+   *   memberLimit: 10,
+   * });
+   * ```
+   */
+  editChatInviteLink(
+    options: TelegramTypes.EditChatInviteLinkOption
+  ): Promise<TelegramTypes.ChatInviteLink>;
+
+  /**
+   * Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`)
+   * @param inviteLink - The invite link to edit
+   * @param options - Options for other optional parameters
+   * @returns Returns the edited invite link as a ChatInviteLink object.
+   * @see https://core.telegram.org/bots/api#editchatinvitelink
+   * @example
+   * ```js
+   * await telegram.editChatInviteLink(427770117, 'https://www.example.com/link', {
+   *   memberLimit: 10,
+   * });
+   * ```
+   */
+  editChatInviteLink(
+    chatId: string | number,
+    inviteLink: string,
+    options?: Omit<
+      TelegramTypes.EditChatInviteLinkOption,
+      'chatId' | 'inviteLink'
+    >
+  ): Promise<TelegramTypes.ChatInviteLink>;
+
+  editChatInviteLink(
+    chatIdOrOptions: string | number | TelegramTypes.EditChatInviteLinkOption,
+    inviteLink?: string,
+    options?: Omit<
+      TelegramTypes.EditChatInviteLinkOption,
+      'chatId' | 'inviteLink'
+    >
+  ): Promise<TelegramTypes.ChatInviteLink> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            inviteLink,
+            ...options,
+          };
+    return this.request('/editChatInviteLink', data);
+  }
+
+  /**
+   * Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns the revoked invite link as ChatInviteLink object.
+   * @see https://core.telegram.org/bots/api#revokechatinvitelink
+   * @example
+   * ```js
+   * await telegram.revokeChatInviteLink({
+   *   chatId: 427770117,
+   *   inviteLink: 'https://www.example.com/link',
+   * });
+   * ```
+   */
+  revokeChatInviteLink(
+    options: TelegramTypes.RevokeChatInviteLinkOption
+  ): Promise<TelegramTypes.ChatInviteLink>;
+
+  /**
+   * Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`)
+   * @param inviteLink - The invite link to edit
+   * @param options - Options for other optional parameters
+   * @returns Returns the revoked invite link as ChatInviteLink object.
+   * @see https://core.telegram.org/bots/api#revokechatinvitelink
+   * @example
+   * ```js
+   * await telegram.revokeChatInviteLink(427770117, 'https://www.example.com/link');
+   * ```
+   */
+  revokeChatInviteLink(
+    chatId: string | number,
+    inviteLink: string
+  ): Promise<TelegramTypes.ChatInviteLink>;
+
+  revokeChatInviteLink(
+    chatIdOrOptions: string | number | TelegramTypes.RevokeChatInviteLinkOption,
+    inviteLink?: string
+  ): Promise<TelegramTypes.ChatInviteLink> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            inviteLink,
+          };
+    return this.request('/revokeChatInviteLink', data);
   }
 
   /**
@@ -1600,22 +1986,59 @@ export default class TelegramClient {
    *
    * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
    *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#deletechatphoto
+   * @example
+   * ```js
+   * await telegram.deleteChatPhoto({ chatId: CHAT_ID });
+   * ```
+   */
+  deleteChatPhoto(
+    options: TelegramTypes.DeleteChatPhotoOption
+  ): Promise<boolean>;
+
+  /**
+   * Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
+   *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#deletechatphoto
-   *
    * @example
-   *
    * ```js
    * await telegram.deleteChatPhoto(CHAT_ID);
    * ```
    */
-  deleteChatPhoto(chatId: string | number): Promise<boolean> {
-    return this.request('/deleteChatPhoto', {
-      chatId,
-    });
+  deleteChatPhoto(chatId: string | number): Promise<boolean>;
+
+  deleteChatPhoto(
+    chatIdOrOptions: string | number | TelegramTypes.DeleteChatPhotoOption
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/deleteChatPhoto', data);
   }
+
+  /**
+   * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * Note: In regular groups (non-supergroups), this method will only work if the ‘All Members Are Admins’ setting is off in the target group.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setchattitle
+   * @example
+   * ```js
+   * await telegram.setChatTitle({ chatId: CHAT_ID, title: 'New Title' });
+   * ```
+   */
+  setChatTitle(options: TelegramTypes.SetChatTitleOption): Promise<boolean>;
 
   /**
    * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1625,21 +2048,45 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param title - New chat title, 1-255 characters
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#setchattitle
-   *
    * @example
-   *
    * ```js
    * await telegram.setChatTitle(CHAT_ID, 'New Title');
    * ```
    */
-  setChatTitle(chatId: string | number, title: string): Promise<boolean> {
-    return this.request('/setChatTitle', {
-      chatId,
-      title,
-    });
+  setChatTitle(chatId: string | number, title: string): Promise<boolean>;
+
+  setChatTitle(
+    chatIdOrOptions: string | number | TelegramTypes.SetChatTitleOption,
+    title?: string
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            title,
+          };
+    return this.request('/setChatTitle', data);
   }
+
+  /**
+   * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+   *
+   * @param options - Options for other optional parameters
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setchatdescription
+   * @example
+   * ```js
+   * await telegram.setChatDescription({
+   *   chatId: CHAT_ID,
+   *   description: 'New Description',
+   * });
+   * ```
+   */
+  setChatDescription(
+    options: TelegramTypes.SetChatDescriptionOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1656,12 +2103,38 @@ export default class TelegramClient {
   setChatDescription(
     chatId: string | number,
     description: string
+  ): Promise<boolean>;
+
+  setChatDescription(
+    chatIdOrOptions: string | number | TelegramTypes.SetChatDescriptionOption,
+    description?: string
   ): Promise<boolean> {
-    return this.request('/setChatDescription', {
-      chatId,
-      description,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            description,
+          };
+    return this.request('/setChatDescription', data);
   }
+
+  /**
+   * Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#pinchatmessage
+   * @example
+   * ```js
+   * await telegram.pinChatMessage({
+   *   chatId: CHAT_ID,
+   *   messageId: MESSAGE_ID,
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  pinChatMessage(options: TelegramTypes.PinChatMessageOption): Promise<boolean>;
 
   /**
    * Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
@@ -1670,77 +2143,185 @@ export default class TelegramClient {
    * @param messageId - Identifier of a message to pin
    * @param options - Options for other optional parameters.
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#pinchatmessage
-   *
    * @example
-   *
    * ```js
-   * await telegram.pinChatMessage(CHAT_ID, MESSAGE_ID, { disableNotification: true });
+   * await telegram.pinChatMessage(CHAT_ID, MESSAGE_ID);
    * ```
    */
   pinChatMessage(
     chatId: string | number,
     messageId: number,
-    options?: TelegramTypes.PinChatMessageOption
+    options?: Omit<TelegramTypes.PinChatMessageOption, 'chatId' | 'messageId'>
+  ): Promise<boolean>;
+
+  pinChatMessage(
+    chatIdOrOptions: string | number | TelegramTypes.PinChatMessageOption,
+    messageId?: number,
+    options?: Omit<TelegramTypes.PinChatMessageOption, 'chatId' | 'messageId'>
   ): Promise<boolean> {
-    return this.request('/pinChatMessage', {
-      chatId,
-      messageId,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            messageId,
+            ...options,
+          };
+    return this.request('/pinChatMessage', data);
   }
 
   /**
    * Use this method to unpin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
    *
-   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param options - Options for other optional parameters.
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#unpinchatmessage
-   *
    * @example
-   *
    * ```js
-   * await telegram.unpinChatMessage(CHAT_ID);
+   * await telegram.unpinChatMessage({ chatId: CHAT_ID, messageId: MESSAGE_ID });
    * ```
    */
-  unpinChatMessage(chatId: string | number): Promise<boolean> {
-    return this.request('/unpinChatMessage', {
-      chatId,
-    });
+  unpinChatMessage(
+    options: TelegramTypes.UnpinChatMessageOption
+  ): Promise<boolean>;
+
+  /**
+   * Use this method to unpin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param messageId - Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#unpinchatmessage
+   * @example
+   * ```js
+   * await telegram.unpinChatMessage(CHAT_ID, MESSAGE_ID);
+   * ```
+   */
+  unpinChatMessage(
+    chatId: string | number,
+    messageId?: number
+  ): Promise<boolean>;
+
+  unpinChatMessage(
+    chatIdOrOptions: string | number | TelegramTypes.UnpinChatMessageOption,
+    messageId?: number
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            messageId,
+          };
+    return this.request('/unpinChatMessage', data);
   }
+
+  /**
+   * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#unpinallchatmessages
+   * @example
+   * ```js
+   * await telegram.unpinAllChatMessages({ chatId: CHAT_ID });
+   * ```
+   */
+  unpinAllChatMessages(
+    options: TelegramTypes.UnpinAllChatMessagesOption
+  ): Promise<boolean>;
+
+  /**
+   * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#unpinallchatmessages
+   * @example
+   * ```js
+   * await telegram.unpinAllChatMessages(CHAT_ID);
+   * ```
+   */
+  unpinAllChatMessages(chatId: string | number): Promise<boolean>;
+
+  unpinAllChatMessages(
+    chatIdOrOptions: string | number | TelegramTypes.UnpinAllChatMessagesOption
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/unpinAllChatMessages', data);
+  }
+
+  /**
+   * Use this method for your bot to leave a group, supergroup or channel.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#leavechat
+   * @example
+   * ```js
+   * await telegram.leaveChat({ chatId: CHAT_ID });
+   * ```
+   */
+  leaveChat(options: TelegramTypes.LeaveChatOption): Promise<boolean>;
 
   /**
    * Use this method for your bot to leave a group, supergroup or channel.
    *
    * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`)
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#leavechat
-   *
    * @example
-   *
    * ```js
    * await telegram.leaveChat(CHAT_ID);
    * ```
    */
-  leaveChat(chatId: string | number): Promise<boolean> {
-    return this.request('/leaveChat', {
-      chatId,
-    });
+  leaveChat(chatId: string | number): Promise<boolean>;
+
+  leaveChat(
+    chatIdOrOptions: string | number | TelegramTypes.LeaveChatOption
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/leaveChat', data);
   }
+
+  /**
+   * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns a Chat object on success.
+   * @see https://core.telegram.org/bots/api#getchat
+   * @example
+   * ```js
+   * await telegram.getChat({ chatId: CHAT_ID });
+   * // {
+   * //   id: 313534466,
+   * //   firstName: 'first',
+   * //   lastName: 'last',
+   * //   username: 'username',
+   * //   type: 'private',
+   * // }
+   * ```
+   */
+  getChat(options: TelegramTypes.GetChatOption): Promise<TelegramTypes.Chat>;
 
   /**
    * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
    *
    * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`)
    * @returns Returns a Chat object on success.
-   *
    * @see https://core.telegram.org/bots/api#getchat
-   *
    * @example
-   *
    * ```js
    * await telegram.getChat(CHAT_ID);
    * // {
@@ -1752,22 +2333,54 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getChat(chatId: string | number): Promise<TelegramTypes.Chat> {
-    return this.request('/getChat', {
-      chatId,
-    });
+  getChat(chatId: string | number): Promise<TelegramTypes.Chat>;
+
+  getChat(
+    chatIdOrOptions: string | number | TelegramTypes.GetChatOption
+  ): Promise<TelegramTypes.Chat> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/getChat', data);
   }
+
+  /**
+   * Use this method to get a list of administrators in a chat.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns  On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
+   * @see https://core.telegram.org/bots/api#getchatadministrators
+   * @example
+   * ```js
+   * await telegram.getChatAdministrators({ chatId: CHAT_ID });
+   * // [
+   * //   {
+   * //     user: {
+   * //       id: 313534466,
+   * //       firstName: 'first',
+   * //       lastName: 'last',
+   * //       username: 'username',
+   * //       languangeCode: 'zh-TW',
+   * //     },
+   * //     status: 'creator',
+   * //   },
+   * // ]
+   * ```
+   */
+  getChatAdministrators(
+    options: TelegramTypes.GetChatAdministratorsOption
+  ): Promise<TelegramTypes.ChatMember[]>;
 
   /**
    * Use this method to get a list of administrators in a chat.
    *
    * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`)
    * @returns  On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
-   *
-   * @see https://core.telegram.org/bots/api#getchatmemberscount
-   *
+   * @see https://core.telegram.org/bots/api#getchatadministrators
    * @example
-   *
    * ```js
    * await telegram.getChatAdministrators(CHAT_ID);
    * // [
@@ -1786,32 +2399,86 @@ export default class TelegramClient {
    */
   getChatAdministrators(
     chatId: string | number
+  ): Promise<TelegramTypes.ChatMember[]>;
+
+  getChatAdministrators(
+    chatIdOrOptions: string | number | TelegramTypes.GetChatAdministratorsOption
   ): Promise<TelegramTypes.ChatMember[]> {
-    return this.request('/getChatAdministrators', {
-      chatId,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/getChatAdministrators', data);
   }
+
+  /**
+   * Use this method to get the number of members in a chat.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns Int on success.
+   * @see https://core.telegram.org/bots/api#getchatmembercount
+   * @example
+   * ```js
+   * await telegram.getChatMemberCount({ chatId: CHAT_ID });
+   * // '6'
+   * ```
+   */
+  getChatMemberCount(
+    options: TelegramTypes.GetChatMemberCountOption
+  ): Promise<number>;
 
   /**
    * Use this method to get the number of members in a chat.
    *
    * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`)
    * @returns Returns Int on success.
-   *
-   * @see https://core.telegram.org/bots/api#getchatmemberscount
-   *
+   * @see https://core.telegram.org/bots/api#getchatmembercount
    * @example
-   *
    * ```js
-   * await telegram.getChatMembersCount(CHAT_ID);
+   * await telegram.getChatMemberCount(CHAT_ID);
    * // '6'
    * ```
    */
-  getChatMembersCount(chatId: string | number): Promise<number> {
-    return this.request('/getChatMembersCount', {
-      chatId,
-    });
+  getChatMemberCount(chatId: string | number): Promise<number>;
+
+  getChatMemberCount(
+    chatIdOrOptions: string | number | TelegramTypes.GetChatMemberCountOption
+  ): Promise<number> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/getChatMemberCount', data);
   }
+
+  /**
+   * Use this method to get information about a member of a chat.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns a ChatMember object on success.
+   * @see https://core.telegram.org/bots/api#getchatmember
+   * @example
+   * ```js
+   * await telegram.getChatMember({ chatId: CHAT_ID, userId: USER_ID });
+   * // {
+   * //   user: {
+   * //     id: 313534466,
+   * //     firstName: 'first',
+   * //     lastName: 'last',
+   * //     username: 'username',
+   * //     languangeCode: 'zh-TW',
+   * //   },
+   * //   status: 'creator',
+   * // }
+   * ```
+   */
+  getChatMember(
+    options: TelegramTypes.GetChatMemberOption
+  ): Promise<TelegramTypes.ChatMember>;
 
   /**
    * Use this method to get information about a member of a chat.
@@ -1819,11 +2486,8 @@ export default class TelegramClient {
    * @param chatId - Unique identifier for the target chat or username of the target supergroup or channel (in the format `@channelusername`)
    * @param userId - Unique identifier of the target user
    * @returns Returns a ChatMember object on success.
-   *
    * @see https://core.telegram.org/bots/api#getchatmember
-   *
    * @example
-   *
    * ```js
    * await telegram.getChatMember(CHAT_ID, USER_ID);
    * // {
@@ -1841,12 +2505,39 @@ export default class TelegramClient {
   getChatMember(
     chatId: string | number,
     userId: number
+  ): Promise<TelegramTypes.ChatMember>;
+
+  getChatMember(
+    chatIdOrOptions: string | number | TelegramTypes.GetChatMemberOption,
+    userId?: number
   ): Promise<TelegramTypes.ChatMember> {
-    return this.request('/getChatMember', {
-      chatId,
-      userId,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            userId,
+          };
+    return this.request('/getChatMember', data);
   }
+
+  /**
+   * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setchatstickerset
+   * @example
+   * ```js
+   * await telegram.setChatStickerSet({
+   *   chatId: CHAT_ID,
+   *   stickerSetName: 'Sticker Set Name',
+   * });
+   * ```
+   */
+  setChatStickerSet(
+    options: TelegramTypes.SetChatStickerSetOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method.
@@ -1863,12 +2554,36 @@ export default class TelegramClient {
   setChatStickerSet(
     chatId: string | number,
     stickerSetName: string
+  ): Promise<boolean>;
+
+  setChatStickerSet(
+    chatIdOrOptions: string | number | TelegramTypes.SetChatStickerSetOption,
+    stickerSetName?: string
   ): Promise<boolean> {
-    return this.request('/setChatStickerSet', {
-      chatId,
-      stickerSetName,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            stickerSetName,
+          };
+    return this.request('/setChatStickerSet', data);
   }
+
+  /**
+   * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#deletechatstickerset
+   * @example
+   * ```js
+   * await telegram.deleteChatStickerSet({ chatId: CHAT_ID });
+   * ```
+   */
+  deleteChatStickerSet(
+    options: TelegramTypes.DeleteChatStickerSetOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field canSetStickerSet optionally returned in getChat requests to check if the bot can use this method.
@@ -1881,10 +2596,18 @@ export default class TelegramClient {
    * await telegram.deleteChatStickerSet(CHAT_ID);
    * ```
    */
-  deleteChatStickerSet(chatId: string | number): Promise<boolean> {
-    return this.request('/deleteChatStickerSet', {
-      chatId,
-    });
+  deleteChatStickerSet(chatId: string | number): Promise<boolean>;
+
+  deleteChatStickerSet(
+    chatIdOrOptions: string | number | TelegramTypes.DeleteChatStickerSetOption
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+          };
+    return this.request('/deleteChatStickerSet', data);
   }
 
   /**

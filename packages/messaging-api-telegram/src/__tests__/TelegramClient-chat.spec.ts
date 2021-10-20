@@ -1,87 +1,179 @@
-import MockAdapter from 'axios-mock-adapter';
-
 import TelegramClient from '../TelegramClient';
 
-const ACCESS_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11';
+import {
+  constants,
+  getCurrentContext,
+  setupTelegramServer,
+} from './testing-library';
 
-const createMock = (): { client: TelegramClient; mock: MockAdapter } => {
-  const client = new TelegramClient({
-    accessToken: ACCESS_TOKEN,
-  });
-  const mock = new MockAdapter(client.axios);
-  return { client, mock };
-};
+setupTelegramServer();
 
 it('should support #banChatMember', async () => {
-  const { client, mock } = createMock();
-
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
-
-  mock
-    .onPost('/banChatMember', {
-      chat_id: 427770117,
-      user_id: 313534466,
-      until_date: 1502855973,
-    })
-    .reply(200, reply);
-
-  const res = await client.banChatMember(427770117, 313534466, {
-    untilDate: 1502855973,
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
-  expect(res).toEqual(result);
+
+  const res = await telegram.banChatMember({
+    chatId: 427770117,
+    userId: 313534466,
+    untilDate: 1502855973,
+    revokeMessages: true,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/banChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    until_date: 1502855973,
+    revoke_messages: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #banChatMember shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.banChatMember(427770117, 313534466, {
+    untilDate: 1502855973,
+    revokeMessages: true,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/banChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    until_date: 1502855973,
+    revoke_messages: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #unbanChatMember', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/unbanChatMember', {
-      chat_id: 427770117,
-      user_id: 313534466,
-    })
-    .reply(200, reply);
+  const res = await telegram.unbanChatMember({
+    chatId: 427770117,
+    userId: 313534466,
+    onlyIfBanned: true,
+  });
 
-  const res = await client.unbanChatMember(427770117, 313534466);
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/unbanChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    only_if_banned: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #unbanChatMember shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.unbanChatMember(427770117, 313534466, {
+    onlyIfBanned: true,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/unbanChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    only_if_banned: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #restrictChatMember', async () => {
-  const { client, mock } = createMock();
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const res = await telegram.restrictChatMember({
+    chatId: 427770117,
+    userId: 313534466,
+    permissions: {
+      canSendMessages: true,
+      canSendMediaMessages: true,
+      canSendPolls: true,
+      canSendOtherMessages: true,
+      canAddWebPagePreviews: true,
+      canChangeInfo: true,
+      canInviteUsers: true,
+      canPinMessages: true,
+    },
+    untilDate: 1577721600,
+  });
 
-  mock
-    .onPost('/restrictChatMember', {
-      chat_id: 427770117,
-      user_id: 313534466,
-      permissions: {
-        can_send_messages: true,
-        can_send_media_messages: true,
-        can_send_polls: true,
-        can_send_other_messages: true,
-        can_add_web_page_previews: true,
-        can_change_info: true,
-        can_invite_users: true,
-        can_pin_messages: true,
-      },
-      until_date: 1577721600,
-    })
-    .reply(200, reply);
+  expect(res).toEqual(true);
 
-  const res = await client.restrictChatMember(
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/restrictChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    permissions: {
+      can_send_messages: true,
+      can_send_media_messages: true,
+      can_send_polls: true,
+      can_send_other_messages: true,
+      can_add_web_page_previews: true,
+      can_change_info: true,
+      can_invite_users: true,
+      can_pin_messages: true,
+    },
+    until_date: 1577721600,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #restrictChatMember shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.restrictChatMember(
     427770117,
     313534466,
     {
@@ -98,72 +190,234 @@ it('should support #restrictChatMember', async () => {
       untilDate: 1577721600,
     }
   );
-  expect(res).toEqual(result);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/restrictChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    permissions: {
+      can_send_messages: true,
+      can_send_media_messages: true,
+      can_send_polls: true,
+      can_send_other_messages: true,
+      can_add_web_page_previews: true,
+      can_change_info: true,
+      can_invite_users: true,
+      can_pin_messages: true,
+    },
+    until_date: 1577721600,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #promoteChatMember', async () => {
-  const { client, mock } = createMock();
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
-  mock
-    .onPost('/promoteChatMember', {
-      chat_id: 427770117,
-      user_id: 313534466,
-      can_change_info: true,
-      can_post_messages: true,
-      can_edit_messages: true,
-      can_delete_messages: true,
-      can_invite_users: true,
-      can_restrict_members: true,
-      can_pin_messages: true,
-      can_promote_members: true,
-    })
-    .reply(200, reply);
-
-  const res = await client.promoteChatMember(427770117, 313534466, {
-    canChangeInfo: true,
+  const res = await telegram.promoteChatMember({
+    chatId: 427770117,
+    userId: 313534466,
+    isAnonymous: true,
+    canManageChat: true,
     canPostMessages: true,
     canEditMessages: true,
     canDeleteMessages: true,
-    canInviteUsers: true,
+    canManageVoiceChats: true,
     canRestrictMembers: true,
-    canPinMessages: true,
     canPromoteMembers: true,
+    canChangeInfo: true,
+    canInviteUsers: true,
+    canPinMessages: true,
   });
-  expect(res).toEqual(result);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/promoteChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    is_anonymous: true,
+    can_manage_chat: true,
+    can_post_messages: true,
+    can_edit_messages: true,
+    can_manage_voice_chats: true,
+    can_delete_messages: true,
+    can_restrict_members: true,
+    can_promote_members: true,
+    can_change_info: true,
+    can_invite_users: true,
+    can_pin_messages: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-it.todo('should support #setChatAdministratorCustomTitle');
+it('should support #promoteChatMember shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.promoteChatMember(427770117, 313534466, {
+    isAnonymous: true,
+    canManageChat: true,
+    canPostMessages: true,
+    canEditMessages: true,
+    canDeleteMessages: true,
+    canManageVoiceChats: true,
+    canRestrictMembers: true,
+    canPromoteMembers: true,
+    canChangeInfo: true,
+    canInviteUsers: true,
+    canPinMessages: true,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/promoteChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    is_anonymous: true,
+    can_manage_chat: true,
+    can_post_messages: true,
+    can_edit_messages: true,
+    can_manage_voice_chats: true,
+    can_delete_messages: true,
+    can_restrict_members: true,
+    can_promote_members: true,
+    can_change_info: true,
+    can_invite_users: true,
+    can_pin_messages: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setChatAdministratorCustomTitle', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.setChatAdministratorCustomTitle({
+    chatId: 427770117,
+    userId: 313534466,
+    customTitle: 'Custom Title',
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatAdministratorCustomTitle'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    custom_title: 'Custom Title',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setChatAdministratorCustomTitle shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.setChatAdministratorCustomTitle(
+    427770117,
+    313534466,
+    'Custom Title'
+  );
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatAdministratorCustomTitle'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    user_id: 313534466,
+    custom_title: 'Custom Title',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
 it('should support #setChatPermissions', async () => {
-  const { client, mock } = createMock();
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
-  mock
-    .onPost('/setChatPermissions', {
-      chat_id: 427770117,
-      permissions: {
-        can_send_messages: true,
-        can_send_media_messages: true,
-        can_send_polls: true,
-        can_send_other_messages: true,
-        can_add_web_page_previews: true,
-        can_change_info: true,
-        can_invite_users: true,
-        can_pin_messages: true,
-      },
-    })
-    .reply(200, reply);
+  const res = await telegram.setChatPermissions({
+    chatId: 427770117,
+    permissions: {
+      canSendMessages: true,
+      canSendMediaMessages: true,
+      canSendPolls: true,
+      canSendOtherMessages: true,
+      canAddWebPagePreviews: true,
+      canChangeInfo: true,
+      canInviteUsers: true,
+      canPinMessages: true,
+    },
+  });
 
-  const res = await client.setChatPermissions(427770117, {
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatPermissions'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    permissions: {
+      can_send_messages: true,
+      can_send_media_messages: true,
+      can_send_polls: true,
+      can_send_other_messages: true,
+      can_add_web_page_previews: true,
+      can_change_info: true,
+      can_invite_users: true,
+      can_pin_messages: true,
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setChatPermissions shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.setChatPermissions(427770117, {
     canSendMessages: true,
     canSendMediaMessages: true,
     canSendPolls: true,
@@ -173,184 +427,712 @@ it('should support #setChatPermissions', async () => {
     canInviteUsers: true,
     canPinMessages: true,
   });
-  expect(res).toEqual(result);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatPermissions'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    permissions: {
+      can_send_messages: true,
+      can_send_media_messages: true,
+      can_send_polls: true,
+      can_send_other_messages: true,
+      can_add_web_page_previews: true,
+      can_change_info: true,
+      can_invite_users: true,
+      can_pin_messages: true,
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #exportChatInviteLink', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/exportChatInviteLink', {
-      chat_id: 427770117,
-    })
-    .reply(200, reply);
+  const res = await telegram.exportChatInviteLink({
+    chatId: 427770117,
+  });
 
-  const res = await client.exportChatInviteLink(427770117);
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/exportChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-it.todo('should support #createChatInviteLink');
+it('should support #exportChatInviteLink shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-it.todo('should support #editChatInviteLink');
+  const res = await telegram.exportChatInviteLink(427770117);
 
-it.todo('should support #revokeChatInviteLink');
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/exportChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #createChatInviteLink', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.createChatInviteLink({
+    chatId: 427770117,
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  expect(res).toEqual({
+    inviteLink: 'https://www.example.com/link',
+    creator: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    isPrimary: true,
+    isRevoked: false,
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/createChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    expire_date: 1634751130,
+    member_limit: 10,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #createChatInviteLink shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.createChatInviteLink(427770117, {
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  expect(res).toEqual({
+    inviteLink: 'https://www.example.com/link',
+    creator: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    isPrimary: true,
+    isRevoked: false,
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/createChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    expire_date: 1634751130,
+    member_limit: 10,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #editChatInviteLink', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.editChatInviteLink({
+    chatId: 427770117,
+    inviteLink: 'https://www.example.com/link',
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  expect(res).toEqual({
+    inviteLink: 'https://www.example.com/link',
+    creator: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    isPrimary: true,
+    isRevoked: false,
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/editChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    invite_link: 'https://www.example.com/link',
+    expire_date: 1634751130,
+    member_limit: 10,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #editChatInviteLink shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.editChatInviteLink(
+    427770117,
+    'https://www.example.com/link',
+    {
+      expireDate: 1634751130,
+      memberLimit: 10,
+    }
+  );
+
+  expect(res).toEqual({
+    inviteLink: 'https://www.example.com/link',
+    creator: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    isPrimary: true,
+    isRevoked: false,
+    expireDate: 1634751130,
+    memberLimit: 10,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/editChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    invite_link: 'https://www.example.com/link',
+    expire_date: 1634751130,
+    member_limit: 10,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #revokeChatInviteLink', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.revokeChatInviteLink({
+    chatId: 427770117,
+    inviteLink: 'https://www.example.com/link',
+  });
+
+  expect(res).toEqual({
+    inviteLink: 'https://www.example.com/link',
+    creator: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    isPrimary: true,
+    isRevoked: true,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/revokeChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    invite_link: 'https://www.example.com/link',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #revokeChatInviteLink shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.revokeChatInviteLink(
+    427770117,
+    'https://www.example.com/link'
+  );
+
+  expect(res).toEqual({
+    inviteLink: 'https://www.example.com/link',
+    creator: {
+      id: 313534466,
+      firstName: 'first',
+      username: 'a_bot',
+    },
+    isPrimary: true,
+    isRevoked: true,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/revokeChatInviteLink'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    invite_link: 'https://www.example.com/link',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
 it.todo('should support #setChatPhoto');
 
 it('should support #deleteChatPhoto', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/deleteChatPhoto', {
-      chat_id: 427770117,
-    })
-    .reply(200, reply);
+  const res = await telegram.deleteChatPhoto({
+    chatId: 427770117,
+  });
 
-  const res = await client.deleteChatPhoto(427770117);
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/deleteChatPhoto'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteChatPhoto shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.deleteChatPhoto(427770117);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/deleteChatPhoto'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #setChatTitle', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/setChatTitle', {
-      chat_id: 427770117,
-      title: 'New Title',
-    })
-    .reply(200, reply);
+  const res = await telegram.setChatTitle({
+    chatId: 427770117,
+    title: 'New Title',
+  });
 
-  const res = await client.setChatTitle(427770117, 'New Title');
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatTitle'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    title: 'New Title',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setChatTitle shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.setChatTitle(427770117, 'New Title');
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatTitle'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    title: 'New Title',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #setChatDescription', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/setChatDescription', {
-      chat_id: 427770117,
-      description: 'New Description',
-    })
-    .reply(200, reply);
+  const res = await telegram.setChatDescription({
+    chatId: 427770117,
+    description: 'New Description',
+  });
 
-  const res = await client.setChatDescription(427770117, 'New Description');
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatDescription'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    description: 'New Description',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setChatDescription shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.setChatDescription(427770117, 'New Description');
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatDescription'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    description: 'New Description',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #pinChatMessage', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
-  mock
-    .onPost('/pinChatMessage', {
-      chat_id: 427770117,
-      message_id: 1,
-      disable_notification: true,
-    })
-    .reply(200, reply);
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  const res = await client.pinChatMessage(427770117, 1, {
+  const res = await telegram.pinChatMessage({
+    chatId: 427770117,
+    messageId: 1,
     disableNotification: true,
   });
-  expect(res).toEqual(result);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/pinChatMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    message_id: 1,
+    disable_notification: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #pinChatMessage shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.pinChatMessage(427770117, 1, {
+    disableNotification: true,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/pinChatMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    message_id: 1,
+    disable_notification: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #unpinChatMessage', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/unpinChatMessage', {
-      chat_id: 427770117,
-    })
-    .reply(200, reply);
+  const res = await telegram.unpinChatMessage({
+    chatId: 427770117,
+    messageId: 1,
+  });
 
-  const res = await client.unpinChatMessage(427770117);
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/unpinChatMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    message_id: 1,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-it.todo('should support #unpinAllChatMessages');
+it('should support #unpinChatMessage shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.unpinChatMessage(427770117, 1);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/unpinChatMessage'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    message_id: 1,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #unpinAllChatMessages', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.unpinAllChatMessages({
+    chatId: 427770117,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/unpinAllChatMessages'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #unpinAllChatMessages shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.unpinAllChatMessages(427770117);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/unpinAllChatMessages'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
 it('should support #leaveChat', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/leaveChat', {
-      chat_id: 427770117,
-    })
-    .reply(200, reply);
+  const res = await telegram.leaveChat({ chatId: 427770117 });
 
-  const res = await client.leaveChat(427770117);
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/leaveChat'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #leaveChat shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.leaveChat(427770117);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/leaveChat'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #getChat', async () => {
-  const { client, mock } = createMock();
-  const result = {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChat({ chatId: 313534466 });
+
+  expect(res).toEqual({
     id: 313534466,
     firstName: 'first',
     lastName: 'last',
     username: 'username',
     type: 'private',
-  };
-  const reply = {
-    ok: true,
-    result: {
-      id: 313534466,
-      first_name: 'first',
-      last_name: 'last',
-      username: 'username',
-      type: 'private',
-    },
-  };
+  });
 
-  mock
-    .onPost('/getChat', {
-      chat_id: 313534466,
-    })
-    .reply(200, reply);
+  const { request } = getCurrentContext();
 
-  const res = await client.getChat(313534466);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChat'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 313534466,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-  expect(res).toEqual(result);
+it('should support #getChat shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChat(313534466);
+
+  expect(res).toEqual({
+    id: 313534466,
+    firstName: 'first',
+    lastName: 'last',
+    username: 'username',
+    type: 'private',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChat'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 313534466,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #getChatAdministrators', async () => {
-  const { client, mock } = createMock();
-  const result = [
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChatAdministrators({ chatId: -427770117 });
+
+  expect(res).toEqual([
     {
       user: {
         id: 313534466,
@@ -361,56 +1143,109 @@ it('should support #getChatAdministrators', async () => {
       },
       status: 'creator',
     },
-  ];
-  const reply = {
-    ok: true,
-    result: [
-      {
-        user: {
-          id: 313534466,
-          first_name: 'first',
-          last_name: 'last',
-          username: 'username',
-          languange_code: 'zh-TW',
-        },
-        status: 'creator',
-      },
-    ],
-  };
+  ]);
 
-  mock
-    .onPost('/getChatAdministrators', {
-      chat_id: -427770117,
-    })
-    .reply(200, reply);
+  const { request } = getCurrentContext();
 
-  const res = await client.getChatAdministrators(-427770117);
-
-  expect(res).toEqual(result);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChatAdministrators'
+  );
+  expect(request?.body).toEqual({
+    chat_id: -427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-it('should support #getChatMembersCount', async () => {
-  const { client, mock } = createMock();
-  const result = '6';
-  const reply = {
-    ok: true,
-    result,
-  };
+it('should support #getChatAdministrators shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/getChatMembersCount', {
-      chat_id: -427770117,
-    })
-    .reply(200, reply);
+  const res = await telegram.getChatAdministrators(-427770117);
 
-  const res = await client.getChatMembersCount(-427770117);
+  expect(res).toEqual([
+    {
+      user: {
+        id: 313534466,
+        firstName: 'first',
+        lastName: 'last',
+        username: 'username',
+        languangeCode: 'zh-TW',
+      },
+      status: 'creator',
+    },
+  ]);
 
-  expect(res).toEqual(result);
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChatAdministrators'
+  );
+  expect(request?.body).toEqual({
+    chat_id: -427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getChatMemberCount', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChatMemberCount({ chatId: -427770117 });
+
+  expect(res).toEqual('6');
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChatMemberCount'
+  );
+  expect(request?.body).toEqual({
+    chat_id: -427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getChatMemberCount shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChatMemberCount(-427770117);
+
+  expect(res).toEqual('6');
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChatMemberCount'
+  );
+  expect(request?.body).toEqual({
+    chat_id: -427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #getChatMember', async () => {
-  const { client, mock } = createMock();
-  const result = {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChatMember({
+    chatId: -427770117,
+    userId: 313534466,
+  });
+
+  expect(res).toEqual({
     user: {
       id: 313534466,
       firstName: 'first',
@@ -419,66 +1254,143 @@ it('should support #getChatMember', async () => {
       languangeCode: 'zh-TW',
     },
     status: 'creator',
-  };
-  const reply = {
-    ok: true,
-    result: {
-      user: {
-        id: 313534466,
-        first_name: 'first',
-        last_name: 'last',
-        username: 'username',
-        languange_code: 'zh-TW',
-      },
-      status: 'creator',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: -427770117,
+    user_id: 313534466,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getChatMember shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.getChatMember(-427770117, 313534466);
+
+  expect(res).toEqual({
+    user: {
+      id: 313534466,
+      firstName: 'first',
+      lastName: 'last',
+      username: 'username',
+      languangeCode: 'zh-TW',
     },
-  };
+    status: 'creator',
+  });
 
-  mock
-    .onPost('/getChatMember', {
-      chat_id: -427770117,
-      user_id: 313534466,
-    })
-    .reply(200, reply);
+  const { request } = getCurrentContext();
 
-  const res = await client.getChatMember(-427770117, 313534466);
-
-  expect(res).toEqual(result);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getChatMember'
+  );
+  expect(request?.body).toEqual({
+    chat_id: -427770117,
+    user_id: 313534466,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #setChatStickerSet', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/setChatStickerSet', {
-      chat_id: 427770117,
-      sticker_set_name: 'Sticker Set Name',
-    })
-    .reply(200, reply);
+  const res = await telegram.setChatStickerSet({
+    chatId: 427770117,
+    stickerSetName: 'Sticker Set Name',
+  });
 
-  const res = await client.setChatStickerSet(427770117, 'Sticker Set Name');
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatStickerSet'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    sticker_set_name: 'Sticker Set Name',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setChatStickerSet shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.setChatStickerSet(427770117, 'Sticker Set Name');
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setChatStickerSet'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+    sticker_set_name: 'Sticker Set Name',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
 it('should support #deleteChatStickerSet', async () => {
-  const { client, mock } = createMock();
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-  mock
-    .onPost('/deleteChatStickerSet', {
-      chat_id: 427770117,
-    })
-    .reply(200, reply);
+  const res = await telegram.deleteChatStickerSet({ chatId: 427770117 });
 
-  const res = await client.deleteChatStickerSet(427770117);
-  expect(res).toEqual(result);
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/deleteChatStickerSet'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteChatStickerSet shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.deleteChatStickerSet(427770117);
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/deleteChatStickerSet'
+  );
+  expect(request?.body).toEqual({
+    chat_id: 427770117,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });

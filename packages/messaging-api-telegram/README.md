@@ -107,7 +107,7 @@ All methods return a Promise.
 - [getFileLink](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.TelegramClient.html#getfilelink)
 - [getChat](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.TelegramClient.html#getchat)
 - [getChatAdministrators](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.TelegramClient.html#getchatadministrators)
-- [getChatMembersCount](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.TelegramClient.html#getchatmemberscount)
+- [getChatMemberCount](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.TelegramClient.html#getChatMemberCount)
 - [getChatMember](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_telegram.TelegramClient.html#getchatmember)
 
 <br />
