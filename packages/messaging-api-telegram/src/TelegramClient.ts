@@ -2615,21 +2615,137 @@ export default class TelegramClient {
    *
    * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via `@Botfather` and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
    *
-   * @param callbackQueryId - Unique identifier for the query to be answered
    * @param options - Optional parameters for other parameters.
+   * @returns On success, True is returned.
    * @see https://core.telegram.org/bots/api#answercallbackquery
    * @example
    * ```js
+   * await telegram.answerCallbackQuery({
+   *   callbackQueryId: 'CALLBACK_QUERY_ID',
+   *   text: 'text',
+   *   showAlert: true,
+   * });
+   * ```
+   */
+  answerCallbackQuery(
+    options: TelegramTypes.AnswerCallbackQueryOption
+  ): Promise<boolean>;
+
+  /**
+   * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
+   *
+   * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via `@Botfather` and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
+   *
+   * @param callbackQueryId - Unique identifier for the query to be answered
+   * @param options - Optional parameters for other parameters.
+   * @returns On success, True is returned.
+   * @see https://core.telegram.org/bots/api#answercallbackquery
+   * @example
+   * ```js
+   * await telegram.answerCallbackQuery('CALLBACK_QUERY_ID');
    * ```
    */
   answerCallbackQuery(
     callbackQueryId: string,
-    options: TelegramTypes.AnswerCallbackQueryOption
+    options?: Omit<TelegramTypes.AnswerCallbackQueryOption, 'callbackQueryId'>
+  ): Promise<boolean>;
+
+  answerCallbackQuery(
+    callbackQueryIdOrOptions: string | TelegramTypes.AnswerCallbackQueryOption,
+    options?: Omit<TelegramTypes.AnswerCallbackQueryOption, 'callbackQueryId'>
   ): Promise<boolean> {
-    return this.request('/answerCallbackQuery', {
-      callbackQueryId,
-      ...options,
-    });
+    const data =
+      typeof callbackQueryIdOrOptions === 'object'
+        ? callbackQueryIdOrOptions
+        : {
+            callbackQueryId: callbackQueryIdOrOptions,
+            ...options,
+          };
+    return this.request('/answerCallbackQuery', data);
+  }
+
+  /**
+   * Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands.
+   *
+   * @param options - Optional parameters for other parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setmycommands
+   * @example
+   * ```js
+   * await telegram.setMyCommands({
+   *   commands: [{ command: 'command', description: 'my command' }],
+   * });
+   * ```
+   */
+  setMyCommands(options: TelegramTypes.SetMyCommandsOption): Promise<boolean>;
+
+  /**
+   * Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands.
+   *
+   * @param commands - A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
+   * @param options - Optional parameters for other parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setmycommands
+   * @example
+   * ```js
+   * await telegram.setMyCommands([
+   *   { command: 'command', description: 'my command' }
+   * ]);
+   * ```
+   */
+  setMyCommands(
+    commands: TelegramTypes.BotCommand[],
+    options?: Omit<TelegramTypes.SetMyCommandsOption, 'commands'>
+  ): Promise<boolean>;
+
+  setMyCommands(
+    commandsOrOptions:
+      | TelegramTypes.BotCommand[]
+      | TelegramTypes.SetMyCommandsOption,
+    options?: Omit<TelegramTypes.SetMyCommandsOption, 'commands'>
+  ): Promise<boolean> {
+    const data = Array.isArray(commandsOrOptions)
+      ? {
+          commands: commandsOrOptions,
+          ...options,
+        }
+      : commandsOrOptions;
+    return this.request('/setMyCommands', data);
+  }
+
+  /**
+   * Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users.
+   *
+   * @param options - Optional parameters for other parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#deletemycommands
+   * @example
+   * ```js
+   * await telegram.deleteMyCommands();
+   * ```
+   */
+  deleteMyCommands(
+    options: TelegramTypes.DeleteMyCommandsOption
+  ): Promise<boolean> {
+    return this.request('/deleteMyCommands', options);
+  }
+
+  /**
+   * Use this method to get the current list of the bot's commands for the given scope and user language.
+   *
+   * @param options - Optional parameters for other parameters.
+   * @returns Returns Array of BotCommand on success. If commands aren't set, an empty list is returned.
+   * @see https://core.telegram.org/bots/api#getmycommands
+   * @example
+   * ```js
+   * await telegram.getMyCommands();
+   * // [{ command: 'command', description: 'desc..'}]
+   * ```
+   */
+  getMyCommands(
+    options: TelegramTypes.GetMyCommandsOption
+  ): Promise<TelegramTypes.BotCommand[]> {
+    return this.request('/getMyCommands', options);
   }
 
   /**

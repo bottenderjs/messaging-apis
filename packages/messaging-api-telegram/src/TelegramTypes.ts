@@ -3274,6 +3274,11 @@ export type AnswerPreCheckoutQueryOption = {
 
 export type AnswerCallbackQueryOption = {
   /**
+   * Unique identifier for the query to be answered
+   */
+  callbackQueryId: string;
+
+  /**
    * Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
    */
   text?: string;
@@ -3294,6 +3299,88 @@ export type AnswerCallbackQueryOption = {
    * The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
    */
   cacheTime?: number;
+};
+
+export type BotCommand = {
+  /**
+   * Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores.
+   */
+  command: string;
+
+  /**
+   * Description of the command, 3-256 characters.
+   */
+  description: string;
+};
+
+export type BotCommandScope =
+  | BotCommandScopeDefault
+  | BotCommandScopeAllPrivateChats
+  | BotCommandScopeAllGroupChats
+  | BotCommandScopeAllChatAdministrators
+  | BotCommandScopeChat
+  | BotCommandScopeChatAdministrators
+  | BotCommandScopeChatMember;
+
+export type BotCommandScopeDefault = { type: 'default' };
+
+export type BotCommandScopeAllPrivateChats = { type: 'all_private_chats' };
+
+export type BotCommandScopeAllGroupChats = { type: 'all_group_chats' };
+
+export type BotCommandScopeAllChatAdministrators = {
+  type: 'all_chat_administrators';
+};
+
+export type BotCommandScopeChat = { type: 'chat'; chatId: number | string };
+
+export type BotCommandScopeChatAdministrators = {
+  type: 'default';
+  chatId: number | string;
+};
+
+export type BotCommandScopeChatMember = {
+  type: 'default';
+  chatId: number | string;
+  userId: number;
+};
+
+export type SetMyCommandsOption = {
+  /**
+   * A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
+   */
+  commands: BotCommand[];
+  /**
+   * A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
+   */
+  scope?: BotCommandScope;
+  /**
+   * A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
+   */
+  languageCode?: string;
+};
+
+export type DeleteMyCommandsOption = {
+  /**
+   * A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
+   */
+  scope?: BotCommandScope;
+  /**
+   * A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
+   */
+  languageCode?: string;
+};
+
+export type GetMyCommandsOption = {
+  /**
+   * A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
+   */
+  scope?: BotCommandScope;
+
+  /**
+   * A two-letter ISO 639-1 language code or an empty string
+   */
+  languageCode?: string;
 };
 
 export type SendGameOption = {

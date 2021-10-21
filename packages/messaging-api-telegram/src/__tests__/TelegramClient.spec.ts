@@ -332,25 +332,88 @@ it('should support #getFileLink', async () => {
   );
 });
 
-describe('Error', () => {
-  it('should format correctly', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      ok: false,
-      error_code: 404,
-      description: 'Not Found',
-    };
-
-    mock.onAny().reply(400, reply);
-
-    let error;
-    try {
-      await client.sendMessage(427770117, 'hi');
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error.message).toEqual('Telegram API - 404 Not Found');
+it('should support #answerCallbackQuery', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
+
+  const res = await telegram.answerCallbackQuery({
+    callbackQueryId: 'CALLBACK_QUERY_ID',
+    text: 'text',
+    showAlert: true,
+    url: 'http://example.com/',
+    cacheTime: 1000,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/answerCallbackQuery'
+  );
+  expect(request?.body).toEqual({
+    callback_query_id: 'CALLBACK_QUERY_ID',
+    text: 'text',
+    show_alert: true,
+    url: 'http://example.com/',
+    cache_time: 1000,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #answerCallbackQuery shorthand', async () => {
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await telegram.answerCallbackQuery('CALLBACK_QUERY_ID', {
+    text: 'text',
+    showAlert: true,
+    url: 'http://example.com/',
+    cacheTime: 1000,
+  });
+
+  expect(res).toEqual(true);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/answerCallbackQuery'
+  );
+  expect(request?.body).toEqual({
+    callback_query_id: 'CALLBACK_QUERY_ID',
+    text: 'text',
+    show_alert: true,
+    url: 'http://example.com/',
+    cache_time: 1000,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should handle errors', async () => {
+  telegramServer.use(
+    rest.post('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(
+        ctx.json({
+          ok: false,
+          error_code: 404,
+          description: 'Not Found',
+        })
+      );
+    })
+  );
+
+  const telegram = new TelegramClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  await expect(telegram.getMe()).rejects.toThrowError(
+    'Telegram API - 404 Not Found'
+  );
 });

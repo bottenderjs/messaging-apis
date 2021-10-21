@@ -3,6 +3,7 @@ import { rest } from 'msw';
 import { snakecaseKeysDeep } from 'messaging-api-common';
 
 import { requestHandlers as chatRequestHandlers } from './chat';
+import { requestHandlers as commandRequestHandlers } from './command';
 import { constants, getCurrentContext } from './shared';
 import { requestHandlers as messageRequestHandlers } from './message';
 
@@ -143,7 +144,22 @@ export function setupTelegramServer(): SetupServerApi {
         );
       }
     ),
-    ...chatRequestHandlers
+    ...chatRequestHandlers,
+    rest.post(
+      `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/answerCallbackQuery`,
+      (req, res, ctx) => {
+        getCurrentContext().request = req;
+        return res(
+          ctx.json(
+            snakecaseKeysDeep({
+              ok: true,
+              result: true,
+            })
+          )
+        );
+      }
+    ),
+    ...commandRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {

@@ -65,32 +65,3 @@ describe('#answerInlineQuery', () => {
     expect(res).toEqual(result);
   });
 });
-
-describe('#answerCallbackQuery', () => {
-  const result = true;
-  const reply = {
-    ok: true,
-    result,
-  };
-
-  it('should send answers to an callback query', async () => {
-    const { client, mock } = createMock();
-    mock
-      .onPost('/answerCallbackQuery', {
-        callback_query_id: 'CALLBACK_QUERY_ID',
-        text: 'text',
-        show_alert: true,
-        url: 'http://example.com/',
-        cache_time: 1000,
-      })
-      .reply(200, reply);
-
-    const res = await client.answerCallbackQuery('CALLBACK_QUERY_ID', {
-      text: 'text',
-      showAlert: true,
-      url: 'http://example.com/',
-      cacheTime: 1000,
-    });
-    expect(res).toEqual(result);
-  });
-});
