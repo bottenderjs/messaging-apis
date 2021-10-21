@@ -5,6 +5,7 @@ import { snakecaseKeysDeep } from 'messaging-api-common';
 import { requestHandlers as chatRequestHandlers } from './chat';
 import { requestHandlers as commandRequestHandlers } from './command';
 import { constants, getCurrentContext } from './shared';
+import { requestHandlers as gettingUpdateRequestHandlers } from './gettingUpdate';
 import { requestHandlers as messageRequestHandlers } from './message';
 
 /**
@@ -14,6 +15,7 @@ import { requestHandlers as messageRequestHandlers } from './message';
  */
 export function setupTelegramServer(): SetupServerApi {
   const server = setupServer(
+    ...gettingUpdateRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getMe`,
       (req, res, ctx) => {

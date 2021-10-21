@@ -1,12 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
-import difference from 'lodash/difference';
 import isPlainObject from 'lodash/isPlainObject';
-import pick from 'lodash/pick';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
   createRequestInterceptor,
-  snakecase,
   snakecaseKeysDeep,
 } from 'messaging-api-common';
 import { PrintableAxiosError } from 'axios-error';
@@ -82,35 +79,15 @@ export default class TelegramClient {
     }
   }
 
-  private optionWithoutKeys(
-    option: any,
-    removeKeys: string[]
-  ): Record<string, any> {
-    let keys = Object.keys(option);
-    keys = difference(keys, removeKeys);
-    keys = difference(
-      keys,
-      removeKeys.map((key) => snakecase(key))
-    );
-    return pick(option, keys);
-  }
-
   /**
    * Use this method to receive incoming updates using long polling.
    * - This method will not work if an outgoing webhook is set up.
    * - In order to avoid getting duplicate updates, recalculate offset after each server response.
    *
    * @param options - Optional parameters.
-   * @param options.offset - Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned.
-   * @param options.limit - Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
-   * @param options.timeout - Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.
-   * @param options.allowedUpdates - A JSON-serialized list of the update types you want your bot to receive. For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive updates of these types.
    * @returns An array of [Update](https://core.telegram.org/bots/api#update) objects is returned.
-   *
    * @see https://core.telegram.org/bots/api#getupdates
-   *
    * @example
-   *
    * ```js
    * await telegram.getUpdates({ limit: 10 });
    * // [
@@ -142,20 +119,64 @@ export default class TelegramClient {
   getUpdates(
     options?: TelegramTypes.GetUpdatesOption
   ): Promise<TelegramTypes.Update[]> {
-    return this.request('/getUpdates', {
-      ...options,
-    });
+    return this.request('/getUpdates', { ...options });
+  }
+
+  /**
+   * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
+   *
+   * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
+   *
+   * @param url - HTTPS url to send updates to. Use an empty string to remove webhook integration.
+   * @param options - Optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setwebhook
+   * @example
+   * ```js
+   * await telegram.setWebhook('https://4a16faff.ngrok.io/');
+   * ```
+   */
+  setWebhook(options: TelegramTypes.SetWebhookOption): Promise<boolean>;
+
+  setWebhook(
+    url: string,
+    options?: Omit<TelegramTypes.SetWebhookOption, 'url'>
+  ): Promise<boolean>;
+
+  setWebhook(
+    urlOrOptions: string | TelegramTypes.SetWebhookOption,
+    options?: Omit<TelegramTypes.SetWebhookOption, 'url'>
+  ): Promise<boolean> {
+    const data =
+      typeof urlOrOptions === 'object'
+        ? urlOrOptions
+        : {
+            url: urlOrOptions,
+            ...options,
+          };
+    return this.request('/setWebhook', data);
+  }
+
+  /**
+   * Use this method to remove webhook integration if you decide to switch back to getUpdates.
+   *
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#deletewebhook
+   * @example
+   * ```js
+   * await telegram.deleteWebhook();
+   * ```
+   */
+  deleteWebhook(options?: TelegramTypes.DeleteWebhookOption): Promise<boolean> {
+    return this.request('/deleteWebhook', { ...options });
   }
 
   /**
    * Use this method to get current webhook status.
    *
    * @returns On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
-   *
    * @see https://core.telegram.org/bots/api#getwebhookinfo
-   *
    * @example
-   *
    * ```js
    * await telegram.getWebhookInfo();
    * // {
@@ -168,56 +189,6 @@ export default class TelegramClient {
    */
   getWebhookInfo(): Promise<TelegramTypes.WebhookInfo> {
     return this.request('/getWebhookInfo');
-  }
-
-  /**
-   * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
-   *
-   * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
-   *
-   * @param url - HTTPS url to send updates to. Use an empty string to remove webhook integration.
-   * @param options - Optional parameters.
-   * @param options.certificate - not supported yet.
-   * @param options.maxConnections - Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40.
-   * @param options.allowedUpdates - List the types of updates you want your bot to receive.
-   * @returns Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#setwebhook
-   *
-   * @example
-   *
-   * ```js
-   * await telegram.setWebhook('https://4a16faff.ngrok.io/');
-   * ```
-   */
-  setWebhook(
-    url: string,
-    options: TelegramTypes.SetWebhookOption = {}
-  ): Promise<boolean> {
-    const optionsWithoutCertificate = this.optionWithoutKeys(options, [
-      'certificate',
-    ]);
-    return this.request('/setWebhook', {
-      url,
-      ...optionsWithoutCertificate,
-    });
-  }
-
-  /**
-   * Use this method to remove webhook integration if you decide to switch back to getUpdates.
-   *
-   * @returns Returns True on success.
-   *
-   * @see https://core.telegram.org/bots/api#deletewebhook
-   *
-   * @example
-   *
-   * ```js
-   * await telegram.deleteWebhook();
-   * ```
-   */
-  deleteWebhook(): Promise<boolean> {
-    return this.request('/deleteWebhook');
   }
 
   /**
@@ -977,7 +948,7 @@ export default class TelegramClient {
   editMessageLiveLocation(
     options: TelegramTypes.EditMessageLiveLocationOption
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/editMessageLiveLocation', options);
+    return this.request('/editMessageLiveLocation', { ...options });
   }
 
   /**
@@ -993,7 +964,7 @@ export default class TelegramClient {
   stopMessageLiveLocation(
     options: TelegramTypes.StopMessageLiveLocationOption
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/stopMessageLiveLocation', options);
+    return this.request('/stopMessageLiveLocation', { ...options });
   }
 
   /**
@@ -2727,7 +2698,7 @@ export default class TelegramClient {
   deleteMyCommands(
     options: TelegramTypes.DeleteMyCommandsOption
   ): Promise<boolean> {
-    return this.request('/deleteMyCommands', options);
+    return this.request('/deleteMyCommands', { ...options });
   }
 
   /**
@@ -2745,7 +2716,7 @@ export default class TelegramClient {
   getMyCommands(
     options: TelegramTypes.GetMyCommandsOption
   ): Promise<TelegramTypes.BotCommand[]> {
-    return this.request('/getMyCommands', options);
+    return this.request('/getMyCommands', { ...options });
   }
 
   /**

@@ -1512,6 +1512,16 @@ export type GameHighScore = {
 
 export type SetWebhookOption = {
   /**
+   * HTTPS url to send updates to. Use an empty string to remove webhook integration
+   */
+  url: string;
+
+  /**
+   * The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
+   */
+  ipAddress?: string;
+
+  /**
    * not supported yet.
    */
   certificate?: string;
@@ -1527,6 +1537,13 @@ export type SetWebhookOption = {
    * Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
    */
   allowedUpdates?: string[];
+};
+
+export type DeleteWebhookOption = {
+  /**
+   * Pass True to drop all pending updates
+   */
+  dropPendingUpdates?: boolean;
 };
 
 export type GetUpdatesOption = {
