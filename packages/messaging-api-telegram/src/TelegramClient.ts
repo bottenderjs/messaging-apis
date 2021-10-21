@@ -10,6 +10,11 @@ import { PrintableAxiosError } from 'axios-error';
 
 import * as TelegramTypes from './TelegramTypes';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never;
+
 export default class TelegramClient {
   /**
    * The underlying axios instance.
@@ -2722,6 +2727,24 @@ export default class TelegramClient {
   /**
    * Use this method to edit text and game messages.
    *
+   * @param options - Options for other optional parameters.
+   * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+   * @see https://core.telegram.org/bots/api#editmessagetext
+   * @example
+   * ```js
+   * await telegram.editMessageText({
+   *   messageId: MESSAGE_ID,
+   *   text: 'new_text',
+   * });
+   * ```
+   */
+  editMessageText(
+    options: TelegramTypes.EditMessageTextOption
+  ): Promise<TelegramTypes.Message | boolean>;
+
+  /**
+   * Use this method to edit text and game messages.
+   *
    * @param text - New text of the message
    * @param options - Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.
    * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
@@ -2733,13 +2756,40 @@ export default class TelegramClient {
    */
   editMessageText(
     text: string,
-    options?: TelegramTypes.EditMessageTextOption
+    options: DistributiveOmit<TelegramTypes.EditMessageTextOption, 'text'>
+  ): Promise<TelegramTypes.Message | boolean>;
+
+  editMessageText(
+    textOrOptions: string | TelegramTypes.EditMessageTextOption,
+    options?: DistributiveOmit<TelegramTypes.EditMessageTextOption, 'text'>
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/editMessageText', {
-      text,
-      ...options,
-    });
+    const data =
+      typeof textOrOptions === 'object'
+        ? textOrOptions
+        : {
+            text: textOrOptions,
+            ...options,
+          };
+    return this.request('/editMessageText', data);
   }
+
+  /**
+   * Use this method to edit captions of messages.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+   * @see https://core.telegram.org/bots/api#editmessagecaption
+   * @example
+   * ```js
+   * await telegram.editMessageCaption({
+   *   messageId: MESSAGE_ID,
+   *   caption: 'new_caption',
+   * });
+   * ```
+   */
+  editMessageCaption(
+    options: TelegramTypes.EditMessageCaptionOption
+  ): Promise<TelegramTypes.Message | boolean>;
 
   /**
    * Use this method to edit captions of messages.
@@ -2755,13 +2805,51 @@ export default class TelegramClient {
    */
   editMessageCaption(
     caption: string,
-    options?: TelegramTypes.EditMessageCaptionOption
+    options: DistributiveOmit<TelegramTypes.EditMessageCaptionOption, 'caption'>
+  ): Promise<TelegramTypes.Message | boolean>;
+
+  editMessageCaption(
+    captionOrOptions: string | TelegramTypes.EditMessageCaptionOption,
+    options?: DistributiveOmit<
+      TelegramTypes.EditMessageCaptionOption,
+      'caption'
+    >
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/editMessageCaption', {
-      caption,
-      ...options,
-    });
+    const data =
+      typeof captionOrOptions === 'object'
+        ? captionOrOptions
+        : {
+            caption: captionOrOptions,
+            ...options,
+          };
+    return this.request('/editMessageCaption', data);
   }
+
+  /**
+   * Use this method to edit animation, audio, document, photo, or video messages. If a message is a part of a message album, then it can be edited only to a photo or a video. Otherwise, message type can be changed arbitrarily. When inline message is edited, new file can't be uploaded. Use previously uploaded file via its file_id or specify a URL. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
+   *
+   * @param options - Options for other optional parameters.
+   * @see https://core.telegram.org/bots/api#editmessagemedia
+   * @example
+   * ```js
+   * await telegram.editMessageMedia({
+   *   chatId: 427770117,
+   *   messageId: 66,
+   *   media: {
+   *     type: 'audio',
+   *     media: 'https://example.com/audio.mp3',
+   *     caption: 'caption',
+   *     parseMode: 'MarkdownV2',
+   *     duration: 1,
+   *     performer: 'performer',
+   *     title: 'title',
+   *   },
+   * });
+   * ```
+   */
+  editMessageMedia(
+    options: TelegramTypes.EditMessageMediaOption
+  ): Promise<TelegramTypes.Message | boolean>;
 
   /**
    * Use this method to edit animation, audio, document, photo, or video messages. If a message is a part of a message album, then it can be edited only to a photo or a video. Otherwise, message type can be changed arbitrarily. When inline message is edited, new file can't be uploaded. Use previously uploaded file via its file_id or specify a URL. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
@@ -2771,17 +2859,65 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#editmessagemedia
    * @example
    * ```js
+   * await telegram.editMessageMedia(
+   *   {
+   *     type: 'audio',
+   *     media: 'https://example.com/audio.mp3',
+   *     caption: 'caption',
+   *     parseMode: 'MarkdownV2',
+   *     duration: 1,
+   *     performer: 'performer',
+   *     title: 'title',
+   *   },
+   *   {
+   *     chatId: 427770117,
+   *     messageId: 66,
+   *   }
+   * );
    * ```
    */
   editMessageMedia(
     media: TelegramTypes.InputMedia,
-    options: TelegramTypes.EditMessageMediaOption
+    options: DistributiveOmit<TelegramTypes.EditMessageMediaOption, 'media'>
+  ): Promise<TelegramTypes.Message | boolean>;
+
+  editMessageMedia(
+    mediaOrOptions:
+      | TelegramTypes.InputMedia
+      | TelegramTypes.EditMessageMediaOption,
+    options?: DistributiveOmit<TelegramTypes.EditMessageMediaOption, 'media'>
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/editMessageMedia', {
-      media,
-      ...options,
-    });
+    const data =
+      'chatId' in mediaOrOptions ||
+      'messageId' in mediaOrOptions ||
+      'inlineMessageId' in mediaOrOptions
+        ? mediaOrOptions
+        : {
+            media: mediaOrOptions,
+            ...options,
+          };
+    return this.request('/editMessageMedia', data);
   }
+
+  /**
+   * Use this method to edit only the reply markup of messages.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
+   * @see https://core.telegram.org/bots/api#editmessagereplymarkup
+   * @example
+   * ```js
+   * await telegram.editMessageReplyMarkup({
+   *   messageId: MESSAGE_ID
+   *   keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
+   *   resizeKeyboard: true,
+   *   oneTimeKeyboard: true,
+   * });
+   * ```
+   */
+  editMessageReplyMarkup(
+    options: TelegramTypes.EditMessageReplyMarkupOption
+  ): Promise<TelegramTypes.Message | boolean>;
 
   /**
    * Use this method to edit only the reply markup of messages.
@@ -2789,11 +2925,8 @@ export default class TelegramClient {
    * @param replyMarkup - A JSON-serialized object for an inline keyboard.
    * @param options - Options for other optional parameters. One of chatId, messageId or inlineMessageId is required.
    * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
-   *
    * @see https://core.telegram.org/bots/api#editmessagereplymarkup
-   *
    * @example
-   *
    * ```js
    * await telegram.editMessageReplyMarkup(
    *   {
@@ -2807,13 +2940,45 @@ export default class TelegramClient {
    */
   editMessageReplyMarkup(
     replyMarkup: TelegramTypes.InlineKeyboardMarkup,
-    options?: TelegramTypes.EditMessageReplyMarkupOption
+    options: DistributiveOmit<
+      TelegramTypes.EditMessageReplyMarkupOption,
+      'replyMarkup'
+    >
+  ): Promise<TelegramTypes.Message | boolean>;
+
+  editMessageReplyMarkup(
+    replyMarkupOrOptions:
+      | TelegramTypes.InlineKeyboardMarkup
+      | TelegramTypes.EditMessageReplyMarkupOption,
+    options?: DistributiveOmit<
+      TelegramTypes.EditMessageReplyMarkupOption,
+      'replyMarkup'
+    >
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/editMessageReplyMarkup', {
-      replyMarkup,
-      ...options,
-    });
+    const data =
+      'chatId' in replyMarkupOrOptions ||
+      'messageId' in replyMarkupOrOptions ||
+      'inlineMessageId' in replyMarkupOrOptions
+        ? replyMarkupOrOptions
+        : {
+            replyMarkup: replyMarkupOrOptions,
+            ...options,
+          };
+    return this.request('/editMessageReplyMarkup', data);
   }
+
+  /**
+   * Use this method to stop a poll which was sent by the bot.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the stopped Poll with the final results is returned.
+   * @see https://core.telegram.org/bots/api#stoppoll
+   * @example
+   * ```js
+   * await telegram.stopPoll({ chatId: 427770117, messageId: 66 });
+   * ```
+   */
+  stopPoll(options: TelegramTypes.StopPollOption): Promise<TelegramTypes.Poll>;
 
   /**
    * Use this method to stop a poll which was sent by the bot.
@@ -2822,25 +2987,55 @@ export default class TelegramClient {
    * @param messageId - Identifier of the original message with the poll
    * @param options - Options for other optional parameters.
    * @returns On success, the stopped Poll with the final results is returned.
-   *
    * @see https://core.telegram.org/bots/api#stoppoll
-   *
    * @example
-   *
    * ```js
+   * await telegram.stopPoll(427770117, 66);
    * ```
    */
   stopPoll(
     chatId: string | number,
     messageId: number,
-    options?: TelegramTypes.StopPollOption
+    options?: Omit<TelegramTypes.StopPollOption, 'chatId' | 'messageId'>
+  ): Promise<TelegramTypes.Poll>;
+
+  stopPoll(
+    chatIdOrOptions: string | number | TelegramTypes.StopPollOption,
+    messageId?: number,
+    options?: Omit<TelegramTypes.StopPollOption, 'chatId' | 'messageId'>
   ): Promise<TelegramTypes.Poll> {
-    return this.request('/stopPoll', {
-      chatId,
-      messageId,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            messageId,
+            ...options,
+          };
+    return this.request('/stopPoll', data);
   }
+
+  /**
+   * Use this method to delete a message, including service messages, with the following limitations:
+   * - A message can only be deleted if it was sent less than 48 hours ago.
+   * - Bots can delete outgoing messages in private chats, groups, and supergroups.
+   * - Bots can delete incoming messages in private chats.
+   * - Bots granted can_post_messages permissions can delete outgoing messages in channels.
+   * - If the bot is an administrator of a group, it can delete any message there.
+   * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#deletemessage
+   * @example
+   * ```js
+   * await telegram.deleteMessage({
+   *   chatId: CHAT_ID,
+   *   mesageId: MESSAGE_ID,
+   * });
+   * ```
+   */
+  deleteMessage(options: TelegramTypes.DeleteMessageOption): Promise<boolean>;
 
   /**
    * Use this method to delete a message, including service messages, with the following limitations:
@@ -2860,11 +3055,20 @@ export default class TelegramClient {
    * await telegram.deleteMessage(CHAT_ID, MESSAGE_ID);
    * ```
    */
-  deleteMessage(chatId: string | number, messageId: number): Promise<boolean> {
-    return this.request('/deleteMessage', {
-      chatId,
-      messageId,
-    });
+  deleteMessage(chatId: string | number, messageId: number): Promise<boolean>;
+
+  deleteMessage(
+    chatIdOrOptions: string | number | TelegramTypes.DeleteMessageOption,
+    messageId?: number
+  ): Promise<boolean> {
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            messageId,
+          };
+    return this.request('/deleteMessage', data);
   }
 
   /**

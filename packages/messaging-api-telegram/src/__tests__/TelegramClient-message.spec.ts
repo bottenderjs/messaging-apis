@@ -2206,25 +2206,7 @@ it('should support #editMessageLiveLocation', async () => {
     horizontalAccuracy: 750,
     proximityAlertRadius: 500,
     replyMarkup: {
-      inlineKeyboard: [
-        [
-          {
-            text: 'text',
-            url: 'http://url.com/',
-            loginUrl: {
-              url: 'http://login_url.com/',
-              forwardText: 'forwardText',
-              botUsername: 'botUsername',
-              requestWriteAccess: true,
-            },
-            callbackData: 'callback_data',
-            switchInlineQuery: 'switch_inline_query',
-            switchInlineQueryCurrentChat: 'switch_inline_query_current_chat',
-            callbackGame: {},
-            pay: true,
-          },
-        ],
-      ],
+      inlineKeyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
     },
   });
 
@@ -2264,26 +2246,7 @@ it('should support #editMessageLiveLocation', async () => {
     horizontal_accuracy: 750,
     proximity_alert_radius: 500,
     reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            callback_data: 'callback_data',
-            callback_game: {},
-            login_url: {
-              bot_username: 'botUsername',
-              forward_text: 'forwardText',
-              request_write_access: true,
-              url: 'http://login_url.com/',
-            },
-            pay: true,
-            switch_inline_query: 'switch_inline_query',
-            switch_inline_query_current_chat:
-              'switch_inline_query_current_chat',
-            text: 'text',
-            url: 'http://url.com/',
-          },
-        ],
-      ],
+      inline_keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
     },
   });
   expect(request?.headers.get('Content-Type')).toBe('application/json');
@@ -2298,25 +2261,7 @@ it('should support #stopMessageLiveLocation', async () => {
     chatId: 427770117,
     messageId: 66,
     replyMarkup: {
-      inlineKeyboard: [
-        [
-          {
-            text: 'text',
-            url: 'http://url.com/',
-            loginUrl: {
-              url: 'http://login_url.com/',
-              forwardText: 'forwardText',
-              botUsername: 'botUsername',
-              requestWriteAccess: true,
-            },
-            callbackData: 'callback_data',
-            switchInlineQuery: 'switch_inline_query',
-            switchInlineQueryCurrentChat: 'switch_inline_query_current_chat',
-            callbackGame: {},
-            pay: true,
-          },
-        ],
-      ],
+      inlineKeyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
     },
   });
 
@@ -2351,26 +2296,7 @@ it('should support #stopMessageLiveLocation', async () => {
     chat_id: 427770117,
     message_id: 66,
     reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            callback_data: 'callback_data',
-            callback_game: {},
-            login_url: {
-              bot_username: 'botUsername',
-              forward_text: 'forwardText',
-              request_write_access: true,
-              url: 'http://login_url.com/',
-            },
-            pay: true,
-            switch_inline_query: 'switch_inline_query',
-            switch_inline_query_current_chat:
-              'switch_inline_query_current_chat',
-            text: 'text',
-            url: 'http://url.com/',
-          },
-        ],
-      ],
+      inline_keyboard: [[{ text: 'new_button_1' }, { text: 'new_button_2' }]],
     },
   });
   expect(request?.headers.get('Content-Type')).toBe('application/json');

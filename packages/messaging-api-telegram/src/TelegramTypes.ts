@@ -3062,6 +3062,11 @@ export type DeleteChatStickerSetOption = {
 
 export type EditMessageTextOption = EditOption & {
   /**
+   * New text of the message, 1-4096 characters after entities parsing
+   */
+  text: string;
+
+  /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
    *
    * - https://core.telegram.org/bots/api#markdown-style
@@ -3069,6 +3074,11 @@ export type EditMessageTextOption = EditOption & {
    * - https://core.telegram.org/bots/api#formatting-options
    */
   parseMode?: ParseMode;
+
+  /**
+   * A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+   */
+  entities?: MessageEntity[];
 
   /**
    * Disables link previews for links in this message
@@ -3086,6 +3096,11 @@ export type EditMessageTextOption = EditOption & {
 
 export type EditMessageCaptionOption = EditOption & {
   /**
+   * New caption of the message, 0-1024 characters after entities parsing
+   */
+  caption: string;
+
+  /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
    *
    * - https://core.telegram.org/bots/api#markdown-style
@@ -3093,6 +3108,11 @@ export type EditMessageCaptionOption = EditOption & {
    * - https://core.telegram.org/bots/api#formatting-options
    */
   parseMode?: ParseMode;
+
+  /**
+   * A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+   */
+  captionEntities?: MessageEntity[];
 
   /**
    * A JSON-serialized object for an inline keyboard.
@@ -3105,6 +3125,11 @@ export type EditMessageCaptionOption = EditOption & {
 
 export type EditMessageMediaOption = EditOption & {
   /**
+   * A JSON-serialized object for a new media content of the message
+   */
+  media: InputMedia;
+
+  /**
    * A JSON-serialized object for an inline keyboard.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -3113,9 +3138,7 @@ export type EditMessageMediaOption = EditOption & {
   replyMarkup?: InlineKeyboardMarkup;
 };
 
-export type EditMessageReplyMarkupOption = EditOption;
-
-export type StopPollOption = {
+export type EditMessageReplyMarkupOption = EditOption & {
   /**
    * A JSON-serialized object for an inline keyboard.
    *
@@ -3123,6 +3146,38 @@ export type StopPollOption = {
    * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
    */
   replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type StopPollOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Identifier of the original message with the poll
+   */
+  messageId: number;
+
+  /**
+   * A JSON-serialized object for an inline keyboard.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   */
+  replyMarkup?: InlineKeyboardMarkup;
+};
+
+export type DeleteMessageOption = {
+  /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Identifier of the message to delete
+   */
+  messageId: number;
 };
 
 export type SendStickerOption = {

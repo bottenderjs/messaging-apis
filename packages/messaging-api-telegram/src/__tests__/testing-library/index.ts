@@ -7,6 +7,7 @@ import { requestHandlers as commandRequestHandlers } from './command';
 import { constants, getCurrentContext } from './shared';
 import { requestHandlers as gettingUpdateRequestHandlers } from './gettingUpdate';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as updatingMessageRequestHandlers } from './updatingMessage';
 
 /**
  * Sets up a mock Telegram server.
@@ -161,7 +162,8 @@ export function setupTelegramServer(): SetupServerApi {
         );
       }
     ),
-    ...commandRequestHandlers
+    ...commandRequestHandlers,
+    ...updatingMessageRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
