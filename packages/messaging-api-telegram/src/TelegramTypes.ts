@@ -3270,6 +3270,16 @@ export type SetStickerSetThumbOption = {
 
 export type AnswerInlineQueryOption = {
   /**
+   * Unique identifier for the answered query
+   */
+  inlineQueryId: string;
+
+  /**
+   * A JSON-serialized array of results for the inline query
+   */
+  results: InlineQueryResult[];
+
+  /**
    * The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
    */
   cacheTime?: number;

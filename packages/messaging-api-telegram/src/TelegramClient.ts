@@ -3338,9 +3338,41 @@ export default class TelegramClient {
   /**
    * Use this method to send answers to an inline query. No more than 50 results per query are allowed.
    *
+   * @param options - Options for other optional parameters.
+   * @returns On success, True is returned.
+   * @see https://core.telegram.org/bots/api#answerinlinequery
+   * @example
+   * ```js
+   * await telegram.answerInlineQuery(
+   *   inlineQueryId: 'INLINE_QUERY_ID',
+   *   results: [
+   *     {
+   *       type: 'photo',
+   *       id: 'UNIQUE_ID',
+   *       photoFileId: 'FILE_ID',
+   *       title: 'PHOTO_TITLE',
+   *     },
+   *     {
+   *       type: 'audio',
+   *       id: 'UNIQUE_ID',
+   *       audioFileId: 'FILE_ID',
+   *       caption: 'AUDIO_TITLE',
+   *     },
+   *   ],
+   *   cacheTime: 1000,
+   * });
+   * ```
+   */
+  answerInlineQuery(
+    options: TelegramTypes.AnswerInlineQueryOption
+  ): Promise<boolean>;
+
+  /**
+   * Use this method to send answers to an inline query. No more than 50 results per query are allowed.
+   *
    * @param inlineQueryId - Unique identifier for the answered query
    * @param results - A JSON-serialized array of results for the inline query
-   * @param options - Optional parameters for other parameters.
+   * @param options - Options for other optional parameters.
    * @returns On success, True is returned.
    * @see https://core.telegram.org/bots/api#answerinlinequery
    * @example
@@ -3370,13 +3402,26 @@ export default class TelegramClient {
   answerInlineQuery(
     inlineQueryId: string,
     results: TelegramTypes.InlineQueryResult[],
+    options?: Omit<
+      TelegramTypes.AnswerInlineQueryOption,
+      'inlineQueryId' | 'results'
+    >
+  ): Promise<boolean>;
+
+  answerInlineQuery(
+    inlineQueryIdOrOptions: string | TelegramTypes.AnswerInlineQueryOption,
+    results?: TelegramTypes.InlineQueryResult[],
     options?: TelegramTypes.AnswerInlineQueryOption
   ): Promise<boolean> {
-    return this.request('/answerInlineQuery', {
-      inlineQueryId,
-      results,
-      ...options,
-    });
+    const data =
+      typeof inlineQueryIdOrOptions === 'object'
+        ? inlineQueryIdOrOptions
+        : {
+            inlineQueryId: inlineQueryIdOrOptions,
+            results,
+            ...options,
+          };
+    return this.request('/answerInlineQuery', data);
   }
 
   /**
@@ -3388,7 +3433,6 @@ export default class TelegramClient {
    * @returns On success, the sent Message is returned.
    * @see https://core.telegram.org/bots/api#sendinvoice
    * @example
-   *
    * ```js
    * await telegram.sendInvoice(CHAT_ID, {
    *   title: 'product name',
@@ -3424,7 +3468,6 @@ export default class TelegramClient {
    * @param options - Options for other optional parameters.
    * @see https://core.telegram.org/bots/api#answershippingquery
    * @example
-   *
    * ```js
    * await telegram.answerShippingQuery('UNIQUE_ID', true);
    * ```
@@ -3448,11 +3491,8 @@ export default class TelegramClient {
    * @param ok - Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
    * @param options - Optional parameters for other parameters.
    * @returns On success, True is returned.
-   *
    * @see https://core.telegram.org/bots/api#answerprecheckoutquery
-   *
    * @example
-   *
    * ```js
    * await telegram.answerPreCheckoutQuery('UNIQUE_ID', true);
    * ```
@@ -3481,11 +3521,8 @@ export default class TelegramClient {
    * @param gameShortName - Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
-   *
    * @see https://core.telegram.org/bots/api#sendgame
-   *
    * @example
-   *
    * ```js
    * await telegram.sendGame(CHAT_ID, 'Mario Bros.', {
    *   disableNotification: true,
@@ -3511,11 +3548,8 @@ export default class TelegramClient {
    * @param score - New score, must be non-negative
    * @param options - Options for other optional parameters.
    * @returns On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
-   *
    * @see https://core.telegram.org/bots/api#setgamescore
-   *
    * @example
-   *
    * ```js
    * await telegram.setGameScore(USER_ID, 999);
    * ```
@@ -3540,11 +3574,8 @@ export default class TelegramClient {
    * @param userId - Target user id
    * @param options - Optional parameters for other parameters.
    * @returns Will return the score of the specified user and several of his neighbors in a game. On success, returns an Array of GameHighScore objects.
-   *
    * @see https://core.telegram.org/bots/api#getgamehighscores
-   *
    * @example
-   *
    * ```js
    * await telegram.getGameHighScores(USER_ID);
    * // [
