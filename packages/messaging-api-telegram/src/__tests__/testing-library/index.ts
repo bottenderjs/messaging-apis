@@ -7,6 +7,7 @@ import { requestHandlers as commandRequestHandlers } from './command';
 import { constants, getCurrentContext } from './shared';
 import { requestHandlers as gettingUpdateRequestHandlers } from './gettingUpdate';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as stickerRequestHandlers } from './sticker';
 import { requestHandlers as updatingMessageRequestHandlers } from './updatingMessage';
 
 /**
@@ -163,7 +164,8 @@ export function setupTelegramServer(): SetupServerApi {
       }
     ),
     ...commandRequestHandlers,
-    ...updatingMessageRequestHandlers
+    ...updatingMessageRequestHandlers,
+    ...stickerRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
