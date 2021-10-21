@@ -3182,6 +3182,16 @@ export type DeleteMessageOption = {
 
 export type SendStickerOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data.
+   */
+  sticker: string;
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -3192,6 +3202,11 @@ export type SendStickerOption = {
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
 
   /**
    * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -3208,6 +3223,49 @@ export type SendStickerOption = {
     | ReplyKeyboardMarkup
     | ReplyKeyboardRemove
     | ForceReply;
+};
+
+export type GetStickerSetOption = {
+  /**
+   * Name of the sticker set
+   */
+  name: string;
+};
+
+export type SetStickerPositionInSetOption = {
+  /**
+   * File identifier of the sticker
+   */
+  sticker: string;
+
+  /**
+   * New sticker position in the set, zero-based
+   */
+  position: number;
+};
+
+export type DeleteStickerFromSetOption = {
+  /**
+   * File identifier of the sticker
+   */
+  sticker: string;
+};
+
+export type SetStickerSetThumbOption = {
+  /**
+   * Name of the sticker set
+   */
+  name: string;
+
+  /**
+   * User identifier of the sticker set owner
+   */
+  userId: number;
+
+  /**
+   * A PNG image with the thumbnail, must be up to 128 kilobytes in size and have width and height exactly 100px, or a TGS animation with the thumbnail up to 32 kilobytes in size
+   */
+  thumb: string;
 };
 
 export type AnswerInlineQueryOption = {
@@ -3493,6 +3551,36 @@ export type GetGameHighScoresOption = EditOption;
 
 export type CreateNewStickerSetOption = {
   /**
+   * User identifier of created sticker set owner
+   */
+  userId: number;
+
+  /**
+   * Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
+   */
+  name: string;
+
+  /**
+   * Sticker set title, 1-64 characters
+   */
+  title: string;
+
+  /**
+   * PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+   */
+  pngSticker?: string;
+
+  /**
+   * Not supported yet.
+   */
+  tgsSticker?: Buffer;
+
+  /**
+   * One or more emoji corresponding to the sticker
+   */
+  emojis: string;
+
+  /**
    * Pass True, if a set of mask stickers should be created
    */
   containsMasks?: boolean;
@@ -3504,6 +3592,31 @@ export type CreateNewStickerSetOption = {
 };
 
 export type AddStickerToSetOption = {
+  /**
+   * User identifier of sticker set owner
+   */
+  userId: number;
+
+  /**
+   * Sticker set name
+   */
+  name: string;
+
+  /**
+   * 	PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+   */
+  pngSticker?: string;
+
+  /**
+   * Not supported yet.
+   */
+  tgsSticker?: Buffer;
+
+  /**
+   * One or more emoji corresponding to the sticker
+   */
+  emojis: string;
+
   /**
    * A JSON-serialized object for position where the mask should be placed on faces
    */

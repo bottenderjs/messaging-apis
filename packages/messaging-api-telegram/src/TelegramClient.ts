@@ -3074,13 +3074,31 @@ export default class TelegramClient {
   /**
    * Use this method to send static .WEBP or animated .TGS stickers.
    *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendsticker
+   * @example
+   * ```js
+   * await telegram.sendSticker({
+   *   chatId: CHAT_ID,
+   *   sticker: 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendSticker(
+    options: TelegramTypes.SendStickerOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send static .WEBP or animated .TGS stickers.
+   *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
    * @param sticker - Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), or pass an HTTP URL as a String for Telegram to get a .webp file from the Internet. Upload file is not supported yet.
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
    * @see https://core.telegram.org/bots/api#sendsticker
    * @example
-   *
    * ```js
    * await telegram.sendSticker(CHAT_ID, 'CAADAgADQAADyIsGAAE7MpzFPFQX5QI', {
    *   disableNotification: true,
@@ -3090,14 +3108,39 @@ export default class TelegramClient {
   sendSticker(
     chatId: string | number,
     sticker: string,
-    options?: TelegramTypes.SendStickerOption
+    options?: Omit<TelegramTypes.SendStickerOption, 'chatId' | 'sticker'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendSticker(
+    chatIdOrOptions: string | number | TelegramTypes.SendStickerOption,
+    sticker?: string,
+    options?: Omit<TelegramTypes.SendStickerOption, 'chatId' | 'sticker'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendSticker', {
-      chatId,
-      sticker,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            sticker,
+            ...options,
+          };
+    return this.request('/sendSticker', data);
   }
+
+  /**
+   * Use this method to get a sticker set.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, a StickerSet object is returned.
+   * @see https://core.telegram.org/bots/api#getstickerset
+   * @example
+   * ```js
+   * await telegram.getStickerSet({ name: 'sticker set name' });
+   * ```
+   */
+  getStickerSet(
+    options: TelegramTypes.GetStickerSetOption
+  ): Promise<TelegramTypes.StickerSet>;
 
   /**
    * Use this method to get a sticker set.
@@ -3107,10 +3150,21 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#getstickerset
    * @example
    * ```js
+   * await telegram.getStickerSet('sticker set name');
    * ```
    */
-  getStickerSet(name: string): Promise<TelegramTypes.StickerSet> {
-    return this.request('/getStickerSet', { name });
+  getStickerSet(name: string): Promise<TelegramTypes.StickerSet>;
+
+  getStickerSet(
+    nameOrOptions: string | TelegramTypes.GetStickerSetOption
+  ): Promise<TelegramTypes.StickerSet> {
+    const data =
+      typeof nameOrOptions === 'object'
+        ? nameOrOptions
+        : {
+            name: nameOrOptions,
+          };
+    return this.request('/getStickerSet', data);
   }
 
   /**
@@ -3121,30 +3175,24 @@ export default class TelegramClient {
   /**
    * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
    *
-   * @param userId - User identifier of created sticker set owner
-   * @param name - Short name of sticker set, to be used in `t.me/addstickers/` URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in `_by_<bot username>`. `<bot_username>` is case insensitive. 1-64 characters.
-   * @param title - Sticker set title, 1-64 characters
-   * @param pngSticker - Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
+   * @param options - Options for other optional parameters.
    * @returns Returns True on success.
    * @see https://core.telegram.org/bots/api#createnewstickerset
    * @example
    * ```js
+   * await telegram.createNewStickerSet({
+   *   userId: 1,
+   *   name: 'sticker_set_name',
+   *   title: 'title',
+   *   pngSticker: 'https://example.com/sticker.png',
+   *   emojis: '💛',
+   * });
    * ```
    */
   createNewStickerSet(
-    userId: number,
-    name: string,
-    title: string,
-    pngSticker: string,
-    emojis: string,
-    options?: TelegramTypes.CreateNewStickerSetOption
+    options: TelegramTypes.CreateNewStickerSetOption
   ): Promise<boolean> {
     return this.request('/createNewStickerSet', {
-      userId,
-      name,
-      title,
-      pngSticker,
-      emojis,
       ...options,
     });
   }
@@ -3152,35 +3200,44 @@ export default class TelegramClient {
   /**
    * Use this method to add a new sticker to a set created by the bot.
    *
-   * @param userId - User identifier of sticker set owner
-   * @param name - Sticker set name
-   * @param pngSticker - Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet. Upload file is not supported yet.
-   * @param emojis - One or more emoji corresponding to the sticker
    * @param options - Options for other optional parameters.
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#addstickertoset
-   *
    * @example
-   *
    * ```js
+   * await telegram.addStickerToSet({
+   *   userId: 1,
+   *   name: 'sticker_set_name',
+   *   pngSticker: 'https://example.com/sticker.png',
+   *   emojis: '💛',
+   * });
    * ```
    */
   addStickerToSet(
-    userId: number,
-    name: string,
-    pngSticker: string,
-    emojis: string,
-    options?: TelegramTypes.AddStickerToSetOption
+    options: TelegramTypes.AddStickerToSetOption
   ): Promise<boolean> {
     return this.request('/addStickerToSet', {
-      userId,
-      name,
-      pngSticker,
-      emojis,
       ...options,
     });
   }
+
+  /**
+   * Use this method to move a sticker in a set created by the bot to a specific position.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setstickerpositioninset
+   * @example
+   * ```js
+   * await telegram.setStickerPositionInSet({
+   *   sticker: 'CAADBAADQwEAAhA1aAABVQO2hjT7dSEWB',
+   *   position: 0,
+   * });
+   * ```
+   */
+  setStickerPositionInSet(
+    options: TelegramTypes.SetStickerPositionInSetOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to move a sticker in a set created by the bot to a specific position.
@@ -3191,30 +3248,91 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#setstickerpositioninset
    * @example
    * ```js
+   * await telegram.setStickerPositionInSet(
+   *   'CAADBAADQwEAAhA1aAABVQO2hjT7dSEWB',
+   *   0
+   * );
    * ```
    */
-  setStickerPositionInSet(sticker: string, position: number): Promise<boolean> {
-    return this.request('setStickerPositionInSet', {
-      sticker,
-      position,
-    });
+  setStickerPositionInSet(sticker: string, position: number): Promise<boolean>;
+
+  setStickerPositionInSet(
+    stickerOrOptions: string | TelegramTypes.SetStickerPositionInSetOption,
+    position?: number
+  ): Promise<boolean> {
+    const data =
+      typeof stickerOrOptions === 'object'
+        ? stickerOrOptions
+        : {
+            sticker: stickerOrOptions,
+            position,
+          };
+    return this.request('setStickerPositionInSet', data);
   }
+
+  /**
+   * Use this method to delete a sticker from a set created by the bot.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#deletestickerfromset
+   * @example
+   * ```js
+   * await telegram.deleteStickerFromSet({
+   *   sticker: 'CAADBAADQwEAAhA1aAABVQO2hjT7dSEWB'
+   * });
+   * ```
+   */
+  deleteStickerFromSet(
+    options: TelegramTypes.DeleteStickerFromSetOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to delete a sticker from a set created by the bot.
    *
    * @param sticker - File identifier of the sticker
    * @returns Returns True on success.
-   *
    * @see https://core.telegram.org/bots/api#deletestickerfromset
-   *
    * @example
-   *
    * ```js
+   * await telegram.deleteStickerFromSet(
+   *   'CAADBAADQwEAAhA1aAABVQO2hjT7dSEWB'
+   * );
    * ```
    */
-  deleteStickerFromSet(sticker: string): Promise<boolean> {
-    return this.request('/deleteStickerFromSet', { sticker });
+  deleteStickerFromSet(sticker: string): Promise<boolean>;
+
+  deleteStickerFromSet(
+    stickerOrOptions: string | TelegramTypes.DeleteStickerFromSetOption
+  ): Promise<boolean> {
+    const data =
+      typeof stickerOrOptions === 'object'
+        ? stickerOrOptions
+        : {
+            sticker: stickerOrOptions,
+          };
+    return this.request('/deleteStickerFromSet', data);
+  }
+
+  /**
+   * Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns Returns True on success.
+   * @see https://core.telegram.org/bots/api#setstickersetthumb
+   * @example
+   * ```js
+   * await telegram.setStickerSetThumb({
+   *   name: 'sticker_set_name',
+   *   userId: 1,
+   *   thumb: 'thumb',
+   * });
+   * ```
+   */
+  setStickerSetThumb(
+    options: TelegramTypes.SetStickerSetThumbOption
+  ): Promise<boolean> {
+    return this.request('/setStickerSetThumb', { ...options });
   }
 
   /**
@@ -3224,11 +3342,8 @@ export default class TelegramClient {
    * @param results - A JSON-serialized array of results for the inline query
    * @param options - Optional parameters for other parameters.
    * @returns On success, True is returned.
-   *
    * @see https://core.telegram.org/bots/api#answerinlinequery
-   *
    * @example
-   *
    * ```js
    * await telegram.answerInlineQuery(
    *   'INLINE_QUERY_ID',
