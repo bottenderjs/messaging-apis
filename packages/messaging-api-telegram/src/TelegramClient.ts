@@ -1,5 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
-import isPlainObject from 'lodash/isPlainObject';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import {
   OnRequestFunction,
   camelcaseKeysDeep,
@@ -15,22 +14,52 @@ type DistributiveOmit<T, K extends keyof any> = T extends any
   ? Omit<T, K>
   : never;
 
+function throwErrorIfAny(response: AxiosResponse): AxiosResponse {
+  const { ok, errorCode, description } = response.data;
+  if (ok) return response;
+  const msg = `Telegram API - ${errorCode} ${description ?? ''}`;
+  throw new PrintableAxiosError(msg, {
+    response,
+    config: response.config,
+    request: response.request,
+  });
+}
+
+function wrapPrintableAxiosError(err: unknown) {
+  return Promise.reject(
+    axios.isAxiosError(err)
+      ? new PrintableAxiosError(`Telegram API - ${err.message}`, err)
+      : err
+  );
+}
+
 export default class TelegramClient {
   /**
    * The underlying axios instance.
    */
-  readonly axios: AxiosInstance;
+  public readonly axios: AxiosInstance;
 
   /**
    * The access token used by the client.
    */
-  readonly accessToken: string;
+  private accessToken: string;
 
   /**
    * The callback to be called when receiving requests.
    */
   private onRequest?: OnRequestFunction;
 
+  /**
+   * The constructor of TelegramClient.
+   *
+   * @param config - the config object
+   * @example
+   * ```js
+   * const telegram = new TelegramClient({
+   *   accessToken: TELEGRAM_BOT_TOKEN,
+   * });
+   * ```
+   */
   constructor(config: TelegramTypes.ClientConfig) {
     this.accessToken = config.accessToken;
     this.onRequest = config.onRequest;
@@ -43,6 +72,33 @@ export default class TelegramClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      transformRequest: [
+        (data, headers) => {
+          if (headers['Content-Type'] !== 'application/json' || !data) {
+            return data;
+          }
+
+          return snakecaseKeysDeep(data);
+        },
+        // eslint-disable-next-line no-nested-ternary
+        ...(Array.isArray(axios.defaults.transformRequest)
+          ? axios.defaults.transformRequest
+          : axios.defaults.transformRequest !== undefined
+          ? [axios.defaults.transformRequest]
+          : []),
+      ],
+      transformResponse: [
+        // eslint-disable-next-line no-nested-ternary
+        ...(Array.isArray(axios.defaults.transformResponse)
+          ? axios.defaults.transformResponse
+          : axios.defaults.transformResponse !== undefined
+          ? [axios.defaults.transformResponse]
+          : []),
+        (data, headers) => {
+          if (headers['content-type'] !== 'application/json') return data;
+          return camelcaseKeysDeep(data);
+        },
+      ],
     });
 
     this.axios.interceptors.request.use(
@@ -50,38 +106,18 @@ export default class TelegramClient {
         onRequest: this.onRequest,
       })
     );
+
+    this.axios.interceptors.response.use(
+      throwErrorIfAny,
+      wrapPrintableAxiosError
+    );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async request(path: string, body: Record<string, any> = {}) {
-    try {
-      const response = await this.axios.post(path, snakecaseKeysDeep(body));
+    const response = await this.axios.post(path, body);
 
-      const { data, config, request } = response;
-
-      if (!data.ok) {
-        throw new PrintableAxiosError(
-          `Telegram API - ${data.description ?? ''}`,
-          {
-            config,
-            request,
-            response,
-          }
-        );
-      }
-
-      if (isPlainObject(data.result) || Array.isArray(data.result)) {
-        return camelcaseKeysDeep(data.result);
-      }
-      return data.result;
-    } catch (err: any) {
-      if (err.response && err.response.data) {
-        const { error_code, description } = err.response.data;
-        const msg = `Telegram API - ${error_code} ${description ?? ''}`;
-
-        throw new PrintableAxiosError(msg, err);
-      }
-      throw new PrintableAxiosError(err.message, err);
-    }
+    return response.data.result;
   }
 
   /**
@@ -121,7 +157,7 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getUpdates(
+  public getUpdates(
     options?: TelegramTypes.GetUpdatesOption
   ): Promise<TelegramTypes.Update[]> {
     return this.request('/getUpdates', { ...options });
@@ -141,14 +177,14 @@ export default class TelegramClient {
    * await telegram.setWebhook('https://4a16faff.ngrok.io/');
    * ```
    */
-  setWebhook(options: TelegramTypes.SetWebhookOption): Promise<boolean>;
+  public setWebhook(options: TelegramTypes.SetWebhookOption): Promise<boolean>;
 
-  setWebhook(
+  public setWebhook(
     url: string,
     options?: Omit<TelegramTypes.SetWebhookOption, 'url'>
   ): Promise<boolean>;
 
-  setWebhook(
+  public setWebhook(
     urlOrOptions: string | TelegramTypes.SetWebhookOption,
     options?: Omit<TelegramTypes.SetWebhookOption, 'url'>
   ): Promise<boolean> {
@@ -172,7 +208,9 @@ export default class TelegramClient {
    * await telegram.deleteWebhook();
    * ```
    */
-  deleteWebhook(options?: TelegramTypes.DeleteWebhookOption): Promise<boolean> {
+  public deleteWebhook(
+    options?: TelegramTypes.DeleteWebhookOption
+  ): Promise<boolean> {
     return this.request('/deleteWebhook', { ...options });
   }
 
@@ -192,7 +230,7 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getWebhookInfo(): Promise<TelegramTypes.WebhookInfo> {
+  public getWebhookInfo(): Promise<TelegramTypes.WebhookInfo> {
     return this.request('/getWebhookInfo');
   }
 
@@ -211,7 +249,7 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getMe(): Promise<boolean> {
+  public getMe(): Promise<boolean> {
     return this.request('/getMe');
   }
 
@@ -225,7 +263,7 @@ export default class TelegramClient {
    * await telegram.logOut();
    * ```
    */
-  logOut(): Promise<boolean> {
+  public logOut(): Promise<boolean> {
     return this.request('/logOut');
   }
 
@@ -239,7 +277,7 @@ export default class TelegramClient {
    * await telegram.close();
    * ```
    */
-  close(): Promise<TelegramTypes.User> {
+  public close(): Promise<TelegramTypes.User> {
     return this.request('/close');
   }
 
@@ -259,7 +297,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendMessage(
+  public sendMessage(
     options: TelegramTypes.SendMessageOption
   ): Promise<TelegramTypes.Message>;
 
@@ -276,13 +314,13 @@ export default class TelegramClient {
    * await telegram.sendMessage(CHAT_ID, 'hi');
    * ```
    */
-  sendMessage(
+  public sendMessage(
     chatId: string | number,
     text: string,
     options?: Omit<TelegramTypes.SendMessageOption, 'chatId' | 'text'>
   ): Promise<TelegramTypes.Message>;
 
-  sendMessage(
+  public sendMessage(
     chatIdOrOptions: string | number | TelegramTypes.SendMessageOption,
     text?: string,
     options?: Omit<TelegramTypes.SendMessageOption, 'chatId' | 'text'>
@@ -314,7 +352,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  forwardMessage(
+  public forwardMessage(
     options: TelegramTypes.ForwardMessageOption
   ): Promise<TelegramTypes.Message>;
 
@@ -332,7 +370,7 @@ export default class TelegramClient {
    * await telegram.forwardMessage(CHAT_ID, USER_ID, MESSAGE_ID);
    * ```
    */
-  forwardMessage(
+  public forwardMessage(
     chatId: string | number,
     fromChatId: string | number,
     messageId: number,
@@ -342,7 +380,7 @@ export default class TelegramClient {
     >
   ): Promise<TelegramTypes.Message>;
 
-  forwardMessage(
+  public forwardMessage(
     chatIdOrOptions: string | number | TelegramTypes.ForwardMessageOption,
     fromChatId?: string | number,
     messageId?: number,
@@ -379,7 +417,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  copyMessage(
+  public copyMessage(
     options: TelegramTypes.CopyMessageOption
   ): Promise<TelegramTypes.MessageId>;
 
@@ -397,7 +435,7 @@ export default class TelegramClient {
    * await telegram.copyMessage(CHAT_ID, USER_ID, MESSAGE_ID);
    * ```
    */
-  copyMessage(
+  public copyMessage(
     chatId: string | number,
     fromChatId: string | number,
     messageId: number,
@@ -407,7 +445,7 @@ export default class TelegramClient {
     >
   ): Promise<TelegramTypes.MessageId>;
 
-  copyMessage(
+  public copyMessage(
     chatIdOrOptions: string | number | TelegramTypes.CopyMessageOption,
     fromChatId?: string | number,
     messageId?: number,
@@ -444,7 +482,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendPhoto(
+  public sendPhoto(
     options: TelegramTypes.SendPhotoOption
   ): Promise<TelegramTypes.Message>;
 
@@ -461,13 +499,13 @@ export default class TelegramClient {
    * await telegram.sendPhoto(CHAT_ID, 'https://example.com/image.png');
    * ```
    */
-  sendPhoto(
+  public sendPhoto(
     chatId: string | number,
     photo: string,
     options?: Omit<TelegramTypes.SendPhotoOption, 'chatId' | 'photo'>
   ): Promise<TelegramTypes.Message>;
 
-  sendPhoto(
+  public sendPhoto(
     chatIdOrOptions: string | number | TelegramTypes.SendPhotoOption,
     photo?: string,
     options?: Omit<TelegramTypes.SendPhotoOption, 'chatId' | 'photo'>
@@ -501,7 +539,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendAudio(
+  public sendAudio(
     options: TelegramTypes.SendAudioOption
   ): Promise<TelegramTypes.Message>;
 
@@ -520,13 +558,13 @@ export default class TelegramClient {
    * await telegram.sendAudio(CHAT_ID, 'https://example.com/audio.mp3');
    * ```
    */
-  sendAudio(
+  public sendAudio(
     chatId: string | number,
     audio: string,
     options?: Omit<TelegramTypes.SendAudioOption, 'chatId' | 'audio'>
   ): Promise<TelegramTypes.Message>;
 
-  sendAudio(
+  public sendAudio(
     chatIdOrOptions: string | number | TelegramTypes.SendAudioOption,
     audio?: string,
     options?: Omit<TelegramTypes.SendAudioOption, 'chatId' | 'audio'>
@@ -558,7 +596,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendDocument(
+  public sendDocument(
     options: TelegramTypes.SendDocumentOption
   ): Promise<TelegramTypes.Message>;
 
@@ -575,13 +613,13 @@ export default class TelegramClient {
    * await telegram.sendDocument(CHAT_ID, 'https://example.com/doc.gif');
    * ```
    */
-  sendDocument(
+  public sendDocument(
     chatId: string | number,
     document: string,
     options?: Omit<TelegramTypes.SendDocumentOption, 'chatId' | 'document'>
   ): Promise<TelegramTypes.Message>;
 
-  sendDocument(
+  public sendDocument(
     chatIdOrOptions: string | number | TelegramTypes.SendDocumentOption,
     document?: string,
     options?: Omit<TelegramTypes.SendDocumentOption, 'chatId' | 'document'>
@@ -613,7 +651,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendVideo(
+  public sendVideo(
     options: TelegramTypes.SendVideoOption
   ): Promise<TelegramTypes.Message>;
 
@@ -630,13 +668,13 @@ export default class TelegramClient {
    * await telegram.sendVideo(CHAT_ID, 'https://example.com/video.mp4');
    * ```
    */
-  sendVideo(
+  public sendVideo(
     chatId: string | number,
     video: string,
     options?: Omit<TelegramTypes.SendVideoOption, 'chatId' | 'video'>
   ): Promise<TelegramTypes.Message>;
 
-  sendVideo(
+  public sendVideo(
     chatIdOrOptions: string | number | TelegramTypes.SendVideoOption,
     video?: string,
     options?: Omit<TelegramTypes.SendVideoOption, 'chatId' | 'video'>
@@ -668,7 +706,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendAnimation(
+  public sendAnimation(
     options: TelegramTypes.SendAnimationOption
   ): Promise<TelegramTypes.Message>;
 
@@ -686,13 +724,13 @@ export default class TelegramClient {
    * ```
    */
 
-  sendAnimation(
+  public sendAnimation(
     chatId: string | number,
     animation: string,
     options?: Omit<TelegramTypes.SendAnimationOption, 'chatId' | 'animation'>
   ): Promise<TelegramTypes.Message>;
 
-  sendAnimation(
+  public sendAnimation(
     chatIdOrOptions: string | number | TelegramTypes.SendAnimationOption,
     animation?: string,
     options?: Omit<TelegramTypes.SendAnimationOption, 'chatId' | 'animation'>
@@ -724,7 +762,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendVoice(
+  public sendVoice(
     options: TelegramTypes.SendVoiceOption
   ): Promise<TelegramTypes.Message>;
 
@@ -741,13 +779,13 @@ export default class TelegramClient {
    * await telegram.sendVoice(CHAT_ID, 'https://example.com/voice.ogg');
    * ```
    */
-  sendVoice(
+  public sendVoice(
     chatId: string | number,
     voice: string,
     options?: Omit<TelegramTypes.SendVoiceOption, 'chatId' | 'voice'>
   ): Promise<TelegramTypes.Message>;
 
-  sendVoice(
+  public sendVoice(
     chatIdOrOptions: string | number | TelegramTypes.SendVoiceOption,
     voice?: string,
     options?: Omit<TelegramTypes.SendVoiceOption, 'chatId' | 'voice'>
@@ -779,7 +817,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendVideoNote(
+  public sendVideoNote(
     options: TelegramTypes.SendVideoNoteOption
   ): Promise<TelegramTypes.Message>;
 
@@ -799,13 +837,13 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendVideoNote(
+  public sendVideoNote(
     chatId: string | number,
     videoNote: string,
     options?: Omit<TelegramTypes.SendVideoNoteOption, 'chatId' | 'videoNote'>
   ): Promise<TelegramTypes.Message>;
 
-  sendVideoNote(
+  public sendVideoNote(
     chatIdOrOptions: string | number | TelegramTypes.SendVideoNoteOption,
     videoNote?: string,
     options?: Omit<TelegramTypes.SendVideoNoteOption, 'chatId' | 'videoNote'>
@@ -837,7 +875,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendMediaGroup(
+  public sendMediaGroup(
     options: TelegramTypes.SendMediaGroupOption
   ): Promise<TelegramTypes.Message[]>;
 
@@ -856,13 +894,13 @@ export default class TelegramClient {
    * ]);
    * ```
    */
-  sendMediaGroup(
+  public sendMediaGroup(
     chatId: string | number,
     media: (TelegramTypes.InputMediaPhoto | TelegramTypes.InputMediaVideo)[],
     options?: Omit<TelegramTypes.SendMediaGroupOption, 'chatId' | 'media'>
   ): Promise<TelegramTypes.Message[]>;
 
-  sendMediaGroup(
+  public sendMediaGroup(
     chatIdOrOptions: string | number | TelegramTypes.SendMediaGroupOption,
     media?: (TelegramTypes.InputMediaPhoto | TelegramTypes.InputMediaVideo)[],
     options?: Omit<TelegramTypes.SendMediaGroupOption, 'chatId' | 'media'>
@@ -894,7 +932,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendLocation(
+  public sendLocation(
     options: TelegramTypes.SendLocationOption
   ): Promise<TelegramTypes.Message>;
 
@@ -917,12 +955,12 @@ export default class TelegramClient {
    * );
    * ```
    */
-  sendLocation(
+  public sendLocation(
     chatId: string | number,
     options: Omit<TelegramTypes.SendLocationOption, 'chatId'>
   ): Promise<TelegramTypes.Message>;
 
-  sendLocation(
+  public sendLocation(
     chatIdOrOptions: string | number | TelegramTypes.SendLocationOption,
     options?: Omit<TelegramTypes.SendLocationOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
@@ -950,7 +988,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editMessageLiveLocation(
+  public editMessageLiveLocation(
     options: TelegramTypes.EditMessageLiveLocationOption
   ): Promise<TelegramTypes.Message | boolean> {
     return this.request('/editMessageLiveLocation', { ...options });
@@ -966,7 +1004,7 @@ export default class TelegramClient {
    * await telegram.stopMessageLiveLocation({ messageId: MESSAGE_ID });
    * ```
    */
-  stopMessageLiveLocation(
+  public stopMessageLiveLocation(
     options: TelegramTypes.StopMessageLiveLocationOption
   ): Promise<TelegramTypes.Message | boolean> {
     return this.request('/stopMessageLiveLocation', { ...options });
@@ -990,7 +1028,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendVenue(
+  public sendVenue(
     options: TelegramTypes.SendVenueOption
   ): Promise<TelegramTypes.Message>;
 
@@ -1015,12 +1053,12 @@ export default class TelegramClient {
    * );
    * ```
    */
-  sendVenue(
+  public sendVenue(
     chatId: string | number,
     options: Omit<TelegramTypes.SendVenueOption, 'chatId'>
   ): Promise<TelegramTypes.Message>;
 
-  sendVenue(
+  public sendVenue(
     chatIdOrOptions: string | number | TelegramTypes.SendVenueOption,
     options?: Omit<TelegramTypes.SendVenueOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
@@ -1050,7 +1088,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendContact(
+  public sendContact(
     options: TelegramTypes.SendContactOption
   ): Promise<TelegramTypes.Message>;
 
@@ -1070,12 +1108,12 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendContact(
+  public sendContact(
     chatId: string | number,
     options: Omit<TelegramTypes.SendContactOption, 'chatId'>
   ): Promise<TelegramTypes.Message>;
 
-  sendContact(
+  public sendContact(
     chatIdOrOptions: string | number | TelegramTypes.SendContactOption,
     options?: Omit<TelegramTypes.SendContactOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
@@ -1105,7 +1143,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendPoll(
+  public sendPoll(
     options: TelegramTypes.SendPollOption
   ): Promise<TelegramTypes.Message>;
 
@@ -1123,7 +1161,7 @@ export default class TelegramClient {
    * await telegram.sendPoll(CHAT_ID, 'question?', ['A', 'B']);
    * ```
    */
-  sendPoll(
+  public sendPoll(
     chatId: string | number,
     question: string,
     options: string[],
@@ -1133,7 +1171,7 @@ export default class TelegramClient {
     >
   ): Promise<TelegramTypes.Message>;
 
-  sendPoll(
+  public sendPoll(
     chatIdOrOptions: string | number | TelegramTypes.SendPollOption,
     question?: string,
     options?: string[],
@@ -1168,7 +1206,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendDice(
+  public sendDice(
     options: TelegramTypes.SendDiceOption
   ): Promise<TelegramTypes.Message>;
 
@@ -1184,12 +1222,12 @@ export default class TelegramClient {
    * await telegram.sendDice(CHAT_ID, { emoji: '🎯' });
    * ```
    */
-  sendDice(
+  public sendDice(
     chatId: string | number,
     options?: Omit<TelegramTypes.SendDiceOption, 'chatId'>
   ): Promise<TelegramTypes.Message>;
 
-  sendDice(
+  public sendDice(
     chatIdOrOptions: string | number | TelegramTypes.SendDiceOption,
     options?: Omit<TelegramTypes.SendDiceOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
@@ -1219,7 +1257,9 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendChatAction(options: TelegramTypes.SendChatActionOption): Promise<boolean>;
+  public sendChatAction(
+    options: TelegramTypes.SendChatActionOption
+  ): Promise<boolean>;
 
   /**
    * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
@@ -1235,12 +1275,12 @@ export default class TelegramClient {
    * await telegram.sendChatAction(CHAT_ID, 'typing');
    * ```
    */
-  sendChatAction(
+  public sendChatAction(
     chatId: string | number,
     action: TelegramTypes.ChatAction
   ): Promise<boolean>;
 
-  sendChatAction(
+  public sendChatAction(
     chatIdOrOptions: string | number | TelegramTypes.SendChatActionOption,
     action?: TelegramTypes.ChatAction
   ): Promise<boolean> {
@@ -1286,7 +1326,7 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getUserProfilePhotos(
+  public getUserProfilePhotos(
     options: TelegramTypes.GetUserProfilePhotosOption
   ): Promise<TelegramTypes.UserProfilePhotos>;
 
@@ -1323,12 +1363,12 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getUserProfilePhotos(
+  public getUserProfilePhotos(
     userId: number,
     options?: Omit<TelegramTypes.GetUserProfilePhotosOption, 'userId'>
   ): Promise<TelegramTypes.UserProfilePhotos>;
 
-  getUserProfilePhotos(
+  public getUserProfilePhotos(
     userIdOrOptions: number | TelegramTypes.GetUserProfilePhotosOption,
     options?: Omit<TelegramTypes.GetUserProfilePhotosOption, 'userId'>
   ): Promise<TelegramTypes.UserProfilePhotos> {
@@ -1358,11 +1398,13 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getFile(options: TelegramTypes.GetFileOption): Promise<TelegramTypes.File>;
+  public getFile(
+    options: TelegramTypes.GetFileOption
+  ): Promise<TelegramTypes.File>;
 
-  getFile(fileId: string): Promise<TelegramTypes.File>;
+  public getFile(fileId: string): Promise<TelegramTypes.File>;
 
-  getFile(
+  public getFile(
     fileIdOrOptions: string | TelegramTypes.GetFileOption
   ): Promise<TelegramTypes.File> {
     const data =
@@ -1389,7 +1431,7 @@ export default class TelegramClient {
    * // 'https://api.telegram.org/file/bot<ACCESS_TOKEN>/photos/1068230105874016297.jpg'
    * ```
    */
-  getFileLink(fileId: string): Promise<string> {
+  public getFileLink(fileId: string): Promise<string> {
     return this.getFile(fileId).then(
       (result) =>
         `https://api.telegram.org/file/bot${this.accessToken}/${result.filePath}`
@@ -1415,7 +1457,9 @@ export default class TelegramClient {
    * });
    * ```
    */
-  banChatMember(options: TelegramTypes.BanChatMemberOption): Promise<boolean>;
+  public banChatMember(
+    options: TelegramTypes.BanChatMemberOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1432,13 +1476,13 @@ export default class TelegramClient {
    * await telegram.banChatMember(CHAT_ID, USER_ID, { untilDate: UNIX_TIME });
    * ```
    */
-  banChatMember(
+  public banChatMember(
     chatId: string | number,
     userId: number,
     options?: Omit<TelegramTypes.BanChatMemberOption, 'chatId' | 'userId'>
   ): Promise<boolean>;
 
-  banChatMember(
+  public banChatMember(
     chatIdOrOptions: string | number | TelegramTypes.BanChatMemberOption,
     userId?: number,
     options?: Omit<TelegramTypes.BanChatMemberOption, 'chatId' | 'userId'>
@@ -1468,7 +1512,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  unbanChatMember(
+  public unbanChatMember(
     options: TelegramTypes.UnbanChatMemberOption
   ): Promise<boolean>;
 
@@ -1485,13 +1529,13 @@ export default class TelegramClient {
    * await telegram.unbanChatMember(CHAT_ID, USER_ID);
    * ```
    */
-  unbanChatMember(
+  public unbanChatMember(
     chatId: string | number,
     userId: number,
     options?: Omit<TelegramTypes.UnbanChatMemberOption, 'chatId' | 'userId'>
   ): Promise<boolean>;
 
-  unbanChatMember(
+  public unbanChatMember(
     chatIdOrOptions: string | number | TelegramTypes.UnbanChatMemberOption,
     userId?: number,
     options?: Omit<TelegramTypes.UnbanChatMemberOption, 'chatId' | 'userId'>
@@ -1522,7 +1566,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  restrictChatMember(
+  public restrictChatMember(
     options: TelegramTypes.RestrictChatMemberOption
   ): Promise<boolean>;
 
@@ -1540,7 +1584,7 @@ export default class TelegramClient {
    * await telegram.restrictChatMember(CHAT_ID, USER_ID, { canSendMessages: true });
    * ```
    */
-  restrictChatMember(
+  public restrictChatMember(
     chatId: string | number,
     userId: number,
     permissions: TelegramTypes.ChatPermissions,
@@ -1550,7 +1594,7 @@ export default class TelegramClient {
     >
   ): Promise<boolean>;
 
-  restrictChatMember(
+  public restrictChatMember(
     chatIdOrOptions: string | number | TelegramTypes.RestrictChatMemberOption,
     userId?: number,
     permissions?: TelegramTypes.ChatPermissions,
@@ -1587,7 +1631,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  promoteChatMember(
+  public promoteChatMember(
     options: TelegramTypes.PromoteChatMemberOption
   ): Promise<boolean>;
 
@@ -1607,13 +1651,13 @@ export default class TelegramClient {
    * });
    * ```
    */
-  promoteChatMember(
+  public promoteChatMember(
     chatId: string | number,
     userId: number,
     options?: Omit<TelegramTypes.PromoteChatMemberOption, 'chatId' | 'userId'>
   ): Promise<boolean>;
 
-  promoteChatMember(
+  public promoteChatMember(
     chatIdOrOptions: string | number | TelegramTypes.PromoteChatMemberOption,
     userId?: number,
     options?: Omit<TelegramTypes.PromoteChatMemberOption, 'chatId' | 'userId'>
@@ -1644,7 +1688,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setChatAdministratorCustomTitle(
+  public setChatAdministratorCustomTitle(
     options: TelegramTypes.SetChatAdministratorCustomTitleOption
   ): Promise<boolean>;
 
@@ -1661,13 +1705,13 @@ export default class TelegramClient {
    * await telegram.setChatAdministratorCustomTitle(CHAT_ID, USER_ID, 'Custom Title');
    * ```
    */
-  setChatAdministratorCustomTitle(
+  public setChatAdministratorCustomTitle(
     chatId: string | number,
     userId: number,
     customTitle: string
   ): Promise<boolean>;
 
-  setChatAdministratorCustomTitle(
+  public setChatAdministratorCustomTitle(
     chatIdOrOptions:
       | string
       | number
@@ -1699,7 +1743,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setChatPermissions(
+  public setChatPermissions(
     options: TelegramTypes.SetChatPermissionsOption
   ): Promise<boolean>;
 
@@ -1717,12 +1761,12 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setChatPermissions(
+  public setChatPermissions(
     chatId: string | number,
     permissions: TelegramTypes.ChatPermissions
   ): Promise<boolean>;
 
-  setChatPermissions(
+  public setChatPermissions(
     chatIdOrOptions: string | number | TelegramTypes.SetChatPermissionsOption,
     permissions?: TelegramTypes.ChatPermissions
   ): Promise<boolean> {
@@ -1749,7 +1793,7 @@ export default class TelegramClient {
    * await telegram.exportChatInviteLink({ chatId: CHAT_ID });
    * ```
    */
-  exportChatInviteLink(
+  public exportChatInviteLink(
     options: TelegramTypes.ExportChatInviteLinkOption
   ): Promise<string>;
 
@@ -1766,9 +1810,9 @@ export default class TelegramClient {
    * await telegram.exportChatInviteLink(CHAT_ID);
    * ```
    */
-  exportChatInviteLink(chatId: string | number): Promise<string>;
+  public exportChatInviteLink(chatId: string | number): Promise<string>;
 
-  exportChatInviteLink(
+  public exportChatInviteLink(
     chatIdOrOptions: string | number | TelegramTypes.ExportChatInviteLinkOption
   ): Promise<string> {
     const data =
@@ -1794,7 +1838,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  createChatInviteLink(
+  public createChatInviteLink(
     options: TelegramTypes.CreateChatInviteLinkOption
   ): Promise<TelegramTypes.ChatInviteLink>;
 
@@ -1812,12 +1856,12 @@ export default class TelegramClient {
    * });
    * ```
    */
-  createChatInviteLink(
+  public createChatInviteLink(
     chatId: string | number,
     options?: Omit<TelegramTypes.CreateChatInviteLinkOption, 'chatId'>
   ): Promise<TelegramTypes.ChatInviteLink>;
 
-  createChatInviteLink(
+  public createChatInviteLink(
     chatIdOrOptions: string | number | TelegramTypes.CreateChatInviteLinkOption,
     options?: Omit<TelegramTypes.CreateChatInviteLinkOption, 'chatId'>
   ): Promise<TelegramTypes.ChatInviteLink> {
@@ -1846,7 +1890,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editChatInviteLink(
+  public editChatInviteLink(
     options: TelegramTypes.EditChatInviteLinkOption
   ): Promise<TelegramTypes.ChatInviteLink>;
 
@@ -1865,7 +1909,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editChatInviteLink(
+  public editChatInviteLink(
     chatId: string | number,
     inviteLink: string,
     options?: Omit<
@@ -1874,7 +1918,7 @@ export default class TelegramClient {
     >
   ): Promise<TelegramTypes.ChatInviteLink>;
 
-  editChatInviteLink(
+  public editChatInviteLink(
     chatIdOrOptions: string | number | TelegramTypes.EditChatInviteLinkOption,
     inviteLink?: string,
     options?: Omit<
@@ -1907,7 +1951,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  revokeChatInviteLink(
+  public revokeChatInviteLink(
     options: TelegramTypes.RevokeChatInviteLinkOption
   ): Promise<TelegramTypes.ChatInviteLink>;
 
@@ -1924,12 +1968,12 @@ export default class TelegramClient {
    * await telegram.revokeChatInviteLink(427770117, 'https://www.example.com/link');
    * ```
    */
-  revokeChatInviteLink(
+  public revokeChatInviteLink(
     chatId: string | number,
     inviteLink: string
   ): Promise<TelegramTypes.ChatInviteLink>;
 
-  revokeChatInviteLink(
+  public revokeChatInviteLink(
     chatIdOrOptions: string | number | TelegramTypes.RevokeChatInviteLinkOption,
     inviteLink?: string
   ): Promise<TelegramTypes.ChatInviteLink> {
@@ -1970,7 +2014,7 @@ export default class TelegramClient {
    * await telegram.deleteChatPhoto({ chatId: CHAT_ID });
    * ```
    */
-  deleteChatPhoto(
+  public deleteChatPhoto(
     options: TelegramTypes.DeleteChatPhotoOption
   ): Promise<boolean>;
 
@@ -1987,9 +2031,9 @@ export default class TelegramClient {
    * await telegram.deleteChatPhoto(CHAT_ID);
    * ```
    */
-  deleteChatPhoto(chatId: string | number): Promise<boolean>;
+  public deleteChatPhoto(chatId: string | number): Promise<boolean>;
 
-  deleteChatPhoto(
+  public deleteChatPhoto(
     chatIdOrOptions: string | number | TelegramTypes.DeleteChatPhotoOption
   ): Promise<boolean> {
     const data =
@@ -2014,7 +2058,9 @@ export default class TelegramClient {
    * await telegram.setChatTitle({ chatId: CHAT_ID, title: 'New Title' });
    * ```
    */
-  setChatTitle(options: TelegramTypes.SetChatTitleOption): Promise<boolean>;
+  public setChatTitle(
+    options: TelegramTypes.SetChatTitleOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -2030,9 +2076,9 @@ export default class TelegramClient {
    * await telegram.setChatTitle(CHAT_ID, 'New Title');
    * ```
    */
-  setChatTitle(chatId: string | number, title: string): Promise<boolean>;
+  public setChatTitle(chatId: string | number, title: string): Promise<boolean>;
 
-  setChatTitle(
+  public setChatTitle(
     chatIdOrOptions: string | number | TelegramTypes.SetChatTitleOption,
     title?: string
   ): Promise<boolean> {
@@ -2060,7 +2106,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setChatDescription(
+  public setChatDescription(
     options: TelegramTypes.SetChatDescriptionOption
   ): Promise<boolean>;
 
@@ -2076,12 +2122,12 @@ export default class TelegramClient {
    * await telegram.setChatDescription(CHAT_ID, 'New Description');
    * ```
    */
-  setChatDescription(
+  public setChatDescription(
     chatId: string | number,
     description: string
   ): Promise<boolean>;
 
-  setChatDescription(
+  public setChatDescription(
     chatIdOrOptions: string | number | TelegramTypes.SetChatDescriptionOption,
     description?: string
   ): Promise<boolean> {
@@ -2110,7 +2156,9 @@ export default class TelegramClient {
    * });
    * ```
    */
-  pinChatMessage(options: TelegramTypes.PinChatMessageOption): Promise<boolean>;
+  public pinChatMessage(
+    options: TelegramTypes.PinChatMessageOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to pin a message in a group, a supergroup, or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
@@ -2125,13 +2173,13 @@ export default class TelegramClient {
    * await telegram.pinChatMessage(CHAT_ID, MESSAGE_ID);
    * ```
    */
-  pinChatMessage(
+  public pinChatMessage(
     chatId: string | number,
     messageId: number,
     options?: Omit<TelegramTypes.PinChatMessageOption, 'chatId' | 'messageId'>
   ): Promise<boolean>;
 
-  pinChatMessage(
+  public pinChatMessage(
     chatIdOrOptions: string | number | TelegramTypes.PinChatMessageOption,
     messageId?: number,
     options?: Omit<TelegramTypes.PinChatMessageOption, 'chatId' | 'messageId'>
@@ -2158,7 +2206,7 @@ export default class TelegramClient {
    * await telegram.unpinChatMessage({ chatId: CHAT_ID, messageId: MESSAGE_ID });
    * ```
    */
-  unpinChatMessage(
+  public unpinChatMessage(
     options: TelegramTypes.UnpinChatMessageOption
   ): Promise<boolean>;
 
@@ -2174,12 +2222,12 @@ export default class TelegramClient {
    * await telegram.unpinChatMessage(CHAT_ID, MESSAGE_ID);
    * ```
    */
-  unpinChatMessage(
+  public unpinChatMessage(
     chatId: string | number,
     messageId?: number
   ): Promise<boolean>;
 
-  unpinChatMessage(
+  public unpinChatMessage(
     chatIdOrOptions: string | number | TelegramTypes.UnpinChatMessageOption,
     messageId?: number
   ): Promise<boolean> {
@@ -2204,7 +2252,7 @@ export default class TelegramClient {
    * await telegram.unpinAllChatMessages({ chatId: CHAT_ID });
    * ```
    */
-  unpinAllChatMessages(
+  public unpinAllChatMessages(
     options: TelegramTypes.UnpinAllChatMessagesOption
   ): Promise<boolean>;
 
@@ -2219,9 +2267,9 @@ export default class TelegramClient {
    * await telegram.unpinAllChatMessages(CHAT_ID);
    * ```
    */
-  unpinAllChatMessages(chatId: string | number): Promise<boolean>;
+  public unpinAllChatMessages(chatId: string | number): Promise<boolean>;
 
-  unpinAllChatMessages(
+  public unpinAllChatMessages(
     chatIdOrOptions: string | number | TelegramTypes.UnpinAllChatMessagesOption
   ): Promise<boolean> {
     const data =
@@ -2244,7 +2292,7 @@ export default class TelegramClient {
    * await telegram.leaveChat({ chatId: CHAT_ID });
    * ```
    */
-  leaveChat(options: TelegramTypes.LeaveChatOption): Promise<boolean>;
+  public leaveChat(options: TelegramTypes.LeaveChatOption): Promise<boolean>;
 
   /**
    * Use this method for your bot to leave a group, supergroup or channel.
@@ -2257,9 +2305,9 @@ export default class TelegramClient {
    * await telegram.leaveChat(CHAT_ID);
    * ```
    */
-  leaveChat(chatId: string | number): Promise<boolean>;
+  public leaveChat(chatId: string | number): Promise<boolean>;
 
-  leaveChat(
+  public leaveChat(
     chatIdOrOptions: string | number | TelegramTypes.LeaveChatOption
   ): Promise<boolean> {
     const data =
@@ -2289,7 +2337,9 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getChat(options: TelegramTypes.GetChatOption): Promise<TelegramTypes.Chat>;
+  public getChat(
+    options: TelegramTypes.GetChatOption
+  ): Promise<TelegramTypes.Chat>;
 
   /**
    * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
@@ -2309,9 +2359,9 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getChat(chatId: string | number): Promise<TelegramTypes.Chat>;
+  public getChat(chatId: string | number): Promise<TelegramTypes.Chat>;
 
-  getChat(
+  public getChat(
     chatIdOrOptions: string | number | TelegramTypes.GetChatOption
   ): Promise<TelegramTypes.Chat> {
     const data =
@@ -2346,7 +2396,7 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getChatAdministrators(
+  public getChatAdministrators(
     options: TelegramTypes.GetChatAdministratorsOption
   ): Promise<TelegramTypes.ChatMember[]>;
 
@@ -2373,11 +2423,11 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getChatAdministrators(
+  public getChatAdministrators(
     chatId: string | number
   ): Promise<TelegramTypes.ChatMember[]>;
 
-  getChatAdministrators(
+  public getChatAdministrators(
     chatIdOrOptions: string | number | TelegramTypes.GetChatAdministratorsOption
   ): Promise<TelegramTypes.ChatMember[]> {
     const data =
@@ -2401,7 +2451,7 @@ export default class TelegramClient {
    * // '6'
    * ```
    */
-  getChatMemberCount(
+  public getChatMemberCount(
     options: TelegramTypes.GetChatMemberCountOption
   ): Promise<number>;
 
@@ -2417,9 +2467,9 @@ export default class TelegramClient {
    * // '6'
    * ```
    */
-  getChatMemberCount(chatId: string | number): Promise<number>;
+  public getChatMemberCount(chatId: string | number): Promise<number>;
 
-  getChatMemberCount(
+  public getChatMemberCount(
     chatIdOrOptions: string | number | TelegramTypes.GetChatMemberCountOption
   ): Promise<number> {
     const data =
@@ -2452,7 +2502,7 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getChatMember(
+  public getChatMember(
     options: TelegramTypes.GetChatMemberOption
   ): Promise<TelegramTypes.ChatMember>;
 
@@ -2478,12 +2528,12 @@ export default class TelegramClient {
    * // }
    * ```
    */
-  getChatMember(
+  public getChatMember(
     chatId: string | number,
     userId: number
   ): Promise<TelegramTypes.ChatMember>;
 
-  getChatMember(
+  public getChatMember(
     chatIdOrOptions: string | number | TelegramTypes.GetChatMemberOption,
     userId?: number
   ): Promise<TelegramTypes.ChatMember> {
@@ -2511,7 +2561,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setChatStickerSet(
+  public setChatStickerSet(
     options: TelegramTypes.SetChatStickerSetOption
   ): Promise<boolean>;
 
@@ -2527,12 +2577,12 @@ export default class TelegramClient {
    * await telegram.setChatStickerSet(CHAT_ID, 'Sticker Set Name');
    * ```
    */
-  setChatStickerSet(
+  public setChatStickerSet(
     chatId: string | number,
     stickerSetName: string
   ): Promise<boolean>;
 
-  setChatStickerSet(
+  public setChatStickerSet(
     chatIdOrOptions: string | number | TelegramTypes.SetChatStickerSetOption,
     stickerSetName?: string
   ): Promise<boolean> {
@@ -2557,7 +2607,7 @@ export default class TelegramClient {
    * await telegram.deleteChatStickerSet({ chatId: CHAT_ID });
    * ```
    */
-  deleteChatStickerSet(
+  public deleteChatStickerSet(
     options: TelegramTypes.DeleteChatStickerSetOption
   ): Promise<boolean>;
 
@@ -2572,9 +2622,9 @@ export default class TelegramClient {
    * await telegram.deleteChatStickerSet(CHAT_ID);
    * ```
    */
-  deleteChatStickerSet(chatId: string | number): Promise<boolean>;
+  public deleteChatStickerSet(chatId: string | number): Promise<boolean>;
 
-  deleteChatStickerSet(
+  public deleteChatStickerSet(
     chatIdOrOptions: string | number | TelegramTypes.DeleteChatStickerSetOption
   ): Promise<boolean> {
     const data =
@@ -2603,7 +2653,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  answerCallbackQuery(
+  public answerCallbackQuery(
     options: TelegramTypes.AnswerCallbackQueryOption
   ): Promise<boolean>;
 
@@ -2621,12 +2671,12 @@ export default class TelegramClient {
    * await telegram.answerCallbackQuery('CALLBACK_QUERY_ID');
    * ```
    */
-  answerCallbackQuery(
+  public answerCallbackQuery(
     callbackQueryId: string,
     options?: Omit<TelegramTypes.AnswerCallbackQueryOption, 'callbackQueryId'>
   ): Promise<boolean>;
 
-  answerCallbackQuery(
+  public answerCallbackQuery(
     callbackQueryIdOrOptions: string | TelegramTypes.AnswerCallbackQueryOption,
     options?: Omit<TelegramTypes.AnswerCallbackQueryOption, 'callbackQueryId'>
   ): Promise<boolean> {
@@ -2653,7 +2703,9 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setMyCommands(options: TelegramTypes.SetMyCommandsOption): Promise<boolean>;
+  public setMyCommands(
+    options: TelegramTypes.SetMyCommandsOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands.
@@ -2669,12 +2721,12 @@ export default class TelegramClient {
    * ]);
    * ```
    */
-  setMyCommands(
+  public setMyCommands(
     commands: TelegramTypes.BotCommand[],
     options?: Omit<TelegramTypes.SetMyCommandsOption, 'commands'>
   ): Promise<boolean>;
 
-  setMyCommands(
+  public setMyCommands(
     commandsOrOptions:
       | TelegramTypes.BotCommand[]
       | TelegramTypes.SetMyCommandsOption,
@@ -2700,7 +2752,7 @@ export default class TelegramClient {
    * await telegram.deleteMyCommands();
    * ```
    */
-  deleteMyCommands(
+  public deleteMyCommands(
     options: TelegramTypes.DeleteMyCommandsOption
   ): Promise<boolean> {
     return this.request('/deleteMyCommands', { ...options });
@@ -2718,7 +2770,7 @@ export default class TelegramClient {
    * // [{ command: 'command', description: 'desc..'}]
    * ```
    */
-  getMyCommands(
+  public getMyCommands(
     options: TelegramTypes.GetMyCommandsOption
   ): Promise<TelegramTypes.BotCommand[]> {
     return this.request('/getMyCommands', { ...options });
@@ -2738,7 +2790,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editMessageText(
+  public editMessageText(
     options: TelegramTypes.EditMessageTextOption
   ): Promise<TelegramTypes.Message | boolean>;
 
@@ -2754,12 +2806,12 @@ export default class TelegramClient {
    * await telegram.editMessageText('new_text', { messageId: MESSAGE_ID });
    * ```
    */
-  editMessageText(
+  public editMessageText(
     text: string,
     options: DistributiveOmit<TelegramTypes.EditMessageTextOption, 'text'>
   ): Promise<TelegramTypes.Message | boolean>;
 
-  editMessageText(
+  public editMessageText(
     textOrOptions: string | TelegramTypes.EditMessageTextOption,
     options?: DistributiveOmit<TelegramTypes.EditMessageTextOption, 'text'>
   ): Promise<TelegramTypes.Message | boolean> {
@@ -2787,7 +2839,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editMessageCaption(
+  public editMessageCaption(
     options: TelegramTypes.EditMessageCaptionOption
   ): Promise<TelegramTypes.Message | boolean>;
 
@@ -2803,12 +2855,12 @@ export default class TelegramClient {
    * await telegram.editMessageCaption('new_caption', { messageId: MESSAGE_ID });
    * ```
    */
-  editMessageCaption(
+  public editMessageCaption(
     caption: string,
     options: DistributiveOmit<TelegramTypes.EditMessageCaptionOption, 'caption'>
   ): Promise<TelegramTypes.Message | boolean>;
 
-  editMessageCaption(
+  public editMessageCaption(
     captionOrOptions: string | TelegramTypes.EditMessageCaptionOption,
     options?: DistributiveOmit<
       TelegramTypes.EditMessageCaptionOption,
@@ -2847,7 +2899,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editMessageMedia(
+  public editMessageMedia(
     options: TelegramTypes.EditMessageMediaOption
   ): Promise<TelegramTypes.Message | boolean>;
 
@@ -2876,12 +2928,12 @@ export default class TelegramClient {
    * );
    * ```
    */
-  editMessageMedia(
+  public editMessageMedia(
     media: TelegramTypes.InputMedia,
     options: DistributiveOmit<TelegramTypes.EditMessageMediaOption, 'media'>
   ): Promise<TelegramTypes.Message | boolean>;
 
-  editMessageMedia(
+  public editMessageMedia(
     mediaOrOptions:
       | TelegramTypes.InputMedia
       | TelegramTypes.EditMessageMediaOption,
@@ -2915,7 +2967,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  editMessageReplyMarkup(
+  public editMessageReplyMarkup(
     options: TelegramTypes.EditMessageReplyMarkupOption
   ): Promise<TelegramTypes.Message | boolean>;
 
@@ -2938,7 +2990,7 @@ export default class TelegramClient {
    * );
    * ```
    */
-  editMessageReplyMarkup(
+  public editMessageReplyMarkup(
     replyMarkup: TelegramTypes.InlineKeyboardMarkup,
     options: DistributiveOmit<
       TelegramTypes.EditMessageReplyMarkupOption,
@@ -2946,7 +2998,7 @@ export default class TelegramClient {
     >
   ): Promise<TelegramTypes.Message | boolean>;
 
-  editMessageReplyMarkup(
+  public editMessageReplyMarkup(
     replyMarkupOrOptions:
       | TelegramTypes.InlineKeyboardMarkup
       | TelegramTypes.EditMessageReplyMarkupOption,
@@ -2978,7 +3030,9 @@ export default class TelegramClient {
    * await telegram.stopPoll({ chatId: 427770117, messageId: 66 });
    * ```
    */
-  stopPoll(options: TelegramTypes.StopPollOption): Promise<TelegramTypes.Poll>;
+  public stopPoll(
+    options: TelegramTypes.StopPollOption
+  ): Promise<TelegramTypes.Poll>;
 
   /**
    * Use this method to stop a poll which was sent by the bot.
@@ -2993,13 +3047,13 @@ export default class TelegramClient {
    * await telegram.stopPoll(427770117, 66);
    * ```
    */
-  stopPoll(
+  public stopPoll(
     chatId: string | number,
     messageId: number,
     options?: Omit<TelegramTypes.StopPollOption, 'chatId' | 'messageId'>
   ): Promise<TelegramTypes.Poll>;
 
-  stopPoll(
+  public stopPoll(
     chatIdOrOptions: string | number | TelegramTypes.StopPollOption,
     messageId?: number,
     options?: Omit<TelegramTypes.StopPollOption, 'chatId' | 'messageId'>
@@ -3035,7 +3089,9 @@ export default class TelegramClient {
    * });
    * ```
    */
-  deleteMessage(options: TelegramTypes.DeleteMessageOption): Promise<boolean>;
+  public deleteMessage(
+    options: TelegramTypes.DeleteMessageOption
+  ): Promise<boolean>;
 
   /**
    * Use this method to delete a message, including service messages, with the following limitations:
@@ -3055,9 +3111,12 @@ export default class TelegramClient {
    * await telegram.deleteMessage(CHAT_ID, MESSAGE_ID);
    * ```
    */
-  deleteMessage(chatId: string | number, messageId: number): Promise<boolean>;
+  public deleteMessage(
+    chatId: string | number,
+    messageId: number
+  ): Promise<boolean>;
 
-  deleteMessage(
+  public deleteMessage(
     chatIdOrOptions: string | number | TelegramTypes.DeleteMessageOption,
     messageId?: number
   ): Promise<boolean> {
@@ -3086,7 +3145,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendSticker(
+  public sendSticker(
     options: TelegramTypes.SendStickerOption
   ): Promise<TelegramTypes.Message>;
 
@@ -3105,13 +3164,13 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendSticker(
+  public sendSticker(
     chatId: string | number,
     sticker: string,
     options?: Omit<TelegramTypes.SendStickerOption, 'chatId' | 'sticker'>
   ): Promise<TelegramTypes.Message>;
 
-  sendSticker(
+  public sendSticker(
     chatIdOrOptions: string | number | TelegramTypes.SendStickerOption,
     sticker?: string,
     options?: Omit<TelegramTypes.SendStickerOption, 'chatId' | 'sticker'>
@@ -3138,7 +3197,7 @@ export default class TelegramClient {
    * await telegram.getStickerSet({ name: 'sticker set name' });
    * ```
    */
-  getStickerSet(
+  public getStickerSet(
     options: TelegramTypes.GetStickerSetOption
   ): Promise<TelegramTypes.StickerSet>;
 
@@ -3153,9 +3212,9 @@ export default class TelegramClient {
    * await telegram.getStickerSet('sticker set name');
    * ```
    */
-  getStickerSet(name: string): Promise<TelegramTypes.StickerSet>;
+  public getStickerSet(name: string): Promise<TelegramTypes.StickerSet>;
 
-  getStickerSet(
+  public getStickerSet(
     nameOrOptions: string | TelegramTypes.GetStickerSetOption
   ): Promise<TelegramTypes.StickerSet> {
     const data =
@@ -3189,7 +3248,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  createNewStickerSet(
+  public createNewStickerSet(
     options: TelegramTypes.CreateNewStickerSetOption
   ): Promise<boolean> {
     return this.request('/createNewStickerSet', {
@@ -3213,7 +3272,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  addStickerToSet(
+  public addStickerToSet(
     options: TelegramTypes.AddStickerToSetOption
   ): Promise<boolean> {
     return this.request('/addStickerToSet', {
@@ -3235,7 +3294,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setStickerPositionInSet(
+  public setStickerPositionInSet(
     options: TelegramTypes.SetStickerPositionInSetOption
   ): Promise<boolean>;
 
@@ -3254,9 +3313,12 @@ export default class TelegramClient {
    * );
    * ```
    */
-  setStickerPositionInSet(sticker: string, position: number): Promise<boolean>;
+  public setStickerPositionInSet(
+    sticker: string,
+    position: number
+  ): Promise<boolean>;
 
-  setStickerPositionInSet(
+  public setStickerPositionInSet(
     stickerOrOptions: string | TelegramTypes.SetStickerPositionInSetOption,
     position?: number
   ): Promise<boolean> {
@@ -3283,7 +3345,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  deleteStickerFromSet(
+  public deleteStickerFromSet(
     options: TelegramTypes.DeleteStickerFromSetOption
   ): Promise<boolean>;
 
@@ -3300,9 +3362,9 @@ export default class TelegramClient {
    * );
    * ```
    */
-  deleteStickerFromSet(sticker: string): Promise<boolean>;
+  public deleteStickerFromSet(sticker: string): Promise<boolean>;
 
-  deleteStickerFromSet(
+  public deleteStickerFromSet(
     stickerOrOptions: string | TelegramTypes.DeleteStickerFromSetOption
   ): Promise<boolean> {
     const data =
@@ -3329,7 +3391,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  setStickerSetThumb(
+  public setStickerSetThumb(
     options: TelegramTypes.SetStickerSetThumbOption
   ): Promise<boolean> {
     return this.request('/setStickerSetThumb', { ...options });
@@ -3363,7 +3425,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  answerInlineQuery(
+  public answerInlineQuery(
     options: TelegramTypes.AnswerInlineQueryOption
   ): Promise<boolean>;
 
@@ -3399,7 +3461,7 @@ export default class TelegramClient {
    * );
    * ```
    */
-  answerInlineQuery(
+  public answerInlineQuery(
     inlineQueryId: string,
     results: TelegramTypes.InlineQueryResult[],
     options?: Omit<
@@ -3408,7 +3470,7 @@ export default class TelegramClient {
     >
   ): Promise<boolean>;
 
-  answerInlineQuery(
+  public answerInlineQuery(
     inlineQueryIdOrOptions: string | TelegramTypes.AnswerInlineQueryOption,
     results?: TelegramTypes.InlineQueryResult[],
     options?: TelegramTypes.AnswerInlineQueryOption
@@ -3447,7 +3509,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendInvoice(
+  public sendInvoice(
     options: TelegramTypes.SendInvoiceOption
   ): Promise<TelegramTypes.Message>;
 
@@ -3474,12 +3536,12 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendInvoice(
+  public sendInvoice(
     chatId: number,
     options: Omit<TelegramTypes.SendInvoiceOption, 'chatId'>
   ): Promise<TelegramTypes.Message>;
 
-  sendInvoice(
+  public sendInvoice(
     chatIdOrOptions: number | TelegramTypes.SendInvoiceOption,
     options?: Omit<TelegramTypes.SendInvoiceOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
@@ -3511,7 +3573,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  answerShippingQuery(
+  public answerShippingQuery(
     options: TelegramTypes.AnswerShippingQueryOption
   ): Promise<boolean>;
 
@@ -3533,7 +3595,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  answerShippingQuery(
+  public answerShippingQuery(
     shippingQueryId: string,
     ok: boolean,
     options?: DistributiveOmit<
@@ -3542,7 +3604,7 @@ export default class TelegramClient {
     >
   ): Promise<boolean>;
 
-  answerShippingQuery(
+  public answerShippingQuery(
     shippingQueryIdOrOptions: string | TelegramTypes.AnswerShippingQueryOption,
     ok?: boolean,
     options?: DistributiveOmit<
@@ -3575,7 +3637,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  answerPreCheckoutQuery(
+  public answerPreCheckoutQuery(
     options: TelegramTypes.AnswerPreCheckoutQueryOption
   ): Promise<boolean>;
 
@@ -3592,7 +3654,7 @@ export default class TelegramClient {
    * await telegram.answerPreCheckoutQuery('UNIQUE_ID', true);
    * ```
    */
-  answerPreCheckoutQuery(
+  public answerPreCheckoutQuery(
     preCheckoutQueryId: string,
     ok: boolean,
     options?: Omit<
@@ -3601,7 +3663,7 @@ export default class TelegramClient {
     >
   ): Promise<boolean>;
 
-  answerPreCheckoutQuery(
+  public answerPreCheckoutQuery(
     preCheckoutQueryIdOrOptions:
       | string
       | TelegramTypes.AnswerPreCheckoutQueryOption,
@@ -3642,7 +3704,7 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendGame(
+  public sendGame(
     options: TelegramTypes.SendGameOption
   ): Promise<TelegramTypes.Message>;
 
@@ -3661,13 +3723,13 @@ export default class TelegramClient {
    * });
    * ```
    */
-  sendGame(
+  public sendGame(
     chatId: number,
     gameShortName: string,
     options?: Omit<TelegramTypes.SendGameOption, 'chatId' | 'gameShortName'>
   ): Promise<TelegramTypes.Message>;
 
-  sendGame(
+  public sendGame(
     chatIdOrOptions: number | TelegramTypes.SendGameOption,
     gameShortName?: string,
     options?: Omit<TelegramTypes.SendGameOption, 'chatId' | 'gameShortName'>
@@ -3694,7 +3756,7 @@ export default class TelegramClient {
    * await telegram.setGameScore({ userId: USER_ID, score: 999 });
    * ```
    */
-  setGameScore(
+  public setGameScore(
     options: TelegramTypes.SetGameScoreOption
   ): Promise<TelegramTypes.Message | boolean>;
 
@@ -3711,7 +3773,7 @@ export default class TelegramClient {
    * await telegram.setGameScore(USER_ID, 999);
    * ```
    */
-  setGameScore(
+  public setGameScore(
     userId: number,
     score: number,
     options?: DistributiveOmit<
@@ -3720,7 +3782,7 @@ export default class TelegramClient {
     >
   ): Promise<TelegramTypes.Message | boolean>;
 
-  setGameScore(
+  public setGameScore(
     userIdOrOptions: number | TelegramTypes.SetGameScoreOption,
     score?: number,
     options?: DistributiveOmit<
@@ -3763,7 +3825,7 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getGameHighScores(
+  public getGameHighScores(
     options: TelegramTypes.GetGameHighScoresOption
   ): Promise<TelegramTypes.GameHighScore[]>;
 
@@ -3792,12 +3854,12 @@ export default class TelegramClient {
    * // ]
    * ```
    */
-  getGameHighScores(
+  public getGameHighScores(
     userId: number,
     options?: DistributiveOmit<TelegramTypes.GetGameHighScoresOption, 'userId'>
   ): Promise<TelegramTypes.GameHighScore[]>;
 
-  getGameHighScores(
+  public getGameHighScores(
     userIdOrOptions: number | TelegramTypes.GetGameHighScoresOption,
     options?: DistributiveOmit<TelegramTypes.GetGameHighScoresOption, 'userId'>
   ): Promise<TelegramTypes.GameHighScore[]> {
