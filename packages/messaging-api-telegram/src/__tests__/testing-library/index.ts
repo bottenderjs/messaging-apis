@@ -5,6 +5,7 @@ import { snakecaseKeysDeep } from 'messaging-api-common';
 import { requestHandlers as chatRequestHandlers } from './chat';
 import { requestHandlers as commandRequestHandlers } from './command';
 import { constants, getCurrentContext } from './shared';
+import { requestHandlers as gameRequestHandlers } from './game';
 import { requestHandlers as gettingUpdateRequestHandlers } from './gettingUpdate';
 import { requestHandlers as messageRequestHandlers } from './message';
 import { requestHandlers as paymentRequestHandlers } from './payment';
@@ -181,7 +182,8 @@ export function setupTelegramServer(): SetupServerApi {
         );
       }
     ),
-    ...paymentRequestHandlers
+    ...paymentRequestHandlers,
+    ...gameRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {

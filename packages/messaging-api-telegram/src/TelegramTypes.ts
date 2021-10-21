@@ -7,18 +7,75 @@ export type ClientConfig = {
 };
 
 export type Update = {
+  /**
+   * The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you're using Webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
+   */
   updateId: number;
+
+  /**
+   * Optional. New incoming message of any kind — text, photo, sticker, etc.
+   */
   message?: Message;
+
+  /**
+   * Optional. New version of a message that is known to the bot and was edited
+   */
   editedMessage?: Message;
+
+  /**
+   * Optional. New incoming channel post of any kind — text, photo, sticker, etc.
+   */
   channelPost?: Message;
+
+  /**
+   * Optional. New version of a channel post that is known to the bot and was edited
+   */
   editedChannelPost?: Message;
+
+  /**
+   * Optional. New incoming inline query
+   */
   inlineQuery?: InlineQuery;
+
+  /**
+   * Optional. The result of an inline query that was chosen by a user and sent to their chat partner. Please see our documentation on the feedback collecting for details on how to enable these updates for your bot.
+   */
   chosenInlineResult?: ChosenInlineResult;
+
+  /**
+   * Optional. New incoming callback query
+   */
   callbackQuery?: CallbackQuery;
+
+  /**
+   * Optional. New incoming shipping query. Only for invoices with flexible price
+   */
   shippingQuery?: ShippingQuery;
+
+  /**
+   * Optional. New incoming pre-checkout query. Contains full information about checkout
+   */
   preCheckoutQuery?: PreCheckoutQuery;
+
+  /**
+   * Optional. New poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot
+   */
   poll?: Poll;
+
+  /**
+   * Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
+   */
   pollAnswer?: PollAnswer;
+
+  /**
+   * Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
+   */
+  myChatMember?: ChatMemberUpdated;
+
+  /**
+   * Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
+   */
+  chatMember?: ChatMemberUpdated;
 };
 
 /**
@@ -111,70 +168,376 @@ export type User = {
   supportsInlineQueries?: boolean;
 };
 
-// TODO: separate different type because some fields returned only in getChat.
 export type Chat = {
+  /**
+   * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
   id: number;
+
+  /**
+   * Type of chat, can be either “private”, “group”, “supergroup” or “channel”
+   */
   type: 'private' | 'group' | 'supergroup' | 'channel';
+
+  /**
+   * Optional. Title, for supergroups, channels and group chats
+   */
   title?: string;
+
+  /**
+   * Optional. Username, for private chats, supergroups and channels if available
+   */
   username?: string;
+
+  /**
+   * Optional. First name of the other party in a private chat
+   */
   firstName?: string;
+
+  /**
+   * Optional. Last name of the other party in a private chat
+   */
   lastName?: string;
+
+  /**
+   * Optional. Chat photo. Returned only in getChat.
+   */
   photo?: ChatPhoto;
+
+  /**
+   * Optional. Bio of the other party in a private chat. Returned only in getChat.
+   */
+  bio?: string;
+
+  /**
+   * Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
+   */
   description?: string;
+
+  /**
+   * Optional. Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
+   */
   inviteLink?: string;
+
+  /**
+   * Optional. The most recent pinned message (by sending date). Returned only in getChat.
+   */
   pinnedMessage?: Message;
+
+  /**
+   * Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+   */
   permissions?: ChatPermissions;
+
+  /**
+   * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user. Returned only in getChat.
+   */
+  slowModeDelay?: number;
+
+  /**
+   * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
+   */
+  messageAutoDeleteTime?: number;
+
+  /**
+   * Optional. For supergroups, name of group sticker set. Returned only in getChat.
+   */
   stickerSetName?: string;
+
+  /**
+   * Optional. True, if the bot can change the group sticker set. Returned only in getChat.
+   */
   canSetStickerSet?: boolean;
+
+  /**
+   * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
+   */
+  linked_chat_id?: number;
+
+  /**
+   * Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+   */
+  location: ChatLocation;
 };
 
 export type Message = {
+  /**
+   * Unique message identifier inside this chat
+   */
   messageId: number;
-  from?: User; // TODO: empty for messages sent to channels
+
+  /**
+   * Optional. Sender, empty for messages sent to channels
+   */
+  from?: User;
+
+  /**
+   * Optional. Sender of the message, sent on behalf of a chat. The channel itself for channel messages. The supergroup itself for messages from anonymous group administrators. The linked channel for messages automatically forwarded to the discussion group
+   */
+  senderChat?: Chat;
+
+  /**
+   * Date the message was sent in Unix time
+   */
   date: number;
+
+  /**
+   * Conversation the message belongs to
+   */
   chat: Chat;
+
+  /**
+   * Optional. For forwarded messages, sender of the original message
+   */
   forwardFrom?: User;
+
+  /**
+   * Optional. For messages forwarded from channels or from anonymous administrators, information about the original sender chat
+   */
   forwardFromChat?: Chat;
+
+  /**
+   * Optional. For messages forwarded from channels, identifier of the original message in the channel
+   */
   forwardFromMessageId?: number;
+
+  /**
+   * Optional. For messages forwarded from channels, signature of the post author if present
+   */
   forwardSignature?: string;
+
+  /**
+   * Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
+   */
   forwardSenderName?: string;
+
+  /**
+   * Optional. For forwarded messages, date the original message was sent in Unix time
+   */
   forwardDate?: number;
+
+  /**
+   * Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+   */
   replyToMessage?: Message;
+
+  /**
+   * Optional. Bot through which the message was sent
+   */
+  viaBot?: User;
+
+  /**
+   * Optional. Date the message was last edited in Unix time
+   */
   editDate?: number;
+
+  /**
+   * Optional. The unique identifier of a media message group this message belongs to
+   */
   mediaGroupId?: string;
+
+  /**
+   * Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
+   */
   authorSignature?: string;
+
+  /**
+   * Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters
+   */
   text?: string;
+
+  /**
+   * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
+   */
   entities?: MessageEntity[];
-  captionEntities?: MessageEntity[];
-  audio?: Audio;
-  document?: Document;
+
+  /**
+   * Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
+   */
   animation?: Animation;
-  game?: Game;
+
+  /**
+   * Optional. Message is an audio file, information about the file
+   */
+  audio?: Audio;
+
+  /**
+   * Optional. Message is a general file, information about the file
+   */
+  document?: Document;
+
+  /**
+   * Optional. Message is a photo, available sizes of the photo
+   */
   photo?: PhotoSize[];
+
+  /**
+   * Optional. Message is a sticker, information about the sticker
+   */
   sticker?: Sticker;
+
+  /**
+   * Optional. Message is a video, information about the video
+   */
   video?: Video;
-  voice?: Voice;
+
+  /**
+   * Optional. Message is a video note, information about the video message
+   */
   videoNote?: VideoNote;
+
+  /**
+   * Optional. Message is a voice message, information about the file
+   */
+  voice?: Voice;
+
+  /**
+   * Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters
+   */
   caption?: string;
+
+  /**
+   * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
+   */
+  captionEntities?: MessageEntity[];
+
+  /**
+   * Optional. Message is a shared contact, information about the contact
+   */
   contact?: Contact;
-  location?: Location;
-  venue?: Venue;
+
+  /**
+   * Optional. Message is a dice with random value
+   */
+  dice?: Dice;
+
+  /**
+   * Optional. Message is a game, information about the game.
+   */
+  game?: Game;
+
+  /**
+   * Optional. Message is a native poll, information about the poll
+   */
   poll?: Poll;
+
+  /**
+   * Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set
+   */
+  venue?: Venue;
+
+  /**
+   * Optional. Message is a shared location, information about the location
+   */
+  location?: Location;
+
+  /**
+   * Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
+   */
   newChatMembers?: User[];
+
+  /**
+   * Optional. A member was removed from the group, information about them (this member may be the bot itself)
+   */
   leftChatMember?: User;
+
+  /**
+   * Optional. A chat title was changed to this value
+   */
   newChatTitle?: string;
+
+  /**
+   * Optional. A chat photo was change to this value
+   */
   newChatPhoto?: PhotoSize[];
+
+  /**
+   * Optional. Service message: the chat photo was deleted
+   */
   deleteChatPhoto?: boolean;
+
+  /**
+   * Optional. Service message: the group has been created
+   */
   groupChatCreated?: boolean;
+
+  /**
+   * Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in reply_to_message if someone replies to a very first message in a directly created supergroup.
+   */
   supergroupChatCreated?: boolean;
+
+  /**
+   * Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel.
+   */
   channelChatCreated?: boolean;
+
+  /**
+   * Optional. Service message: auto-delete timer settings changed in the chat
+   */
+  messageAutoDeleteTimerChanged?: MessageAutoDeleteTimerChanged;
+
+  /**
+   * Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
   migrateToChatId?: number;
+
+  /**
+   * Optional. The supergroup has been migrated from a group with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
   migrateFromChatId?: number;
+
+  /**
+   * Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+   */
   pinnedMessage?: Message;
+
+  /**
+   * Optional. Message is an invoice for a payment, information about the invoice.
+   */
   invoice?: Invoice;
+
+  /**
+   * Optional. Message is a service message about a successful payment, information about the payment.
+   */
   successfulPayment?: SuccessfulPayment;
+
+  /**
+   * Optional. The domain name of the website on which the user has logged in.
+   */
   connectedWebsite?: string;
+
+  /**
+   * Optional. Telegram Passport data
+   */
   passportData?: PassportData;
+
+  /**
+   * Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
+   */
+  proximityAlertTriggered?: ProximityAlertTriggered;
+
+  /**
+   * Optional. Service message: voice chat scheduled
+   */
+  voiceChatScheduled?: VoiceChatScheduled;
+
+  /**
+   * Optional. Service message: voice chat started
+   */
+  voiceChatStarted?: VoiceChatStarted;
+
+  /**
+   * Optional. Service message: voice chat ended
+   */
+  voiceChatEnded?: VoiceChatEnded;
+
+  /**
+   * Optional. Service message: new participants invited to a voice chat
+   */
+  voiceChatParticipantsInvited?: VoiceChatParticipantsInvited;
+  /**
+   * Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
+   */
   replyMarkup?: InlineKeyboardMarkup;
 };
 
@@ -193,79 +556,331 @@ export type MessageEntity = {
     | 'pre'
     | 'text_link'
     | 'text_mention';
+
+  /**
+   * Offset in UTF-16 code units to the start of the entity
+   */
   offset: number;
+
+  /**
+   * Length of the entity in UTF-16 code units
+
+   */
   length: number;
+
+  /**
+   * Optional. For “text_link” only, url that will be opened after user taps on the text
+   */
   url?: string;
+
+  /**
+   * Optional. For “text_mention” only, the mentioned user
+   */
   user?: User;
+
+  /**
+   * Optional. For “pre” only, the programming language of the entity text
+   */
+  language?: string;
 };
 
 export type PhotoSize = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
   fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Photo width
+   */
   width: number;
+
+  /**
+   * Photo height
+   */
   height: number;
-  fileSize?: number;
-};
 
-export type Audio = {
-  fileId: string;
-  duration: number;
-  performer?: string;
-  title?: string;
-  mimeType?: string;
-  fileSize?: number;
-  thumb?: PhotoSize;
-};
-
-export type Document = {
-  fileId: string;
-  thumb?: PhotoSize;
-  fileName?: string;
-  mimeType?: string;
-  fileSize?: number;
-};
-
-export type Video = {
-  fileId: string;
-  width: number;
-  height: number;
-  duration: number;
-  thumb?: PhotoSize;
-  mimeType?: string;
+  /**
+   * Optional. File size
+   */
   fileSize?: number;
 };
 
 export type Animation = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
   fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Video width as defined by sender
+   */
   width: number;
+
+  /**
+   * Video height as defined by sender
+   */
   height: number;
+
+  /**
+   * Duration of the video in seconds as defined by sender
+   */
   duration: number;
+
+  /**
+   * Optional. Animation thumbnail as defined by sender
+   */
   thumb?: PhotoSize;
+
+  /**
+   * Optional. Original animation filename as defined by sender
+   */
   fileName?: string;
+
+  /**
+   * Optional. MIME type of the file as defined by sender
+   */
   mimeType?: string;
+
+  /**
+   * Optional. File size
+   */
   fileSize?: number;
 };
 
-export type Voice = {
+export type Audio = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
   fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Duration of the audio in seconds as defined by sender
+   */
   duration: number;
+
+  /**
+   * Optional. Performer of the audio as defined by sender or by audio tags
+   */
+  performer?: string;
+
+  /**
+   * Optional. Title of the audio as defined by sender or by audio tags
+   */
+  title?: string;
+
+  /**
+   * Optional. Original filename as defined by sender
+
+   */
+  fileName?: string;
+
+  /**
+   * Optional. MIME type of the file as defined by sender
+   */
   mimeType?: string;
+
+  /**
+   * Optional. File size
+   */
+  fileSize?: number;
+
+  /**
+   * Optional. Thumbnail of the album cover to which the music file belongs
+   */
+  thumb?: PhotoSize;
+};
+
+export type Document = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
+  fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Optional. Document thumbnail as defined by sender
+   */
+  thumb?: PhotoSize;
+
+  /**
+   * Optional. Original filename as defined by sender
+   */
+  fileName?: string;
+
+  /**
+   * Optional. MIME type of the file as defined by sender
+   */
+  mimeType?: string;
+
+  /**
+   * Optional. File size
+   */
+  fileSize?: number;
+};
+
+export type Video = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
+  fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Video width as defined by sender
+   */
+  width: number;
+
+  /**
+   * Video height as defined by sender
+   */
+  height: number;
+
+  /**
+   * Duration of the video in seconds as defined by sender
+   */
+  duration: number;
+
+  /**
+   * Optional. Video thumbnail
+   */
+  thumb?: PhotoSize;
+
+  /**
+   * Optional. Original filename as defined by sender
+   */
+  fileName?: string;
+
+  /**
+   * Optional. Mime type of a file as defined by sender
+   */
+  mimeType?: string;
+
+  /**
+   * Optional. File size
+   */
   fileSize?: number;
 };
 
 export type VideoNote = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
   fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Video width and height (diameter of the video message) as defined by sender
+   */
   length: number;
+
+  /**
+   * Duration of the video in seconds as defined by sender
+   */
   duration: number;
+
+  /**
+   * Optional. Video thumbnail
+   */
   thumb?: PhotoSize;
+
+  /**
+   * Optional. File size
+   */
+  fileSize?: number;
+};
+
+export type Voice = {
+  /**
+   * Identifier for this file, which can be used to download or reuse the file
+   */
+  fileId: string;
+
+  /**
+   * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+   */
+  fileUniqueId: string;
+
+  /**
+   * Duration of the audio in seconds as defined by sender
+   */
+  duration: number;
+
+  /**
+   * Optional. MIME type of the file as defined by sender
+   */
+  mimeType?: string;
+
+  /**
+   * Optional. File size
+   */
   fileSize?: number;
 };
 
 export type Contact = {
+  /**
+   * Contact's phone number
+   */
   phoneNumber: string;
+
+  /**
+   * Contact's first name
+   */
   firstName: string;
+
+  /**
+   * Optional. Contact's last name
+   */
   lastName?: string;
+
+  /**
+   * Optional. Contact's user identifier in Telegram. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
   userId?: number;
+
+  /**
+   * Optional. Additional data about the contact in the form of a vCard
+   */
   vcard?: string;
+};
+
+export type Dice = {
+  /**
+   * Emoji on which the dice throw animation is based
+   */
+  emoji: '🎲' | '🎯' | '🎳' | '🏀' | '⚽' | '🎰';
+
+  /**
+   * Value of the dice, 1-6 for “🎲”, “🎯” and “🎳” base emoji, 1-5 for “🏀” and “⚽” base emoji, 1-64 for “🎰” base emoji
+   */
+  value: number;
 };
 
 /**
@@ -276,6 +891,7 @@ export type Location = {
    * Longitude as defined by sender
    */
   longitude: number;
+
   /**
    * Latitude as defined by sender
    */
@@ -315,6 +931,53 @@ export type Venue = {
    * Optional. Foursquare type of the venue. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
    */
   foursquareType?: string;
+};
+
+export type ProximityAlertTriggered = {
+  /**
+   * User that triggered the alert
+   */
+  traveler: User;
+
+  /**
+   * User that set the alert
+   */
+  watcher: User;
+
+  /**
+   * The distance between the users
+   */
+  distance: number;
+};
+
+export type MessageAutoDeleteTimerChanged = {
+  /**
+   * New auto-delete time for messages in the chat
+   */
+  messageAutoDeleteTime: number;
+};
+
+export type VoiceChatScheduled = {
+  /**
+   * Point in time (Unix timestamp) when the voice chat is supposed to be started by a chat administrator
+   */
+  startDate: number;
+};
+
+export type VoiceChatStarted = Record<string, never>;
+
+export type VoiceChatEnded = {
+  /**
+   * Voice chat duration; in seconds
+   */
+  duration: number;
+};
+
+export type VoiceChatParticipantsInvited = {
+  /**
+   * Optional. New members that were invited to the voice chat
+   */
+  users?: User[];
 };
 
 export type PollOption = {
@@ -712,7 +1375,259 @@ export type ChatInviteLink = {
   memberLimit?: number;
 };
 
-export type ChatMember = any;
+export type ChatMember =
+  | ChatMemberOwner
+  | ChatMemberAdministrator
+  | ChatMemberMember
+  | ChatMemberRestricted
+  | ChatMemberLeft
+  | ChatMemberBanned;
+
+export type ChatMemberOwner = {
+  /**
+   * The member's status in the chat, always “creator”
+   */
+  status: 'creator';
+
+  /**
+   * Information about the user
+   */
+  user: User;
+
+  /**
+   * True, if the user's presence in the chat is hidden
+   */
+  isAnonymous: boolean;
+
+  /**
+   * Optional. Custom title for this user
+   */
+  customTitle?: string;
+};
+
+export type ChatMemberAdministrator = {
+  /**
+   * The member's status in the chat, always “administrator”
+   */
+  status: 'administrator';
+
+  /**
+   * Information about the user
+   */
+  user: User;
+
+  /**
+   * True, if the bot is allowed to edit administrator privileges of that user
+   */
+  canBeEdited: boolean;
+
+  /**
+   * True, if the user's presence in the chat is hidden
+   */
+  isAnonymous: boolean;
+
+  /**
+   * True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+   */
+  canManageChat: boolean;
+
+  /**
+   * True, if the administrator can delete messages of other users
+   */
+  canDeleteMessages: boolean;
+
+  /**
+   * True, if the administrator can manage voice chats
+   */
+  canManageVoiceChats: boolean;
+
+  /**
+   * True, if the administrator can restrict, ban or unban chat members
+   */
+  canRestrictMembers: boolean;
+
+  /**
+   * True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
+   */
+  canPromoteMembers: boolean;
+
+  /**
+   * True, if the user is allowed to change the chat title, photo and other settings
+   */
+  canChangeInfo: boolean;
+
+  /**
+   * True, if the user is allowed to invite new users to the chat
+   */
+  canInviteUsers: boolean;
+
+  /**
+   * Optional. True, if the administrator can post in the channel; channels only
+   */
+  canPostMessages?: boolean;
+
+  /**
+   * Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
+   */
+  canEditMessages?: boolean;
+
+  /**
+   * Optional. True, if the user is allowed to pin messages; groups and supergroups only
+   */
+  canPinMessages?: boolean;
+
+  /**
+   * Optional. Custom title for this user
+   */
+  customTitle?: string;
+};
+
+export type ChatMemberMember = {
+  /**
+   * The member's status in the chat, always “member”
+   */
+  status: 'member';
+
+  /**
+   * Information about the user
+   */
+  user: User;
+};
+
+export type ChatMemberRestricted = {
+  /**
+   * The member's status in the chat, always “restricted”
+   */
+  status: 'restricted';
+
+  /**
+   * Information about the user
+   */
+  user: User;
+
+  /**
+   * True, if the user is a member of the chat at the moment of the request
+   */
+  isMember: boolean;
+
+  /**
+   * True, if the user is allowed to change the chat title, photo and other settings
+   */
+  canChangeInfo: boolean;
+
+  /**
+   * True, if the user is allowed to invite new users to the chat
+   */
+  canInviteUsers: boolean;
+
+  /**
+   * True, if the user is allowed to pin messages
+   */
+  canPinMessages: boolean;
+
+  /**
+   * True, if the user is allowed to send text messages, contacts, locations and venues
+   */
+  canSendMessages: boolean;
+
+  /**
+   * True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes
+   */
+  canSendMediaMessages: boolean;
+
+  /**
+   * True, if the user is allowed to send polls
+   */
+  canSendPolls: boolean;
+
+  /**
+   * True, if the user is allowed to send animations, games, stickers and use inline bots
+   */
+  canSendOtherMessages: boolean;
+
+  /**
+   * True, if the user is allowed to add web page previews to their messages
+   */
+  canAddWebPagePreviews: boolean;
+
+  /**
+   * Date when restrictions will be lifted for this user; unix time. If 0, then the user is restricted forever
+   */
+  untilDate: number;
+};
+
+export type ChatMemberLeft = {
+  /**
+   * The member's status in the chat, always “left”
+   */
+  status: 'left';
+
+  /**
+   * Information about the user
+   */
+  user: User;
+};
+
+export type ChatMemberBanned = {
+  /**
+   * The member's status in the chat, always “kicked”
+   */
+  status: string;
+
+  /**
+   * Information about the user
+   */
+  user: User;
+
+  /**
+   * Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
+   */
+  untilDate: number;
+};
+
+export type ChatMemberUpdated = {
+  /**
+   * Chat the user belongs to
+   */
+  chat: Chat;
+
+  /**
+   * Performer of the action, which resulted in the change
+   */
+  from: User;
+
+  /**
+   * Date the change was done in Unix time
+   */
+  date: number;
+
+  /**
+   * Previous information about the chat member
+   */
+  oldChatMember: ChatMember;
+
+  /**
+   * New information about the chat member
+   */
+  newChatMember: ChatMember;
+
+  /**
+   * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+   */
+  inviteLink?: ChatInviteLink;
+};
+
+export type ChatLocation = {
+  /**
+   * The location to which the supergroup is connected. Can't be a live location.
+   */
+  location: Location;
+
+  /**
+   * Location address; 1-64 characters, as defined by the chat owner
+   */
+  address: string;
+};
 
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
@@ -759,7 +1674,17 @@ export type ChatPermissions = {
   canPinMessages?: boolean;
 };
 
-export type ResponseParameters = any;
+export type ResponseParameters = {
+  /**
+   * Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+   */
+  migrateToChatId?: number;
+
+  /**
+   * Optional. In case of exceeding flood control, the number of seconds left to wait before the request can be repeated
+   */
+  retryAfter?: number;
+};
 
 export type InputMedia =
   | InputMediaAnimation
@@ -1471,7 +2396,7 @@ export type Game = {
  *
  * - https://core.telegram.org/bots/api#callbackgame
  */
-export type CallbackGame = any;
+export type CallbackGame = Record<string, never>;
 
 export type GameHighScore = {
   position: number;
@@ -3570,6 +4495,16 @@ export type GetMyCommandsOption = {
 
 export type SendGameOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
+   */
+  gameShortName: string;
+
+  /**
    * Sends the message silently. Users will receive a notification with no sound.
    *
    * - https://telegram.org/blog/channels-2-0#silent-messages
@@ -3582,6 +4517,11 @@ export type SendGameOption = {
   replyToMessageId?: number;
 
   /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply: boolean;
+
+  /**
    * A JSON-serialized object for an inline keyboard. If empty, one ‘Play game_title’ button will be shown. If not empty, the first button must launch the game.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -3591,6 +4531,16 @@ export type SendGameOption = {
 };
 
 export type SetGameScoreOption = EditOption & {
+  /**
+   * User identifier
+   */
+  userId: number;
+
+  /**
+   * New score, must be non-negative
+   */
+  score: number;
+
   /**
    * Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
    */
@@ -3602,7 +4552,12 @@ export type SetGameScoreOption = EditOption & {
   disableEditMessage?: boolean;
 };
 
-export type GetGameHighScoresOption = EditOption;
+export type GetGameHighScoresOption = EditOption & {
+  /**
+   * Target user id
+   */
+  userId: number;
+};
 
 export type CreateNewStickerSetOption = {
   /**
@@ -3611,7 +4566,7 @@ export type CreateNewStickerSetOption = {
   userId: number;
 
   /**
-   * Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
+   * Short name of sticker set, to be used in `t.me/addstickers/` URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in `“_by_<bot username>”`. `<bot_username>` is case insensitive. 1-64 characters.
    */
   name: string;
 

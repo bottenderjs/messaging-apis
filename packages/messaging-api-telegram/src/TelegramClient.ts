@@ -3630,6 +3630,25 @@ export default class TelegramClient {
   /**
    * Use this method to send a game.
    *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendgame
+   * @example
+   * ```js
+   * await telegram.sendGame({
+   *   chatId: CHAT_ID,
+   *   gameShortName: 'Mario Bros.',
+   *   disableNotification: true,
+   * });
+   * ```
+   */
+  sendGame(
+    options: TelegramTypes.SendGameOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send a game.
+   *
    * @param chatId - Unique identifier for the target chat
    * @param gameShortName - Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
    * @param options - Options for other optional parameters.
@@ -3645,14 +3664,39 @@ export default class TelegramClient {
   sendGame(
     chatId: number,
     gameShortName: string,
-    options?: TelegramTypes.SendGameOption
+    options?: Omit<TelegramTypes.SendGameOption, 'chatId' | 'gameShortName'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendGame(
+    chatIdOrOptions: number | TelegramTypes.SendGameOption,
+    gameShortName?: string,
+    options?: Omit<TelegramTypes.SendGameOption, 'chatId' | 'gameShortName'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendGame', {
-      chatId,
-      gameShortName,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            gameShortName,
+            ...options,
+          };
+    return this.request('/sendGame', data);
   }
+
+  /**
+   * Use this method to set the score of the specified user in a game.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
+   * @see https://core.telegram.org/bots/api#setgamescore
+   * @example
+   * ```js
+   * await telegram.setGameScore({ userId: USER_ID, score: 999 });
+   * ```
+   */
+  setGameScore(
+    options: TelegramTypes.SetGameScoreOption
+  ): Promise<TelegramTypes.Message | boolean>;
 
   /**
    * Use this method to set the score of the specified user in a game.
@@ -3670,14 +3714,58 @@ export default class TelegramClient {
   setGameScore(
     userId: number,
     score: number,
-    options?: TelegramTypes.SetGameScoreOption
+    options?: DistributiveOmit<
+      TelegramTypes.SetGameScoreOption,
+      'userId' | 'score'
+    >
+  ): Promise<TelegramTypes.Message | boolean>;
+
+  setGameScore(
+    userIdOrOptions: number | TelegramTypes.SetGameScoreOption,
+    score?: number,
+    options?: DistributiveOmit<
+      TelegramTypes.SetGameScoreOption,
+      'userId' | 'score'
+    >
   ): Promise<TelegramTypes.Message | boolean> {
-    return this.request('/setGameScore', {
-      userId,
-      score,
-      ...options,
-    });
+    const data =
+      typeof userIdOrOptions === 'object'
+        ? userIdOrOptions
+        : {
+            userId: userIdOrOptions,
+            score,
+            ...options,
+          };
+    return this.request('/setGameScore', data);
   }
+
+  /**
+   * Use this method to get data for high score tables. Will return the score of the specified user and several of his neighbors in a game. On success, returns an Array of GameHighScore objects.
+   *
+   * This method will currently return scores for the target user, plus two of his closest neighbors on each side. Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
+   *
+   * @param options - Options for other parameters.
+   * @returns Will return the score of the specified user and several of his neighbors in a game. On success, returns an Array of GameHighScore objects.
+   * @see https://core.telegram.org/bots/api#getgamehighscores
+   * @example
+   * ```js
+   * await telegram.getGameHighScores({ userId: USER_ID });
+   * // [
+   * //   {
+   * //     position: 1,
+   * //     user: {
+   * //       id: 427770117,
+   * //       isBot: false,
+   * //       firstName: 'first',
+   * //     },
+   * //     score: 999,
+   * //   },
+   * // ]
+   * ```
+   */
+  getGameHighScores(
+    options: TelegramTypes.GetGameHighScoresOption
+  ): Promise<TelegramTypes.GameHighScore[]>;
 
   /**
    * Use this method to get data for high score tables. Will return the score of the specified user and several of his neighbors in a game. On success, returns an Array of GameHighScore objects.
@@ -3706,11 +3794,20 @@ export default class TelegramClient {
    */
   getGameHighScores(
     userId: number,
-    options?: TelegramTypes.GetGameHighScoresOption
+    options?: DistributiveOmit<TelegramTypes.GetGameHighScoresOption, 'userId'>
+  ): Promise<TelegramTypes.GameHighScore[]>;
+
+  getGameHighScores(
+    userIdOrOptions: number | TelegramTypes.GetGameHighScoresOption,
+    options?: DistributiveOmit<TelegramTypes.GetGameHighScoresOption, 'userId'>
   ): Promise<TelegramTypes.GameHighScore[]> {
-    return this.request('/getGameHighScores', {
-      userId,
-      ...options,
-    });
+    const data =
+      typeof userIdOrOptions === 'object'
+        ? userIdOrOptions
+        : {
+            userId: userIdOrOptions,
+            ...options,
+          };
+    return this.request('/getGameHighScores', data);
   }
 }
