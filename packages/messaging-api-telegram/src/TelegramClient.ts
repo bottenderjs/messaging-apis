@@ -3427,8 +3427,34 @@ export default class TelegramClient {
   /**
    * Use this method to send invoices.
    *
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   * @see https://core.telegram.org/bots/api#sendinvoice
+   * @example
+   * ```js
+   * await telegram.sendInvoice({
+   *   chatId: CHAT_ID,
+   *   title: 'product name',
+   *   description: 'product description',
+   *   payload: 'bot-defined invoice payload',
+   *   providerToken: 'PROVIDER_TOKEN',
+   *   startParameter: 'pay',
+   *   currency: 'USD',
+   *   prices: [
+   *     { label: 'product', amount: 11000 },
+   *     { label: 'tax', amount: 11000 },
+   *   ],
+   * });
+   * ```
+   */
+  sendInvoice(
+    options: TelegramTypes.SendInvoiceOption
+  ): Promise<TelegramTypes.Message>;
+
+  /**
+   * Use this method to send invoices.
+   *
    * @param chatId - Unique identifier for the target private chat
-   * @param product - product
    * @param options - Options for other optional parameters.
    * @returns On success, the sent Message is returned.
    * @see https://core.telegram.org/bots/api#sendinvoice
@@ -3450,15 +3476,44 @@ export default class TelegramClient {
    */
   sendInvoice(
     chatId: number,
-    product: TelegramTypes.Product,
-    options?: TelegramTypes.SendInvoiceOption
+    options: Omit<TelegramTypes.SendInvoiceOption, 'chatId'>
+  ): Promise<TelegramTypes.Message>;
+
+  sendInvoice(
+    chatIdOrOptions: number | TelegramTypes.SendInvoiceOption,
+    options?: Omit<TelegramTypes.SendInvoiceOption, 'chatId'>
   ): Promise<TelegramTypes.Message> {
-    return this.request('/sendInvoice', {
-      chatId,
-      ...product,
-      ...options,
-    });
+    const data =
+      typeof chatIdOrOptions === 'object'
+        ? chatIdOrOptions
+        : {
+            chatId: chatIdOrOptions,
+            ...options,
+          };
+    return this.request('/sendInvoice', data);
   }
+
+  /**
+   * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
+   *
+   * @param options - Options for other optional parameters.
+   * @see https://core.telegram.org/bots/api#answershippingquery
+   * @example
+   * ```js
+   * await telegram.answerShippingQuery({
+   *   shippingQueryId: 'UNIQUE_ID',
+   *   ok: true,
+   *   shippingOptions: [{
+   *     id: 'id',
+   *     title: 'title',
+   *     prices: [{ label: 'label', amount: 100 }],
+   *   }],
+   * });
+   * ```
+   */
+  answerShippingQuery(
+    options: TelegramTypes.AnswerShippingQueryOption
+  ): Promise<boolean>;
 
   /**
    * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
@@ -3469,20 +3524,60 @@ export default class TelegramClient {
    * @see https://core.telegram.org/bots/api#answershippingquery
    * @example
    * ```js
-   * await telegram.answerShippingQuery('UNIQUE_ID', true);
+   * await telegram.answerShippingQuery('UNIQUE_ID', true, {
+   *   shippingOptions: [{
+   *     id: 'id',
+   *     title: 'title',
+   *     prices: [{ label: 'label', amount: 100 }],
+   *   }],
+   * });
    * ```
    */
   answerShippingQuery(
     shippingQueryId: string,
     ok: boolean,
-    options?: TelegramTypes.AnswerShippingQueryOption
+    options?: DistributiveOmit<
+      TelegramTypes.AnswerShippingQueryOption,
+      'shippingQueryId' | 'ok'
+    >
+  ): Promise<boolean>;
+
+  answerShippingQuery(
+    shippingQueryIdOrOptions: string | TelegramTypes.AnswerShippingQueryOption,
+    ok?: boolean,
+    options?: DistributiveOmit<
+      TelegramTypes.AnswerShippingQueryOption,
+      'shippingQueryId' | 'ok'
+    >
   ): Promise<boolean> {
-    return this.request('/answerShippingQuery', {
-      shippingQueryId,
-      ok,
-      ...options,
-    });
+    const data =
+      typeof shippingQueryIdOrOptions === 'object'
+        ? shippingQueryIdOrOptions
+        : {
+            shippingQueryId: shippingQueryIdOrOptions,
+            ok,
+            ...options,
+          };
+    return this.request('/answerShippingQuery', data);
   }
+
+  /**
+   * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
+   *
+   * @param options - Options for other optional parameters.
+   * @returns On success, True is returned.
+   * @see https://core.telegram.org/bots/api#answerprecheckoutquery
+   * @example
+   * ```js
+   * await telegram.answerPreCheckoutQuery({
+   *   preCheckoutQueryId: 'UNIQUE_ID',
+   *   ok: true,
+   * });
+   * ```
+   */
+  answerPreCheckoutQuery(
+    options: TelegramTypes.AnswerPreCheckoutQueryOption
+  ): Promise<boolean>;
 
   /**
    * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
@@ -3500,13 +3595,31 @@ export default class TelegramClient {
   answerPreCheckoutQuery(
     preCheckoutQueryId: string,
     ok: boolean,
-    options?: TelegramTypes.AnswerPreCheckoutQueryOption
+    options?: Omit<
+      TelegramTypes.AnswerPreCheckoutQueryOption,
+      'preCheckoutQueryId' | 'ok'
+    >
+  ): Promise<boolean>;
+
+  answerPreCheckoutQuery(
+    preCheckoutQueryIdOrOptions:
+      | string
+      | TelegramTypes.AnswerPreCheckoutQueryOption,
+    ok?: boolean,
+    options?: Omit<
+      TelegramTypes.AnswerPreCheckoutQueryOption,
+      'preCheckoutQueryId' | 'ok'
+    >
   ): Promise<boolean> {
-    return this.request('/answerPreCheckoutQuery', {
-      preCheckoutQueryId,
-      ok,
-      ...options,
-    });
+    const data =
+      typeof preCheckoutQueryIdOrOptions === 'object'
+        ? preCheckoutQueryIdOrOptions
+        : {
+            preCheckoutQueryId: preCheckoutQueryIdOrOptions,
+            ok,
+            ...options,
+          };
+    return this.request('/answerPreCheckoutQuery', data);
   }
 
   /**

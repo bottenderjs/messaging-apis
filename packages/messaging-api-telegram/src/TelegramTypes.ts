@@ -1254,37 +1254,6 @@ export type Invoice = {
   totalAmount: number;
 };
 
-export type Product = {
-  /**
-   * name, 1-32 characters
-   */
-  title: string;
-  /**
-   * Product description, 1-255 characters
-   */
-  description: string;
-  /**
-   * Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
-   */
-  startParameter: string;
-  /**
-   * Three-letter ISO 4217 currency code, see more on currencies
-   */
-  currency: string;
-  /**
-   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-   */
-  payload: string;
-  /**
-   * Payments provider token, obtained via Botfather
-   */
-  providerToken: string;
-  /**
-   * Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
-   */
-  prices: LabeledPrice[];
-};
-
 export type ShippingAddress = {
   countryCode: string;
   state: string;
@@ -3311,6 +3280,56 @@ export type AnswerInlineQueryOption = {
 
 export type SendInvoiceOption = {
   /**
+   * Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   */
+  chatId: number | string;
+
+  /**
+   * name, 1-32 characters
+   */
+  title: string;
+
+  /**
+   * Product description, 1-255 characters
+   */
+  description: string;
+
+  /**
+   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   */
+  payload: string;
+
+  /**
+   * Payments provider token, obtained via Botfather
+   */
+  providerToken: string;
+
+  /**
+   * Three-letter ISO 4217 currency code, see more on currencies
+   */
+  currency: string;
+
+  /**
+   * Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+   */
+  prices: LabeledPrice[];
+
+  /**
+   * The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+   */
+  maxTipAmount?: number;
+
+  /**
+   * A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+   */
+  suggestedTipAmounts: number[];
+
+  /**
+   * Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+   */
+  startParameter: string;
+
+  /**
    * JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
    */
   providerData?: string;
@@ -3383,6 +3402,11 @@ export type SendInvoiceOption = {
   replyToMessageId?: number;
 
   /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allowSendingWithoutReply?: boolean;
+
+  /**
    * A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
    *
    * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
@@ -3391,7 +3415,17 @@ export type SendInvoiceOption = {
   replyMarkup?: InlineKeyboardMarkup;
 };
 
-export type AnswerShippingQueryOption =
+export type AnswerShippingQueryOption = {
+  /**
+   * Unique identifier for the query to be answered
+   */
+  shippingQueryId: string;
+
+  /**
+   * Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
+   */
+  ok: boolean;
+} & (
   | {
       /**
        * Required if ok is True. A JSON-serialized array of available shipping options.
@@ -3403,9 +3437,20 @@ export type AnswerShippingQueryOption =
        * Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
        */
       errorMessage?: string;
-    };
+    }
+);
 
 export type AnswerPreCheckoutQueryOption = {
+  /**
+   * Unique identifier for the query to be answered
+   */
+  preCheckoutQueryId: string;
+
+  /**
+   * Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
+   */
+  ok: boolean;
+
   /**
    * Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
    */
