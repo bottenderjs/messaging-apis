@@ -45,6 +45,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-tsdoc": "^0.2.14",
+    "get-stream": "^5.2.0",
     "husky": "^7.0.2",
     "jest": "^26.4.0",
     "lerna": "^4.0.0",

@@ -37,9 +37,6 @@ function toArray<T>(arrOrItem: T | T[]): T[] {
   return Array.isArray(arrOrItem) ? arrOrItem : [arrOrItem];
 }
 
-/**
- * LineClient is a client for LINE API calls.
- */
 export default class LineClient {
   /**
    * The underlying axios instance.
@@ -62,16 +59,16 @@ export default class LineClient {
   private onRequest?: OnRequestFunction;
 
   /**
-   * Constructor of LineClient
+   * The constructor of LineClient.
    *
-   * Usage:
+   * @param config - the config object
+   * @example
    * ```js
-   * new LineClient({
-   *   accessToken: ACCESS_TOKEN,
-   * })
+   * const line = new LineClient({
+   *   accessToken: LINE_ACCESS_TOKEN,
+   *   channelSecret: LINE_CHANNEL_SECRET,
+   * });
    * ```
-   *
-   * @param config - [[ClientConfig]]
    */
   constructor(config: LineTypes.ClientConfig) {
     this.accessToken = config.accessToken;
@@ -101,6 +98,356 @@ export default class LineClient {
     this.dataAxios.interceptors.request.use(
       createRequestInterceptor({ onRequest: this.onRequest })
     );
+  }
+
+  /**
+   * Sends a reply message in response to an event from a user, group, or room.
+   *
+   * @param body - Reply request body.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+   * @example
+   * ```js
+   * await line.reply({
+   *   replyToken: '<REPLY_TOKEN>',
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
+   */
+  reply(body: LineTypes.ReplyBody): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends a reply message in response to an event from a user, group, or room.
+   *
+   * @param replyToken - Reply token received via webhook.
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await line.reply('<REPLY_TOKEN>', Line.text('Hello, world'));
+   * ```
+   */
+  reply(
+    replyToken: string,
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  reply(
+    bodyOrReplyToken: string | LineTypes.ReplyBody,
+    messages?: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body =
+      typeof bodyOrReplyToken === 'string'
+        ? {
+            replyToken: bodyOrReplyToken,
+            messages: toArray(messages),
+            notificationDisabled,
+          }
+        : {
+            ...bodyOrReplyToken,
+            messages: toArray(bodyOrReplyToken.messages),
+          };
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/reply', body)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Sends a push message to a user, group, or room at any time.
+   *
+   * @param body - Push request body.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#send-push-message
+   * @example
+   * ```js
+   * await line.push({
+   *   to: '<USER_ID>',
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
+   */
+  push(body: LineTypes.PushBody): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends a push message to a user, group, or room at any time.
+   *
+   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await line.push('<USER_ID>', Line.text('Hello, world'));
+   * ```
+   */
+  push(
+    to: string,
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  push(
+    bodyOrTo: string | LineTypes.PushBody,
+    messages?: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body =
+      typeof bodyOrTo === 'string'
+        ? {
+            to: bodyOrTo,
+            messages: toArray(messages),
+            notificationDisabled,
+          }
+        : {
+            ...bodyOrTo,
+            messages: toArray(bodyOrTo.messages),
+          };
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/push', body)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
+   *
+   * @param body - Multicast request body.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#send-multicast-message
+   * @example
+   * ```js
+   * await line.multicast({
+   *   to: ['<USER_ID_1>', '<USER_ID_2>'],
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
+   */
+  multicast(
+    body: LineTypes.MulticastBody
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
+   *
+   * @param to - Array of user IDs. Use userId values which are returned in webhook event objects.
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await line.multicast(
+   *   ['<USER_ID_1>', '<USER_ID_2>'],
+   *   Line.text('Hello, world')
+   * );
+   * ```
+   */
+  multicast(
+    to: string[],
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  multicast(
+    bodyOrTo: string[] | LineTypes.MulticastBody,
+    messages?: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body = Array.isArray(bodyOrTo)
+      ? {
+          to: bodyOrTo,
+          messages: toArray(messages),
+          notificationDisabled,
+        }
+      : {
+          ...bodyOrTo,
+          messages: toArray(bodyOrTo.messages),
+        };
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/message/multicast',
+        body
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
+   *
+   * @param body - Narrowcast request body.
+   * @returns Returns the `202` HTTP status code and a JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message
+   * @example
+   * ```js
+   * await line.narrowcast({
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   recipient: {
+   *     type: 'operator',
+   *     and: [
+   *       { type: 'audience', audienceGroupId: 5614991017776 },
+   *       {
+   *         type: 'operator',
+   *         not: { type: 'audience', audienceGroupId: 4389303728991 },
+   *       },
+   *     ],
+   *   },
+   * });
+   * ```
+   */
+  narrowcast(body: LineTypes.NarrowcastBody): Promise<{ requestId: string }>;
+
+  /**
+   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
+   *
+   * @param messages - Messages to send (Max: 5).
+   * @param recipient - [[RecipientObject]]. You can specify recipients of the message using up to 10 audiences.
+   * @param filter - Demographic filter object.
+   * @param limit - Limit object.
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns the `202` HTTP status code and a JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message
+   * @example
+   * ```js
+   * await line.narrowcast(
+   *   [Line.text('Hello'), Line.text('World')],
+   *   {
+   *     type: 'operator',
+   *     and: [
+   *       { type: 'audience', audienceGroupId: 5614991017776 },
+   *       {
+   *         type: 'operator',
+   *         not: { type: 'audience', audienceGroupId: 4389303728991 },
+   *       },
+   *     ],
+   *   }
+   * );
+   * ```
+   */
+  narrowcast(
+    messages: LineTypes.Message | LineTypes.Message[],
+    recipient?: LineTypes.RecipientObject,
+    filter?: { demographic: LineTypes.DemographicFilterObject },
+    limit?: LineTypes.NarrowcastLimit,
+    notificationDisabled?: boolean
+  ): Promise<{ requestId: string }>;
+
+  narrowcast(
+    bodyOrMessages:
+      | LineTypes.NarrowcastBody
+      | LineTypes.Message
+      | LineTypes.Message[],
+    recipient?: LineTypes.RecipientObject,
+    filter?: { demographic: LineTypes.DemographicFilterObject },
+    limit?: LineTypes.NarrowcastLimit,
+    notificationDisabled = false
+  ): Promise<{ requestId: string }> {
+    const body =
+      'messages' in bodyOrMessages
+        ? {
+            ...bodyOrMessages,
+            messages: toArray(bodyOrMessages.messages),
+          }
+        : {
+            messages: toArray(bodyOrMessages),
+            recipient,
+            filter,
+            limit,
+            notificationDisabled,
+          };
+    return this.axios.post('/v2/bot/message/narrowcast', body).then(
+      (res) => ({
+        requestId: res.headers['x-line-request-id'],
+        ...res.data,
+      }),
+      handleError
+    );
+  }
+
+  /**
+   * Gets the status of a narrowcast message.
+   *
+   * @param requestId - The narrowcast message's request ID. Each Messaging API request has a request ID.
+   * @returns Returns a `200` HTTP status code and a [[NarrowcastProgressResponse]]
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status
+   * @example
+   * ```js
+   * await line.getNarrowcastProgress(REQUEST_ID);
+   * // { phase: 'waiting' }
+   * ```
+   */
+  getNarrowcastProgress(
+    requestId: string
+  ): Promise<LineTypes.NarrowcastProgressResponse> {
+    return this.axios
+      .get('/v2/bot/message/progress/narrowcast', {
+        params: {
+          requestId,
+        },
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Sends push messages to multiple users at any time.
+   *
+   * @param body - Broadcast request body.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#send-reply-message
+   * @example
+   * ```js
+   * await line.broadcast({
+   *   messages: [Line.text('Hello'), Line.text('World')],
+   *   notificationDisabled: true,
+   * });
+   * ```
+   */
+  broadcast(
+    body: LineTypes.BroadcastBody
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Sends push messages to multiple users at any time.
+   *
+   * @param messages - Messages to send (Max: 5).
+   * @param notificationDisabled - Push notification is disabled or not.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @example
+   * ```js
+   * await line.multicast(Line.text('Hello, world'));
+   * ```
+   */
+  broadcast(
+    messages: LineTypes.Message | LineTypes.Message[],
+    notificationDisabled?: boolean
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  broadcast(
+    bodyOrMessages:
+      | LineTypes.BroadcastBody
+      | LineTypes.Message
+      | LineTypes.Message[],
+    notificationDisabled = false
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const body =
+      'messages' in bodyOrMessages
+        ? {
+            ...bodyOrMessages,
+            messages: toArray(bodyOrMessages.messages),
+          }
+        : {
+            messages: toArray(bodyOrMessages),
+            notificationDisabled,
+          };
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/message/broadcast',
+        body
+      )
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -162,330 +509,15 @@ export default class LineClient {
   }
 
   /**
-   * Sends a reply message in response to an event from a user, group, or room.
-   *
-   * @param body - Reply request body.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-reply-message
-   * @example
-   * ```js
-   * await client.reply({
-   *   replyToken: '<REPLY_TOKEN>',
-   *   messages: [Line.text('Hello'), Line.text('World')],
-   *   notificationDisabled: true,
-   * });
-   * ```
-   */
-  reply(body: LineTypes.ReplyBody): Promise<LineTypes.MutationSuccessResponse>;
-
-  /**
-   * Sends a reply message in response to an event from a user, group, or room.
-   *
-   * @param replyToken - Reply token received via webhook.
-   * @param messages - Messages to send (Max: 5).
-   * @param notificationDisabled - Push notification is disabled or not.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @example
-   * ```js
-   * await client.reply('<REPLY_TOKEN>', Line.text('Hello, world'));
-   * ```
-   */
-  reply(
-    replyToken: string,
-    messages: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled?: boolean
-  ): Promise<LineTypes.MutationSuccessResponse>;
-
-  reply(
-    bodyOrReplyToken: string | LineTypes.ReplyBody,
-    messages?: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled = false
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    const body =
-      typeof bodyOrReplyToken === 'string'
-        ? {
-            replyToken: bodyOrReplyToken,
-            messages: toArray(messages),
-            notificationDisabled,
-          }
-        : {
-            ...bodyOrReplyToken,
-            messages: toArray(bodyOrReplyToken.messages),
-          };
-    return this.axios
-      .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/reply', body)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Sends a push message to a user, group, or room at any time.
-   *
-   * @param body - Push request body.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-push-message
-   * @example
-   * ```js
-   * await client.push({
-   *   to: '<USER_ID>',
-   *   messages: [Line.text('Hello'), Line.text('World')],
-   *   notificationDisabled: true,
-   * });
-   * ```
-   */
-  push(body: LineTypes.PushBody): Promise<LineTypes.MutationSuccessResponse>;
-
-  /**
-   * Sends a push message to a user, group, or room at any time.
-   *
-   * @param to - ID of the target recipient. Use a userId, groupId, or roomId value returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#common-properties). Do not use the LINE ID found on LINE.
-   * @param messages - Messages to send (Max: 5).
-   * @param notificationDisabled - Push notification is disabled or not.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @example
-   * ```js
-   * await client.push('<USER_ID>', Line.text('Hello, world'));
-   * ```
-   */
-  push(
-    to: string,
-    messages: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled?: boolean
-  ): Promise<LineTypes.MutationSuccessResponse>;
-
-  push(
-    bodyOrTo: string | LineTypes.PushBody,
-    messages?: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled = false
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    const body =
-      typeof bodyOrTo === 'string'
-        ? {
-            to: bodyOrTo,
-            messages: toArray(messages),
-            notificationDisabled,
-          }
-        : {
-            ...bodyOrTo,
-            messages: toArray(bodyOrTo.messages),
-          };
-    return this.axios
-      .post<LineTypes.MutationSuccessResponse>('/v2/bot/message/push', body)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
-   *
-   * @param body - Multicast request body.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-multicast-message
-   * @example
-   * ```js
-   * await client.multicast({
-   *   to: ['<USER_ID_1>', '<USER_ID_2>'],
-   *   messages: [Line.text('Hello'), Line.text('World')],
-   *   notificationDisabled: true,
-   * });
-   * ```
-   */
-  multicast(
-    body: LineTypes.MulticastBody
-  ): Promise<LineTypes.MutationSuccessResponse>;
-
-  /**
-   * Sends push messages to multiple users at any time. Messages cannot be sent to groups or rooms.
-   *
-   * @param to - Array of user IDs. Use userId values which are returned in webhook event objects.
-   * @param messages - Messages to send (Max: 5).
-   * @param notificationDisabled - Push notification is disabled or not.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @example
-   * ```js
-   * await client.multicast(
-   *   ['<USER_ID_1>', '<USER_ID_2>'],
-   *   Line.text('Hello, world')
-   * );
-   * ```
-   */
-  multicast(
-    to: string[],
-    messages: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled?: boolean
-  ): Promise<LineTypes.MutationSuccessResponse>;
-
-  multicast(
-    bodyOrTo: string[] | LineTypes.MulticastBody,
-    messages?: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled = false
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    const body = Array.isArray(bodyOrTo)
-      ? {
-          to: bodyOrTo,
-          messages: toArray(messages),
-          notificationDisabled,
-        }
-      : {
-          ...bodyOrTo,
-          messages: toArray(bodyOrTo.messages),
-        };
-    return this.axios
-      .post<LineTypes.MutationSuccessResponse>(
-        '/v2/bot/message/multicast',
-        body
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Sends push messages to multiple users at any time.
-   *
-   * @param messages - Messages to send (Max: 5)
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-reply-message
-   * @example
-   * ```js
-   * await client.broadcast({
-   *   messages: [Line.text('Hello'), Line.text('World')],
-   *   notificationDisabled: true,
-   * });
-   * ```
-   */
-  broadcast(
-    body: LineTypes.BroadcastBody
-  ): Promise<LineTypes.MutationSuccessResponse>;
-
-  /**
-   * Sends push messages to multiple users at any time.
-   *
-   * @param messages - Messages to send (Max: 5).
-   * @param notificationDisabled - Push notification is disabled or not.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @example
-   * ```js
-   * await client.multicast(Line.text('Hello, world'));
-   * ```
-   */
-  broadcast(
-    messages: LineTypes.Message | LineTypes.Message[],
-    notificationDisabled?: boolean
-  ): Promise<LineTypes.MutationSuccessResponse>;
-
-  broadcast(
-    bodyOrMessages:
-      | LineTypes.BroadcastBody
-      | LineTypes.Message
-      | LineTypes.Message[],
-    notificationDisabled = false
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    const body =
-      'messages' in bodyOrMessages
-        ? {
-            ...bodyOrMessages,
-            messages: toArray(bodyOrMessages.messages),
-          }
-        : {
-            messages: toArray(bodyOrMessages),
-            notificationDisabled,
-          };
-    return this.axios
-      .post<LineTypes.MutationSuccessResponse>(
-        '/v2/bot/message/broadcast',
-        body
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
-   *
-   * @param body - Request body
-   * @param body.messages - Messages to send - Max: 5
-   * @param body.recipient - [[RecipientObject]]. You can specify recipients of the message using up to 10 audiences.
-   * @param body.filter - demographic:
-   * @param body.limit - max:
-   * @returns Returns the `202` HTTP status code and a JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message
-   */
-  narrowcastRawBody(body: {
-    messages: LineTypes.Message[];
-    recipient?: LineTypes.RecipientObject;
-    filter?: { demographic: LineTypes.DemographicFilterObject };
-    limit?: {
-      max: number;
-    };
-  }): Promise<{ requestId: string }> {
-    return this.axios.post('/v2/bot/message/narrowcast', body).then((res) => {
-      return {
-        requestId: res.headers['x-line-request-id'],
-        ...res.data,
-      };
-    }, handleError);
-  }
-
-  /**
-   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
-   *
-   * @param messages - Messages to send (Max: 5).
-   * @param options - Narrowcast options
-   * @returns Returns the `202` HTTP status code and a JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message
-   */
-  narrowcast(body: LineTypes.NarrowcastBody): Promise<{ requestId: string }>;
-
-  /**
-   * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
-   *
-   * @param messages - Messages to send (Max: 5).
-   * @param options - Narrowcast options
-   * @returns Returns the `202` HTTP status code and a JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#send-narrowcast-message
-   */
-  narrowcast(
-    messages: LineTypes.Message | LineTypes.Message[],
-    recipient?: LineTypes.RecipientObject,
-    filter?: { demographic: LineTypes.DemographicFilterObject },
-    limit?: LineTypes.NarrowcastLimit,
-    notificationDisabled?: boolean
-  ): Promise<{ requestId: string }>;
-
-  narrowcast(
-    bodyOrMessages:
-      | LineTypes.NarrowcastBody
-      | LineTypes.Message
-      | LineTypes.Message[],
-    recipient?: LineTypes.RecipientObject,
-    filter?: { demographic: LineTypes.DemographicFilterObject },
-    limit?: LineTypes.NarrowcastLimit,
-    notificationDisabled = false
-  ): Promise<{ requestId: string }> {
-    const body =
-      'messages' in bodyOrMessages
-        ? {
-            ...bodyOrMessages,
-            messages: toArray(bodyOrMessages.messages),
-          }
-        : {
-            messages: toArray(bodyOrMessages),
-            recipient,
-            filter,
-            limit,
-            notificationDisabled,
-          };
-    return this.axios.post('/v2/bot/message/narrowcast', body).then(
-      (res) => ({
-        requestId: res.headers['x-line-request-id'],
-        ...res.data,
-      }),
-      handleError
-    );
-  }
-
-  /**
-   * Gets images, videos, audio, and files sent by users.
+   * Gets images, videos, audio, and files sent by users using buffer.
    *
    * @param messageId - Message ID
    * @returns Returns status code `200` and the content in binary.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-content
+   * @example
+   * ```js
+   * const buffer = await line.getMessageContentStream(MESSAGE_ID);
+   * ```
    */
   getMessageContent(messageId: string): Promise<Buffer> {
     return this.dataAxios
@@ -495,6 +527,17 @@ export default class LineClient {
       .then((res) => res.data, handleError);
   }
 
+  /**
+   * Gets images, videos, audio, and files sent by users using stream.
+   *
+   * @param messageId - Message ID
+   * @returns Returns status code `200` and the content in stream.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-content
+   * @example
+   * ```js
+   * const stream = await line.getMessageContentStream(MESSAGE_ID);
+   * ```
+   */
   getMessageContentStream(messageId: string): Promise<Readable> {
     return this.dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
@@ -1175,25 +1218,6 @@ export default class LineClient {
   getFriendDemographics(): Promise<LineTypes.FriendDemographics> {
     return this.axios
       .get<LineTypes.FriendDemographics>('/v2/bot/insight/demographic')
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets the status of a narrowcast message.
-   *
-   * @param requestId - The narrowcast message's request ID. Each Messaging API request has a request ID.
-   * @returns Returns a `200` HTTP status code and a [[NarrowcastProgressResponse]]
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-narrowcast-progress-status
-   */
-  getNarrowcastProgress(
-    requestId: string
-  ): Promise<LineTypes.NarrowcastProgressResponse> {
-    return this.axios
-      .get('/v2/bot/message/progress/narrowcast', {
-        params: {
-          requestId,
-        },
-      })
       .then((res) => res.data, handleError);
   }
 

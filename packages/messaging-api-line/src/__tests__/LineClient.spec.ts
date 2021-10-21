@@ -1,7 +1,14 @@
 import MockAdapter from 'axios-mock-adapter';
+import { rest } from 'msw';
 
 import LineClient from '../LineClient';
 import * as Line from '../Line';
+
+import {
+  constants,
+  getCurrentContext,
+  setupLineServer,
+} from './testing-library';
 
 const RECIPIENT_ID = '1QAZ2WSX';
 const REPLY_TOKEN = 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA';
@@ -32,21 +39,68 @@ const createMock = (): {
   return { client, mock, dataMock, headers };
 };
 
-describe('Content', () => {
-  describe('#getMessageContent', () => {
-    it('should call getMessageContent api', async () => {
-      const { client, dataMock } = createMock();
+const lineServer = setupLineServer();
 
-      const reply = Buffer.from('a content buffer');
+it('should support origin', async () => {
+  lineServer.use(
+    rest.post('*', (_, res, ctx) => {
+      return res(ctx.json({}));
+    })
+  );
 
-      const MESSAGE_ID = '1234567890';
+  const line = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
+    origin: 'https://mydummytestserver.com',
+  });
 
-      dataMock.onGet(`/v2/bot/message/${MESSAGE_ID}/content`).reply(200, reply);
+  await line.reply(constants.REPLY_TOKEN, {
+    type: 'text',
+    text: 'Hello, world',
+  });
 
-      const res = await client.getMessageContent(MESSAGE_ID);
+  const { request } = getCurrentContext();
 
-      expect(res).toEqual(reply);
-    });
+  expect(request).toBeDefined();
+  expect(request?.url.href).toBe(
+    'https://mydummytestserver.com/v2/bot/message/reply'
+  );
+});
+
+it.todo('should support dataOrigin');
+
+it('should support onRequest', async () => {
+  const onRequest = jest.fn();
+
+  const line = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
+    onRequest,
+  });
+
+  await line.reply(REPLY_TOKEN, {
+    type: 'text',
+    text: 'Hello, world',
+  });
+
+  expect(onRequest).toBeCalledWith({
+    method: 'post',
+    url: 'https://api.line.me/v2/bot/message/reply',
+    body: {
+      messages: [
+        {
+          text: 'Hello, world',
+          type: 'text',
+        },
+      ],
+      notificationDisabled: false,
+      replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+    },
+    headers: {
+      Authorization: 'Bearer ACCESS_TOKEN',
+      'Content-Type': 'application/json',
+      Accept: 'application/json, text/plain, */*',
+    },
   });
 });
 
@@ -113,52 +167,60 @@ describe('Account link', () => {
   });
 });
 
-describe('Error', () => {
-  it('should format correctly when no details', async () => {
-    const { client, mock } = createMock();
+it('should handle errors', async () => {
+  lineServer.use(
+    rest.post('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(
+        ctx.status(400),
+        ctx.json({
+          message: 'The request body has 2 error(s)',
+        })
+      );
+    })
+  );
 
-    const reply = {
-      message: 'The request body has 2 error(s)',
-    };
-
-    mock.onAny().reply(400, reply);
-
-    let error;
-    try {
-      await client.reply(REPLY_TOKEN, [Line.text('Hello!')]);
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error.message).toEqual('LINE API - The request body has 2 error(s)');
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
   });
 
-  it('should format correctly when details exist', async () => {
-    const { client, mock } = createMock();
+  await expect(
+    line.reply(REPLY_TOKEN, [Line.text('Hello!')])
+  ).rejects.toThrowError('LINE API - The request body has 2 error(s)');
+});
 
-    const reply = {
-      message: 'The request body has 2 error(s)',
-      details: [
-        { message: 'May not be empty', property: 'messages[0].text' },
-        {
-          message:
-            'Must be one of the following values: [text, image, video, audio, location, sticker, template, imagemap]',
-          property: 'messages[1].type',
-        },
-      ],
-    };
+it('should handle errors when details exist', async () => {
+  lineServer.use(
+    rest.post('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(
+        ctx.status(400),
+        ctx.json({
+          message: 'The request body has 2 error(s)',
+          details: [
+            {
+              message: 'May not be empty',
+              property: 'messages[0].text',
+            },
+            {
+              message:
+                'Must be one of the following values: [text, image, video, audio, location, sticker, template, imagemap]',
+              property: 'messages[1].type',
+            },
+          ],
+        })
+      );
+    })
+  );
 
-    mock.onAny().reply(400, reply);
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-    let error;
-    try {
-      await client.reply(REPLY_TOKEN, [Line.text('Hello!')]);
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error.message).toEqual(`LINE API - The request body has 2 error(s)
+  await expect(line.reply(REPLY_TOKEN, [Line.text('Hello!')])).rejects
+    .toThrowError(`LINE API - The request body has 2 error(s)
 - messages[0].text: May not be empty
 - messages[1].type: Must be one of the following values: [text, image, video, audio, location, sticker, template, imagemap]`);
-  });
 });

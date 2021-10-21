@@ -21,6 +21,13 @@ export function getCurrentContext(): Context {
   return currentContext;
 }
 
+export const constants = {
+  ACCESS_TOKEN: 'ACCESS_TOKEN',
+  CHANNEL_SECRET: 'CHANNEL_SECRET',
+  REPLY_TOKEN: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+  MESSAGE_ID: '1234567890',
+};
+
 /**
  * Sets up a mock LINE server.
  *
@@ -52,6 +59,17 @@ export function setupLineServer(): SetupServerApi {
       }
     ),
     ...narrowcastRequestHandlers,
+    rest.get(
+      `https://api-data.line.me/v2/bot/message/${constants.MESSAGE_ID}/content`,
+      (req, res, ctx) => {
+        currentContext.request = req;
+
+        return res(
+          ctx.body(Buffer.from('a content buffer')),
+          ctx.set('X-Line-Request-Id', uuidv4())
+        );
+      }
+    ),
     ...webhookRequestHandlers
   );
   if (typeof beforeAll === 'function') {
@@ -75,11 +93,6 @@ export function setupLineServer(): SetupServerApi {
 
   return server;
 }
-
-export const constants = {
-  ACCESS_TOKEN: 'ACCESS_TOKEN',
-  CHANNEL_SECRET: 'CHANNEL_SECRET',
-};
 
 export { setBotInfo } from './bot';
 export { setNarrowcastProgress } from './narrowcast';
