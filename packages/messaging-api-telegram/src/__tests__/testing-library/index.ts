@@ -165,7 +165,21 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     ...commandRequestHandlers,
     ...updatingMessageRequestHandlers,
-    ...stickerRequestHandlers
+    ...stickerRequestHandlers,
+    rest.post(
+      `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/answerInlineQuery`,
+      (req, res, ctx) => {
+        getCurrentContext().request = req;
+        return res(
+          ctx.json(
+            snakecaseKeysDeep({
+              ok: true,
+              result: true,
+            })
+          )
+        );
+      }
+    )
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
