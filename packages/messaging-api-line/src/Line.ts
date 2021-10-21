@@ -9,9 +9,7 @@ import * as LineTypes from './LineTypes';
  * @param txt - Message text.
  * @param options - Text message options.
  * @returns - Text message object.
- *
  * @example
- *
  * ```js
  * await client.reply(Line.text('hi'));
  * ```
