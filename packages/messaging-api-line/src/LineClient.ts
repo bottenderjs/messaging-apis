@@ -464,9 +464,7 @@ export default class LineClient {
   ): Promise<LineTypes.NarrowcastProgressResponse> {
     return this.axios
       .get('/v2/bot/message/progress/narrowcast', {
-        params: {
-          requestId,
-        },
+        params: { requestId },
       })
       .then((res) => res.data, handleError);
   }
@@ -631,9 +629,7 @@ export default class LineClient {
       .get<LineTypes.NumberOfMessagesSentResponse>(
         '/v2/bot/message/delivery/reply',
         {
-          params: {
-            date,
-          },
+          params: { date },
         }
       )
       .then((res) => res.data, handleError);
@@ -661,9 +657,7 @@ export default class LineClient {
       .get<LineTypes.NumberOfMessagesSentResponse>(
         '/v2/bot/message/delivery/push',
         {
-          params: {
-            date,
-          },
+          params: { date },
         }
       )
       .then((res) => res.data, handleError);
@@ -691,9 +685,7 @@ export default class LineClient {
       .get<LineTypes.NumberOfMessagesSentResponse>(
         '/v2/bot/message/delivery/multicast',
         {
-          params: {
-            date,
-          },
+          params: { date },
         }
       )
       .then((res) => res.data, handleError);
@@ -721,9 +713,7 @@ export default class LineClient {
       .get<LineTypes.NumberOfMessagesSentResponse>(
         '/v2/bot/message/delivery/broadcast',
         {
-          params: {
-            date,
-          },
+          params: { date },
         }
       )
       .then((res) => res.data, handleError);
@@ -1270,9 +1260,7 @@ export default class LineClient {
       .get<LineTypes.NumberOfMessageDeliveriesResponse>(
         '/v2/bot/insight/message/delivery',
         {
-          params: {
-            date,
-          },
+          params: { date },
         }
       )
       .then((res) => res.data, handleError);
@@ -1300,9 +1288,7 @@ export default class LineClient {
   ): Promise<LineTypes.NumberOfFollowersResponse> {
     return this.axios
       .get<LineTypes.NumberOfFollowersResponse>('/v2/bot/insight/followers', {
-        params: {
-          date,
-        },
+        params: { date },
       })
       .then((res) => res.data, handleError);
   }
@@ -1364,23 +1350,9 @@ export default class LineClient {
       .get<LineTypes.UserInteractionStatistics>(
         '/v2/bot/insight/message/event',
         {
-          params: {
-            requestId,
-          },
+          params: { requestId },
         }
       )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets a bot's basic information.
-   *
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
-   * @returns Returns status code 200 and a JSON object with the bot information.
-   */
-  public getBotInfo(): Promise<LineTypes.BotInfoResponse> {
-    return this.axios
-      .get<LineTypes.BotInfoResponse>('/v2/bot/info')
       .then((res) => res.data, handleError);
   }
 
@@ -1390,6 +1362,17 @@ export default class LineClient {
    * @param userId - User ID that is returned in a [webhook event object](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID found on LINE.Message IDUser ID that is returned in a webhook event object. Do not use the LINE ID found on LINE.
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-profile
+   * @example
+   * ```js
+   * await line.getUserProfile();
+   * // {
+   * //   displayName: 'LINE taro',
+   * //   userId: 'U4af4980629...',
+   * //   language: 'en',
+   * //   pictureUrl: 'https://obs.line-apps.com/...',
+   * //   statusMessage: 'Hello, LINE!',
+   * // }
+   * ```
    */
   public getUserProfile(userId: string): Promise<LineTypes.User> {
     return this.axios
@@ -1401,6 +1384,76 @@ export default class LineClient {
         }
         return handleError(err);
       });
+  }
+
+  /**
+   * Gets the list of User IDs of users who have added your LINE Official Account as a friend.
+   *
+   * @param start - Value of the continuation token found in the next property of the JSON object returned in the response. Include this parameter to get the next array of user IDs.
+   * @returns Returns status code `200` and a JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-follower-ids
+   * @example
+   * ```js
+   * await line.getBotFollowersIds();
+   * // {
+   * //   userIds: [
+   * //     'U4af4980629...',
+   * //     'U0c229f96c4...',
+   * //     'U95afb1d4df...',
+   * //   ],
+   * //   next: 'yANU9IA...',
+   * // }
+   * ```
+   */
+  public getBotFollowersIds(
+    start?: string
+  ): Promise<{ userIds: string[]; next: string }> {
+    return this.axios
+      .get('/v2/bot/followers/ids', {
+        params: { start },
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the list of User IDs of users who have added your LINE Official Account as a friend.
+   *
+   * @returns Returns status code `200` and an array of user IDs.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-follower-ids
+   * @example
+   * ```js
+   * await line.getAllBotFollowersIds();
+   * // ['U4af4980629...', 'U0c229f96c4...', 'U95afb1d4df...']
+   * ```
+   */
+  public async getAllBotFollowersIds(): Promise<string[]> {
+    let userIds: string[] = [];
+
+    let start: string | undefined;
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await this.getBotFollowersIds(start);
+      userIds = userIds.concat(res.userIds);
+      start = res.next;
+    } while (start);
+
+    return userIds;
+  }
+
+  /**
+   * Gets a bot's basic information.
+   *
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
+   * @returns Returns status code 200 and a JSON object with the bot information.
+   * @example
+   * ```js
+   * await line.getBotInfo();
+   * ```
+   */
+  public getBotInfo(): Promise<LineTypes.BotInfoResponse> {
+    return this.axios
+      .get<LineTypes.BotInfoResponse>('/v2/bot/info')
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1478,7 +1531,7 @@ export default class LineClient {
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this.axios
       .get(`/v2/bot/group/${groupId}/members/ids`, {
-        params: start ? { start } : {},
+        params: { start },
       })
       .then((res) => res.data, handleError);
   }
@@ -1538,7 +1591,7 @@ export default class LineClient {
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this.axios
       .get(`/v2/bot/room/${roomId}/members/ids`, {
-        params: start ? { start } : {},
+        params: { start },
       })
       .then((res) => res.data, handleError);
   }

@@ -15,18 +15,27 @@ export type ClientConfig = {
  *
  */
 export type User = {
-  /** User's display name */
+  /**
+   * User's display name
+   */
   displayName: string;
-
-  /** User ID */
+  /**
+   * User ID
+   */
   userId: string;
-
+  /**
+   * User's language, as a BCP 47 (opens new window)language tag. Example: `en` for English. The `language` property is returned only in the following situations:
+   * - User has a LINE account created in Japan and has agreed to the Privacy Policy of LINE version 8.0.0 or later
+   * - User has a LINE account created in Taiwan, Thailand, or Indonesia and has agreed to the Privacy Policy of LINE version 8.9.0 or later
+   */
   language?: string;
-
-  /** Profile image URL. "https" image URL. Not included in the response if the user doesn't have a profile image. */
+  /**
+   * Profile image URL. "https" image URL. Not included in the response if the user doesn't have a profile image.
+   */
   pictureUrl: string;
-
-  /** User's status message. Not included in the response if the user doesn't have a status message. */
+  /**
+   * User's status message. Not included in the response if the user doesn't have a status message.
+   */
   statusMessage: string;
 };
 

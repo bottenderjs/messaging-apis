@@ -5,6 +5,7 @@ import { requestHandlers as botRequestHandlers } from './bot';
 import { getCurrentContext } from './shared';
 import { requestHandlers as insightRequestHandlers } from './insight';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as userRequestHandlers } from './user';
 import { requestHandlers as webhookRequestHandlers } from './webhook';
 
 /**
@@ -18,7 +19,8 @@ export function setupLineServer(): SetupServerApi {
     ...botRequestHandlers,
     ...messageRequestHandlers,
     ...audienceRequestHandlers,
-    ...insightRequestHandlers
+    ...insightRequestHandlers,
+    ...userRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
