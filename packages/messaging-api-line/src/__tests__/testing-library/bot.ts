@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LineTypes } from '../..';
 
 import { getCurrentContext } from './shared';
+import { res } from './res';
 
 let botInfo = {
   userId: 'Ub9952f8...',
@@ -24,7 +25,7 @@ export function setBotInfo(info: LineTypes.BotInfoResponse): void {
 }
 
 export const requestHandlers = [
-  rest.get<undefined>('https://api.line.me/v2/bot/info', (req, res, ctx) => {
+  rest.get<undefined>('https://api.line.me/v2/bot/info', (req, _, ctx) => {
     getCurrentContext().request = req;
     return res(ctx.json(botInfo), ctx.set('X-Line-Request-Id', uuidv4()));
   }),

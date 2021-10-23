@@ -2,11 +2,12 @@ import { rest } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 
 import { getCurrentContext } from './shared';
+import { res } from './res';
 
 export const requestHandlers = [
   rest.get(
     'https://api.line.me/v2/bot/insight/message/delivery',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({
@@ -18,7 +19,7 @@ export const requestHandlers = [
       );
     }
   ),
-  rest.get('https://api.line.me/v2/bot/insight/followers', (req, res, ctx) => {
+  rest.get('https://api.line.me/v2/bot/insight/followers', (req, _, ctx) => {
     getCurrentContext().request = req;
     return res(
       ctx.json({
@@ -30,95 +31,92 @@ export const requestHandlers = [
       ctx.set('X-Line-Request-Id', uuidv4())
     );
   }),
-  rest.get(
-    'https://api.line.me/v2/bot/insight/demographic',
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
-      return res(
-        ctx.json({
-          available: true,
-          genders: [
-            {
-              gender: 'unknown',
-              percentage: 37.6,
-            },
-            {
-              gender: 'male',
-              percentage: 31.8,
-            },
-            {
-              gender: 'female',
-              percentage: 30.6,
-            },
-          ],
-          ages: [
-            {
-              age: 'unknown',
-              percentage: 37.6,
-            },
-            {
-              age: 'from50',
-              percentage: 17.3,
-            },
-          ],
-          areas: [
-            {
-              area: 'unknown',
-              percentage: 42.9,
-            },
-            {
-              area: '徳島',
-              percentage: 2.9,
-            },
-          ],
-          appTypes: [
-            {
-              appType: 'ios',
-              percentage: 62.4,
-            },
-            {
-              appType: 'android',
-              percentage: 27.7,
-            },
-            {
-              appType: 'others',
-              percentage: 9.9,
-            },
-          ],
-          subscriptionPeriods: [
-            {
-              subscriptionPeriod: 'over365days',
-              percentage: 96.4,
-            },
-            {
-              subscriptionPeriod: 'within365days',
-              percentage: 1.9,
-            },
-            {
-              subscriptionPeriod: 'within180days',
-              percentage: 1.2,
-            },
-            {
-              subscriptionPeriod: 'within90days',
-              percentage: 0.5,
-            },
-            {
-              subscriptionPeriod: 'within30days',
-              percentage: 0.1,
-            },
-            {
-              subscriptionPeriod: 'within7days',
-              percentage: 0,
-            },
-          ],
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
-      );
-    }
-  ),
+  rest.get('https://api.line.me/v2/bot/insight/demographic', (req, _, ctx) => {
+    getCurrentContext().request = req;
+    return res(
+      ctx.json({
+        available: true,
+        genders: [
+          {
+            gender: 'unknown',
+            percentage: 37.6,
+          },
+          {
+            gender: 'male',
+            percentage: 31.8,
+          },
+          {
+            gender: 'female',
+            percentage: 30.6,
+          },
+        ],
+        ages: [
+          {
+            age: 'unknown',
+            percentage: 37.6,
+          },
+          {
+            age: 'from50',
+            percentage: 17.3,
+          },
+        ],
+        areas: [
+          {
+            area: 'unknown',
+            percentage: 42.9,
+          },
+          {
+            area: '徳島',
+            percentage: 2.9,
+          },
+        ],
+        appTypes: [
+          {
+            appType: 'ios',
+            percentage: 62.4,
+          },
+          {
+            appType: 'android',
+            percentage: 27.7,
+          },
+          {
+            appType: 'others',
+            percentage: 9.9,
+          },
+        ],
+        subscriptionPeriods: [
+          {
+            subscriptionPeriod: 'over365days',
+            percentage: 96.4,
+          },
+          {
+            subscriptionPeriod: 'within365days',
+            percentage: 1.9,
+          },
+          {
+            subscriptionPeriod: 'within180days',
+            percentage: 1.2,
+          },
+          {
+            subscriptionPeriod: 'within90days',
+            percentage: 0.5,
+          },
+          {
+            subscriptionPeriod: 'within30days',
+            percentage: 0.1,
+          },
+          {
+            subscriptionPeriod: 'within7days',
+            percentage: 0,
+          },
+        ],
+      }),
+      ctx.set('X-Line-Request-Id', uuidv4())
+    );
+  }),
   rest.get(
     'https://api.line.me/v2/bot/insight/message/event',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({

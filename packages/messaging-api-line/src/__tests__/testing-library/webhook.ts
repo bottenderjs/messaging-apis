@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LineTypes } from '../..';
 
 import { getCurrentContext } from './shared';
+import { res } from './res';
 
 const webhookEndpoint: LineTypes.WebhookEndpointInfoResponse = {
   endpoint: 'https://www.example.com/webhook',
@@ -13,7 +14,7 @@ const webhookEndpoint: LineTypes.WebhookEndpointInfoResponse = {
 export const requestHandlers = [
   rest.put<{ endpoint: string }>(
     'https://api.line.me/v2/bot/channel/webhook/endpoint',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       webhookEndpoint.endpoint = req.body.endpoint;
       return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
@@ -21,7 +22,7 @@ export const requestHandlers = [
   ),
   rest.get<undefined>(
     'https://api.line.me/v2/bot/channel/webhook/endpoint',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json(webhookEndpoint),
@@ -31,7 +32,7 @@ export const requestHandlers = [
   ),
   rest.post<{ endpoint?: string }>(
     'https://api.line.me/v2/bot/channel/webhook/test',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({

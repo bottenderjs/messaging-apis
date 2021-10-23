@@ -2,11 +2,12 @@ import { rest } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 
 import { getCurrentContext } from './shared';
+import { res } from './res';
 
 export const requestHandlers = [
   rest.get<undefined>(
     'https://api.line.me/v2/bot/profile/:userId',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({
@@ -22,7 +23,7 @@ export const requestHandlers = [
   ),
   rest.get<undefined>(
     'https://api.line.me/v2/bot/followers/ids',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
 
       if (req.url.searchParams.get('start') === 'yANU9IA...') {

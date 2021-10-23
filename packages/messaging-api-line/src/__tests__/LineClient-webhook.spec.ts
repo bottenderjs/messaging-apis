@@ -9,12 +9,12 @@ import {
 setupLineServer();
 
 it('should support #setWebhookEndpointUrl', async () => {
-  const client = new LineClient({
+  const line = new LineClient({
     accessToken: constants.ACCESS_TOKEN,
     channelSecret: constants.CHANNEL_SECRET,
   });
 
-  const res = await client.setWebhookEndpointUrl(
+  const res = await line.setWebhookEndpointUrl(
     'https://www.example.com/webhook'
   );
 
@@ -35,13 +35,13 @@ it('should support #setWebhookEndpointUrl', async () => {
 });
 
 it('should support #getWebhookEndpointInfo', async () => {
-  const client = new LineClient({
+  const line = new LineClient({
     accessToken: constants.ACCESS_TOKEN,
     channelSecret: constants.CHANNEL_SECRET,
   });
 
-  await client.setWebhookEndpointUrl('https://www.example.com/webhook');
-  const res = await client.getWebhookEndpointInfo();
+  await line.setWebhookEndpointUrl('https://www.example.com/webhook');
+  const res = await line.getWebhookEndpointInfo();
 
   expect(res).toEqual({
     endpoint: 'https://www.example.com/webhook',
@@ -60,14 +60,12 @@ it('should support #getWebhookEndpointInfo', async () => {
 });
 
 it('should support #testWebhookEndpoint', async () => {
-  const client = new LineClient({
+  const line = new LineClient({
     accessToken: constants.ACCESS_TOKEN,
     channelSecret: constants.CHANNEL_SECRET,
   });
 
-  const res = await client.testWebhookEndpoint(
-    'https://www.example.com/webhook'
-  );
+  const res = await line.testWebhookEndpoint('https://www.example.com/webhook');
 
   expect(res).toEqual({
     success: true,

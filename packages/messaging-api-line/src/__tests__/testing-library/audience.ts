@@ -2,11 +2,12 @@ import { rest } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 
 import { getCurrentContext } from './shared';
+import { res } from './res';
 
 export const requestHandlers = [
   rest.post(
     'https://api.line.me/v2/bot/audienceGroup/upload',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({
@@ -25,7 +26,7 @@ export const requestHandlers = [
   ),
   rest.post(
     'https://api-data.line.me/v2/bot/audienceGroup/upload/byFile',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({
@@ -42,42 +43,36 @@ export const requestHandlers = [
       );
     }
   ),
-  rest.put(
-    'https://api.line.me/v2/bot/audienceGroup/upload',
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
-    }
-  ),
+  rest.put('https://api.line.me/v2/bot/audienceGroup/upload', (req, _, ctx) => {
+    getCurrentContext().request = req;
+    return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+  }),
   rest.put(
     'https://api-data.line.me/v2/bot/audienceGroup/upload/byFile',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
     }
   ),
-  rest.post(
-    'https://api.line.me/v2/bot/audienceGroup/click',
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
-      return res(
-        ctx.json({
-          audienceGroupId: 1234567890123,
-          createRoute: 'MESSAGING_API',
-          type: 'CLICK',
-          description: 'audienceGroupName_01',
-          created: 1613705240,
-          permission: 'READ_WRITE',
-          expireTimestamp: 1629257239,
-          isIfaAudience: false,
-          requestId: 'bb9744f9-47fa-4a29-941e-1234567890ab',
-          clickUrl: 'https://developers.line.biz/',
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
-      );
-    }
-  ),
-  rest.post('https://api.line.me/v2/bot/audienceGroup/imp', (req, res, ctx) => {
+  rest.post('https://api.line.me/v2/bot/audienceGroup/click', (req, _, ctx) => {
+    getCurrentContext().request = req;
+    return res(
+      ctx.json({
+        audienceGroupId: 1234567890123,
+        createRoute: 'MESSAGING_API',
+        type: 'CLICK',
+        description: 'audienceGroupName_01',
+        created: 1613705240,
+        permission: 'READ_WRITE',
+        expireTimestamp: 1629257239,
+        isIfaAudience: false,
+        requestId: 'bb9744f9-47fa-4a29-941e-1234567890ab',
+        clickUrl: 'https://developers.line.biz/',
+      }),
+      ctx.set('X-Line-Request-Id', uuidv4())
+    );
+  }),
+  rest.post('https://api.line.me/v2/bot/audienceGroup/imp', (req, _, ctx) => {
     getCurrentContext().request = req;
     return res(
       ctx.json({
@@ -96,14 +91,14 @@ export const requestHandlers = [
   }),
   rest.put(
     'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId/updateDescription',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/audienceGroup/authorityLevel',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({
@@ -115,12 +110,12 @@ export const requestHandlers = [
   ),
   rest.put(
     'https://api.line.me/v2/bot/audienceGroup/authorityLevel',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
     }
   ),
-  rest.get('https://api.line.me/v2/bot/audienceGroup/list', (req, res, ctx) => {
+  rest.get('https://api.line.me/v2/bot/audienceGroup/list', (req, _, ctx) => {
     getCurrentContext().request = req;
     return res(
       ctx.json({
@@ -146,14 +141,14 @@ export const requestHandlers = [
   }),
   rest.delete(
     'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId',
-    (req, res, ctx) => {
+    (req, _, ctx) => {
       getCurrentContext().request = req;
       return res(
         ctx.json({

@@ -3,37 +3,20 @@ import { LineClient } from '..';
 import {
   constants,
   getCurrentContext,
-  setBotInfo,
   setupLineServer,
 } from './testing-library';
 
 setupLineServer();
 
-it('should support #getBotInfo', async () => {
+it('should support #getLinkToken', async () => {
   const line = new LineClient({
     accessToken: constants.ACCESS_TOKEN,
     channelSecret: constants.CHANNEL_SECRET,
   });
 
-  setBotInfo({
-    userId: 'Ub9952f8...',
-    basicId: '@216ru...',
-    displayName: 'Example name',
-    pictureUrl: 'https://obs.line-apps.com/...',
-    chatMode: 'chat',
-    markAsReadMode: 'manual',
-  });
+  const res = await line.getLinkToken(constants.USER_ID);
 
-  const res = await line.getBotInfo();
-
-  expect(res).toEqual({
-    userId: 'Ub9952f8...',
-    basicId: '@216ru...',
-    displayName: 'Example name',
-    pictureUrl: 'https://obs.line-apps.com/...',
-    chatMode: 'chat',
-    markAsReadMode: 'manual',
-  });
+  expect(res).toEqual('NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY');
 
   const { request } = getCurrentContext();
 

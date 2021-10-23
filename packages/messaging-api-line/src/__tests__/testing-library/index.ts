@@ -1,5 +1,6 @@
 import { SetupServerApi, setupServer } from 'msw/node';
 
+import { requestHandlers as accountLinkRequestHandlers } from './accountLink';
 import { requestHandlers as audienceRequestHandlers } from './audience';
 import { requestHandlers as botRequestHandlers } from './bot';
 import { getCurrentContext } from './shared';
@@ -16,12 +17,13 @@ import { requestHandlers as webhookRequestHandlers } from './webhook';
 export function setupLineServer(): SetupServerApi {
   const server = setupServer(
     ...webhookRequestHandlers,
-    ...botRequestHandlers,
     ...messageRequestHandlers,
     ...audienceRequestHandlers,
     ...insightRequestHandlers,
-    ...userRequestHandlers
+    ...userRequestHandlers,
+    ...botRequestHandlers
   );
+
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
       // Establish requests interception layer before all tests.
@@ -35,6 +37,7 @@ export function setupLineServer(): SetupServerApi {
 
     getCurrentContext().request = undefined;
   });
+
   afterAll(() => {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
