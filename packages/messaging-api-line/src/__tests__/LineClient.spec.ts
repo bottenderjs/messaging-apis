@@ -43,7 +43,8 @@ const lineServer = setupLineServer();
 
 it('should support origin', async () => {
   lineServer.use(
-    rest.post('*', (_, res, ctx) => {
+    rest.post('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
       return res(ctx.json({}));
     })
   );
@@ -97,7 +98,7 @@ it('should support onRequest', async () => {
       replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
     },
     headers: {
-      Authorization: 'Bearer ACCESS_TOKEN',
+      Authorization: 'Bearer 1234567890',
       'Content-Type': 'application/json',
       Accept: 'application/json, text/plain, */*',
     },
@@ -107,8 +108,6 @@ it('should support onRequest', async () => {
 describe('Profile', () => {
   describe('#getUserProfile', () => {
     it('should respond user profile', async () => {
-      expect.assertions(4);
-
       const { client, mock, headers } = createMock();
       const reply = {
         displayName: 'LINE taro',

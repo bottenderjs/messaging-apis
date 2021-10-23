@@ -1,3 +1,5 @@
+import { ReadStream } from 'fs';
+
 import { OnRequestFunction } from 'messaging-api-common';
 
 export type ClientConfig = {
@@ -2318,20 +2320,101 @@ export type NarrowcastProgressResponse = (
 /* Audience */
 
 export type CreateUploadAudienceGroupOptions = {
-  /** The description to register for the job (in `jobs[].description`). */
+  /**
+   * description
+   */
+  description: string;
+
+  /**
+   * To specify recipients by IFAs: set `true`.
+   * To specify recipients by user IDs: set `false` or omit `isIfaAudience` property.
+   */
+  isIfaAudience?: boolean;
+
+  /**
+   * The description to register for the job (in `jobs[].description`).
+   */
   uploadDescription?: string;
+
+  /**
+   * An array of user IDs or IFAs.
+   * Max number: 10,000
+   */
+  audiences?: Audience[];
 };
 
-export type UpdateUploadAudienceGroupOptions =
-  CreateUploadAudienceGroupOptions & {
-    /**
-     * The audience's name. Audience names must be unique. This is case-insensitive, meaning AUDIENCE and audience are considered identical.
-     * - Max character limit: 120
-     */
-    description?: string;
-  };
+export type CreateUploadAudienceGroupByFileOptions = {
+  /**
+   * description
+   */
+  description: string;
+
+  /**
+   * To specify recipients by IFAs: set `true`.
+   * To specify recipients by user IDs: set `false` or omit `isIfaAudience` property.
+   */
+  isIfaAudience?: boolean;
+
+  /**
+   * The description to register for the job (in `jobs[].description`).
+   */
+  uploadDescription?: string;
+
+  /**
+   * A text file with one user ID or IFA entered per line. Specify `text/plain` as Content-Type. Max file number: 1
+   * Max number: 1,500,000
+   */
+  file: Buffer | ReadStream;
+};
+
+export type UpdateUploadAudienceGroupOptions = {
+  /**
+   * The audience ID.
+   */
+  audienceGroupId: number;
+
+  /**
+   * The description to register for the job (in `jobs[].description`).
+   */
+  uploadDescription?: string;
+
+  /**
+   * An array of user IDs or IFAs.
+   * Max number: 10,000
+   */
+  audiences: Audience[];
+};
+
+export type UpdateUploadAudienceGroupByFileOptions = {
+  /**
+   * The audience ID.
+   */
+  audienceGroupId: number;
+
+  /**
+   * The description to register for the job (in `jobs[].description`).
+   */
+  uploadDescription?: string;
+
+  /**
+   * A text file with one user ID or IFA entered per line. Specify `text/plain` as Content-Type. Max file number: 1
+   * Max number: 1,500,000
+   */
+  file: Buffer | ReadStream;
+};
 
 export type CreateClickAudienceGroupOptions = {
+  /**
+   * The audience's name. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * Max character limit: 120
+   */
+  description: string;
+
+  /**
+   * The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID. Find it in the response headers.
+   */
+  requestId: string;
+
   /**
    * The URL clicked by the user. If empty, users who clicked any URL in the message are added to the list of recipients.
    * - Max character limit: 2,000
@@ -2339,8 +2422,36 @@ export type CreateClickAudienceGroupOptions = {
   clickUrl?: string;
 };
 
+export type CreateImpAudienceGroupOptions = {
+  /**
+   * The audience's name. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * Max character limit: 120
+   */
+  description: string;
+
+  /**
+   * The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID. Find it in the response headers.
+   */
+  requestId: string;
+};
+
+export type SetDescriptionAudienceGroupOptions = {
+  /**
+   * The audience ID
+   */
+  audienceGroupId: number;
+
+  /**
+   * The audience's name. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * Max character limit: 120
+   */
+  description: string;
+};
+
 export type Audience = {
-  /** A user ID or IFA. */
+  /**
+   * A user ID or IFA
+   */
   id: string;
 };
 
@@ -2430,13 +2541,19 @@ export type AudienceGroups = {
 };
 
 export type Job = {
-  /** A job ID. */
+  /**
+   * A job ID.
+   */
   audienceGroupJobId: number;
 
-  /** An audience ID. */
+  /**
+   * An audience ID.
+   */
   audienceGroupId: number;
 
-  /** The job's description. */
+  /**
+   * The job's description.
+   */
   description: string;
 
   /**
@@ -2445,28 +2562,58 @@ export type Job = {
    */
   type: 'DIFF_ADD';
 
-  /** The number of accounts (recipients) that were added or removed. */
+  /**
+   * The number of accounts (recipients) that were added or removed.
+   */
   audienceCount: number;
 
-  /** When the job was created (in UNIX time). */
+  /**
+   * When the job was created (in UNIX time).
+   */
   created: number;
 } & (
   | {
-      /** The job's status. */
+      /**
+       * The job's status.
+       */
       jobStatus: 'QUEUED' | 'WORKING' | 'FINISHED';
     }
   | {
-      /** The job's status. */
+      /**
+       * The job's status.
+       */
       jobStatus: 'FAILED';
 
-      /** The reason why the operation failed. This is only included when jobs[].jobStatus is */
+      /**
+       * The reason why the operation failed. This is only included when `jobs[].jobStatus` is `FAILED`. One of:
+       * - `AUDIENCE_GROUP_AUDIENCE_INSUFFICIENT`: There weren't enough accounts in the audience that could be used as recipients (at least 50 are needed).
+       * - `INTERNAL_ERROR`: Internal server error.
+       */
       failedType: 'INTERNAL_ERROR';
     }
 );
 
-export type AudienceGroupWithJob = AudienceGroup & {
-  /** An array of jobs. This array is used to keep track of each attempt to add new user IDs or IFAs to an audience for uploading user IDs. null is returned for any other type of audience. */
+export type AudienceGroupWithJob = {
+  /**
+   * Audience group object.
+   */
+  audienceGroup: AudienceGroup;
+
+  /**
+   * An array of jobs. This array is used to keep track of each attempt to add new user IDs or IFAs to an audience for uploading user IDs. null is returned for any other type of audience.
+   * Max: 50
+   */
   jobs: Job[];
+
+  /**
+   * Ad account object.
+   */
+  adaccount?: {
+    /**
+     * Name of the ad account that created the shared audience.
+     */
+    name: string;
+  };
 };
 
 export type GetAudienceGroupsOptions = {
@@ -2474,10 +2621,12 @@ export type GetAudienceGroupsOptions = {
    * The page to return when getting (paginated) results. Must be `1` or higher.
    */
   page?: number;
+
   /**
    * The name of the audience(s) to return. You can search for partial matches. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
    */
   description?: string;
+
   /**
    * The status of the audience(s) to return. One of:
    * - `IN_PROGRESS`: Pending. It may take several hours for the status to change to `READY`.
@@ -2486,6 +2635,7 @@ export type GetAudienceGroupsOptions = {
    * - `EXPIRED`: Expired. Audiences are automatically deleted a month after they expire.
    */
   status?: 'IN_PROGRESS' | 'READY' | 'FAILED' | 'EXPIRED';
+
   /**
    * The number of audiences per page. Default: 20
    * - Max: 40

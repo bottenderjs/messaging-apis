@@ -1,5 +1,6 @@
 import { Readable } from 'stream';
 
+import FormData from 'form-data';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import imageType from 'image-type';
 import invariant from 'ts-invariant';
@@ -101,6 +102,75 @@ export default class LineClient {
   }
 
   /**
+   * Gets information on a webhook endpoint.
+   *
+   * @returns Returns status code 200 and a JSON object with the webhook information.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-webhook-endpoint-information
+   * @example
+   * ```js
+   * await line.getWebhookEndpointInfo();
+   * // {
+   * //   endpoint: 'https://www.example.com/webhook',
+   * //   active: true,
+   * // }
+   * ```
+   */
+  public getWebhookEndpointInfo(): Promise<LineTypes.WebhookEndpointInfoResponse> {
+    return this.axios
+      .get<LineTypes.WebhookEndpointInfoResponse>(
+        '/v2/bot/channel/webhook/endpoint'
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Sets the webhook endpoint URL. It may take up to 1 minute for changes to take place due to caching.
+   *
+   * @param endpoint - Webhook URL.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-webhook-endpoint-information
+   * @example
+   * ```js
+   * await line.setWebhookEndpointUrl('https://www.example.com/webhook');
+   * // {
+   * //   success: true,
+   * //   timestamp: '2020-09-30T05:38:20.031Z',
+   * //   statusCode: 200,
+   * //   reason: 'OK',
+   * //   detail: '200',
+   * // }
+   * ```
+   */
+  public setWebhookEndpointUrl(
+    endpoint: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .put<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/channel/webhook/endpoint',
+        { endpoint }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Checks if the configured webhook endpoint can receive a test webhook event.
+   *
+   * @returns Returns status code 200 and a JSON object with the webhook information.
+   * @see https://developers.line.biz/en/reference/messaging-api/#test-webhook-endpoint
+   * @example
+   * ```js
+   * await line.testWebhookEndpoint();
+   * ```
+   */
+  public testWebhookEndpoint(): Promise<LineTypes.TestWebhookEndpointResponse> {
+    return this.axios
+      .post<LineTypes.TestWebhookEndpointResponse>(
+        '/v2/bot/channel/webhook/test'
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
    * Sends a reply message in response to an event from a user, group, or room.
    *
    * @param body - Reply request body.
@@ -115,7 +185,9 @@ export default class LineClient {
    * });
    * ```
    */
-  reply(body: LineTypes.ReplyBody): Promise<LineTypes.MutationSuccessResponse>;
+  public reply(
+    body: LineTypes.ReplyBody
+  ): Promise<LineTypes.MutationSuccessResponse>;
 
   /**
    * Sends a reply message in response to an event from a user, group, or room.
@@ -129,13 +201,13 @@ export default class LineClient {
    * await line.reply('<REPLY_TOKEN>', Line.text('Hello, world'));
    * ```
    */
-  reply(
+  public reply(
     replyToken: string,
     messages: LineTypes.Message | LineTypes.Message[],
     notificationDisabled?: boolean
   ): Promise<LineTypes.MutationSuccessResponse>;
 
-  reply(
+  public reply(
     bodyOrReplyToken: string | LineTypes.ReplyBody,
     messages?: LineTypes.Message | LineTypes.Message[],
     notificationDisabled = false
@@ -171,7 +243,9 @@ export default class LineClient {
    * });
    * ```
    */
-  push(body: LineTypes.PushBody): Promise<LineTypes.MutationSuccessResponse>;
+  public push(
+    body: LineTypes.PushBody
+  ): Promise<LineTypes.MutationSuccessResponse>;
 
   /**
    * Sends a push message to a user, group, or room at any time.
@@ -185,13 +259,13 @@ export default class LineClient {
    * await line.push('<USER_ID>', Line.text('Hello, world'));
    * ```
    */
-  push(
+  public push(
     to: string,
     messages: LineTypes.Message | LineTypes.Message[],
     notificationDisabled?: boolean
   ): Promise<LineTypes.MutationSuccessResponse>;
 
-  push(
+  public push(
     bodyOrTo: string | LineTypes.PushBody,
     messages?: LineTypes.Message | LineTypes.Message[],
     notificationDisabled = false
@@ -227,7 +301,7 @@ export default class LineClient {
    * });
    * ```
    */
-  multicast(
+  public multicast(
     body: LineTypes.MulticastBody
   ): Promise<LineTypes.MutationSuccessResponse>;
 
@@ -246,13 +320,13 @@ export default class LineClient {
    * );
    * ```
    */
-  multicast(
+  public multicast(
     to: string[],
     messages: LineTypes.Message | LineTypes.Message[],
     notificationDisabled?: boolean
   ): Promise<LineTypes.MutationSuccessResponse>;
 
-  multicast(
+  public multicast(
     bodyOrTo: string[] | LineTypes.MulticastBody,
     messages?: LineTypes.Message | LineTypes.Message[],
     notificationDisabled = false
@@ -298,7 +372,9 @@ export default class LineClient {
    * });
    * ```
    */
-  narrowcast(body: LineTypes.NarrowcastBody): Promise<{ requestId: string }>;
+  public narrowcast(
+    body: LineTypes.NarrowcastBody
+  ): Promise<{ requestId: string }>;
 
   /**
    * Sends a push message to multiple users. You can specify recipients using attributes (such as age, gender, OS, and region) or by retargeting (audiences). Messages cannot be sent to groups or rooms.
@@ -327,7 +403,7 @@ export default class LineClient {
    * );
    * ```
    */
-  narrowcast(
+  public narrowcast(
     messages: LineTypes.Message | LineTypes.Message[],
     recipient?: LineTypes.RecipientObject,
     filter?: { demographic: LineTypes.DemographicFilterObject },
@@ -335,7 +411,7 @@ export default class LineClient {
     notificationDisabled?: boolean
   ): Promise<{ requestId: string }>;
 
-  narrowcast(
+  public narrowcast(
     bodyOrMessages:
       | LineTypes.NarrowcastBody
       | LineTypes.Message
@@ -379,7 +455,7 @@ export default class LineClient {
    * // { phase: 'waiting' }
    * ```
    */
-  getNarrowcastProgress(
+  public getNarrowcastProgress(
     requestId: string
   ): Promise<LineTypes.NarrowcastProgressResponse> {
     return this.axios
@@ -405,7 +481,7 @@ export default class LineClient {
    * });
    * ```
    */
-  broadcast(
+  public broadcast(
     body: LineTypes.BroadcastBody
   ): Promise<LineTypes.MutationSuccessResponse>;
 
@@ -420,12 +496,12 @@ export default class LineClient {
    * await line.multicast(Line.text('Hello, world'));
    * ```
    */
-  broadcast(
+  public broadcast(
     messages: LineTypes.Message | LineTypes.Message[],
     notificationDisabled?: boolean
   ): Promise<LineTypes.MutationSuccessResponse>;
 
-  broadcast(
+  public broadcast(
     bodyOrMessages:
       | LineTypes.BroadcastBody
       | LineTypes.Message
@@ -451,64 +527,6 @@ export default class LineClient {
   }
 
   /**
-   * Gets a bot's basic information.
-   *
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
-   * @returns Returns status code 200 and a JSON object with the bot information.
-   */
-  getBotInfo(): Promise<LineTypes.BotInfoResponse> {
-    return this.axios
-      .get<LineTypes.BotInfoResponse>('/v2/bot/info')
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets information on a webhook endpoint.
-   *
-   * @returns Returns status code 200 and a JSON object with the webhook information.
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-webhook-endpoint-information
-   */
-  getWebhookEndpointInfo(): Promise<LineTypes.WebhookEndpointInfoResponse> {
-    return this.axios
-      .get<LineTypes.WebhookEndpointInfoResponse>(
-        '/v2/bot/channel/webhook/endpoint'
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Sets the webhook endpoint URL. It may take up to 1 minute for changes to take place due to caching.
-   *
-   * @param endpoint - Webhook URL.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-webhook-endpoint-information
-   */
-  setWebhookEndpointUrl(
-    endpoint: string
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.axios
-      .put<LineTypes.MutationSuccessResponse>(
-        '/v2/bot/channel/webhook/endpoint',
-        { endpoint }
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Checks if the configured webhook endpoint can receive a test webhook event.
-   *
-   * @returns Returns status code 200 and a JSON object with the webhook information.
-   * @see https://developers.line.biz/en/reference/messaging-api/#test-webhook-endpoint
-   */
-  testWebhookEndpoint(): Promise<LineTypes.TestWebhookEndpointResponse> {
-    return this.axios
-      .post<LineTypes.TestWebhookEndpointResponse>(
-        '/v2/bot/channel/webhook/test'
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
    * Gets images, videos, audio, and files sent by users using buffer.
    *
    * @param messageId - Message ID
@@ -519,7 +537,7 @@ export default class LineClient {
    * const buffer = await line.getMessageContentStream(MESSAGE_ID);
    * ```
    */
-  getMessageContent(messageId: string): Promise<Buffer> {
+  public getMessageContent(messageId: string): Promise<Buffer> {
     return this.dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
@@ -538,11 +556,702 @@ export default class LineClient {
    * const stream = await line.getMessageContentStream(MESSAGE_ID);
    * ```
    */
-  getMessageContentStream(messageId: string): Promise<Readable> {
+  public getMessageContentStream(messageId: string): Promise<Readable> {
     return this.dataAxios
       .get(`/v2/bot/message/${messageId}/content`, {
         responseType: 'stream',
       })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the target limit for additional messages in the current month.
+   *
+   * @returns Returns status code `200` and a [[TargetLimitForAdditionalMessages]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-quota
+   * @example
+   * ```js
+   * await line.getTargetLimitForAdditionalMessages();
+   * // {
+   * //   type: 'limited',
+   * //   value: 1000,
+   * // }
+   * ```
+   */
+  public getTargetLimitForAdditionalMessages(): Promise<LineTypes.TargetLimitForAdditionalMessages> {
+    return this.axios
+      .get<LineTypes.TargetLimitForAdditionalMessages>('/v2/bot/message/quota')
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the number of messages sent in the current month.
+   *
+   * @returns Returns status code `200` and a [[NumberOfMessagesSentThisMonth]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-consumption
+   * @example
+   * ```js
+   * await line.getNumberOfMessagesSentThisMonth();
+   * // {
+   * //   totalUsage: '500',
+   * // }
+   * ```
+   */
+  public getNumberOfMessagesSentThisMonth(): Promise<LineTypes.NumberOfMessagesSentThisMonth> {
+    return this.axios
+      .get<LineTypes.NumberOfMessagesSentThisMonth>(
+        '/v2/bot/message/quota/consumption'
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the number of messages sent with the `/bot/message/reply` endpoint.
+   *
+   * @param date - Date the messages were sent. Format: `yyyyMMdd`. Timezone: UTC+9
+   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-reply-messages
+   * @example
+   * ```js
+   * await line.getNumberOfSentReplyMessages();
+   * // {
+   * //   status: 'ready',
+   * //   success: 10000,
+   * // }
+   * ```
+   */
+  public getNumberOfSentReplyMessages(
+    date: string
+  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
+    return this.axios
+      .get<LineTypes.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/reply',
+        {
+          params: {
+            date,
+          },
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the number of messages sent with the `/bot/message/push` endpoint.
+   *
+   * @param date - Date the messages were sent. Format: `yyyyMMdd`. Timezone: UTC+9
+   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-push-messages
+   * @example
+   * ```js
+   * await line.getNumberOfSentPushMessages();
+   * // {
+   * //   status: 'ready',
+   * //   success: 10000,
+   * // }
+   * ```
+   */
+  public getNumberOfSentPushMessages(
+    date: string
+  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
+    return this.axios
+      .get<LineTypes.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/push',
+        {
+          params: {
+            date,
+          },
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the number of messages sent with the `/bot/message/multicast` endpoint.
+   *
+   * @param date - Date the messages were sent. Format: `yyyyMMdd`. Timezone: UTC+9
+   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-multicast-messages
+   * @example
+   * ```js
+   * await line.getNumberOfSentMulticastMessages();
+   * // {
+   * //   status: 'ready',
+   * //   success: 10000,
+   * // }
+   * ```
+   */
+  public getNumberOfSentMulticastMessages(
+    date: string
+  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
+    return this.axios
+      .get<LineTypes.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/multicast',
+        {
+          params: {
+            date,
+          },
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the number of messages sent with the `/bot/message/broadcast` endpoint.
+   *
+   * @param date - Date the messages were sent. Format: `yyyyMMdd`. Timezone: UTC+9
+   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-broadcast-messages
+   * @example
+   * ```js
+   * await line.getNumberOfSentBroadcastMessages();
+   * // {
+   * //   status: 'ready',
+   * //   success: 10000,
+   * // }
+   * ```
+   */
+  public getNumberOfSentBroadcastMessages(
+    date: string
+  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
+    return this.axios
+      .get<LineTypes.NumberOfMessagesSentResponse>(
+        '/v2/bot/message/delivery/broadcast',
+        {
+          params: {
+            date,
+          },
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Creates an audience for uploading user IDs. You can create up to 1,000 audiences.
+   *
+   * @param options - Create upload audience group options.
+   * @returns Returns an [[UploadAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-upload-audience-group
+   * @example
+   * ```js
+   * await line.createUploadAudienceGroup({
+   *  description: 'audienceGroupName_01',
+   *  isIfaAudience: false,
+   *  audiences: [
+   *    {
+   *      id: 'U4af4980627...',
+   *    },
+   *  ],
+   *  uploadDescription: 'uploadDescription',
+   * });
+   * ```
+   */
+  public createUploadAudienceGroup(
+    options: LineTypes.CreateUploadAudienceGroupOptions
+  ): Promise<LineTypes.UploadAudienceGroup>;
+
+  /**
+   * Creates an audience for uploading user IDs. You can create up to 1,000 audiences.
+   *
+   * @param description - The audience's name. Audience names must be unique. Note that comparisons are case-insensitive, so the names `AUDIENCE` and `audience` are considered identical.
+   * @param isIfaAudience - If this is `false` (default), recipients are specified by user IDs. If `true`, recipients must be specified by IFAs.
+   * @param audiences - An array of up to 10,000 user IDs or IFAs.
+   * @param options - Create upload audience group options.
+   * @returns Returns an [[UploadAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-upload-audience-group
+   * @deprecated This overload is no longer recommended.
+   */
+  public createUploadAudienceGroup(
+    description: string,
+    isIfaAudience?: boolean,
+    audiences?: LineTypes.Audience[],
+    options?: Omit<
+      LineTypes.CreateUploadAudienceGroupOptions,
+      'description' | 'isIfaAudience' | 'audiences'
+    >
+  ): Promise<LineTypes.UploadAudienceGroup>;
+
+  public createUploadAudienceGroup(
+    descriptionOrOptions: string | LineTypes.CreateUploadAudienceGroupOptions,
+    isIfaAudience?: boolean,
+    audiences?: LineTypes.Audience[],
+    options?: LineTypes.CreateUploadAudienceGroupOptions
+  ): Promise<LineTypes.UploadAudienceGroup> {
+    const data =
+      typeof descriptionOrOptions === 'object'
+        ? descriptionOrOptions
+        : {
+            description: descriptionOrOptions,
+            isIfaAudience,
+            audiences,
+            ...options,
+          };
+    return this.axios
+      .post('/v2/bot/audienceGroup/upload', data)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Creates an audience for uploading user IDs.
+   *
+   * @param options - Create upload audience group by file options.
+   * @returns Returns an [[UploadAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-upload-audience-group-by-file
+   * @example
+   * ```js
+   * await line.createUploadAudienceGroupByFile({
+   *   description: 'audienceGroupName_01',
+   *   isIfaAudience: false,
+   *   uploadDescription: 'uploadDescription',
+   *   file: fs.createReadStream(
+   *     path.resolve(`${__dirname}/audiences.txt`)
+   *   ),
+   * });
+   * ```
+   */
+  public createUploadAudienceGroupByFile(
+    options: LineTypes.CreateUploadAudienceGroupByFileOptions
+  ): Promise<LineTypes.UploadAudienceGroup> {
+    const form = new FormData();
+
+    const { file, ...rest } = options;
+    Object.entries(rest).forEach(([key, val]) => {
+      form.append(key, typeof val === 'string' ? val : val.toString());
+    });
+
+    form.append('file', file, {
+      contentType: 'text/plain',
+    });
+
+    return this.dataAxios
+      .post('/v2/bot/audienceGroup/upload/byFile', form, {
+        headers: form.getHeaders(),
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Adds new user IDs or IFAs to an audience for uploading user IDs.
+   *
+   * @param options - Update upload audience group options.
+   * @returns Returns the HTTP `202` status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#update-upload-audience-group
+   * @example
+   * ```js
+   * await line.updateUploadAudienceGroup({
+   *   audienceGroupId: AUDIENCE_GROUP_ID,
+   *   audiences: [
+   *     { id: '1' },
+   *   ],
+   *   uploadDescription: 'uploadDescription',
+   * });
+   * ```
+   */
+  public updateUploadAudienceGroup(
+    options: LineTypes.UpdateUploadAudienceGroupOptions
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Adds new user IDs or IFAs to an audience for uploading user IDs.
+   *
+   * @param audienceGroupId - The audience ID.
+   * @param audiences - An array of up to 10,000 user IDs or IFAs.
+   * @param options - Update upload audience group options.
+   * @returns Returns the HTTP `202` status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#update-upload-audience-group
+   * @example
+   * ```js
+   * await line.updateUploadAudienceGroup(AUDIENCE_GROUP_ID, [
+   *   { id: '1' },
+   * ]);
+   * ```
+   */
+  public updateUploadAudienceGroup(
+    audienceGroupId: number,
+    audiences: LineTypes.Audience[],
+    options?: Omit<
+      LineTypes.UpdateUploadAudienceGroupOptions,
+      'audienceGroupId' | 'audiences'
+    >
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  public updateUploadAudienceGroup(
+    audienceGroupIdOrOptions:
+      | number
+      | LineTypes.UpdateUploadAudienceGroupOptions,
+    audiences?: LineTypes.Audience[],
+    options?: Omit<
+      LineTypes.UpdateUploadAudienceGroupOptions,
+      'audienceGroupId' | 'audiences'
+    >
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const data =
+      typeof audienceGroupIdOrOptions === 'object'
+        ? audienceGroupIdOrOptions
+        : {
+            audienceGroupId: audienceGroupIdOrOptions,
+            audiences,
+            ...options,
+          };
+    return this.axios
+      .put('/v2/bot/audienceGroup/upload', data)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Adds new user IDs or IFAs to an audience for uploading user IDs.
+   *
+   * @param options - Update upload audience group by file options.
+   * @returns Returns the HTTP `202` status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#update-upload-audience-group-by-file
+   * @example
+   * ```js
+   * await line.updateUploadAudienceGroupByFile({
+   *   audienceGroupId: AUDIENCE_GROUP_ID,
+   *   uploadDescription: 'uploadDescription',
+   *   file: fs.createReadStream(
+   *     path.resolve(`${__dirname}/audiences.txt`)
+   *   ),
+   * });
+   * ```
+   */
+  public updateUploadAudienceGroupByFile(
+    options: LineTypes.UpdateUploadAudienceGroupByFileOptions
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const form = new FormData();
+
+    const { file, ...rest } = options;
+    Object.entries(rest).forEach(([key, val]) => {
+      form.append(key, typeof val === 'string' ? val : val.toString());
+    });
+
+    form.append('file', file, {
+      contentType: 'text/plain',
+    });
+
+    return this.dataAxios
+      .put('/v2/bot/audienceGroup/upload/byFile', form, {
+        headers: form.getHeaders(),
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Creates an audience for click-based retargeting. You can create up to 1,000 audiences.
+   *
+   * @param options - create click audience group options
+   * @returns Returns a [[ClickAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-click-audience-group
+   * @example
+   * ```js
+   * await line.createClickAudienceGroup({
+   *   description: 'audienceGroupName_01',
+   *   requestId: 'bb9744f9-47fa-4a29-941e-1234567890ab',
+   *   clickUrl: 'https://developers.line.biz/',
+   * });
+   * ```
+   */
+  public createClickAudienceGroup(
+    options: LineTypes.CreateClickAudienceGroupOptions
+  ): Promise<LineTypes.ClickAudienceGroup>;
+
+  /**
+   * Creates an audience for click-based retargeting. You can create up to 1,000 audiences.
+   *
+   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * @param requestId - The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
+   * @param options - create click audience group options
+   * @returns Returns a [[ClickAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-click-audience-group
+   * @deprecated This overload is no longer recommended.
+   */
+  public createClickAudienceGroup(
+    description: string,
+    requestId: string,
+    options?: Omit<
+      LineTypes.CreateClickAudienceGroupOptions,
+      'description' | 'requestId'
+    >
+  ): Promise<LineTypes.ClickAudienceGroup>;
+
+  public createClickAudienceGroup(
+    descriptionOrOptions: string | LineTypes.CreateClickAudienceGroupOptions,
+    requestId?: string,
+    options?: Omit<
+      LineTypes.CreateClickAudienceGroupOptions,
+      'description' | 'requestId'
+    >
+  ): Promise<LineTypes.ClickAudienceGroup> {
+    const data =
+      typeof descriptionOrOptions === 'object'
+        ? descriptionOrOptions
+        : {
+            description: descriptionOrOptions,
+            requestId,
+            ...options,
+          };
+    return this.axios
+      .post('/v2/bot/audienceGroup/click', data)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Creates an audience for impression-based retargeting. You can create up to 1,000 audiences.
+   *
+   * @param options - create imp audience group options
+   * @returns Returns an [[ImpAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-imp-audience-group
+   * @example
+   * ```js
+   * await line.createImpAudienceGroup({
+   *   description: 'audienceGroupName_01',
+   *   requestId: 'bb9744f9-47fa-4a29-941e-1234567890ab',
+   * });
+   * ```
+   */
+  public createImpAudienceGroup(
+    options: LineTypes.CreateImpAudienceGroupOptions
+  ): Promise<LineTypes.ImpAudienceGroup>;
+
+  /**
+   * Creates an audience for impression-based retargeting. You can create up to 1,000 audiences.
+   *
+   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * @param requestId - The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
+   * @returns Returns an [[ImpAudienceGroup]] along with the `202` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-imp-audience-group
+   * @deprecated This overload is no longer recommended.
+   */
+  public createImpAudienceGroup(
+    description: string,
+    requestId: string
+  ): Promise<LineTypes.ImpAudienceGroup>;
+
+  public createImpAudienceGroup(
+    descriptionOrOptions: string | LineTypes.CreateImpAudienceGroupOptions,
+    requestId?: string
+  ): Promise<LineTypes.ImpAudienceGroup> {
+    const data =
+      typeof descriptionOrOptions === 'object'
+        ? descriptionOrOptions
+        : {
+            description: descriptionOrOptions,
+            requestId,
+          };
+    return this.axios
+      .post('/v2/bot/audienceGroup/imp', data)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Renames an existing audience.
+   *
+   * @param options - set description audience group options
+   * @returns Returns the `200` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#set-description-audience-group
+   * @example
+   * ```js
+   * await line.setDescriptionAudienceGroup({
+   *   audienceGroupId: AUDIENCE_GROUP_ID,
+   *   description: 'audienceGroupName_01',
+   * });
+   * ```
+   */
+  public setDescriptionAudienceGroup(
+    options: LineTypes.SetDescriptionAudienceGroupOptions
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  /**
+   * Renames an existing audience.
+   *
+   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
+   * @param audienceGroupId - The audience ID.
+   * @returns Returns the `200` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#set-description-audience-group
+   * @example
+   * ```js
+   * await line.setDescriptionAudienceGroup('audienceGroupName', AUDIENCE_GROUP_ID);
+   * ```
+   */
+  public setDescriptionAudienceGroup(
+    description: string,
+    audienceGroupId: number
+  ): Promise<LineTypes.MutationSuccessResponse>;
+
+  public setDescriptionAudienceGroup(
+    descriptionOrOptions: string | LineTypes.SetDescriptionAudienceGroupOptions,
+    audienceGroupId?: number
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const data =
+      typeof descriptionOrOptions === 'object'
+        ? descriptionOrOptions
+        : {
+            description: descriptionOrOptions,
+          };
+    return this.axios
+      .put(
+        `/v2/bot/audienceGroup/${
+          typeof descriptionOrOptions === 'object'
+            ? descriptionOrOptions.audienceGroupId
+            : audienceGroupId
+        }/updateDescription`,
+        data
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  // TODO: Activate audience
+
+  /**
+   * Deletes an audience.
+   *
+   * @param audienceGroupId - The audience ID.
+   * @returns Returns the `200` HTTP status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#delete-audience-group
+   * @example
+   * ```js
+   * await line.deleteAudienceGroup(AUDIENCE_GROUP_ID);
+   * ```
+   */
+  public deleteAudienceGroup(
+    audienceGroupId: number
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .delete(`/v2/bot/audienceGroup/${audienceGroupId}`)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets audience data.
+   *
+   * @param audienceGroupId - The audience ID.
+   * @returns Returns a `200` HTTP status code and an [[AudienceGroupWithJob]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-audience-group
+   * @example
+   * ```js
+   * await line.getAudienceGroup(AUDIENCE_GROUP_ID);
+   * // {
+   * //   audienceGroup: {
+   * //     audienceGroupId: 4389303728991,
+   * //     createRoute: 'MESSAGING_API',
+   * //     type: 'UPLOAD',
+   * //     description: 'audienceGroupName_01',
+   * //     status: 'IN_PROGRESS',
+   * //     audienceCount: 0,
+   * //     created: 1634970179,
+   * //     permission: 'READ_WRITE',
+   * //     expireTimestamp: 1650522179,
+   * //     isIfaAudience: false,
+   * //   },
+   * //   jobs: [],
+   * // }
+   * ```
+   */
+  public getAudienceGroup(
+    audienceGroupId: number
+  ): Promise<LineTypes.AudienceGroupWithJob> {
+    return this.axios
+      .get(`/v2/bot/audienceGroup/${audienceGroupId}`)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets data for more than one audience.
+   *
+   * @param options - get audience groups options
+   * @returns Returns a `200` HTTP status code and an [[AudienceGroups]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-audience-groups
+   * @example
+   * ```js
+   * await line.getAudienceGroups({
+   *   page: 1,
+   *   description: 'audienceGroupName_01',
+   *   status: 'READY',
+   *   size: 40,
+   * });
+   * // {
+   * //   audienceGroups: [
+   * //     {
+   * //       audienceGroupId: 4389303728991,
+   * //       type: 'CLICK',
+   * //       description: 'audienceGroupName_01',
+   * //       status: 'READY',
+   * //       audienceCount: 2,
+   * //       created: 1500351844,
+   * //       requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+   * //       clickUrl: 'https://developers.line.biz/',
+   * //     },
+   * //   ],
+   * //   hasNextPage: false,
+   * //   totalCount: 1,
+   * //   page: 1,
+   * //   size: 40,
+   * // }
+   * ```
+   */
+  public getAudienceGroups(
+    options?: LineTypes.GetAudienceGroupsOptions
+  ): Promise<LineTypes.AudienceGroups> {
+    return this.axios
+      .get(`/v2/bot/audienceGroup/list`, {
+        params: {
+          page: 1,
+          ...options,
+        },
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Get the authority level of the audience
+   *
+   * @returns Returns status code `200` and an [[AudienceGroupAuthorityLevel]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-authority-level
+   * @example
+   * ```js
+   * await line.getAudienceGroupAuthorityLevel();
+   * // {
+   * //   authorityLevel: 'PUBLIC',
+   * // }
+   * ```
+   */
+  public getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
+    return this.axios
+      .get('/v2/bot/audienceGroup/authorityLevel')
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Change the authority level of all audiences created in the same channel.
+   *
+   * @param authorityLevel - The authority level for all audiences linked to a channel
+   * - `PUBLIC`: The default authority level. Audiences will be available in channels other than the one where you created the audience. For example, it will be available in [LINE Official Account Manager](https://manager.line.biz/), [LINE Ad Manager](https://admanager.line.biz/), and all channels the bot is linked to.
+   * - `PRIVATE`: Audiences will be available only in the channel where you created the audience.
+   * @returns Returns the HTTP `200` status code.
+   * @see https://developers.line.biz/en/reference/messaging-api/#change-authority-level
+   * @example
+   * ```js
+   * await line.changeAudienceGroupAuthorityLevel('PRIVATE');
+   * ```
+   */
+  public changeAudienceGroupAuthorityLevel(
+    authorityLevel: 'PUBLIC' | 'PRIVATE'
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .put(`/v2/bot/audienceGroup/authorityLevel`, {
+        authorityLevel,
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets a bot's basic information.
+   *
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
+   * @returns Returns status code 200 and a JSON object with the bot information.
+   */
+  public getBotInfo(): Promise<LineTypes.BotInfoResponse> {
+    return this.axios
+      .get<LineTypes.BotInfoResponse>('/v2/bot/info')
       .then((res) => res.data, handleError);
   }
 
@@ -553,7 +1262,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-profile
    */
-  getUserProfile(userId: string): Promise<LineTypes.User> {
+  public getUserProfile(userId: string): Promise<LineTypes.User> {
     return this.axios
       .get(`/v2/bot/profile/${userId}`)
       .then((res) => res.data, handleError)
@@ -573,7 +1282,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
    */
-  getGroupMemberProfile(
+  public getGroupMemberProfile(
     groupId: string,
     userId: string
   ): Promise<LineTypes.User> {
@@ -590,7 +1299,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-profile
    */
-  getRoomMemberProfile(
+  public getRoomMemberProfile(
     roomId: string,
     userId: string
   ): Promise<LineTypes.User> {
@@ -607,7 +1316,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-summary
    */
-  getGroupSummary(groupId: string): Promise<LineTypes.Group> {
+  public getGroupSummary(groupId: string): Promise<LineTypes.Group> {
     return this.axios
       .get(`/v2/bot/group/${groupId}/summary`)
       .then((res) => res.data, handleError);
@@ -620,7 +1329,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a number representing group member count.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-members-group-count
    */
-  getGroupMembersCount(groupId: string): Promise<number> {
+  public getGroupMembersCount(groupId: string): Promise<number> {
     return this.axios
       .get(`/v2/bot/group/${groupId}/members/count`)
       .then((res) => res.data.count, handleError);
@@ -634,7 +1343,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
    */
-  getGroupMemberIds(
+  public getGroupMemberIds(
     groupId: string,
     start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
@@ -652,7 +1361,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
    */
-  async getAllGroupMemberIds(groupId: string): Promise<string[]> {
+  public async getAllGroupMemberIds(groupId: string): Promise<string[]> {
     let allMemberIds: string[] = [];
     let continuationToken;
 
@@ -680,7 +1389,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a number representing room member count.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-members-room-count
    */
-  getRoomMembersCount(roomId: string): Promise<number> {
+  public getRoomMembersCount(roomId: string): Promise<number> {
     return this.axios
       .get(`/v2/bot/room/${roomId}/members/count`)
       .then((res) => res.data.count, handleError);
@@ -694,7 +1403,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids
    */
-  getRoomMemberIds(
+  public getRoomMemberIds(
     roomId: string,
     start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
@@ -712,7 +1421,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids
    */
-  async getAllRoomMemberIds(roomId: string): Promise<string[]> {
+  public async getAllRoomMemberIds(roomId: string): Promise<string[]> {
     let allMemberIds: string[] = [];
     let continuationToken;
 
@@ -740,7 +1449,9 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#leave-group
    */
-  leaveGroup(groupId: string): Promise<LineTypes.MutationSuccessResponse> {
+  public leaveGroup(
+    groupId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
       .post(`/v2/bot/group/${groupId}/leave`)
       .then((res) => res.data, handleError);
@@ -753,7 +1464,7 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#leave-room
    */
-  leaveRoom(roomId: string): Promise<LineTypes.MutationSuccessResponse> {
+  public leaveRoom(roomId: string): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
       .post(`/v2/bot/room/${roomId}/leave`)
       .then((res) => res.data, handleError);
@@ -765,7 +1476,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a list of [rich menu response objects](https://developers.line.biz/en/reference/messaging-api/#rich-menu-response-object).
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-list
    */
-  getRichMenuList(): Promise<LineTypes.RichMenu[]> {
+  public getRichMenuList(): Promise<LineTypes.RichMenu[]> {
     return this.axios
       .get('/v2/bot/richmenu/list')
       .then((res) => res.data.richmenus, handleError);
@@ -778,7 +1489,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a [rich menu response objects](https://developers.line.biz/en/reference/messaging-api/#rich-menu-response-object).
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu
    */
-  getRichMenu(richMenuId: string): Promise<LineTypes.RichMenu> {
+  public getRichMenu(richMenuId: string): Promise<LineTypes.RichMenu> {
     return this.axios
       .get(`/v2/bot/richmenu/${richMenuId}`)
       .then((res) => res.data)
@@ -797,7 +1508,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    * @see https://developers.line.biz/en/reference/messaging-api/#create-rich-menu
    */
-  createRichMenu(
+  public createRichMenu(
     richMenu: LineTypes.RichMenu
   ): Promise<{ richMenuId: string }> {
     return this.axios
@@ -812,7 +1523,7 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#delete-rich-menu
    */
-  deleteRichMenu(
+  public deleteRichMenu(
     richMenuId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
@@ -827,7 +1538,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-id-of-user
    */
-  getLinkedRichMenu(userId: string): Promise<{ richMenuId: string }> {
+  public getLinkedRichMenu(userId: string): Promise<{ richMenuId: string }> {
     return this.axios
       .get(`/v2/bot/user/${userId}/richmenu`)
       .then((res) => res.data)
@@ -847,7 +1558,7 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-user
    */
-  linkRichMenu(
+  public linkRichMenu(
     userId: string,
     richMenuId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
@@ -863,7 +1574,9 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#unlink-rich-menu-from-user
    */
-  unlinkRichMenu(userId: string): Promise<LineTypes.MutationSuccessResponse> {
+  public unlinkRichMenu(
+    userId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
       .delete(`/v2/bot/user/${userId}/richmenu`)
       .then((res) => res.data, handleError);
@@ -875,7 +1588,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-default-rich-menu-id
    */
-  getDefaultRichMenu(): Promise<{ richMenuId: string }> {
+  public getDefaultRichMenu(): Promise<{ richMenuId: string }> {
     return this.axios
       .get(`/v2/bot/user/all/richmenu`)
       .then((res) => res.data)
@@ -894,7 +1607,7 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#set-default-rich-menu
    */
-  setDefaultRichMenu(
+  public setDefaultRichMenu(
     richMenuId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
@@ -908,7 +1621,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    * @see https://developers.line.biz/en/reference/messaging-api/#cancel-default-rich-menu
    */
-  deleteDefaultRichMenu(): Promise<{ richMenuId: string }> {
+  public deleteDefaultRichMenu(): Promise<{ richMenuId: string }> {
     return this.axios
       .delete(`/v2/bot/user/all/richmenu`)
       .then((res) => res.data, handleError);
@@ -922,7 +1635,7 @@ export default class LineClient {
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#upload-rich-menu-image
    */
-  uploadRichMenuImage(
+  public uploadRichMenuImage(
     richMenuId: string,
     image: Buffer
   ): Promise<LineTypes.MutationSuccessResponse> {
@@ -948,7 +1661,9 @@ export default class LineClient {
    * @returns Returns status code `200` and the binary data of the rich menu image. The image can be downloaded as shown in the example request.
    * @see https://developers.line.biz/en/reference/messaging-api/#download-rich-menu-image
    */
-  downloadRichMenuImage(richMenuId: string): Promise<Buffer | undefined> {
+  public downloadRichMenuImage(
+    richMenuId: string
+  ): Promise<Buffer | undefined> {
     return this.dataAxios
       .get(`/v2/bot/richmenu/${richMenuId}/content`, {
         responseType: 'arraybuffer',
@@ -969,7 +1684,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a link token. Link tokens are valid for 10 minutes and can only be used once.
    * @see https://developers.line.biz/en/reference/messaging-api/#issue-link-token
    */
-  getLinkToken(userId: string): Promise<string> {
+  public getLinkToken(userId: string): Promise<string> {
     return this.axios
       .post<{ linkToken: string }>(`/v2/bot/user/${userId}/linkToken`)
       .then((res) => res.data.linkToken, handleError);
@@ -985,7 +1700,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object with the following properties.
    * @see https://developers.line.biz/en/reference/liff-v1/#get-all-liff-apps
    */
-  getLiffAppList(): Promise<LineTypes.LiffApp[]> {
+  public getLiffAppList(): Promise<LineTypes.LiffApp[]> {
     return this.axios
       .get('/liff/v1/apps')
       .then((res) => res.data.apps, handleError);
@@ -998,7 +1713,9 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/liff-v1/#add-liff-app
    */
-  createLiffApp(liffApp: LineTypes.LiffApp): Promise<{ liffId: string }> {
+  public createLiffApp(
+    liffApp: LineTypes.LiffApp
+  ): Promise<{ liffId: string }> {
     return this.axios
       .post('/liff/v1/apps', liffApp)
       .then((res) => res.data, handleError);
@@ -1012,7 +1729,7 @@ export default class LineClient {
    * @returns Status code `200` is returned.
    * @see https://developers.line.biz/en/reference/liff-v1/#update-liff-app
    */
-  updateLiffApp(
+  public updateLiffApp(
     liffId: string,
     liffApp: LineTypes.PartialLiffApp
   ): Promise<void> {
@@ -1028,138 +1745,9 @@ export default class LineClient {
    * @returns Status code `200` is returned.
    * @see https://developers.line.biz/en/reference/liff-v1/#delete-liff-app
    */
-  deleteLiffApp(liffId: string): Promise<void> {
+  public deleteLiffApp(liffId: string): Promise<void> {
     return this.axios
       .delete(`/liff/v1/apps/${liffId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Get number of messages sent
-   *
-   */
-
-  /**
-   * Gets the target limit for additional messages in the current month.
-   *
-   * @returns Returns status code `200` and a [[TargetLimitForAdditionalMessages]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-quota
-   */
-  getTargetLimitForAdditionalMessages(): Promise<LineTypes.TargetLimitForAdditionalMessages> {
-    return this.axios
-      .get<LineTypes.TargetLimitForAdditionalMessages>('/v2/bot/message/quota')
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets the number of messages sent in the current month.
-   *
-   * @returns Returns status code `200` and a [[NumberOfMessagesSentThisMonth]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-consumption
-   */
-  getNumberOfMessagesSentThisMonth(): Promise<LineTypes.NumberOfMessagesSentThisMonth> {
-    return this.axios
-      .get<LineTypes.NumberOfMessagesSentThisMonth>(
-        '/v2/bot/message/quota/consumption'
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets the number of messages sent with the `/bot/message/reply` endpoint.
-   *
-   * The number of messages retrieved by this operation does not include the number of messages sent from LINE Official Account Manager.
-   *
-   * @param date - Date the messages were sent
-   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-reply-messages
-   */
-  getNumberOfSentReplyMessages(
-    date: string
-  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
-    return this.axios
-      .get<LineTypes.NumberOfMessagesSentResponse>(
-        '/v2/bot/message/delivery/reply',
-        {
-          params: {
-            date,
-          },
-        }
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Get Number of Sent Push Messages
-   *
-   * Gets the number of messages sent with the `/bot/message/push` endpoint.
-   *
-   * The number of messages retrieved by this operation does not include the number of messages sent from LINE Official Account Manager.
-   *
-   * Note: LINE\@ accounts under the free or basic plan cannot call this API endpoint.
-   *
-   * @param date - Date the messages were sent
-   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-push-messages
-   */
-  getNumberOfSentPushMessages(
-    date: string
-  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
-    return this.axios
-      .get<LineTypes.NumberOfMessagesSentResponse>(
-        '/v2/bot/message/delivery/push',
-        {
-          params: {
-            date,
-          },
-        }
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets the number of messages sent with the `/bot/message/multicast` endpoint.
-   *
-   * The number of messages retrieved by this operation does not include the number of messages sent from LINE Official Account Manager.
-   *
-   * @param date - Date the messages were sent
-   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-multicast-messages
-   */
-  getNumberOfSentMulticastMessages(
-    date: string
-  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
-    return this.axios
-      .get<LineTypes.NumberOfMessagesSentResponse>(
-        '/v2/bot/message/delivery/multicast',
-        {
-          params: {
-            date,
-          },
-        }
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets the number of messages sent with the `/bot/message/broadcast` endpoint.
-   *
-   * @param date - Date the messages were sent
-   * @returns Returns status code `200` and a [[NumberOfMessagesSentResponse]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-broadcast-messages
-   */
-  getNumberOfSentBroadcastMessages(
-    date: string
-  ): Promise<LineTypes.NumberOfMessagesSentResponse> {
-    return this.axios
-      .get<LineTypes.NumberOfMessagesSentResponse>(
-        '/v2/bot/message/delivery/broadcast',
-        {
-          params: {
-            date,
-          },
-        }
-      )
       .then((res) => res.data, handleError);
   }
 
@@ -1175,7 +1763,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a [[NumberOfMessageDeliveriesResponse]].
    * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages
    */
-  getNumberOfMessageDeliveries(
+  public getNumberOfMessageDeliveries(
     date: string
   ): Promise<LineTypes.NumberOfMessageDeliveriesResponse> {
     return this.axios
@@ -1197,7 +1785,7 @@ export default class LineClient {
    * @returns Returns status code `200` and a [[NumberOfFollowersResponse]].
    * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
    */
-  getNumberOfFollowers(
+  public getNumberOfFollowers(
     date: string
   ): Promise<LineTypes.NumberOfFollowersResponse> {
     return this.axios
@@ -1215,215 +1803,9 @@ export default class LineClient {
    * @returns Returns status code `200` and a [[FriendDemographics]].
    * @see https://developers.line.biz/en/reference/messaging-api/#get-demographic
    */
-  getFriendDemographics(): Promise<LineTypes.FriendDemographics> {
+  public getFriendDemographics(): Promise<LineTypes.FriendDemographics> {
     return this.axios
       .get<LineTypes.FriendDemographics>('/v2/bot/insight/demographic')
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Creates an audience for uploading user IDs. You can create up to 1,000 audiences.
-   *
-   * @param description - The audience's name. Audience names must be unique. Note that comparisons are case-insensitive, so the names `AUDIENCE` and `audience` are considered identical.
-   * - Max character limit: 120
-   * @param isIfaAudience - If this is `false` (default), recipients are specified by user IDs. If `true`, recipients must be specified by IFAs.
-   * @param audiences - An array of up to 10,000 user IDs or IFAs.
-   * @param options - Create upload audience group options.
-   * @returns Returns an [[UploadAudienceGroup]] along with the `202` HTTP status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#create-upload-audience-group
-   */
-  createUploadAudienceGroup(
-    description: string,
-    isIfaAudience: boolean,
-    audiences: LineTypes.Audience[],
-    options: LineTypes.CreateUploadAudienceGroupOptions = {}
-  ): Promise<LineTypes.UploadAudienceGroup> {
-    return this.axios
-      .post('/v2/bot/audienceGroup/upload', {
-        description,
-        isIfaAudience,
-        audiences,
-        ...options,
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Adds new user IDs or IFAs to an audience for uploading user IDs.
-   *
-   * @param audienceGroupId - The audience ID.
-   * @param audiences - An array of up to 10,000 user IDs or IFAs.
-   * @param options - Update upload audience group options.
-   * @returns Returns the HTTP `202` status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#update-upload-audience-group
-   */
-  updateUploadAudienceGroup(
-    audienceGroupId: number,
-    audiences: LineTypes.Audience[],
-    options: LineTypes.UpdateUploadAudienceGroupOptions = {}
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.axios
-      .put('/v2/bot/audienceGroup/upload', {
-        audienceGroupId,
-        audiences,
-        ...options,
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Creates an audience for click-based retargeting. You can create up to 1,000 audiences.
-   *
-   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
-   * - Max character limit: 120
-   * @param requestId - The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
-   * @param options - create click audience group options
-   * @returns Returns a [[ClickAudienceGroup]] along with the `202` HTTP status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#create-click-audience-group
-   */
-  createClickAudienceGroup(
-    description: string,
-    requestId: string,
-    options: LineTypes.CreateClickAudienceGroupOptions = {}
-  ): Promise<LineTypes.ClickAudienceGroup> {
-    return this.axios
-      .post('/v2/bot/audienceGroup/click', {
-        description,
-        requestId,
-        ...options,
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Create Impression-based Audience Group
-   *
-   * Creates an audience for impression-based retargeting. You can create up to 1,000 audiences.
-   *
-   * An impression-based retargeting audience is a collection of users who have viewed a broadcast or narrowcast message.
-   *
-   * Use a request ID to specify the message. The audience will include any user who has viewed at least one message bubble.
-   *
-   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
-   * - Max character limit: 120
-   * @param requestId - The request ID of a broadcast or narrowcast message sent in the past 60 days. Each Messaging API request has a request ID.
-   * @returns Returns an [[ImpAudienceGroup]] along with the `202` HTTP status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#create-imp-audience-group
-   */
-  createImpAudienceGroup(
-    description: string,
-    requestId: string
-  ): Promise<LineTypes.ImpAudienceGroup> {
-    return this.axios
-      .post('/v2/bot/audienceGroup/imp', {
-        description,
-        requestId,
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Set Description of Audience Group
-   *
-   * Renames an existing audience.
-   *
-   * @param description - The audience's name. Audience names must be unique. This is case-insensitive, meaning `AUDIENCE` and `audience` are considered identical.
-   * - Max character limit: 120
-   * @param audienceGroupId - The audience ID.
-   * @returns Returns the `200` HTTP status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#set-description-audience-group
-   */
-  setDescriptionAudienceGroup(
-    description: string,
-    audienceGroupId: number
-  ): Promise<void> {
-    return this.axios
-      .put(`/v2/bot/audienceGroup/${audienceGroupId}/updateDescription`, {
-        description,
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Deletes Audience Group
-   *
-   * Deletes an audience.
-   *
-   * @param audienceGroupId - The audience ID.
-   * @returns Returns the `200` HTTP status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#delete-audience-group
-   */
-  deleteAudienceGroup(
-    audienceGroupId: number
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.axios
-      .delete(`/v2/bot/audienceGroup/${audienceGroupId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets audience data.
-   *
-   * @param audienceGroupId - The audience ID.
-   * @returns Returns a `200` HTTP status code and an [[AudienceGroupWithJob]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-audience-group
-   */
-  getAudienceGroup(
-    audienceGroupId: number
-  ): Promise<LineTypes.AudienceGroupWithJob> {
-    return this.axios
-      .get(`/v2/bot/audienceGroup/${audienceGroupId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets data for more than one audience.
-   *
-   * @param options - get audience groups options
-   * @returns Returns a `200` HTTP status code and an [[AudienceGroups]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-audience-groups
-   */
-  getAudienceGroups(
-    options: LineTypes.GetAudienceGroupsOptions = {}
-  ): Promise<LineTypes.AudienceGroups> {
-    return this.axios
-      .get(`/v2/bot/audienceGroup/list`, {
-        params: {
-          page: 1,
-          ...options,
-        },
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Get the authority level of the audience
-   *
-   * @returns Returns status code `200` and an [[AudienceGroupAuthorityLevel]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-authority-level
-   */
-  getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
-    return this.axios
-      .get('/v2/bot/audienceGroup/authorityLevel')
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Change the authority level of all audiences created in the same channel.
-   *
-   * @param authorityLevel - The authority level for all audiences linked to a channel
-   * - `PUBLIC`: The default authority level. Audiences will be available in channels other than the one where you created the audience. For example, it will be available in [LINE Official Account Manager](https://manager.line.biz/), [LINE Ad Manager](https://admanager.line.biz/), and all channels the bot is linked to.
-   * - `PRIVATE`: Audiences will be available only in the channel where you created the audience.
-   * @returns Returns the HTTP `200` status code.
-   * @see https://developers.line.biz/en/reference/messaging-api/#change-authority-level
-   */
-  changeAudienceGroupAuthorityLevel(
-    authorityLevel: 'PUBLIC' | 'PRIVATE'
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.axios
-      .put(`/v2/bot/audienceGroup/authorityLevel`, {
-        authorityLevel,
-      })
       .then((res) => res.data, handleError);
   }
 }

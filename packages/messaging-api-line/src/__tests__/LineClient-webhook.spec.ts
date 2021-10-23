@@ -8,20 +8,11 @@ import {
 
 setupLineServer();
 
-const { ACCESS_TOKEN, CHANNEL_SECRET } = constants;
-
-function setup() {
-  const context = getCurrentContext();
+it('should support #setWebhookEndpointUrl', async () => {
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
   });
-
-  return { context, client };
-}
-
-it('#setWebhookEndpointUrl should call api', async () => {
-  const { context, client } = setup();
 
   const res = await client.setWebhookEndpointUrl(
     'https://www.example.com/webhook'
@@ -29,7 +20,7 @@ it('#setWebhookEndpointUrl should call api', async () => {
 
   expect(res).toEqual({});
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('PUT');
@@ -43,8 +34,11 @@ it('#setWebhookEndpointUrl should call api', async () => {
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-it('#getWebhookEndpointInfo should call api', async () => {
-  const { context, client } = setup();
+it('should support #getWebhookEndpointInfo', async () => {
+  const client = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
   await client.setWebhookEndpointUrl('https://www.example.com/webhook');
   const res = await client.getWebhookEndpointInfo();
@@ -54,7 +48,7 @@ it('#getWebhookEndpointInfo should call api', async () => {
     active: true,
   });
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
@@ -65,8 +59,11 @@ it('#getWebhookEndpointInfo should call api', async () => {
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-it('#testWebhookEndpoint should call api', async () => {
-  const { context, client } = setup();
+it('should support #testWebhookEndpoint', async () => {
+  const client = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
   const res = await client.testWebhookEndpoint();
 
@@ -78,7 +75,7 @@ it('#testWebhookEndpoint should call api', async () => {
     detail: '200',
   });
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');

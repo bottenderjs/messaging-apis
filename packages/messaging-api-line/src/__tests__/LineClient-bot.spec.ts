@@ -9,20 +9,11 @@ import {
 
 setupLineServer();
 
-const { ACCESS_TOKEN, CHANNEL_SECRET } = constants;
-
-function setup() {
-  const context = getCurrentContext();
+it('should support #getBotInfo', async () => {
   const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
   });
-
-  return { context, client };
-}
-
-it('#getBotInfo should call api', async () => {
-  const { context, client } = setup();
 
   setBotInfo({
     userId: 'Ub9952f8...',
@@ -44,7 +35,7 @@ it('#getBotInfo should call api', async () => {
     markAsReadMode: 'manual',
   });
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');

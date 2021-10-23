@@ -2,6 +2,7 @@ import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
 import { v4 as uuidv4 } from 'uuid';
 
+import { requestHandlers as audienceRequestHandlers } from './audience';
 import { requestHandlers as botRequestHandlers } from './bot';
 import { requestHandlers as narrowcastRequestHandlers } from './narrowcast';
 import { requestHandlers as webhookRequestHandlers } from './webhook';
@@ -26,6 +27,7 @@ export const constants = {
   CHANNEL_SECRET: 'CHANNEL_SECRET',
   REPLY_TOKEN: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
   MESSAGE_ID: '1234567890',
+  AUDIENCE_GROUP_ID: 1234567890123,
 };
 
 /**
@@ -70,6 +72,79 @@ export function setupLineServer(): SetupServerApi {
         );
       }
     ),
+    rest.get('https://api.line.me/v2/bot/message/quota', (req, res, ctx) => {
+      currentContext.request = req;
+      return res(
+        ctx.json({
+          type: 'limited',
+          value: 1000,
+        }),
+        ctx.set('X-Line-Request-Id', uuidv4())
+      );
+    }),
+    rest.get(
+      'https://api.line.me/v2/bot/message/quota/consumption',
+      (req, res, ctx) => {
+        currentContext.request = req;
+        return res(
+          ctx.json({ totalUsage: '500' }),
+          ctx.set('X-Line-Request-Id', uuidv4())
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/message/delivery/reply',
+      (req, res, ctx) => {
+        currentContext.request = req;
+        return res(
+          ctx.json({
+            status: 'ready',
+            success: 10000,
+          }),
+          ctx.set('X-Line-Request-Id', uuidv4())
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/message/delivery/push',
+      (req, res, ctx) => {
+        currentContext.request = req;
+        return res(
+          ctx.json({
+            status: 'ready',
+            success: 10000,
+          }),
+          ctx.set('X-Line-Request-Id', uuidv4())
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/message/delivery/multicast',
+      (req, res, ctx) => {
+        currentContext.request = req;
+        return res(
+          ctx.json({
+            status: 'ready',
+            success: 10000,
+          }),
+          ctx.set('X-Line-Request-Id', uuidv4())
+        );
+      }
+    ),
+    rest.get(
+      'https://api.line.me/v2/bot/message/delivery/broadcast',
+      (req, res, ctx) => {
+        currentContext.request = req;
+        return res(
+          ctx.json({
+            status: 'ready',
+            success: 10000,
+          }),
+          ctx.set('X-Line-Request-Id', uuidv4())
+        );
+      }
+    ),
+    ...audienceRequestHandlers,
     ...webhookRequestHandlers
   );
   if (typeof beforeAll === 'function') {

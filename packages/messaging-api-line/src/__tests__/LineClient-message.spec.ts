@@ -1056,6 +1056,16 @@ it('should support #getMessageContent', async () => {
   const res = await line.getMessageContent(constants.MESSAGE_ID);
 
   expect(res).toEqual(Buffer.from('a content buffer'));
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api-data.line.me/v2/bot/message/1234567890/content'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('should support getMessageContentStream', async () => {
@@ -1067,4 +1077,159 @@ it('should support getMessageContentStream', async () => {
   const res = await line.getMessageContentStream(constants.MESSAGE_ID);
 
   expect(await getStream(res)).toEqual('a content buffer');
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api-data.line.me/v2/bot/message/1234567890/content'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getTargetLimitForAdditionalMessages', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getTargetLimitForAdditionalMessages();
+
+  expect(res).toEqual({
+    type: 'limited',
+    value: 1000,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe('https://api.line.me/v2/bot/message/quota');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getNumberOfMessagesSentThisMonth', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getNumberOfMessagesSentThisMonth();
+
+  expect(res).toEqual({
+    totalUsage: '500',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/message/quota/consumption'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getNumberOfSentReplyMessages', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getNumberOfSentReplyMessages('20191116');
+
+  expect(res).toEqual({
+    status: 'ready',
+    success: 10000,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/message/delivery/reply?date=20191116'
+  );
+  expect(request?.url.searchParams.get('date')).toBe('20191116');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getNumberOfSentPushMessages', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getNumberOfSentPushMessages('20191116');
+
+  expect(res).toEqual({
+    status: 'ready',
+    success: 10000,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/message/delivery/push?date=20191116'
+  );
+  expect(request?.url.searchParams.get('date')).toBe('20191116');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getNumberOfSentMulticastMessages', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getNumberOfSentMulticastMessages('20191116');
+
+  expect(res).toEqual({
+    status: 'ready',
+    success: 10000,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/message/delivery/multicast?date=20191116'
+  );
+  expect(request?.url.searchParams.get('date')).toBe('20191116');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getNumberOfSentBroadcastMessages', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getNumberOfSentBroadcastMessages('20191116');
+
+  expect(res).toEqual({
+    status: 'ready',
+    success: 10000,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/message/delivery/broadcast?date=20191116'
+  );
+  expect(request?.url.searchParams.get('date')).toBe('20191116');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

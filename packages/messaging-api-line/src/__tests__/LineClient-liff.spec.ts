@@ -27,136 +27,118 @@ const createMock = (): {
   return { client, mock, headers };
 };
 
-describe('LINE Front-end Framework', () => {
-  describe('#getLiffAppList', () => {
-    it('should call api', async () => {
-      expect.assertions(4);
+it('should support #getLiffAppList', async () => {
+  const { client, mock, headers } = createMock();
 
-      const { client, mock, headers } = createMock();
-
-      const reply = {
-        apps: [
-          {
-            liffId: 'liff-12345',
-            view: {
-              type: 'full',
-              url: 'https://example.com/myservice',
-            },
-          },
-          {
-            liffId: 'liff-67890',
-            view: {
-              type: 'tall',
-              url: 'https://example.com/myservice2',
-            },
-          },
-        ],
-      };
-
-      mock.onGet().reply((config) => {
-        expect(config.url).toEqual('/liff/v1/apps');
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.getLiffAppList();
-
-      expect(res).toEqual([
-        {
-          liffId: 'liff-12345',
-          view: {
-            type: 'full',
-            url: 'https://example.com/myservice',
-          },
-        },
-        {
-          liffId: 'liff-67890',
-          view: {
-            type: 'tall',
-            url: 'https://example.com/myservice2',
-          },
-        },
-      ]);
-    });
-  });
-
-  describe('#createLiffApp', () => {
-    it('should call api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      const reply = {
+  const reply = {
+    apps: [
+      {
         liffId: 'liff-12345',
-      };
-
-      mock.onPost().reply((config) => {
-        expect(config.url).toEqual('/liff/v1/apps');
-        expect(JSON.parse(config.data)).toEqual({
-          type: 'tall',
+        view: {
+          type: 'full',
           url: 'https://example.com/myservice',
-        });
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.createLiffApp({
-        type: 'tall',
-        url: 'https://example.com/myservice',
-      });
-
-      expect(res).toEqual({
-        liffId: 'liff-12345',
-      });
-    });
-  });
-
-  describe('#updateLiffApp', () => {
-    it('should call api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      const reply = {};
-
-      mock.onPut().reply((config) => {
-        expect(config.url).toEqual('/liff/v1/apps/liff-12345/view');
-        expect(JSON.parse(config.data)).toEqual({
+        },
+      },
+      {
+        liffId: 'liff-67890',
+        view: {
           type: 'tall',
-          url: 'https://example.com/myservice',
-        });
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
+          url: 'https://example.com/myservice2',
+        },
+      },
+    ],
+  };
 
-      const res = await client.updateLiffApp('liff-12345', {
-        type: 'tall',
+  mock.onGet().reply((config) => {
+    expect(config.url).toEqual('/liff/v1/apps');
+    expect(config.data).toEqual(undefined);
+    expect(config.headers).toEqual(headers);
+    return [200, reply];
+  });
+
+  const res = await client.getLiffAppList();
+
+  expect(res).toEqual([
+    {
+      liffId: 'liff-12345',
+      view: {
+        type: 'full',
         url: 'https://example.com/myservice',
-      });
+      },
+    },
+    {
+      liffId: 'liff-67890',
+      view: {
+        type: 'tall',
+        url: 'https://example.com/myservice2',
+      },
+    },
+  ]);
+});
 
-      expect(res).toEqual(reply);
+it('should support #createLiffApp', async () => {
+  const { client, mock, headers } = createMock();
+
+  const reply = {
+    liffId: 'liff-12345',
+  };
+
+  mock.onPost().reply((config) => {
+    expect(config.url).toEqual('/liff/v1/apps');
+    expect(JSON.parse(config.data)).toEqual({
+      type: 'tall',
+      url: 'https://example.com/myservice',
     });
+    expect(config.headers).toEqual(headers);
+    return [200, reply];
   });
 
-  describe('#deleteLiffApp', () => {
-    it('should call api', async () => {
-      expect.assertions(4);
-
-      const { client, mock, headers } = createMock();
-
-      const reply = {};
-
-      mock.onDelete().reply((config) => {
-        expect(config.url).toEqual('/liff/v1/apps/liff-12345');
-        expect(config.data).toEqual(undefined);
-        expect(config.headers).toEqual(headers);
-        return [200, reply];
-      });
-
-      const res = await client.deleteLiffApp('liff-12345');
-
-      expect(res).toEqual(reply);
-    });
+  const res = await client.createLiffApp({
+    type: 'tall',
+    url: 'https://example.com/myservice',
   });
+
+  expect(res).toEqual({
+    liffId: 'liff-12345',
+  });
+});
+
+it('should support #updateLiffApp', async () => {
+  const { client, mock, headers } = createMock();
+
+  const reply = {};
+
+  mock.onPut().reply((config) => {
+    expect(config.url).toEqual('/liff/v1/apps/liff-12345/view');
+    expect(JSON.parse(config.data)).toEqual({
+      type: 'tall',
+      url: 'https://example.com/myservice',
+    });
+    expect(config.headers).toEqual(headers);
+    return [200, reply];
+  });
+
+  const res = await client.updateLiffApp('liff-12345', {
+    type: 'tall',
+    url: 'https://example.com/myservice',
+  });
+
+  expect(res).toEqual(reply);
+});
+
+it('should support #deleteLiffApp', async () => {
+  const { client, mock, headers } = createMock();
+
+  const reply = {};
+
+  mock.onDelete().reply((config) => {
+    expect(config.url).toEqual('/liff/v1/apps/liff-12345');
+    expect(config.data).toEqual(undefined);
+    expect(config.headers).toEqual(headers);
+    return [200, reply];
+  });
+
+  const res = await client.deleteLiffApp('liff-12345');
+
+  expect(res).toEqual(reply);
 });
