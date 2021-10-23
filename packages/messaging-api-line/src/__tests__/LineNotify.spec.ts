@@ -53,138 +53,128 @@ describe('constructor', () => {
   });
 });
 
-describe('#getAuthLink', () => {
-  it('should work', async () => {
-    const { client } = createMock();
+it('should support #getAuthLink', async () => {
+  const { client } = createMock();
 
-    const result = client.getAuthLink('state');
+  const result = client.getAuthLink('state');
 
-    expect(result).toEqual(
-      'https://notify-bot.line.me/oauth/authorize?scope=notify&response_type=code&client_id=client-id&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&state=state'
-    );
-  });
+  expect(result).toEqual(
+    'https://notify-bot.line.me/oauth/authorize?scope=notify&response_type=code&client_id=client-id&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&state=state'
+  );
 });
 
-describe('#getToken', () => {
-  it('should work', async () => {
-    const { client, mock } = createMock();
+it('should support #getToken', async () => {
+  const { client, mock } = createMock();
 
-    const reply = {
-      access_token: 'access_token',
-    };
+  const reply = {
+    access_token: 'access_token',
+  };
 
-    const code = 'code';
+  const code = 'code';
 
-    const body = {
-      grant_type: 'authorization_code',
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      redirect_uri: REDIRECT_URI,
-      code,
-    };
+  const body = {
+    grant_type: 'authorization_code',
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+    redirect_uri: REDIRECT_URI,
+    code,
+  };
 
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
 
-    mock.onPost().reply((config) => {
-      expect(config.url).toEqual('/oauth/token');
-      expect(qs.parse(config.data)).toEqual(body);
-      expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
-      return [200, reply];
-    });
-
-    const result = await client.getToken('code');
-
-    expect(result).toEqual('access_token');
+  mock.onPost().reply((config) => {
+    expect(config.url).toEqual('/oauth/token');
+    expect(qs.parse(config.data)).toEqual(body);
+    expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
+    return [200, reply];
   });
+
+  const result = await client.getToken('code');
+
+  expect(result).toEqual('access_token');
 });
 
-describe('#getStatus', () => {
-  it('should work', async () => {
-    const { client, apiMock } = createMock();
+it('should support #getStatus', async () => {
+  const { client, apiMock } = createMock();
 
-    const reply = {
-      status: 200,
-      message: 'message',
-      targetType: 'USER',
-      target: 'user name',
-    };
+  const reply = {
+    status: 200,
+    message: 'message',
+    targetType: 'USER',
+    target: 'user name',
+  };
 
-    const headers = {
-      Authorization: `Bearer access_token`,
-    };
+  const headers = {
+    Authorization: `Bearer access_token`,
+  };
 
-    apiMock.onGet().reply((config) => {
-      expect(config.url).toEqual('/api/status');
-      expect(config.headers.Authorization).toEqual(headers.Authorization);
-      return [200, reply];
-    });
-
-    const result = await client.getStatus('access_token');
-
-    expect(result).toEqual(reply);
+  apiMock.onGet().reply((config) => {
+    expect(config.url).toEqual('/api/status');
+    expect(config.headers.Authorization).toEqual(headers.Authorization);
+    return [200, reply];
   });
+
+  const result = await client.getStatus('access_token');
+
+  expect(result).toEqual(reply);
 });
 
-describe('#sendNotify', () => {
-  it('should work', async () => {
-    const { client, apiMock } = createMock();
+it('should support #sendNotify', async () => {
+  const { client, apiMock } = createMock();
 
-    const reply = {
-      status: 200,
-      message: 'message',
-    };
+  const reply = {
+    status: 200,
+    message: 'message',
+  };
 
-    const body = qs.stringify({
-      message: 'message',
-    });
-
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer access_token`,
-    };
-
-    apiMock.onPost().reply((config) => {
-      expect(config.url).toEqual('/api/notify');
-      expect(config.data).toEqual(body);
-      expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
-      expect(config.headers.Authorization).toEqual(headers.Authorization);
-      return [200, reply];
-    });
-
-    const result = await client.sendNotify('access_token', 'message');
-
-    expect(result).toEqual(reply);
+  const body = qs.stringify({
+    message: 'message',
   });
+
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Authorization: `Bearer access_token`,
+  };
+
+  apiMock.onPost().reply((config) => {
+    expect(config.url).toEqual('/api/notify');
+    expect(config.data).toEqual(body);
+    expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
+    expect(config.headers.Authorization).toEqual(headers.Authorization);
+    return [200, reply];
+  });
+
+  const result = await client.sendNotify('access_token', 'message');
+
+  expect(result).toEqual(reply);
 });
 
-describe('#revokeToken', () => {
-  it('should work', async () => {
-    const { client, apiMock } = createMock();
+it('should support #revokeToken', async () => {
+  const { client, apiMock } = createMock();
 
-    const reply = {
-      status: 200,
-      message: 'message',
-    };
+  const reply = {
+    status: 200,
+    message: 'message',
+  };
 
-    const body = {};
+  const body = {};
 
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer access_token`,
-    };
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Authorization: `Bearer access_token`,
+  };
 
-    apiMock.onPost().reply((config) => {
-      expect(config.url).toEqual('/api/revoke');
-      expect(JSON.parse(config.data)).toEqual(body);
-      expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
-      expect(config.headers.Authorization).toEqual(headers.Authorization);
-      return [200, reply];
-    });
-
-    const result = await client.revokeToken('access_token');
-
-    expect(result).toEqual(reply);
+  apiMock.onPost().reply((config) => {
+    expect(config.url).toEqual('/api/revoke');
+    expect(JSON.parse(config.data)).toEqual(body);
+    expect(config.headers['Content-Type']).toEqual(headers['Content-Type']);
+    expect(config.headers.Authorization).toEqual(headers.Authorization);
+    return [200, reply];
   });
+
+  const result = await client.revokeToken('access_token');
+
+  expect(result).toEqual(reply);
 });

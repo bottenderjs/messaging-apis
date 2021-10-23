@@ -20,7 +20,7 @@ const quickReply: Types.QuickReply = {
 };
 
 describe('#text', () => {
-  it('should support shorthand', () => {
+  it('should support #text shorthand', () => {
     expect(Line.text('hi')).toEqual({ type: 'text', text: 'hi' });
     expect(
       Line.text('$ LINE emoji', {
@@ -49,7 +49,7 @@ describe('#text', () => {
     });
   });
 
-  it('should support creating with full object', () => {
+  it('should support #text', () => {
     expect(Line.text({ text: 'hi' })).toEqual({
       type: 'text',
       text: 'hi',

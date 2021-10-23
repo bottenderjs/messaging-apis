@@ -65,7 +65,9 @@ it('should support #testWebhookEndpoint', async () => {
     channelSecret: constants.CHANNEL_SECRET,
   });
 
-  const res = await client.testWebhookEndpoint();
+  const res = await client.testWebhookEndpoint(
+    'https://www.example.com/webhook'
+  );
 
   expect(res).toEqual({
     success: true,
@@ -82,6 +84,9 @@ it('should support #testWebhookEndpoint', async () => {
   expect(request?.url.href).toBe(
     'https://api.line.me/v2/bot/channel/webhook/test'
   );
+  expect(request?.body).toEqual({
+    endpoint: 'https://www.example.com/webhook',
+  });
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

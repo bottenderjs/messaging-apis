@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { LineTypes } from '../..';
 
-import { getCurrentContext } from '.';
+import { getCurrentContext } from './shared';
 
 let botInfo = {
   userId: 'Ub9952f8...',

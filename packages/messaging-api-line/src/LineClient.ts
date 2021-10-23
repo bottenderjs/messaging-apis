@@ -155,17 +155,21 @@ export default class LineClient {
   /**
    * Checks if the configured webhook endpoint can receive a test webhook event.
    *
+   * @param endpoint - A webhook URL to be validated.
    * @returns Returns status code 200 and a JSON object with the webhook information.
    * @see https://developers.line.biz/en/reference/messaging-api/#test-webhook-endpoint
    * @example
    * ```js
-   * await line.testWebhookEndpoint();
+   * await line.testWebhookEndpoint('https://www.example.com/webhook');
    * ```
    */
-  public testWebhookEndpoint(): Promise<LineTypes.TestWebhookEndpointResponse> {
+  public testWebhookEndpoint(
+    endpoint?: string
+  ): Promise<LineTypes.TestWebhookEndpointResponse> {
     return this.axios
       .post<LineTypes.TestWebhookEndpointResponse>(
-        '/v2/bot/channel/webhook/test'
+        '/v2/bot/channel/webhook/test',
+        { endpoint }
       )
       .then((res) => res.data, handleError);
   }
@@ -1244,6 +1248,131 @@ export default class LineClient {
   }
 
   /**
+   * Returns the number of messages sent from LINE Official Account on a specified day.
+   *
+   * @param date - Date for which to retrieve number of sent messages.
+   * @returns Returns status code `200` and a [[NumberOfMessageDeliveriesResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages
+   * @example
+   * ```js
+   * await line.getNumberOfMessageDeliveries('20191116');
+   * // {
+   * //   status: 'ready',
+   * //   broadcast: 5385,
+   * //   targeting: 522,
+   * // }
+   * ```
+   */
+  public getNumberOfMessageDeliveries(
+    date: string
+  ): Promise<LineTypes.NumberOfMessageDeliveriesResponse> {
+    return this.axios
+      .get<LineTypes.NumberOfMessageDeliveriesResponse>(
+        '/v2/bot/insight/message/delivery',
+        {
+          params: {
+            date,
+          },
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Returns the number of users who have added the LINE Official Account on or before a specified date.
+   *
+   * @param date - Date for which to retrieve the number of followers.
+   * @returns Returns status code `200` and a [[NumberOfFollowersResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
+   * @example
+   * ```js
+   * await line.getNumberOfFollowers('20191116');
+   * // {
+   * //   status: 'ready',
+   * //   followers: 7620,
+   * //   targetedReaches: 5848,
+   * //   blocks: 237,
+   * // }
+   * ```
+   */
+  public getNumberOfFollowers(
+    date: string
+  ): Promise<LineTypes.NumberOfFollowersResponse> {
+    return this.axios
+      .get<LineTypes.NumberOfFollowersResponse>('/v2/bot/insight/followers', {
+        params: {
+          date,
+        },
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Retrieves the demographic attributes for a LINE Official Account's friends. You can only retrieve information about friends for LINE Official Accounts created by users in Japan (JP), Thailand (TH) and Taiwan (TW).
+   *
+   * @returns Returns status code `200` and a [[FriendDemographics]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-demographic
+   * @example
+   * ```js
+   * await line.getFriendDemographics();
+   * // {
+   * //   available: true,
+   * //   genders: [{ gender: 'unknown', percentage: 37.6 }, ...],
+   * //   ages: [{ age: 'unknown', percentage: 37.6 }, ...],
+   * //   areas: [{ area: 'unknown', percentage: 42.9 }, ...],
+   * //   appTypes: [{ appType: 'ios', percentage: 62.4}, ...],
+   * //   subscriptionPeriods: [
+   * //     { subscriptionPeriod: 'over365days', percentage: 96.4 }, ...
+   * //   ],
+   * // }
+   * ```
+   */
+  public getFriendDemographics(): Promise<LineTypes.FriendDemographics> {
+    return this.axios
+      .get<LineTypes.FriendDemographics>('/v2/bot/insight/demographic')
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Returns statistics about how users interact with narrowcast messages or broadcast messages sent from your LINE Official Account.
+   *
+   * @param requestId - Request ID of a narrowcast message or broadcast message. Each Messaging API request has a request ID.
+   * @returns Returns status code `200` and a [[UserInteractionStatistics]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-message-event
+   * @example
+   * ```js
+   * await line.getUserInteractionStatistics('f70dd685-499a-4231-a441-f24b8d4fba21');
+   * // {
+   * //   overview: {
+   * //     requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+   * //     timestamp: 1568214000,
+   * //     delivered: 320,
+   * //     uniqueImpression: 82,
+   * //     uniqueClick: 51,
+   * //     uniqueMediaPlayed: null,
+   * //     uniqueMediaPlayed100Percent: null,
+   * //   },
+   * //   messages: [],
+   * //   clicks: [],
+   * // }
+   * ```
+   */
+  public getUserInteractionStatistics(
+    requestId: string
+  ): Promise<LineTypes.UserInteractionStatistics> {
+    return this.axios
+      .get<LineTypes.UserInteractionStatistics>(
+        '/v2/bot/insight/message/event',
+        {
+          params: {
+            requestId,
+          },
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
    * Gets a bot's basic information.
    *
    * @see https://developers.line.biz/en/reference/messaging-api/#get-bot-info
@@ -1748,64 +1877,6 @@ export default class LineClient {
   public deleteLiffApp(liffId: string): Promise<void> {
     return this.axios
       .delete(`/liff/v1/apps/${liffId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Insight
-   * https://developers.line.biz/en/reference/messaging-api/#get-insight
-   */
-
-  /**
-   * Returns the number of messages sent from LINE Official Account on a specified day.
-   *
-   * @param date - Date for which to retrieve number of sent messages.
-   * @returns Returns status code `200` and a [[NumberOfMessageDeliveriesResponse]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-delivery-messages
-   */
-  public getNumberOfMessageDeliveries(
-    date: string
-  ): Promise<LineTypes.NumberOfMessageDeliveriesResponse> {
-    return this.axios
-      .get<LineTypes.NumberOfMessageDeliveriesResponse>(
-        '/v2/bot/insight/message/delivery',
-        {
-          params: {
-            date,
-          },
-        }
-      )
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Returns the number of users who have added the LINE Official Account on or before a specified date.
-   *
-   * @param date - Date for which to retrieve the number of followers.
-   * @returns Returns status code `200` and a [[NumberOfFollowersResponse]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-number-of-followers
-   */
-  public getNumberOfFollowers(
-    date: string
-  ): Promise<LineTypes.NumberOfFollowersResponse> {
-    return this.axios
-      .get<LineTypes.NumberOfFollowersResponse>('/v2/bot/insight/followers', {
-        params: {
-          date,
-        },
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Retrieves the demographic attributes for a LINE Official Account's friends. You can only retrieve information about friends for LINE Official Accounts created by users in Japan (JP), Thailand (TH) and Taiwan (TW).
-   *
-   * @returns Returns status code `200` and a [[FriendDemographics]].
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-demographic
-   */
-  public getFriendDemographics(): Promise<LineTypes.FriendDemographics> {
-    return this.axios
-      .get<LineTypes.FriendDemographics>('/v2/bot/insight/demographic')
       .then((res) => res.data, handleError);
   }
 }

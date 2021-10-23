@@ -1,93 +1,46 @@
-import MockAdapter from 'axios-mock-adapter';
-
 import LineClient from '../LineClient';
 
-const ACCESS_TOKEN = '1234567890';
-const CHANNEL_SECRET = 'so-secret';
+import {
+  constants,
+  getCurrentContext,
+  setupLineServer,
+} from './testing-library';
 
-const createMock = (): {
-  client: LineClient;
-  mock: MockAdapter;
-  headers: {
-    Accept: string;
-    'Content-Type': string;
-    Authorization: string;
-  };
-} => {
-  const client = new LineClient({
-    accessToken: ACCESS_TOKEN,
-    channelSecret: CHANNEL_SECRET,
-  });
-  const mock = new MockAdapter(client.axios);
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  };
-  return { client, mock, headers };
-};
+setupLineServer();
 
 it('should support #getNumberOfMessageDeliveries', async () => {
-  const { client, mock } = createMock();
-
-  const reply = {
-    status: 'ready',
-    broadcast: 5385,
-    targeting: 522,
-  };
-
-  let url;
-  let params;
-  let headers;
-  mock.onGet().reply((config) => {
-    url = config.url;
-    params = config.params;
-    headers = config.headers;
-    return [200, reply];
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
   });
 
-  const res = await client.getNumberOfMessageDeliveries('20191116');
-
-  expect(url).toEqual('/v2/bot/insight/message/delivery');
-  expect(params).toEqual({
-    date: '20191116',
-  });
-  expect(headers).toEqual(headers);
+  const res = await line.getNumberOfMessageDeliveries('20191116');
 
   expect(res).toEqual({
     status: 'ready',
     broadcast: 5385,
     targeting: 522,
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/insight/message/delivery?date=20191116'
+  );
+  expect(request?.url.searchParams.get('date')).toBe('20191116');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('should support #getNumberOfFollowers', async () => {
-  const { client, mock } = createMock();
-
-  const reply = {
-    status: 'ready',
-    followers: 7620,
-    targetedReaches: 5848,
-    blocks: 237,
-  };
-
-  let url;
-  let params;
-  let headers;
-  mock.onGet().reply((config) => {
-    url = config.url;
-    params = config.params;
-    headers = config.headers;
-    return [200, reply];
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
   });
 
-  const res = await client.getNumberOfFollowers('20191116');
-
-  expect(url).toEqual('/v2/bot/insight/followers');
-  expect(params).toEqual({
-    date: '20191116',
-  });
-  expect(headers).toEqual(headers);
+  const res = await line.getNumberOfFollowers('20191116');
 
   expect(res).toEqual({
     status: 'ready',
@@ -95,12 +48,28 @@ it('should support #getNumberOfFollowers', async () => {
     targetedReaches: 5848,
     blocks: 237,
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/insight/followers?date=20191116'
+  );
+  expect(request?.url.searchParams.get('date')).toBe('20191116');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('should support #getFriendDemographics', async () => {
-  const { client, mock } = createMock();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const reply = {
+  const res = await line.getFriendDemographics();
+
+  expect(res).toEqual({
     available: true,
     genders: [
       {
@@ -176,20 +145,83 @@ it('should support #getFriendDemographics', async () => {
         percentage: 0,
       },
     ],
-  };
-
-  let url;
-  let headers;
-  mock.onGet().reply((config) => {
-    url = config.url;
-    headers = config.headers;
-    return [200, reply];
   });
 
-  const res = await client.getFriendDemographics();
+  const { request } = getCurrentContext();
 
-  expect(url).toEqual('/v2/bot/insight/demographic');
-  expect(headers).toEqual(headers);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/insight/demographic'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
-  expect(res).toEqual(reply);
+it('should support #getUserInteractionStatistics', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getUserInteractionStatistics(
+    'f70dd685-499a-4231-a441-f24b8d4fba21'
+  );
+
+  expect(res).toEqual({
+    overview: {
+      requestId: 'f70dd685-499a-4231-a441-f24b8d4fba21',
+      timestamp: 1568214000,
+      delivered: 320,
+      uniqueImpression: 82,
+      uniqueClick: 51,
+      uniqueMediaPlayed: null,
+      uniqueMediaPlayed100Percent: null,
+    },
+    messages: [
+      {
+        seq: 1,
+        impression: 136,
+        mediaPlayed: null,
+        mediaPlayed25Percent: null,
+        mediaPlayed50Percent: null,
+        mediaPlayed75Percent: null,
+        mediaPlayed100Percent: null,
+        uniqueMediaPlayed: null,
+        uniqueMediaPlayed25Percent: null,
+        uniqueMediaPlayed50Percent: null,
+        uniqueMediaPlayed75Percent: null,
+        uniqueMediaPlayed100Percent: null,
+      },
+    ],
+    clicks: [
+      {
+        seq: 1,
+        url: 'https://line.me/',
+        click: 41,
+        uniqueClick: 30,
+        uniqueClickOfRequest: 30,
+      },
+      {
+        seq: 1,
+        url: 'https://www.linebiz.com/',
+        click: 59,
+        uniqueClick: 38,
+        uniqueClickOfRequest: 38,
+      },
+    ],
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/insight/message/event?requestId=f70dd685-499a-4231-a441-f24b8d4fba21'
+  );
+  expect(request?.url.searchParams.get('requestId')).toBe(
+    'f70dd685-499a-4231-a441-f24b8d4fba21'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });

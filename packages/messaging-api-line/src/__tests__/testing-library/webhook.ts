@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { LineTypes } from '../..';
 
-import { getCurrentContext } from '.';
+import { getCurrentContext } from './shared';
 
 const webhookEndpoint: LineTypes.WebhookEndpointInfoResponse = {
   endpoint: 'https://www.example.com/webhook',

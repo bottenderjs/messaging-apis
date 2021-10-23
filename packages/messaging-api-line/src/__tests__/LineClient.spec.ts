@@ -68,7 +68,29 @@ it('should support origin', async () => {
   );
 });
 
-it.todo('should support dataOrigin');
+it('should support dataOrigin', async () => {
+  lineServer.use(
+    rest.post('*', (req, res, ctx) => {
+      getCurrentContext().request = req;
+      return res(ctx.json({}));
+    })
+  );
+
+  const line = new LineClient({
+    accessToken: ACCESS_TOKEN,
+    channelSecret: CHANNEL_SECRET,
+    origin: 'https://mydummytestserver.com',
+  });
+
+  await line.getMessageContent(constants.MESSAGE_ID);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.url.href).toBe(
+    'https://mydummytestserver.com/v2/bot/message/1234567890/content'
+  );
+});
 
 it('should support onRequest', async () => {
   const onRequest = jest.fn();

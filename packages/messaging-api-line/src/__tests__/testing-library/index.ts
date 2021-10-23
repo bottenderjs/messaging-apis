@@ -1,34 +1,11 @@
-import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
-import { v4 as uuidv4 } from 'uuid';
 
 import { requestHandlers as audienceRequestHandlers } from './audience';
 import { requestHandlers as botRequestHandlers } from './bot';
-import { requestHandlers as narrowcastRequestHandlers } from './narrowcast';
+import { getCurrentContext } from './shared';
+import { requestHandlers as insightRequestHandlers } from './insight';
+import { requestHandlers as messageRequestHandlers } from './message';
 import { requestHandlers as webhookRequestHandlers } from './webhook';
-
-type Context = { request: RestRequest | undefined };
-
-const currentContext: { request: RestRequest | undefined } = {
-  request: undefined,
-};
-
-/**
- * Gets current HTTP request context.
- *
- * @returns current HTTP request context.
- */
-export function getCurrentContext(): Context {
-  return currentContext;
-}
-
-export const constants = {
-  ACCESS_TOKEN: 'ACCESS_TOKEN',
-  CHANNEL_SECRET: 'CHANNEL_SECRET',
-  REPLY_TOKEN: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
-  MESSAGE_ID: '1234567890',
-  AUDIENCE_GROUP_ID: 1234567890123,
-};
 
 /**
  * Sets up a mock LINE server.
@@ -37,115 +14,11 @@ export const constants = {
  */
 export function setupLineServer(): SetupServerApi {
   const server = setupServer(
+    ...webhookRequestHandlers,
     ...botRequestHandlers,
-    rest.post('https://api.line.me/v2/bot/message/reply', (req, res, ctx) => {
-      currentContext.request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
-    }),
-    rest.post('https://api.line.me/v2/bot/message/push', (req, res, ctx) => {
-      currentContext.request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
-    }),
-    rest.post(
-      'https://api.line.me/v2/bot/message/multicast',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
-      }
-    ),
-    rest.post(
-      'https://api.line.me/v2/bot/message/broadcast',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
-      }
-    ),
-    ...narrowcastRequestHandlers,
-    rest.get(
-      `https://api-data.line.me/v2/bot/message/${constants.MESSAGE_ID}/content`,
-      (req, res, ctx) => {
-        currentContext.request = req;
-
-        return res(
-          ctx.body(Buffer.from('a content buffer')),
-          ctx.set('X-Line-Request-Id', uuidv4())
-        );
-      }
-    ),
-    rest.get('https://api.line.me/v2/bot/message/quota', (req, res, ctx) => {
-      currentContext.request = req;
-      return res(
-        ctx.json({
-          type: 'limited',
-          value: 1000,
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
-      );
-    }),
-    rest.get(
-      'https://api.line.me/v2/bot/message/quota/consumption',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(
-          ctx.json({ totalUsage: '500' }),
-          ctx.set('X-Line-Request-Id', uuidv4())
-        );
-      }
-    ),
-    rest.get(
-      'https://api.line.me/v2/bot/message/delivery/reply',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(
-          ctx.json({
-            status: 'ready',
-            success: 10000,
-          }),
-          ctx.set('X-Line-Request-Id', uuidv4())
-        );
-      }
-    ),
-    rest.get(
-      'https://api.line.me/v2/bot/message/delivery/push',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(
-          ctx.json({
-            status: 'ready',
-            success: 10000,
-          }),
-          ctx.set('X-Line-Request-Id', uuidv4())
-        );
-      }
-    ),
-    rest.get(
-      'https://api.line.me/v2/bot/message/delivery/multicast',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(
-          ctx.json({
-            status: 'ready',
-            success: 10000,
-          }),
-          ctx.set('X-Line-Request-Id', uuidv4())
-        );
-      }
-    ),
-    rest.get(
-      'https://api.line.me/v2/bot/message/delivery/broadcast',
-      (req, res, ctx) => {
-        currentContext.request = req;
-        return res(
-          ctx.json({
-            status: 'ready',
-            success: 10000,
-          }),
-          ctx.set('X-Line-Request-Id', uuidv4())
-        );
-      }
-    ),
+    ...messageRequestHandlers,
     ...audienceRequestHandlers,
-    ...webhookRequestHandlers
+    ...insightRequestHandlers
   );
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
@@ -158,7 +31,7 @@ export function setupLineServer(): SetupServerApi {
     // Reset any runtime handlers tests may use.
     server.resetHandlers();
 
-    currentContext.request = undefined;
+    getCurrentContext().request = undefined;
   });
   afterAll(() => {
     // Clean up after all tests are done, preventing this
@@ -170,4 +43,6 @@ export function setupLineServer(): SetupServerApi {
 }
 
 export { setBotInfo } from './bot';
-export { setNarrowcastProgress } from './narrowcast';
+export { setNarrowcastProgress } from './message';
+
+export { constants, getCurrentContext } from './shared';

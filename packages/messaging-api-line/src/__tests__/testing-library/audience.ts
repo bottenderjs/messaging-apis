@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getCurrentContext } from '.';
+import { getCurrentContext } from './shared';
 
 export const requestHandlers = [
   rest.post(

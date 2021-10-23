@@ -2021,6 +2021,127 @@ export type FriendDemographics = {
   >;
 };
 
+type UserInteractionStatisticsOfEachMessage = {
+  /**
+   * Bubble's serial number.
+   */
+  seq: number;
+  /**
+   * Number of times the bubble was displayed.
+   */
+  impression: number;
+  /**
+   * Number of times audio or video in the bubble started playing.
+   */
+  mediaPlayed: number;
+  /**
+   * Number of times audio or video in the bubble was played from start to 25%.
+   */
+  mediaPlayed25Percent: number;
+  /**
+   * Number of times audio or video in the bubble was played from start to 50%.
+   */
+  mediaPlayed50Percent: number;
+  /**
+   * Number of times audio or video in the bubble was played from start to 75%.
+   */
+  mediaPlayed75Percent: number;
+  /**
+   * Number of times audio or video in the bubble was played in its entirety.
+   */
+  mediaPlayed100Percent: number;
+  /**
+   * Number of users that started playing audio or video in the bubble.
+   */
+  uniqueMediaPlayed: number;
+  /**
+   * Number of users that played audio or video in the bubble from start to 25%.
+   */
+  uniqueMediaPlayed25Percent: number;
+  /**
+   * Number of users that played audio or video in the bubble from start to 50%.
+   */
+  uniqueMediaPlayed50Percent: number;
+  /**
+   * Number of users that played audio or video in the bubble from start to 75%.
+   */
+  uniqueMediaPlayed75Percent: number;
+  /**
+   * Number of users that played audio or video in the bubble in its entirety.
+   */
+  uniqueMediaPlayed100Percent: number;
+};
+
+type UserInteractionStatisticsOfEachURL = {
+  /**
+   * The URL's serial number.
+   */
+  seq: number;
+  /**
+   * URL.
+   */
+  url: number;
+  /**
+   * Number of times the URL was opened.
+   */
+  click: number;
+  /**
+   * Number of users that opened the URL.
+   */
+  uniqueClick: number;
+  /**
+   * Number of users who opened this `url` through any link in the message. If a message contains two links to the same URL and a user opens both links, they're counted only once.
+   */
+  uniqueClickOfRequest: number;
+};
+
+/**
+ * https://developers.line.biz/en/reference/messaging-api/#get-message-event
+ */
+export type UserInteractionStatistics = {
+  /**
+   * Summary of message statistics.
+   */
+  overview: {
+    /**
+     * Request ID.
+     */
+    requestId: string;
+    /**
+     * UNIX timestamp for message delivery time.
+     */
+    timestamp: number;
+    /**
+     * Number of messages delivered. This property shows values of less than 20. However, if all messages have not been sent, it will be null.
+     */
+    delivered: number;
+    /**
+     * Number of users who opened the message, meaning they displayed at least 1 bubble.
+     */
+    uniqueImpression: number;
+    /**
+     * Number of users who opened any URL in the message.
+     */
+    uniqueClick: number;
+    /**
+     * Number of users who started playing any video or audio in the message.
+     */
+    uniqueMediaPlayed: number;
+    /**
+     * Number of users who played the entirety of any video or audio in the message.
+     */
+    uniqueMediaPlayed100Percent: number;
+  };
+  /**
+   * Array of information about individual message bubbles.
+   */
+  messages: UserInteractionStatisticsOfEachMessage[];
+  /**
+   * Array of information about opened URLs in the message.
+   */
+  clicks: UserInteractionStatisticsOfEachURL[];
+};
+
 /* Narrowcast */
 
 export type NarrowcastOptions = {
