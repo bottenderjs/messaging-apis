@@ -1428,11 +1428,11 @@ export default class LineClient {
    */
   public async getAllBotFollowersIds(): Promise<string[]> {
     let userIds: string[] = [];
-
     let start: string | undefined;
     do {
       // eslint-disable-next-line no-await-in-loop
       const res = await this.getBotFollowersIds(start);
+
       userIds = userIds.concat(res.userIds);
       start = res.next;
     } while (start);
@@ -1465,46 +1465,20 @@ export default class LineClient {
   }
 
   /**
-   * Gets the user profile of a member of a group that the LINE Official Account is in if the user ID of the group member is known. You can get user profiles of users who have not added the LINE Official Account as a friend or have blocked the LINE Official Account.
-   *
-   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
-   * @returns Returns status code `200` and a JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
-   */
-  public getGroupMemberProfile(
-    groupId: string,
-    userId: string
-  ): Promise<LineTypes.User> {
-    return this.axios
-      .get(`/v2/bot/group/${groupId}/member/${userId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Gets the user profile of a member of a room that the LINE Official Account is in if the user ID of the room member is known. You can get user profiles of users who have not added the LINE Official Account as a friend or have blocked the LINE Official Account.
-   *
-   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
-   * @returns Returns status code `200` and a JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-profile
-   */
-  public getRoomMemberProfile(
-    roomId: string,
-    userId: string
-  ): Promise<LineTypes.User> {
-    return this.axios
-      .get(`/v2/bot/room/${roomId}/member/${userId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   *
    * Gets the group ID, group name, and group icon URL of a group where the LINE Official Account is a member.
    *
    * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-summary
+   * @example
+   * ```js
+   * await line.getGroupSummary('<GROUP_ID>');
+   * // {
+   * //   groupId: 'G00000000000000000000000000000000',
+   * //   groupName: 'LINE Group',
+   * //   pictureUrl: 'http:/obs.line-apps.com/...',
+   * // }
+   * ```
    */
   public getGroupSummary(groupId: string): Promise<LineTypes.Group> {
     return this.axios
@@ -1518,6 +1492,11 @@ export default class LineClient {
    * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a number representing group member count.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-members-group-count
+   * @example
+   * ```js
+   * await line.getGroupMembersCount('<GROUP_ID>');
+   * // 3
+   * ```
    */
   public getGroupMembersCount(groupId: string): Promise<number> {
     return this.axios
@@ -1532,6 +1511,18 @@ export default class LineClient {
    * @param start - Value of the continuation token found in the `next` property of the JSON object returned in the [response](https://developers.line.biz/en/reference/messaging-api/#get-group-member-user-ids-response). Include this parameter to get the next array of user IDs for the members of the group.
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
+   * @example
+   * ```js
+   * await line.getGroupMemberIds('<GROUP_ID>');
+   * // {
+   * //   memberIds: [
+   * //     'U00000000000000000000000000000001',
+   * //     'U00000000000000000000000000000002',
+   * //     'U00000000000000000000000000000003',
+   * //   ],
+   * //   next: 'jxEWCEEP...',
+   * // }
+   * ```
    */
   public getGroupMemberIds(
     groupId: string,
@@ -1550,26 +1541,73 @@ export default class LineClient {
    * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
+   * @example
+   * ```js
+   * await line.getAllGroupMemberIds('<GROUP_ID>');
+   * // [
+   * //   'U00000000000000000000000000000001',
+   * //   'U00000000000000000000000000000002',
+   * //   'U00000000000000000000000000000003',
+   * // ]
+   * ```
    */
   public async getAllGroupMemberIds(groupId: string): Promise<string[]> {
-    let allMemberIds: string[] = [];
-    let continuationToken;
-
+    let memberIds: string[] = [];
+    let start: string | undefined;
     do {
-      const {
-        memberIds,
-        next,
-      }: // eslint-disable-next-line no-await-in-loop
-      { memberIds: string[]; next?: string } = await this.getGroupMemberIds(
-        groupId,
-        continuationToken
-      );
+      // eslint-disable-next-line no-await-in-loop
+      const res = await this.getGroupMemberIds(groupId, start);
 
-      allMemberIds = allMemberIds.concat(memberIds);
-      continuationToken = next;
-    } while (continuationToken);
+      memberIds = memberIds.concat(res.memberIds);
+      start = res.next;
+    } while (start);
 
-    return allMemberIds;
+    return memberIds;
+  }
+
+  /**
+   * Gets the user profile of a member of a group that the LINE Official Account is in if the user ID of the group member is known. You can get user profiles of users who have not added the LINE Official Account as a friend or have blocked the LINE Official Account.
+   *
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @returns Returns status code `200` and a JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-group-member-profile
+   * @example
+   * ```js
+   * await line.getGroupMemberProfile('<GROUP_ID>', '<USER_ID>');
+   * // {
+   * //   displayName: 'LINE taro',
+   * //   userId: constants.USER_ID,
+   * //   pictureUrl: 'http://obs.line-apps.com/...',
+   * // }
+   * ```
+   */
+  public getGroupMemberProfile(
+    groupId: string,
+    userId: string
+  ): Promise<LineTypes.User> {
+    return this.axios
+      .get(`/v2/bot/group/${groupId}/member/${userId}`)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Leaves a [group](https://developers.line.biz/en/docs/messaging-api/group-chats/#group).
+   *
+   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#leave-group
+   * @example
+   * ```js
+   * await line.leaveGroup('<GROUP_ID>');
+   * ```
+   */
+  public leaveGroup(
+    groupId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post(`/v2/bot/group/${groupId}/leave`)
+      .then((res) => res.data, handleError);
   }
 
   /**
@@ -1578,6 +1616,11 @@ export default class LineClient {
    * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a number representing room member count.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-members-room-count
+   * @example
+   * ```js
+   * await line.getRoomMembersCount('<ROOM_ID>');
+   * // 3
+   * ```
    */
   public getRoomMembersCount(roomId: string): Promise<number> {
     return this.axios
@@ -1592,6 +1635,18 @@ export default class LineClient {
    * @param start - Value of the continuation token found in the `next` property of the JSON object returned in the [response](https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids-response). Include this parameter to get the next array of user IDs for the members of the group.
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids
+   * @example
+   * ```js
+   * await line.getRoomMemberIds('<ROOM_ID>');
+   * // {
+   * //   memberIds: [
+   * //     'R00000000000000000000000000000001',
+   * //     'R00000000000000000000000000000002',
+   * //     'R00000000000000000000000000000003',
+   * //   ],
+   * //   next: 'jxEWCEEP...',
+   * // }
+   * ```
    */
   public getRoomMemberIds(
     roomId: string,
@@ -1610,40 +1665,53 @@ export default class LineClient {
    * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-user-ids
+   * @example
+   * ```js
+   * await line.getAllRoomMemberIds('<ROOM_ID>');
+   * // [
+   * //   'R00000000000000000000000000000001',
+   * //   'R00000000000000000000000000000002',
+   * //   'R00000000000000000000000000000003',
+   * // ]
+   * ```
    */
   public async getAllRoomMemberIds(roomId: string): Promise<string[]> {
-    let allMemberIds: string[] = [];
-    let continuationToken;
-
+    let memberIds: string[] = [];
+    let start: string | undefined;
     do {
-      const {
-        memberIds,
-        next,
-      }: // eslint-disable-next-line no-await-in-loop
-      { memberIds: string[]; next?: string } = await this.getRoomMemberIds(
-        roomId,
-        continuationToken
-      );
+      // eslint-disable-next-line no-await-in-loop
+      const res = await this.getRoomMemberIds(roomId, start);
 
-      allMemberIds = allMemberIds.concat(memberIds);
-      continuationToken = next;
-    } while (continuationToken);
+      memberIds = memberIds.concat(res.memberIds);
+      start = res.next;
+    } while (start);
 
-    return allMemberIds;
+    return memberIds;
   }
 
   /**
-   * Leaves a [group](https://developers.line.biz/en/docs/messaging-api/group-chats/#group).
+   * Gets the user profile of a member of a room that the LINE Official Account is in if the user ID of the room member is known. You can get user profiles of users who have not added the LINE Official Account as a friend or have blocked the LINE Official Account.
    *
-   * @param groupId - Group ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#leave-group
+   * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @returns Returns status code `200` and a JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-room-member-profile
+   * @example
+   * ```js
+   * await line.getRoomMemberProfile('<ROOM_ID>', '<USER_ID>');
+   * // {
+   * //   displayName: 'LINE taro',
+   * //   userId: constants.USER_ID,
+   * //   pictureUrl: 'http://obs.line-apps.com/...',
+   * // }
+   * ```
    */
-  public leaveGroup(
-    groupId: string
-  ): Promise<LineTypes.MutationSuccessResponse> {
+  public getRoomMemberProfile(
+    roomId: string,
+    userId: string
+  ): Promise<LineTypes.User> {
     return this.axios
-      .post(`/v2/bot/group/${groupId}/leave`)
+      .get(`/v2/bot/room/${roomId}/member/${userId}`)
       .then((res) => res.data, handleError);
   }
 
@@ -1653,6 +1721,10 @@ export default class LineClient {
    * @param roomId - Room ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects).
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#leave-room
+   * @example
+   * ```js
+   * await line.leaveRoom('<ROOM_ID>');
+   * ```
    */
   public leaveRoom(roomId: string): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
@@ -1727,6 +1799,11 @@ export default class LineClient {
    * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-id-of-user
+   * @example
+   * ```js
+   * await line.getLinkToken('<USER_ID>');
+   * // 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY'
+   * ```
    */
   public getLinkedRichMenu(userId: string): Promise<{ richMenuId: string }> {
     return this.axios
