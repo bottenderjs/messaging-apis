@@ -1,8 +1,9 @@
-import { RestRequest } from 'msw';
+import { DefaultRequestBody, RestRequest } from 'msw';
 
-type Context = { request: RestRequest | undefined };
+type Context<T = DefaultRequestBody> = { request: RestRequest<T> | undefined };
 
-const currentContext: { request: RestRequest | undefined } = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const currentContext: { request: RestRequest<any> | undefined } = {
   request: undefined,
 };
 
@@ -11,7 +12,7 @@ const currentContext: { request: RestRequest | undefined } = {
  *
  * @returns current HTTP request context.
  */
-export function getCurrentContext(): Context {
+export function getCurrentContext<T = DefaultRequestBody>(): Context<T> {
   return currentContext;
 }
 

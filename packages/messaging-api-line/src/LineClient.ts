@@ -1733,10 +1733,116 @@ export default class LineClient {
   }
 
   /**
+   * Creates a rich menu.
+   *
+   * @param richMenu - The rich menu represented as a rich menu object.
+   * @returns Returns status code `200` and a JSON object with the rich menu ID.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-rich-menu
+   * @example
+   * ```js
+   * await line.createRichMenu({
+   *   size: { width: 2500, height: 1686 },
+   *   selected: false,
+   *   name: 'Nice richmenu',
+   *   chatBarText: 'Tap here',
+   *   areas: [{
+   *     bounds: { x: 0, y: 0, width: 2500, height: 1686 },
+   *     action: {
+   *       type: 'postback',
+   *       data: 'action=buy&itemid=123',
+   *     },
+   *  }],
+   * });
+   * ```
+   */
+  public createRichMenu(
+    richMenu: LineTypes.RichMenu
+  ): Promise<{ richMenuId: string }> {
+    return this.axios.post('/v2/bot/richmenu', richMenu);
+  }
+
+  /**
+   * Uploads and attaches an image to a rich menu.
+   *
+   * @param richMenuId - The ID of the rich menu to attach the image to
+   * @param image - image
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#upload-rich-menu-image
+   * @example
+   * ```js
+   * const buffer = fs.promises.readFile(path.join(__dirname, 'image.png'));
+   * await line.uploadRichMenuImage('<RICH_MENU_ID>', buffer);
+   * ```
+   */
+  public uploadRichMenuImage(
+    richMenuId: string,
+    image: Buffer
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    const type = imageType(image);
+    invariant(
+      type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
+      'Image must be `image/jpeg` or `image/png`'
+    );
+
+    return this.dataAxios
+      .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
+        headers: {
+          'Content-Type': (type as { mime: string }).mime,
+        },
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Downloads an image associated with a rich menu.
+   *
+   * @param richMenuId - ID of the rich menu with the image to be downloaded
+   * @returns Returns status code `200` and the binary data of the rich menu image. The image can be downloaded as shown in the example request.
+   * @see https://developers.line.biz/en/reference/messaging-api/#download-rich-menu-image
+   * @example
+   * ```js
+   * const buffer = await line.downloadRichMenuImage('<RICH_MENU_ID>');
+   * ```
+   */
+  public downloadRichMenuImage(
+    richMenuId: string
+  ): Promise<Buffer | undefined> {
+    return this.dataAxios
+      .get(`/v2/bot/richmenu/${richMenuId}/content`, {
+        responseType: 'arraybuffer',
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        if (err.response && err.response.status === 404) {
+          return undefined;
+        }
+        return handleError(err);
+      });
+  }
+
+  /**
    * Gets a list of the rich menu response object of all rich menus created by [Create a rich menu](https://developers.line.biz/en/reference/messaging-api/#create-rich-menu).
    *
    * @returns Returns status code `200` and a list of [rich menu response objects](https://developers.line.biz/en/reference/messaging-api/#rich-menu-response-object).
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-list
+   * @example
+   * ```js
+   * await line.getRichMenuList();
+   * // [{
+   * //   richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+   * //   size: { width: 2500, height: 1686 },
+   * //   selected: false,
+   * //   name: 'Nice richmenu',
+   * //   chatBarText: 'Tap here',
+   * //   areas: [{
+   * //     bounds: { x: 0, y: 0, width: 2500, height: 1686 },
+   * //     action: {
+   * //       type: 'postback',
+   * //       data: 'action=buy&itemid=123',
+   * //     },
+   * //  }],
+   * // }]
+   * ```
    */
   public getRichMenuList(): Promise<LineTypes.RichMenu[]> {
     return this.axios
@@ -1750,32 +1856,37 @@ export default class LineClient {
    * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and a [rich menu response objects](https://developers.line.biz/en/reference/messaging-api/#rich-menu-response-object).
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu
+   * @example
+   * ```js
+   * await line.getRichMenu('<RICH_MENU_ID>');
+   * // {
+   * //   richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+   * //   size: { width: 2500, height: 1686 },
+   * //   selected: false,
+   * //   name: 'Nice richmenu',
+   * //   chatBarText: 'Tap here',
+   * //   areas: [{
+   * //     bounds: { x: 0, y: 0, width: 2500, height: 1686 },
+   * //     action: {
+   * //       type: 'postback',
+   * //       data: 'action=buy&itemid=123',
+   * //     },
+   * //  }],
+   * // }
+   * ```
    */
-  public getRichMenu(richMenuId: string): Promise<LineTypes.RichMenu> {
-    return this.axios
-      .get(`/v2/bot/richmenu/${richMenuId}`)
-      .then((res) => res.data)
-      .catch((err) => {
+  public getRichMenu(
+    richMenuId: string
+  ): Promise<LineTypes.RichMenu | undefined> {
+    return this.axios.get(`/v2/bot/richmenu/${richMenuId}`).then(
+      (res) => res.data,
+      (err) => {
         if (err.response && err.response.status === 404) {
-          return null;
+          return undefined;
         }
         return handleError(err);
-      });
-  }
-
-  /**
-   * Creates a rich menu.
-   *
-   * @param richMenu - The rich menu represented as a rich menu object.
-   * @returns Returns status code `200` and a JSON object with the rich menu ID.
-   * @see https://developers.line.biz/en/reference/messaging-api/#create-rich-menu
-   */
-  public createRichMenu(
-    richMenu: LineTypes.RichMenu
-  ): Promise<{ richMenuId: string }> {
-    return this.axios
-      .post('/v2/bot/richmenu', richMenu)
-      .then((res) => res.data, handleError);
+      }
+    );
   }
 
   /**
@@ -1784,6 +1895,10 @@ export default class LineClient {
    * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#delete-rich-menu
+   * @example
+   * ```js
+   * await line.deleteRichMenu('<RICH_MENU_ID>');
+   * ```
    */
   public deleteRichMenu(
     richMenuId: string
@@ -1801,20 +1916,24 @@ export default class LineClient {
    * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-id-of-user
    * @example
    * ```js
-   * await line.getLinkToken('<USER_ID>');
-   * // 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY'
+   * await line.getLinkedRichMenu('<USER_ID>');
+   * // {
+   * //   richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+   * // }
    * ```
    */
-  public getLinkedRichMenu(userId: string): Promise<{ richMenuId: string }> {
-    return this.axios
-      .get(`/v2/bot/user/${userId}/richmenu`)
-      .then((res) => res.data)
-      .catch((err) => {
+  public getLinkedRichMenu(
+    userId: string
+  ): Promise<{ richMenuId: string } | undefined> {
+    return this.axios.get(`/v2/bot/user/${userId}/richmenu`).then(
+      (res) => res.data,
+      (err) => {
         if (err.response && err.response.status === 404) {
-          return null;
+          return undefined;
         }
         return handleError(err);
-      });
+      }
+    );
   }
 
   /**
@@ -1824,6 +1943,10 @@ export default class LineClient {
    * @param richMenuId - ID of a rich menu
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-user
+   * @example
+   * ```js
+   * await line.linkRichMenu('<USER_ID>', '<RICH_MENU_ID>');
+   * ```
    */
   public linkRichMenu(
     userId: string,
@@ -1840,6 +1963,10 @@ export default class LineClient {
    * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/messaging-api/#unlink-rich-menu-from-user
+   * @example
+   * ```js
+   * await line.unlinkRichMenu('<USER_ID>');
+   * ```
    */
   public unlinkRichMenu(
     userId: string
@@ -1855,13 +1982,13 @@ export default class LineClient {
    * @returns Returns status code `200` and a JSON object with the rich menu ID.
    * @see https://developers.line.biz/en/reference/messaging-api/#get-default-rich-menu-id
    */
-  public getDefaultRichMenu(): Promise<{ richMenuId: string }> {
+  public getDefaultRichMenu(): Promise<{ richMenuId: string } | undefined> {
     return this.axios
       .get(`/v2/bot/user/all/richmenu`)
       .then((res) => res.data)
       .catch((err) => {
         if (err.response && err.response.status === 404) {
-          return null;
+          return undefined;
         }
         return handleError(err);
       });
@@ -1895,61 +2022,16 @@ export default class LineClient {
   }
 
   /**
-   * Uploads and attaches an image to a rich menu.
-   *
-   * @param richMenuId - The ID of the rich menu to attach the image to
-   * @param image - image
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#upload-rich-menu-image
-   */
-  public uploadRichMenuImage(
-    richMenuId: string,
-    image: Buffer
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    const type = imageType(image);
-    invariant(
-      type && (type.mime === 'image/jpeg' || type.mime === 'image/png'),
-      'Image must be `image/jpeg` or `image/png`'
-    );
-
-    return this.dataAxios
-      .post(`/v2/bot/richmenu/${richMenuId}/content`, image, {
-        headers: {
-          'Content-Type': (type as { mime: string }).mime,
-        },
-      })
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Downloads an image associated with a rich menu.
-   *
-   * @param richMenuId - ID of the rich menu with the image to be downloaded
-   * @returns Returns status code `200` and the binary data of the rich menu image. The image can be downloaded as shown in the example request.
-   * @see https://developers.line.biz/en/reference/messaging-api/#download-rich-menu-image
-   */
-  public downloadRichMenuImage(
-    richMenuId: string
-  ): Promise<Buffer | undefined> {
-    return this.dataAxios
-      .get(`/v2/bot/richmenu/${richMenuId}/content`, {
-        responseType: 'arraybuffer',
-      })
-      .then((res) => Buffer.from(res.data))
-      .catch((err) => {
-        if (err.response && err.response.status === 404) {
-          return undefined;
-        }
-        return handleError(err);
-      });
-  }
-
-  /**
    * Issues a link token used for the [account link](https://developers.line.biz/en/docs/messaging-api/linking-accounts/) feature.
    *
    * @param userId - User ID for the LINE account to be linked. Found in the `source` object of [account link event objects](https://developers.line.biz/en/reference/messaging-api/#account-link-event). Do not use the LINE ID used in LINE.
    * @returns Returns status code `200` and a link token. Link tokens are valid for 10 minutes and can only be used once.
    * @see https://developers.line.biz/en/reference/messaging-api/#issue-link-token
+   * @example
+   * ```js
+   * await line.getLinkToken('<USER_ID>');
+   * // 'NMZTNuVrPTqlr2IF8Bnymkb7rXfYv5EY'
+   * ```
    */
   public getLinkToken(userId: string): Promise<string> {
     return this.axios

@@ -8,6 +8,7 @@ import { getCurrentContext } from './shared';
 import { requestHandlers as groupRequestHandlers } from './group';
 import { requestHandlers as insightRequestHandlers } from './insight';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as richMenuRequestHandlers } from './richMenu';
 import { requestHandlers as roomRequestHandlers } from './room';
 import { requestHandlers as userRequestHandlers } from './user';
 import { requestHandlers as webhookRequestHandlers } from './webhook';
@@ -27,6 +28,7 @@ export function setupLineServer(): SetupServerApi {
     ...botRequestHandlers,
     ...groupRequestHandlers,
     ...roomRequestHandlers,
+    ...richMenuRequestHandlers,
     ...accountLinkRequestHandlers
   );
 
