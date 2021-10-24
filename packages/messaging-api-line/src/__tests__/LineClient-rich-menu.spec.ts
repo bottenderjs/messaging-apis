@@ -419,7 +419,33 @@ it('should support #linkRichMenu', async () => {
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-it.todo('Link rich menu to user');
+it('should support #linkRichMenuToMultipleUsers', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.linkRichMenuToMultipleUsers(
+    'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+    [constants.USER_ID]
+  );
+
+  expect(res).toEqual({});
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/richmenu/bulk/link'
+  );
+  expect(request?.body).toEqual({
+    richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+    userIds: ['U00000000000000000000000000000000'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
 it.todo('Create rich menu alias');
 
@@ -501,4 +527,26 @@ it('should support #unlinkRichMenu', async () => {
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-it.todo('Unlink rich menus from multiple users');
+it('should support #unlinkRichMenusFromMultipleUsers', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.unlinkRichMenusFromMultipleUsers([constants.USER_ID]);
+
+  expect(res).toEqual({});
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/richmenu/bulk/unlink'
+  );
+  expect(request?.body).toEqual({
+    userIds: ['U00000000000000000000000000000000'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});

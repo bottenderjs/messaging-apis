@@ -1960,6 +1960,33 @@ export default class LineClient {
   }
 
   /**
+   * Links a rich menu to multiple users.
+   *
+   * @param richMenuId - ID of a rich menu
+   * @param userIds - Array of user IDs. Found in the source object of webhook event objects. Do not use the LINE ID used in LINE.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-users
+   * @example
+   * ```js
+   * await line.linkRichMenuToMultipleUsers('<RICH_MENU_ID>', [
+   *   '<USER_ID_1>',
+   *   '<USER_ID_2>',
+   * ]);
+   * ```
+   */
+  public linkRichMenuToMultipleUsers(
+    richMenuId: string,
+    userIds: string[]
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post('/v2/bot/richmenu/bulk/link', {
+        richMenuId,
+        userIds,
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
    * Unlinks a rich menu from a user.
    *
    * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
@@ -1975,6 +2002,30 @@ export default class LineClient {
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
       .delete(`/v2/bot/user/${userId}/richmenu`)
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Unlinks rich menus from multiple users.
+   *
+   * @param userIds - Array of user IDs. Found in the source object of webhook event objects. Do not use the LINE ID used in LINE.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#unlink-rich-menu-from-users
+   * @example
+   * ```js
+   * await line.unlinkRichMenusFromMultipleUsers([
+   *   '<USER_ID_1>',
+   *   '<USER_ID_2>',
+   * ]);
+   * ```
+   */
+  public unlinkRichMenusFromMultipleUsers(
+    userIds: string[]
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post('/v2/bot/richmenu/bulk/unlink', {
+        userIds,
+      })
       .then((res) => res.data, handleError);
   }
 
