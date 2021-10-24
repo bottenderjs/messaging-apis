@@ -1758,7 +1758,9 @@ export default class LineClient {
   public createRichMenu(
     richMenu: LineTypes.RichMenu
   ): Promise<{ richMenuId: string }> {
-    return this.axios.post('/v2/bot/richmenu', richMenu);
+    return this.axios
+      .post('/v2/bot/richmenu', richMenu)
+      .then((res) => res.data, handleError);
   }
 
   /**
