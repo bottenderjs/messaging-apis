@@ -1,7 +1,7 @@
 import qs from 'qs';
+import { Entries, SnakeCasedPropertiesDeep } from 'type-fest';
 import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
-import { SnakeCasedPropertiesDeep } from 'type-fest';
 import { addSeconds } from 'date-fns';
 import { camelcaseKeysDeep, snakecaseKeysDeep } from 'messaging-api-common';
 
@@ -27,6 +27,14 @@ export const constants = {
   AUTH_TOKEN: 'AUTH_TOKEN',
 };
 
+export function setConstants(dict: Partial<typeof constants>): void {
+  for (const [key, val] of Object.entries(dict) as Entries<typeof dict>) {
+    if (val) {
+      constants[key] = val;
+    }
+  }
+}
+
 /**
  * Sets up a mock Twilio server.
  *
@@ -37,8 +45,6 @@ export function setupTwilioServer(): SetupServerApi {
     rest.post<string>(
       `https://api.twilio.com/2010-04-01/Accounts/${constants.ACCOUNT_SID}/Messages.json`,
       (req, res, ctx) => {
-        currentContext.request = req;
-
         if (
           req.url.username !== constants.ACCOUNT_SID ||
           req.url.password !== constants.AUTH_TOKEN
@@ -89,6 +95,7 @@ export function setupTwilioServer(): SetupServerApi {
       }
     )
   );
+
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
       // Establish requests interception layer before all tests.
@@ -100,12 +107,17 @@ export function setupTwilioServer(): SetupServerApi {
     // Reset any runtime handlers tests may use.
     server.resetHandlers();
 
-    currentContext.request = undefined;
+    getCurrentContext().request = undefined;
   });
+
   afterAll(() => {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
     server.close();
+  });
+
+  server.events.on('request:start', (req) => {
+    getCurrentContext().request = req as RestRequest;
   });
 
   return server;

@@ -90,7 +90,7 @@ it('should support onRequest', async () => {
       replyToken: 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
     },
     headers: {
-      Authorization: 'Bearer 1234567890',
+      Authorization: 'Bearer ACCESS_TOKEN',
       'Content-Type': 'application/json',
       Accept: 'application/json, text/plain, */*',
     },

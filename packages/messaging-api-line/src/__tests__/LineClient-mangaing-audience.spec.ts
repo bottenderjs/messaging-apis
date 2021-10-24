@@ -1,5 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { Readable } from 'stream';
+
+import Busboy from 'busboy';
 
 import { LineClient } from '..';
 
@@ -8,6 +11,16 @@ import {
   getCurrentContext,
   setupLineServer,
 } from './testing-library';
+
+type Form = Record<
+  string,
+  | string
+  | {
+      filename: string;
+      mimetype: string;
+      content: string;
+    }
+>;
 
 setupLineServer();
 
@@ -145,25 +158,46 @@ it('should support #createUploadAudienceGroupByFile', async () => {
     'https://api-data.line.me/v2/bot/audienceGroup/upload/byFile'
   );
 
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="description"'
-  );
-  expect(request?.body).toMatch('audienceGroupName_01');
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="isIfaAudience"'
-  );
-  expect(request?.body).toMatch('false');
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="uploadDescription"'
-  );
-  expect(request?.body).toMatch('uploadDescription');
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="file"; filename="audiences.txt"'
-  );
-  expect(request?.body).toMatch('Content-Type: text/plain');
-  expect(request?.body).toMatch('U4af4980627...');
-  expect(request?.body).toMatch('U4af4980628...');
-  expect(request?.body).toMatch('U4af4980629...');
+  const formdata = await new Promise<Form>((resolve) => {
+    const busboy = new Busboy({
+      headers: {
+        'content-type': request?.headers.get('Content-Type') as string,
+      },
+    });
+
+    const form: Form = {};
+
+    busboy.on('file', (key, file, filename, _, mimetype) => {
+      const chunks: Buffer[] = [];
+      file.on('data', (data) => {
+        chunks.push(data);
+      });
+      file.on('end', () => {
+        form[key] = {
+          filename,
+          mimetype,
+          content: Buffer.concat(chunks).toString(),
+        };
+      });
+    });
+    busboy.on('field', (key: string, value: string) => {
+      form[key] = value;
+    });
+    busboy.on('finish', () => {
+      resolve(form);
+    });
+
+    Readable.from(request?.body as string).pipe(busboy);
+  });
+
+  expect(formdata.description).toBe('audienceGroupName_01');
+  expect(formdata.isIfaAudience).toBe('false');
+  expect(formdata.uploadDescription).toBe('uploadDescription');
+  expect(formdata.file).toEqual({
+    filename: 'audiences.txt',
+    mimetype: 'text/plain',
+    content: `U4af4980627...\nU4af4980628...\nU4af4980629...\n`,
+  });
 
   const boundary = request?.headers.get('content-type')?.split('boundary=')[1];
 
@@ -275,21 +309,45 @@ it('should support #updateUploadAudienceGroupByFile', async () => {
     'https://api-data.line.me/v2/bot/audienceGroup/upload/byFile'
   );
 
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="audienceGroupId"'
-  );
-  expect(request?.body).toMatch('1234567890123');
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="uploadDescription"'
-  );
-  expect(request?.body).toMatch('uploadDescription');
-  expect(request?.body).toMatch(
-    'Content-Disposition: form-data; name="file"; filename="audiences.txt"'
-  );
-  expect(request?.body).toMatch('Content-Type: text/plain');
-  expect(request?.body).toMatch('U4af4980627...');
-  expect(request?.body).toMatch('U4af4980628...');
-  expect(request?.body).toMatch('U4af4980629...');
+  const formdata = await new Promise<Form>((resolve) => {
+    const busboy = new Busboy({
+      headers: {
+        'content-type': request?.headers.get('Content-Type') as string,
+      },
+    });
+
+    const form: Form = {};
+
+    busboy.on('file', (key, file, filename, _, mimetype) => {
+      const chunks: Buffer[] = [];
+      file.on('data', (data) => {
+        chunks.push(data);
+      });
+      file.on('end', () => {
+        form[key] = {
+          filename,
+          mimetype,
+          content: Buffer.concat(chunks).toString(),
+        };
+      });
+    });
+    busboy.on('field', (key: string, value: string) => {
+      form[key] = value;
+    });
+    busboy.on('finish', () => {
+      resolve(form);
+    });
+
+    Readable.from(request?.body as string).pipe(busboy);
+  });
+
+  expect(formdata.audienceGroupId).toBe('1234567890123');
+  expect(formdata.uploadDescription).toBe('uploadDescription');
+  expect(formdata.file).toEqual({
+    filename: 'audiences.txt',
+    mimetype: 'text/plain',
+    content: `U4af4980627...\nU4af4980628...\nU4af4980629...\n`,
+  });
 
   const boundary = request?.headers.get('content-type')?.split('boundary=')[1];
 

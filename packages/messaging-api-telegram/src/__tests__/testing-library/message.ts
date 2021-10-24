@@ -4,13 +4,12 @@ import { snakecaseKeysDeep } from 'messaging-api-common';
 
 import * as TelegramTypes from '../../TelegramTypes';
 
-import { constants, getCurrentContext } from './shared';
+import { constants } from './shared';
 
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendMessage`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -38,8 +37,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/forwardMessage`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -74,8 +72,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/copyMessage`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -90,8 +87,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendPhoto`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -142,8 +138,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendAudio`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -179,8 +174,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendDocument`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -220,8 +214,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVideo`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -261,8 +254,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendAnimation`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -317,8 +309,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVoice`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -352,8 +343,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVideoNote`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -392,11 +382,10 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendMediaGroup`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
-          // TODO: the real result related to request.
+          // TODO: the real result related to _uest.
           snakecaseKeysDeep({
             ok: true,
             result: {
@@ -428,8 +417,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendLocation`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -460,8 +448,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageLiveLocation`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -492,8 +479,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/stopMessageLiveLocation`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -524,8 +510,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVenue`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -564,8 +549,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendContact`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -596,8 +580,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendPoll`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -644,8 +627,6 @@ export const requestHandlers = [
   rest.post<{ emoji?: TelegramTypes.SendDiceOption['emoji'] }>(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendDice`,
     (req, res, ctx) => {
-      getCurrentContext().request = req;
-
       const emoji = req.body.emoji ?? '🎲';
 
       const valueRange: { [key: string]: [from: number, to: number] } = {
@@ -687,8 +668,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendChatAction`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

@@ -1,13 +1,12 @@
 import { rest } from 'msw';
 import { snakecaseKeysDeep } from 'messaging-api-common';
 
-import { constants, getCurrentContext } from './shared';
+import { constants } from './shared';
 
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendSticker`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -47,8 +46,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getStickerSet`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -84,8 +82,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/createNewStickerSet`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -98,8 +95,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/addStickerToSet`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -112,8 +108,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/setStickerPositionInSet`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -126,8 +121,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/deleteStickerFromSet`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -140,8 +134,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/setStickerSetThumb`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

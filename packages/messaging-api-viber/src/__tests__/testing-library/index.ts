@@ -1,3 +1,4 @@
+import { Entries } from 'type-fest';
 import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
 import { snakecaseKeysDeep } from 'messaging-api-common';
@@ -27,6 +28,15 @@ export const constants = {
   },
 };
 
+export function setConstants(dict: Partial<typeof constants>): void {
+  for (const [key, val] of Object.entries(dict) as Entries<typeof dict>) {
+    if (val) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      constants[key] = val as any;
+    }
+  }
+}
+
 /**
  * Sets up a mock Viber server.
  *
@@ -36,9 +46,7 @@ export function setupViberServer(): SetupServerApi {
   const server = setupServer(
     rest.post(
       'https://chatapi.viber.com/pa/get_account_info',
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
-
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -75,8 +83,6 @@ export function setupViberServer(): SetupServerApi {
     rest.post<{ id: string }>(
       'https://chatapi.viber.com/pa/get_user_details',
       (req, res, ctx) => {
-        getCurrentContext().request = req;
-
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -104,8 +110,6 @@ export function setupViberServer(): SetupServerApi {
     rest.post<{ ids: string[] }>(
       'https://chatapi.viber.com/pa/get_online',
       (req, res, ctx) => {
-        getCurrentContext().request = req;
-
         const users = req.body.ids.map((id, i) => {
           switch (i % 3) {
             case 2:
@@ -137,8 +141,6 @@ export function setupViberServer(): SetupServerApi {
     rest.post<{ url: string; event_types: ViberTypes.EventType[] }>(
       'https://chatapi.viber.com/pa/set_webhook',
       (req, res, ctx) => {
-        getCurrentContext().request = req;
-
         if (req.body.url === '') {
           return res(
             ctx.json(
@@ -168,9 +170,7 @@ export function setupViberServer(): SetupServerApi {
         );
       }
     ),
-    rest.post('https://chatapi.viber.com/pa/send_message', (req, res, ctx) => {
-      getCurrentContext().request = req;
-
+    rest.post('https://chatapi.viber.com/pa/send_message', (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -183,9 +183,7 @@ export function setupViberServer(): SetupServerApi {
     }),
     rest.post(
       'https://chatapi.viber.com/pa/broadcast_message',
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
-
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -198,6 +196,7 @@ export function setupViberServer(): SetupServerApi {
       }
     )
   );
+
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
       // Establish requests interception layer before all tests.
@@ -209,12 +208,17 @@ export function setupViberServer(): SetupServerApi {
     // Reset any runtime handlers tests may use.
     server.resetHandlers();
 
-    currentContext.request = undefined;
+    getCurrentContext().request = undefined;
   });
+
   afterAll(() => {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
     server.close();
+  });
+
+  server.events.on('request:start', (req) => {
+    getCurrentContext().request = req as RestRequest;
   });
 
   return server;

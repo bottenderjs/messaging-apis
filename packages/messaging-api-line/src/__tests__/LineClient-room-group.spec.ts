@@ -1,126 +1,131 @@
-import { RestRequest, rest } from 'msw';
-
 import { LineClient } from '..';
 
-import { setupLineServer } from './testing-library';
+import {
+  constants,
+  getCurrentContext,
+  setupLineServer,
+} from './testing-library';
 
-const lineServer = setupLineServer();
-
-const USER_ID = 'U00000000000000000000000000000000';
-const GROUP_ID = 'G00000000000000000000000000000000';
-const ROOM_ID = 'R00000000000000000000000000000000';
-const CONTINUATION_TOKEN = 'jxEWCEEP...';
-
-function setup() {
-  const context: { request: RestRequest | undefined } = {
-    request: undefined,
-  };
-
-  const client = new LineClient({
-    accessToken: 'ACCESS_TOKEN',
-    channelSecret: 'CHANNEL_SECRET',
-  });
-
-  return { context, client };
-}
+setupLineServer();
 
 it('#getGroupSummary should respond group summary', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getGroupSummary(GROUP_ID);
+  const res = await line.getGroupSummary(constants.GROUP_ID);
 
   expect(res).toEqual({
-    groupId: GROUP_ID,
+    groupId: constants.GROUP_ID,
     groupName: 'LINE Group',
     pictureUrl: 'http:/obs.line-apps.com/...',
   });
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/group/${GROUP_ID}/summary`
+    `https://api.line.me/v2/bot/group/${constants.GROUP_ID}/summary`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('#getGroupMemberProfile should respond group member profile', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getGroupMemberProfile(GROUP_ID, USER_ID);
+  const res = await line.getGroupMemberProfile(
+    constants.GROUP_ID,
+    constants.USER_ID
+  );
 
   expect(res).toEqual({
     displayName: 'LINE taro',
-    userId: USER_ID,
+    userId: constants.USER_ID,
     pictureUrl: 'http://obs.line-apps.com/...',
   });
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/group/${GROUP_ID}/member/${USER_ID}`
+    `https://api.line.me/v2/bot/group/${constants.GROUP_ID}/member/${constants.USER_ID}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('#getRoomMemberProfile should respond room member profile', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getRoomMemberProfile(ROOM_ID, USER_ID);
+  const res = await line.getRoomMemberProfile(
+    constants.ROOM_ID,
+    constants.USER_ID
+  );
 
   expect(res).toEqual({
     displayName: 'LINE taro',
-    userId: USER_ID,
+    userId: constants.USER_ID,
     pictureUrl: 'http://obs.line-apps.com/...',
   });
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/room/${ROOM_ID}/member/${USER_ID}`
+    `https://api.line.me/v2/bot/room/${constants.ROOM_ID}/member/${constants.USER_ID}`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('#getGroupMembersCount should respond group members count', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getGroupMembersCount(GROUP_ID);
+  const res = await line.getGroupMembersCount(constants.GROUP_ID);
 
   expect(res).toBe(3);
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/group/${GROUP_ID}/members/count`
+    `https://api.line.me/v2/bot/group/${constants.GROUP_ID}/members/count`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('#getRoomMembersCount should respond room members count', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getRoomMembersCount(ROOM_ID);
+  const res = await line.getRoomMembersCount(constants.ROOM_ID);
 
   expect(res).toBe(3);
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('GET');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/room/${ROOM_ID}/members/count`
+    `https://api.line.me/v2/bot/room/${constants.ROOM_ID}/members/count`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
@@ -128,9 +133,12 @@ it('#getRoomMembersCount should respond room members count', async () => {
 
 describe('#getGroupMemberIds', () => {
   it('should respond group member ids', async () => {
-    const { context, client } = setup();
+    const line = new LineClient({
+      accessToken: constants.ACCESS_TOKEN,
+      channelSecret: constants.CHANNEL_SECRET,
+    });
 
-    const res = await client.getGroupMemberIds(GROUP_ID);
+    const res = await line.getGroupMemberIds(constants.GROUP_ID);
 
     expect(res).toEqual({
       memberIds: [
@@ -138,24 +146,30 @@ describe('#getGroupMemberIds', () => {
         'U00000000000000000000000000000002',
         'U00000000000000000000000000000003',
       ],
-      next: CONTINUATION_TOKEN,
+      next: constants.CONTINUATION_TOKEN,
     });
 
-    const { request } = context;
+    const { request } = getCurrentContext();
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
     expect(request?.url.href).toBe(
-      `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids`
+      `https://api.line.me/v2/bot/group/${constants.GROUP_ID}/members/ids`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
     expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
 
   it('should call api with provided continuation token', async () => {
-    const { context, client } = setup();
+    const line = new LineClient({
+      accessToken: constants.ACCESS_TOKEN,
+      channelSecret: constants.CHANNEL_SECRET,
+    });
 
-    const res = await client.getGroupMemberIds(GROUP_ID, CONTINUATION_TOKEN);
+    const res = await line.getGroupMemberIds(
+      constants.GROUP_ID,
+      constants.CONTINUATION_TOKEN
+    );
 
     expect(res).toEqual({
       memberIds: [
@@ -165,12 +179,12 @@ describe('#getGroupMemberIds', () => {
       ],
     });
 
-    const { request } = context;
+    const { request } = getCurrentContext();
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
     expect(request?.url.href).toBe(
-      `https://api.line.me/v2/bot/group/${GROUP_ID}/members/ids?start=${CONTINUATION_TOKEN}`
+      `https://api.line.me/v2/bot/group/${constants.GROUP_ID}/members/ids?start=${constants.CONTINUATION_TOKEN}`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
     expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
@@ -178,9 +192,12 @@ describe('#getGroupMemberIds', () => {
 });
 
 it('#getAllGroupMemberIds should fetch all member ids until it is finished', async () => {
-  const { client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getAllGroupMemberIds(GROUP_ID);
+  const res = await line.getAllGroupMemberIds(constants.GROUP_ID);
 
   expect(res).toEqual([
     'U00000000000000000000000000000001',
@@ -194,9 +211,12 @@ it('#getAllGroupMemberIds should fetch all member ids until it is finished', asy
 
 describe('#getRoomMemberIds', () => {
   it('should respond room member ids', async () => {
-    const { context, client } = setup();
+    const line = new LineClient({
+      accessToken: constants.ACCESS_TOKEN,
+      channelSecret: constants.CHANNEL_SECRET,
+    });
 
-    const res = await client.getRoomMemberIds(ROOM_ID);
+    const res = await line.getRoomMemberIds(constants.ROOM_ID);
 
     expect(res).toEqual({
       memberIds: [
@@ -204,24 +224,30 @@ describe('#getRoomMemberIds', () => {
         'U00000000000000000000000000000002',
         'U00000000000000000000000000000003',
       ],
-      next: CONTINUATION_TOKEN,
+      next: constants.CONTINUATION_TOKEN,
     });
 
-    const { request } = context;
+    const { request } = getCurrentContext();
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
     expect(request?.url.href).toBe(
-      `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids`
+      `https://api.line.me/v2/bot/room/${constants.ROOM_ID}/members/ids`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
     expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
   });
 
   it('should call api with provided continuation token', async () => {
-    const { context, client } = setup();
+    const line = new LineClient({
+      accessToken: constants.ACCESS_TOKEN,
+      channelSecret: constants.CHANNEL_SECRET,
+    });
 
-    const res = await client.getRoomMemberIds(ROOM_ID, CONTINUATION_TOKEN);
+    const res = await line.getRoomMemberIds(
+      constants.ROOM_ID,
+      constants.CONTINUATION_TOKEN
+    );
 
     expect(res).toEqual({
       memberIds: [
@@ -231,12 +257,12 @@ describe('#getRoomMemberIds', () => {
       ],
     });
 
-    const { request } = context;
+    const { request } = getCurrentContext();
 
     expect(request).toBeDefined();
     expect(request?.method).toBe('GET');
     expect(request?.url.href).toBe(
-      `https://api.line.me/v2/bot/room/${ROOM_ID}/members/ids?start=${CONTINUATION_TOKEN}`
+      `https://api.line.me/v2/bot/room/${constants.ROOM_ID}/members/ids?start=${constants.CONTINUATION_TOKEN}`
     );
     expect(request?.headers.get('Content-Type')).toBe('application/json');
     expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
@@ -244,9 +270,12 @@ describe('#getRoomMemberIds', () => {
 });
 
 it('#getAllRoomMemberIds should fetch all member ids until it is finished', async () => {
-  const { client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.getAllRoomMemberIds(ROOM_ID);
+  const res = await line.getAllRoomMemberIds(constants.ROOM_ID);
 
   expect(res).toEqual([
     'U00000000000000000000000000000001',
@@ -259,36 +288,42 @@ it('#getAllRoomMemberIds should fetch all member ids until it is finished', asyn
 });
 
 it('#leaveGroup should call leave api', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.leaveGroup(GROUP_ID);
+  const res = await line.leaveGroup(constants.GROUP_ID);
 
   expect(res).toEqual({});
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/group/${GROUP_ID}/leave`
+    `https://api.line.me/v2/bot/group/${constants.GROUP_ID}/leave`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
 it('#leaveRoom should call leave api', async () => {
-  const { context, client } = setup();
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-  const res = await client.leaveRoom(ROOM_ID);
+  const res = await line.leaveRoom(constants.ROOM_ID);
 
   expect(res).toEqual({});
 
-  const { request } = context;
+  const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
   expect(request?.method).toBe('POST');
   expect(request?.url.href).toBe(
-    `https://api.line.me/v2/bot/room/${ROOM_ID}/leave`
+    `https://api.line.me/v2/bot/room/${constants.ROOM_ID}/leave`
   );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');

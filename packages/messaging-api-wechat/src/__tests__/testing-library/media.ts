@@ -3,8 +3,6 @@ import { snakecaseKeys } from 'messaging-api-common';
 
 import * as WechatTypes from '../../WechatTypes';
 
-import { getCurrentContext } from '.';
-
 let uploadedMediaCount = 0;
 let uploadedMediaMap: Record<
   string,
@@ -15,8 +13,6 @@ export const requestHandlers = [
   rest.post<{ media: string }>(
     'https://api.weixin.qq.com/cgi-bin/media/upload',
     async (req, res, ctx) => {
-      getCurrentContext().request = req;
-
       const type = req.url.searchParams.get('type');
       if (!['image', 'voice', 'video', 'thumb'].includes(type)) {
         return res(ctx.json({ errcode: 40004, errmsg: 'invalid media type' }));
@@ -41,8 +37,6 @@ export const requestHandlers = [
     }
   ),
   rest.get('https://api.weixin.qq.com/cgi-bin/media/get', (req, res, ctx) => {
-    getCurrentContext().request = req;
-
     const mediaId = req.url.searchParams.get('media_id');
     if (!uploadedMediaMap[mediaId]) {
       return res(ctx.json({ errcode: 40007, errmsg: 'invalid media_id' }));

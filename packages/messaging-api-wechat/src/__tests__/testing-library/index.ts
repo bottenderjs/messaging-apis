@@ -1,3 +1,4 @@
+import { Entries } from 'type-fest';
 import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
 import { snakecaseKeys } from 'messaging-api-common';
@@ -29,8 +30,10 @@ export const constants = {
 };
 
 export function setConstants(dict: Partial<typeof constants>): void {
-  for (const [key, val] of Object.entries(dict)) {
-    constants[key] = val;
+  for (const [key, val] of Object.entries(dict) as Entries<typeof dict>) {
+    if (val) {
+      constants[key] = val;
+    }
   }
 }
 
@@ -41,8 +44,7 @@ export function setConstants(dict: Partial<typeof constants>): void {
  */
 export function setupWechatServer(): SetupServerApi {
   const server = setupServer(
-    rest.get('https://api.weixin.qq.com/cgi-bin/token', (req, res, ctx) => {
-      currentContext.request = req;
+    rest.get('https://api.weixin.qq.com/cgi-bin/token', (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeys({
@@ -55,21 +57,18 @@ export function setupWechatServer(): SetupServerApi {
     ...mediaRequestHandlers,
     rest.post(
       'https://api.weixin.qq.com/cgi-bin/message/custom/send',
-      (req, res, ctx) => {
-        currentContext.request = req;
-
+      (_, res, ctx) => {
         return res(ctx.json({ errcode: 0, errmsg: 'ok' }));
       }
     ),
     rest.post(
       'https://api.weixin.qq.com/cgi-bin/message/custom/typing',
-      (req, res, ctx) => {
-        currentContext.request = req;
-
+      (_, res, ctx) => {
         return res(ctx.json({ errcode: 0, errmsg: 'ok' }));
       }
     )
   );
+
   if (typeof beforeAll === 'function') {
     beforeAll(() => {
       // Establish requests interception layer before all tests.
@@ -81,14 +80,19 @@ export function setupWechatServer(): SetupServerApi {
     // Reset any runtime handlers tests may use.
     server.resetHandlers();
 
-    currentContext.request = undefined;
+    getCurrentContext().request = undefined;
 
     resetMedia();
   });
+
   afterAll(() => {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
     server.close();
+  });
+
+  server.events.on('request:start', (req) => {
+    getCurrentContext().request = req as RestRequest;
   });
 
   return server;

@@ -1,40 +1,34 @@
 import { rest } from 'msw';
-import { v4 as uuidv4 } from 'uuid';
 
-import { constants, getCurrentContext } from './shared';
+import { constants } from './shared';
 import { res } from './res';
 
 export const requestHandlers = [
   rest.get(
     'https://api.line.me/v2/bot/room/:roomId/member/:userId',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
+    (_, __, ctx) => {
       return res(
         ctx.json({
           displayName: 'LINE taro',
           userId: constants.USER_ID,
           pictureUrl: 'http://obs.line-apps.com/...',
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/room/:roomId/members/count',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
+    (_, __, ctx) => {
       return res(
         ctx.json({
           count: 3,
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/room/:roomId/members/ids',
     (req, _, ctx) => {
-      getCurrentContext().request = req;
       if (req.url.searchParams.get('start') === constants.CONTINUATION_TOKEN) {
         return res(
           ctx.json({
@@ -43,8 +37,7 @@ export const requestHandlers = [
               'U00000000000000000000000000000005',
               'U00000000000000000000000000000006',
             ],
-          }),
-          ctx.set('X-Line-Request-Id', uuidv4())
+          })
         );
       }
       return res(
@@ -55,13 +48,11 @@ export const requestHandlers = [
             'U00000000000000000000000000000003',
           ],
           next: constants.CONTINUATION_TOKEN,
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),
-  rest.post('https://api.line.me/v2/bot/room/:roomId/leave', (req, _, ctx) => {
-    getCurrentContext().request = req;
-    return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+  rest.post('https://api.line.me/v2/bot/room/:roomId/leave', (_, __, ctx) => {
+    return res(ctx.json({}));
   }),
 ];

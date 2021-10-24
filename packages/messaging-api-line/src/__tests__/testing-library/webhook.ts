@@ -1,9 +1,7 @@
 import { rest } from 'msw';
-import { v4 as uuidv4 } from 'uuid';
 
 import { LineTypes } from '../..';
 
-import { getCurrentContext } from './shared';
 import { res } from './res';
 
 const webhookEndpoint: LineTypes.WebhookEndpointInfoResponse = {
@@ -15,25 +13,19 @@ export const requestHandlers = [
   rest.put<{ endpoint: string }>(
     'https://api.line.me/v2/bot/channel/webhook/endpoint',
     (req, _, ctx) => {
-      getCurrentContext().request = req;
       webhookEndpoint.endpoint = req.body.endpoint;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+      return res(ctx.json({}));
     }
   ),
   rest.get<undefined>(
     'https://api.line.me/v2/bot/channel/webhook/endpoint',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
-      return res(
-        ctx.json(webhookEndpoint),
-        ctx.set('X-Line-Request-Id', uuidv4())
-      );
+    (_, __, ctx) => {
+      return res(ctx.json(webhookEndpoint));
     }
   ),
   rest.post<{ endpoint?: string }>(
     'https://api.line.me/v2/bot/channel/webhook/test',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
+    (_, __, ctx) => {
       return res(
         ctx.json({
           success: true,
@@ -41,8 +33,7 @@ export const requestHandlers = [
           statusCode: 200,
           reason: 'OK',
           detail: '200',
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),

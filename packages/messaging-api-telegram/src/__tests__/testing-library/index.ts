@@ -1,5 +1,5 @@
+import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
-import { rest } from 'msw';
 import { snakecaseKeysDeep } from 'messaging-api-common';
 
 import { requestHandlers as chatRequestHandlers } from './chat';
@@ -22,8 +22,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...gettingUpdateRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getMe`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -44,8 +43,7 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/logOut`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json({
             ok: true,
@@ -56,8 +54,7 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/close`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json({
             ok: true,
@@ -69,8 +66,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...messageRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getUserProfilePhotos`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -133,8 +129,7 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getFile`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -153,8 +148,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...chatRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/answerCallbackQuery`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -170,8 +164,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...stickerRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/answerInlineQuery`,
-      (req, res, ctx) => {
-        getCurrentContext().request = req;
+      (_, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -195,11 +188,18 @@ export function setupTelegramServer(): SetupServerApi {
   afterEach(() => {
     // Reset any runtime handlers tests may use.
     server.resetHandlers();
+
+    getCurrentContext().request = undefined;
   });
+
   afterAll(() => {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
     server.close();
+  });
+
+  server.events.on('request:start', (req) => {
+    getCurrentContext().request = req as RestRequest;
   });
 
   return server;

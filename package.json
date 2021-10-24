@@ -30,12 +30,14 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@types/busboy": "^0.3.1",
     "@types/jest": "^26.0.10",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "axios": "^0.21.4",
     "axios-mock-adapter": "^1.20.0",
+    "busboy": "^0.3.1",
     "chalk": "^4.1.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",

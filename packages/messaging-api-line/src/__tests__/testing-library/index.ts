@@ -1,11 +1,14 @@
+import { RestRequest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
 
 import { requestHandlers as accountLinkRequestHandlers } from './accountLink';
 import { requestHandlers as audienceRequestHandlers } from './audience';
 import { requestHandlers as botRequestHandlers } from './bot';
 import { getCurrentContext } from './shared';
+import { requestHandlers as groupRequestHandlers } from './group';
 import { requestHandlers as insightRequestHandlers } from './insight';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as roomRequestHandlers } from './room';
 import { requestHandlers as userRequestHandlers } from './user';
 import { requestHandlers as webhookRequestHandlers } from './webhook';
 
@@ -21,7 +24,10 @@ export function setupLineServer(): SetupServerApi {
     ...audienceRequestHandlers,
     ...insightRequestHandlers,
     ...userRequestHandlers,
-    ...botRequestHandlers
+    ...botRequestHandlers,
+    ...groupRequestHandlers,
+    ...roomRequestHandlers,
+    ...accountLinkRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {
@@ -42,6 +48,10 @@ export function setupLineServer(): SetupServerApi {
     // Clean up after all tests are done, preventing this
     // interception layer from affecting irrelevant tests.
     server.close();
+  });
+
+  server.events.on('request:start', (req) => {
+    getCurrentContext().request = req as RestRequest;
   });
 
   return server;

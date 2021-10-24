@@ -1,33 +1,25 @@
 import { rest } from 'msw';
-import { v4 as uuidv4 } from 'uuid';
 
-import { getCurrentContext } from './shared';
 import { res } from './res';
 
 export const requestHandlers = [
-  rest.post(
-    'https://api.line.me/v2/bot/audienceGroup/upload',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
-      return res(
-        ctx.json({
-          audienceGroupId: 1234567890123,
-          createRoute: 'MESSAGING_API',
-          type: 'UPLOAD',
-          description: 'audienceGroupName_01',
-          created: 1613698278,
-          permission: 'READ_WRITE',
-          expireTimestamp: 1629250278,
-          isIfaAudience: false,
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
-      );
-    }
-  ),
+  rest.post('https://api.line.me/v2/bot/audienceGroup/upload', (_, __, ctx) => {
+    return res(
+      ctx.json({
+        audienceGroupId: 1234567890123,
+        createRoute: 'MESSAGING_API',
+        type: 'UPLOAD',
+        description: 'audienceGroupName_01',
+        created: 1613698278,
+        permission: 'READ_WRITE',
+        expireTimestamp: 1629250278,
+        isIfaAudience: false,
+      })
+    );
+  }),
   rest.post(
     'https://api-data.line.me/v2/bot/audienceGroup/upload/byFile',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
+    (_, __, ctx) => {
       return res(
         ctx.json({
           audienceGroupId: 1234567890123,
@@ -38,24 +30,20 @@ export const requestHandlers = [
           permission: 'READ_WRITE',
           expireTimestamp: 1629250278,
           isIfaAudience: false,
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),
-  rest.put('https://api.line.me/v2/bot/audienceGroup/upload', (req, _, ctx) => {
-    getCurrentContext().request = req;
-    return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+  rest.put('https://api.line.me/v2/bot/audienceGroup/upload', (_, __, ctx) => {
+    return res(ctx.json({}));
   }),
   rest.put(
     'https://api-data.line.me/v2/bot/audienceGroup/upload/byFile',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+    (_, __, ctx) => {
+      return res(ctx.json({}));
     }
   ),
-  rest.post('https://api.line.me/v2/bot/audienceGroup/click', (req, _, ctx) => {
-    getCurrentContext().request = req;
+  rest.post('https://api.line.me/v2/bot/audienceGroup/click', (_, __, ctx) => {
     return res(
       ctx.json({
         audienceGroupId: 1234567890123,
@@ -68,12 +56,10 @@ export const requestHandlers = [
         isIfaAudience: false,
         requestId: 'bb9744f9-47fa-4a29-941e-1234567890ab',
         clickUrl: 'https://developers.line.biz/',
-      }),
-      ctx.set('X-Line-Request-Id', uuidv4())
+      })
     );
   }),
-  rest.post('https://api.line.me/v2/bot/audienceGroup/imp', (req, _, ctx) => {
-    getCurrentContext().request = req;
+  rest.post('https://api.line.me/v2/bot/audienceGroup/imp', (_, __, ctx) => {
     return res(
       ctx.json({
         audienceGroupId: 1234567890123,
@@ -85,38 +71,32 @@ export const requestHandlers = [
         expireTimestamp: 1629259095,
         isIfaAudience: false,
         requestId: 'bb9744f9-47fa-4a29-941e-1234567890ab',
-      }),
-      ctx.set('X-Line-Request-Id', uuidv4())
+      })
     );
   }),
   rest.put(
     'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId/updateDescription',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+    (_, __, ctx) => {
+      return res(ctx.json({}));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/audienceGroup/authorityLevel',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
+    (_, __, ctx) => {
       return res(
         ctx.json({
           authorityLevel: 'PUBLIC',
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),
   rest.put(
     'https://api.line.me/v2/bot/audienceGroup/authorityLevel',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+    (_, __, ctx) => {
+      return res(ctx.json({}));
     }
   ),
-  rest.get('https://api.line.me/v2/bot/audienceGroup/list', (req, _, ctx) => {
-    getCurrentContext().request = req;
+  rest.get('https://api.line.me/v2/bot/audienceGroup/list', (_, __, ctx) => {
     return res(
       ctx.json({
         audienceGroups: [
@@ -135,21 +115,18 @@ export const requestHandlers = [
         totalCount: 1,
         page: 1,
         size: 40,
-      }),
-      ctx.set('X-Line-Request-Id', uuidv4())
+      })
     );
   }),
   rest.delete(
     'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
-      return res(ctx.json({}), ctx.set('X-Line-Request-Id', uuidv4()));
+    (_, __, ctx) => {
+      return res(ctx.json({}));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/audienceGroup/:audienceGroupId',
-    (req, _, ctx) => {
-      getCurrentContext().request = req;
+    (_, __, ctx) => {
       return res(
         ctx.json({
           audienceGroup: {
@@ -165,8 +142,7 @@ export const requestHandlers = [
             isIfaAudience: false,
           },
           jobs: [],
-        }),
-        ctx.set('X-Line-Request-Id', uuidv4())
+        })
       );
     }
   ),

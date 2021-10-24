@@ -1,13 +1,12 @@
 import { rest } from 'msw';
 import { snakecaseKeysDeep } from 'messaging-api-common';
 
-import { constants, getCurrentContext } from './shared';
+import { constants } from './shared';
 
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageText`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -35,8 +34,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageCaption`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -72,8 +70,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageMedia`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -109,8 +106,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageReplyMarkup`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -138,8 +134,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/stopPoll`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -166,8 +161,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/deleteMessage`,
-    (req, res, ctx) => {
-      getCurrentContext().request = req;
+    (_, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

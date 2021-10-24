@@ -1,4 +1,4 @@
-import { MockedResponse, ResponseTransformer, context, response } from 'msw';
+import { MockedResponse, ResponseTransformer, response } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 
 export function res(
@@ -6,5 +6,10 @@ export function res(
 ): MockedResponse | Promise<MockedResponse> {
   // A custom response composition chain that adds
   // X-Line-Request-Id header to each `res()` call.
-  return response(...transformers, context.set('X-Line-Request-Id', uuidv4()));
+  return response((_res) => {
+    if (!_res.headers.has('X-Line-Request-Id')) {
+      _res.headers.set('X-Line-Request-Id', uuidv4());
+    }
+    return _res;
+  }, ...transformers);
 }

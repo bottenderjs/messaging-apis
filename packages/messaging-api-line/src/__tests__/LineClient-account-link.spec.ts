@@ -21,8 +21,10 @@ it('should support #getLinkToken', async () => {
   const { request } = getCurrentContext();
 
   expect(request).toBeDefined();
-  expect(request?.method).toBe('GET');
-  expect(request?.url.href).toBe('https://api.line.me/v2/bot/info');
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/user/U00000000000000000000000000000000/linkToken'
+  );
   expect(request?.headers.get('Content-Type')).toBe('application/json');
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
