@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import qs from 'qs';
-import { JsonObject } from 'type-fest';
 import { PrintableAxiosError } from 'axios-error';
 
 import * as LineTypes from './LineTypes';
@@ -20,17 +19,12 @@ function handleError(
   throw new PrintableAxiosError(err.message, err);
 }
 
-function throwWhenNotSuccess<T extends JsonObject = {}>(
-  res: AxiosResponse<
-    {
-      status: number;
-      message: string;
-    } & T
-  >
-): {
-  status: number;
-  message: string;
-} & T {
+function throwErrorIfAny<
+  T extends {
+    status: number;
+    message: string;
+  }
+>(res: AxiosResponse<T>): T {
   if (res.data.status !== 200) {
     const { status, message } = res.data;
     const msg = `LINE NOTIFY API - ${status} ${message}`;
@@ -209,7 +203,7 @@ export default class LineNotify {
     };
     return this.apiAxios
       .get('/api/status', { headers })
-      .then(throwWhenNotSuccess, handleError);
+      .then(throwErrorIfAny, handleError);
   }
 
   /**
@@ -253,7 +247,7 @@ export default class LineNotify {
     };
     return this.apiAxios
       .post('/api/notify', qs.stringify(formData), { headers })
-      .then(throwWhenNotSuccess, handleError);
+      .then(throwErrorIfAny, handleError);
   }
 
   /**
@@ -292,6 +286,6 @@ export default class LineNotify {
     };
     return this.apiAxios
       .post('/api/revoke', {}, { headers })
-      .then(throwWhenNotSuccess, handleError);
+      .then(throwErrorIfAny, handleError);
   }
 }
