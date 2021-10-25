@@ -26,4 +26,9 @@ export const constants = {
   ROOM_ID: 'R00000000000000000000000000000000',
   AUDIENCE_GROUP_ID: 1234567890123,
   CONTINUATION_TOKEN: 'jxEWCEEP...',
+
+  // LINE NOtify
+  NOTIFY_CLIENT_ID: 'client-id',
+  NOTIFY_CLIENT_SECRET: 'client-secret',
+  NOTIFY_REDIRECT_URI: 'https://example.com/callback',
 };

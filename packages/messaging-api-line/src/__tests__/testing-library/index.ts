@@ -9,6 +9,7 @@ import { requestHandlers as groupRequestHandlers } from './group';
 import { requestHandlers as insightRequestHandlers } from './insight';
 import { requestHandlers as liffRequestHandlers } from './liff';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as notifyRequestHandlers } from './notify';
 import { requestHandlers as richMenuRequestHandlers } from './richMenu';
 import { requestHandlers as roomRequestHandlers } from './room';
 import { requestHandlers as userRequestHandlers } from './user';
@@ -31,7 +32,8 @@ export function setupLineServer(): SetupServerApi {
     ...roomRequestHandlers,
     ...richMenuRequestHandlers,
     ...accountLinkRequestHandlers,
-    ...liffRequestHandlers
+    ...liffRequestHandlers,
+    ...notifyRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {

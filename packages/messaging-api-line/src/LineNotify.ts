@@ -83,9 +83,17 @@ export default class LineNotify {
   private apiOrigin = 'https://notify-api.line.me/';
 
   /**
-   * constructor
+   * The constructor of LineNotify.
    *
-   * @param config - LINE Notify configuration from LINE Notify services website.
+   * @param config - the config object
+   * @example
+   * ```js
+   * const lineNotify = new LineNotify({
+   *   clientId: NOTIFY_CLIENT_ID,
+   *   clientSecret: NOTIFY_CLIENT_SECRET,
+   *   redirectUri: NOTIFY_REDIRECT_URI,
+   * });
+   * ```
    */
   constructor(config: LineTypes.LineNotifyConfig) {
     this.clientId = config.clientId;
@@ -112,8 +120,13 @@ export default class LineNotify {
    *
    * LINE Notify is designed with web applications in mind, and requires state parameter variables.
    * @returns The OAuth2 authorization endpoint URI
+   * @example
+   * ```js
+   * await lineNotify.getAuthLink('state');
+   * // 'https://notify-bot.line.me/oauth/authorize?scope=notify&response_type=code&client_id=client-id&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&state=state'
+   * ```
    */
-  getAuthLink(state: string): string {
+  public getAuthLink(state: string): string {
     const data = {
       scope: 'notify',
       response_type: 'code',
@@ -132,8 +145,13 @@ export default class LineNotify {
    *
    * @param code - Assigns a code parameter value generated during redirection
    * @returns An access token for authentication.
+   * @example
+   * ```js
+   * await lineNotify.getToken('<CODE>');
+   * // ACCESS_TOKEN
+   * ```
    */
-  async getToken(code: string): Promise<string> {
+  public async getToken(code: string): Promise<string> {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
@@ -169,8 +187,18 @@ export default class LineNotify {
    * - message: Message visible to end-user.
    * - targetType: If the notification target is a user: "USER". If the notification target is a group: "GROUP".
    * - target: If the notification target is a user, displays user name. If acquisition fails, displays "null". If the notification target is a group, displays group name. If the target user has already left the group, displays "null".
+   * @example
+   * ```js
+   * await lineNotify.getStatus('ACCESS_TOKEN');
+   * // {
+   * //   status: 200,
+   * //   message: 'message',
+   * //   targetType: 'USER',
+   * //   target: 'user name',
+   * // }
+   * ```
    */
-  async getStatus(accessToken: string): Promise<{
+  public async getStatus(accessToken: string): Promise<{
     status: number;
     message: string;
     targetType: 'USER' | 'GROUP';
@@ -202,8 +230,12 @@ export default class LineNotify {
    * @returns
    * - status: Value according to HTTP status code
    * - message: Message visible to end-user
+   * @example
+   * ```js
+   * await lineNotify.sendNotify('ACCESS_TOKEN', 'message');
+   * ```
    */
-  async sendNotify(
+  public async sendNotify(
     accessToken: string,
     message: string,
     options: LineTypes.LineNotifyOptions = {}
@@ -245,8 +277,12 @@ export default class LineNotify {
    * @returns
    * - status: Value according to HTTP status code
    * - message: Message visible to end-user
+   * @example
+   * ```js
+   * await lineNotify.revokeToken('ACCESS_TOKEN');
+   * ```
    */
-  async revokeToken(accessToken: string): Promise<{
+  public async revokeToken(accessToken: string): Promise<{
     status: string;
     message: string;
   }> {
