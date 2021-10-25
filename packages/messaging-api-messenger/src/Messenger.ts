@@ -287,58 +287,6 @@ export function createReceiptTemplate(
   );
 }
 
-export function createAirlineBoardingPassTemplate(
-  attrs: MessengerTypes.AirlineBoardingPassAttributes,
-  options?: { quickReplies?: MessengerTypes.QuickReply[] }
-): MessengerTypes.Message {
-  return createTemplate(
-    {
-      templateType: 'airline_boardingpass',
-      ...attrs,
-    },
-    options
-  );
-}
-
-export function createAirlineCheckinTemplate(
-  attrs: MessengerTypes.AirlineCheckinAttributes,
-  options?: { quickReplies?: MessengerTypes.QuickReply[] }
-): MessengerTypes.Message {
-  return createTemplate(
-    {
-      templateType: 'airline_checkin',
-      ...attrs,
-    },
-    options
-  );
-}
-
-export function createAirlineItineraryTemplate(
-  attrs: MessengerTypes.AirlineItineraryAttributes,
-  options?: { quickReplies?: MessengerTypes.QuickReply[] }
-): MessengerTypes.Message {
-  return createTemplate(
-    {
-      templateType: 'airline_itinerary',
-      ...attrs,
-    },
-    options
-  );
-}
-
-export function createAirlineUpdateTemplate(
-  attrs: MessengerTypes.AirlineUpdateAttributes,
-  options?: { quickReplies?: MessengerTypes.QuickReply[] }
-): MessengerTypes.Message {
-  return createTemplate(
-    {
-      templateType: 'airline_update',
-      ...attrs,
-    },
-    options
-  );
-}
-
 export function createOneTimeNotifReqTemplate(
   attrs: MessengerTypes.OneTimeNotifReqAttributes,
   options?: { quickReplies?: MessengerTypes.QuickReply[] }

@@ -205,54 +205,6 @@ export function sendMediaTemplate(
   );
 }
 
-export function sendAirlineBoardingPassTemplate(
-  psidOrRecipient: MessengerTypes.PsidOrRecipient,
-  attrs: MessengerTypes.AirlineBoardingPassAttributes,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
-): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createAirlineBoardingPassTemplate(attrs, options),
-    options
-  );
-}
-
-export function sendAirlineCheckinTemplate(
-  psidOrRecipient: MessengerTypes.PsidOrRecipient,
-  attrs: MessengerTypes.AirlineCheckinAttributes,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
-): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createAirlineCheckinTemplate(attrs, options),
-    options
-  );
-}
-
-export function sendAirlineItineraryTemplate(
-  psidOrRecipient: MessengerTypes.PsidOrRecipient,
-  attrs: MessengerTypes.AirlineItineraryAttributes,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
-): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createAirlineItineraryTemplate(attrs, options),
-    options
-  );
-}
-
-export function sendAirlineUpdateTemplate(
-  psidOrRecipient: MessengerTypes.PsidOrRecipient,
-  attrs: MessengerTypes.AirlineUpdateAttributes,
-  options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
-): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createAirlineUpdateTemplate(attrs, options),
-    options
-  );
-}
-
 export function sendOneTimeNotifReqTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
   attrs: MessengerTypes.OneTimeNotifReqAttributes,
