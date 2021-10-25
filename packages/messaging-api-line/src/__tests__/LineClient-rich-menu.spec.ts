@@ -447,15 +447,135 @@ it('should support #linkRichMenuToMultipleUsers', async () => {
   expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
 });
 
-it.todo('Create rich menu alias');
+it('should support #createRichMenuAlias', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
 
-it.todo('Delete rich menu alias');
+  const res = await line.createRichMenuAlias(
+    'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+    'richmenu-alias-a'
+  );
 
-it.todo('Update rich menu alias');
+  expect(res).toEqual({});
 
-it.todo('Get rich menu alias information');
+  const { request } = getCurrentContext();
 
-it.todo('Get list of rich menu alias');
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe('https://api.line.me/v2/bot/richmenu/alias');
+  expect(request?.body).toEqual({
+    richMenuAliasId: 'richmenu-alias-a',
+    richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #deleteRichMenuAlias', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.deleteRichMenuAlias('richmenu-alias-a');
+
+  expect(res).toEqual({});
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/richmenu/alias/richmenu-alias-a'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #updateRichMenuAlias', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.updateRichMenuAlias(
+    'richmenu-alias-a',
+    'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5'
+  );
+
+  expect(res).toEqual({});
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/richmenu/alias/richmenu-alias-a'
+  );
+  expect(request?.body).toEqual({
+    richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getRichMenuAlias', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getRichMenuAlias('richmenu-alias-a');
+
+  expect(res).toEqual({
+    richMenuAliasId: 'richmenu-alias-a',
+    richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/richmenu/alias/richmenu-alias-a'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
+
+it('should support #getRichMenuAliasList', async () => {
+  const line = new LineClient({
+    accessToken: constants.ACCESS_TOKEN,
+    channelSecret: constants.CHANNEL_SECRET,
+  });
+
+  const res = await line.getRichMenuAliasList();
+
+  expect(res).toEqual({
+    aliases: [
+      {
+        richMenuAliasId: 'richmenu-alias-a',
+        richMenuId: 'richmenu-862e6ad6c267d2ddf3f42bc78554f6a4',
+      },
+      {
+        richMenuAliasId: 'richmenu-alias-b',
+        richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+      },
+    ],
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://api.line.me/v2/bot/richmenu/alias/list'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  expect(request?.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
+});
 
 it('should support #getLinkedRichMenu', async () => {
   const line = new LineClient({

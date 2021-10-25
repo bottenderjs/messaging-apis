@@ -438,13 +438,18 @@ export default class LineClient {
             limit,
             notificationDisabled,
           };
-    return this.axios.post('/v2/bot/message/narrowcast', body).then(
-      (res) => ({
-        requestId: res.headers['x-line-request-id'],
-        ...res.data,
-      }),
-      handleError
-    );
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/message/narrowcast',
+        body
+      )
+      .then(
+        (res) => ({
+          requestId: res.headers['x-line-request-id'],
+          ...res.data,
+        }),
+        handleError
+      );
   }
 
   /**
@@ -463,9 +468,12 @@ export default class LineClient {
     requestId: string
   ): Promise<LineTypes.NarrowcastProgressResponse> {
     return this.axios
-      .get('/v2/bot/message/progress/narrowcast', {
-        params: { requestId },
-      })
+      .get<LineTypes.NarrowcastProgressResponse>(
+        '/v2/bot/message/progress/narrowcast',
+        {
+          params: { requestId },
+        }
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -541,7 +549,7 @@ export default class LineClient {
    */
   public getMessageContent(messageId: string): Promise<Buffer> {
     return this.dataAxios
-      .get(`/v2/bot/message/${messageId}/content`, {
+      .get<Buffer>(`/v2/bot/message/${messageId}/content`, {
         responseType: 'arraybuffer',
       })
       .then((res) => res.data, handleError);
@@ -560,7 +568,7 @@ export default class LineClient {
    */
   public getMessageContentStream(messageId: string): Promise<Readable> {
     return this.dataAxios
-      .get(`/v2/bot/message/${messageId}/content`, {
+      .get<Readable>(`/v2/bot/message/${messageId}/content`, {
         responseType: 'stream',
       })
       .then((res) => res.data, handleError);
@@ -780,7 +788,7 @@ export default class LineClient {
             ...options,
           };
     return this.axios
-      .post('/v2/bot/audienceGroup/upload', data)
+      .post<LineTypes.UploadAudienceGroup>('/v2/bot/audienceGroup/upload', data)
       .then((res) => res.data, handleError);
   }
 
@@ -817,9 +825,13 @@ export default class LineClient {
     });
 
     return this.dataAxios
-      .post('/v2/bot/audienceGroup/upload/byFile', form, {
-        headers: form.getHeaders(),
-      })
+      .post<LineTypes.UploadAudienceGroup>(
+        '/v2/bot/audienceGroup/upload/byFile',
+        form,
+        {
+          headers: form.getHeaders(),
+        }
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -887,7 +899,10 @@ export default class LineClient {
             ...options,
           };
     return this.axios
-      .put('/v2/bot/audienceGroup/upload', data)
+      .put<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/audienceGroup/upload',
+        data
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -923,9 +938,13 @@ export default class LineClient {
     });
 
     return this.dataAxios
-      .put('/v2/bot/audienceGroup/upload/byFile', form, {
-        headers: form.getHeaders(),
-      })
+      .put<LineTypes.MutationSuccessResponse>(
+        '/v2/bot/audienceGroup/upload/byFile',
+        form,
+        {
+          headers: form.getHeaders(),
+        }
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -984,7 +1003,7 @@ export default class LineClient {
             ...options,
           };
     return this.axios
-      .post('/v2/bot/audienceGroup/click', data)
+      .post<LineTypes.ClickAudienceGroup>('/v2/bot/audienceGroup/click', data)
       .then((res) => res.data, handleError);
   }
 
@@ -1032,7 +1051,7 @@ export default class LineClient {
             requestId,
           };
     return this.axios
-      .post('/v2/bot/audienceGroup/imp', data)
+      .post<LineTypes.ImpAudienceGroup>('/v2/bot/audienceGroup/imp', data)
       .then((res) => res.data, handleError);
   }
 
@@ -1082,7 +1101,7 @@ export default class LineClient {
             description: descriptionOrOptions,
           };
     return this.axios
-      .put(
+      .put<LineTypes.MutationSuccessResponse>(
         `/v2/bot/audienceGroup/${
           typeof descriptionOrOptions === 'object'
             ? descriptionOrOptions.audienceGroupId
@@ -1110,7 +1129,9 @@ export default class LineClient {
     audienceGroupId: number
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .delete(`/v2/bot/audienceGroup/${audienceGroupId}`)
+      .delete<LineTypes.MutationSuccessResponse>(
+        `/v2/bot/audienceGroup/${audienceGroupId}`
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1144,7 +1165,9 @@ export default class LineClient {
     audienceGroupId: number
   ): Promise<LineTypes.AudienceGroupWithJob> {
     return this.axios
-      .get(`/v2/bot/audienceGroup/${audienceGroupId}`)
+      .get<LineTypes.AudienceGroupWithJob>(
+        `/v2/bot/audienceGroup/${audienceGroupId}`
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1186,7 +1209,7 @@ export default class LineClient {
     options?: LineTypes.GetAudienceGroupsOptions
   ): Promise<LineTypes.AudienceGroups> {
     return this.axios
-      .get(`/v2/bot/audienceGroup/list`, {
+      .get<LineTypes.AudienceGroups>(`/v2/bot/audienceGroup/list`, {
         params: {
           page: 1,
           ...options,
@@ -1210,7 +1233,9 @@ export default class LineClient {
    */
   public getAudienceGroupAuthorityLevel(): Promise<LineTypes.AudienceGroupAuthorityLevel> {
     return this.axios
-      .get('/v2/bot/audienceGroup/authorityLevel')
+      .get<LineTypes.AudienceGroupAuthorityLevel>(
+        '/v2/bot/audienceGroup/authorityLevel'
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1409,7 +1434,7 @@ export default class LineClient {
     start?: string
   ): Promise<{ userIds: string[]; next: string }> {
     return this.axios
-      .get('/v2/bot/followers/ids', {
+      .get<{ userIds: string[]; next: string }>('/v2/bot/followers/ids', {
         params: { start },
       })
       .then((res) => res.data, handleError);
@@ -1482,7 +1507,7 @@ export default class LineClient {
    */
   public getGroupSummary(groupId: string): Promise<LineTypes.Group> {
     return this.axios
-      .get(`/v2/bot/group/${groupId}/summary`)
+      .get<LineTypes.Group>(`/v2/bot/group/${groupId}/summary`)
       .then((res) => res.data, handleError);
   }
 
@@ -1500,7 +1525,7 @@ export default class LineClient {
    */
   public getGroupMembersCount(groupId: string): Promise<number> {
     return this.axios
-      .get(`/v2/bot/group/${groupId}/members/count`)
+      .get<{ count: number }>(`/v2/bot/group/${groupId}/members/count`)
       .then((res) => res.data.count, handleError);
   }
 
@@ -1529,9 +1554,12 @@ export default class LineClient {
     start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this.axios
-      .get(`/v2/bot/group/${groupId}/members/ids`, {
-        params: { start },
-      })
+      .get<{ memberIds: string[]; next?: string }>(
+        `/v2/bot/group/${groupId}/members/ids`,
+        {
+          params: { start },
+        }
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1587,7 +1615,7 @@ export default class LineClient {
     userId: string
   ): Promise<LineTypes.User> {
     return this.axios
-      .get(`/v2/bot/group/${groupId}/member/${userId}`)
+      .get<LineTypes.User>(`/v2/bot/group/${groupId}/member/${userId}`)
       .then((res) => res.data, handleError);
   }
 
@@ -1606,7 +1634,7 @@ export default class LineClient {
     groupId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post(`/v2/bot/group/${groupId}/leave`)
+      .post<LineTypes.MutationSuccessResponse>(`/v2/bot/group/${groupId}/leave`)
       .then((res) => res.data, handleError);
   }
 
@@ -1624,7 +1652,7 @@ export default class LineClient {
    */
   public getRoomMembersCount(roomId: string): Promise<number> {
     return this.axios
-      .get(`/v2/bot/room/${roomId}/members/count`)
+      .get<{ count: number }>(`/v2/bot/room/${roomId}/members/count`)
       .then((res) => res.data.count, handleError);
   }
 
@@ -1653,9 +1681,12 @@ export default class LineClient {
     start?: string
   ): Promise<{ memberIds: string[]; next?: string }> {
     return this.axios
-      .get(`/v2/bot/room/${roomId}/members/ids`, {
-        params: { start },
-      })
+      .get<{ memberIds: string[]; next?: string }>(
+        `/v2/bot/room/${roomId}/members/ids`,
+        {
+          params: { start },
+        }
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1711,7 +1742,7 @@ export default class LineClient {
     userId: string
   ): Promise<LineTypes.User> {
     return this.axios
-      .get(`/v2/bot/room/${roomId}/member/${userId}`)
+      .get<LineTypes.User>(`/v2/bot/room/${roomId}/member/${userId}`)
       .then((res) => res.data, handleError);
   }
 
@@ -1728,7 +1759,7 @@ export default class LineClient {
    */
   public leaveRoom(roomId: string): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .post(`/v2/bot/room/${roomId}/leave`)
+      .post<LineTypes.MutationSuccessResponse>(`/v2/bot/room/${roomId}/leave`)
       .then((res) => res.data, handleError);
   }
 
@@ -1759,7 +1790,7 @@ export default class LineClient {
     richMenu: LineTypes.RichMenu
   ): Promise<{ richMenuId: string }> {
     return this.axios
-      .post('/v2/bot/richmenu', richMenu)
+      .post<{ richMenuId: string }>('/v2/bot/richmenu', richMenu)
       .then((res) => res.data, handleError);
   }
 
@@ -1848,7 +1879,7 @@ export default class LineClient {
    */
   public getRichMenuList(): Promise<LineTypes.RichMenu[]> {
     return this.axios
-      .get('/v2/bot/richmenu/list')
+      .get<{ richmenus: LineTypes.RichMenu[] }>('/v2/bot/richmenu/list')
       .then((res) => res.data.richmenus, handleError);
   }
 
@@ -1906,7 +1937,185 @@ export default class LineClient {
     richMenuId: string
   ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .delete(`/v2/bot/richmenu/${richMenuId}`)
+      .delete<LineTypes.MutationSuccessResponse>(
+        `/v2/bot/richmenu/${richMenuId}`
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Links a rich menu to a user. Only one rich menu can be linked to a user at one time. If a user already has a rich menu linked, calling this endpoint replaces the existing rich menu with the one specified in your request.
+   *
+   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
+   * @param richMenuId - ID of a rich menu
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-user
+   * @example
+   * ```js
+   * await line.linkRichMenu('<USER_ID>', '<RICH_MENU_ID>');
+   * ```
+   */
+  public linkRichMenu(
+    userId: string,
+    richMenuId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>(
+        `/v2/bot/user/${userId}/richmenu/${richMenuId}`
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Links a rich menu to multiple users.
+   *
+   * @param richMenuId - ID of a rich menu
+   * @param userIds - Array of user IDs. Found in the source object of webhook event objects. Do not use the LINE ID used in LINE.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-users
+   * @example
+   * ```js
+   * await line.linkRichMenuToMultipleUsers('<RICH_MENU_ID>', [
+   *   '<USER_ID_1>',
+   *   '<USER_ID_2>',
+   * ]);
+   * ```
+   */
+  public linkRichMenuToMultipleUsers(
+    richMenuId: string,
+    userIds: string[]
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>('/v2/bot/richmenu/bulk/link', {
+        richMenuId,
+        userIds,
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Creates a rich menu alias.
+   *
+   * @param richMenuId - The rich menu ID to be associated with the rich menu alias.
+   * @param richMenuAliasId - Rich menu alias ID, which can be any ID, unique for each channel.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#create-rich-menu-alias
+   * @example
+   * ```js
+   * await line.createRichMenuAlias('<RICH_MENU_ID>', '<RICH_MENU_ALIAS_ID>');
+   * ```
+   */
+  public createRichMenuAlias(
+    richMenuId: string,
+    richMenuAliasId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>('/v2/bot/richmenu/alias', {
+        richMenuId,
+        richMenuAliasId,
+      })
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Deletes rich menu alias.
+   *
+   * @param richMenuAliasId - Rich menu alias ID that you want to delete.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#delete-rich-menu-alias
+   * @example
+   * ```js
+   * await line.deleteRichMenuAlias('<RICH_MENU_ALIAS_ID>');
+   * ```
+   */
+  public deleteRichMenuAlias(
+    richMenuAliasId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .delete<LineTypes.MutationSuccessResponse>(
+        `/v2/bot/richmenu/alias/${richMenuAliasId}`
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Updates rich menu aliases. You can specify an existing rich menu alias to modify the associated rich menu.
+   *
+   * @param richMenuAliasId - The rich menu alias ID you want to update.
+   * @param richMenuId - The rich menu ID to be associated with the rich menu alias.
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/messaging-api/#update-rich-menu-alias
+   * @example
+   * ```js
+   * await line.updateRichMenuAlias('<RICH_MENU_ALIAS_ID>', '<RICH_MENU_ID>');
+   * ```
+   */
+  public updateRichMenuAlias(
+    richMenuAliasId: string,
+    richMenuId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
+    return this.axios
+      .post<LineTypes.MutationSuccessResponse>(
+        `/v2/bot/richmenu/alias/${richMenuAliasId}`,
+        {
+          richMenuId,
+        }
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Specifies rich menu alias ID to get information of the rich menu alias.
+   *
+   * @param richMenuAliasId - The rich menu alias ID whose information you want to obtain.
+   * @returns Returns status code `200` and a [[GetRichMenuAliasResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-alias-by-id
+   * @example
+   * ```js
+   * await line.getRichMenuAlias('<RICH_MENU_ALIAS_ID>');
+   * // {
+   * //   richMenuAliasId: 'richmenu-alias-a',
+   * //   richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+   * // }
+   * ```
+   */
+  public getRichMenuAlias(
+    richMenuAliasId: string
+  ): Promise<LineTypes.GetRichMenuAliasResponse> {
+    return this.axios
+      .get<LineTypes.GetRichMenuAliasResponse>(
+        `/v2/bot/richmenu/alias/${richMenuAliasId}`
+      )
+      .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets the rich menu alias list.
+   *
+   * @returns Returns status code `200` and a [[GetRichMenuAliasListResponse]].
+   * @see https://developers.line.biz/en/reference/messaging-api/#get-rich-menu-alias-list
+   * @example
+   * ```js
+   * await line.getRichMenuAliasList();
+   * // {
+   * //   aliases: [
+   * //     {
+   * //       richMenuAliasId: 'richmenu-alias-a',
+   * //       richMenuId: 'richmenu-862e6ad6c267d2ddf3f42bc78554f6a4',
+   * //     },
+   * //     {
+   * //       richMenuAliasId: 'richmenu-alias-b',
+   * //       richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+   * //     },
+   * //   ],
+   * // }
+   * ```
+   */
+  public getRichMenuAliasList(): Promise<LineTypes.GetRichMenuAliasListResponse> {
+    return this.axios
+      .get<LineTypes.GetRichMenuAliasListResponse>(
+        '/v2/bot/richmenu/alias/list'
+      )
       .then((res) => res.data, handleError);
   }
 
@@ -1936,54 +2145,6 @@ export default class LineClient {
         return handleError(err);
       }
     );
-  }
-
-  /**
-   * Links a rich menu to a user. Only one rich menu can be linked to a user at one time. If a user already has a rich menu linked, calling this endpoint replaces the existing rich menu with the one specified in your request.
-   *
-   * @param userId - User ID. Found in the `source` object of [webhook event objects](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects). Do not use the LINE ID used in LINE.
-   * @param richMenuId - ID of a rich menu
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-user
-   * @example
-   * ```js
-   * await line.linkRichMenu('<USER_ID>', '<RICH_MENU_ID>');
-   * ```
-   */
-  public linkRichMenu(
-    userId: string,
-    richMenuId: string
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.axios
-      .post(`/v2/bot/user/${userId}/richmenu/${richMenuId}`)
-      .then((res) => res.data, handleError);
-  }
-
-  /**
-   * Links a rich menu to multiple users.
-   *
-   * @param richMenuId - ID of a rich menu
-   * @param userIds - Array of user IDs. Found in the source object of webhook event objects. Do not use the LINE ID used in LINE.
-   * @returns Returns status code `200` and an empty JSON object.
-   * @see https://developers.line.biz/en/reference/messaging-api/#link-rich-menu-to-users
-   * @example
-   * ```js
-   * await line.linkRichMenuToMultipleUsers('<RICH_MENU_ID>', [
-   *   '<USER_ID_1>',
-   *   '<USER_ID_2>',
-   * ]);
-   * ```
-   */
-  public linkRichMenuToMultipleUsers(
-    richMenuId: string,
-    userIds: string[]
-  ): Promise<LineTypes.MutationSuccessResponse> {
-    return this.axios
-      .post('/v2/bot/richmenu/bulk/link', {
-        richMenuId,
-        userIds,
-      })
-      .then((res) => res.data, handleError);
   }
 
   /**

@@ -2855,6 +2855,21 @@ export type LineNotifyOptions = {
   notificationDisabled?: boolean;
 };
 
+export type GetRichMenuAliasResponse = {
+  /**
+   * Rich menu alias ID.
+   */
+  richMenuAliasId: string;
+  /**
+   * The rich menu ID associated with the rich menu alias.
+   */
+  richMenuId: string;
+};
+
+export type GetRichMenuAliasListResponse = {
+  aliases: GetRichMenuAliasResponse[];
+};
+
 /**
  * Response body of get bot info.
  *
