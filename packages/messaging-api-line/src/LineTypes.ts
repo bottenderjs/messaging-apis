@@ -1698,17 +1698,19 @@ export type RichMenu = {
 };
 
 export type LiffApp = {
-  /** LIFF app ID */
-  liffId: string;
-
   view: LiffView;
 
   /**
    * Name of the LIFF app
    */
-  description: string;
+  description?: string;
 
-  features: LiffFeatures;
+  features?: LiffFeatures;
+
+  /**
+   * How additional information in LIFF URLs is handled. Specify concat.
+   */
+  permanentLinkPattern?: string;
 };
 
 export type LiffView = {
@@ -1724,18 +1726,27 @@ export type LiffView = {
    * URL of the server on which the LIFF app is deployed (endpoint URL). The URL scheme must be https. Specify only the domain in this URL, without paths or query parameters.
    */
   url: string;
+
+  /**
+   * true to use the LIFF app in modular mode. When in modular mode, the share button in the header is not displayed.
+   */
+  moduleMode?: boolean;
 };
 
 export type PartialLiffApp = {
-  /** LIFF app ID */
-  liffId?: string;
-
   view?: Partial<LiffView>;
 
-  /** Name of the LIFF app */
+  /**
+   * Name of the LIFF app
+   */
   description?: string;
 
   features?: Partial<LiffFeatures>;
+
+  /**
+   * How additional information in LIFF URLs is handled. Specify concat.
+   */
+  permanentLinkPattern?: string;
 };
 
 export type LiffFeatures = {

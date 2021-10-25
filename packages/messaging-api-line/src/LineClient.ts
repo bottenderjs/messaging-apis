@@ -2254,33 +2254,31 @@ export default class LineClient {
   }
 
   /**
-   * LINE Front-end Framework (LIFF)
-   */
-
-  /**
-   * Gets information on all the LIFF apps registered in the channel.
-   *
-   * @returns Returns status code `200` and a JSON object with the following properties.
-   * @see https://developers.line.biz/en/reference/liff-v1/#get-all-liff-apps
-   */
-  public getLiffAppList(): Promise<LineTypes.LiffApp[]> {
-    return this.axios
-      .get('/liff/v1/apps')
-      .then((res) => res.data.apps, handleError);
-  }
-
-  /**
    * Adds the LIFF app to a channel. You can add up to 30 LIFF apps on one channel.
    *
    * @param liffApp - LIFF app settings
    * @returns Returns status code `200` and a JSON object.
    * @see https://developers.line.biz/en/reference/liff-v1/#add-liff-app
+   * @example
+   * ```js
+   * await line.createLiffApp({
+   *   view: {
+   *     type: 'full',
+   *     url: 'https://example.com/myservice',
+   *   },
+   *   description: 'Service Example',
+   *   features: {
+   *     ble: true,
+   *   },
+   *   permanentLinkPattern: 'concat',
+   * });
+   * ```
    */
   public createLiffApp(
     liffApp: LineTypes.LiffApp
   ): Promise<{ liffId: string }> {
     return this.axios
-      .post('/liff/v1/apps', liffApp)
+      .post<{ liffId: string }>('/liff/v1/apps', liffApp)
       .then((res) => res.data, handleError);
   }
 
@@ -2289,28 +2287,61 @@ export default class LineClient {
    *
    * @param liffId - ID of the LIFF app to be updated
    * @param liffApp - Partial LIFF app settings. Only the properties specified in the request body are updated.
-   * @returns Status code `200` is returned.
+   * @returns Returns status code `200` and an empty JSON object.
    * @see https://developers.line.biz/en/reference/liff-v1/#update-liff-app
+   * @example
+   * ```js
+   * await line.updateLiffApp('<LIFF_ID>', {
+   *   view: {
+   *     url: 'https://new.example.com',
+   *   },
+   * });
+   * ```
    */
   public updateLiffApp(
     liffId: string,
     liffApp: LineTypes.PartialLiffApp
-  ): Promise<void> {
+  ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .put(`/liff/v1/apps/${liffId}/view`, liffApp)
+      .put<LineTypes.MutationSuccessResponse>(
+        `/liff/v1/apps/${liffId}`,
+        liffApp
+      )
       .then((res) => res.data, handleError);
+  }
+
+  /**
+   * Gets information on all the LIFF apps registered in the channel.
+   *
+   * @returns Returns status code `200` and an array of [[LiffApp]].
+   * @see https://developers.line.biz/en/reference/liff-v1/#get-all-liff-apps
+   * @example
+   * ```js
+   * await line.getLiffAppList();
+   * ```
+   */
+  public getLiffAppList(): Promise<LineTypes.LiffApp[]> {
+    return this.axios
+      .get('/liff/v1/apps')
+      .then((res) => res.data.apps, handleError);
   }
 
   /**
    * Deletes a LIFF app from a channel.
    *
    * @param liffId - ID of the LIFF app to be deleted
-   * @returns Status code `200` is returned.
-   * @see https://developers.line.biz/en/reference/liff-v1/#delete-liff-app
+   * @returns Returns status code `200` and an empty JSON object.
+   * @see https://developers.line.biz/en/reference/liff-server/#delete-liff-app
+   * @example
+   * ```js
+   * await line.deleteLiffApp('<LIFF_ID>');
+   * ```
    */
-  public deleteLiffApp(liffId: string): Promise<void> {
+  public deleteLiffApp(
+    liffId: string
+  ): Promise<LineTypes.MutationSuccessResponse> {
     return this.axios
-      .delete(`/liff/v1/apps/${liffId}`)
+      .delete<LineTypes.MutationSuccessResponse>(`/liff/v1/apps/${liffId}`)
       .then((res) => res.data, handleError);
   }
 }
