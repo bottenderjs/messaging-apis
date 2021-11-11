@@ -6,7 +6,7 @@ import { constants } from './shared';
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageText`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -34,7 +34,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageCaption`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -70,7 +70,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageMedia`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -106,7 +106,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageReplyMarkup`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -134,7 +134,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/stopPoll`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -161,7 +161,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/deleteMessage`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

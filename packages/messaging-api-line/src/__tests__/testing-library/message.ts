@@ -24,28 +24,37 @@ export function setNarrowcastProgress(
 }
 
 export const requestHandlers = [
-  rest.post('https://api.line.me/v2/bot/message/reply', (_, __, ctx) => {
+  rest.post('https://api.line.me/v2/bot/message/reply', (_req, _res, ctx) => {
     return res(ctx.json({}));
   }),
-  rest.post('https://api.line.me/v2/bot/message/push', (_, __, ctx) => {
+  rest.post('https://api.line.me/v2/bot/message/push', (_req, _res, ctx) => {
     return res(ctx.json({}));
   }),
-  rest.post('https://api.line.me/v2/bot/message/multicast', (_, __, ctx) => {
-    return res(ctx.json({}));
-  }),
-  rest.post('https://api.line.me/v2/bot/message/broadcast', (_, __, ctx) => {
-    return res(ctx.json({}));
-  }),
-  rest.post('https://api.line.me/v2/bot/message/narrowcast', (_, __, ctx) => {
-    const requestId = uuidv4();
+  rest.post(
+    'https://api.line.me/v2/bot/message/multicast',
+    (_req, _res, ctx) => {
+      return res(ctx.json({}));
+    }
+  ),
+  rest.post(
+    'https://api.line.me/v2/bot/message/broadcast',
+    (_req, _res, ctx) => {
+      return res(ctx.json({}));
+    }
+  ),
+  rest.post(
+    'https://api.line.me/v2/bot/message/narrowcast',
+    (_req, _res, ctx) => {
+      const requestId = uuidv4();
 
-    narrowcastProgressMap[requestId] = { phase: 'waiting' };
-    return res(
-      ctx.status(202),
-      ctx.json({}),
-      ctx.set('X-Line-Request-Id', requestId)
-    );
-  }),
+      narrowcastProgressMap[requestId] = { phase: 'waiting' };
+      return res(
+        ctx.status(202),
+        ctx.json({}),
+        ctx.set('X-Line-Request-Id', requestId)
+      );
+    }
+  ),
   rest.get<undefined>(
     'https://api.line.me/v2/bot/message/progress/narrowcast',
     (req, _, ctx) => {
@@ -59,7 +68,7 @@ export const requestHandlers = [
   ),
   rest.get(
     `https://api-data.line.me/v2/bot/message/:messageId/content`,
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       const buffer = Buffer.from('a content buffer');
       return res(
         ctx.set('Content-Length', buffer.byteLength.toString()),
@@ -68,7 +77,7 @@ export const requestHandlers = [
       );
     }
   ),
-  rest.get('https://api.line.me/v2/bot/message/quota', (_, __, ctx) => {
+  rest.get('https://api.line.me/v2/bot/message/quota', (_req, _res, ctx) => {
     return res(
       ctx.json({
         type: 'limited',
@@ -78,13 +87,13 @@ export const requestHandlers = [
   }),
   rest.get(
     'https://api.line.me/v2/bot/message/quota/consumption',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(ctx.json({ totalUsage: '500' }));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/message/delivery/reply',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(
         ctx.json({
           status: 'ready',
@@ -93,17 +102,20 @@ export const requestHandlers = [
       );
     }
   ),
-  rest.get('https://api.line.me/v2/bot/message/delivery/push', (_, __, ctx) => {
-    return res(
-      ctx.json({
-        status: 'ready',
-        success: 10000,
-      })
-    );
-  }),
+  rest.get(
+    'https://api.line.me/v2/bot/message/delivery/push',
+    (_req, _res, ctx) => {
+      return res(
+        ctx.json({
+          status: 'ready',
+          success: 10000,
+        })
+      );
+    }
+  ),
   rest.get(
     'https://api.line.me/v2/bot/message/delivery/multicast',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(
         ctx.json({
           status: 'ready',
@@ -114,7 +126,7 @@ export const requestHandlers = [
   ),
   rest.get(
     'https://api.line.me/v2/bot/message/delivery/broadcast',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(
         ctx.json({
           status: 'ready',

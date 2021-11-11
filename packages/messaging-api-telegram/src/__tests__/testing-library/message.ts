@@ -9,7 +9,7 @@ import { constants } from './shared';
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendMessage`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -37,7 +37,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/forwardMessage`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -72,7 +72,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/copyMessage`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -87,7 +87,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendPhoto`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -138,7 +138,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendAudio`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -174,7 +174,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendDocument`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -214,7 +214,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVideo`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -254,7 +254,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendAnimation`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -309,7 +309,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVoice`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -343,7 +343,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVideoNote`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -382,7 +382,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendMediaGroup`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           // TODO: the real result related to _uest.
@@ -417,7 +417,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendLocation`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -448,7 +448,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/editMessageLiveLocation`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -479,7 +479,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/stopMessageLiveLocation`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -510,7 +510,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendVenue`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -549,7 +549,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendContact`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -580,7 +580,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendPoll`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -668,7 +668,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendChatAction`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

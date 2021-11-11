@@ -22,7 +22,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...gettingUpdateRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getMe`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -43,7 +43,7 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/logOut`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json({
             ok: true,
@@ -54,7 +54,7 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/close`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json({
             ok: true,
@@ -66,7 +66,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...messageRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getUserProfilePhotos`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -129,7 +129,7 @@ export function setupTelegramServer(): SetupServerApi {
     ),
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getFile`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -148,7 +148,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...chatRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/answerCallbackQuery`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -164,7 +164,7 @@ export function setupTelegramServer(): SetupServerApi {
     ...stickerRequestHandlers,
     rest.post(
       `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/answerInlineQuery`,
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({

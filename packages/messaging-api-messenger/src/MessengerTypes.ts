@@ -105,19 +105,118 @@ export type MediaAttachment = {
   payload: MediaAttachmentPayload;
 };
 
-export type TemplateAttachmentPayload = {
-  templateType:
-    | 'button'
-    | 'generic'
-    | 'media'
-    | 'receipt'
-    | 'airline_boardingpass'
-    | 'airline_checkin'
-    | 'airline_itinerary'
-    | 'airline_update'
-    | 'one_time_notif_req';
-  [key: string]: any; // FIXME: list all of templates
+export type GenericTemplatePayload = {
+  /**
+   * Value must be `generic`
+   */
+  templateType: 'generic';
+  /**
+   * Optional. The aspect ratio used to render images specified by `element.imageUrl`. Must be `horizontal` (1.91:1) or `square` (1:1). Defaults to `horizontal`.
+   */
+  imageAspectRatio?: string;
+  /**
+   * An array of element objects that describe instances of the generic template to be sent. Specifying multiple elements will send a horizontally scrollable carousel of templates. A maximum of 10 elements is supported.
+   */
+  elements: TemplateElement[];
 };
+
+export type ButtonTemplatePayload = {
+  /**
+   * Value must be `button`
+   */
+  templateType: 'button';
+  /**
+   * UTF-8-encoded text of up to 640 characters. Text will appear above the buttons.
+   */
+  text: string;
+  /**
+   * Set of 1-3 buttons that appear as call-to-actions.
+   */
+  buttons: TemplateButton[];
+};
+
+export type MediaTemplatePayload = {
+  /**
+   * Value must be `media`
+   */
+  templateType: 'media';
+  /**
+   * An array containing 1 element object that describe the media in the message. A maximum of 1 element is supported.
+   */
+  elements: MediaElement[];
+  /**
+   * Optional. Set to `true` to enable the native share button in Messenger for the template message. Defaults to `false`.
+   */
+  sharable?: boolean;
+};
+
+export type ReceiptTemplatePayload = {
+  /**
+   * Value must be `receipt`.
+   */
+  templateType: 'receipt';
+  /**
+   * Optional. Set to `true` to enable the native share button in Messenger for the template message. Defaults to `false`.
+   */
+  sharable?: boolean;
+  /**
+   * The recipient's name.
+   */
+  recipientName: string;
+  /**
+   * Optional. The merchant's name. If present this is shown as logo text.
+   */
+  merchantName?: string;
+  /**
+   * The order number. Must be unique.
+   */
+  orderNumber: string;
+  /**
+   * The currency of the payment.
+   */
+  currency: string;
+  /**
+   * The payment method used. Providing enough information for the customer to decipher which payment method and account they used is recommended. This can be a custom string, such as, "Visa 1234".
+   */
+  paymentMethod: string;
+  /**
+   * Optional. Timestamp of the order in seconds.
+   */
+  timestamp?: string;
+  /**
+   * Optional. Array of a maximum of 100 `element` objects that describe items in the order. Sort order of the elements is not guaranteed.
+   */
+  elements?: ReceiptElement[];
+  /**
+   * Optional. The shipping address of the order.
+   */
+  address?: Address;
+  /**
+   * The payment summary. See `Summary`.
+   */
+  summary: Summary;
+  /**
+   * Optional. An array of payment objects that describe payment adjustments, such as discounts.
+   */
+  adjustments?: Adjustment[];
+
+  orderUrl?: string;
+};
+
+export type OneTimeNotifReqTemplatePayload = {
+  templateType: 'one_time_notif_req';
+  title: string;
+  payload: string;
+};
+
+export type TemplateAttachmentPayload =
+  | GenericTemplatePayload
+  | ButtonTemplatePayload
+  | MediaTemplatePayload
+  | ReceiptTemplatePayload
+  | OneTimeNotifReqTemplatePayload;
+
+// TODO: add product, feedback template
 
 export type TemplateAttachment = {
   type: 'template';
@@ -158,17 +257,20 @@ export type AttachmentMessage = {
 
 export type Message = TextMessage | AttachmentMessage;
 
-export type MessagingType =
-  | 'RESPONSE'
-  | 'UPDATE'
-  | 'MESSAGE_TAG'
-  | 'NON_PROMOTIONAL_SUBSCRIPTION';
+/**
+ * https://developers.facebook.com/docs/messenger-platform/send-messages/#messaging_types
+ */
+export type MessagingType = 'RESPONSE' | 'UPDATE' | 'MESSAGE_TAG';
 
+/**
+ * https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
+ */
 export type MessageTag =
   | 'CONFIRMED_EVENT_UPDATE'
   | 'POST_PURCHASE_UPDATE'
   | 'ACCOUNT_UPDATE'
-  | 'HUMAN_AGENT';
+  | 'HUMAN_AGENT'
+  | 'CUSTOMER_FEEDBACK';
 
 export type InsightMetric =
   | 'page_messages_blocked_conversations_unique'
@@ -180,6 +282,8 @@ export type InsightOptions = {
   since?: number;
   until?: number;
 };
+
+export type MessageOptions = { quickReplies?: QuickReply[] };
 
 export type SendOption = {
   messagingType?: MessagingType;
@@ -229,52 +333,87 @@ export type MediaElement = {
 };
 
 export type Address = {
+  /**
+   * The street address, line 1.
+   */
   street1: string;
+  /**
+   * Optional. The street address, line 2.
+   */
   street2?: string;
+  /**
+   * The city name of the address.
+   */
   city: string;
+  /**
+   * The postal code of the address.
+   */
   postalCode: string;
+  /**
+   * The state abbreviation for U.S. addresses, or the region/province for non-U.S. addresses.
+   */
   state: string;
+  /**
+   * The two-letter country abbreviation of the address.
+   */
   country: string;
 };
 
 export type Summary = {
+  /**
+   * Optional. The sub-total of the order.
+   */
   subtotal?: number;
+  /**
+   * Optional. The shipping cost of the order.
+   */
   shippingCost?: number;
+  /**
+   * Optional. The tax of the order.
+   */
   totalTax?: number;
+  /**
+   * The total cost of the order, including sub-total, shipping, and tax.
+   */
   totalCost: number;
 };
 
 export type Adjustment = {
-  name?: string;
-  amount?: number;
+  /**
+   * Required if the `adjustments` array is set. Name of the adjustment.
+   */
+  name: string;
+  /**
+   * Required if the `adjustments` array is set. The amount of the adjustment.
+   */
+  amount: number;
 };
 
 export type ReceiptElement = {
+  /**
+   * The name to display for the item.
+   */
   title: string;
+  /**
+   * Optional. The subtitle for the item, usually a brief item description.
+   */
   subtitle?: string;
+  /**
+   * Optional. The quantity of the item purchased.
+   */
   quantity?: number;
+  /**
+   * The price of the item. For free items, '0' is allowed.
+   */
   price: number;
+  /**
+   * Optional. The currency of the item price.
+   */
   currency?: string;
-  imageUrl: string;
-};
-
-export type ReceiptAttributes = {
-  recipientName: string;
-  merchantName?: string;
-  orderNumber: string; // must be unique
-  currency: string;
-  paymentMethod: string;
-  timestamp?: string;
-  orderUrl?: string;
-  elements?: ReceiptElement[];
-  address?: Address;
-  summary: Summary;
-  adjustments?: Adjustment[];
-};
-
-export type OneTimeNotifReqAttributes = {
-  title: string;
-  payload: string;
+  /**
+   * Optional. The URL of an image to be displayed with the item.
+   */
+  imageUrl?: string;
 };
 
 export type SenderAction = 'mark_seen' | 'typing_on' | 'typing_off';

@@ -6,7 +6,7 @@ import { constants } from './shared';
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/sendGame`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -60,7 +60,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/setGameScore`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -115,7 +115,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getGameHighScores`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

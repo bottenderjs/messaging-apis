@@ -6,7 +6,7 @@ import { constants } from './shared';
 export const requestHandlers = [
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/setMyCommands`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -19,7 +19,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/deleteMyCommands`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -32,7 +32,7 @@ export const requestHandlers = [
   ),
   rest.post(
     `https://api.telegram.org/bot${constants.ACCESS_TOKEN}/getMyCommands`,
-    (_, res, ctx) => {
+    (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({

@@ -44,12 +44,12 @@ export default class LineNotify {
   /**
    * The underlying axios instance.
    */
-  readonly axios: AxiosInstance;
+  public readonly axios: AxiosInstance;
 
   /**
    * The underlying axios instance for notify-api.line.me APIs.
    */
-  readonly apiAxios: AxiosInstance;
+  public readonly apiAxios: AxiosInstance;
 
   /**
    * The client ID used by the client.

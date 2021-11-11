@@ -6,7 +6,7 @@ import { res } from './res';
 export const requestHandlers = [
   rest.get(
     'https://api.line.me/v2/bot/room/:roomId/member/:userId',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(
         ctx.json({
           displayName: 'LINE taro',
@@ -18,7 +18,7 @@ export const requestHandlers = [
   ),
   rest.get(
     'https://api.line.me/v2/bot/room/:roomId/members/count',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(
         ctx.json({
           count: 3,
@@ -52,7 +52,10 @@ export const requestHandlers = [
       );
     }
   ),
-  rest.post('https://api.line.me/v2/bot/room/:roomId/leave', (_, __, ctx) => {
-    return res(ctx.json({}));
-  }),
+  rest.post(
+    'https://api.line.me/v2/bot/room/:roomId/leave',
+    (_req, _res, ctx) => {
+      return res(ctx.json({}));
+    }
+  ),
 ];

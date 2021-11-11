@@ -133,7 +133,7 @@ it('should handle #downloadRichMenuImage "Not found" error', async () => {
   lineServer.use(
     rest.get(
       'https://api-data.line.me/v2/bot/richmenu/:richMenuId/content',
-      async (_, res, ctx) => {
+      async (_req, res, ctx) => {
         return res(ctx.status(404), ctx.json({ message: 'Not found' }));
       }
     )
@@ -245,7 +245,7 @@ it('should handle #getRichMenu "richmenu not found" error', async () => {
   lineServer.use(
     rest.get(
       'https://api.line.me/v2/bot/richmenu/:richMenuId',
-      async (_, res, ctx) => {
+      async (_req, res, ctx) => {
         return res(
           ctx.status(404),
           ctx.json({
@@ -342,7 +342,7 @@ it('should handle #getDefaultRichMenu "no default richmenu" error', async () => 
   lineServer.use(
     rest.get(
       'https://api.line.me/v2/bot/user/all/richmenu',
-      async (_, res, ctx) => {
+      async (_req, res, ctx) => {
         return res(
           ctx.status(404),
           ctx.json({
@@ -604,7 +604,7 @@ it('should handle #getLinkedRichMenu "the user has no richmenu" error', async ()
   lineServer.use(
     rest.get(
       'https://api.line.me/v2/bot/user/:userId/richmenu',
-      async (_, res, ctx) => {
+      async (_req, res, ctx) => {
         return res(
           ctx.status(404),
           ctx.json({

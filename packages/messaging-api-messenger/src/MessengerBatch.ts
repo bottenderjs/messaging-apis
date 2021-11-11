@@ -56,7 +56,7 @@ export function sendMessage(
     {
       messagingType,
       recipient,
-      message: Messenger.createMessage(msg, options),
+      message: Messenger.message(msg),
       ...omitUndefinedFields(omitBatchOptions(options)),
     },
     batchRequestOptions
@@ -68,11 +68,7 @@ export function sendText(
   text: string,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createText(text, options),
-    options
-  );
+  return sendMessage(psidOrRecipient, Messenger.text(text, options), options);
 }
 
 export function sendAttachment(
@@ -82,7 +78,7 @@ export function sendAttachment(
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createAttachment(attachment, options),
+    Messenger.attachment(attachment, options),
     options
   );
 }
@@ -92,11 +88,7 @@ export function sendAudio(
   audio: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createAudio(audio, options),
-    options
-  );
+  return sendMessage(psidOrRecipient, Messenger.audio(audio, options), options);
 }
 
 export function sendImage(
@@ -104,11 +96,7 @@ export function sendImage(
   image: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createImage(image, options),
-    options
-  );
+  return sendMessage(psidOrRecipient, Messenger.image(image, options), options);
 }
 
 export function sendVideo(
@@ -116,11 +104,7 @@ export function sendVideo(
   video: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createVideo(video, options),
-    options
-  );
+  return sendMessage(psidOrRecipient, Messenger.video(video, options), options);
 }
 
 export function sendFile(
@@ -128,11 +112,7 @@ export function sendFile(
   file: string | MessengerTypes.MediaAttachmentPayload,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
-  return sendMessage(
-    psidOrRecipient,
-    Messenger.createFile(file, options),
-    options
-  );
+  return sendMessage(psidOrRecipient, Messenger.file(file, options), options);
 }
 
 export function sendTemplate(
@@ -142,7 +122,7 @@ export function sendTemplate(
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createTemplate(payload, options),
+    Messenger.template(payload, options),
     options
   );
 }
@@ -155,7 +135,7 @@ export function sendButtonTemplate(
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createButtonTemplate(text, buttons, options),
+    Messenger.buttonTemplate(text, buttons, options),
     options
   );
 }
@@ -172,7 +152,7 @@ export function sendGenericTemplate(
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createGenericTemplate(elements, {
+    Messenger.genericTemplate(elements, {
       ...options,
       imageAspectRatio,
     }),
@@ -183,12 +163,12 @@ export function sendGenericTemplate(
 
 export function sendReceiptTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
-  receipt: MessengerTypes.ReceiptAttributes,
+  receipt: Omit<MessengerTypes.ReceiptTemplatePayload, 'templateType'>,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createReceiptTemplate(receipt, options),
+    Messenger.receiptTemplate(receipt, options),
     options
   );
 }
@@ -200,19 +180,19 @@ export function sendMediaTemplate(
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createMediaTemplate(elements, options),
+    Messenger.mediaTemplate(elements, options),
     options
   );
 }
 
 export function sendOneTimeNotifReqTemplate(
   psidOrRecipient: MessengerTypes.PsidOrRecipient,
-  attrs: MessengerTypes.OneTimeNotifReqAttributes,
+  attrs: Omit<MessengerTypes.OneTimeNotifReqTemplatePayload, 'templateType'>,
   options?: MessengerTypes.SendOption & MessengerTypes.BatchRequestOptions
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.createOneTimeNotifReqTemplate(attrs, options),
+    Messenger.oneTimeNotifReqTemplate(attrs, options),
     options
   );
 }

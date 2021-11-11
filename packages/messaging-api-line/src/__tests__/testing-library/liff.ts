@@ -3,17 +3,17 @@ import { rest } from 'msw';
 import { res } from './res';
 
 export const requestHandlers = [
-  rest.post('https://api.line.me/liff/v1/apps', (_, __, ctx) => {
+  rest.post('https://api.line.me/liff/v1/apps', (_req, _res, ctx) => {
     return res(
       ctx.json({
         liffId: 'liff-12345',
       })
     );
   }),
-  rest.put('https://api.line.me/liff/v1/apps/:appId', (_, __, ctx) => {
+  rest.put('https://api.line.me/liff/v1/apps/:appId', (_req, _res, ctx) => {
     return res(ctx.json({}));
   }),
-  rest.get('https://api.line.me/liff/v1/apps', (_, __, ctx) => {
+  rest.get('https://api.line.me/liff/v1/apps', (_req, _res, ctx) => {
     return res(
       ctx.json({
         apps: [
@@ -35,7 +35,7 @@ export const requestHandlers = [
       })
     );
   }),
-  rest.delete('https://api.line.me/liff/v1/apps/:appId', (_, __, ctx) => {
+  rest.delete('https://api.line.me/liff/v1/apps/:appId', (_req, _res, ctx) => {
     return res(ctx.json({}));
   }),
 ];

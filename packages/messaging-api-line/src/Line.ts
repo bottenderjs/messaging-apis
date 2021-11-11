@@ -572,7 +572,7 @@ export function buttonsTemplate(
 }
 
 /**
- * Factory function of buttons template messages. Alias of [[Foo]].
+ * Factory function of buttons template messages. Alias of buttonsTemplate.
  *
  * @param options - Buttons template message options.
  * @returns Buttons template message object.
@@ -586,7 +586,7 @@ export function buttonTemplate(
     Omit<LineTypes.ButtonsTemplate, 'type'>
 ): LineTypes.TemplateMessage<LineTypes.ButtonsTemplate>;
 /**
- * Factory function of buttons template messages. Alias of [[Foo]].
+ * Factory function of buttons template messages. Alias of buttonsTemplate.
  *
  * @param altText - Alternative text.
  * @param template - Buttons template options.

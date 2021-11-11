@@ -44,7 +44,7 @@ export function setConstants(dict: Partial<typeof constants>): void {
  */
 export function setupWechatServer(): SetupServerApi {
   const server = setupServer(
-    rest.get('https://api.weixin.qq.com/cgi-bin/token', (_, res, ctx) => {
+    rest.get('https://api.weixin.qq.com/cgi-bin/token', (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeys({
@@ -57,13 +57,13 @@ export function setupWechatServer(): SetupServerApi {
     ...mediaRequestHandlers,
     rest.post(
       'https://api.weixin.qq.com/cgi-bin/message/custom/send',
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(ctx.json({ errcode: 0, errmsg: 'ok' }));
       }
     ),
     rest.post(
       'https://api.weixin.qq.com/cgi-bin/message/custom/typing',
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(ctx.json({ errcode: 0, errmsg: 'ok' }));
       }
     )

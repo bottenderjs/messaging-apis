@@ -23,7 +23,7 @@ export function setBotInfo(info: LineTypes.BotInfoResponse): void {
 }
 
 export const requestHandlers = [
-  rest.get<undefined>('https://api.line.me/v2/bot/info', (_, __, ctx) => {
+  rest.get<undefined>('https://api.line.me/v2/bot/info', (_req, _res, ctx) => {
     return res(ctx.json(botInfo));
   }),
 ];

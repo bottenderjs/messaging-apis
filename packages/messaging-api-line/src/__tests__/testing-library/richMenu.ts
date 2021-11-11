@@ -7,7 +7,7 @@ import { getCurrentContext } from './shared';
 import { res } from './res';
 
 export const requestHandlers = [
-  rest.post('https://api.line.me/v2/bot/richmenu', (_, __, ctx) => {
+  rest.post('https://api.line.me/v2/bot/richmenu', (_req, _res, ctx) => {
     return res(
       ctx.json({
         richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
@@ -26,7 +26,7 @@ export const requestHandlers = [
   ),
   rest.get(
     'https://api-data.line.me/v2/bot/richmenu/:richMenuId/content',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       const buffer = await fs.promises.readFile(
         path.join(__dirname, '..', 'fixtures', 'cat.png')
       );
@@ -38,41 +38,44 @@ export const requestHandlers = [
       );
     }
   ),
-  rest.get('https://api.line.me/v2/bot/richmenu/list', async (_, __, ctx) => {
-    return res(
-      ctx.json({
-        richmenus: [
-          {
-            richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
-            size: {
-              width: 2500,
-              height: 1686,
-            },
-            selected: false,
-            name: 'Nice richmenu',
-            chatBarText: 'Tap here',
-            areas: [
-              {
-                bounds: {
-                  x: 0,
-                  y: 0,
-                  width: 2500,
-                  height: 1686,
-                },
-                action: {
-                  type: 'postback',
-                  data: 'action=buy&itemid=123',
-                },
+  rest.get(
+    'https://api.line.me/v2/bot/richmenu/list',
+    async (_req, _res, ctx) => {
+      return res(
+        ctx.json({
+          richmenus: [
+            {
+              richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
+              size: {
+                width: 2500,
+                height: 1686,
               },
-            ],
-          },
-        ],
-      })
-    );
-  }),
+              selected: false,
+              name: 'Nice richmenu',
+              chatBarText: 'Tap here',
+              areas: [
+                {
+                  bounds: {
+                    x: 0,
+                    y: 0,
+                    width: 2500,
+                    height: 1686,
+                  },
+                  action: {
+                    type: 'postback',
+                    data: 'action=buy&itemid=123',
+                  },
+                },
+              ],
+            },
+          ],
+        })
+      );
+    }
+  ),
   rest.get(
     'https://api.line.me/v2/bot/richmenu/:richMenuId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(
         ctx.json({
           richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
@@ -103,19 +106,19 @@ export const requestHandlers = [
   ),
   rest.delete(
     'https://api.line.me/v2/bot/richmenu/:richMenuId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.post(
     'https://api.line.me/v2/bot/user/all/richmenu/:richMenuId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/user/all/richmenu',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(
         ctx.json({
           richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
@@ -125,28 +128,31 @@ export const requestHandlers = [
   ),
   rest.delete(
     'https://api.line.me/v2/bot/user/all/richmenu',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.post(
     'https://api.line.me/v2/bot/user/:userId/richmenu/:richMenuId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.post(
     'https://api.line.me/v2/bot/richmenu/bulk/link',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
-  rest.post('https://api.line.me/v2/bot/richmenu/alias', async (_, __, ctx) => {
-    return res(ctx.json({}));
-  }),
+  rest.post(
+    'https://api.line.me/v2/bot/richmenu/alias',
+    async (_req, _res, ctx) => {
+      return res(ctx.json({}));
+    }
+  ),
   rest.get(
     'https://api.line.me/v2/bot/richmenu/alias/list',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(
         ctx.json({
           aliases: [
@@ -165,19 +171,19 @@ export const requestHandlers = [
   ),
   rest.delete(
     'https://api.line.me/v2/bot/richmenu/alias/:richMenuAliasId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.post(
     'https://api.line.me/v2/bot/richmenu/alias/:richMenuAliasId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.get(
     'https://api.line.me/v2/bot/richmenu/alias/:richMenuAliasId',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(
         ctx.json({
           richMenuAliasId: 'richmenu-alias-a',
@@ -188,7 +194,7 @@ export const requestHandlers = [
   ),
   rest.get(
     'https://api.line.me/v2/bot/user/:userId/richmenu',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(
         ctx.json({
           richMenuId: 'richmenu-8dfdfc571eca39c0ffcd1f799519c5b5',
@@ -198,13 +204,13 @@ export const requestHandlers = [
   ),
   rest.delete(
     'https://api.line.me/v2/bot/user/:userId/richmenu',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),
   rest.post(
     'https://api.line.me/v2/bot/richmenu/bulk/unlink',
-    async (_, __, ctx) => {
+    async (_req, _res, ctx) => {
       return res(ctx.json({}));
     }
   ),

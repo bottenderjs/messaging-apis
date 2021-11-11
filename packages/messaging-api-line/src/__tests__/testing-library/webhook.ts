@@ -19,13 +19,13 @@ export const requestHandlers = [
   ),
   rest.get<undefined>(
     'https://api.line.me/v2/bot/channel/webhook/endpoint',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(ctx.json(webhookEndpoint));
     }
   ),
   rest.post<{ endpoint?: string }>(
     'https://api.line.me/v2/bot/channel/webhook/test',
-    (_, __, ctx) => {
+    (_req, _res, ctx) => {
       return res(
         ctx.json({
           success: true,

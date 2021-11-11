@@ -46,7 +46,7 @@ export function setupViberServer(): SetupServerApi {
   const server = setupServer(
     rest.post(
       'https://chatapi.viber.com/pa/get_account_info',
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
@@ -170,7 +170,7 @@ export function setupViberServer(): SetupServerApi {
         );
       }
     ),
-    rest.post('https://chatapi.viber.com/pa/send_message', (_, res, ctx) => {
+    rest.post('https://chatapi.viber.com/pa/send_message', (_req, res, ctx) => {
       return res(
         ctx.json(
           snakecaseKeysDeep({
@@ -183,7 +183,7 @@ export function setupViberServer(): SetupServerApi {
     }),
     rest.post(
       'https://chatapi.viber.com/pa/broadcast_message',
-      (_, res, ctx) => {
+      (_req, res, ctx) => {
         return res(
           ctx.json(
             snakecaseKeysDeep({
