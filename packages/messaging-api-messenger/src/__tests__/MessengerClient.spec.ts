@@ -5,8 +5,22 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { MessengerBatch, MessengerClient } from '..';
 
-const ACCESS_TOKEN = 'foo_token';
 const APP_SECRET = 'shhhhh!is.my.secret';
+const USER_ID = '1QAZ2WSX';
+const ACCESS_TOKEN = '1234567890';
+const APP_ID = '987654321';
+const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
+
+const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
+  const client = new MessengerClient({
+    appId: APP_ID,
+    appSecret: APP_SECRET,
+    accessToken: ACCESS_TOKEN,
+    skipAppSecretProof: true,
+  });
+  const mock = new MockAdapter(client.axios);
+  return { client, mock };
+};
 
 let axios;
 let _create;
@@ -55,7 +69,7 @@ it('support origin', () => {
 
   expect(axios.create).toBeCalledWith(
     expect.objectContaining({
-      baseURL: 'https://mydummytestserver.com/v6.0/',
+      baseURL: 'https://mydummytestserver.com/v12.0/',
       headers: { 'Content-Type': 'application/json' },
     })
   );
@@ -77,7 +91,7 @@ describe('#onRequest', () => {
 
     expect(onRequest).toBeCalledWith({
       method: 'post',
-      url: 'https://graph.facebook.com/v6.0/path',
+      url: 'https://graph.facebook.com/v12.0/path',
       body: {
         x: 1,
       },
@@ -100,8 +114,6 @@ describe('appsecret proof', () => {
 
     const mock = new MockAdapter(client.axios);
 
-    const USER_ID = 'USER_ID';
-
     const reply = {
       recipient_id: USER_ID,
       message_id: 'mid.1489394984387:3dd22de509',
@@ -116,7 +128,7 @@ describe('appsecret proof', () => {
     await client.sendText(USER_ID, 'Hello!');
 
     expect(url).toEqual(
-      '/me/messages?access_token=foo_token&appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
+      '/me/messages?access_token=1234567890&appsecret_proof=3bc2e128de403f2dcd7e65f6f421be02b1fac2ce620df1e32c4b923970cb9551'
     );
   });
 
@@ -131,8 +143,6 @@ describe('appsecret proof', () => {
 
     const mock = new MockAdapter(client.axios);
 
-    const USER_ID = 'USER_ID';
-
     const reply = {
       recipient_id: USER_ID,
       message_id: 'mid.1489394984387:3dd22de509',
@@ -146,88 +156,9 @@ describe('appsecret proof', () => {
 
     await client.sendText(USER_ID, 'Hello!');
 
-    expect(url).toEqual('/me/messages?access_token=foo_token');
-  });
-
-  it('should add appsecret proof to batch requests if appSecret exists', async () => {
-    expect.assertions(2);
-
-    const client = new MessengerClient({
-      accessToken: ACCESS_TOKEN,
-      appSecret: APP_SECRET,
-    });
-
-    const mock = new MockAdapter(client.axios);
-
-    const USER_ID = 'USER_ID';
-
-    const reply = [
-      {
-        recipient_id: USER_ID,
-        message_id: 'mid.1489394984387:3dd22de509',
-      },
-      {
-        id: USER_ID,
-        first_name: 'Kevin',
-        last_name: 'Durant',
-        profile_pic: 'https://example.com/pic.png',
-      },
-    ];
-
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
-
-    const batch = [
-      MessengerBatch.sendText(USER_ID, 'Hello', { accessToken: 'token1' }),
-      MessengerBatch.getUserProfile(USER_ID, { accessToken: 'token2' }),
-    ];
-
-    await client.sendBatch(batch);
-
-    expect(url).toEqual(
-      '/?appsecret_proof=796ba0d8a6b339e476a7b166a9e8ac0a395f7de736dc37de5f2f4397f5854eb8'
-    );
-    expect(JSON.parse(data)).toEqual({
-      access_token: ACCESS_TOKEN,
-      include_headers: true,
-      batch: [
-        {
-          method: 'POST',
-          relative_url:
-            'me/messages?appsecret_proof=99eed1703c01487bce54ccf12b7e8007880e3bf7f3820656f17f200b5c976266',
-          body: `messaging_type=UPDATE&recipient=%7B%22id%22%3A%22${USER_ID}%22%7D&message=%7B%22text%22%3A%22Hello%22%7D&access_token=token1`,
-        },
-        {
-          method: 'GET',
-          relative_url:
-            'USER_ID?fields=id%2Cname%2Cfirst_name%2Clast_name%2Cprofile_pic&access_token=token2&appsecret_proof=f1405d923148b8e76e002138a7adddfec6ce4075712095d88b4b4b6777ad45e5',
-        },
-      ],
-    });
+    expect(url).toEqual('/me/messages?access_token=1234567890');
   });
 });
-
-const USER_ID = '1QAZ2WSX';
-const ACCESS_TOKEN = '1234567890';
-const APP_ID = '987654321';
-const APP_SECRET = '1WDVGY78';
-const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
-
-const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
-  const client = new MessengerClient({
-    appId: APP_ID,
-    appSecret: APP_SECRET,
-    accessToken: ACCESS_TOKEN,
-    skipAppSecretProof: true,
-  });
-  const mock = new MockAdapter(client.axios);
-  return { client, mock };
-};
 
 describe('#getPageInfo', () => {
   it('should respond page info', async () => {
@@ -1045,7 +976,7 @@ describe('getIdsForApps', () => {
     });
 
     expect(url).toEqual(
-      `/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&page=5678`
+      `/12345123/ids_for_apps?access_token=${ACCESS_TOKEN}&appsecret_proof=3bc2e128de403f2dcd7e65f6f421be02b1fac2ce620df1e32c4b923970cb9551&page=5678`
     );
 
     expect(res).toEqual(reply);
@@ -1089,7 +1020,7 @@ describe('getIdsForPages', () => {
     });
 
     expect(url).toEqual(
-      `/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=4894f81b47c53ccf240a1130d119db2c69833eac9be09adeebc8e7226fb73e73&app=5678`
+      `/12345123/ids_for_pages?access_token=${ACCESS_TOKEN}&appsecret_proof=3bc2e128de403f2dcd7e65f6f421be02b1fac2ce620df1e32c4b923970cb9551&app=5678`
     );
 
     expect(res).toEqual(reply);

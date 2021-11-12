@@ -275,18 +275,16 @@ export default class MessengerClient {
     verifyToken: string;
     accessToken: string;
   }): Promise<{ success: boolean }> {
-    const { appId } = this;
-
-    invariant(appId, 'App ID is required to create subscription');
+    invariant(this.appId, 'App ID is required to create subscription');
     invariant(
       this.appSecret || appAccessToken,
       'App Secret or App Token is required to create subscription'
     );
 
-    const accessToken = appAccessToken ?? `${appId}|${this.appSecret}`;
+    const accessToken = appAccessToken ?? `${this.appId}|${this.appSecret}`;
 
     return this.axios
-      .post(`/${appId}/subscriptions?access_token=${accessToken}`, {
+      .post(`/${this.appId}/subscriptions?access_token=${accessToken}`, {
         object,
         callbackUrl,
         fields: fields.join(','),
@@ -327,17 +325,16 @@ export default class MessengerClient {
   }: {
     accessToken?: string;
   } = {}): Promise<MessengerTypes.MessengerSubscription[]> {
-    const { appId } = this;
-    invariant(appId, 'App ID is required to get subscriptions');
+    invariant(this.appId, 'App ID is required to get subscriptions');
     invariant(
       this.appSecret || appAccessToken,
       'App Secret or App Token is required to get subscriptions'
     );
 
-    const accessToken = appAccessToken ?? `${appId}|${this.appSecret}`;
+    const accessToken = appAccessToken ?? `${this.appId}|${this.appSecret}`;
 
     return this.axios
-      .get(`/${appId}/subscriptions?access_token=${accessToken}`)
+      .get(`/${this.appId}/subscriptions?access_token=${accessToken}`)
       .then((res) => res.data.data, handleError);
   }
 
@@ -398,6 +395,7 @@ export default class MessengerClient {
    * //   "feature": "subscription_messaging",
    * //   "status": "<pending|rejected|approved|limited>"
    * // }]
+   * ```
    */
   getMessagingFeatureReview(): Promise<
     MessengerTypes.MessagingFeatureReview[]
@@ -1301,12 +1299,23 @@ export default class MessengerClient {
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(audio) || audio instanceof fs.ReadStream) {
-      const message = Messenger.audioFormData(audio, options);
-      return this.sendMessageFormData(psidOrRecipient, message, options);
+      const message = Messenger.audioFormData(
+        audio,
+        pick(options, messageOptionKeys)
+      );
+      return this.sendMessageFormData(
+        psidOrRecipient,
+        message,
+        omit(options, messageOptionKeys)
+      );
     }
 
-    const message = Messenger.audio(audio, options);
-    return this.sendMessage(psidOrRecipient, message, options);
+    const message = Messenger.audio(audio, pick(options, messageOptionKeys));
+    return this.sendMessage(
+      psidOrRecipient,
+      message,
+      omit(options, messageOptionKeys)
+    );
   }
 
   /**
@@ -1342,12 +1351,23 @@ export default class MessengerClient {
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(image) || image instanceof fs.ReadStream) {
-      const message = Messenger.imageFormData(image, options);
-      return this.sendMessageFormData(psidOrRecipient, message, options);
+      const message = Messenger.imageFormData(
+        image,
+        pick(options, messageOptionKeys)
+      );
+      return this.sendMessageFormData(
+        psidOrRecipient,
+        message,
+        omit(options, messageOptionKeys)
+      );
     }
 
-    const message = Messenger.image(image, options);
-    return this.sendMessage(psidOrRecipient, message, options);
+    const message = Messenger.image(image, pick(options, messageOptionKeys));
+    return this.sendMessage(
+      psidOrRecipient,
+      message,
+      omit(options, messageOptionKeys)
+    );
   }
 
   /**
@@ -1383,12 +1403,23 @@ export default class MessengerClient {
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(video) || video instanceof fs.ReadStream) {
-      const message = Messenger.videoFormData(video, options);
-      return this.sendMessageFormData(psidOrRecipient, message, options);
+      const message = Messenger.videoFormData(
+        video,
+        pick(options, messageOptionKeys)
+      );
+      return this.sendMessageFormData(
+        psidOrRecipient,
+        message,
+        omit(options, messageOptionKeys)
+      );
     }
 
-    const message = Messenger.video(video, options);
-    return this.sendMessage(psidOrRecipient, message, options);
+    const message = Messenger.video(video, pick(options, messageOptionKeys));
+    return this.sendMessage(
+      psidOrRecipient,
+      message,
+      omit(options, messageOptionKeys)
+    );
   }
 
   /**
@@ -1424,12 +1455,23 @@ export default class MessengerClient {
     options?: MessengerTypes.SendOption
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     if (Buffer.isBuffer(file) || file instanceof fs.ReadStream) {
-      const message = Messenger.fileFormData(file, options);
-      return this.sendMessageFormData(psidOrRecipient, message, options);
+      const message = Messenger.fileFormData(
+        file,
+        pick(options, messageOptionKeys)
+      );
+      return this.sendMessageFormData(
+        psidOrRecipient,
+        message,
+        omit(options, messageOptionKeys)
+      );
     }
 
-    const message = Messenger.file(file, options);
-    return this.sendMessage(psidOrRecipient, message, options);
+    const message = Messenger.file(file, pick(options, messageOptionKeys));
+    return this.sendMessage(
+      psidOrRecipient,
+      message,
+      omit(options, messageOptionKeys)
+    );
   }
 
   /**
@@ -1462,8 +1504,8 @@ export default class MessengerClient {
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     return this.sendMessage(
       psidOrRecipient,
-      Messenger.template(payload, options),
-      options
+      Messenger.template(payload, pick(options, messageOptionKeys)),
+      omit(options, messageOptionKeys)
     );
   }
 
@@ -1503,8 +1545,8 @@ export default class MessengerClient {
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     return this.sendMessage(
       psidOrRecipient,
-      Messenger.buttonTemplate(text, buttons, options),
-      options
+      Messenger.buttonTemplate(text, buttons, pick(options, messageOptionKeys)),
+      omit(options, messageOptionKeys)
     );
   }
 
@@ -1556,8 +1598,8 @@ export default class MessengerClient {
   ): Promise<MessengerTypes.SendMessageSuccessResponse> {
     return this.sendMessage(
       psidOrRecipient,
-      Messenger.genericTemplate(elements, options),
-      omit(options, ['imageAspectRatio'])
+      Messenger.genericTemplate(elements, pick(options, messageOptionKeys)),
+      omit(options, [...messageOptionKeys, 'imageAspectRatio'])
     );
   }
 
@@ -2751,8 +2793,8 @@ export default class MessengerClient {
 
   /**
    * @see https://developers.facebook.com/docs/messenger-platform/identity/id-matching#examples
-   * @example/
-  // FIXME: [type] return type
+   * @example
+   */
   getUserField({
     field,
     userId,
@@ -2765,7 +2807,7 @@ export default class MessengerClient {
     appSecret: string;
     app?: string;
     page?: string;
-  }) {
+  }): any {
     // $appsecret_proof= hash_hmac('sha256', $access_token, $app_secret);
     const appsecretProof = crypto
       .createHmac('sha256', appSecret)

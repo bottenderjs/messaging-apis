@@ -152,11 +152,10 @@ export function sendGenericTemplate(
 ): MessengerTypes.BatchItem {
   return sendMessage(
     psidOrRecipient,
-    Messenger.genericTemplate(elements, {
-      ...options,
+    Messenger.genericTemplate({
+      elements,
       imageAspectRatio,
     }),
-
     options
   );
 }
