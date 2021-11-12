@@ -6,7 +6,7 @@ module.exports = {
   coverageDirectory: './coverage/',
   transformIgnorePatterns: ['/node_modules/'],
   testMatch: ['**/__tests__/*.spec.(ts|tsx)'],
-  timers: 'fake',
+  timers: 'legacy',
   resetMocks: true,
   globals: {
     'ts-jest': {
