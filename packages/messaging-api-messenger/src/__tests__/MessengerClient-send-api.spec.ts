@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-import FormData from 'form-data';
-
 import { MessengerClient } from '..';
 import * as MessengerTypes from '../MessengerTypes';
 
@@ -561,7 +559,7 @@ it('should support #sendAudio with audio attachment payload', async () => {
   expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-xit('should support #sendAudio with file stream', async () => {
+it('should support #sendAudio with file stream', async () => {
   const messenger = new MessengerClient({
     accessToken: constants.ACCESS_TOKEN,
   });
@@ -570,8 +568,6 @@ xit('should support #sendAudio with file stream', async () => {
     constants.USER_ID,
     fs.createReadStream(path.resolve(`${__dirname}/./fixtures/cat.png`))
   );
-
-  // expect(data).toBeInstanceOf(FormData);
 
   expect(res).toEqual({
     recipientId: 'USER_ID',
@@ -585,29 +581,12 @@ xit('should support #sendAudio with file stream', async () => {
     'https://graph.facebook.com/v12.0/me/messages?access_token=ACCESS_TOKEN'
   );
   expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
-  expect(request?.body).toEqual({
-    messaging_type: 'UPDATE',
-    recipient: {
-      id: 'USER_ID',
-    },
-    message: {
-      attachment: {
-        type: 'image',
-        payload: {
-          url: 'https://example.com/pic.png',
-        },
-      },
-      quick_replies: [
-        {
-          content_type: 'text',
-          title: 'Red',
-          payload: '<POSTBACK_PAYLOAD>',
-          image_url: 'http://example.com/img/red.png',
-        },
-      ],
-    },
-  });
-  expect(request?.headers.get('Content-Type')).toBe('application/json');
+  // TODO: assert body after File is supported by msw
+  // https://github.com/mswjs/msw/issues/947
+  expect(request?.body).toEqual(expect.anything());
+  expect(request?.headers.get('Content-Type')).toMatch(
+    /^multipart\/form-data;\sboundary=--------------------------\d+$/
+  );
 });
 
 it('should support #sendImage with image url', async () => {
@@ -710,22 +689,35 @@ it('should support #sendImage with image attachment payload', async () => {
   expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-xit('should support #sendImage with file stream', async () => {
+it('should support #sendImage with file stream', async () => {
   const messenger = new MessengerClient({
     accessToken: constants.ACCESS_TOKEN,
   });
 
   const res = await messenger.sendImage(
     constants.USER_ID,
-    fs.createReadStream('./')
+    fs.createReadStream(path.resolve(`${__dirname}/./fixtures/cat.png`))
   );
-
-  // expect(data).toBeInstanceOf(FormData);
 
   expect(res).toEqual({
     recipientId: 'USER_ID',
     messageId: 'mid.1489394984387:3dd22de509',
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messages?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  // TODO: assert body after File is supported by msw
+  // https://github.com/mswjs/msw/issues/947
+  expect(request?.body).toEqual(expect.anything());
+  expect(request?.headers.get('Content-Type')).toMatch(
+    /^multipart\/form-data;\sboundary=--------------------------\d+$/
+  );
 });
 
 it('should support #sendVideo with video url', async () => {
@@ -828,22 +820,35 @@ it('should support #sendVideo with video attachment payload', async () => {
   expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-xit('should support #sendVideo with file stream', async () => {
+it('should support #sendVideo with file stream', async () => {
   const messenger = new MessengerClient({
     accessToken: constants.ACCESS_TOKEN,
   });
 
   const res = await messenger.sendVideo(
     constants.USER_ID,
-    fs.createReadStream('./')
+    fs.createReadStream(path.resolve(`${__dirname}/./fixtures/cat.png`))
   );
-
-  // expect(data).toBeInstanceOf(FormData);
 
   expect(res).toEqual({
     recipientId: 'USER_ID',
     messageId: 'mid.1489394984387:3dd22de509',
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messages?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  // TODO: assert body after File is supported by msw
+  // https://github.com/mswjs/msw/issues/947
+  expect(request?.body).toEqual(expect.anything());
+  expect(request?.headers.get('Content-Type')).toMatch(
+    /^multipart\/form-data;\sboundary=--------------------------\d+$/
+  );
 });
 
 it('should support #sendFile with file url', async () => {
@@ -946,22 +951,35 @@ it('should support #sendFile with file attachment payload', async () => {
   expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-xit('should support #sendFile with file stream', async () => {
+it('should support #sendFile with file stream', async () => {
   const messenger = new MessengerClient({
     accessToken: constants.ACCESS_TOKEN,
   });
 
   const res = await messenger.sendFile(
     constants.USER_ID,
-    fs.createReadStream('./')
+    fs.createReadStream(path.resolve(`${__dirname}/./fixtures/cat.png`))
   );
-
-  // expect(data).toBeInstanceOf(FormData);
 
   expect(res).toEqual({
     recipientId: 'USER_ID',
     messageId: 'mid.1489394984387:3dd22de509',
   });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messages?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  // TODO: assert body after File is supported by msw
+  // https://github.com/mswjs/msw/issues/947
+  expect(request?.body).toEqual(expect.anything());
+  expect(request?.headers.get('Content-Type')).toMatch(
+    /^multipart\/form-data;\sboundary=--------------------------\d+$/
+  );
 });
 
 it('should support #sendSenderAction', async () => {

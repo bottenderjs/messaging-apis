@@ -9,6 +9,16 @@ export const requestHandlers = [
   rest.post<SnakeCasedPropertiesDeep<{ recipient: MessengerTypes.Recipient }>>(
     'https://graph.facebook.com/:version/me/messages',
     (req, res, ctx) => {
+      // TODO: get this right after File is supported by msw
+      // https://github.com/mswjs/msw/issues/947
+      if (typeof req.body === 'string') {
+        return res(
+          ctx.json({
+            recipient_id: constants.USER_ID,
+            message_id: 'mid.1489394984387:3dd22de509',
+          })
+        );
+      }
       if (
         'phone_number' in req.body.recipient ||
         'user_ref' in req.body.recipient
