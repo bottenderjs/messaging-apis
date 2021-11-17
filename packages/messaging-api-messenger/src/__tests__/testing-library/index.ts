@@ -2,6 +2,7 @@ import { RestRequest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
 
 import { getCurrentContext } from './shared';
+import { requestHandlers as handoverRequestHandlers } from './handover';
 import { requestHandlers as messageRequestHandlers } from './message';
 
 /**
@@ -10,7 +11,10 @@ import { requestHandlers as messageRequestHandlers } from './message';
  * @returns MSW setup server API.
  */
 export function setupMessengerServer(): SetupServerApi {
-  const server = setupServer(...messageRequestHandlers);
+  const server = setupServer(
+    ...messageRequestHandlers,
+    ...handoverRequestHandlers
+  );
 
   if (typeof beforeAll === 'function') {
     beforeAll(() => {

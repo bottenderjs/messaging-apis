@@ -1,222 +1,171 @@
-import MockAdapter from 'axios-mock-adapter';
-
 import { MessengerClient } from '..';
 
-const ACCESS_TOKEN = '1234567890';
-const USER_ID = '1QAZ2WSX';
+import {
+  constants,
+  getCurrentContext,
+  setupMessengerServer,
+} from './testing-library';
 
-let axios;
-let _create;
-beforeEach(() => {
-  axios = require('axios');
-  _create = axios.create;
+setupMessengerServer();
+
+it('should support #passThreadControl', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.passThreadControl(
+    constants.USER_ID,
+    123456789,
+    'free formed text for another app'
+  );
+
+  expect(res).toEqual({ success: true });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/pass_thread_control?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    recipient: {
+      id: constants.USER_ID,
+    },
+    target_app_id: 123456789,
+    metadata: 'free formed text for another app',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-afterEach(() => {
-  axios.create = _create;
+it('should support #passThreadControlToPageInbox', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.passThreadControlToPageInbox(
+    constants.USER_ID,
+    'free formed text for another app'
+  );
+
+  expect(res).toEqual({ success: true });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/pass_thread_control?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    recipient: {
+      id: constants.USER_ID,
+    },
+    target_app_id: 263902037430900,
+    metadata: 'free formed text for another app',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
-  const client = new MessengerClient({
-    accessToken: ACCESS_TOKEN,
+it('should support #takeThreadControl', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
-  const mock = new MockAdapter(client.axios);
-  return { client, mock };
-};
 
-describe('#passThreadControl', () => {
-  it('should call messages api to pass thread control', async () => {
-    const { client, mock } = createMock();
+  const res = await messenger.takeThreadControl(
+    constants.USER_ID,
+    'free formed text for another app'
+  );
 
-    const reply = {
-      success: true,
-    };
+  expect(res).toEqual({ success: true });
 
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
+  const { request } = getCurrentContext();
 
-    const res = await client.passThreadControl(
-      USER_ID,
-      123456789,
-      'free formed text for another app'
-    );
-
-    expect(url).toEqual(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`);
-    expect(JSON.parse(data)).toEqual({
-      recipient: {
-        id: USER_ID,
-      },
-      target_app_id: 123456789,
-      metadata: 'free formed text for another app',
-    });
-
-    expect(res).toEqual(reply);
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/take_thread_control?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    recipient: {
+      id: constants.USER_ID,
+    },
+    metadata: 'free formed text for another app',
   });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('#passThreadControlToPageInbox', () => {
-  it('should call messages api to pass thread control to page inbox', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      success: true,
-    };
-
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
-
-    const res = await client.passThreadControlToPageInbox(
-      USER_ID,
-      'free formed text for another app'
-    );
-
-    expect(url).toEqual(`/me/pass_thread_control?access_token=${ACCESS_TOKEN}`);
-    expect(JSON.parse(data)).toEqual({
-      recipient: {
-        id: USER_ID,
-      },
-      target_app_id: 263902037430900,
-      metadata: 'free formed text for another app',
-    });
-
-    expect(res).toEqual(reply);
+it('should support #requestThreadControl', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
+
+  const res = await messenger.requestThreadControl(
+    constants.USER_ID,
+    'free formed text for primary app'
+  );
+
+  expect(res).toEqual({ success: true });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/request_thread_control?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    recipient: {
+      id: constants.USER_ID,
+    },
+    metadata: 'free formed text for primary app',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('#takeThreadControl', () => {
-  it('should call messages api to take thread control', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      success: true,
-    };
-
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
-
-    const res = await client.takeThreadControl(
-      USER_ID,
-      'free formed text for another app'
-    );
-
-    expect(url).toEqual(`/me/take_thread_control?access_token=${ACCESS_TOKEN}`);
-    expect(JSON.parse(data)).toEqual({
-      recipient: {
-        id: USER_ID,
-      },
-      metadata: 'free formed text for another app',
-    });
-
-    expect(res).toEqual(reply);
+it('should support #getSecondaryReceivers', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
+
+  const res = await messenger.getSecondaryReceivers();
+
+  expect(res).toEqual([
+    { id: '12345678910', name: "David's Composer" },
+    { id: '23456789101', name: 'Messenger Rocks' },
+  ]);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/secondary_receivers?fields=id,name&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('#requestThreadControl', () => {
-  it('should call messages api to request thread control', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      success: true,
-    };
-
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
-
-    const res = await client.requestThreadControl(
-      USER_ID,
-      'free formed text for primary app'
-    );
-
-    expect(url).toEqual(
-      `/me/request_thread_control?access_token=${ACCESS_TOKEN}`
-    );
-    expect(JSON.parse(data)).toEqual({
-      recipient: {
-        id: USER_ID,
-      },
-      metadata: 'free formed text for primary app',
-    });
-
-    expect(res).toEqual(reply);
+it('should support #getThreadOwner', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
-});
 
-describe('#getSecondaryReceivers', () => {
-  it('should call messages api to get Secondary receivers', async () => {
-    const { client, mock } = createMock();
+  const res = await messenger.getThreadOwner(constants.USER_ID);
 
-    const reply = {
-      data: [
-        { id: '12345678910', name: "David's Composer" },
-        { id: '23456789101', name: 'Messenger Rocks' },
-      ],
-    };
+  expect(res).toEqual({ appId: '12345678910' });
 
-    let url;
-    mock.onGet().reply((config) => {
-      url = config.url;
-      return [200, reply];
-    });
+  const { request } = getCurrentContext();
 
-    const res = await client.getSecondaryReceivers();
-
-    expect(url).toEqual(
-      `/me/secondary_receivers?fields=id,name&access_token=${ACCESS_TOKEN}`
-    );
-
-    expect(res).toEqual([
-      { id: '12345678910', name: "David's Composer" },
-      { id: '23456789101', name: 'Messenger Rocks' },
-    ]);
-  });
-});
-
-describe('#getThreadOwner', () => {
-  it('should call messages api to get thread owner', async () => {
-    const { client, mock } = createMock();
-
-    const reply = {
-      data: [
-        {
-          thread_owner: {
-            app_id: '12345678910',
-          },
-        },
-      ],
-    };
-
-    let url;
-    mock.onGet().reply((config) => {
-      url = config.url;
-      return [200, reply];
-    });
-
-    const res = await client.getThreadOwner(USER_ID);
-
-    expect(url).toEqual(
-      `/me/thread_owner?recipient=${USER_ID}&access_token=${ACCESS_TOKEN}`
-    );
-
-    expect(res).toEqual({ appId: '12345678910' });
-  });
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/thread_owner?recipient=USER_ID&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
