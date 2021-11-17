@@ -267,7 +267,6 @@ export default class FacebookBatchQueue {
         ...item,
         body: Object.keys(body)
           .map((key) => {
-            // @ts-ignore see https://github.com/sindresorhus/type-fest/pull/320
             const val = body[key];
             return `${encodeURIComponent(key)}=${encodeURIComponent(
               typeof val === 'object' ? JSON.stringify(val) : val

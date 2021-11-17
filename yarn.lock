@@ -2232,7 +2232,7 @@ aws4@^1.8.0:
   version "1.0.4"
   dependencies:
     axios "^0.21.1"
-    type-fest "^2.5.0"
+    type-fest "^2.5.4"
 
 axios-mock-adapter@^1.20.0:
   version "1.20.0"
@@ -5434,7 +5434,7 @@ merge2@^1.3.0:
     map-obj "^4.1.0"
     pascal-case "^3.1.1"
     snake-case "^3.0.3"
-    type-fest "^2.5.0"
+    type-fest "^2.5.4"
     url-join "^4.0.1"
 
 micromatch@^4.0.4:
@@ -7518,10 +7518,10 @@ type-fest@^1.2.2:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-1.4.0.tgz#e9fb813fe3bf1744ec359d55d1affefa76f14be1"
   integrity sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==
 
-type-fest@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.5.0.tgz#e5d0ef818d565e8fc442414194a4ac3afc4c42a7"
-  integrity sha512-wB5vE+XXZ2g2mDRo18yZMae1joUhquomLTm+BkxeuRHnwmrNWzVPNrFah9z7pjsKNiVAaJL33+uQbgbPSARyqw==
+type-fest@^2.5.4:
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.5.4.tgz#1613bf29a172ff1c66c29325466af9096fe505b5"
+  integrity sha512-zyPomVvb6u7+gJ/GPYUH6/nLDNiTtVOqXVUHtxFv5PmZQh6skgfeRtFYzWC01T5KeNWNIx5/0P111rKFLlkFvA==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"

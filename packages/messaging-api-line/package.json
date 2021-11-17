@@ -21,7 +21,7 @@
     "messaging-api-common": "file:../messaging-api-common",
     "qs": "^6.10.1",
     "ts-invariant": "^0.9.3",
-    "type-fest": "^2.5.0",
+    "type-fest": "^2.5.4",
     "warning": "^4.0.3"
   },
   "keywords": [

@@ -20,7 +20,7 @@
     "map-obj": "^4.1.0",
     "pascal-case": "^3.1.1",
     "snake-case": "^3.0.3",
-    "type-fest": "^2.5.0",
+    "type-fest": "^2.5.4",
     "url-join": "^4.0.1"
   },
   "keywords": [

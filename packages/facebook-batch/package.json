@@ -17,7 +17,7 @@
     "lodash": "^4.17.21",
     "messaging-api-common": "file:../messaging-api-common",
     "ts-invariant": "^0.9.3",
-    "type-fest": "^2.5.0"
+    "type-fest": "^2.5.4"
   },
   "keywords": [
     "batch",
