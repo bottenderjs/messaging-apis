@@ -1,405 +1,724 @@
-import { MessengerClient } from 'messaging-api-messenger';
-import { mocked } from 'ts-jest/utils';
+import { RestRequest, rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 import BatchRequestError from '../BatchRequestError';
 import FacebookBatchQueue from '../FacebookBatchQueue';
 import { isError613 } from '..';
 
-jest.mock('messaging-api-messenger');
+const USER_ID = 'USER_ID';
 
-const { MessengerBatch } = jest.requireActual('messaging-api-messenger');
-
-const image = {
-  attachment: {
-    type: 'image',
-    payload: {
-      url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
+const requestItem = {
+  method: 'POST',
+  relativeUrl: 'me/messages',
+  body: {
+    messagingType: 'UPDATE',
+    message: {
+      text: 'Hello',
+    },
+    recipient: {
+      id: USER_ID,
     },
   },
 };
 
-let queue: FacebookBatchQueue;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let currentReq: RestRequest<any> | undefined;
 
-function setup(options = {}): {
-  client: MessengerClient;
-  timeout: NodeJS.Timeout;
-} {
-  // https://github.com/nodejs/node/blob/e1ad548cd4bfb996ea925584542f30c85aa3dfa1/lib/internal/timers.js#L202-L231
-  const timeout: NodeJS.Timeout = {
-    hasRef: () => true,
-    refresh: () => timeout,
-    ref: () => timeout,
-    unref: () => timeout,
-  };
-  mocked(setTimeout).mockReturnValue(timeout);
+const server = setupServer(
+  rest.post<{ batch: any[] }>(
+    'https://graph.facebook.com/:version/',
+    (req, res, ctx) => {
+      currentReq = req;
+      return res(
+        ctx.json(
+          Array(req.body.batch.length)
+            .fill(0)
+            .map(() => ({
+              code: 200,
+              body: JSON.stringify({
+                recipient_id: USER_ID,
+                message_id: 'mid.1489394984387:3dd22de509',
+              }),
+            }))
+        )
+      );
+    }
+  )
+);
 
-  queue = new FacebookBatchQueue(
-    {
-      accessToken: 'ACCESS_TOKEN',
-      appSecret: 'APP_SECRET',
-    },
-    options
-  );
-
-  const client = mocked(MessengerClient).mock.instances[0];
-
-  return {
-    client,
-    timeout,
-  };
+if (typeof beforeAll === 'function') {
+  beforeAll(() => {
+    // Establish requests interception layer before all tests.
+    server.listen();
+  });
 }
 
 afterEach(() => {
-  queue.stop();
+  // Reset any runtime handlers tests may use.
+  server.resetHandlers();
+  currentReq = undefined;
 });
 
-it('should push psid and messages to queue', () => {
+afterAll(() => {
+  // Clean up after all tests are done, preventing this
+  // interception layer from affecting irrelevant tests.
+  server.close();
+});
+
+function flushPromises() {
+  return new Promise((resolve) => setImmediate(resolve));
+}
+
+let bq: FacebookBatchQueue;
+
+function setup(options = {}) {
+  bq = new FacebookBatchQueue({
+    accessToken: 'ACCESS_TOKEN',
+    appSecret: 'APP_SECRET',
+    ...options,
+  });
+
+  return {};
+}
+
+afterEach(() => {
+  bq.stop();
+});
+
+it('should push requests to queue', () => {
   setup();
 
-  queue.push(MessengerBatch.sendMessage('1412611362105802', image));
+  bq.push(requestItem);
 
-  expect(queue.queue).toHaveLength(1);
+  expect(bq.queue).toHaveLength(1);
 });
 
 it('should flush when length >= 50', async () => {
-  const { client } = setup();
-
-  const responses = Array(50)
-    .fill(0)
-    .map(() => ({
-      code: 200,
-      body: { data: [] },
-    }));
-
-  mocked(client.sendBatch).mockResolvedValue(responses);
+  setup();
 
   for (let i = 0; i < 49; i++) {
-    queue.push(MessengerBatch.sendText('1412611362105802', 'hello'));
-  }
-
-  queue.push(MessengerBatch.sendMessage('1412611362105802', image));
-
-  expect(client.sendBatch).toHaveBeenCalledTimes(1);
-  expect(mocked(client.sendBatch).mock.calls[0][0]).toHaveLength(50);
-
-  expect(mocked(client.sendBatch).mock.calls[0][0][49]).toEqual({
-    body: {
-      message: {
-        attachment: {
-          payload: {
-            url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
-          },
-          type: 'image',
-        },
-      },
-      messagingType: 'UPDATE',
-      recipient: { id: '1412611362105802' },
-    },
-    method: 'POST',
-    relativeUrl: 'me/messages',
-  });
-
-  expect(queue.queue).toHaveLength(0);
-});
-
-it('should flush with 1000 timeout', async () => {
-  const { client } = setup();
-
-  const responses = [
-    {
-      code: 200,
-      body: { data: [] },
-    },
-  ];
-
-  mocked(client.sendBatch).mockResolvedValue(responses);
-
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-
-  queue.push(MessengerBatch.sendMessage('1412611362105802', image));
-
-  expect(queue.queue).toHaveLength(1);
-
-  const fn = mocked(setTimeout).mock.calls[0][0];
-
-  await fn();
-
-  expect(client.sendBatch).toHaveBeenCalledTimes(1);
-  expect(mocked(client.sendBatch).mock.calls[0][0]).toEqual([
-    {
-      body: {
-        message: {
-          attachment: {
-            payload: {
-              url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
-            },
-            type: 'image',
-          },
-        },
-        messagingType: 'UPDATE',
-        recipient: { id: '1412611362105802' },
-      },
+    bq.push({
       method: 'POST',
       relativeUrl: 'me/messages',
+      body: {
+        messagingType: 'UPDATE',
+        message: {
+          text: 'Hello',
+        },
+        recipient: {
+          id: USER_ID,
+        },
+      },
+    });
+  }
+
+  await bq.push(requestItem);
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body.batch).toHaveLength(50);
+  expect(currentReq!.body.batch[49]).toEqual({
+    method: 'POST',
+    relative_url: 'me/messages',
+    body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+  });
+
+  expect(bq.queue).toHaveLength(0);
+});
+
+it('should flush with 1 second timeout by default', async () => {
+  setup();
+
+  bq.push(requestItem);
+
+  expect(bq.queue).toHaveLength(1);
+
+  jest.advanceTimersByTime(1000);
+  await flushPromises();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body).toEqual({
+    access_token: 'ACCESS_TOKEN',
+    app_secret_proof:
+      'a727796e1b4e9053916f82f7a0b90f240862b289bb3c9ac5ff6e2231e18a491c',
+    batch: [
+      {
+        method: 'POST',
+        relative_url: 'me/messages',
+        body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+      },
+    ],
+    include_headers: true,
+  });
+});
+
+it('should not send batch when no items in queue', async () => {
+  setup();
+
+  expect(bq.queue).toHaveLength(0);
+
+  jest.advanceTimersByTime(1000);
+  await flushPromises();
+
+  expect(currentReq).not.toBeDefined();
+});
+
+it('should reset timer after flushing', async () => {
+  setup();
+
+  bq.push(requestItem);
+
+  await bq.flush();
+
+  bq.push(requestItem);
+
+  expect(bq.queue).toHaveLength(1);
+
+  jest.advanceTimersByTime(1000);
+  await flushPromises();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body.batch).toEqual([
+    {
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
     },
   ]);
 });
 
-it('should not send batch when with empty array', async () => {
-  const { client } = setup();
+it('should throw error includes request and response', async () => {
+  setup();
 
-  const responses = [
-    {
-      code: 200,
-      body: { data: [] },
-    },
-  ];
+  server.use(
+    rest.post<{ batch: any[] }>(
+      'https://graph.facebook.com/:version/',
+      (req, res, ctx) => {
+        currentReq = req;
+        return res(
+          ctx.json([
+            {
+              code: 400,
+              body: JSON.stringify({
+                error: {
+                  message:
+                    '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+                },
+              }),
+            },
+          ])
+        );
+      }
+    )
+  );
 
-  mocked(client.sendBatch).mockResolvedValue(responses);
+  const promise = bq.push(requestItem);
 
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-
-  const fn = mocked(setTimeout).mock.calls[0][0];
-
-  await fn();
-
-  expect(client.sendBatch).not.toBeCalled();
-});
-
-it('should reset timeout when flush', async () => {
-  const { client, timeout } = setup();
-
-  const responses = Array(50)
-    .fill(0)
-    .map(() => ({
-      code: 200,
-      body: { data: [] },
-    }));
-
-  mocked(client.sendBatch).mockResolvedValue(responses);
-
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-
-  for (let i = 0; i < 49; i++) {
-    queue.push(MessengerBatch.sendText('1412611362105802', 'hello'));
-  }
-
-  queue.push(MessengerBatch.sendMessage('1412611362105802', image));
-
-  expect(clearTimeout).toHaveBeenCalledTimes(1);
-  expect(clearTimeout).toHaveBeenLastCalledWith(timeout);
-  expect(setTimeout).toHaveBeenCalledTimes(2);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-});
-
-it('should throw request and response', async () => {
-  const { client } = setup();
-
-  const responses = [
-    {
-      code: 400,
-      body: {
-        error: {
-          message:
-            '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
-        },
-      },
-    },
-  ];
-
-  mocked(client.sendBatch).mockResolvedValue(responses);
+  jest.advanceTimersByTime(1000);
 
   let error: BatchRequestError | undefined;
-
-  queue
-    .push(MessengerBatch.sendMessage('1412611362105802', image))
-    .catch((err) => {
-      error = err;
-    });
-
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-
-  const fn = mocked(setTimeout).mock.calls[0][0];
-
-  await fn();
+  try {
+    await promise;
+  } catch (err) {
+    error = err as BatchRequestError;
+  }
 
   expect(error).toBeDefined();
   expect(error!.request).toEqual({
-    body: {
-      message: {
-        attachment: {
-          payload: {
-            url: 'https://cdn.free.com.tw/blog/wp-content/uploads/2014/08/Placekitten480-g.jpg',
-          },
-          type: 'image',
-        },
-      },
-      messagingType: 'UPDATE',
-      recipient: { id: '1412611362105802' },
-    },
     method: 'POST',
     relativeUrl: 'me/messages',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
   });
   expect(error!.response).toEqual({
+    code: 400,
     body: {
       error: {
         message:
           '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
       },
     },
-    code: 400,
   });
 });
 
-it('should support delay option', async () => {
-  const { client } = setup({ delay: 500 });
+it('should support custom delay', async () => {
+  setup({
+    delay: 3000,
+  });
 
-  const responses = [
+  bq.push(requestItem);
+
+  expect(bq.queue).toHaveLength(1);
+
+  jest.advanceTimersByTime(1000);
+  await flushPromises();
+
+  expect(currentReq).not.toBeDefined();
+
+  jest.advanceTimersByTime(2000);
+  await flushPromises();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body.batch).toEqual([
     {
-      code: 200,
-      body: { data: [] },
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
     },
-  ];
-
-  mocked(client.sendBatch).mockResolvedValue(responses);
-
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
+  ]);
 });
 
-it('should support retryTimes option', async () => {
-  const { client } = setup({ retryTimes: 3 });
+it('should support retryTimes', async () => {
+  setup({ retryTimes: 2 });
 
-  const responses = [
-    {
-      code: 400,
-      body: {
-        error: {
-          message:
-            '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
-        },
-      },
-    },
-  ];
+  let count = 0;
+  server.use(
+    rest.post<{ batch: any[] }>(
+      'https://graph.facebook.com/:version/',
+      (req, res, ctx) => {
+        currentReq = req;
+        count += 1;
+        return res(
+          ctx.json([
+            {
+              code: 400,
+              body: JSON.stringify({
+                error: {
+                  message:
+                    '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+                },
+              }),
+            },
+          ])
+        );
+      }
+    )
+  );
 
-  mocked(client.sendBatch).mockResolvedValue(responses);
+  const promise = bq.push(requestItem);
+
+  expect(bq.queue).toHaveLength(1);
+
+  await bq.flush();
+  await bq.flush();
+  await bq.flush();
 
   let error: BatchRequestError | undefined;
-  queue
-    .push(MessengerBatch.sendMessage('1412611362105802', image))
-    .catch((err) => {
-      error = err;
-    });
+  try {
+    await promise;
+  } catch (err) {
+    error = err as BatchRequestError;
+  }
 
-  const fn = mocked(setTimeout).mock.calls[0][0];
-
-  await fn();
-  expect(error).not.toBeDefined();
-
-  await fn();
-  expect(error).not.toBeDefined();
-
-  await fn();
-  expect(error).not.toBeDefined();
-
-  await fn();
   expect(error).toBeDefined();
+  expect(error!.request).toEqual({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+  expect(error!.response).toEqual({
+    code: 400,
+    body: {
+      error: {
+        message:
+          '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+      },
+    },
+  });
+
+  expect(count).toBe(3);
+  expect(bq.queue).toHaveLength(0);
 });
 
-it('should support shouldRetry option', async () => {
-  const { client } = setup({
+it('should support shouldRetry', async () => {
+  setup({
     retryTimes: 1,
     shouldRetry: isError613,
   });
 
-  const responses = [
-    {
-      code: 400,
-      body: {
-        error: {
-          message:
-            '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
-        },
-      },
-    },
-    {
-      code: 400,
-      body: {
-        error: {
-          message: '(#613) Calls to this api have exceeded the rate limit.',
-        },
-      },
-    },
-  ];
+  server.use(
+    rest.post<{ batch: any[] }>(
+      'https://graph.facebook.com/:version/',
+      (req, res, ctx) => {
+        currentReq = req;
+        return res(
+          ctx.json([
+            {
+              code: 400,
+              body: JSON.stringify({
+                error: {
+                  message:
+                    '(#100) Param recipient[id] must be a valid ID string (e.g., "123")',
+                },
+              }),
+            },
+            {
+              code: 400,
+              body: JSON.stringify({
+                error: {
+                  message:
+                    '(#613) Calls to this api have exceeded the rate limit.',
+                },
+              }),
+            },
+          ])
+        );
+      }
+    )
+  );
 
-  mocked(client.sendBatch).mockResolvedValue(responses);
+  const promise1 = bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello 1',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+
+  const promise2 = bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello 2',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+
+  expect(bq.queue).toHaveLength(2);
+
+  await bq.flush();
 
   let error1: BatchRequestError | undefined;
-  const request1 = MessengerBatch.sendMessage('1412611362105802', image);
+  try {
+    await promise1;
+  } catch (err) {
+    error1 = err as BatchRequestError;
+  }
 
-  queue.push(request1).catch((err: BatchRequestError) => {
-    error1 = err;
-  });
+  expect(bq.queue).toHaveLength(1);
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body.batch).toEqual([
+    {
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%201%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+    },
+    {
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%202%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+    },
+  ]);
+  expect(error1).toBeDefined();
+
+  await bq.flush();
 
   let error2: BatchRequestError | undefined;
-  const request2 = MessengerBatch.sendMessage('1412611362105802', image);
+  try {
+    await promise2;
+  } catch (err) {
+    error2 = err as BatchRequestError;
+  }
 
-  queue.push(request2).catch((err: BatchRequestError) => {
-    error2 = err;
-  });
-
-  expect(queue.queue).toHaveLength(2);
-
-  const fn = mocked(setTimeout).mock.calls[0][0];
-
-  await fn();
-
-  expect(queue.queue).toHaveLength(1);
-  expect(client.sendBatch).toHaveBeenCalledTimes(1);
-  expect(mocked(client.sendBatch).mock.calls[0][0]).toHaveLength(2);
-  expect(mocked(client.sendBatch).mock.calls[0][0][0]).toBe(request1);
-  expect(mocked(client.sendBatch).mock.calls[0][0][1]).toBe(request2);
-  expect(error1).toBeDefined();
-  expect(error2).not.toBeDefined();
-
-  await fn();
-  expect(queue.queue).toHaveLength(0);
-  expect(client.sendBatch).toHaveBeenCalledTimes(2);
-  expect(mocked(client.sendBatch).mock.calls[1][0]).toHaveLength(1);
-  expect(mocked(client.sendBatch).mock.calls[1][0][0]).toBe(request2);
-
+  expect(bq.queue).toHaveLength(0);
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body.batch).toEqual([
+    {
+      method: 'POST',
+      relative_url: 'me/messages',
+      body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%202%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+    },
+  ]);
   expect(error2).toBeDefined();
 });
 
-it('should reject every promise when call batch failed', async () => {
-  const { client } = setup();
+it('should reject every promises when call batch failed', async () => {
+  setup();
 
-  mocked(client.sendBatch).mockImplementation(() => {
-    throw new Error('boom');
+  server.use(
+    rest.post('https://graph.facebook.com/:version/', (req, res, ctx) => {
+      currentReq = req;
+      return res(ctx.status(500));
+    })
+  );
+
+  const promise1 = bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello 1',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
   });
+
+  const promise2 = bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello 2',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+
+  expect(bq.queue).toHaveLength(2);
+
+  await bq.flush();
 
   let error1: BatchRequestError | undefined;
-  const request1 = MessengerBatch.sendMessage('1412611362105802', image);
-
-  queue.push(request1).catch((err: BatchRequestError) => {
-    error1 = err;
-  });
+  try {
+    await promise1;
+  } catch (err) {
+    error1 = err as BatchRequestError;
+  }
 
   let error2: BatchRequestError | undefined;
-  const request2 = MessengerBatch.sendMessage('1412611362105802', image);
-
-  queue.push(request2).catch((err: BatchRequestError) => {
-    error2 = err;
-  });
-
-  const fn = mocked(setTimeout).mock.calls[0][0];
-
-  await fn();
+  try {
+    await promise2;
+  } catch (err) {
+    error2 = err as BatchRequestError;
+  }
 
   expect(error1).toBeDefined();
   expect(error2).toBeDefined();
+});
+
+it('should support version', async () => {
+  setup({ version: '10.0' });
+
+  bq.push(requestItem);
+
+  await bq.flush();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.params.version).toEqual('v10.0');
+});
+
+it('should support origin', async () => {
+  setup({ origin: 'https://mydummytestserver.com' });
+
+  server.use(
+    rest.post('*', (req, res, ctx) => {
+      currentReq = req;
+      return res(
+        ctx.json([
+          {
+            code: 200,
+            body: JSON.stringify({
+              recipient_id: USER_ID,
+              message_id: 'mid.1489394984387:3dd22de509',
+            }),
+          },
+        ])
+      );
+    })
+  );
+
+  bq.push(requestItem);
+
+  await bq.flush();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.url.href).toBe('https://mydummytestserver.com/v12.0/');
+});
+
+it('should support includeHeaders', async () => {
+  setup({ includeHeaders: true });
+
+  bq.push(requestItem);
+
+  await bq.flush();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body.include_headers).toBe(true);
+});
+
+it('should support batch-level appsecret_proof when access_token exists in query', async () => {
+  setup({ includeHeaders: true });
+
+  bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages?access_token=BATCH_LEVEL_TOKEN',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+
+  await bq.flush();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body).toEqual({
+    access_token: 'ACCESS_TOKEN',
+    app_secret_proof:
+      'a727796e1b4e9053916f82f7a0b90f240862b289bb3c9ac5ff6e2231e18a491c',
+    batch: [
+      {
+        body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+        method: 'POST',
+        relative_url:
+          'me/messages?access_token=BATCH_LEVEL_TOKEN&appsecret_proof=60c91e2c579aee9fa535ff377fb4c4fc060badd16d0e74bfb2e5e5e317dfe052',
+      },
+    ],
+    include_headers: true,
+  });
+});
+
+it('should support batch-level appsecret_proof when access_token exists in body', async () => {
+  setup({ includeHeaders: false });
+
+  bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      accessToken: 'BATCH_LEVEL_TOKEN',
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+
+  await bq.flush();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body).toEqual({
+    access_token: 'ACCESS_TOKEN',
+    app_secret_proof:
+      'a727796e1b4e9053916f82f7a0b90f240862b289bb3c9ac5ff6e2231e18a491c',
+    batch: [
+      {
+        body: 'access_token=BATCH_LEVEL_TOKEN&messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+        method: 'POST',
+        relative_url:
+          'me/messages?appsecret_proof=60c91e2c579aee9fa535ff377fb4c4fc060badd16d0e74bfb2e5e5e317dfe052',
+      },
+    ],
+    include_headers: false,
+  });
+});
+
+it('should support skipAppSecretProof', async () => {
+  setup({ skipAppSecretProof: true });
+
+  bq.push(requestItem);
+  bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages?access_token=BATCH_LEVEL_TOKEN',
+    body: {
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+  bq.push({
+    method: 'POST',
+    relativeUrl: 'me/messages',
+    body: {
+      accessToken: 'BATCH_LEVEL_TOKEN',
+      messagingType: 'UPDATE',
+      message: {
+        text: 'Hello',
+      },
+      recipient: {
+        id: USER_ID,
+      },
+    },
+  });
+
+  await bq.flush();
+
+  expect(currentReq).toBeDefined();
+  expect(currentReq!.body).toEqual({
+    access_token: 'ACCESS_TOKEN',
+    batch: [
+      {
+        body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+        method: 'POST',
+        relative_url: 'me/messages',
+      },
+      {
+        body: 'messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+        method: 'POST',
+        relative_url: 'me/messages?access_token=BATCH_LEVEL_TOKEN',
+      },
+      {
+        body: 'access_token=BATCH_LEVEL_TOKEN&messaging_type=UPDATE&message=%7B%22text%22%3A%22Hello%22%7D&recipient=%7B%22id%22%3A%22USER_ID%22%7D',
+        method: 'POST',
+        relative_url: 'me/messages',
+      },
+    ],
+    include_headers: true,
+  });
+});
+
+it('should support onRequest', async () => {
+  const onRequest = jest.fn();
+
+  setup({ onRequest });
+
+  bq.push(requestItem);
+
+  await bq.flush();
+
+  expect(onRequest).toBeCalledWith({
+    method: 'post',
+    url: 'https://graph.facebook.com/v12.0/me/messages',
+    body: {
+      message: {
+        text: 'Hello',
+      },
+      messaging_type: 'UPDATE',
+      recipient: {
+        id: 'USER_ID',
+      },
+    },
+    headers: {},
+  });
 });

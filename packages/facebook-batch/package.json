@@ -10,7 +10,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "messaging-api-messenger": "file:../messaging-api-messenger",
+    "@types/append-query": "^2.0.1",
+    "@types/lodash": "^4.14.177",
+    "append-query": "^2.1.1",
+    "axios": "^0.24.0",
+    "lodash": "^4.17.21",
+    "messaging-api-common": "file:../messaging-api-common",
+    "ts-invariant": "^0.9.3",
     "type-fest": "^2.5.0"
   },
   "keywords": [

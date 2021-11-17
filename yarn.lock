@@ -1661,7 +1661,7 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@types/append-query@^2.0.0":
+"@types/append-query@^2.0.0", "@types/append-query@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/append-query/-/append-query-2.0.1.tgz#06ee71ce0a634757a26a6da22872b6b0c2067195"
   integrity sha512-L/RxncHj5Wh8B0A5yGTYQbCu+YVbrbtuPaemp/yrQCy1du/qYqEnQBgZoipeSYhTSJoTqRJGLqmnbUOn5iu0cQ==
@@ -1784,6 +1784,11 @@
   version "4.14.175"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.175.tgz#b78dfa959192b01fae0ad90e166478769b215f45"
   integrity sha512-XmdEOrKQ8a1Y/yxQFOMbC47G/V2VDO1GvMRnl4O75M4GW/abC5tnfzadQYkqEveqRM1dEJGFFegfPNA2vvx2iw==
+
+"@types/lodash@^4.14.177":
+  version "4.14.177"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.177.tgz#f70c0d19c30fab101cad46b52be60363c43c4578"
+  integrity sha512-0fDwydE2clKe9MNfvXHBHF9WEahRuj+msTuQqOmAApNORFvhMYZKNGGJdCzuhheVjMps/ti0Ak/iJPACMaevvw==
 
 "@types/minimatch@^3.0.3":
   version "3.0.5"
@@ -2099,7 +2104,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-append-query@^2.1.0:
+append-query@^2.1.0, append-query@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/append-query/-/append-query-2.1.1.tgz#0682e8c3ad6f2fa01e78153c4c73a6283d2a88f6"
   integrity sha512-adm0E8o1o7ay+HbkWvGIpNNeciLB/rxJ0heThHuzSSVq5zcdQ5/ZubFnUoY0imFmk6gZVghSpwoubLVtwi9EHQ==
@@ -2244,6 +2249,13 @@ axios@^0.21.1, axios@^0.21.4:
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
+  dependencies:
+    follow-redirects "^1.14.4"
 
 babel-jest@^27.3.1:
   version "27.3.1"
@@ -3630,6 +3642,11 @@ follow-redirects@^1.14.0:
   version "1.14.4"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
   integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
+
+follow-redirects@^1.14.4:
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.5.tgz#f09a5848981d3c772b5392309778523f8d85c381"
+  integrity sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==
 
 forever-agent@~0.6.1:
   version "0.6.1"
@@ -5419,21 +5436,6 @@ merge2@^1.3.0:
     snake-case "^3.0.3"
     type-fest "^2.5.0"
     url-join "^4.0.1"
-
-"messaging-api-messenger@file:packages/messaging-api-messenger":
-  version "1.1.0"
-  dependencies:
-    "@types/append-query" "^2.0.0"
-    "@types/lodash" "^4.14.156"
-    "@types/qs" "^6.9.7"
-    append-query "^2.1.0"
-    axios "^0.21.1"
-    axios-error "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-4bfa975e-2f8c-42a6-b157-11612b67a4b7-1636737761856/node_modules/axios-error"
-    form-data "^3.0.0"
-    lodash "^4.17.15"
-    messaging-api-common "file:../../../Library/Caches/Yarn/v6/npm-messaging-api-messenger-1.1.0-4bfa975e-2f8c-42a6-b157-11612b67a4b7-1636737761856/node_modules/messaging-api-common"
-    qs "^6.10.1"
-    ts-invariant "^0.9.3"
 
 micromatch@^4.0.4:
   version "4.0.4"

@@ -1,4 +1,5 @@
 import { JsonObject } from 'type-fest';
+import { OnRequestFunction } from 'messaging-api-common';
 
 export type BatchRequestOptions = {
   name?: string;
@@ -45,4 +46,39 @@ export type BatchConfig = {
   shouldRetry?: (err: BatchRequestErrorInfo) => boolean;
   retryTimes?: number;
   includeHeaders?: boolean;
+};
+
+export type ClientConfig = {
+  accessToken: string;
+  appId?: string;
+  appSecret?: string;
+  version?: string;
+  origin?: string;
+  onRequest?: OnRequestFunction;
+  skipAppSecretProof?: boolean;
+};
+
+export type BatchRequestItem = {
+  method: string;
+  relativeUrl: string;
+  name?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  body?: Record<string, any>;
+  dependsOn?: string;
+  omitResponseOnSuccess?: boolean;
+  responseAccessPath?: string;
+};
+
+export type BatchResponseBeforeParse = {
+  code: number;
+  headers?: { name: string; value: string }[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  body: string;
+};
+
+export type BatchResponseItem = {
+  code: number;
+  headers?: { name: string; value: string }[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  body: Record<string, any>;
 };

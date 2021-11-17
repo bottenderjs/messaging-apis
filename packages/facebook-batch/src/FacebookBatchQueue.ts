@@ -1,5 +1,18 @@
-import { JsonValue } from 'type-fest';
-import { MessengerClient, MessengerTypes } from 'messaging-api-messenger';
+import crypto from 'crypto';
+import url from 'url';
+
+import appendQuery from 'append-query';
+import axios, { Method } from 'axios';
+import get from 'lodash/get';
+import invariant from 'ts-invariant';
+import omit from 'lodash/omit';
+import { JsonValue, SnakeCasedPropertiesDeep } from 'type-fest';
+import {
+  OnRequestFunction,
+  camelcaseKeysDeep,
+  snakecaseKeys,
+  snakecaseKeysDeep,
+} from 'messaging-api-common';
 
 import BatchRequestError from './BatchRequestError';
 import {
@@ -7,6 +20,10 @@ import {
   BatchErrorResponse,
   BatchRequest,
   BatchRequestErrorInfo,
+  BatchRequestItem,
+  BatchResponseBeforeParse,
+  BatchResponseItem,
+  ClientConfig,
   QueueItem,
 } from './types';
 
@@ -14,13 +31,45 @@ const MAX_BATCH_SIZE = 50;
 
 const alwaysTrue = (): true => true;
 
+function extractVersion(version: string): string {
+  if (version.startsWith('v')) {
+    return version.slice(1);
+  }
+  return version;
+}
+
 export default class FacebookBatchQueue {
   /**
    * The queue to store facebook requests.
    */
-  readonly queue: QueueItem[];
+  public readonly queue: QueueItem[];
 
-  private client: MessengerClient;
+  /**
+   * The version of the Facebook Graph API.
+   */
+  private version: string;
+
+  /**
+   * The access token used by the client.
+   */
+  private accessToken: string;
+
+  /**
+   * The app secret used by the client.
+   */
+  private appSecret?: string;
+
+  /**
+   * The origin used by the client.
+   */
+  private origin: string;
+
+  /**
+   * The callback to be called when receiving requests.
+   */
+  private onRequest?: OnRequestFunction;
+
+  private skipAppSecretProof: boolean;
 
   private delay: number;
 
@@ -34,30 +83,30 @@ export default class FacebookBatchQueue {
 
   /**
    *
-   * @param client - A MessengerClient or FacebookClient instance.
    * @param options - Optional batch config.
-   *
    * @example
-   *
    * ```js
    * const client = new MessengerClient();
    * new FacebookBatchQueue(client);
    *
    * new FacebookBatchQueue(client, {
+   *   accessToken: '<ACCESS_TOKEN>',
+   *   appSecret: '<APP_SECRET>',
    *   delay: 3000,
    *   shouldRetry: () => true,
    *   retryTimes: 3,
    * });
    * ```
    */
-  constructor(
-    clientConfig: MessengerTypes.ClientConfig,
-    options: BatchConfig = {}
-  ) {
+  constructor(options: ClientConfig & BatchConfig) {
     this.queue = [];
 
-    // TODO: we use messenger client here for now, but maybe we will replace it with some facebook base client
-    this.client = new MessengerClient(clientConfig);
+    this.version = extractVersion(options.version ?? '12.0');
+    this.accessToken = options.accessToken;
+    this.origin = options.origin ?? 'https://graph.facebook.com';
+    this.appSecret = options.appSecret;
+    this.skipAppSecretProof = options.skipAppSecretProof ?? false;
+    this.onRequest = options.onRequest;
     this.delay = options.delay ?? 1000;
     this.shouldRetry = options.shouldRetry ?? alwaysTrue;
     this.retryTimes = options.retryTimes ?? 0;
@@ -71,9 +120,7 @@ export default class FacebookBatchQueue {
    *
    * @param request - The request to be queued.
    * @returns A promise resolves the response of the request.
-   *
    * @example
-   *
    * ```js
    * await bq.push({
    *   method: 'POST',
@@ -109,7 +156,6 @@ export default class FacebookBatchQueue {
    * This queue has a timer to flush items at a time interval, so normally you don't need to call this method.
    *
    * @example
-   *
    * ```js
    * await bq.flush();
    * ```
@@ -123,12 +169,7 @@ export default class FacebookBatchQueue {
     if (items.length < 1) return;
 
     try {
-      const responses = await this.client.sendBatch(
-        items.map((item) => item.request),
-        {
-          includeHeaders: this.includeHeaders,
-        }
-      );
+      const responses = await this.sendBatch(items.map((item) => item.request));
 
       items.forEach(({ request, resolve, reject, retry = 0 }, i) => {
         const response = responses[i];
@@ -163,12 +204,145 @@ export default class FacebookBatchQueue {
    * Stops the internal timer.
    *
    * @example
-   *
    * ```js
    * bq.stop();
    * ```
    */
   stop(): void {
     clearTimeout(this.timeout);
+  }
+
+  /**
+   * Sends multiple requests in a batch.
+   *
+   * @param requests - Subrequests in the batch.
+   * @returns An array of batch results
+   * @see https://developers.facebook.com/docs/graph-api/batch-requests
+   */
+  private async sendBatch(
+    reqItems: BatchRequestItem[]
+  ): Promise<BatchResponseItem[]> {
+    invariant(
+      reqItems.length <= 50,
+      'limit the number of requests which can be in a batch to 50'
+    );
+
+    const responseAccessPaths = reqItems.map((item) => item.responseAccessPath);
+
+    const omitResponseAccessPath = (item: BatchRequestItem) =>
+      omit(item, 'responseAccessPath');
+
+    // https://developers.facebook.com/docs/graph-api/security/
+    const addAppSecretProof = (item: BatchRequestItem) => {
+      if (this.skipAppSecretProof || !this.appSecret) return item;
+
+      // add batch-level app secret proof
+      const urlParts = url.parse(item.relativeUrl, true);
+      const accessToken =
+        get(urlParts, 'query.access_token') || get(item, 'body.accessToken');
+
+      if (accessToken) {
+        const appSecretProof = crypto
+          .createHmac('sha256', this.appSecret)
+          .update(accessToken, 'utf8')
+          .digest('hex');
+        return {
+          ...item,
+          relativeUrl: appendQuery(item.relativeUrl, {
+            appsecret_proof: appSecretProof,
+          }),
+        };
+      }
+
+      return item;
+    };
+
+    const toSnakeCase = (item: BatchRequestItem) => snakecaseKeysDeep(item);
+
+    const encodeBody = (item: SnakeCasedPropertiesDeep<BatchRequestItem>) => {
+      const { body } = item;
+      if (!body) return item;
+
+      return {
+        ...item,
+        body: Object.keys(body)
+          .map((key) => {
+            // @ts-ignore see https://github.com/sindresorhus/type-fest/pull/320
+            const val = body[key];
+            return `${encodeURIComponent(key)}=${encodeURIComponent(
+              typeof val === 'object' ? JSON.stringify(val) : val
+            )}`;
+          })
+          .join('&'),
+      };
+    };
+
+    const baseUrl = `${this.origin}/v${this.version}/`;
+
+    const preparedBatch = reqItems
+      .map(omitResponseAccessPath)
+      .map(addAppSecretProof)
+      .map(toSnakeCase)
+      .map((item) => {
+        try {
+          if (this.onRequest) {
+            this.onRequest({
+              method: item.method.toLowerCase() as Method,
+              url: baseUrl + item.relative_url,
+              body: item.body,
+              headers: {},
+            });
+          }
+          // eslint-disable-next-line no-empty
+        } catch {}
+
+        return item;
+      })
+      .map(encodeBody);
+
+    // add top-level app secret proof
+    let appSecretProof;
+    if (!this.skipAppSecretProof && this.appSecret) {
+      appSecretProof = crypto
+        .createHmac('sha256', this.appSecret)
+        .update(this.accessToken, 'utf8')
+        .digest('hex');
+    }
+
+    const { data } = await axios.post(
+      baseUrl,
+      snakecaseKeys({
+        accessToken: this.accessToken,
+        includeHeaders: this.includeHeaders,
+        batch: preparedBatch,
+        ...(appSecretProof ? { appSecretProof } : undefined),
+      })
+    );
+
+    const parseBody = (item: BatchResponseBeforeParse) => {
+      if (!item.body) return item;
+
+      return {
+        ...item,
+        body: JSON.parse(item.body),
+      };
+    };
+
+    const toCamelCase = (item: BatchResponseItem) => camelcaseKeysDeep(item);
+
+    return data
+      .map(parseBody)
+      .map(toCamelCase)
+      .map((item: BatchResponseItem, index: number) => {
+        if (!item.body) return item;
+
+        const responseAccessPath = responseAccessPaths[index];
+        return {
+          ...item,
+          body: responseAccessPath
+            ? get(item.body, responseAccessPath)
+            : item.body,
+        };
+      });
   }
 }
