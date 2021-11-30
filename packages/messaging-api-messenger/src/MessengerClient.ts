@@ -2501,7 +2501,7 @@ export default class MessengerClient {
   getInsights(
     metrics: MessengerTypes.InsightMetric[],
     options: MessengerTypes.InsightOptions = {}
-  ) {
+  ): Promise<any> {
     return this.axios
       .get(
         `/me/insights/?${qs.stringify({
@@ -2540,7 +2540,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getBlockedConversations(options: MessengerTypes.InsightOptions): Promise<{
+  getBlockedConversations(options?: MessengerTypes.InsightOptions): Promise<{
     name: 'page_messages_blocked_conversations_unique';
     period: 'day';
     values: {
@@ -2581,7 +2581,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getReportedConversations(options: MessengerTypes.InsightOptions): Promise<{
+  getReportedConversations(options?: MessengerTypes.InsightOptions): Promise<{
     name: 'page_messages_reported_conversations_unique';
     period: 'day';
     values: {
@@ -2622,7 +2622,7 @@ export default class MessengerClient {
    * ```
    */
   getTotalMessagingConnections(
-    options: MessengerTypes.InsightOptions
+    options?: MessengerTypes.InsightOptions
   ): Promise<{
     name: 'page_messages_total_messaging_connections';
     period: 'day';
@@ -2663,7 +2663,7 @@ export default class MessengerClient {
    * // }
    * ```
    */
-  getNewConversations(options: MessengerTypes.InsightOptions): Promise<{
+  getNewConversations(options?: MessengerTypes.InsightOptions): Promise<{
     name: 'page_messages_new_conversations_unique';
     period: 'day';
     values: {
@@ -2694,7 +2694,6 @@ export default class MessengerClient {
    * await messenger.setNLPConfigs({ nlpEnabled: true });
    * ```
    */
-  // FIXME: [type] return type
   setNLPConfigs(config: MessengerTypes.MessengerNLPConfig = {}): Promise<any> {
     return this.axios
       .post(
@@ -2719,7 +2718,6 @@ export default class MessengerClient {
    * await messenger.enableNLP();
    * ```
    */
-  // FIXME: [type] return type
   enableNLP(): Promise<any> {
     return this.setNLPConfigs({ nlpEnabled: true });
   }
@@ -2735,7 +2733,6 @@ export default class MessengerClient {
    * await messenger.disableNLP();
    * ```
    */
-  // FIXME: [type] return type
   disableNLP(): Promise<any> {
     return this.setNLPConfigs({ nlpEnabled: false });
   }

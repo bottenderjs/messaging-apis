@@ -3,6 +3,7 @@ import { SetupServerApi, setupServer } from 'msw/node';
 
 import { getCurrentContext } from './shared';
 import { requestHandlers as handoverRequestHandlers } from './handover';
+import { requestHandlers as insightsRequestHandlers } from './insights';
 import { requestHandlers as messageRequestHandlers } from './message';
 import { requestHandlers as personaRequestHandlers } from './persona';
 import { requestHandlers as profileRequestHandlers } from './profile';
@@ -17,7 +18,8 @@ export function setupMessengerServer(): SetupServerApi {
     ...messageRequestHandlers,
     ...handoverRequestHandlers,
     ...profileRequestHandlers,
-    ...personaRequestHandlers
+    ...personaRequestHandlers,
+    ...insightsRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {
