@@ -4,6 +4,7 @@ import { SetupServerApi, setupServer } from 'msw/node';
 import { getCurrentContext } from './shared';
 import { requestHandlers as handoverRequestHandlers } from './handover';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as personaRequestHandlers } from './persona';
 import { requestHandlers as profileRequestHandlers } from './profile';
 
 /**
@@ -15,7 +16,8 @@ export function setupMessengerServer(): SetupServerApi {
   const server = setupServer(
     ...messageRequestHandlers,
     ...handoverRequestHandlers,
-    ...profileRequestHandlers
+    ...profileRequestHandlers,
+    ...personaRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {
