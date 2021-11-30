@@ -1,344 +1,33 @@
-import MockAdapter from 'axios-mock-adapter';
+import { rest } from 'msw';
 
 import { MessengerClient } from '..';
 
-const ACCESS_TOKEN = '1234567890';
-const USER_ID = 'abcdefg';
+import {
+  constants,
+  getCurrentContext,
+  setupMessengerServer,
+} from './testing-library';
 
-let axios;
-let _create;
-beforeEach(() => {
-  axios = require('axios');
-  _create = axios.create;
-});
+const messengerServer = setupMessengerServer();
 
-afterEach(() => {
-  axios.create = _create;
-});
-
-const createMock = (): { client: MessengerClient; mock: MockAdapter } => {
-  const client = new MessengerClient({
-    accessToken: ACCESS_TOKEN,
-  });
-  const mock = new MockAdapter(client.axios);
-  return { client, mock };
-};
-
-describe('messenger profile', () => {
-  describe('#getMessengerProfile', () => {
-    it('should respond data of messenger profile', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [
-          {
-            get_started: {
-              payload: 'GET_STARTED',
-            },
-          },
-          {
-            persistent_menu: [
-              {
-                locale: 'default',
-                composer_input_disabled: true,
-                call_to_actions: [
-                  {
-                    type: 'postback',
-                    title: 'Restart Conversation',
-                    payload: 'RESTART',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getMessengerProfile([
-        'get_started',
-        'persistent_menu',
-      ]);
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=get_started,persistent_menu&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual([
-        {
-          getStarted: {
-            payload: 'GET_STARTED',
-          },
-        },
-        {
-          persistentMenu: [
-            {
-              locale: 'default',
-              composerInputDisabled: true,
-              callToActions: [
-                {
-                  type: 'postback',
-                  title: 'Restart Conversation',
-                  payload: 'RESTART',
-                },
-              ],
-            },
-          ],
-        },
-      ]);
-    });
+it('should support #getMessengerProfile', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#setMessengerProfile', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.getMessengerProfile([
+    'get_started',
+    'persistent_menu',
+  ]);
 
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setMessengerProfile({
-        getStarted: {
-          payload: 'GET_STARTED',
-        },
-        persistentMenu: [
-          {
-            locale: 'default',
-            composerInputDisabled: true,
-            callToActions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-            ],
-          },
-        ],
-      });
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        get_started: {
-          payload: 'GET_STARTED',
-        },
-        persistent_menu: [
-          {
-            locale: 'default',
-            composer_input_disabled: true,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-            ],
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteMessengerProfile', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.deleteMessengerProfile([
-        'get_started',
-        'persistent_menu',
-      ]);
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['get_started', 'persistent_menu'],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-});
-
-describe('get started button', () => {
-  describe('#getGetStarted', () => {
-    it('should respond data of get started', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [
-          {
-            get_started: {
-              payload: 'GET_STARTED',
-            },
-          },
-        ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getGetStarted();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual({
+  expect(res).toEqual([
+    {
+      getStarted: {
         payload: 'GET_STARTED',
-      });
-    });
-
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getGetStarted();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=get_started&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
-  });
-
-  describe('#setGetStarted', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setGetStarted('GET_STARTED');
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        get_started: {
-          payload: 'GET_STARTED',
-        },
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteGetStarted', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.deleteGetStarted();
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['get_started'],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-});
-
-describe('persistent menu', () => {
-  describe('#getPersistentMenu', () => {
-    it('should respond data of persistent menu', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [
-          {
-            persistent_menu: [
-              {
-                locale: 'default',
-                composer_input_disabled: true,
-                call_to_actions: [
-                  {
-                    type: 'postback',
-                    title: 'Restart Conversation',
-                    payload: 'RESTART',
-                  },
-                  {
-                    type: 'web_url',
-                    title: 'Powered by ALOHA.AI, Yoctol',
-                    url: 'https://www.yoctol.com/',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getPersistentMenu();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual([
+      },
+    },
+    {
+      persistentMenu: [
         {
           locale: 'default',
           composerInputDisabled: true,
@@ -348,56 +37,227 @@ describe('persistent menu', () => {
               title: 'Restart Conversation',
               payload: 'RESTART',
             },
-            {
-              type: 'web_url',
-              title: 'Powered by ALOHA.AI, Yoctol',
-              url: 'https://www.yoctol.com/',
-            },
           ],
         },
-      ]);
-    });
+      ],
+    },
+  ]);
 
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
+  const { request } = getCurrentContext();
 
-      const reply = {
-        data: [],
-      };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=get_started,persistent_menu&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getPersistentMenu();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=persistent_menu&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
+it('should support #setMessengerProfile', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#setPersistentMenu', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.setMessengerProfile({
+    getStarted: {
+      payload: 'GET_STARTED',
+    },
+    persistentMenu: [
+      {
+        locale: 'default',
+        composerInputDisabled: true,
+        callToActions: [
+          {
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+        ],
+      },
+    ],
+  });
 
-      const reply = {
-        result: 'success',
-      };
+  expect(res).toEqual({
+    result: 'success',
+  });
 
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+  const { request } = getCurrentContext();
 
-      const res = await client.setPersistentMenu([
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    get_started: {
+      payload: 'GET_STARTED',
+    },
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: true,
+        call_to_actions: [
+          {
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+        ],
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteMessengerProfile', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.deleteMessengerProfile([
+    'get_started',
+    'persistent_menu',
+  ]);
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['get_started', 'persistent_menu'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getGetStarted', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getGetStarted();
+
+  expect(res).toEqual({
+    payload: 'GET_STARTED',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=get_started&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getGetStarted to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/messenger_profile',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
+
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getGetStarted();
+
+  expect(res).toEqual(null);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=get_started&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setGetStarted', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.setGetStarted('GET_STARTED');
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    get_started: {
+      payload: 'GET_STARTED',
+    },
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteGetStarted', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.deleteGetStarted();
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['get_started'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getPersistentMenu', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getPersistentMenu();
+
+  expect(res).toEqual([
+    {
+      locale: 'default',
+      composerInputDisabled: true,
+      callToActions: [
         {
           type: 'postback',
           title: 'Restart Conversation',
@@ -408,268 +268,117 @@ describe('persistent menu', () => {
           title: 'Powered by ALOHA.AI, Yoctol',
           url: 'https://www.yoctol.com/',
         },
-      ]);
+      ],
+    },
+  ]);
 
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        persistent_menu: [
-          {
-            locale: 'default',
-            composer_input_disabled: false,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-              {
-                type: 'web_url',
-                title: 'Powered by ALOHA.AI, Yoctol',
-                url: 'https://www.yoctol.com/',
-              },
-            ],
-          },
-        ],
-      });
+  const { request } = getCurrentContext();
 
-      expect(res).toEqual(reply);
-    });
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=persistent_menu&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-    it('should respond success result if input is a full PersistentMenu, not MenuItem[]', async () => {
-      const { client, mock } = createMock();
+it('should support #getPersistentMenu to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/messenger_profile',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
 
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setPersistentMenu([
-        {
-          locale: 'default',
-          composerInputDisabled: false,
-          callToActions: [
-            {
-              type: 'postback',
-              title: 'Restart Conversation',
-              payload: 'RESTART',
-            },
-            {
-              type: 'web_url',
-              title: 'Powered by ALOHA.AI, Yoctol',
-              url: 'https://www.yoctol.com/',
-            },
-          ],
-        },
-      ]);
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        persistent_menu: [
-          {
-            locale: 'default',
-            composer_input_disabled: false,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-              {
-                type: 'web_url',
-                title: 'Powered by ALOHA.AI, Yoctol',
-                url: 'https://www.yoctol.com/',
-              },
-            ],
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should support disabled input', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const items = [
-        {
-          type: 'postback',
-          title: 'Restart Conversation',
-          payload: 'RESTART',
-        },
-      ];
-
-      const res = await client.setPersistentMenu(items, {
-        composerInputDisabled: true,
-      });
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        persistent_menu: [
-          {
-            locale: 'default',
-            composer_input_disabled: true,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-            ],
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#deletePersistentMenu', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.getPersistentMenu();
 
-      const reply = {
-        result: 'success',
-      };
+  expect(res).toEqual(null);
 
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+  const { request } = getCurrentContext();
 
-      const res = await client.deletePersistentMenu();
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=persistent_menu&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['persistent_menu'],
-      });
-
-      expect(res).toEqual(reply);
-    });
+it('should support #setPersistentMenu', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#getUserPersistentMenu', () => {
-    it('should respond data of persistent menu', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.setPersistentMenu([
+    {
+      type: 'postback',
+      title: 'Restart Conversation',
+      payload: 'RESTART',
+    },
+    {
+      type: 'web_url',
+      title: 'Powered by ALOHA.AI, Yoctol',
+      url: 'https://www.yoctol.com/',
+    },
+  ]);
 
-      const reply = {
-        data: [
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: false,
+        call_to_actions: [
           {
-            user_level_persistent_menu: [
-              {
-                locale: 'default',
-                composer_input_disabled: true,
-                call_to_actions: [
-                  {
-                    type: 'postback',
-                    title: 'Restart Conversation',
-                    payload: 'RESTART',
-                  },
-                  {
-                    type: 'web_url',
-                    title: 'Powered by ALOHA.AI, Yoctol',
-                    url: 'https://www.yoctol.com/',
-                  },
-                ],
-              },
-            ],
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+          {
+            type: 'web_url',
+            title: 'Powered by ALOHA.AI, Yoctol',
+            url: 'https://www.yoctol.com/',
           },
         ],
-      };
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getUserPersistentMenu(USER_ID);
-
-      expect(url).toEqual(
-        `/me/custom_user_settings?psid=${USER_ID}&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual([
-        {
-          locale: 'default',
-          composerInputDisabled: true,
-          callToActions: [
-            {
-              type: 'postback',
-              title: 'Restart Conversation',
-              payload: 'RESTART',
-            },
-            {
-              type: 'web_url',
-              title: 'Powered by ALOHA.AI, Yoctol',
-              url: 'https://www.yoctol.com/',
-            },
-          ],
-        },
-      ]);
-    });
-
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getUserPersistentMenu(USER_ID);
-
-      expect(url).toEqual(
-        `/me/custom_user_settings?psid=${USER_ID}&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
+it('should support #setPersistentMenu to respond success result if input is a full PersistentMenu, not MenuItem[]', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#setUserPersistentMenu', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setUserPersistentMenu(USER_ID, [
+  const res = await messenger.setPersistentMenu([
+    {
+      locale: 'default',
+      composerInputDisabled: false,
+      callToActions: [
         {
           type: 'postback',
           title: 'Restart Conversation',
@@ -680,694 +389,864 @@ describe('persistent menu', () => {
           title: 'Powered by ALOHA.AI, Yoctol',
           url: 'https://www.yoctol.com/',
         },
-      ]);
+      ],
+    },
+  ]);
 
-      expect(url).toEqual(
-        `/me/custom_user_settings?access_token=${ACCESS_TOKEN}`
-      );
-      expect(JSON.parse(data)).toEqual({
-        psid: USER_ID,
-        persistent_menu: [
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: false,
+        call_to_actions: [
           {
-            locale: 'default',
-            composer_input_disabled: false,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-              {
-                type: 'web_url',
-                title: 'Powered by ALOHA.AI, Yoctol',
-                url: 'https://www.yoctol.com/',
-              },
-            ],
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+          {
+            type: 'web_url',
+            title: 'Powered by ALOHA.AI, Yoctol',
+            url: 'https://www.yoctol.com/',
           },
         ],
-      });
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      expect(res).toEqual(reply);
-    });
+it('should support #setPersistentMenu with disabled input', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-    it('should respond success result if input is a full PersistentMenu, not MenuItem[]', async () => {
-      const { client, mock } = createMock();
+  const items = [
+    {
+      type: 'postback',
+      title: 'Restart Conversation',
+      payload: 'RESTART',
+    },
+  ];
 
-      const reply = {
-        result: 'success',
-      };
+  const res = await messenger.setPersistentMenu(items, {
+    composerInputDisabled: true,
+  });
 
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+  expect(res).toEqual({
+    result: 'success',
+  });
 
-      const res = await client.setUserPersistentMenu(USER_ID, [
-        {
-          locale: 'default',
-          composerInputDisabled: false,
-          callToActions: [
-            {
-              type: 'postback',
-              title: 'Restart Conversation',
-              payload: 'RESTART',
-            },
-            {
-              type: 'web_url',
-              title: 'Powered by ALOHA.AI, Yoctol',
-              url: 'https://www.yoctol.com/',
-            },
-          ],
-        },
-      ]);
+  const { request } = getCurrentContext();
 
-      expect(url).toEqual(
-        `/me/custom_user_settings?access_token=${ACCESS_TOKEN}`
-      );
-      expect(JSON.parse(data)).toEqual({
-        psid: USER_ID,
-        persistent_menu: [
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: true,
+        call_to_actions: [
           {
-            locale: 'default',
-            composer_input_disabled: false,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-              {
-                type: 'web_url',
-                title: 'Powered by ALOHA.AI, Yoctol',
-                url: 'https://www.yoctol.com/',
-              },
-            ],
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
           },
         ],
-      });
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      expect(res).toEqual(reply);
-    });
+it('should support #deletePersistentMenu', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-    it('should support disabled input', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.deletePersistentMenu();
 
-      const reply = {
-        result: 'success',
-      };
+  expect(res).toEqual({
+    result: 'success',
+  });
 
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+  const { request } = getCurrentContext();
 
-      const items = [
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['persistent_menu'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getUserPersistentMenu', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getUserPersistentMenu(constants.USER_ID);
+
+  expect(res).toEqual([
+    {
+      locale: 'default',
+      composerInputDisabled: true,
+      callToActions: [
         {
           type: 'postback',
           title: 'Restart Conversation',
           payload: 'RESTART',
         },
-      ];
+        {
+          type: 'web_url',
+          title: 'Powered by ALOHA.AI, Yoctol',
+          url: 'https://www.yoctol.com/',
+        },
+      ],
+    },
+  ]);
 
-      const res = await client.setUserPersistentMenu(USER_ID, items, {
-        composerInputDisabled: true,
-      });
+  const { request } = getCurrentContext();
 
-      expect(url).toEqual(
-        `/me/custom_user_settings?access_token=${ACCESS_TOKEN}`
-      );
-      expect(JSON.parse(data)).toEqual({
-        psid: USER_ID,
-        persistent_menu: [
-          {
-            locale: 'default',
-            composer_input_disabled: true,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-            ],
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteUserPersistentMenu', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.deleteUserPersistentMenu(USER_ID);
-
-      expect(url).toEqual(
-        `/me/custom_user_settings?psid=${USER_ID}&params=[%22persistent_menu%22]&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(reply);
-    });
-  });
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/custom_user_settings?psid=USER_ID&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('greeting', () => {
-  describe('#getGreeting', () => {
-    it('should respond data of greeting text', async () => {
-      const { client, mock } = createMock();
+it('should support #getUserPersistentMenu to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/custom_user_settings',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
 
-      const reply = {
-        data: [
-          {
-            greeting: [
-              {
-                locale: 'default',
-                text: 'Hello!',
-              },
-            ],
-          },
-        ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getGreeting();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual([
-        {
-          locale: 'default',
-          text: 'Hello!',
-        },
-      ]);
-    });
-
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getGreeting();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=greeting&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#setGreeting', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.getUserPersistentMenu(constants.USER_ID);
 
-      const reply = {
-        result: 'success',
-      };
+  expect(res).toEqual(null);
 
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
+  const { request } = getCurrentContext();
 
-      const res = await client.setGreeting('Hello!');
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        greeting: [
-          {
-            locale: 'default',
-            text: 'Hello!',
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-
-    it('should respond success result if input is multi-locale greetings', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setGreeting([
-        {
-          locale: 'default',
-          text: 'Hello!',
-        },
-        {
-          locale: 'zh_TW',
-          text: '哈囉！',
-        },
-      ]);
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        greeting: [
-          {
-            locale: 'default',
-            text: 'Hello!',
-          },
-          {
-            locale: 'zh_TW',
-            text: '哈囉！',
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteGreeting', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.deleteGreeting();
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['greeting'],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/custom_user_settings?psid=USER_ID&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('ice breakers', () => {
-  describe('#getIceBreakers', () => {
-    it('should respond data of ice breakers', async () => {
-      const { client, mock } = createMock();
+it('should support #setUserPersistentMenu', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-      const reply = {
-        data: [
+  const res = await messenger.setUserPersistentMenu(constants.USER_ID, [
+    {
+      type: 'postback',
+      title: 'Restart Conversation',
+      payload: 'RESTART',
+    },
+    {
+      type: 'web_url',
+      title: 'Powered by ALOHA.AI, Yoctol',
+      url: 'https://www.yoctol.com/',
+    },
+  ]);
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/custom_user_settings?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    psid: 'USER_ID',
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: false,
+        call_to_actions: [
           {
-            ice_breakers: [
-              {
-                question: 'Where are you located?',
-                payload: 'LOCATION_POSTBACK_PAYLOAD',
-              },
-              {
-                question: 'What are your hours?',
-                payload: 'HOURS_POSTBACK_PAYLOAD',
-              },
-            ],
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+          {
+            type: 'web_url',
+            title: 'Powered by ALOHA.AI, Yoctol',
+            url: 'https://www.yoctol.com/',
           },
         ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getIceBreakers();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual([
-        {
-          question: 'Where are you located?',
-          payload: 'LOCATION_POSTBACK_PAYLOAD',
-        },
-        {
-          question: 'What are your hours?',
-          payload: 'HOURS_POSTBACK_PAYLOAD',
-        },
-      ]);
-    });
-
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getIceBreakers();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=ice_breakers&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
+      },
+    ],
   });
-
-  describe('#setIceBreakers', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setIceBreakers([
-        {
-          question: 'Where are you located?',
-          payload: 'LOCATION_POSTBACK_PAYLOAD',
-        },
-        {
-          question: 'What are your hours?',
-          payload: 'HOURS_POSTBACK_PAYLOAD',
-        },
-      ]);
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        ice_breakers: [
-          {
-            question: 'Where are you located?',
-            payload: 'LOCATION_POSTBACK_PAYLOAD',
-          },
-          {
-            question: 'What are your hours?',
-            payload: 'HOURS_POSTBACK_PAYLOAD',
-          },
-        ],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteIceBreakers', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.deleteIceBreakers();
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['ice_breakers'],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('whitelisted domains', () => {
-  describe('#getWhitelistedDomains', () => {
-    it('should respond data of whitelisted domains', async () => {
-      const { client, mock } = createMock();
+it('should support #setUserPersistentMenu with full PersistentMenu, not MenuItem[]', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-      const reply = {
-        data: [
+  const res = await messenger.setUserPersistentMenu(constants.USER_ID, [
+    {
+      locale: 'default',
+      composerInputDisabled: false,
+      callToActions: [
+        {
+          type: 'postback',
+          title: 'Restart Conversation',
+          payload: 'RESTART',
+        },
+        {
+          type: 'web_url',
+          title: 'Powered by ALOHA.AI, Yoctol',
+          url: 'https://www.yoctol.com/',
+        },
+      ],
+    },
+  ]);
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/custom_user_settings?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    psid: 'USER_ID',
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: false,
+        call_to_actions: [
           {
-            whitelisted_domains: ['http://www.yoctol.com/'],
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
+          },
+          {
+            type: 'web_url',
+            title: 'Powered by ALOHA.AI, Yoctol',
+            url: 'https://www.yoctol.com/',
           },
         ],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getWhitelistedDomains();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(['http://www.yoctol.com/']);
-    });
-
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getWhitelistedDomains();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=whitelisted_domains&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
+      },
+    ],
   });
-
-  describe('#setWhitelistedDomains', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setWhitelistedDomains(['www.yoctol.com']);
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        whitelisted_domains: ['www.yoctol.com'],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
-
-  describe('#deleteWhitelistedDomains', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.deleteWhitelistedDomains();
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['whitelisted_domains'],
-      });
-
-      expect(res).toEqual(reply);
-    });
-  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('account linking url', () => {
-  describe('#getAccountLinkingURL', () => {
-    it('should respond data of account linking url', async () => {
-      const { client, mock } = createMock();
+it('should support #setUserPersistentMenu with disabled input', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
 
-      const reply = {
-        data: [
+  const items = [
+    {
+      type: 'postback',
+      title: 'Restart Conversation',
+      payload: 'RESTART',
+    },
+  ];
+
+  const res = await messenger.setUserPersistentMenu(constants.USER_ID, items, {
+    composerInputDisabled: true,
+  });
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/custom_user_settings?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    psid: 'USER_ID',
+    persistent_menu: [
+      {
+        locale: 'default',
+        composer_input_disabled: true,
+        call_to_actions: [
           {
-            account_linking_url:
-              'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
+            type: 'postback',
+            title: 'Restart Conversation',
+            payload: 'RESTART',
           },
         ],
-      };
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getAccountLinkingURL();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(
-        'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
-      );
-    });
-
-    it('should respond null when data is an empty array', async () => {
-      const { client, mock } = createMock();
-
-      const reply = {
-        data: [],
-      };
-
-      let url;
-      mock.onGet().reply((config) => {
-        url = config.url;
-        return [200, reply];
-      });
-
-      const res = await client.getAccountLinkingURL();
-
-      expect(url).toEqual(
-        `/me/messenger_profile?fields=account_linking_url&access_token=${ACCESS_TOKEN}`
-      );
-
-      expect(res).toEqual(null);
-    });
+it('should support #deleteUserPersistentMenu', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
 
-  describe('#setAccountLinkingURL', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
+  const res = await messenger.deleteUserPersistentMenu(constants.USER_ID);
 
-      const reply = {
-        result: 'success',
-      };
-
-      let url;
-      let data;
-      mock.onPost().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.setAccountLinkingURL(
-        'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
-      );
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        account_linking_url:
-          'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
-      });
-
-      expect(res).toEqual(reply);
-    });
+  expect(res).toEqual({
+    result: 'success',
   });
 
-  describe('#deleteAccountLinkingURL', () => {
-    it('should respond success result', async () => {
-      const { client, mock } = createMock();
+  const { request } = getCurrentContext();
 
-      const reply = {
-        result: 'success',
-      };
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/custom_user_settings?psid=USER_ID&params=[%22persistent_menu%22]&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
 
-      let url;
-      let data;
-      mock.onDelete().reply((config) => {
-        url = config.url;
-        data = config.data;
-        return [200, reply];
-      });
-
-      const res = await client.deleteAccountLinkingURL();
-
-      expect(url).toEqual(`/me/messenger_profile?access_token=${ACCESS_TOKEN}`);
-      expect(JSON.parse(data)).toEqual({
-        fields: ['account_linking_url'],
-      });
-
-      expect(res).toEqual(reply);
-    });
+it('should support #getGreeting', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
   });
+
+  const res = await messenger.getGreeting();
+
+  expect(res).toEqual([
+    {
+      locale: 'default',
+      text: 'Hello!',
+    },
+  ]);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=greeting&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getGreeting to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/messenger_profile',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
+
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getGreeting();
+
+  expect(res).toEqual(null);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=greeting&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setGreeting', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.setGreeting('Hello!');
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    greeting: [
+      {
+        locale: 'default',
+        text: 'Hello!',
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setGreeting with multi-locale greetings', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.setGreeting([
+    {
+      locale: 'default',
+      text: 'Hello!',
+    },
+    {
+      locale: 'zh_TW',
+      text: '哈囉！',
+    },
+  ]);
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    greeting: [
+      {
+        locale: 'default',
+        text: 'Hello!',
+      },
+      {
+        locale: 'zh_TW',
+        text: '哈囉！',
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteGreeting', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.deleteGreeting();
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['greeting'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getIceBreakers', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getIceBreakers();
+
+  expect(res).toEqual([
+    {
+      question: 'Where are you located?',
+      payload: 'LOCATION_POSTBACK_PAYLOAD',
+    },
+    {
+      question: 'What are your hours?',
+      payload: 'HOURS_POSTBACK_PAYLOAD',
+    },
+  ]);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=ice_breakers&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getIceBreakers to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/messenger_profile',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
+
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getIceBreakers();
+
+  expect(res).toEqual(null);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=ice_breakers&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setIceBreakers', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.setIceBreakers([
+    {
+      question: 'Where are you located?',
+      payload: 'LOCATION_POSTBACK_PAYLOAD',
+    },
+    {
+      question: 'What are your hours?',
+      payload: 'HOURS_POSTBACK_PAYLOAD',
+    },
+  ]);
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    ice_breakers: [
+      {
+        question: 'Where are you located?',
+        payload: 'LOCATION_POSTBACK_PAYLOAD',
+      },
+      {
+        question: 'What are your hours?',
+        payload: 'HOURS_POSTBACK_PAYLOAD',
+      },
+    ],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteIceBreakers', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.deleteIceBreakers();
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['ice_breakers'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getWhitelistedDomains', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getWhitelistedDomains();
+
+  expect(res).toEqual(['http://www.yoctol.com/']);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=whitelisted_domains&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getWhitelistedDomains to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/messenger_profile',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
+
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getWhitelistedDomains();
+
+  expect(res).toEqual(null);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=whitelisted_domains&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setWhitelistedDomains', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.setWhitelistedDomains(['www.yoctol.com']);
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    whitelisted_domains: ['www.yoctol.com'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteWhitelistedDomains', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.deleteWhitelistedDomains();
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['whitelisted_domains'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getAccountLinkingURL', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getAccountLinkingURL();
+
+  expect(res).toEqual(
+    'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
+  );
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=account_linking_url&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getAccountLinkingURL to respond null when data is an empty array', async () => {
+  messengerServer.use(
+    rest.get(
+      'https://graph.facebook.com/:version/me/messenger_profile',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [],
+          })
+        );
+      }
+    )
+  );
+
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.getAccountLinkingURL();
+
+  expect(res).toEqual(null);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?fields=account_linking_url&access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #setAccountLinkingURL', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.setAccountLinkingURL(
+    'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic'
+  );
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    account_linking_url:
+      'https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #deleteAccountLinkingURL', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.deleteAccountLinkingURL();
+
+  expect(res).toEqual({
+    result: 'success',
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('DELETE');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/me/messenger_profile?access_token=ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
+  expect(request?.body).toEqual({
+    fields: ['account_linking_url'],
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });

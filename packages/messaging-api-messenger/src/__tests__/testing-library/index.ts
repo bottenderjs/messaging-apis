@@ -4,6 +4,7 @@ import { SetupServerApi, setupServer } from 'msw/node';
 import { getCurrentContext } from './shared';
 import { requestHandlers as handoverRequestHandlers } from './handover';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as profileRequestHandlers } from './profile';
 
 /**
  * Sets up a mock Messenger server.
@@ -13,7 +14,8 @@ import { requestHandlers as messageRequestHandlers } from './message';
 export function setupMessengerServer(): SetupServerApi {
   const server = setupServer(
     ...messageRequestHandlers,
-    ...handoverRequestHandlers
+    ...handoverRequestHandlers,
+    ...profileRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {
