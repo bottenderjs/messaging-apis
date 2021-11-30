@@ -6,7 +6,6 @@ export const requestHandlers = [
     (req, res, ctx) => {
       const metric = req.url.searchParams.get('metric').split(',');
 
-      console.log({ metric });
       const data = [];
 
       if (metric.includes('page_messages_blocked_conversations_unique')) {

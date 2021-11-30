@@ -5,6 +5,7 @@ import { getCurrentContext } from './shared';
 import { requestHandlers as handoverRequestHandlers } from './handover';
 import { requestHandlers as insightsRequestHandlers } from './insights';
 import { requestHandlers as messageRequestHandlers } from './message';
+import { requestHandlers as nlpRequestHandlers } from './nlp';
 import { requestHandlers as personaRequestHandlers } from './persona';
 import { requestHandlers as profileRequestHandlers } from './profile';
 
@@ -19,7 +20,8 @@ export function setupMessengerServer(): SetupServerApi {
     ...handoverRequestHandlers,
     ...profileRequestHandlers,
     ...personaRequestHandlers,
-    ...insightsRequestHandlers
+    ...insightsRequestHandlers,
+    ...nlpRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {
