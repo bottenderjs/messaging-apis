@@ -264,3 +264,45 @@ it('should support #getNewConversations', async () => {
   expect(request?.url.searchParams.get('access_token')).toBe('ACCESS_TOKEN');
   expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
+
+it('should support #logCustomEvents', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+  });
+
+  const res = await messenger.logCustomEvents({
+    appId: constants.APP_ID,
+    pageId: constants.PAGE_ID,
+    pageScopedUserId: constants.USER_ID,
+    events: [
+      {
+        _eventName: 'fb_mobile_purchase',
+        _valueToSum: 55.22,
+        _fbCurrency: 'USD',
+      },
+    ],
+  });
+
+  expect(res).toEqual({
+    success: true,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/APP_ID/activities'
+  );
+  expect(request?.body).toEqual({
+    event: 'CUSTOM_APP_EVENTS',
+    custom_events:
+      '[{"_eventName":"fb_mobile_purchase","_valueToSum":55.22,"_fbCurrency":"USD"}]',
+    advertiser_tracking_enabled: 0,
+    application_tracking_enabled: 0,
+    extinfo: '["mb1"]',
+    page_id: 'PAGE_ID',
+    page_scoped_user_id: 'USER_ID',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});

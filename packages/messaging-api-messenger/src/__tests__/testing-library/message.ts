@@ -45,4 +45,14 @@ export const requestHandlers = [
       );
     }
   ),
+  rest.post(
+    'https://graph.facebook.com/:version/me/message_attachments',
+    (_req, res, ctx) => {
+      return res(
+        ctx.json({
+          attachment_id: '1854626884821032',
+        })
+      );
+    }
+  ),
 ];

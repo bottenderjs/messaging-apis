@@ -2770,8 +2770,8 @@ export default class MessengerClient {
     pageScopedUserId,
     events,
   }: {
-    appId: number;
-    pageId: number;
+    appId: number | string;
+    pageId: number | string;
     pageScopedUserId: string;
     events: Record<string, any>[];
   }): Promise<any> {

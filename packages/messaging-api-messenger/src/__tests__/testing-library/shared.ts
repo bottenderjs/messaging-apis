@@ -18,6 +18,8 @@ export function getCurrentContext<T = DefaultRequestBody>(): Context<T> {
 
 export const constants = {
   ACCESS_TOKEN: 'ACCESS_TOKEN',
+  APP_ID: 'APP_ID',
   APP_SECRET: 'APP_SECRET',
   USER_ID: 'USER_ID',
+  PAGE_ID: 'PAGE_ID',
 };

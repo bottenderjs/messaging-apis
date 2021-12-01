@@ -1,5 +1,7 @@
 import { rest } from 'msw';
 
+import { constants } from './shared';
+
 export const requestHandlers = [
   rest.get(
     'https://graph.facebook.com/:version/me/insights',
@@ -91,6 +93,16 @@ export const requestHandlers = [
       return res(
         ctx.json({
           data,
+        })
+      );
+    }
+  ),
+  rest.post(
+    `https://graph.facebook.com/:version/${constants.APP_ID}/activities`,
+    (_req, res, ctx) => {
+      return res(
+        ctx.json({
+          success: true,
         })
       );
     }
