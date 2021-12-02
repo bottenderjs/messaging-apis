@@ -1,7 +1,5 @@
 import { rest } from 'msw';
 
-import { constants } from './shared';
-
 export const requestHandlers = [
   rest.post(
     'https://graph.facebook.com/:version/me/personas',

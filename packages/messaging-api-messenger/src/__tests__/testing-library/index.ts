@@ -1,4 +1,4 @@
-import { RestRequest } from 'msw';
+import { RestRequest, rest } from 'msw';
 import { SetupServerApi, setupServer } from 'msw/node';
 
 import { getCurrentContext } from './shared';
@@ -9,6 +9,7 @@ import { requestHandlers as messageRequestHandlers } from './message';
 import { requestHandlers as nlpRequestHandlers } from './nlp';
 import { requestHandlers as personaRequestHandlers } from './persona';
 import { requestHandlers as profileRequestHandlers } from './profile';
+import { requestHandlers as subscriptionRequestHandlers } from './subscription';
 
 /**
  * Sets up a mock Messenger server.
@@ -17,13 +18,55 @@ import { requestHandlers as profileRequestHandlers } from './profile';
  */
 export function setupMessengerServer(): SetupServerApi {
   const server = setupServer(
+    rest.get('https://graph.facebook.com/:version/me', (_req, res, ctx) => {
+      return res(
+        ctx.json({
+          name: 'Bot Demo',
+          id: '1895382890692546',
+        })
+      );
+    }),
+    rest.get(
+      'https://graph.facebook.com/:version/debug_token',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: {
+              app_id: '000000000000000',
+              application: 'Social Cafe',
+              expires_at: 1352419328,
+              is_valid: true,
+              issued_at: 1347235328,
+              scopes: ['email', 'user_location'],
+              user_id: 1207059,
+            },
+          })
+        );
+      }
+    ),
+    rest.get(
+      'https://graph.facebook.com/:version/me/messaging_feature_review',
+      (_req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [
+              {
+                feature: 'subscription_messaging',
+                status: 'approved',
+              },
+            ],
+          })
+        );
+      }
+    ),
     ...messageRequestHandlers,
     ...handoverRequestHandlers,
     ...profileRequestHandlers,
     ...personaRequestHandlers,
     ...insightsRequestHandlers,
     ...nlpRequestHandlers,
-    ...identityRequestHandlers
+    ...identityRequestHandlers,
+    ...subscriptionRequestHandlers
   );
 
   if (typeof beforeAll === 'function') {

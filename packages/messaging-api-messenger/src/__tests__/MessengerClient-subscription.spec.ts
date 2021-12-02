@@ -6,185 +6,97 @@ import {
   setupMessengerServer,
 } from './testing-library';
 
+const APP_ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
+
 setupMessengerServer();
 
-describe('#createSubscription', () => {
-  it('should set default fields', async () => {
-    const messenger = new MessengerClient({
-      accessToken: constants.ACCESS_TOKEN,
-    });
-
-    const reply = {
-      success: true,
-    };
-
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
-
-    const res = await messenger.createSubscription({
-      appId: '54321',
-      callbackUrl: 'https://mycallback.com',
-      verifyToken: '1234567890',
-      accessToken: APP_ACCESS_TOKEN,
-    });
-
-    expect(url).toEqual(
-      `/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
-    );
-    expect(JSON.parse(data)).toEqual({
-      object: 'page',
-      callback_url: 'https://mycallback.com',
-      fields:
-        'messages,messaging_postbacks,messaging_optins,messaging_referrals,messaging_handovers,messaging_policy_enforcement',
-      verify_token: '1234567890',
-    });
-
-    expect(res).toEqual(reply);
+it('should support #createSubscription', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+    appId: constants.APP_ID,
   });
 
-  it('should set other optional parameters', async () => {
-    const messenger = new MessengerClient({
-      accessToken: constants.ACCESS_TOKEN,
-    });
-
-    const reply = {
-      success: true,
-    };
-
-    let url;
-    let data;
-    mock.onPost().reply((config) => {
-      url = config.url;
-      data = config.data;
-      return [200, reply];
-    });
-
-    const res = await messenger.createSubscription({
-      appId: '54321',
-      callbackUrl: 'https://mycallback.com',
-      verifyToken: '1234567890',
-      object: 'user',
-      fields: ['messages', 'messaging_postbacks'],
-      includeValues: true,
-      accessToken: APP_ACCESS_TOKEN,
-    });
-
-    expect(url).toEqual(
-      `/${APP_ID}/subscriptions?access_token=${APP_ACCESS_TOKEN}`
-    );
-    expect(JSON.parse(data)).toEqual({
-      object: 'user',
-      callback_url: 'https://mycallback.com',
-      fields: 'messages,messaging_postbacks',
-      verify_token: '1234567890',
-      include_values: true,
-    });
-
-    expect(res).toEqual(reply);
+  const res = await messenger.createSubscription({
+    callbackUrl: 'https://mycallback.com',
+    verifyToken: '1234567890',
+    accessToken: APP_ACCESS_TOKEN,
   });
+
+  expect(res).toEqual({
+    success: true,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/APP_ID/subscriptions?access_token=APP_ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe(
+    'APP_ACCESS_TOKEN'
+  );
+  expect(request?.body).toEqual({
+    object: 'page',
+    callback_url: 'https://mycallback.com',
+    fields:
+      'messages,messaging_postbacks,messaging_optins,messaging_referrals,messaging_handovers,messaging_policy_enforcement',
+    verify_token: '1234567890',
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('#getSubscriptions', () => {
-  it('should get current subscriptions', async () => {
-    const messenger = new MessengerClient({
-      accessToken: constants.ACCESS_TOKEN,
-    });
-
-    const reply = {
-      data: [
-        {
-          object: 'page',
-          callback_url: 'https://mycallback.com',
-          active: true,
-          fields: [
-            {
-              name: 'messages',
-              version: 'v2.12',
-            },
-          ],
-        },
-      ],
-    };
-
-    let url;
-    mock.onGet().reply((config) => {
-      url = config.url;
-      return [200, reply];
-    });
-
-    const res = await messenger.getSubscriptions();
-
-    expect(url).toEqual(
-      `/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
-    );
-
-    expect(res).toEqual([
-      {
-        object: 'page',
-        callbackUrl: 'https://mycallback.com',
-        active: true,
-        fields: [
-          {
-            name: 'messages',
-            version: 'v2.12',
-          },
-        ],
-      },
-    ]);
+it('should support #createSubscription with options', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+    appId: constants.APP_ID,
   });
+
+  const res = await messenger.createSubscription({
+    callbackUrl: 'https://mycallback.com',
+    verifyToken: '1234567890',
+    object: 'user',
+    fields: ['messages', 'messaging_postbacks'],
+    includeValues: true,
+    accessToken: APP_ACCESS_TOKEN,
+  });
+
+  expect(res).toEqual({
+    success: true,
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('POST');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/APP_ID/subscriptions?access_token=APP_ACCESS_TOKEN'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe(
+    'APP_ACCESS_TOKEN'
+  );
+  expect(request?.body).toEqual({
+    object: 'user',
+    callback_url: 'https://mycallback.com',
+    fields: 'messages,messaging_postbacks',
+    verify_token: '1234567890',
+    include_values: true,
+  });
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
 
-describe('#getPageSubscription', () => {
-  it('should get current page subscription', async () => {
-    const messenger = new MessengerClient({
-      accessToken: constants.ACCESS_TOKEN,
-    });
+it('should support #getSubscriptions', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+    appId: constants.APP_ID,
+    appSecret: constants.APP_SECRET,
+    skipAppSecretProof: true,
+  });
 
-    const reply = {
-      data: [
-        {
-          object: 'page',
-          callback_url: 'https://mycallback.com',
-          active: true,
-          fields: [
-            {
-              name: 'messages',
-              version: 'v2.12',
-            },
-          ],
-        },
-        {
-          object: 'user',
-          callback_url: 'https://mycallback.com',
-          active: true,
-          fields: [
-            {
-              name: 'feed',
-              version: 'v2.12',
-            },
-          ],
-        },
-      ],
-    };
+  const res = await messenger.getSubscriptions();
 
-    let url;
-    mock.onGet().reply((config) => {
-      url = config.url;
-      return [200, reply];
-    });
-
-    const res = await messenger.getPageSubscription();
-
-    expect(url).toEqual(
-      `/${APP_ID}/subscriptions?access_token=${APP_ID}|${APP_SECRET}`
-    );
-
-    expect(res).toEqual({
+  expect(res).toEqual([
+    {
       object: 'page',
       callbackUrl: 'https://mycallback.com',
       active: true,
@@ -194,6 +106,53 @@ describe('#getPageSubscription', () => {
           version: 'v2.12',
         },
       ],
-    });
+    },
+  ]);
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/APP_ID/subscriptions?access_token=APP_ID%7CAPP_SECRET'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe(
+    'APP_ID|APP_SECRET'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
+});
+
+it('should support #getPageSubscription', async () => {
+  const messenger = new MessengerClient({
+    accessToken: constants.ACCESS_TOKEN,
+    appId: constants.APP_ID,
+    appSecret: constants.APP_SECRET,
+    skipAppSecretProof: true,
   });
+
+  const res = await messenger.getPageSubscription();
+
+  expect(res).toEqual({
+    object: 'page',
+    callbackUrl: 'https://mycallback.com',
+    active: true,
+    fields: [
+      {
+        name: 'messages',
+        version: 'v2.12',
+      },
+    ],
+  });
+
+  const { request } = getCurrentContext();
+
+  expect(request).toBeDefined();
+  expect(request?.method).toBe('GET');
+  expect(request?.url.href).toBe(
+    'https://graph.facebook.com/v12.0/APP_ID/subscriptions?access_token=APP_ID%7CAPP_SECRET'
+  );
+  expect(request?.url.searchParams.get('access_token')).toBe(
+    'APP_ID|APP_SECRET'
+  );
+  expect(request?.headers.get('Content-Type')).toBe('application/json');
 });
