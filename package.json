@@ -8,18 +8,19 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "build": "turbo run build",
+    "build:clean": "tsc --build tsconfig.build.json --clean",
     "clean": "git clean -dfqX -- ./node_modules **/{dist,node_modules}/ ./packages/*/tsconfig*tsbuildinfo",
-    "compile": "tsc --build tsconfig.build.json",
-    "compile:clean": "tsc --build tsconfig.build.json --clean",
-    "postinstall": "lerna run prepare && yarn compile",
-    "lint": "eslint packages examples --ext=js,ts",
+    "postinstall": "lerna run prepare && yarn build",
+    "lint": "turbo run lint",
+    "lint:example": "eslint examples --ext=js,ts",
     "lint:fix": "yarn lint:fix:md && yarn lint --fix",
     "lint:fix:md": "prettier --write **/*.md",
     "lint:staged": "lint-staged",
     "prepare": "husky install",
     "publish": "lerna publish",
     "prepublishOnly": "yarn clean && yarn && yarn test",
-    "test": "yarn compile && yarn lint && yarn testonly",
+    "test": "yarn build && yarn lint && yarn testonly",
     "testonly": "jest",
     "testonly:cov": "jest --coverage",
     "testonly:watch": "jest --watch",
@@ -55,10 +56,35 @@
     "prettier-package-json": "^2.6.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.2.0",
+    "turbo": "^1.0.19",
     "typedoc": "^0.22.3",
     "typescript": "^4.4.3"
   },
   "engines": {
     "node": ">=10"
+  },
+  "turbo": {
+    "pipeline": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "dist/**"
+        ]
+      },
+      "lint": {
+        "outputs": []
+      }
+    },
+    "globalDependencies": [
+      ".eslintrc.js",
+      "jest.config.json",
+      "prettier.config.json",
+      "tsconfig.json",
+      "tsconfig.base.json",
+      "tsconfig.build.json",
+      "tsconfig.test.json"
+    ]
   }
 }

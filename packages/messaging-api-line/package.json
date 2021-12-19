@@ -9,6 +9,10 @@
   },
   "main": "dist/index.js",
   "browser": "lib/browser.js",
+  "scripts": {
+    "build": "tsc --build ../../tsconfig.build.json",
+    "lint": "TIMING=1 eslint src --ext=js,ts"
+  },
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/warning": "^3.0.0",

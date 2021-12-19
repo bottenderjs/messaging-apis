@@ -8,6 +8,10 @@
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
   "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build ../../tsconfig.build.json",
+    "lint": "TIMING=1 eslint src --ext=js,ts"
+  },
   "types": "dist/index.d.ts",
   "dependencies": {
     "messaging-api-messenger": "file:../messaging-api-messenger",

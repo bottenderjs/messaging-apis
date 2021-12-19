@@ -1,13 +1,17 @@
 {
   "name": "messaging-api-wechat",
+  "version": "1.0.6",
   "description": "Messaging API client for WeChat",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoctol/messaging-apis.git"
   },
-  "version": "1.0.6",
   "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build ../../tsconfig.build.json",
+    "lint": "TIMING=1 eslint src --ext=js,ts"
+  },
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/warning": "^3.0.0",
