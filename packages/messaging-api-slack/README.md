@@ -89,32 +89,32 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-- [chat.postMessage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#chat)
-- [chat.postEphemeral](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#chat)
+- [chat.postMessage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#chat)
+- [chat.postEphemeral](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#chat)
 
 <br />
 
 #### Users API
 
-- [getUserList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getuserlist)
-- [getAllUserList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getalluserlist)
-- [getUserInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getuserinfo)
+- [getUserList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getuserlist)
+- [getAllUserList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getalluserlist)
+- [getUserInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getuserinfo)
 
 <br />
 
 #### Channels API
 
-- [getChannelInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getchannelinfo)
+- [getChannelInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getchannelinfo)
 
 <br />
 
 #### Conversations API
 
-- [getConversationInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getconversationinfo)
-- [getConversationMembers](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getconversationmembers)
-- [getAllConversationMembers](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getallconversationmembers)
-- [getConversationList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getconversationlist)
-- [getAllConversationList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getallconversationlist)
+- [getConversationInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getconversationinfo)
+- [getConversationMembers](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getconversationmembers)
+- [getAllConversationMembers](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getallconversationmembers)
+- [getConversationList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getconversationlist)
+- [getAllConversationList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getallconversationlist)
 
 <br />
 
