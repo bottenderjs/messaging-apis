@@ -66,22 +66,22 @@ All methods return a Promise.
 
 ### Send API - [Official Docs](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547)
 
-- [sendText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendtext)
-- [sendImage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendimage)
-- [sendVoice](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendvoice)
-- [sendVideo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendvideo)
-- [sendMusic](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendmusic)
-- [sendNews](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendnews)
-- [sendMPNews](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendmpnews)
-- [sendWXCard](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendwxcard)
-- [sendMiniProgramPage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendminiprogrampage)
+- [sendText](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendtext)
+- [sendImage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendimage)
+- [sendVoice](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendvoice)
+- [sendVideo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendvideo)
+- [sendMusic](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendmusic)
+- [sendNews](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendnews)
+- [sendMPNews](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendmpnews)
+- [sendWXCard](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendwxcard)
+- [sendMiniProgramPage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#sendminiprogrampage)
 
 <a id="media-api" />
 
 ### Media API - [Official Docs](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547)
 
-- [uploadMedia](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#uploadmedia)
-- [getMedia](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#getmedia)
+- [uploadMedia](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#uploadmedia)
+- [getMedia](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_wechat.WechatClient.html#getmedia)
 
 ## Debug Tips
 

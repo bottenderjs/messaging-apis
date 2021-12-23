@@ -73,23 +73,23 @@ All methods return a Promise.
 
 ### Webhook API
 
-- [setWebhook](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#setwebhook)
-- [removeWebhook](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#removewebhook)
+- [setWebhook](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#setwebhook)
+- [removeWebhook](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#removewebhook)
 
 <br />
 
 ### Send API
 
-- [sendMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendmessage)
-- [sendText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendtext)
-- [sendPicture](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendpicture)
-- [sendVideo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendvideo)
-- [sendFile](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendfile)
-- [sendContact](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendcontact)
-- [sendLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendlocation)
-- [sendURL](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendurl)
-- [sendSticker](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendsticker)
-- [sendCarouselContent](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendcarouselcontent)
+- [sendMessage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendmessage)
+- [sendText](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendtext)
+- [sendPicture](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendpicture)
+- [sendVideo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendvideo)
+- [sendFile](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendfile)
+- [sendContact](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendcontact)
+- [sendLocation](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendlocation)
+- [sendURL](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendurl)
+- [sendSticker](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendsticker)
+- [sendCarouselContent](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#sendcarouselcontent)
 
 <br />
 
@@ -137,16 +137,16 @@ client.sendText(USER_ID, 'Hello', {
 
 Those API methods use the same parameters as the send methods with a few variations described below. You should specify a list of receivers instead of a single receiver.
 
-- [broadcastMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastmessage)
-- [broadcastText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcasttext)
-- [broadcastPicture](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastpicture)
-- [broadcastVideo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastvideo)
-- [broadcastFile](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastfile)
-- [broadcastContact](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastcontact)
-- [broadcastLocation](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastlocation)
-- [broadcastURL](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcasturl)
-- [broadcastSticker](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcaststicker)
-- [broadcastCarouselContent](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastcarouselcontent)
+- [broadcastMessage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastmessage)
+- [broadcastText](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcasttext)
+- [broadcastPicture](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastpicture)
+- [broadcastVideo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastvideo)
+- [broadcastFile](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastfile)
+- [broadcastContact](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastcontact)
+- [broadcastLocation](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastlocation)
+- [broadcastURL](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcasturl)
+- [broadcastSticker](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcaststicker)
+- [broadcastCarouselContent](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#broadcastcarouselcontent)
 
 | Param         | Type            | Description                                                                                                                                                        |
 | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -187,19 +187,19 @@ await client.broadcastText(
 
 ### Get Account Info
 
-- [getAccountInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#getaccountinfo)
+- [getAccountInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#getaccountinfo)
 
 <br />
 
 ### Get User Details
 
-- [getUserDetails](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#getuserdetails)
+- [getUserDetails](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#getuserdetails)
 
 <br />
 
 ### Get Online
 
-- [getOnlineStatus](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#getonlinestatus)
+- [getOnlineStatus](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_viber.ViberClient.html#getonlinestatus)
 
 <br />
 
