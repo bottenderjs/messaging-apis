@@ -89,32 +89,32 @@ client.callMethod('chat.postMessage', { channel: 'C8763', text: 'Hello!' });
 
 #### Chat API
 
-- [chat.postMessage](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#chat)
-- [chat.postEphemeral](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#chat)
+- [chat.postMessage](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#chat)
+- [chat.postEphemeral](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#chat)
 
 <br />
 
 #### Users API
 
-- [getUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getuserlist)
-- [getAllUserList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getalluserlist)
-- [getUserInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getuserinfo)
+- [getUserList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getuserlist)
+- [getAllUserList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getalluserlist)
+- [getUserInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getuserinfo)
 
 <br />
 
 #### Channels API
 
-- [getChannelInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getchannelinfo)
+- [getChannelInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getchannelinfo)
 
 <br />
 
 #### Conversations API
 
-- [getConversationInfo](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getconversationinfo)
-- [getConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getconversationmembers)
-- [getAllConversationMembers](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getallconversationmembers)
-- [getConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getconversationlist)
-- [getAllConversationList](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOauthClient.html#getallconversationlist)
+- [getConversationInfo](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getconversationinfo)
+- [getConversationMembers](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getconversationmembers)
+- [getAllConversationMembers](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getallconversationmembers)
+- [getConversationList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getconversationlist)
+- [getAllConversationList](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackOAuthClient.html#getallconversationlist)
 
 <br />
 
@@ -144,10 +144,10 @@ All methods return a Promise.
 
 ### Send API - [Official docs](https://api.slack.com/docs/messages)
 
-- [sendRawBody](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendrawbody)
-- [sendText](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendtext)
-- [sendAttachments](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendattachments)
-- [sendAttachment](https://yoctol.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendattachment)
+- [sendRawBody](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendrawbody)
+- [sendText](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendtext)
+- [sendAttachments](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendattachments)
+- [sendAttachment](https://bottenderjs.github.io/messaging-apis/latest/classes/messaging_api_slack.SlackWebhookClient.html#sendattachment)
 
 <br />
 

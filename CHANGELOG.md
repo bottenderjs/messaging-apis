@@ -84,7 +84,7 @@ await client.testWebhookEndpoint();
 
 The whole project has been rewritten with TypeScript and all APIs now accept camelcase keys instead of snakecase keys.
 
-Please checkout [the new API document](https://yoctol.github.io/messaging-apis/latest/globals.html).
+Please checkout [the new API document](https://bottenderjs.github.io/messaging-apis/latest/index.html).
 
 # 0.8.4 / 2019-09-29
 
