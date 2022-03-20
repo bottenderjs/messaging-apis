@@ -323,6 +323,40 @@ export default class TelegramClient {
   }
 
   /**
+   * Use this method to forward messages of any kind.
+   *
+   * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param fromChatId - Unique identifier for the chat where the original message was sent (or channel username in the format `@channelusername`)
+   * @param messageId - Message identifier in the chat specified in fromChatId
+   * @param options - Options for other optional parameters.
+   * @returns On success, the sent Message is returned.
+   *
+   * @see https://core.telegram.org/bots/api#copymessage
+   *
+   * @example
+   *
+   * ```js
+   * await client.copyMessage(CHAT_ID, USER_ID, MESSAGE_ID, {
+   *   disableNotification: true,
+   *   protect_content: true,
+   * });
+   * ```
+   */
+  copyMessage(
+    chatId: string | number,
+    fromChatId: string | number,
+    messageId: number,
+    options?: TelegramTypes.CopyMessageOption
+  ): Promise<TelegramTypes.Message> {
+    return this.request('/copyMessage', {
+      chatId,
+      fromChatId,
+      messageId,
+      ...options,
+    });
+  }
+
+  /**
    * Use this method to send photos.
    *
    * @param chatId - Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
