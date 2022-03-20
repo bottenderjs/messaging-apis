@@ -31,7 +31,8 @@ describe('connect', () => {
 
   it('create axios with LINE PAY API', () => {
     axios.create = jest.fn();
-    LinePay.connect({
+    // eslint-disable-next-line no-new
+    new LinePay({
       channelId: CHANNEL_ID,
       channelSecret: CHANNEL_SECRET,
     });

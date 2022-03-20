@@ -25,7 +25,8 @@ describe('connect', () => {
           },
         },
       });
-      SlackOAuthClient.connect({ accessToken: TOKEN });
+      // eslint-disable-next-line no-new
+      new SlackOAuthClient({ accessToken: TOKEN });
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://slack.com/api/',
@@ -42,7 +43,8 @@ describe('connect', () => {
         },
       },
     });
-    SlackOAuthClient.connect({
+    // eslint-disable-next-line no-new
+    new SlackOAuthClient({
       accessToken: TOKEN,
       origin: 'https://mydummytestserver.com',
     });

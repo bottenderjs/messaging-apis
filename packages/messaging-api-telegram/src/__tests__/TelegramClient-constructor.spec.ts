@@ -33,7 +33,8 @@ describe('connect', () => {
           },
         },
       });
-      TelegramClient.connect({ accessToken: ACCESS_TOKEN });
+      // eslint-disable-next-line no-new
+      new TelegramClient({ accessToken: ACCESS_TOKEN });
 
       expect(axios.create).toBeCalledWith({
         baseURL:
@@ -53,7 +54,8 @@ describe('connect', () => {
         },
       },
     });
-    TelegramClient.connect({
+    // eslint-disable-next-line no-new
+    new TelegramClient({
       accessToken: ACCESS_TOKEN,
       origin: 'https://mydummytestserver.com',
     });

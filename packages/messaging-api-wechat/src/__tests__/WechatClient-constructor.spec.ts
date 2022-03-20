@@ -26,7 +26,8 @@ describe('connect', () => {
           },
         },
       });
-      WechatClient.connect({ appId: APP_ID, appSecret: APP_SECRET });
+      // eslint-disable-next-line no-new
+      new WechatClient({ appId: APP_ID, appSecret: APP_SECRET });
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://api.weixin.qq.com/cgi-bin/',
@@ -45,7 +46,8 @@ describe('connect', () => {
         },
       },
     });
-    WechatClient.connect({
+    // eslint-disable-next-line no-new
+    new WechatClient({
       appId: APP_ID,
       appSecret: APP_SECRET,
       origin: 'https://mydummytestserver.com',

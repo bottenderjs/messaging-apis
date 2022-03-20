@@ -25,7 +25,8 @@ describe('connect', () => {
           },
         },
       });
-      SlackWebhookClient.connect({ url: URL });
+      // eslint-disable-next-line no-new
+      new SlackWebhookClient({ url: URL });
 
       expect(axios.create).toBeCalledWith({
         baseURL:

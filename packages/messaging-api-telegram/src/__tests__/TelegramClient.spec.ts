@@ -814,12 +814,14 @@ describe('other api', () => {
           from_chat_id: 313534466,
           message_id: 203,
           disable_notification: true,
+          protect_content: true,
         })
         .reply(200, reply);
 
       const res = await client.forwardMessage(427770117, 313534466, 203, {
         // @ts-expect-error
         disable_notification: true,
+        protect_content: true,
       });
 
       expect(res).toEqual(result);
@@ -833,11 +835,13 @@ describe('other api', () => {
           from_chat_id: 313534466,
           message_id: 203,
           disable_notification: true,
+          protect_content: true,
         })
         .reply(200, reply);
 
       const res = await client.forwardMessage(427770117, 313534466, 203, {
         disableNotification: true,
+        protectContent: true,
       });
 
       expect(res).toEqual(result);

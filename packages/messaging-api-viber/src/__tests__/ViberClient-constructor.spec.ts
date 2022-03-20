@@ -30,7 +30,8 @@ describe('connect', () => {
           },
         },
       });
-      ViberClient.connect({ accessToken: AUTH_TOKEN, sender: SENDER });
+      // eslint-disable-next-line no-new
+      new ViberClient({ accessToken: AUTH_TOKEN, sender: SENDER });
 
       expect(axios.create).toBeCalledWith({
         baseURL: 'https://chatapi.viber.com/pa/',
@@ -50,7 +51,8 @@ describe('connect', () => {
         },
       },
     });
-    ViberClient.connect({
+    // eslint-disable-next-line no-new
+    new ViberClient({
       accessToken: AUTH_TOKEN,
       sender: SENDER,
       origin: 'https://mydummytestserver.com',

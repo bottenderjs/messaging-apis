@@ -37,7 +37,8 @@ describe('connect', () => {
 
   it('create axios with LINE Notify API', () => {
     axios.create = jest.fn();
-    LineNotify.connect({
+    // eslint-disable-next-line no-new
+    new LineNotify({
       clientId: CLIENT_ID,
       clientSecret: CLIENT_SECRET,
       redirectUri: REDIRECT_URI,

@@ -26,7 +26,8 @@ describe('connect', () => {
           },
         },
       });
-      MessengerClient.connect({ accessToken: ACCESS_TOKEN });
+      // eslint-disable-next-line no-new
+      new MessengerClient({ accessToken: ACCESS_TOKEN });
 
       expect(axios.create).toBeCalledWith(
         expect.objectContaining({
@@ -46,7 +47,8 @@ describe('connect', () => {
           },
         },
       });
-      MessengerClient.connect({ accessToken: ACCESS_TOKEN, version: '2.6' });
+      // eslint-disable-next-line no-new
+      new MessengerClient({ accessToken: ACCESS_TOKEN, version: '2.6' });
 
       expect(axios.create).toBeCalledWith(
         expect.objectContaining({
@@ -65,7 +67,8 @@ describe('connect', () => {
         },
       },
     });
-    MessengerClient.connect({
+    // eslint-disable-next-line no-new
+    new MessengerClient({
       accessToken: ACCESS_TOKEN,
       origin: 'https://mydummytestserver.com',
     });
