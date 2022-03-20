@@ -1492,7 +1492,7 @@ export type SendMessageOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1533,7 +1533,7 @@ export type ForwardMessageOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 };
 
 export type CopyMessageOption = {
@@ -1564,7 +1564,7 @@ export type CopyMessageOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1621,7 +1621,7 @@ export type SendPhotoOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1693,7 +1693,7 @@ export type SendAudioOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1750,7 +1750,7 @@ export type SendDocumentOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1827,7 +1827,7 @@ export type SendVideoOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1899,7 +1899,7 @@ export type SendAnimationOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1956,7 +1956,7 @@ export type SendVoiceOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2008,7 +2008,7 @@ export type SendVideoNoteOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2045,7 +2045,7 @@ export type SendMediaGroupOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2073,7 +2073,7 @@ export type SendLocationOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2159,7 +2159,7 @@ export type SendVenueOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2220,7 +2220,7 @@ export type SendContactOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2302,7 +2302,7 @@ export type SendPollOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2481,7 +2481,7 @@ export type SendStickerOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2609,7 +2609,7 @@ export type SendInvoiceOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2683,7 +2683,7 @@ export type SendGameOption = {
    *
    * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
    */
-  protect_content?: boolean;
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
