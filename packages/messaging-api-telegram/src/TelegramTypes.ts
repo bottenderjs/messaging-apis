@@ -1468,6 +1468,7 @@ export type SendMessageOption = {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1485,6 +1486,13 @@ export type SendMessageOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1509,6 +1517,7 @@ export type SendMessageOption = {
 };
 
 export enum ParseMode {
+  MarkdownV2 = 'MarkdownV2',
   Markdown = 'Markdown',
   HTML = 'HTML',
 }
@@ -1518,17 +1527,25 @@ export type ForwardMessageOption = {
    * Sends the message silently. Users will receive a notification with no sound.
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 };
 
-export type SendPhotoOption = {
+export type CopyMessageOption = {
   /**
-   * Photo caption (may also be used when resending photos by fileId), 0-1024 characters
+   * New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
    */
   caption?: string;
 
   /**
-   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   * Mode for parsing entities in the new caption. See formatting options for more details.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1541,6 +1558,70 @@ export type SendPhotoOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
+
+  /**
+   * If the message is a reply, ID of the original message
+   */
+  replyToMessageId?: number;
+
+  /**
+   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   */
+  allow_sending_without_reply?: boolean;
+
+  /**
+   * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+   *
+   * - https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating
+   * - https://core.telegram.org/bots#keyboards
+   * - https://core.telegram.org/bots/api#inlinekeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardmarkup
+   * - https://core.telegram.org/bots/api#replykeyboardremove
+   * - https://core.telegram.org/bots/api#forcereply
+   */
+  replyMarkup?:
+    | InlineKeyboardMarkup
+    | ReplyKeyboardMarkup
+    | ReplyKeyboardRemove
+    | ForceReply;
+};
+
+export type SendPhotoOption = {
+  /**
+   * Photo caption (may also be used when resending photos by fileId), 0-1024 characters
+   */
+  caption?: string;
+
+  /**
+   * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+   *
+   * - https://core.telegram.org/bots/api#markdownv2-style
+   * - https://core.telegram.org/bots/api#markdown-style
+   * - https://core.telegram.org/bots/api#html-style
+   * - https://core.telegram.org/bots/api#formatting-options
+   */
+  parseMode?: ParseMode;
+
+  /**
+   * Sends the message silently. Users will receive a notification with no sound.
+   *
+   * - https://telegram.org/blog/channels-2-0#silent-messages
+   */
+  disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1573,6 +1654,7 @@ export type SendAudioOption = {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1605,6 +1687,13 @@ export type SendAudioOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1642,6 +1731,7 @@ export type SendDocumentOption = {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1654,6 +1744,13 @@ export type SendDocumentOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1706,6 +1803,7 @@ export type SendVideoOption = {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1723,6 +1821,13 @@ export type SendVideoOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1775,6 +1880,7 @@ export type SendAnimationOption = {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1787,6 +1893,13 @@ export type SendAnimationOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1824,6 +1937,7 @@ export type SendVoiceOption = {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -1836,6 +1950,13 @@ export type SendVoiceOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -1883,6 +2004,13 @@ export type SendVideoNoteOption = {
   disableNotification?: boolean;
 
   /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
+
+  /**
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
@@ -1913,6 +2041,13 @@ export type SendMediaGroupOption = {
   disableNotification?: boolean;
 
   /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
+
+  /**
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
@@ -1932,6 +2067,13 @@ export type SendLocationOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2013,6 +2155,13 @@ export type SendVenueOption = {
   disableNotification?: boolean;
 
   /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
+
+  /**
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
@@ -2065,6 +2214,13 @@ export type SendContactOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2140,6 +2296,13 @@ export type SendPollOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2242,6 +2405,7 @@ export type EditMessageTextOption = EditOption & {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -2266,6 +2430,7 @@ export type EditMessageCaptionOption = EditOption & {
   /**
    * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
    *
+   * - https://core.telegram.org/bots/api#markdownv2-style
    * - https://core.telegram.org/bots/api#markdown-style
    * - https://core.telegram.org/bots/api#html-style
    * - https://core.telegram.org/bots/api#formatting-options
@@ -2310,6 +2475,13 @@ export type SendStickerOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message
@@ -2433,6 +2605,13 @@ export type SendInvoiceOption = {
   disableNotification?: boolean;
 
   /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
+
+  /**
    * If the message is a reply, ID of the original message
    */
   replyToMessageId?: number;
@@ -2498,6 +2677,13 @@ export type SendGameOption = {
    * - https://telegram.org/blog/channels-2-0#silent-messages
    */
   disableNotification?: boolean;
+
+  /**
+   * Protects the contents of the sent message from forwarding and saving
+   *
+   * - https://telegram.org/blog/protected-content-delete-by-date-and-more#protected-content-in-groups-and-channels
+   */
+  protectContent?: boolean;
 
   /**
    * If the message is a reply, ID of the original message

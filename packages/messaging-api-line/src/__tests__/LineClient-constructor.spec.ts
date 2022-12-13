@@ -26,7 +26,8 @@ describe('connect', () => {
           },
         },
       });
-      LineClient.connect({
+      // eslint-disable-next-line no-new
+      new LineClient({
         accessToken: ACCESS_TOKEN,
         channelSecret: CHANNEL_SECRET,
       });
@@ -49,7 +50,8 @@ describe('connect', () => {
         },
       },
     });
-    LineClient.connect({
+    // eslint-disable-next-line no-new
+    new LineClient({
       accessToken: ACCESS_TOKEN,
       channelSecret: CHANNEL_SECRET,
       origin: 'https://mydummytestserver.com',
